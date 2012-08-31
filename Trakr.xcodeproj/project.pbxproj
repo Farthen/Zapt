@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66752FE15F12FBE00A8D76D /* UIKit.framework */; };
+		B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
+		B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530215F12FBE00A8D76D /* CoreGraphics.framework */; };
+		B667530915F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667530715F12FBE00A8D76D /* InfoPlist.strings */; };
+		B667530B15F12FBE00A8D76D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B667530A15F12FBE00A8D76D /* main.m */; };
+		B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B667530E15F12FBE00A8D76D /* FAAppDelegate.m */; };
+		B667531215F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */; };
+		B667531515F12FBE00A8D76D /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */; };
+		B667531815F12FBE00A8D76D /* FAFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531715F12FBE00A8D76D /* FAFirstViewController.m */; };
+		B667531A15F12FBE00A8D76D /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531915F12FBE00A8D76D /* first.png */; };
+		B667531C15F12FBE00A8D76D /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531B15F12FBE00A8D76D /* first@2x.png */; };
+		B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531E15F12FBE00A8D76D /* FASecondViewController.m */; };
+		B667532115F12FBE00A8D76D /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532015F12FBE00A8D76D /* second.png */; };
+		B667532315F12FBE00A8D76D /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532215F12FBE00A8D76D /* second@2x.png */; };
+		B667532B15F12FBE00A8D76D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667532A15F12FBE00A8D76D /* SenTestingKit.framework */; };
+		B667532C15F12FBE00A8D76D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66752FE15F12FBE00A8D76D /* UIKit.framework */; };
+		B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
+		B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667533315F12FBE00A8D76D /* InfoPlist.strings */; };
+		B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B667533715F12FBE00A8D76D /* TrakrTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B667532E15F12FBE00A8D76D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B66752F115F12FBE00A8D76D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B66752F915F12FBE00A8D76D;
+			remoteInfo = Trakr;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B66752FA15F12FBE00A8D76D /* Trakr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trakr.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B66752FE15F12FBE00A8D76D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B667530015F12FBE00A8D76D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B667530215F12FBE00A8D76D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B667530615F12FBE00A8D76D /* Trakr-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Trakr-Info.plist"; sourceTree = "<group>"; };
+		B667530815F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B667530A15F12FBE00A8D76D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B667530C15F12FBE00A8D76D /* Trakr-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Trakr-Prefix.pch"; sourceTree = "<group>"; };
+		B667530D15F12FBE00A8D76D /* FAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAAppDelegate.h; sourceTree = "<group>"; };
+		B667530E15F12FBE00A8D76D /* FAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAAppDelegate.m; sourceTree = "<group>"; };
+		B667531115F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		B667531415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		B667531615F12FBE00A8D76D /* FAFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAFirstViewController.h; sourceTree = "<group>"; };
+		B667531715F12FBE00A8D76D /* FAFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAFirstViewController.m; sourceTree = "<group>"; };
+		B667531915F12FBE00A8D76D /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		B667531B15F12FBE00A8D76D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		B667531D15F12FBE00A8D76D /* FASecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FASecondViewController.h; sourceTree = "<group>"; };
+		B667531E15F12FBE00A8D76D /* FASecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FASecondViewController.m; sourceTree = "<group>"; };
+		B667532015F12FBE00A8D76D /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		B667532215F12FBE00A8D76D /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		B667532915F12FBE00A8D76D /* TrakrTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrakrTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B667532A15F12FBE00A8D76D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		B667533215F12FBE00A8D76D /* TrakrTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TrakrTests-Info.plist"; sourceTree = "<group>"; };
+		B667533415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B667533615F12FBE00A8D76D /* TrakrTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrakrTests.h; sourceTree = "<group>"; };
+		B667533715F12FBE00A8D76D /* TrakrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrakrTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B66752F715F12FBE00A8D76D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
+				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
+				B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B667532515F12FBE00A8D76D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B667532B15F12FBE00A8D76D /* SenTestingKit.framework in Frameworks */,
+				B667532C15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
+				B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B66752EF15F12FBE00A8D76D = {
+			isa = PBXGroup;
+			children = (
+				B667530415F12FBE00A8D76D /* Trakr */,
+				B667533015F12FBE00A8D76D /* TrakrTests */,
+				B66752FD15F12FBE00A8D76D /* Frameworks */,
+				B66752FB15F12FBE00A8D76D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B66752FB15F12FBE00A8D76D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B66752FA15F12FBE00A8D76D /* Trakr.app */,
+				B667532915F12FBE00A8D76D /* TrakrTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
+				B667530015F12FBE00A8D76D /* Foundation.framework */,
+				B667530215F12FBE00A8D76D /* CoreGraphics.framework */,
+				B667532A15F12FBE00A8D76D /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B667530415F12FBE00A8D76D /* Trakr */ = {
+			isa = PBXGroup;
+			children = (
+				B667530D15F12FBE00A8D76D /* FAAppDelegate.h */,
+				B667530E15F12FBE00A8D76D /* FAAppDelegate.m */,
+				B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */,
+				B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */,
+				B667531615F12FBE00A8D76D /* FAFirstViewController.h */,
+				B667531715F12FBE00A8D76D /* FAFirstViewController.m */,
+				B667531915F12FBE00A8D76D /* first.png */,
+				B667531B15F12FBE00A8D76D /* first@2x.png */,
+				B667531D15F12FBE00A8D76D /* FASecondViewController.h */,
+				B667531E15F12FBE00A8D76D /* FASecondViewController.m */,
+				B667532015F12FBE00A8D76D /* second.png */,
+				B667532215F12FBE00A8D76D /* second@2x.png */,
+				B667530515F12FBE00A8D76D /* Supporting Files */,
+			);
+			path = Trakr;
+			sourceTree = "<group>";
+		};
+		B667530515F12FBE00A8D76D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B667530615F12FBE00A8D76D /* Trakr-Info.plist */,
+				B667530715F12FBE00A8D76D /* InfoPlist.strings */,
+				B667530A15F12FBE00A8D76D /* main.m */,
+				B667530C15F12FBE00A8D76D /* Trakr-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B667533015F12FBE00A8D76D /* TrakrTests */ = {
+			isa = PBXGroup;
+			children = (
+				B667533615F12FBE00A8D76D /* TrakrTests.h */,
+				B667533715F12FBE00A8D76D /* TrakrTests.m */,
+				B667533115F12FBE00A8D76D /* Supporting Files */,
+			);
+			path = TrakrTests;
+			sourceTree = "<group>";
+		};
+		B667533115F12FBE00A8D76D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B667533215F12FBE00A8D76D /* TrakrTests-Info.plist */,
+				B667533315F12FBE00A8D76D /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B66752F915F12FBE00A8D76D /* Trakr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B667533B15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "Trakr" */;
+			buildPhases = (
+				B66752F615F12FBE00A8D76D /* Sources */,
+				B66752F715F12FBE00A8D76D /* Frameworks */,
+				B66752F815F12FBE00A8D76D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Trakr;
+			productName = Trakr;
+			productReference = B66752FA15F12FBE00A8D76D /* Trakr.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B667532815F12FBE00A8D76D /* TrakrTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B667533E15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "TrakrTests" */;
+			buildPhases = (
+				B667532415F12FBE00A8D76D /* Sources */,
+				B667532515F12FBE00A8D76D /* Frameworks */,
+				B667532615F12FBE00A8D76D /* Resources */,
+				B667532715F12FBE00A8D76D /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B667532F15F12FBE00A8D76D /* PBXTargetDependency */,
+			);
+			name = TrakrTests;
+			productName = TrakrTests;
+			productReference = B667532915F12FBE00A8D76D /* TrakrTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B66752F115F12FBE00A8D76D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = FA;
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Finn Wilke";
+			};
+			buildConfigurationList = B66752F415F12FBE00A8D76D /* Build configuration list for PBXProject "Trakr" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B66752EF15F12FBE00A8D76D;
+			productRefGroup = B66752FB15F12FBE00A8D76D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B66752F915F12FBE00A8D76D /* Trakr */,
+				B667532815F12FBE00A8D76D /* TrakrTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B66752F815F12FBE00A8D76D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B667530915F12FBE00A8D76D /* InfoPlist.strings in Resources */,
+				B667531215F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard in Resources */,
+				B667531515F12FBE00A8D76D /* MainStoryboard_iPad.storyboard in Resources */,
+				B667531A15F12FBE00A8D76D /* first.png in Resources */,
+				B667531C15F12FBE00A8D76D /* first@2x.png in Resources */,
+				B667532115F12FBE00A8D76D /* second.png in Resources */,
+				B667532315F12FBE00A8D76D /* second@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B667532615F12FBE00A8D76D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B667532715F12FBE00A8D76D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B66752F615F12FBE00A8D76D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B667530B15F12FBE00A8D76D /* main.m in Sources */,
+				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
+				B667531815F12FBE00A8D76D /* FAFirstViewController.m in Sources */,
+				B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B667532415F12FBE00A8D76D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B667532F15F12FBE00A8D76D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B66752F915F12FBE00A8D76D /* Trakr */;
+			targetProxy = B667532E15F12FBE00A8D76D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B667530715F12FBE00A8D76D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B667530815F12FBE00A8D76D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B667531115F12FBE00A8D76D /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B667531415F12FBE00A8D76D /* en */,
+			);
+			name = MainStoryboard_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		B667533315F12FBE00A8D76D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B667533415F12FBE00A8D76D /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B667533915F12FBE00A8D76D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B667533A15F12FBE00A8D76D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B667533C15F12FBE00A8D76D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B667533D15F12FBE00A8D76D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B667533F15F12FBE00A8D76D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Trakr.app/Trakr";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				INFOPLIST_FILE = "TrakrTests/TrakrTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		B667534015F12FBE00A8D76D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Trakr.app/Trakr";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				INFOPLIST_FILE = "TrakrTests/TrakrTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B66752F415F12FBE00A8D76D /* Build configuration list for PBXProject "Trakr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B667533915F12FBE00A8D76D /* Debug */,
+				B667533A15F12FBE00A8D76D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B667533B15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "Trakr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B667533C15F12FBE00A8D76D /* Debug */,
+				B667533D15F12FBE00A8D76D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B667533E15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "TrakrTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B667533F15F12FBE00A8D76D /* Debug */,
+				B667534015F12FBE00A8D76D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B66752F115F12FBE00A8D76D /* Project object */;
+}
