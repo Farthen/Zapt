@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B613A86B15FD67CF005D88CA /* NSDictionary+FAJSONRequest.h in Resources */ = {isa = PBXBuildFile; fileRef = B613A86915FD67CF005D88CA /* NSDictionary+FAJSONRequest.h */; };
+		B613A86C15FD67CF005D88CA /* NSDictionary+FAJSONRequest.m in Resources */ = {isa = PBXBuildFile; fileRef = B613A86A15FD67CF005D88CA /* NSDictionary+FAJSONRequest.m */; };
+		B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = B613A87015FD6FEB005D88CA /* FAAuthViewController.h */; };
+		B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
+		B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
+		B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EAB2A15FD762800DB2663 /* FATabBarController.m */; };
+		B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */; };
+		B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */; };
+		B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = B64C8F3D16238B0600A7C784 /* FATraktMovie.m */; };
 		B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66752FE15F12FBE00A8D76D /* UIKit.framework */; };
 		B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
 		B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530215F12FBE00A8D76D /* CoreGraphics.framework */; };
@@ -15,7 +24,7 @@
 		B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B667530E15F12FBE00A8D76D /* FAAppDelegate.m */; };
 		B667531215F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */; };
 		B667531515F12FBE00A8D76D /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */; };
-		B667531815F12FBE00A8D76D /* FAFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531715F12FBE00A8D76D /* FAFirstViewController.m */; };
+		B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531715F12FBE00A8D76D /* FASearchViewController.m */; };
 		B667531A15F12FBE00A8D76D /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531915F12FBE00A8D76D /* first.png */; };
 		B667531C15F12FBE00A8D76D /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531B15F12FBE00A8D76D /* first@2x.png */; };
 		B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531E15F12FBE00A8D76D /* FASecondViewController.m */; };
@@ -26,6 +35,12 @@
 		B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
 		B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667533315F12FBE00A8D76D /* InfoPlist.strings */; };
 		B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B667533715F12FBE00A8D76D /* TrakrTests.m */; };
+		B667534715F1319500A8D76D /* FATrakt.m in Sources */ = {isa = PBXBuildFile; fileRef = B667534615F1319500A8D76D /* FATrakt.m */; };
+		B6FB0DB8161DCA0000043207 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */; };
+		B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */; };
+		B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBE161DF2C100043207 /* FASearchData.m */; };
+		C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D0B6AA985E4CD4B698AA53 /* libPods.a */; };
+		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,10 +54,21 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B613A86915FD67CF005D88CA /* NSDictionary+FAJSONRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+FAJSONRequest.h"; path = "API/NSDictionary+FAJSONRequest.h"; sourceTree = "<group>"; };
+		B613A86A15FD67CF005D88CA /* NSDictionary+FAJSONRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FAJSONRequest.m"; path = "API/NSDictionary+FAJSONRequest.m"; sourceTree = "<group>"; };
+		B613A87015FD6FEB005D88CA /* FAAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAAuthViewController.h; sourceTree = "<group>"; };
+		B613A87115FD6FEB005D88CA /* FAAuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAAuthViewController.m; sourceTree = "<group>"; };
+		B63EAB2915FD762800DB2663 /* FATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATabBarController.h; sourceTree = "<group>"; };
+		B63EAB2A15FD762800DB2663 /* FATabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATabBarController.m; sourceTree = "<group>"; };
+		B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEditableTableViewCell.h; sourceTree = "<group>"; };
+		B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEditableTableViewCell.m; sourceTree = "<group>"; };
+		B64C8F3C16238B0600A7C784 /* FATraktMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktMovie.h; sourceTree = "<group>"; };
+		B64C8F3D16238B0600A7C784 /* FATraktMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktMovie.m; sourceTree = "<group>"; };
 		B66752FA15F12FBE00A8D76D /* Trakr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Trakr.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B66752FE15F12FBE00A8D76D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		B667530015F12FBE00A8D76D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		B667530215F12FBE00A8D76D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B66752FE15F12FBE00A8D76D /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B667530015F12FBE00A8D76D /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B667530215F12FBE00A8D76D /* CoreGraphics.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		B667530615F12FBE00A8D76D /* Trakr-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Trakr-Info.plist"; sourceTree = "<group>"; };
 		B667530815F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B667530A15F12FBE00A8D76D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -51,8 +77,8 @@
 		B667530E15F12FBE00A8D76D /* FAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAAppDelegate.m; sourceTree = "<group>"; };
 		B667531115F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		B667531415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
-		B667531615F12FBE00A8D76D /* FAFirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAFirstViewController.h; sourceTree = "<group>"; };
-		B667531715F12FBE00A8D76D /* FAFirstViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAFirstViewController.m; sourceTree = "<group>"; };
+		B667531615F12FBE00A8D76D /* FASearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FASearchViewController.h; sourceTree = "<group>"; };
+		B667531715F12FBE00A8D76D /* FASearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FASearchViewController.m; sourceTree = "<group>"; };
 		B667531915F12FBE00A8D76D /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		B667531B15F12FBE00A8D76D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		B667531D15F12FBE00A8D76D /* FASecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FASecondViewController.h; sourceTree = "<group>"; };
@@ -65,6 +91,17 @@
 		B667533415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B667533615F12FBE00A8D76D /* TrakrTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrakrTests.h; sourceTree = "<group>"; };
 		B667533715F12FBE00A8D76D /* TrakrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrakrTests.m; sourceTree = "<group>"; };
+		B667534515F1319500A8D76D /* FATrakt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATrakt.h; path = API/FATrakt.h; sourceTree = "<group>"; };
+		B667534615F1319500A8D76D /* FATrakt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATrakt.m; path = API/FATrakt.m; sourceTree = "<group>"; };
+		B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B6FB0DBA161DEF2C00043207 /* NSString+URLEncode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncode.h"; sourceTree = "<group>"; };
+		B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncode.m"; sourceTree = "<group>"; };
+		B6FB0DBD161DF2C100043207 /* FASearchData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchData.h; sourceTree = "<group>"; };
+		B6FB0DBE161DF2C100043207 /* FASearchData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchData.m; sourceTree = "<group>"; };
+		E6D0B6AA985E4CD4B698AA53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
+		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
+		F49B2E03388B47F18675407D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,9 +109,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
 				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
 				B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */,
+				C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,10 +133,12 @@
 		B66752EF15F12FBE00A8D76D = {
 			isa = PBXGroup;
 			children = (
+				B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */,
 				B667530415F12FBE00A8D76D /* Trakr */,
 				B667533015F12FBE00A8D76D /* TrakrTests */,
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
 				B66752FB15F12FBE00A8D76D /* Products */,
+				F49B2E03388B47F18675407D /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -113,10 +154,12 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
 				B667530015F12FBE00A8D76D /* Foundation.framework */,
 				B667530215F12FBE00A8D76D /* CoreGraphics.framework */,
 				B667532A15F12FBE00A8D76D /* SenTestingKit.framework */,
+				E6D0B6AA985E4CD4B698AA53 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -124,12 +167,23 @@
 		B667530415F12FBE00A8D76D /* Trakr */ = {
 			isa = PBXGroup;
 			children = (
+				B667534115F12FEB00A8D76D /* API */,
 				B667530D15F12FBE00A8D76D /* FAAppDelegate.h */,
 				B667530E15F12FBE00A8D76D /* FAAppDelegate.m */,
 				B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */,
 				B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */,
-				B667531615F12FBE00A8D76D /* FAFirstViewController.h */,
-				B667531715F12FBE00A8D76D /* FAFirstViewController.m */,
+				B63EAB2915FD762800DB2663 /* FATabBarController.h */,
+				B63EAB2A15FD762800DB2663 /* FATabBarController.m */,
+				B613A87015FD6FEB005D88CA /* FAAuthViewController.h */,
+				B613A87115FD6FEB005D88CA /* FAAuthViewController.m */,
+				B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */,
+				B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */,
+				B667531615F12FBE00A8D76D /* FASearchViewController.h */,
+				B667531715F12FBE00A8D76D /* FASearchViewController.m */,
+				F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */,
+				F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */,
+				B6FB0DBA161DEF2C00043207 /* NSString+URLEncode.h */,
+				B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */,
 				B667531915F12FBE00A8D76D /* first.png */,
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
 				B667531D15F12FBE00A8D76D /* FASecondViewController.h */,
@@ -171,6 +225,21 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B667534115F12FEB00A8D76D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				B613A86915FD67CF005D88CA /* NSDictionary+FAJSONRequest.h */,
+				B613A86A15FD67CF005D88CA /* NSDictionary+FAJSONRequest.m */,
+				B667534515F1319500A8D76D /* FATrakt.h */,
+				B667534615F1319500A8D76D /* FATrakt.m */,
+				B64C8F3C16238B0600A7C784 /* FATraktMovie.h */,
+				B64C8F3D16238B0600A7C784 /* FATraktMovie.m */,
+				B6FB0DBD161DF2C100043207 /* FASearchData.h */,
+				B6FB0DBE161DF2C100043207 /* FASearchData.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -178,9 +247,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B667533B15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "Trakr" */;
 			buildPhases = (
+				B6FB0DC4161E014400043207 /* ShellScript */,
 				B66752F615F12FBE00A8D76D /* Sources */,
 				B66752F715F12FBE00A8D76D /* Frameworks */,
 				B66752F815F12FBE00A8D76D /* Resources */,
+				8D728515B1FC49DA884DEBD7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,6 +321,11 @@
 				B667531C15F12FBE00A8D76D /* first@2x.png in Resources */,
 				B667532115F12FBE00A8D76D /* second.png in Resources */,
 				B667532315F12FBE00A8D76D /* second@2x.png in Resources */,
+				B613A86B15FD67CF005D88CA /* NSDictionary+FAJSONRequest.h in Resources */,
+				B613A86C15FD67CF005D88CA /* NSDictionary+FAJSONRequest.m in Resources */,
+				B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */,
+				B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */,
+				B6FB0DB8161DCA0000043207 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +340,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8D728515B1FC49DA884DEBD7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
 		B667532715F12FBE00A8D76D /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -277,6 +367,19 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		B6FB0DC4161E014400043207 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /usr/bin/ruby;
+			shellScript = "# An API keys script written by Patrick Gibson (@patr1ck) and Christopher Bowns (@cbowns)\n# This script sets API keys in your app's Info.plist from an .api_keys file you keep in your home directory (~/.api_keys)\n# This allows you to not check API keys into your source control system,\n# or for different developers to use different keys without needing to patch their working copies.\n\n# Installation directions:\n=begin\n1. Create a Run Script build phase in your Xcode project before Compile Sources\n2. Copy and paste this whole script in.\n3. Create or modify your .api_keys file to hold your API keys\n4. Modify the keys hash below to reference your .api_keys names from step 3\n5. Add placeholder keys to your app's Info.plist for the script to sub into.\n6. Add appropriate code to your app to pull from your Info.plist (see below)\n7. Build your app!\n=end\n\n# Your .api_keys should be in this format: (we recommend changing APPNAME to, well, your app name)\n=begin\nPARSE_APPNAME_PROD_APP_ID=foo\nPARSE_APPNAME_PROD_CLIENT_KEY=bar\nTESTFLIGHT_APPNAME=PartyApp\n=end\n\n# You can move your .api_keys file:\napi_keys_file=\"/Users/#{ENV['USER']}/Dropbox/Sync/misc/api_keys.txt\"\n\n# Declare your app-specific keys' names here, like so:\n# '.api_keys_key' => 'Info.plist_key'\nkeys = {\n    'TRAKT_API_KEY' => 'TraktAPIKey',\n}\n\n# A reminder: you need to add keys to your Info.plist so this script can put these values somewhere.\n# In XML, it should look something like:\n=begin\n<key>ParseProdClientKey</key>\n<string>?merp?</string>\n<key>TestFlightKey</key>\n<string>?hmm?</string>\n=end\n\n# Once this script is done running, it should look like:\n=begin\n<key>ParseProdClientKey</key>\n<string>bar</string>\n<key>TestFlightKey</key>\n<string>PartyApp</string>\n=end\n\n# Using these values in code looks something like:\n=begin\n[Parse setApplicationId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevAppID\"]\nclientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevClientKey\"]];\nor\nNSString *testFlightName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@\"TestFlightKey\"];\n=end\n\n# And now, it's time to do some work.\n\n\n# Fail if not run from Xcode\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\ninfo_plist = \"#{ENV['BUILT_PRODUCTS_DIR']}/#{ENV['INFOPLIST_PATH']}\"\n\n# When building for the device, the plist is already converted to binary, so change it back.\n`plutil -convert xml1 #{info_plist}`\n\n# Load our keys from $HOME/.api_keys\napi_keys = IO.readlines(api_keys_file).join\napi_keys.each do |line|\n# puts \"line is #{line}\"\nif line.to_s.strip.length != 0 # Skip nil or empty or whitespace lines\nkey, value = line.split(\"=\")\nputs \"Loading #{key} = #{value}\"\nENV[key] = value.strip!\nend\nend\n\n# Open Info.plist and set the appropriate value to the revision hash\nlines = IO.readlines(info_plist).join\nkeys.each do |apikey, infokey|\nlines.gsub! /(<key>#{infokey}<\\/key>\\n\\t<string>).*?(<\\/string>)/, \"\\\\1#{ENV[apikey]}\\\\2\"\nend\n\n# Overwrite the original Info.plist file with our updated version\nFile.open(info_plist, 'w') {|f| f.puts lines}\n\n# Convert back to binary1 if we're building for the device\nif ENV['EFFECTIVE_PLATFORM_NAME'] == \"-iphonesimulator\" then\n`plutil -convert xml1 #{info_plist}`\nelse\n`plutil -convert binary1 #{info_plist}`\nend\n\n# Report to the user\nputs \"Updated the API Keys\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -286,8 +389,16 @@
 			files = (
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
-				B667531815F12FBE00A8D76D /* FAFirstViewController.m in Sources */,
+				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
 				B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */,
+				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
+				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
+				B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */,
+				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
+				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
+				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,
+				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
+				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +509,7 @@
 		};
 		B667533C15F12FBE00A8D76D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
@@ -409,6 +521,7 @@
 		};
 		B667533D15F12FBE00A8D76D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
@@ -471,6 +584,7 @@
 				B667533D15F12FBE00A8D76D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B667533E15F12FBE00A8D76D /* Build configuration list for PBXNativeTarget "TrakrTests" */ = {
 			isa = XCConfigurationList;
@@ -479,6 +593,7 @@
 				B667534015F12FBE00A8D76D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

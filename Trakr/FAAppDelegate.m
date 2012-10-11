@@ -7,13 +7,27 @@
 //
 
 #import "FAAppDelegate.h"
+#import "FATrakt.h"
 
 @implementation FAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    NSLog(@"Application Launched");
     return YES;
+}
+
+- (void)performLoginIfRequired:(id)sender
+{
+    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+        if (!valid) {
+            UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+            UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
+            NSLog(@"Presenting View Controller %@", authController);
+            [sender presentViewController:authController animated:YES completion:nil];
+        }
+    }];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application
