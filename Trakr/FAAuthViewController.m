@@ -89,8 +89,7 @@
     if (_passwordFieldContainsHash) {
         passwordHash = [[FATrakt sharedInstance] apiPasswordHash];
     } else {
-        NSString *password = self.passwordTextField.text;
-        passwordHash = [FATrakt passwordHashForPassword:password];
+        passwordHash = [FATrakt passwordHashForPassword:self.passwordTextField.text];
     }
     [[FATrakt sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
@@ -98,6 +97,8 @@
         self.usernameTextField.userInteractionEnabled = YES;
         self.passwordTextField.userInteractionEnabled = YES;
         if (valid) {
+            // Clear password text field to remove clear text copy of the password from memory
+            self.passwordTextField.text = @"";
             [self dismissModalViewControllerAnimated:YES];
         }
     }];
