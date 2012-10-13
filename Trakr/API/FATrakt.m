@@ -12,14 +12,19 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "NSDictionary+FAJSONRequest.h"
 #import "NSString+URLEncode.h"
+#import "FAAppDelegate.h"
+
+#import "FATraktMovie.h"
+#import "FATraktShow.h"
+#import "FATraktEpisode.h"
 
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 
 @implementation FATrakt
 
-@synthesize apiUser = apiUser;
-@synthesize apiPasswordHash = apiPasswordHash;
+@synthesize apiUser = _apiUser;
+@synthesize apiPasswordHash = _apiPasswordHash;
 
 + (FATrakt *)sharedInstance
 {
@@ -34,12 +39,16 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     self = [super init];
     if (self) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        traktBaseURL = @"http://api.trakt.tv";
-        apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
-        apiUser = [defaults stringForKey:kFADefaultsKeyTraktUsername];
-        if (!apiUser) apiUser = @"";
-        apiPasswordHash = [defaults stringForKey:kFADefaultsKeyTraktPasswordHash];
-        if (!apiPasswordHash) apiPasswordHash = @"";
+        _traktBaseURL = @"http://api.trakt.tv";
+        _apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
+        _apiUser = [defaults stringForKey:kFADefaultsKeyTraktUsername];
+        if (!_apiUser) _apiUser = @"";
+        _apiPasswordHash = [defaults stringForKey:kFADefaultsKeyTraktPasswordHash];
+        if (!_apiPasswordHash) _apiPasswordHash = @"";
+        
+        /*[[LRResty client] setGlobalTimeout:15 handleWithBlock:^(LRRestyRequest *request) {
+            [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
+        }];*/
     }
     return self;
 }
@@ -73,18 +82,39 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (username) apiUser = username;
+    if (username) _apiUser = username;
     [defaults setValue:username forKey:kFADefaultsKeyTraktUsername];
-    if (passwordHash) apiPasswordHash = passwordHash;
+    if (passwordHash) _apiPasswordHash = passwordHash;
     [defaults setValue:passwordHash forKey:kFADefaultsKeyTraktPasswordHash];
     [defaults synchronize];
+}
+
+#pragma mark Error Handling
+
+- (BOOL)handleResponse:(LRRestyResponse *)response
+{
+    if (response.status == 200) {
+        return YES;
+    } else if (response.status == 401) {
+        // TODO: Trakt API Error Handling
+        NSLog(@"Invalid username/password");
+        [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleInvalidCredentials];
+        return NO;
+    } else if (response.status == 0) {
+        NSLog(@"Network Connection Problems!");
+        [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleNetworkNotAvailable];
+        return NO;
+    } else {
+        NSLog(@"HTTP status code %i recieved", response.status);
+        return NO;
+    }
 }
 
 #pragma mark API
 
 - (NSString *)urlForAPI:(NSString *)api
 {
-    return [NSString stringWithFormat:@"%@/%@/%@", traktBaseURL, api, apiKey];
+    return [NSString stringWithFormat:@"%@/%@/%@", _traktBaseURL, api, _apiKey];
 }
 
 - (NSString *)urlForAPI:(NSString *)api withParameters:(NSString *)parameters
@@ -101,17 +131,21 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 - (void)verifyCredentials:(void (^)(BOOL valid))block
 {
     NSLog(@"Account test!");
-    NSDictionary *data = @{ @"username" : apiUser, @"password" : apiPasswordHash };
+    NSDictionary *data = @{ @"username" : _apiUser, @"password" : _apiPasswordHash };
     [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
-        NSLog(@"%@", [response asString]);
-        NSDictionary *data = [[response asString] objectFromJSONString];
-        NSString *statusResponse = [data objectForKey:@"status"];
-        if ([statusResponse isEqualToString:@"success"]) {
-            block(YES);
-        } else {
+        if (![self handleResponse:response]) {
             block(NO);
+        } else {
+            NSLog(@"%@", [response asString]);
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            NSString *statusResponse = [data objectForKey:@"status"];
+            if ([statusResponse isEqualToString:@"success"]) {
+                block(YES);
+            } else {
+                block(NO);
+            }
+            NSLog(@"finishing…");
         }
-        NSLog(@"finishing…");
     }];
 }
 
@@ -120,9 +154,18 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     NSLog(@"Searching for movies!");
     NSString *url = [self urlForAPI:@"search/movies.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
-        NSLog(@"%@", [response asString]);
-        NSArray *data = [[response asString] objectFromJSONString];
-        block(data);
+        if ([self handleResponse:response]) {
+            //NSLog(@"%@", [response asString]);
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *movies = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *movieDict in data) {
+                FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
+                [movies addObject:movie];
+            }
+            block(movies);
+        } else {
+            block(nil);
+        }
     }];
 }
 
@@ -131,9 +174,18 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     NSLog(@"Searching for shows!");
     NSString *url = [self urlForAPI:@"search/shows.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
-        NSLog(@"%@", [response asString]);
-        NSArray *data = [[response asString] objectFromJSONString];
-        block(data);
+        if ([self handleResponse:response]) {
+            //NSLog(@"%@", [response asString]);
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *showDict in data) {
+                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
+                [shows addObject:show];
+            }
+            block(shows);
+        } else {
+            block(nil);
+        }
     }];
 }
 
@@ -142,9 +194,21 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     NSLog(@"Searching for episodes!");
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
-        NSLog(@"%@", [response asString]);
-        NSArray *data = [[response asString] objectFromJSONString];
-        block(data);
+        if ([self handleResponse:response]) {
+            //NSLog(@"%@", [response asString]);
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *episodes = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *episodeOverviewDict in data) {
+                NSDictionary *episodeDict = [episodeOverviewDict objectForKey:@"episode"];
+                NSDictionary *showDict = [episodeOverviewDict objectForKey:@"show"];
+                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
+                FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+                [episodes addObject:episode];
+            }
+            block(episodes);
+        } else {
+            block(nil);
+        }
     }];
 }
 

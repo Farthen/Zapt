@@ -8,6 +8,15 @@
 
 #import "FAAppDelegate.h"
 #import "FATrakt.h"
+#import "FAConnectingViewController.h"
+
+@interface FAAppDelegate () {
+    UIAlertView *_timeoutAlert;
+    UIAlertView *_networkNotAvailableAlert;
+    UIAlertView *_invalidCredentialsAlert;
+}
+
+@end
 
 @implementation FAAppDelegate
 
@@ -15,17 +24,45 @@
 {
     // Override point for customization after application launch.
     NSLog(@"Application Launched");
+    _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
+    _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
+    _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Retry", nil) otherButtonTitles: nil];
     return YES;
 }
 
-- (void)performLoginIfRequired:(id)sender
+- (void)handleTimeout
 {
+    [_timeoutAlert show];
+}
+
+- (void)handleNetworkNotAvailable
+{
+    [_networkNotAvailableAlert show];
+}
+
+- (void)handleInvalidCredentials
+{
+    [_invalidCredentialsAlert show];
+}
+
+- (void)performInitialLogin:(id)sender
+{
+    UIStoryboard *storyboard = self.window.rootViewController.storyboard;
+    FAConnectingViewController *connectingController = [storyboard instantiateViewControllerWithIdentifier:@"connect"];
+    [sender presentViewController:connectingController animated:NO completion:nil];
+    [self performLoginIfRequired:connectingController animated:NO];
+}
+
+- (void)performLoginIfRequired:(id)sender animated:(BOOL)animated
+{
+    UIStoryboard *storyboard = self.window.rootViewController.storyboard;
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         if (!valid) {
-            UIStoryboard *storyboard = self.window.rootViewController.storyboard;
             UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
             NSLog(@"Presenting View Controller %@", authController);
-            [sender presentViewController:authController animated:YES completion:nil];
+            [sender presentViewController:authController animated:animated completion:nil];
+        } else {
+            [sender dismissViewControllerAnimated:NO completion:nil];
         }
     }];
 }

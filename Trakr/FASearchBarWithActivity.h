@@ -7,17 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAUIElementWithActivity.h"
 
-@interface FASearchBarWithActivity : UISearchBar
-{
-    UIActivityIndicatorView *activityIndicatorView;
-}
-
-@property(retain) UIActivityIndicatorView *activityIndicatorView;
-@property int startCount;
-
-- (void)startActivity;  // increments startCount and shows activity indicator
-- (void)startActivityWithCount:(NSInteger)count; // increments startcount by count
-- (void)finishActivity; // decrements startCount and hides activity indicator if 0
+@interface FASearchBarWithActivity : UISearchBar <FAUIElementWithActivity>
 
 @end

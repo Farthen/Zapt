@@ -8,19 +8,17 @@
 
 #import <UIKit/UIKit.h>
 @class FAEditableTableViewCell;
+@class FATableViewCellWithActivity;
 
-@interface FAAuthViewController : UIViewController  <UITextFieldDelegate, UITableViewDataSource> {
-    UIAlertView *passwordAlert;
-}
+@interface FAAuthViewController : UIViewController  <UITextFieldDelegate, UITableViewDataSource>
 
-@property IBOutlet FAEditableTableViewCell *usernameTableViewCell;
-@property IBOutlet FAEditableTableViewCell *passwordTableViewCell;
+@property FAEditableTableViewCell *usernameTableViewCell;
+@property FAEditableTableViewCell *passwordTableViewCell;
 @property UITextField *usernameTextField;
 @property UITextField *passwordTextField;
 @property IBOutlet UILabel *introLabel;
 @property IBOutlet UILabel *invalidLabel;
-@property IBOutlet UITableViewCell *loginButtonCell;
-@property IBOutlet UIActivityIndicatorView *activityIndicator;
+@property FATableViewCellWithActivity *loginButtonCell;
 
 - (void)loginButtonPressed;
 @end

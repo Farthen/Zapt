@@ -12,6 +12,10 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void)performLoginIfRequired:(id)sender;
+- (void)performInitialLogin:(id)sender;
+- (void)performLoginIfRequired:(id)sender animated:(BOOL)animated;
+- (void)handleNetworkNotAvailable;
+- (void)handleInvalidCredentials;
+- (void)handleTimeout;
 
 @end

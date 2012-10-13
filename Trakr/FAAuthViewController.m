@@ -10,8 +10,11 @@
 #import "FATrakt.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FAEditableTableViewCell.h"
+#import "FATableViewCellWithActivity.h"
 
-@interface FAAuthViewController ()
+@interface FAAuthViewController () {
+    BOOL _passwordFieldContainsHash;
+}
 
 @end
 
@@ -29,16 +32,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    passwordAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Retry", nil) otherButtonTitles: nil];
     // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.activityIndicator.hidden = YES;
-    self.loginButtonCell.userInteractionEnabled = YES;
-    self.loginButtonCell.textLabel.hidden = NO;
     self.introLabel.hidden = NO;
     self.invalidLabel.hidden = YES;
 }
@@ -56,6 +55,17 @@
     // e.g. self.myOutlet = nil;
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.passwordTextField && _passwordFieldContainsHash) {
+        textField.text = @"";
+        _passwordFieldContainsHash = NO;
+        return NO;
+    } else {
+        return YES;
+    }
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.usernameTextField) {
@@ -63,6 +73,7 @@
         return YES;
     } else if (textField == self.passwordTextField) {
         [self loginButtonPressed];
+        [textField resignFirstResponder];
         return YES;
     } return YES;
 }
@@ -70,23 +81,24 @@
 - (void)loginButtonPressed
 {
     NSLog(@"Button pressed");
-    self.loginButtonCell.userInteractionEnabled = NO;
-    self.loginButtonCell.textLabel.hidden = YES;
-    self.activityIndicator.hidden = NO;
-    [self.activityIndicator startAnimating];
+    self.usernameTextField.userInteractionEnabled = NO;
+    self.passwordTextField.userInteractionEnabled = NO;
+    [self.loginButtonCell startActivity];
     NSString *username = self.usernameTextField.text;
-    NSString *password = self.passwordTextField.text;
-    NSString *passwordHash = [FATrakt passwordHashForPassword:password];
+    NSString *passwordHash;
+    if (_passwordFieldContainsHash) {
+        passwordHash = [[FATrakt sharedInstance] apiPasswordHash];
+    } else {
+        NSString *password = self.passwordTextField.text;
+        passwordHash = [FATrakt passwordHashForPassword:password];
+    }
     [[FATrakt sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
-        [self.activityIndicator stopAnimating];
+        [self.loginButtonCell finishActivity];
+        self.usernameTextField.userInteractionEnabled = YES;
+        self.passwordTextField.userInteractionEnabled = YES;
         if (valid) {
             [self dismissModalViewControllerAnimated:YES];
-        } else {
-            NSLog(@"Invalid username/password");
-            [passwordAlert show];
-            self.activityIndicator.hidden = YES;
-            self.loginButtonCell.textLabel.hidden = NO;
         }
     }];
 }
@@ -140,6 +152,10 @@
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             cell.textField.returnKeyType = UIReturnKeyNext;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            NSString *username = [[FATrakt sharedInstance] apiUser];
+            if (username) {
+                cell.textField.text = username;
+            }
         } else {
             self.passwordTextField = cell.textField;
             self.passwordTableViewCell = cell;
@@ -148,10 +164,17 @@
             cell.textField.secureTextEntry = YES;
             cell.textField.returnKeyType = UIReturnKeyDone;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            NSString *passwordHash = [[FATrakt sharedInstance] apiPasswordHash];
+            if (passwordHash) {
+                cell.textField.text = @"*****";
+                _passwordFieldContainsHash = YES;
+            } else {
+                _passwordFieldContainsHash = NO;
+            }
         }
         return cell;
     } else {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+        FATableViewCellWithActivity *cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         self.loginButtonCell = cell;
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
         cell.textLabel.textAlignment = UITextAlignmentCenter;

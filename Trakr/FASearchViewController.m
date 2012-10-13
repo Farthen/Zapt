@@ -10,6 +10,13 @@
 #import "FATrakt.h"
 #import "FASearchData.h"
 #import "FASearchBarWithActivity.h"
+#import "FASearchResultTableViewCell.h"
+
+#import "FATraktMovie.h"
+#import "FATraktShow.h"
+#import "FATraktEpisode.h"
+#import "FATraktPeopleList.h"
+#import "FATraktPeople.h"
 
 @interface FASearchViewController () {
     FASearchData *_searchData;
@@ -88,26 +95,56 @@
     }];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Reuse cells
-    static NSString *id = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    static NSString *id = @"FASearchResultTableViewCell";
+    FASearchResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:id];
+        cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     if (_searchScope == 0) {
-        NSDictionary *movie = [self.searchData.movies objectAtIndex:indexPath.row];
-        cell.textLabel.text = [movie objectForKey:@"title"];
-        NSString *detailString = [NSString stringWithFormat:@"%@ - %@", [movie objectForKey:@"year"], [movie objectForKey:@"tagline"]];
-        cell.detailTextLabel.text = detailString;
+        FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
+        cell.textLabel.text = movie.title;
+        NSString *genres = [movie.genres componentsJoinedByString:@", "];
+        NSString *detailString;
+        if (movie.year && ![genres isEqualToString:@""]) {
+            detailString = [NSString stringWithFormat:@"%@ - %@", movie.year, genres];
+        } else if (movie.year) {
+            detailString = [NSString stringWithFormat:@"%@", movie.year];
+        } else if (![genres isEqualToString:@""]) {
+            detailString = [NSString stringWithFormat:@"%@", genres];
+        } else {
+            detailString = @"";
+        }
+        
+        cell.leftAuxiliaryTextLabel.text = detailString;
+        NSString *tagline = movie.tagline;
+        cell.detailTextLabel.text = tagline;
     } else if (_searchScope == 1) {
-        NSDictionary *show = [self.searchData.shows objectAtIndex:indexPath.row];
-        cell.textLabel.text = [show objectForKey:@"title"];
+        FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
+        cell.textLabel.text = show.title;
+        NSString *genres = [show.genres componentsJoinedByString:@", "];
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
+        NSString *detailString = [NSString stringWithFormat:@"%i – %@", components.year, genres];
+        cell.leftAuxiliaryTextLabel.text = detailString;
+        cell.detailTextLabel.text = show.overview;
     } else if (_searchScope == 2) {
-        NSDictionary *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
-        cell.textLabel.text = [[episode objectForKey:@"episode"] objectForKey:@"title"];
+        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
+        cell.textLabel.text = episode.title;
+        cell.leftAuxiliaryTextLabel.text = episode.show.title;
+        if (episode.overview) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@ – %@", episode.season, episode.episode, episode.overview];
+        } else {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@", episode.season, episode.episode];
+        }
     }
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 

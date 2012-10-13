@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 @interface FATrakt : NSObject {
-    NSString *traktBaseURL;
-    NSString *apiKey;
-    NSString *apiUser;
-    NSString *apiPasswordHash;
+    NSString *_traktBaseURL;
+    NSString *_apiKey;
+    NSString *_apiUser;
+    NSString *_apiPasswordHash;
 }
 
 @property (retain) NSString *apiUser;

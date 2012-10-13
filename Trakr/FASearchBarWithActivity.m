@@ -14,7 +14,8 @@
 
 @synthesize activityIndicatorView;
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     UITextField *searchField = nil;
     
     for(UIView* view in self.subviews){
@@ -41,7 +42,8 @@
     [super layoutSubviews];
 }
 
-- (void)startActivity  {
+- (void)startActivity
+{
     self.startCount += 1;
 }
 
@@ -50,11 +52,13 @@
     self.startCount += count;
 }
 
-- (void)finishActivity {
+- (void)finishActivity
+{
     self.startCount -= 1;
 }
 
-- (int)startCount {
+- (int)startCount
+{
     return _startCount;
 }
 
