@@ -45,6 +45,8 @@
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
 		F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */ = {isa = PBXBuildFile; fileRef = F3328C25162740C500FB65B8 /* FATraktDatatype.m */; };
 		F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */; };
+		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
+		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
 		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 		F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */; };
 		F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */; };
@@ -121,6 +123,9 @@
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATableViewCellWithActivity.h; path = Elements/FATableViewCellWithActivity.h; sourceTree = "<group>"; };
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATableViewCellWithActivity.m; path = Elements/FATableViewCellWithActivity.m; sourceTree = "<group>"; };
+		F3C84B771629719D006CBFEF /* FADetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailViewController.h; sourceTree = "<group>"; };
+		F3C84B781629719D006CBFEF /* FADetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailViewController.m; sourceTree = "<group>"; };
+		F3C84B7A162976A5006CBFEF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
 		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
 		F3F8C5F9162705F500D6BD4C /* FASearchResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchResultTableViewCell.h; sourceTree = "<group>"; };
@@ -273,6 +278,7 @@
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
 				B667532015F12FBE00A8D76D /* second.png */,
 				B667532215F12FBE00A8D76D /* second@2x.png */,
+				F3C84B7A162976A5006CBFEF /* Default.png */,
 				F3F9E3171628CE600077CBAA /* Default@2x.png */,
 				B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */,
 			);
@@ -339,6 +345,8 @@
 			children = (
 				B667531615F12FBE00A8D76D /* FASearchViewController.h */,
 				B667531715F12FBE00A8D76D /* FASearchViewController.m */,
+				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
+				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
 			);
 			name = "Search Tab";
 			sourceTree = "<group>";
@@ -494,6 +502,7 @@
 				B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */,
 				B6FB0DB8161DCA0000043207 /* Default-568h@2x.png in Resources */,
 				F3F9E3181628CE600077CBAA /* Default@2x.png in Resources */,
+				F3C84B7B162976A6006CBFEF /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -576,6 +585,7 @@
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
+				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
