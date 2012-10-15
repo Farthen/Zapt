@@ -11,9 +11,13 @@
 @class FATableViewLoadingView;
 @class FASearchBarWithActivity;
 
-@interface FASearchViewController : UIViewController <UISearchDisplayDelegate,
-                                                      UITableViewDataSource,
-                                                      UITableViewDelegate>
+typedef enum {
+    FASearchScopeMovies = 0,
+    FAsearchScopeShows = 1,
+    FASearchScopeEpisodes = 2
+} FASearchScope;
+
+@interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (retain) FASearchData *searchData;
 

@@ -11,6 +11,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FAEditableTableViewCell.h"
 #import "FATableViewCellWithActivity.h"
+#import "FAAppDelegate.h"
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -46,6 +47,12 @@
 {
     [super viewDidAppear:animated];
     [self.usernameTableViewCell.textField becomeFirstResponder];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    FAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    delegate.authViewShowing = NO;
 }
 
 - (void)viewDidUnload
@@ -153,6 +160,8 @@
             cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
             cell.textField.returnKeyType = UIReturnKeyNext;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+            cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             NSString *username = [[FATrakt sharedInstance] apiUser];
             if (username) {
                 cell.textField.text = username;
@@ -165,8 +174,7 @@
             cell.textField.secureTextEntry = YES;
             cell.textField.returnKeyType = UIReturnKeyDone;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-            NSString *passwordHash = [[FATrakt sharedInstance] apiPasswordHash];
-            if (passwordHash) {
+            if ([[FATrakt sharedInstance] usernameAndPasswordSaved]) {
                 cell.textField.text = @"*****";
                 _passwordFieldContainsHash = YES;
             } else {

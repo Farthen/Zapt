@@ -10,9 +10,7 @@
 #import "FATrakt.h"
 #import "FAAppDelegate.h"
 
-@interface FATabBarController () {
-    BOOL _initialLoginDone;
-}
+@interface FATabBarController ()
 
 @end
 
@@ -30,17 +28,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _initialLoginDone = NO;
 	// Do any additional setup after loading the view.
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (!_initialLoginDone) {
-        _initialLoginDone = YES;
+    if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
         FAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-        [delegate performInitialLogin:self];
+        if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
+            [delegate handleInvalidCredentials];
+        }
     }
 }
 

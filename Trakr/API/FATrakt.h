@@ -15,6 +15,7 @@
     NSString *_apiPasswordHash;
 }
 
+@property (readonly) BOOL usernameAndPasswordSaved;
 @property (retain) NSString *apiUser;
 @property (retain) NSString *apiPasswordHash;
 

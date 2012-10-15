@@ -11,9 +11,9 @@
 @interface FAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property BOOL authViewShowing;
 
-- (void)performInitialLogin:(id)sender;
-- (void)performLoginIfRequired:(id)sender animated:(BOOL)animated;
+- (void)performLoginAnimated:(BOOL)animated;
 - (void)handleNetworkNotAvailable;
 - (void)handleInvalidCredentials;
 - (void)handleTimeout;

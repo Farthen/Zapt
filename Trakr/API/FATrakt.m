@@ -53,6 +53,15 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     return self;
 }
 
+- (id)initWithUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
+{
+    self = [FATrakt sharedInstance];
+    if (self) {
+        [self setUsername:username andPasswordHash:passwordHash];
+    }
+    return self;
+}
+
 + (NSString *)passwordHashForPassword:(NSString *)password
 {
     NSData *passwordBytes = [password dataUsingEncoding:NSUTF8StringEncoding];
@@ -70,13 +79,13 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 
 }
 
-- (id)initWithUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
+- (BOOL)usernameAndPasswordSaved
 {
-    self = [FATrakt sharedInstance];
-    if (self) {
-        [self setUsername:username andPasswordHash:passwordHash];
+    if (![_apiUser isEqualToString:@""] && ![_apiPasswordHash isEqualToString:@""]) {
+        return YES;
+    } else {
+        return NO;
     }
-    return self;
 }
 
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
@@ -89,20 +98,22 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     [defaults synchronize];
 }
 
-#pragma mark Error Handling
+#pragma mark - Error Handling
 
 - (BOOL)handleResponse:(LRRestyResponse *)response
 {
+    UIApplication *application = [UIApplication sharedApplication];
+    FAAppDelegate *delegate = application.delegate;
     if (response.status == 200) {
         return YES;
     } else if (response.status == 401) {
         // TODO: Trakt API Error Handling
         NSLog(@"Invalid username/password");
-        [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleInvalidCredentials];
+        [delegate handleInvalidCredentials];
         return NO;
     } else if (response.status == 0) {
         NSLog(@"Network Connection Problems!");
-        [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleNetworkNotAvailable];
+        [delegate handleNetworkNotAvailable];
         return NO;
     } else {
         NSLog(@"HTTP status code %i recieved", response.status);
@@ -110,7 +121,7 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     }
 }
 
-#pragma mark API
+#pragma mark - API
 
 - (NSString *)urlForAPI:(NSString *)api
 {
@@ -167,6 +178,12 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
             block(nil);
         }
     }];
+}
+
+- (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(NSArray *result))block
+{
+    NSLog(@"Getting all information about movie with title: \"%@\"", movie.title);
+    NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
 }
 
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block

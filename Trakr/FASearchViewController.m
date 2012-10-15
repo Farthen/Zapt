@@ -12,6 +12,8 @@
 #import "FASearchBarWithActivity.h"
 #import "FASearchResultTableViewCell.h"
 
+#import "FADetailViewController.h"
+
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
@@ -20,7 +22,7 @@
 
 @interface FASearchViewController () {
     FASearchData *_searchData;
-    NSInteger _searchScope;
+    FASearchScope _searchScope;
 }
 
 @end
@@ -95,6 +97,18 @@
     }];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
+    [self.navigationController pushViewController:detailViewController animated:YES];
+    
+    if (_searchScope == FASearchScopeMovies) {
+        FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
+        [detailViewController showDetailForMovie:movie];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
@@ -108,7 +122,7 @@
     if (!cell) {
         cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
-    if (_searchScope == 0) {
+    if (_searchScope == FASearchScopeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         cell.textLabel.text = movie.title;
         NSString *genres = [movie.genres componentsJoinedByString:@", "];
@@ -126,7 +140,7 @@
         cell.leftAuxiliaryTextLabel.text = detailString;
         NSString *tagline = movie.tagline;
         cell.detailTextLabel.text = tagline;
-    } else if (_searchScope == 1) {
+    } else if (_searchScope == FAsearchScopeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         cell.textLabel.text = show.title;
         NSString *genres = [show.genres componentsJoinedByString:@", "];
@@ -134,7 +148,7 @@
         NSString *detailString = [NSString stringWithFormat:@"%i – %@", components.year, genres];
         cell.leftAuxiliaryTextLabel.text = detailString;
         cell.detailTextLabel.text = show.overview;
-    } else if (_searchScope == 2) {
+    } else if (_searchScope == FASearchScopeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
         cell.textLabel.text = episode.title;
         cell.leftAuxiliaryTextLabel.text = episode.show.title;
@@ -160,11 +174,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (_searchScope == 0) {
+    if (_searchScope == FASearchScopeMovies) {
         return self.searchData.movies.count;
-    } else if (_searchScope == 1) {
+    } else if (_searchScope == FAsearchScopeShows) {
         return self.searchData.shows.count;
-    } else if (_searchScope == 2) {
+    } else if (_searchScope == FASearchScopeEpisodes) {
         return self.searchData.episodes.count;
     } else {
         return 0;
