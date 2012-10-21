@@ -7,35 +7,40 @@
 //
 
 #import "FASearchBarWithActivity.h"
+#import "FAStatusBarSpinnerController.h"
 
 @implementation FASearchBarWithActivity {
     NSInteger _startCount;
+    UIView *_oldLeftView;
+    UITextField *__searchField;
 }
 
 @synthesize activityIndicatorView;
 
 - (void)layoutSubviews
-{
-    UITextField *searchField = nil;
-    
-    for(UIView* view in self.subviews){
-        if([view isKindOfClass:[UITextField class]]){
-            searchField= (UITextField *)view;
-            break;
+{    
+    if (!__searchField) {
+        for(UIView* view in self.subviews){
+            if([view isKindOfClass:[UITextField class]]){
+                __searchField= (UITextField *)view;
+                break;
+            }
         }
     }
     
-    if(searchField) {
+    if (!_oldLeftView) {
+        _oldLeftView = __searchField.leftView;
+    }
+    
+    if(__searchField) {
         if (!self.activityIndicatorView) {
             UIActivityIndicatorView *taiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-            taiv.center = CGPointMake(searchField.leftView.bounds.origin.x + searchField.leftView.bounds.size.width/2,
-                                      searchField.leftView.bounds.origin.y + searchField.leftView.bounds.size.height/2);
-            taiv.hidesWhenStopped = YES;
-            taiv.backgroundColor = [UIColor whiteColor];
+            taiv.center = CGPointMake(__searchField.leftView.bounds.origin.x + __searchField.leftView.bounds.size.width/2, __searchField.leftView.bounds.origin.y + __searchField.leftView.bounds.size.height/2);
+            taiv.hidesWhenStopped = NO;
+            taiv.frame = _oldLeftView.frame;
+            taiv.backgroundColor = [UIColor clearColor];
             self.activityIndicatorView = taiv;
             _startCount = 0;
-            
-            [searchField.leftView addSubview:self.activityIndicatorView];
         }
     }
     
@@ -62,12 +67,16 @@
     return _startCount;
 }
 
-- (void)setStartCount:(NSInteger)startCount {
+- (void)setStartCount:(NSInteger)startCount {    
+    NSInteger difference = startCount - _startCount;
+    [FAStatusBarSpinnerController sharedInstance].startCount += difference;
     _startCount = startCount;
-    if (_startCount > 0)
+    if (_startCount > 0) {
         [self.activityIndicatorView startAnimating];
-    else {
+        __searchField.leftView = self.activityIndicatorView;
+    } else {
         [self.activityIndicatorView stopAnimating];
+        __searchField.leftView = _oldLeftView;
     }
 }
 
