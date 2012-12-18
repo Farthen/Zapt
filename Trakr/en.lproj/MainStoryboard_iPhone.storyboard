@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3083" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="4">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <development version="4500" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Second View Controller - Second-->
@@ -14,7 +15,6 @@
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Second View" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="22">
                                 <rect key="frame" x="54" y="98" width="212" height="43"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="36"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -22,7 +22,6 @@
                             </label>
                             <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" bouncesZoom="NO" editable="NO" text="Loaded by the second view controller — an instance of FASecondViewController — specified in the app delegate." textAlignment="center" id="23">
                                 <rect key="frame" x="20" y="181" width="280" height="88"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" size="system"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textView>
@@ -64,7 +63,6 @@
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="886-Nl-UGo">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <sections/>
                                 <connections>
@@ -78,7 +76,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DwZ-Ri-l1M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-288" y="-389"/>
+            <point key="canvasLocation" x="-295" y="185"/>
         </scene>
         <!--Search View Controller - Search-->
         <scene sceneID="PLI-gz-yhm">
@@ -88,7 +86,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search Trakt Database" id="q4b-n1-ksM" customClass="FASearchBarWithActivity">
+                            <searchBar contentMode="redraw" placeholder="Search Trakt Database" id="aQw-tU-OtF" customClass="FASearchBarWithActivity">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -98,7 +96,7 @@
                                     <string>Episodes</string>
                                 </scopeButtonTitles>
                                 <connections>
-                                    <outlet property="delegate" destination="Aeh-c8-FmN" id="6T5-b3-DD9"/>
+                                    <outlet property="delegate" destination="Aeh-c8-FmN" id="bEA-bH-Ub4"/>
                                 </connections>
                             </searchBar>
                         </subviews>
@@ -107,19 +105,19 @@
                     <tabBarItem key="tabBarItem" systemItem="search" id="ryi-UL-5Gc"/>
                     <navigationItem key="navigationItem" title="Search" id="M4p-aO-PGR"/>
                     <connections>
-                        <outlet property="searchBar" destination="q4b-n1-ksM" id="6Tf-Bp-83S"/>
-                        <outlet property="searchDisplayController" destination="46v-5n-baL" id="tbO-ho-Voa"/>
+                        <outlet property="searchBar" destination="aQw-tU-OtF" id="oz5-ee-4FD"/>
+                        <outlet property="searchDisplayController" destination="UvB-ss-AaJ" id="dUB-Al-bsA"/>
                         <segue destination="Gbz-Eu-myw" kind="push" identifier="pushDetail" id="RJf-di-Pwt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YDE-FY-wee" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController searchResultsTitle="Trakt" id="46v-5n-baL">
+                <searchDisplayController id="UvB-ss-AaJ">
                     <connections>
-                        <outlet property="delegate" destination="Aeh-c8-FmN" id="LKk-ON-EuB"/>
-                        <outlet property="searchBar" destination="q4b-n1-ksM" id="22u-HJ-xSb"/>
-                        <outlet property="searchContentsController" destination="Aeh-c8-FmN" id="bNy-WT-rGd"/>
-                        <outlet property="searchResultsDataSource" destination="Aeh-c8-FmN" id="NXc-wB-icj"/>
-                        <outlet property="searchResultsDelegate" destination="Aeh-c8-FmN" id="Myi-xr-9Gl"/>
+                        <outlet property="delegate" destination="Aeh-c8-FmN" id="bxQ-4G-ieZ"/>
+                        <outlet property="searchBar" destination="aQw-tU-OtF" id="jsy-zb-PG9"/>
+                        <outlet property="searchContentsController" destination="Aeh-c8-FmN" id="yVm-Un-cJu"/>
+                        <outlet property="searchResultsDataSource" destination="Aeh-c8-FmN" id="MAF-g6-WDn"/>
+                        <outlet property="searchResultsDelegate" destination="Aeh-c8-FmN" id="AYh-wB-Zfe"/>
                     </connections>
                 </searchDisplayController>
             </objects>
@@ -134,7 +132,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Aeh-c8-FmN" kind="relationship" relationship="rootViewController" id="dZr-PD-PbB"/>
+                        <segue destination="Aeh-c8-FmN" kind="relationship" relationship="rootViewController" id="J46-es-u1l"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RFD-2P-vHt" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -145,63 +143,88 @@
         <scene sceneID="Nm9-jJ-IUd">
             <objects>
                 <viewController storyboardIdentifier="detail" id="Gbz-Eu-myw" customClass="FADetailViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="W2m-Ya-Fvo">
+                    <scrollView key="view" autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" id="Gf9-CR-F0b">
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4GU-ZQ-kc8">
-                                <rect key="frame" x="20" y="20" width="280" height="42"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Movie
-Title</string>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Director" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EZ4-Xo-i0n">
-                                <rect key="frame" x="102" y="70" width="134" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Release Date" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="PNm-vZ-6pE">
-                                <rect key="frame" x="102" y="99" width="104" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wjn-cQ-NJP">
-                                <rect key="frame" x="20" y="185" width="280" height="162"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <string key="text">Tagline
+                            <view autoresizesSubviews="NO" contentMode="top" id="vsT-Ub-PfI">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Movie" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" id="whN-LO-Voo">
+                                        <rect key="frame" x="20" y="20" width="280" height="23"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Director" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="dtM-wb-m6n">
+                                        <rect key="frame" x="97" y="51" width="203" height="14"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="J3F-SW-DUx">
+                                        <rect key="frame" x="20" y="161" width="280" height="186"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                        <string key="text">Tagline
 1
 2
 3
 4
 5
-6</string>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="FAImagePlaceholder.png" id="qvg-YI-UwE">
-                                <rect key="frame" x="20" y="70" width="74" height="107"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15</string>
+                                        <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="FAImagePlaceholder.png" id="HVb-kX-x5k">
+                                        <rect key="frame" x="20" y="51" width="69" height="102"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Kte-GQ-LjF">
+                                        <rect key="frame" x="97" y="73" width="203" height="17"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                                        <string key="text">Release Date
+2
+3
+¢
+[
+[
+]
+|
+{
+}</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
+                    </scrollView>
                     <navigationItem key="navigationItem" title="Type" id="9S6-U2-QdO">
                         <barButtonItem key="rightBarButtonItem" title="Check in" style="done" id="Z5c-3Z-Ku9"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="coverImageView" destination="qvg-YI-UwE" id="gIP-6K-d2S"/>
-                        <outlet property="producerLabel" destination="EZ4-Xo-i0n" id="59Y-Du-SnN"/>
-                        <outlet property="releaseDateLabel" destination="PNm-vZ-6pE" id="Ei9-0v-vZy"/>
-                        <outlet property="taglineLabel" destination="Wjn-cQ-NJP" id="Y6G-tg-TYL"/>
-                        <outlet property="titleLabel" destination="4GU-ZQ-kc8" id="7iV-Vu-egf"/>
+                        <outlet property="contentView" destination="vsT-Ub-PfI" id="j26-Mt-kVw"/>
+                        <outlet property="coverImageView" destination="HVb-kX-x5k" id="btU-hg-Jcc"/>
+                        <outlet property="directorLabel" destination="dtM-wb-m6n" id="Es8-Ek-Mey"/>
+                        <outlet property="releaseDateLabel" destination="Kte-GQ-LjF" id="KNF-QJ-ENX"/>
+                        <outlet property="scrollView" destination="Gf9-CR-F0b" id="HS2-4c-9wk"/>
+                        <outlet property="taglineLabel" destination="J3F-SW-DUx" id="WkF-MJ-ezY"/>
+                        <outlet property="titleLabel" destination="whN-LO-Voo" id="du7-Zx-X68"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4P8-TM-YGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -210,7 +233,7 @@ Title</string>
         </scene>
     </scenes>
     <resources>
-        <image name="FAImagePlaceholder.png" width="148" height="214"/>
+        <image name="FAImagePlaceholder.png" width="138" height="203"/>
     </resources>
     <classes>
         <class className="FAAuthViewController" superclassName="UIViewController">
@@ -223,9 +246,11 @@ Title</string>
         <class className="FADetailViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FADetailViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="contentView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="producerLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="directorLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="releaseDateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="taglineLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>
@@ -236,10 +261,7 @@ Title</string>
         <class className="FASearchViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="loadingBackgroundView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="loadingView" candidateClass="FATableViewLoadingView"/>
                 <relationship kind="outlet" name="searchBar" candidateClass="FASearchBarWithActivity"/>
-                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
         </class>
         <class className="FASecondViewController" superclassName="UIViewController">

@@ -13,6 +13,7 @@
 @interface FAAppDelegate () {
     UIAlertView *_timeoutAlert;
     UIAlertView *_networkNotAvailableAlert;
+    UIAlertView *_overCapacityAlert;
     UIAlertView *_invalidCredentialsAlert;
     BOOL _authViewShowing;
 }
@@ -30,6 +31,7 @@
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Retry", nil) otherButtonTitles: nil];
+    _overCapacityAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _authViewShowing = NO;
     return YES;
 }
@@ -42,6 +44,11 @@
 - (void)handleNetworkNotAvailable
 {
     [_networkNotAvailableAlert show];
+}
+
+- (void)handleOverCapacity
+{
+    
 }
 
 - (void)handleInvalidCredentials

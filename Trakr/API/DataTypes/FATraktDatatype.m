@@ -9,6 +9,11 @@
 #import "FATraktDatatype.h"
 #import "FAPropertyUtil.h"
 
+@interface FATraktDatatype ()
+- (void)finishedMappingObjects;
+
+@end
+
 @implementation FATraktDatatype {
     NSDictionary *_propertyInfo;
 }
@@ -31,6 +36,11 @@
     return self;
 }
 
+- (void)finishedMappingObjects
+{
+    NSLog(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));
+}
+
 - (void)mapObjectsInDict:(NSDictionary *)dict
 {
     // Try to map all the JSON keys to the properties
@@ -38,11 +48,11 @@
     for (NSString *key in dict) {
         [self mapObject:[dict objectForKey:key] toPropertyWithKey:key];
     }
+    [self finishedMappingObjects];
 }
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
 {
-    //NSLog(@"Mapping object to property \"%@\" of type: \"%@\"\n", key, propertyType);
     if ([object isKindOfClass:NSClassFromString(propertyType)]) {
         if ([object isKindOfClass:[NSString class]]) {
             object = [object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -63,7 +73,7 @@
 {
     NSString *propertyType = [_propertyInfo objectForKey:key];
     if (!propertyType) {
-        NSLog(@"Can't match property \"%@\"", key);
+        NSLog(@"[WARN:%@] Can't match object\n%@\nto non-existing property with key \"%@\"", NSStringFromClass([self class]), object, key);
         return;
     }
     

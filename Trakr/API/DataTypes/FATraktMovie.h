@@ -10,6 +10,7 @@
 #import "FATraktDatatype.h"
 
 @class FATraktPeopleList;
+@class FATraktImageList;
 
 @interface FATraktMovie : FATraktDatatype
 
@@ -26,8 +27,19 @@
 @property (retain) NSString *tmdb_id;
 @property (retain) NSString *rt_id;
 @property (retain) NSDate *last_updated;
-@property (retain) NSDictionary *images;
+@property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
+@property (retain) NSArray *top_watchers;
+@property (retain) NSDictionary *ratings;
+@property (retain) NSDictionary *stats;
 @property (retain) FATraktPeopleList *people;
+@property (retain) NSNumber *watched;
+@property (retain) NSNumber *plays;
+@property (retain) NSString *rating;
+@property (retain) NSNumber *rating_advanced;
+@property (retain) NSNumber *in_watchlist;
+@property (retain) NSNumber *in_collection;
+
+@property (assign) BOOL requestedDetailedInformation;
 
 @end

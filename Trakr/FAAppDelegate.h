@@ -15,6 +15,7 @@
 
 - (void)performLoginAnimated:(BOOL)animated;
 - (void)handleNetworkNotAvailable;
+- (void)handleOverCapacity;
 - (void)handleInvalidCredentials;
 - (void)handleTimeout;
 

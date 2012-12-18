@@ -13,6 +13,7 @@
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict;
+- (void)mapObjectsInDict:(NSDictionary *)dict;
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key;
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key;
 

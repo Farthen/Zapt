@@ -36,6 +36,10 @@
     self.searchData = [[FASearchData alloc] init];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -49,11 +53,6 @@
     } else {
         return YES;
     }
-}
-
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    return NO;
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchScope
@@ -106,6 +105,9 @@
     if (_searchScope == FASearchScopeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         [detailViewController showDetailForMovie:movie];
+    } else if (_searchScope == FAsearchScopeShows) {
+        FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
+        [detailViewController showDetailForShow:show];
     }
 }
 

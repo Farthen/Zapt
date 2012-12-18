@@ -24,4 +24,6 @@
 @property (retain) NSString *url;
 @property (retain) NSDictionary *images;
 
+@property (assign) BOOL requestedDetailedInformation;
+
 @end

@@ -22,9 +22,5 @@ typedef enum {
 @property (retain) FASearchData *searchData;
 
 @property (retain) IBOutlet FASearchBarWithActivity *searchBar;
-@property (retain) IBOutlet UITableView *tableView;
-
-@property (retain) IBOutlet UIView *loadingBackgroundView;
-@property (retain) IBOutlet FATableViewLoadingView *loadingView;
 
 @end

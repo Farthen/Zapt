@@ -27,4 +27,6 @@
 @property (retain) NSDictionary *images;
 @property (retain) NSArray *genres;
 
+@property (assign) BOOL requestedDetailedInformation;
+
 @end

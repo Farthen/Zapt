@@ -10,16 +10,21 @@
 #import <JSONKit.h>
 #import <LRResty.h>
 #import <CommonCrypto/CommonDigest.h>
+#import <Security/Security.h>
+
 #import "NSDictionary+FAJSONRequest.h"
 #import "NSString+URLEncode.h"
+#import "NSString+StringByAppendingSuffixToFilename.h"
+
 #import "FAAppDelegate.h"
 
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
+#import "SFHFKeychainUtils.h"
 
+NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
-NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 
 @implementation FATrakt
 
@@ -38,12 +43,11 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 {
     self = [super init];
     if (self) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         _traktBaseURL = @"http://api.trakt.tv";
         _apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
-        _apiUser = [defaults stringForKey:kFADefaultsKeyTraktUsername];
+        _apiUser = [self storedUsername];
         if (!_apiUser) _apiUser = @"";
-        _apiPasswordHash = [defaults stringForKey:kFADefaultsKeyTraktPasswordHash];
+        _apiPasswordHash = [self storedPassword];
         if (!_apiPasswordHash) _apiPasswordHash = @"";
         
         /*[[LRResty client] setGlobalTimeout:15 handleWithBlock:^(LRRestyRequest *request) {
@@ -81,21 +85,30 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
 
 - (BOOL)usernameAndPasswordSaved
 {
-    if (![_apiUser isEqualToString:@""] && ![_apiPasswordHash isEqualToString:@""]) {
+    if (![[self storedUsername] isEqualToString:@""] && ![[self storedPassword] isEqualToString:@""]) {
         return YES;
     } else {
         return NO;
     }
 }
 
-- (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
+- (NSString *)storedUsername
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    if (username) _apiUser = username;
-    [defaults setValue:username forKey:kFADefaultsKeyTraktUsername];
-    if (passwordHash) _apiPasswordHash = passwordHash;
-    [defaults setValue:passwordHash forKey:kFADefaultsKeyTraktPasswordHash];
-    [defaults synchronize];
+    return [defaults stringForKey:kFADefaultsKeyTraktUsername];
+}
+
+- (NSString *)storedPassword
+{
+    return [SFHFKeychainUtils getPasswordForUsername:nil andServiceName:kFAKeychainKeyCredentials error:nil];
+}
+
+- (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
+{
+    [SFHFKeychainUtils storeUsername:username andPassword:passwordHash forServiceName:kFAKeychainKeyCredentials updateExisting:YES error:nil];
+    
+    _apiUser = username;
+    _apiPasswordHash = passwordHash;
 }
 
 #pragma mark - Error Handling
@@ -107,13 +120,16 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     if (response.status == 200) {
         return YES;
     } else if (response.status == 401) {
-        // TODO: Trakt API Error Handling
         NSLog(@"Invalid username/password");
         [delegate handleInvalidCredentials];
         return NO;
     } else if (response.status == 0) {
         NSLog(@"Network Connection Problems!");
         [delegate handleNetworkNotAvailable];
+        return NO;
+    } else if(response.status == 503) {
+        NSLog(@"Trakt is over capacity");
+        [delegate handleOverCapacity];
         return NO;
     } else {
         NSLog(@"HTTP status code %i recieved", response.status);
@@ -160,6 +176,26 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     }];
 }
 
+- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block
+{
+    NSString *suffix;
+    if (width <= 138) {
+        suffix = @"-138";
+    } else if (width <= 300) {
+        suffix = @"-300";
+    } else {
+        suffix = @"";
+    }
+    NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
+    NSLog(@"Loading image with url \"%@\"", imageURL);
+    [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            UIImage *image = [UIImage imageWithData:[response responseData]];
+            block(image);
+        }
+    }];
+}
+
 - (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block
 {
     NSLog(@"Searching for movies!");
@@ -180,10 +216,17 @@ NSString *const kFADefaultsKeyTraktPasswordHash = @"TraktPasswordHash";
     }];
 }
 
-- (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(NSArray *result))block
+- (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
     NSLog(@"Getting all information about movie with title: \"%@\"", movie.title);
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
+    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [movie mapObjectsInDict:data];
+            block(movie);
+        }
+    }];
 }
 
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block
