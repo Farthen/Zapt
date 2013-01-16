@@ -21,11 +21,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Trakr/FADetailViewController.m"
-         timestampString = "379938497.403944"
+         timestampString = "380070086.225785"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "175"
-         endingLineNumber = "175"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
          landmarkName = "-loadValuesForMovie:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -99,11 +99,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Trakr/FADetailViewController.m"
-         timestampString = "379938497.403944"
+         timestampString = "380070086.225785"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "231"
-         endingLineNumber = "231"
+         startingLineNumber = "232"
+         endingLineNumber = "232"
          landmarkName = "-loadValuesForEpisode:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -229,11 +229,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Trakr/FADetailViewController.m"
-         timestampString = "379938497.403944"
+         timestampString = "380070086.225785"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "223"
-         endingLineNumber = "223"
+         startingLineNumber = "222"
+         endingLineNumber = "222"
          landmarkName = "-showDetailForShow:"
          landmarkType = "5">
       </FileBreakpoint>

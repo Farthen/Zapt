@@ -158,9 +158,9 @@
         cell.textLabel.text = episode.title;
         cell.leftAuxiliaryTextLabel.text = episode.show.title;
         if (episode.overview) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@ – %@", episode.season, episode.episode, episode.overview];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i – %@", episode.season.intValue, episode.episode.intValue, episode.overview];
         } else {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@", episode.season, episode.episode];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i", episode.season.intValue, episode.episode.intValue];
         }
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -121,9 +121,6 @@
         _imageLoaded = YES;
         [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:0 callback:^(UIImage *image) {
             self.coverImageView.image = image;
-            
-            // TODO: test
-            self.backgroundImageView.image = image;
         }];
     }
 }
@@ -169,7 +166,6 @@
     [self loadValueForContent:movie];
     [self loadValueForWatchableBaseItem:movie];
     [self setDirectors:movie.people.directors];
-    [self setPosterToURL:movie.images.poster];
     [self setReleaseDate:movie.released withCaption:@"Released"];
     [self setTagline:movie.tagline];
     
@@ -186,9 +182,9 @@
     
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!movie.requestedDetailedInformation) {
         movie.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForMovie:movie];
@@ -215,21 +211,25 @@
     
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!show.requestedDetailedInformation) {
         show.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForShow:show];
         }];
     }
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
     [self loadValuesForShow:show];
 }
 
 - (void)loadValuesForEpisode:(FATraktEpisode *)episode
 {
     [self loadValueForContent:episode];
-    [self setReleaseDate:episode.first_aired withCaption:@"First Aired"];
+    [self setNetwork:episode.show.network];
+    [self setRuntime:episode.show.runtime];
+    [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
+    [self setPosterToURL:episode.show.images.poster];
 }
 
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
@@ -241,14 +241,15 @@
     
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!episode.requestedDetailedInformation) {
         episode.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForEpisode:episode];
         }];
     }
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
     [self loadValuesForEpisode:episode];
 }
 

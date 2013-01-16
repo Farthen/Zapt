@@ -24,7 +24,7 @@
 @property (retain) NSString *imdb_id;
 @property (retain) NSString *tvdb_id;
 @property (retain) NSString *tvrage_id;
-@property (retain) NSDictionary *images;
+@property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
 
 @property (assign) BOOL requestedDetailedInformation;
