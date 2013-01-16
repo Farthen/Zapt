@@ -15,14 +15,19 @@
 @end
 
 @implementation FATraktDatatype {
-    NSDictionary *_propertyInfo;
+    NSMutableDictionary *_propertyInfo;
 }
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        _propertyInfo = [FAPropertyUtil classPropsFor:[self class]];
+        Class cls = [self class];
+        _propertyInfo = [[NSMutableDictionary alloc] initWithDictionary:[FAPropertyUtil classPropsFor:cls]];
+        do {
+            cls = [cls superclass];
+            [_propertyInfo addEntriesFromDictionary:[FAPropertyUtil classPropsFor:cls]];
+        } while (cls != [FATraktDatatype class]);
     }
     return self;
 }
@@ -38,7 +43,7 @@
 
 - (void)finishedMappingObjects
 {
-    NSLog(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));
+    [APLog tiny:@"Finished mapping objects for datatype %@", NSStringFromClass([self class])];
 }
 
 - (void)mapObjectsInDict:(NSDictionary *)dict
@@ -73,7 +78,7 @@
 {
     NSString *propertyType = [_propertyInfo objectForKey:key];
     if (!propertyType) {
-        NSLog(@"[WARN:%@] Can't match object\n%@\nto non-existing property with key \"%@\"", NSStringFromClass([self class]), object, key);
+        [APLog warning:@"Can't match object\n%@\nto non-existing property with key \"%@\"", NSStringFromClass([self class]), object, key];
         return;
     }
     

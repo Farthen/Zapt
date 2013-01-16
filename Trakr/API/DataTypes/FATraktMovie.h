@@ -7,38 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FATraktDatatype.h"
+#import "FATraktWatchableBaseItem.h"
 
 @class FATraktPeopleList;
 @class FATraktImageList;
 
-@interface FATraktMovie : FATraktDatatype
+@interface FATraktMovie : FATraktWatchableBaseItem
 
-@property (retain) NSString *title;
-@property (retain) NSNumber *year;
 @property (retain) NSDate *released;
-@property (retain) NSString *url;
-@property (retain) NSString *trailer;
-@property (retain) NSNumber *runtime;
-@property (retain) NSString *tagline;
-@property (retain) NSString *overview;
-@property (retain) NSString *certification;
-@property (retain) NSString *imdb_id;
-@property (retain) NSString *tmdb_id;
 @property (retain) NSString *rt_id;
-@property (retain) NSDate *last_updated;
-@property (retain) FATraktImageList *images;
-@property (retain) NSArray *genres;
-@property (retain) NSArray *top_watchers;
-@property (retain) NSDictionary *ratings;
-@property (retain) NSDictionary *stats;
-@property (retain) FATraktPeopleList *people;
+@property (retain) NSString *trailer;
+@property (retain) NSString *tagline;
 @property (retain) NSNumber *watched;
 @property (retain) NSNumber *plays;
-@property (retain) NSString *rating;
-@property (retain) NSNumber *rating_advanced;
-@property (retain) NSNumber *in_watchlist;
-@property (retain) NSNumber *in_collection;
 
 @property (assign) BOOL requestedDetailedInformation;
 

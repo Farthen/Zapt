@@ -7,15 +7,15 @@
 //
 
 #import "FATraktDatatype.h"
+#import "FATraktWatchableBaseItem.h"
 
-@interface FATraktShow : FATraktDatatype
+@interface FATraktShow : FATraktWatchableBaseItem
 
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;
 @property (retain) NSString *url;
 @property (retain) NSDate *first_aired;
 @property (retain) NSString *country;
-@property (retain) NSString *overview;
 @property (retain) NSNumber *runtime;
 @property (retain) NSString *network;
 @property (retain) NSString *air_day;

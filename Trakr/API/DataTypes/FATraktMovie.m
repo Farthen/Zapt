@@ -8,12 +8,7 @@
 
 #import "FATraktMovie.h"
 
-#import "FATraktPeopleList.h"
-#import "FATraktImageList.h"
-
-@implementation FATraktMovie {
-    NSNumber *_year;
-}
+@implementation FATraktMovie
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
@@ -31,32 +26,7 @@
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key
 {
-    if ([key isEqualToString:@"images"]) {
-        NSLog(@"w00t?");
-    }
-    if ([key isEqualToString:@"people"] && [propertyType isEqualToString:@"FATraktPeopleList"] && [object isKindOfClass:[NSDictionary class]]) {
-        FATraktPeopleList *peopleList = [[FATraktPeopleList alloc] initWithJSONDict:(NSDictionary *)object];
-        [self setValue:peopleList forKey:key];
-    } else if ([key isEqualToString:@"images"] && [propertyType isEqualToString:@"FATraktImageList"] && [object isKindOfClass:[NSDictionary class]]) {
-        FATraktImageList *imageList = [[FATraktImageList alloc] initWithJSONDict:(NSDictionary *)object];
-        [self setValue:imageList forKey:key];
-    } else {
-        [super mapObject:object ofType:propertyType toPropertyWithKey:key];
-    }
-}
-
-- (void)setYear:(NSNumber *)year
-{
-    if ([year integerValue] == 0) {
-        _year = nil;
-    } else {
-        _year = year;
-    }
-}
-
-- (NSNumber *)year
-{
-    return _year;
+    [super mapObject:object ofType:propertyType toPropertyWithKey:key];
 }
 
 @end

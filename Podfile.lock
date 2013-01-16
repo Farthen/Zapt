@@ -1,0 +1,9 @@
+PODS:
+  - JSONKit (1.5pre)
+  - LRResty (0.11.0):
+    - NSData+Base64 (~> 1.0)
+  - NSData+Base64 (1.0.0)
+
+DEPENDENCIES:
+  - JSONKit (~> 1.5pre)
+  - LRResty (~> 0.11.0)

@@ -14,6 +14,8 @@
 #import "UIView+SizeToFitSubviews.h"
 
 #import "FATrakt.h"
+#import "FATraktContentType.h"
+#import "FATraktWatchableBaseItem.h"
 #import "FATraktMovie.h"
 #import "FATraktPeopleList.h"
 #import "FATraktImageList.h"
@@ -24,6 +26,12 @@
 @interface FADetailViewController () {
     UIImage *_placeholderImage;
     BOOL _imageLoaded;
+    UILabel *_networkLabel;
+    UILabel *_episodeNumLabel;
+    UILabel *_runtimeLabel;
+    UILabel *_directorLabel;
+    UILabel *_taglineLabel;
+    UILabel *_releaseDateLabel;
 }
 
 @end
@@ -47,30 +55,37 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    // Add constraint for minimal size of scroll view content
+    NSLayoutConstraint *sizeC = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+    [self.scrollView addConstraint:sizeC];
+    [self.contentView updateConstraintsIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     self.scrollView.contentSize = self.contentView.frame.size;
-    NSLog(@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height);
+    [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
+}
+
+- (void)viewWillLayoutSubviews
+{
 }
 
 - (void)viewDidLayoutSubviews
 {
-    [self.taglineLabel sizeToFit];
-    [self.contentView resizeToFitSubviewsWithMinimumSize:self.scrollView.frame.size];
     self.scrollView.contentSize = self.contentView.frame.size;
 }
 
-- (void)setReleaseDate:(NSDate *)date
+- (void)setReleaseDate:(NSDate *)date withCaption:(NSString *)caption
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     
-    self.releaseDateLabel.text = [dateFormatter stringFromDate:date];
-    [self.releaseDateLabel sizeToFit];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    _releaseDateLabel.text = [NSString stringWithFormat:@"%@: %@", caption, dateString];
+    [_releaseDateLabel sizeToFit];
 }
 
 - (void)setTitle:(NSString *)title
@@ -90,40 +105,85 @@
         }
     }
     
-    self.directorLabel.text = directorString;
-    [self.directorLabel sizeToFit];
+    _directorLabel.text = directorString;
+    [_directorLabel sizeToFit];
+}
+
+- (void)setRuntime:(NSNumber *)runtime
+{
+    NSString *runtimeString = [NSString stringWithFormat:@"Runtime: %@ min", [runtime stringValue]];
+    _runtimeLabel.text = runtimeString;
 }
 
 - (void)setPosterToURL:(NSString *)posterURL
 {
     if (posterURL && ![posterURL isEqualToString:@""]) {
         _imageLoaded = YES;
-        [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:138 callback:^(UIImage *image) {
+        [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:0 callback:^(UIImage *image) {
             self.coverImageView.image = image;
+            
+            // TODO: test
+            self.backgroundImageView.image = image;
         }];
     }
 }
 
+- (void)setOverview:(NSString *)overview
+{
+    self.overviewLabel.text = overview;
+    [self.overviewLabel sizeToFit];
+}
+
 - (void)setTagline:(NSString *)tagline
 {
-    self.taglineLabel.text = tagline;
-    [self.taglineLabel sizeToFit];
+    _taglineLabel.text = tagline;
+    [_taglineLabel sizeToFit];
+}
+
+- (void)setNetwork:(NSString *)network
+{
+    _networkLabel.text = [NSString stringWithFormat:@"Network: %@", network];
+    [_networkLabel sizeToFit];
+}
+
+- (void)setSeasonNum:(NSNumber *)season andEpisodeNum:(NSNumber *)episode
+{
+    _episodeNumLabel.text = [NSString stringWithFormat:@"Season: %@ Episode: %@", season.stringValue, episode.stringValue];
+    [_episodeNumLabel sizeToFit];
+}
+
+- (void)loadValueForContent:(FATraktContentType *)item
+{
+    self.title = item.title;
+    [self setPosterToURL:item.images.poster];
+    [self setOverview:item.overview];
+}
+
+- (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
+{
+    [self setRuntime:item.runtime];
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
 {
-    [self setTitle:movie.title];
+    [self loadValueForContent:movie];
+    [self loadValueForWatchableBaseItem:movie];
     [self setDirectors:movie.people.directors];
     [self setPosterToURL:movie.images.poster];
-    [self setReleaseDate:movie.released];
+    [self setReleaseDate:movie.released withCaption:@"Released"];
     [self setTagline:movie.tagline];
     
-    [self.contentView sizeToFit];
+    [self viewDidLayoutSubviews];
     self.scrollView.contentSize = self.contentView.frame.size;
 }
 
 - (void)showDetailForMovie:(FATraktMovie *)movie
 {
+    _directorLabel = self.detailLabel1;
+    _runtimeLabel = self.detailLabel2;
+    _taglineLabel = self.detailLabel3;
+    _networkLabel = nil;
+    
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
     [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -138,8 +198,58 @@
     [self loadValuesForMovie:movie];
 }
 
+- (void)loadValuesForShow:(FATraktShow *)show
+{
+    [self loadValueForContent:show];
+    [self loadValueForWatchableBaseItem:show];
+    [self setNetwork:show.network];
+    [self setReleaseDate:show.first_aired withCaption:@"First Aired"];
+}
+
 - (void)showDetailForShow:(FATraktShow *)show
 {
+    _directorLabel = nil;
+    _runtimeLabel = self.detailLabel2;
+    _networkLabel = self.detailLabel1;
+    _releaseDateLabel = self.detailLabel3;
+    
+    self.coverImageView.image = _placeholderImage;
+    _imageLoaded = NO;
+    [[FAStatusBarSpinnerController sharedInstance] startActivity];
+    if (!show.requestedDetailedInformation) {
+        show.requestedDetailedInformation = YES;
+        [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
+            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
+            [self loadValuesForShow:show];
+        }];
+    }
+    [self loadValuesForShow:show];
+}
+
+- (void)loadValuesForEpisode:(FATraktEpisode *)episode
+{
+    [self loadValueForContent:episode];
+    [self setReleaseDate:episode.first_aired withCaption:@"First Aired"];
+}
+
+- (void)showDetailForEpisode:(FATraktEpisode *)episode
+{
+    _directorLabel = nil;
+    _runtimeLabel = self.detailLabel2;
+    _networkLabel = self.detailLabel1;
+    _episodeNumLabel = self.detailLabel3;
+    
+    self.coverImageView.image = _placeholderImage;
+    _imageLoaded = NO;
+    [[FAStatusBarSpinnerController sharedInstance] startActivity];
+    if (!episode.requestedDetailedInformation) {
+        episode.requestedDetailedInformation = YES;
+        [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
+            [self loadValuesForEpisode:episode];
+        }];
+    }
+    [self loadValuesForEpisode:episode];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:identifier sender:sender

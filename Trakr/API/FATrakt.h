@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 @class FATraktMovie;
+@class FATraktShow;
+@class FATraktEpisode;
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;
@@ -32,9 +34,15 @@ extern NSString *const kFAKeychainKeyCredentials;
 
 #pragma mark API
 - (void)verifyCredentials:(void (^)(BOOL valid))block;
+
 - (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block;
+
 - (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block;
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
+
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block;
+- (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
+
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block;
+- (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 @end

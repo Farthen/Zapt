@@ -13,7 +13,7 @@
 
 typedef enum {
     FASearchScopeMovies = 0,
-    FAsearchScopeShows = 1,
+    FASearchScopeShows = 1,
     FASearchScopeEpisodes = 2
 } FASearchScope;
 

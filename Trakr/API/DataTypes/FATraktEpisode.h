@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import "FATraktDatatype.h"
+#import "FATraktContentType.h"
 
 @class FATraktShow;
 
-@interface FATraktEpisode : FATraktDatatype
+@interface FATraktEpisode : FATraktContentType
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 
@@ -22,7 +22,6 @@
 @property (retain) NSString *overview;
 @property (retain) NSDate *first_aired;
 @property (retain) NSString *url;
-@property (retain) NSDictionary *images;
 
 @property (assign) BOOL requestedDetailedInformation;
 

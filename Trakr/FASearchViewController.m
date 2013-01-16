@@ -67,13 +67,13 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"New search string: %@", searchText);
+    [APLog tiny:@"New search string: %@", searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSString *searchString = searchBar.text;
-    NSLog(@"Searching for string: %@", searchString);
+    [APLog fine:@"Searching for string: %@", searchString];
     FASearchData *searchData = [[FASearchData alloc] init];
     self.searchData = searchData;
     
@@ -105,9 +105,12 @@
     if (_searchScope == FASearchScopeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         [detailViewController showDetailForMovie:movie];
-    } else if (_searchScope == FAsearchScopeShows) {
+    } else if (_searchScope == FASearchScopeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         [detailViewController showDetailForShow:show];
+    } else if (_searchScope == FASearchScopeEpisodes) {
+        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
+        [detailViewController showDetailForEpisode:episode];
     }
 }
 
@@ -142,7 +145,7 @@
         cell.leftAuxiliaryTextLabel.text = detailString;
         NSString *tagline = movie.tagline;
         cell.detailTextLabel.text = tagline;
-    } else if (_searchScope == FAsearchScopeShows) {
+    } else if (_searchScope == FASearchScopeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         cell.textLabel.text = show.title;
         NSString *genres = [show.genres componentsJoinedByString:@", "];
@@ -178,7 +181,7 @@
 {
     if (_searchScope == FASearchScopeMovies) {
         return self.searchData.movies.count;
-    } else if (_searchScope == FAsearchScopeShows) {
+    } else if (_searchScope == FASearchScopeShows) {
         return self.searchData.shows.count;
     } else if (_searchScope == FASearchScopeEpisodes) {
         return self.searchData.episodes.count;

@@ -120,19 +120,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     if (response.status == 200) {
         return YES;
     } else if (response.status == 401) {
-        NSLog(@"Invalid username/password");
+        [APLog info:@"Invalid username/password"];
         [delegate handleInvalidCredentials];
         return NO;
     } else if (response.status == 0) {
-        NSLog(@"Network Connection Problems!");
+        [APLog info:@"Network Connection Problems!"];
         [delegate handleNetworkNotAvailable];
         return NO;
     } else if(response.status == 503) {
-        NSLog(@"Trakt is over capacity");
+        [APLog info:@"Trakt is over capacity"];
         [delegate handleOverCapacity];
         return NO;
     } else {
-        NSLog(@"HTTP status code %i recieved", response.status);
+        [APLog info:@"HTTP status code %i recieved", response.status];
         return NO;
     }
 }
@@ -157,13 +157,13 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)verifyCredentials:(void (^)(BOOL valid))block
 {
-    NSLog(@"Account test!");
+    [APLog fine:@"Account test!"];
     NSDictionary *data = @{ @"username" : _apiUser, @"password" : _apiPasswordHash };
     [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
         if (![self handleResponse:response]) {
             block(NO);
         } else {
-            NSLog(@"%@", [response asString]);
+            [APLog tiny:@"%@", [response asString]];
             NSDictionary *data = [[response asString] objectFromJSONString];
             NSString *statusResponse = [data objectForKey:@"status"];
             if ([statusResponse isEqualToString:@"success"]) {
@@ -171,7 +171,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             } else {
                 block(NO);
             }
-            NSLog(@"finishing…");
+            [APLog fine:@"finishing…" ];
         }
     }];
 }
@@ -187,7 +187,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         suffix = @"";
     }
     NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
-    NSLog(@"Loading image with url \"%@\"", imageURL);
+    [APLog fine:@"Loading image with url \"%@\"", imageURL];
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             UIImage *image = [UIImage imageWithData:[response responseData]];
@@ -198,7 +198,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    NSLog(@"Searching for movies!");
+    [APLog fine:@"Searching for movies!"];
     NSString *url = [self urlForAPI:@"search/movies.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -218,7 +218,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
-    NSLog(@"Getting all information about movie with title: \"%@\"", movie.title);
+    [APLog fine:@"Fetching all information about movie with title: \"%@\"", movie.title];
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -231,7 +231,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    NSLog(@"Searching for shows!");
+    [APLog fine:@"Searching for shows!"];
     NSString *url = [self urlForAPI:@"search/shows.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -249,9 +249,22 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     }];
 }
 
+- (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
+{
+    [APLog fine:@"Fetching all information about show with title: \"%@\"", show.title];
+    NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.imdb_id];
+    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [show mapObjectsInDict:data];
+            block(show);
+        }
+    }];
+}
+
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    NSLog(@"Searching for episodes!");
+    [APLog fine:@"Searching for episodes!"];
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -268,6 +281,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             block(episodes);
         } else {
             block(nil);
+        }
+    }];
+}
+
+- (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
+{
+    [APLog fine:@"Fetching all information about episode with title: \"%@\"", episode.title];
+    NSString *url = [self urlForAPI:@"episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
+    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [episode mapObjectsInDict:data];
+            block(episode);
         }
     }];
 }

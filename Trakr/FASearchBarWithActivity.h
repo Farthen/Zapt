@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "FASearchBar.h"
 #import "FAUIElementWithActivity.h"
 
-@interface FASearchBarWithActivity : UISearchBar <FAUIElementWithActivity>
+@interface FASearchBarWithActivity : FASearchBar <FAUIElementWithActivity>
 
 @end

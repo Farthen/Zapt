@@ -87,7 +87,7 @@
 
 - (void)loginButtonPressed
 {
-    NSLog(@"Button pressed");
+    [APLog tiny:@"Button pressed"];
     self.usernameTextField.userInteractionEnabled = NO;
     self.passwordTextField.userInteractionEnabled = NO;
     [self.loginButtonCell startActivity];

@@ -27,7 +27,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSLog(@"Application Launched");
+    [APLog tiny:@"Application Launched"];
+    [[NSUserDefaults standardUserDefaults] setInteger:3 forKey:@"logging"];
+    
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Retry", nil) otherButtonTitles: nil];
@@ -67,7 +69,7 @@
         _authViewShowing = YES;
         UIStoryboard *storyboard = self.window.rootViewController.storyboard;
         UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
-        NSLog(@"Presenting View Controller %@", authController);
+        [APLog tiny:@"Presenting View Controller %@", authController];
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:authController animated:animated completion:nil];
     }
 }

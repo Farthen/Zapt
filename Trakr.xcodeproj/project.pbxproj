@@ -55,6 +55,9 @@
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
 		F3C84B7D162A1BCA006CBFEF /* FAImagePlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */; };
+		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
+		F3F35E85169B6B7C00A925B4 /* FATraktContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */; };
+		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
 		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 		F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */; };
 		F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */; };
@@ -148,6 +151,12 @@
 		F3C84B781629719D006CBFEF /* FADetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailViewController.m; sourceTree = "<group>"; };
 		F3C84B7A162976A5006CBFEF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FAImagePlaceholder.png; path = Resources/FAImagePlaceholder.png; sourceTree = "<group>"; };
+		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASearchBar.h; path = Elements/FASearchBar.h; sourceTree = "<group>"; };
+		F3F35E81169B655600A925B4 /* FASearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASearchBar.m; path = Elements/FASearchBar.m; sourceTree = "<group>"; };
+		F3F35E83169B6B7C00A925B4 /* FATraktContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktContentType.h; path = API/DataTypes/FATraktContentType.h; sourceTree = "<group>"; };
+		F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktContentType.m; path = API/DataTypes/FATraktContentType.m; sourceTree = "<group>"; };
+		F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktWatchableBaseItem.h; path = API/DataTypes/FATraktWatchableBaseItem.h; sourceTree = "<group>"; };
+		F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktWatchableBaseItem.m; path = API/DataTypes/FATraktWatchableBaseItem.m; sourceTree = "<group>"; };
 		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
 		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
 		F3F8C5F9162705F500D6BD4C /* FASearchResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchResultTableViewCell.h; sourceTree = "<group>"; };
@@ -418,6 +427,10 @@
 			children = (
 				F3328C24162740C500FB65B8 /* FATraktDatatype.h */,
 				F3328C25162740C500FB65B8 /* FATraktDatatype.m */,
+				F3F35E83169B6B7C00A925B4 /* FATraktContentType.h */,
+				F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */,
+				F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */,
+				F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */,
 				B64C8F3C16238B0600A7C784 /* FATraktMovie.h */,
 				B64C8F3D16238B0600A7C784 /* FATraktMovie.m */,
 				F3544601163084FC007D0AC5 /* FATraktImageList.h */,
@@ -446,6 +459,8 @@
 		F3F9E31C1628DBC70077CBAA /* Interface Elements */ = {
 			isa = PBXGroup;
 			children = (
+				F3F35E80169B655600A925B4 /* FASearchBar.h */,
+				F3F35E81169B655600A925B4 /* FASearchBar.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
@@ -500,7 +515,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FA;
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Finn Wilke";
 			};
 			buildConfigurationList = B66752F415F12FBE00A8D76D /* Build configuration list for PBXProject "Trakr" */;
@@ -630,6 +645,9 @@
 				F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */,
 				F390191E16514242006C8E5B /* APLog.m in Sources */,
 				F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */,
+				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,
+				F3F35E85169B6B7C00A925B4 /* FATraktContentType.m in Sources */,
+				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +713,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -723,6 +744,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
