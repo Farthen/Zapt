@@ -288,7 +288,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
     [APLog fine:@"Fetching all information about episode with title: \"%@\"", episode.title];
-    NSString *url = [self urlForAPI:@"episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
+    NSString *url = [self urlForAPI:@"show/episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
