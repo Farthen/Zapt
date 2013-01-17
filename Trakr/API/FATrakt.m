@@ -120,19 +120,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     if (response.status == 200) {
         return YES;
     } else if (response.status == 401) {
-        [APLog info:@"Invalid username/password"];
+        [APLog error:@"Invalid username/password"];
         [delegate handleInvalidCredentials];
         return NO;
     } else if (response.status == 0) {
-        [APLog info:@"Network Connection Problems!"];
+        [APLog error:@"Network Connection Problems!"];
         [delegate handleNetworkNotAvailable];
         return NO;
     } else if(response.status == 503) {
-        [APLog info:@"Trakt is over capacity"];
+        [APLog error:@"Trakt is over capacity"];
         [delegate handleOverCapacity];
         return NO;
     } else {
-        [APLog info:@"HTTP status code %i recieved", response.status];
+        [APLog error:@"HTTP status code %i recieved", response.status];
         return NO;
     }
 }
@@ -179,10 +179,14 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block
 {
     NSString *suffix;
-    if (width <= 138) {
-        suffix = @"-138";
-    } else if (width <= 300) {
-        suffix = @"-300";
+    if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+        if (width <= 138) {
+            suffix = @"-138";
+        } else if (width <= 300) {
+            suffix = @"-300";
+        } else {
+            suffix = @"";
+        }
     } else {
         suffix = @"";
     }
@@ -191,6 +195,17 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             UIImage *image = [UIImage imageWithData:[response responseData]];
+            if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+                // Invert the colors to make it look good on black background
+                UIGraphicsBeginImageContext(image.size);
+                CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeCopy);
+                [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
+                CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeDifference);
+                CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),[UIColor whiteColor].CGColor);
+                CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, image.size.width, image.size.height));
+                image = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+            }
             block(image);
         }
     }];
@@ -219,6 +234,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
     [APLog fine:@"Fetching all information about movie with title: \"%@\"", movie.title];
+    if (!movie.imdb_id) {
+        [APLog error:@"Trying to fetch information about movie without imdb_id"];
+    }
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -257,7 +275,10 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block
 {
     [APLog fine:@"Fetching all information about show with title: \"%@\"", show.title];
-    NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.imdb_id];
+    if (!show.tvdb_id) {
+        [APLog error:@"Trying to fetch information about show without tbdb_id"];
+    }
+    NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.tvdb_id];
     if (extended) {
         url = [url stringByAppendingString:@"/extended"];
     }
@@ -296,6 +317,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
     [APLog fine:@"Fetching all information about episode with title: \"%@\"", episode.title];
+    if (!episode.show.tvdb_id) {
+        [APLog error:@"Trying to fetch information about show without tvdb_id"];
+    }
     NSString *url = [self urlForAPI:@"show/episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {

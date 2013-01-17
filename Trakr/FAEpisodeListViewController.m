@@ -18,13 +18,19 @@
 @implementation FAEpisodeListViewController {
     FATraktShow *_displayedShow;
     NSMutableArray *_filteredSeasons;
+    BOOL _visible;
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
-    //_displayedShow = nil;
-    //[self.tableView reloadData];
+    [super viewDidAppear:animated];
+    _visible = true;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    _visible = false;
 }
 
 - (void)populateEpisodeListForShow:(FATraktShow *)show
@@ -36,7 +42,7 @@
 - (void)showEpisodeListForShow:(FATraktShow *)show
 {
     if (!show.requestedExtendedInformation) {
-        show.requestedDetailedInformation = YES;
+        //show.requestedExtendedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForShow:show extended:YES callback:^(FATraktShow *show) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
@@ -138,6 +144,7 @@
         season = _displayedShow.seasons[indexPath.section +1];
         episode = season.episodes[indexPath.row];
     }
+    [self.searchDisplayController setActive:NO animated:YES];
     [detailViewController showDetailForEpisode:episode];
 }
 

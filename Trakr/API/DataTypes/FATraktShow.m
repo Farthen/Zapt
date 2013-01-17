@@ -11,6 +11,16 @@
 
 @implementation FATraktShow
 
+- (id)initWithJSONDict:(NSDictionary *)dict
+{
+    self = [super initWithJSONDict:dict];
+    if (self) {
+        self.requestedDetailedInformation = NO;
+        self.requestedExtendedInformation = NO;
+    }
+    return self;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow with title: %@>", self.title];

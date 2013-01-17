@@ -314,7 +314,7 @@
                         <outlet property="overviewLabel" destination="0xL-n8-TUq" id="Uzi-EY-pA9"/>
                         <outlet property="scrollView" destination="Gf9-CR-F0b" id="HS2-4c-9wk"/>
                         <outlet property="titleLabel" destination="yJE-No-h72" id="wRC-Vx-uKW"/>
-                        <segue destination="YqG-nB-QyF" kind="push" id="xVy-ZI-dat"/>
+                        <segue destination="YqG-nB-QyF" kind="push" identifier="pushEpisodes" id="xVy-ZI-dat"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4P8-TM-YGx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -337,17 +337,7 @@
                                 <outlet property="delegate" destination="YqG-nB-QyF" id="GPj-Rh-I2a"/>
                             </connections>
                         </searchBar>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Zvn-7v-VwV">
-                                <rect key="frame" x="0.0" y="66" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                            </tableViewCell>
-                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="YqG-nB-QyF" id="laY-bb-7ZZ"/>
                             <outlet property="delegate" destination="YqG-nB-QyF" id="Fv1-Lb-os7"/>

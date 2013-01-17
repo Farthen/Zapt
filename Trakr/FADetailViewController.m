@@ -25,6 +25,7 @@
 #import "FATraktPeople.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
+#import "FATraktSeason.h"
 
 @interface FADetailViewController () {
     FASearchScope _contentType;
@@ -173,13 +174,13 @@
 - (void)loadValueForContent:(FATraktContentType *)item
 {
     self.title = item.title;
-    [self setPosterToURL:item.images.poster];
     [self setOverview:item.overview];
 }
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
 {
     [self setRuntime:item.runtime];
+    [self setPosterToURL:item.images.poster];
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
@@ -261,7 +262,12 @@
     [self setNetwork:episode.show.network];
     [self setRuntime:episode.show.runtime];
     [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
-    [self setPosterToURL:episode.show.images.poster];
+    FATraktSeason *season = episode.show.seasons[episode.season.intValue];
+    if (season.poster) {
+        [self setPosterToURL:season.poster];
+    } else {
+        [self setPosterToURL:episode.show.images.poster];
+    }
 }
 
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
