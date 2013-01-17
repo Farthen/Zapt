@@ -12,5 +12,6 @@
 
 @property (retain) NSString *poster;
 @property (retain) NSString *fanart;
+@property (retain) NSString *banner;
 
 @end
