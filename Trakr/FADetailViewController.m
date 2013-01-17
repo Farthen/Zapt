@@ -16,6 +16,8 @@
 #import "FASearchViewController.h"
 #import "FAEpisodeListViewController.h"
 
+#import <MBProgressHUD.h>
+
 #import "FATrakt.h"
 #import "FATraktContentType.h"
 #import "FATraktWatchableBaseItem.h"
@@ -40,6 +42,8 @@
     UILabel *_releaseDateLabel;
     UILabel *_showNameLabel;
     UILabel *_airTimeLabel;
+    
+    NSMutableArray *_photos;
 }
 
 @end
@@ -295,18 +299,86 @@
     [self loadValuesForEpisode:episode];
 }
 
+#pragma mark MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
+    return _photos.count;
+}
+
+- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
+{
+    NSString *photoURLString = _photos[index];
+    return [MWPhoto photoWithURL:[NSURL URLWithString:photoURLString]];
+}
+
+#pragma mark IBActions
 - (IBAction)actionItem:(id)sender
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
 
     if (_contentType == FASearchScopeMovies || _contentType == FASearchScopeEpisodes) {
         // do checkin
+        UIBarButtonItem *button = sender;
+        button.enabled = NO;
+        
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:hud];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.animationType = MBProgressHUDAnimationZoom;
+        hud.labelText = @"Checking in…";
+        [hud show:YES];
+        [hud hide:YES afterDelay:10];
     } else {
         // show list of episodes
         FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
         [self.navigationController pushViewController:eplistViewController animated:YES];
         [eplistViewController showEpisodeListForShow:(FATraktShow *)_currentContent];
     }
+}
+
+- (IBAction)touchedCover:(id)sender
+{
+    _photos = [[NSMutableArray alloc] init];
+    FATraktImageList *imageList;
+    
+    FATraktShow *show = nil;
+    if (_contentType == FASearchScopeEpisodes) {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        show = episode.show;
+    } else if (_contentType == FASearchScopeShows) {
+        show = (FATraktShow *)_currentContent;
+    }
+    // TODO: load season information
+    if (show) {
+        imageList = show.images;
+        NSArray *seasons = show.seasons;
+        for (int i = 1; i < seasons.count; i++) {
+            FATraktSeason *season = seasons[i];
+            if (season.poster) {
+                [_photos addObject:season.poster];
+            }
+        }
+    } else {
+        imageList = _currentContent.images;
+    }
+    if (imageList.poster) {
+        [_photos addObject:imageList.poster];
+    }
+    if (imageList.fanart) {
+        [_photos addObject:imageList.fanart];
+    }
+    if (imageList.banner) {
+        [_photos addObject:imageList.banner];
+    }
+    
+    // Create & present browser
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    // Set options
+    browser.wantsFullScreenLayout = YES; // Decide if you want the photo browser full screen, i.e. whether the status bar is affected (defaults to YES)
+    browser.displayActionButton = YES; // Show action button to save, copy or email photos (defaults to NO)
+    [browser setInitialPageIndex:0]; // Example: allows second image to be presented first
+    // Present
+    [self.navigationController pushViewController:browser animated:YES];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:identifier sender:sender

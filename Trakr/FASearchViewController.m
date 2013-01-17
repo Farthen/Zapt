@@ -14,6 +14,8 @@
 
 #import "FADetailViewController.h"
 
+#import "FAAppDelegate.h"
+
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
@@ -36,8 +38,11 @@
     self.searchData = [[FASearchData alloc] init];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
+    //[delegate performLoginAnimated:YES];
 }
 
 - (void)viewDidUnload
