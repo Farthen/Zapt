@@ -40,6 +40,7 @@
 		B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */; };
 		B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBE161DF2C100043207 /* FASearchData.m */; };
 		C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D0B6AA985E4CD4B698AA53 /* libPods.a */; };
+		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
@@ -47,6 +48,7 @@
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
+		F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
@@ -123,6 +125,8 @@
 		B6FB0DBD161DF2C100043207 /* FASearchData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchData.h; sourceTree = "<group>"; };
 		B6FB0DBE161DF2C100043207 /* FASearchData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchData.m; sourceTree = "<group>"; };
 		E6D0B6AA985E4CD4B698AA53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
+		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyUtil.h; path = Util/FAPropertyUtil.h; sourceTree = "<group>"; };
 		F3309658162743D7000BD107 /* FAPropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPropertyUtil.m; path = Util/FAPropertyUtil.m; sourceTree = "<group>"; };
 		F330965D162816DE000BD107 /* FATraktPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktPeople.h; path = API/DataTypes/FATraktPeople.h; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 		F3544602163084FC007D0AC5 /* FATraktImageList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktImageList.m; path = API/DataTypes/FATraktImageList.m; sourceTree = "<group>"; };
 		F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringByAppendingSuffixToFilename.h"; sourceTree = "<group>"; };
 		F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringByAppendingSuffixToFilename.m"; sourceTree = "<group>"; };
+		F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeListViewController.h; sourceTree = "<group>"; };
+		F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeListViewController.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Util/SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -387,6 +393,8 @@
 				B667531715F12FBE00A8D76D /* FASearchViewController.m */,
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
+				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
+				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 			);
 			name = "Search Tab";
 			sourceTree = "<group>";
@@ -437,6 +445,8 @@
 				F3544602163084FC007D0AC5 /* FATraktImageList.m */,
 				F3F9E30E162831C20077CBAA /* FATraktShow.h */,
 				F3F9E30F162831C30077CBAA /* FATraktShow.m */,
+				F310CAA816A7960900781F24 /* FATraktSeason.h */,
+				F310CAA916A7960900781F24 /* FATraktSeason.m */,
 				F3F9E311162838610077CBAA /* FATraktEpisode.h */,
 				F3F9E312162838610077CBAA /* FATraktEpisode.m */,
 				F330966016281728000BD107 /* FATraktPeopleList.h */,
@@ -648,6 +658,8 @@
 				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,
 				F3F35E85169B6B7C00A925B4 /* FATraktContentType.m in Sources */,
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
+				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
+				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

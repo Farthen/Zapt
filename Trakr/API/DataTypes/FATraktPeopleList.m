@@ -21,6 +21,8 @@
             [peopleArray addObject:people];
         }
         [self setValue:[NSArray arrayWithArray:peopleArray] forKey:key];
+    } else {
+        [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
 }
 

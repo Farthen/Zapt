@@ -251,8 +251,16 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
 {
+    return [self showDetailsForShow:show extended:NO callback:block];
+}
+
+- (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block
+{
     [APLog fine:@"Fetching all information about show with title: \"%@\"", show.title];
     NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.imdb_id];
+    if (extended) {
+        url = [url stringByAppendingString:@"/extended"];
+    }
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];

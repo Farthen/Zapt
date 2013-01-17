@@ -7,8 +7,14 @@
 //
 
 #import "FATraktEpisode.h"
+#import "FATraktShow.h"
 
 @implementation FATraktEpisode
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<FATraktEpisode S%02iE%02i: \”%@\" Show: \"%@\">", self.season.intValue, self.episode.intValue, self.title, self.show.title];
+}
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {

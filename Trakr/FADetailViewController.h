@@ -17,6 +17,8 @@
 - (void)showDetailForShow:(FATraktShow *)show;
 - (void)showDetailForEpisode:(FATraktEpisode *)episode;
 
+@property (retain) IBOutlet UIBarButtonItem *actionButton;
+
 @property (retain) IBOutlet UIScrollView *scrollView;
 @property (retain) IBOutlet UIView *contentView;
 
@@ -27,6 +29,7 @@
 @property (retain) IBOutlet UILabel *detailLabel1;
 @property (retain) IBOutlet UILabel *detailLabel2;
 @property (retain) IBOutlet UILabel *detailLabel3;
+@property (retain) IBOutlet UILabel *detailLabel4;
 @property (retain) IBOutlet UILabel *overviewLabel;
 
 @end

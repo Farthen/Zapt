@@ -26,7 +26,9 @@
 @property (retain) NSString *tvrage_id;
 @property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
+@property (retain) NSArray *seasons;
 
 @property (assign) BOOL requestedDetailedInformation;
+@property (assign) BOOL requestedExtendedInformation;
 
 @end

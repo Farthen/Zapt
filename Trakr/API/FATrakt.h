@@ -42,6 +42,7 @@ extern NSString *const kFAKeychainKeyCredentials;
 
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block;
 - (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
+- (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block;
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block;
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
