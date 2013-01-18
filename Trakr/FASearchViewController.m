@@ -14,6 +14,8 @@
 
 #import "FADetailViewController.h"
 
+#import "FAAppDelegate.h"
+
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
@@ -36,8 +38,11 @@
     self.searchData = [[FASearchData alloc] init];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
+    //[delegate performLoginAnimated:YES];
 }
 
 - (void)viewDidUnload
@@ -158,9 +163,9 @@
         cell.textLabel.text = episode.title;
         cell.leftAuxiliaryTextLabel.text = episode.show.title;
         if (episode.overview) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@ – %@", episode.season, episode.episode, episode.overview];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i – %@", episode.season.intValue, episode.episode.intValue, episode.overview];
         } else {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%@E%@", episode.season, episode.episode];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i", episode.season.intValue, episode.episode.intValue];
         }
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

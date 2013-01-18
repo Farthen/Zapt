@@ -18,5 +18,7 @@
 @property (atomic, retain, readwrite) UIActivityIndicatorView *activityIndicatorView;
 @property int startCount;
 - (void)startActivityWithCount:(NSInteger)count; // increments startcount by count
+- (void)stopAllActivity; // Stops all activity no matter what the count was before
+
 
 @end

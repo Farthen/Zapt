@@ -35,6 +35,11 @@
     self.startCount -= 1;
 }
 
+- (void)stopAllActivity
+{
+    self.startCount = 0;
+}
+
 - (int)startCount
 {
     return _startCount;

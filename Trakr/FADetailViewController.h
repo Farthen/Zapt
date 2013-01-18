@@ -7,15 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MWPhotoBrowser/MWPhotoBrowser.h>
 @class FATraktMovie;
 @class FATraktShow;
 @class FATraktEpisode;
 
-@interface FADetailViewController : UIViewController
+@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate>
 
 - (void)showDetailForMovie:(FATraktMovie *)movie;
 - (void)showDetailForShow:(FATraktShow *)show;
 - (void)showDetailForEpisode:(FATraktEpisode *)episode;
+
+- (IBAction)actionItem:(id)sender;
+- (IBAction)touchedCover:(id)sender;
+
+@property (retain) IBOutlet UIBarButtonItem *actionButton;
 
 @property (retain) IBOutlet UIScrollView *scrollView;
 @property (retain) IBOutlet UIView *contentView;
@@ -27,6 +33,7 @@
 @property (retain) IBOutlet UILabel *detailLabel1;
 @property (retain) IBOutlet UILabel *detailLabel2;
 @property (retain) IBOutlet UILabel *detailLabel3;
+@property (retain) IBOutlet UILabel *detailLabel4;
 @property (retain) IBOutlet UILabel *overviewLabel;
 
 @end

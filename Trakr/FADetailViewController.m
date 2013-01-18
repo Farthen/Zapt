@@ -13,6 +13,11 @@
 #import "FAStatusBarSpinnerController.h"
 #import "UIView+SizeToFitSubviews.h"
 
+#import "FASearchViewController.h"
+#import "FAEpisodeListViewController.h"
+
+#import <MBProgressHUD.h>
+
 #import "FATrakt.h"
 #import "FATraktContentType.h"
 #import "FATraktWatchableBaseItem.h"
@@ -22,8 +27,11 @@
 #import "FATraktPeople.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
+#import "FATraktSeason.h"
 
 @interface FADetailViewController () {
+    FASearchScope _contentType;
+    FATraktContentType *_currentContent;
     UIImage *_placeholderImage;
     BOOL _imageLoaded;
     UILabel *_networkLabel;
@@ -32,6 +40,10 @@
     UILabel *_directorLabel;
     UILabel *_taglineLabel;
     UILabel *_releaseDateLabel;
+    UILabel *_showNameLabel;
+    UILabel *_airTimeLabel;
+    
+    NSMutableArray *_photos;
 }
 
 @end
@@ -74,6 +86,7 @@
 
 - (void)viewDidLayoutSubviews
 {
+    [self.contentView updateConstraintsIfNeeded];
     self.scrollView.contentSize = self.contentView.frame.size;
 }
 
@@ -113,6 +126,7 @@
 {
     NSString *runtimeString = [NSString stringWithFormat:@"Runtime: %@ min", [runtime stringValue]];
     _runtimeLabel.text = runtimeString;
+    [_runtimeLabel sizeToFit];
 }
 
 - (void)setPosterToURL:(NSString *)posterURL
@@ -121,9 +135,6 @@
         _imageLoaded = YES;
         [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:0 callback:^(UIImage *image) {
             self.coverImageView.image = image;
-            
-            // TODO: test
-            self.backgroundImageView.image = image;
         }];
     }
 }
@@ -152,16 +163,28 @@
     [_episodeNumLabel sizeToFit];
 }
 
+- (void)setShowName:(NSString *)showName
+{
+    _showNameLabel.text = showName;
+    [_showNameLabel sizeToFit];
+}
+
+- (void)setAirDay:(NSString *)day andTime:(NSString *)time
+{
+    _airTimeLabel.text = [NSString stringWithFormat:@"Airs %@ at %@", day, time];
+    [_airTimeLabel sizeToFit];
+}
+
 - (void)loadValueForContent:(FATraktContentType *)item
 {
     self.title = item.title;
-    [self setPosterToURL:item.images.poster];
     [self setOverview:item.overview];
 }
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
 {
     [self setRuntime:item.runtime];
+    [self setPosterToURL:item.images.poster];
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
@@ -169,7 +192,6 @@
     [self loadValueForContent:movie];
     [self loadValueForWatchableBaseItem:movie];
     [self setDirectors:movie.people.directors];
-    [self setPosterToURL:movie.images.poster];
     [self setReleaseDate:movie.released withCaption:@"Released"];
     [self setTagline:movie.tagline];
     
@@ -179,22 +201,26 @@
 
 - (void)showDetailForMovie:(FATraktMovie *)movie
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
+    _contentType = FASearchScopeMovies;
+    _currentContent = movie;
     _directorLabel = self.detailLabel1;
     _runtimeLabel = self.detailLabel2;
-    _taglineLabel = self.detailLabel3;
+    _releaseDateLabel = self.detailLabel3;
+    _taglineLabel = self.detailLabel4;
     _networkLabel = nil;
     
+    self.actionButton.title = @"Check In";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!movie.requestedDetailedInformation) {
         movie.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForMovie:movie];
         }];
     }
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
     [self loadValuesForMovie:movie];
 }
 
@@ -204,20 +230,27 @@
     [self loadValueForWatchableBaseItem:show];
     [self setNetwork:show.network];
     [self setReleaseDate:show.first_aired withCaption:@"First Aired"];
+    [self setAirDay:show.air_day andTime:show.air_time];
 }
 
 - (void)showDetailForShow:(FATraktShow *)show
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
+    _contentType = FASearchScopeShows;
+    _currentContent = show;
     _directorLabel = nil;
+    
     _runtimeLabel = self.detailLabel2;
     _networkLabel = self.detailLabel1;
     _releaseDateLabel = self.detailLabel3;
+    _airTimeLabel = self.detailLabel4;
     
+    self.actionButton.title = @"Episodes";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!show.requestedDetailedInformation) {
         show.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForShow:show];
@@ -229,27 +262,123 @@
 - (void)loadValuesForEpisode:(FATraktEpisode *)episode
 {
     [self loadValueForContent:episode];
-    [self setReleaseDate:episode.first_aired withCaption:@"First Aired"];
+    [self setShowName:episode.show.title];
+    [self setNetwork:episode.show.network];
+    [self setRuntime:episode.show.runtime];
+    [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
+    FATraktSeason *season = episode.show.seasons[episode.season.intValue];
+    if (season.poster) {
+        [self setPosterToURL:season.poster];
+    } else {
+        [self setPosterToURL:episode.show.images.poster];
+    }
 }
 
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
+    _contentType = FASearchScopeEpisodes;
+    _currentContent = episode;
     _directorLabel = nil;
-    _runtimeLabel = self.detailLabel2;
-    _networkLabel = self.detailLabel1;
-    _episodeNumLabel = self.detailLabel3;
+    _showNameLabel = self.detailLabel1;
+    _runtimeLabel = self.detailLabel4;
+    _networkLabel = self.detailLabel3;
+    _episodeNumLabel = self.detailLabel2;
     
+    self.actionButton.title = @"Check In";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
     if (!episode.requestedDetailedInformation) {
         episode.requestedDetailedInformation = YES;
+        [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForEpisode:episode];
         }];
     }
     [self loadValuesForEpisode:episode];
+}
+
+#pragma mark MWPhotoBrowserDelegate
+- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
+{
+    return _photos.count;
+}
+
+- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
+{
+    NSString *photoURLString = _photos[index];
+    return [MWPhoto photoWithURL:[NSURL URLWithString:photoURLString]];
+}
+
+#pragma mark IBActions
+- (IBAction)actionItem:(id)sender
+{
+    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+
+    if (_contentType == FASearchScopeMovies || _contentType == FASearchScopeEpisodes) {
+        // do checkin
+        UIBarButtonItem *button = sender;
+        button.enabled = NO;
+        
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:hud];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.animationType = MBProgressHUDAnimationZoom;
+        hud.labelText = @"Checking in…";
+        [hud show:YES];
+        [hud hide:YES afterDelay:10];
+    } else {
+        // show list of episodes
+        FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
+        [self.navigationController pushViewController:eplistViewController animated:YES];
+        [eplistViewController showEpisodeListForShow:(FATraktShow *)_currentContent];
+    }
+}
+
+- (IBAction)touchedCover:(id)sender
+{
+    _photos = [[NSMutableArray alloc] init];
+    FATraktImageList *imageList;
+    
+    FATraktShow *show = nil;
+    if (_contentType == FASearchScopeEpisodes) {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        show = episode.show;
+    } else if (_contentType == FASearchScopeShows) {
+        show = (FATraktShow *)_currentContent;
+    }
+    // TODO: load season information
+    if (show) {
+        imageList = show.images;
+        NSArray *seasons = show.seasons;
+        for (int i = 1; i < seasons.count; i++) {
+            FATraktSeason *season = seasons[i];
+            if (season.poster) {
+                [_photos addObject:season.poster];
+            }
+        }
+    } else {
+        imageList = _currentContent.images;
+    }
+    if (imageList.poster) {
+        [_photos addObject:imageList.poster];
+    }
+    if (imageList.fanart) {
+        [_photos addObject:imageList.fanart];
+    }
+    if (imageList.banner) {
+        [_photos addObject:imageList.banner];
+    }
+    
+    // Create & present browser
+    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+    // Set options
+    browser.wantsFullScreenLayout = YES; // Decide if you want the photo browser full screen, i.e. whether the status bar is affected (defaults to YES)
+    browser.displayActionButton = YES; // Show action button to save, copy or email photos (defaults to NO)
+    [browser setInitialPageIndex:0]; // Example: allows second image to be presented first
+    // Present
+    [self.navigationController pushViewController:browser animated:YES];
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:identifier sender:sender

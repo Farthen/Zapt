@@ -7,12 +7,42 @@
 //
 
 #import "FATraktShow.h"
+#import "FATraktSeason.h"
 
 @implementation FATraktShow
+
+- (id)initWithJSONDict:(NSDictionary *)dict
+{
+    self = [super initWithJSONDict:dict];
+    if (self) {
+        self.requestedDetailedInformation = NO;
+        self.requestedExtendedInformation = NO;
+    }
+    return self;
+}
 
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow with title: %@>", self.title];
 }
+
+- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+{
+    if ([key isEqualToString:@"seasons"] && [propertyType isEqualToString:@"NSArray"] && [object isKindOfClass:[NSArray class]]) {
+        NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
+        for (NSDictionary *seasonDict in (NSArray *)object) {
+            FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];
+            [seasonArray addObject:season];
+        }
+        NSSortDescriptor *sortDescriptor;
+        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"season" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+        [seasonArray sortUsingDescriptors:sortDescriptors];
+        [self setValue:[NSArray arrayWithArray:seasonArray] forKey:key];
+    } else {
+        [super mapObject:object ofType:propertyType toPropertyWithKey:key];
+    }
+}
+
 
 @end
