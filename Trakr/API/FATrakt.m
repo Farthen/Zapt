@@ -85,7 +85,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (BOOL)usernameAndPasswordSaved
 {
-    if (![[self storedUsername] isEqualToString:@""] && ![[self storedPassword] isEqualToString:@""]) {
+    if (self.storedUsername && ![self.storedUsername isEqualToString:@""] &&
+        self.storedPassword && ![self.storedPassword isEqualToString:@""]) {
         return YES;
     } else {
         return NO;
@@ -100,13 +101,15 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (NSString *)storedPassword
 {
-    return [SFHFKeychainUtils getPasswordForUsername:nil andServiceName:kFAKeychainKeyCredentials error:nil];
+    NSString *storedPassword = [SFHFKeychainUtils getPasswordForUsername:[self storedUsername] andServiceName:kFAKeychainKeyCredentials error:nil];
+    return storedPassword;
 }
 
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
 {
     [SFHFKeychainUtils storeUsername:username andPassword:passwordHash forServiceName:kFAKeychainKeyCredentials updateExisting:YES error:nil];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setValue:username forKey:kFADefaultsKeyTraktUsername];
     _apiUser = username;
     _apiPasswordHash = passwordHash;
 }

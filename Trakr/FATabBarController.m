@@ -34,12 +34,12 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
+    /*if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
         FAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
         if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
             [delegate handleInvalidCredentials];
         }
-    }
+    }*/
 }
 
 - (void)viewDidUnload

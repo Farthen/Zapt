@@ -201,6 +201,7 @@
 
 - (void)showDetailForMovie:(FATraktMovie *)movie
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
     _contentType = FASearchScopeMovies;
     _currentContent = movie;
     _directorLabel = self.detailLabel1;
@@ -220,7 +221,6 @@
             [self loadValuesForMovie:movie];
         }];
     }
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
     [self loadValuesForMovie:movie];
 }
 
@@ -235,6 +235,7 @@
 
 - (void)showDetailForShow:(FATraktShow *)show
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
     _contentType = FASearchScopeShows;
     _currentContent = show;
     _directorLabel = nil;
@@ -255,7 +256,6 @@
             [self loadValuesForShow:show];
         }];
     }
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
     [self loadValuesForShow:show];
 }
 
@@ -276,6 +276,7 @@
 
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
 {
+    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
     _contentType = FASearchScopeEpisodes;
     _currentContent = episode;
     _directorLabel = nil;
@@ -295,7 +296,6 @@
             [self loadValuesForEpisode:episode];
         }];
     }
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
     [self loadValuesForEpisode:episode];
 }
 

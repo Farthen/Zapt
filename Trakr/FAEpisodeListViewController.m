@@ -127,11 +127,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
-    FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [self.navigationController pushViewController:detailViewController animated:YES];
-    
+{    
     FATraktSeason *season;
     FATraktEpisode *episode;
 
@@ -145,6 +141,10 @@
         episode = season.episodes[indexPath.row];
     }
     [self.searchDisplayController setActive:NO animated:YES];
+    
+    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
+    [self.navigationController pushViewController:detailViewController animated:YES];
     [detailViewController showDetailForEpisode:episode];
 }
 
