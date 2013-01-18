@@ -27,7 +27,6 @@
 		B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531715F12FBE00A8D76D /* FASearchViewController.m */; };
 		B667531A15F12FBE00A8D76D /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531915F12FBE00A8D76D /* first.png */; };
 		B667531C15F12FBE00A8D76D /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531B15F12FBE00A8D76D /* first@2x.png */; };
-		B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531E15F12FBE00A8D76D /* FASecondViewController.m */; };
 		B667532115F12FBE00A8D76D /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532015F12FBE00A8D76D /* second.png */; };
 		B667532315F12FBE00A8D76D /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532215F12FBE00A8D76D /* second@2x.png */; };
 		B667532B15F12FBE00A8D76D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667532A15F12FBE00A8D76D /* SenTestingKit.framework */; };
@@ -49,6 +48,11 @@
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
 		F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */; };
+		F357FA6516A8695C00420EC4 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6416A8695C00420EC4 /* license.txt */; };
+		F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6716A8842600420EC4 /* FASettingsViewController.m */; };
+		F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6916A899DD00420EC4 /* Checkmark.png */; };
+		F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */; };
+		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
@@ -107,8 +111,6 @@
 		B667531715F12FBE00A8D76D /* FASearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FASearchViewController.m; sourceTree = "<group>"; };
 		B667531915F12FBE00A8D76D /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
 		B667531B15F12FBE00A8D76D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
-		B667531D15F12FBE00A8D76D /* FASecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FASecondViewController.h; sourceTree = "<group>"; };
-		B667531E15F12FBE00A8D76D /* FASecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FASecondViewController.m; sourceTree = "<group>"; };
 		B667532015F12FBE00A8D76D /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		B667532215F12FBE00A8D76D /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
 		B667532915F12FBE00A8D76D /* TrakrTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrakrTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +145,13 @@
 		F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringByAppendingSuffixToFilename.m"; sourceTree = "<group>"; };
 		F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeListViewController.h; sourceTree = "<group>"; };
 		F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeListViewController.m; sourceTree = "<group>"; };
+		F357FA6416A8695C00420EC4 /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		F357FA6616A8842600420EC4 /* FASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASettingsViewController.h; sourceTree = "<group>"; };
+		F357FA6716A8842600420EC4 /* FASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASettingsViewController.m; sourceTree = "<group>"; };
+		F357FA6916A899DD00420EC4 /* Checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Checkmark.png; path = Resources/Checkmark.png; sourceTree = "<group>"; };
+		F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Checkmark@2x.png"; path = "Resources/Checkmark@2x.png"; sourceTree = "<group>"; };
+		F357FA6D16A8B60100420EC4 /* FAListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListsViewController.h; sourceTree = "<group>"; };
+		F357FA6E16A8B60100420EC4 /* FAListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListsViewController.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Util/SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -260,6 +269,7 @@
 			children = (
 				F3C84B681628DC1A006CBFEF /* Images */,
 				B667530615F12FBE00A8D76D /* Trakr-Info.plist */,
+				F357FA6416A8695C00420EC4 /* license.txt */,
 				B667530715F12FBE00A8D76D /* InfoPlist.strings */,
 				B667530A15F12FBE00A8D76D /* main.m */,
 				B667530C15F12FBE00A8D76D /* Trakr-Prefix.pch */,
@@ -299,6 +309,24 @@
 			name = API;
 			sourceTree = "<group>";
 		};
+		F357FA7016A8B60800420EC4 /* Settings Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F357FA6616A8842600420EC4 /* FASettingsViewController.h */,
+				F357FA6716A8842600420EC4 /* FASettingsViewController.m */,
+			);
+			name = "Settings Tab";
+			sourceTree = "<group>";
+		};
+		F357FA7116A8B61C00420EC4 /* Lists Tab */ = {
+			isa = PBXGroup;
+			children = (
+				F357FA6D16A8B60100420EC4 /* FAListsViewController.h */,
+				F357FA6E16A8B60100420EC4 /* FAListsViewController.m */,
+			);
+			name = "Lists Tab";
+			sourceTree = "<group>";
+		};
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +345,8 @@
 		F3C84B681628DC1A006CBFEF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F357FA6916A899DD00420EC4 /* Checkmark.png */,
+				F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */,
 				F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */,
 				B667531915F12FBE00A8D76D /* first.png */,
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
@@ -380,8 +410,8 @@
 				B63EAB2915FD762800DB2663 /* FATabBarController.h */,
 				B63EAB2A15FD762800DB2663 /* FATabBarController.m */,
 				F3C84B6E1628DCC5006CBFEF /* Search Tab */,
-				B667531D15F12FBE00A8D76D /* FASecondViewController.h */,
-				B667531E15F12FBE00A8D76D /* FASecondViewController.m */,
+				F357FA7116A8B61C00420EC4 /* Lists Tab */,
+				F357FA7016A8B60800420EC4 /* Settings Tab */,
 			);
 			name = "Main Interface";
 			sourceTree = "<group>";
@@ -566,6 +596,9 @@
 				F3F9E3181628CE600077CBAA /* Default@2x.png in Resources */,
 				F3C84B7B162976A6006CBFEF /* Default.png in Resources */,
 				F3C84B7D162A1BCA006CBFEF /* FAImagePlaceholder.png in Resources */,
+				F357FA6516A8695C00420EC4 /* license.txt in Resources */,
+				F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */,
+				F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -630,7 +663,6 @@
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
-				B667531F15F12FBE00A8D76D /* FASecondViewController.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
 				B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */,
@@ -660,6 +692,8 @@
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
+				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
+				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
