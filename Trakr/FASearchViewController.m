@@ -1,5 +1,5 @@
 //
-//  FAFirstViewController.m
+//  FASearchViewController.m
 //  Trakr
 //
 //  Created by Finn Wilke on 31.08.12.
@@ -25,6 +25,7 @@
 @interface FASearchViewController () {
     FASearchData *_searchData;
     FASearchScope _searchScope;
+    UITableView *_resultsTableView;
 }
 
 @end
@@ -81,6 +82,7 @@
     [APLog fine:@"Searching for string: %@", searchString];
     FASearchData *searchData = [[FASearchData alloc] init];
     self.searchData = searchData;
+    [_resultsTableView reloadData];
     
     [self.searchBar startActivityWithCount:3];
     
@@ -151,6 +153,7 @@
         NSString *tagline = movie.tagline;
         cell.detailTextLabel.text = tagline;
     } else if (_searchScope == FASearchScopeShows) {
+        // TODO: Crashbug here
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         cell.textLabel.text = show.title;
         NSString *genres = [show.genres componentsJoinedByString:@", "];
@@ -184,6 +187,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    _resultsTableView = tableView;
     if (_searchScope == FASearchScopeMovies) {
         return self.searchData.movies.count;
     } else if (_searchScope == FASearchScopeShows) {

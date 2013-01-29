@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface FASearchData : NSObject
-@property (retain) UITableView *tableView;
 @property (retain) NSArray *movies;
 @property (retain) NSArray *shows;
 @property (retain) NSArray *episodes;
