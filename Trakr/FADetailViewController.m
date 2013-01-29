@@ -104,7 +104,7 @@
 - (void)setTitle:(NSString *)title
 {
     self.titleLabel.text = title;
-    [self.titleLabel sizeToFit];
+    //[self.titleLabel sizeToFit];
 }
 
 - (void)setDirectors:(NSArray *)directors
@@ -133,7 +133,7 @@
 {
     if (posterURL && ![posterURL isEqualToString:@""]) {
         _imageLoaded = YES;
-        [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:0 callback:^(UIImage *image) {
+        [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
             self.coverImageView.image = image;
         }];
     }
@@ -184,7 +184,7 @@
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
 {
     [self setRuntime:item.runtime];
-    [self setPosterToURL:item.images.poster];
+    [self setPosterToURL:item.images.fanart];
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie

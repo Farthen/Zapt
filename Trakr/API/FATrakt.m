@@ -182,7 +182,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block
 {
     NSString *suffix;
-    if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+    if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
+        [APLog tiny:@"Loading image of type poster"];
         if (width <= 138) {
             suffix = @"-138";
         } else if (width <= 300) {
@@ -190,6 +191,17 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         } else {
             suffix = @"";
         }
+    } else if ([url hasPrefix:@"http://trakt.us/images/fanart"]) {
+        [APLog tiny:@"Loading image of type fanart"];
+        if (width <= 218) {
+            suffix = @"-218";
+        } else if (width <= 940) {
+            suffix = @"-940";
+        } else {
+            suffix = @"";
+        }
+    }
+    if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
     } else {
         suffix = @"";
     }
@@ -198,7 +210,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             UIImage *image = [UIImage imageWithData:[response responseData]];
-            if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+            /*if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
                 // Invert the colors to make it look good on black background
                 UIGraphicsBeginImageContext(image.size);
                 CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeCopy);
@@ -208,7 +220,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                 CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, image.size.width, image.size.height));
                 image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
-            }
+            }*/
             block(image);
         }
     }];
