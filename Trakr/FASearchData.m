@@ -36,7 +36,6 @@
 - (void)setMovies:(NSArray *)movies
 {
     _movies = movies;
-    [_tableView reloadSections:[[NSIndexSet alloc] initWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (NSArray *)shows
@@ -47,7 +46,6 @@
 - (void)setShows:(NSArray *)shows
 {
     _shows = shows;
-    [_tableView reloadSections:[[NSIndexSet alloc] initWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (NSArray *)episodes
@@ -58,7 +56,6 @@
 - (void)setEpisodes:(NSArray *)episodes
 {
     _episodes = episodes;
-    [_tableView reloadSections:[[NSIndexSet alloc] initWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 @end
