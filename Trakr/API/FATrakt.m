@@ -200,6 +200,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         } else {
             suffix = @"";
         }
+    } else {
+        suffix = @"";
     }
     if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
     } else {

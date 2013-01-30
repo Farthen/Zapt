@@ -11,8 +11,9 @@
 @class FATraktMovie;
 @class FATraktShow;
 @class FATraktEpisode;
+@class FATitleLabel;
 
-@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate>
+@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate>
 
 - (void)showDetailForMovie:(FATraktMovie *)movie;
 - (void)showDetailForShow:(FATraktShow *)show;
@@ -29,7 +30,7 @@
 @property (retain) IBOutlet UIImageView *backgroundImageView;
 @property (retain) IBOutlet UIImageView *coverImageView;
 
-@property (retain) IBOutlet UILabel *titleLabel;
+@property (retain) IBOutlet FATitleLabel *titleLabel;
 @property (retain) IBOutlet UILabel *detailLabel1;
 @property (retain) IBOutlet UILabel *detailLabel2;
 @property (retain) IBOutlet UILabel *detailLabel3;

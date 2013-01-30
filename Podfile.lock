@@ -1,30 +1,30 @@
 
-SPEC CHECKSUMS: 
-  MWPhotoBrowser: 5f1b9b82e6510b81b62920e2fead5fbeac83ce78
-  SDWebImage/Main: 6be78ee398d329bdd22c85a0e11ee41bd1f52066
-  MBProgressHUD: b23ee11c42253d6d804e8e0bfabdc334e8b2571f
-  LRResty: 8a51275030ac5bfc6c44775d64a16dc0f9267b8e
-  SDWebImage: 6be78ee398d329bdd22c85a0e11ee41bd1f52066
-  NSData+Base64: 8b910cb8a64f45daec6fb15936c36a9a911c57ca
-  JSONKit: a01a22c75f27eae76b4badd55a91c20fe6e86477
-
-PODS: 
+PODS:
 - JSONKit (1.5pre)
-- LRResty (0.11.0): 
+- LRResty (0.11.0):
   - NSData+Base64 (~> 1.0)
 - MBProgressHUD (0.5)
-- MWPhotoBrowser (1.0.1): 
+- MWPhotoBrowser (1.0.1):
   - MBProgressHUD
-  - SDWebImage
+  - SDWebImage (< 3.0.0)
 - NSData+Base64 (1.0.0)
-- SDWebImage (2.7): 
+- SDWebImage (2.7):
   - SDWebImage/Main (= 2.7)
 - SDWebImage/Main (2.7)
 
-COCOAPODS: 0.15.2
-
-DEPENDENCIES: 
+DEPENDENCIES:
 - JSONKit (~> 1.5pre)
 - LRResty (~> 0.11.0)
 - MBProgressHUD
 - MWPhotoBrowser
+
+SPEC CHECKSUMS:
+  JSONKit: 3d4708953ea7ae399a49777372d8b060a43ddd27
+  LRResty: 8a51275030ac5bfc6c44775d64a16dc0f9267b8e
+  MBProgressHUD: b23ee11c42253d6d804e8e0bfabdc334e8b2571f
+  MWPhotoBrowser: e54233d4c88e951a3b6b8f136393614cf319ac47
+  NSData+Base64: 8b910cb8a64f45daec6fb15936c36a9a911c57ca
+  SDWebImage: c3306b8c68f3569f5c676d585ad77393255887dd
+  SDWebImage/Main: c3306b8c68f3569f5c676d585ad77393255887dd
+
+COCOAPODS: 0.16.1

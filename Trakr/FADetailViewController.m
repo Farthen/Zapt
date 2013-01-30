@@ -8,10 +8,12 @@
 
 #import "FADetailViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import <CoreText/CoreText.h>
 
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "UIView+SizeToFitSubviews.h"
+#import "FATitleLabel.h"
 
 #import "FASearchViewController.h"
 #import "FAEpisodeListViewController.h"
@@ -30,10 +32,15 @@
 #import "FATraktSeason.h"
 
 @interface FADetailViewController () {
+    BOOL _showing;
+    
+    NSLayoutConstraint *_contentViewSizeConstraint;
+    
     FASearchScope _contentType;
     FATraktContentType *_currentContent;
     UIImage *_placeholderImage;
     BOOL _imageLoaded;
+    BOOL _imageDisplayed;
     UILabel *_networkLabel;
     UILabel *_episodeNumLabel;
     UILabel *_runtimeLabel;
@@ -67,27 +74,57 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _showing = NO;
     
     // Add constraint for minimal size of scroll view content
-    NSLayoutConstraint *sizeC = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
-    [self.scrollView addConstraint:sizeC];
+    _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+    [self.scrollView addConstraint:_contentViewSizeConstraint];
     [self.contentView updateConstraintsIfNeeded];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     self.scrollView.contentSize = self.contentView.frame.size;
+    [self setPosterToURL:_currentContent.images.fanart];
+    [self.contentView updateConstraintsIfNeeded];
     [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
 }
 
 - (void)viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
 }
 
 - (void)viewDidLayoutSubviews
 {
+    [super viewDidLayoutSubviews];
+    [self updateViewConstraints];
     [self.contentView updateConstraintsIfNeeded];
     self.scrollView.contentSize = self.contentView.frame.size;
+    
+    if (_imageDisplayed && !_showing) {
+        _showing = YES;
+        CGRect finalFrame = CGRectMake(0, 0, 320, 180);
+        CGFloat top = finalFrame.size.height - self.titleLabel.frame.size.height;
+        self.scrollView.contentOffset = CGPointMake(0, -top);
+    }
+    
+    CGRect imageViewFrame = CGRectMake(0, 0, 320, 180);
+    self.coverImageView.frame = imageViewFrame;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
+    _showing = NO;
+    self.scrollView.contentOffset = CGPointZero;
 }
 
 - (void)setReleaseDate:(NSDate *)date withCaption:(NSString *)caption
@@ -97,13 +134,20 @@
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     
     NSString *dateString = [dateFormatter stringFromDate:date];
-    _releaseDateLabel.text = [NSString stringWithFormat:@"%@: %@", caption, dateString];
+    
+    NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: %@", caption, dateString]];
+    [labelString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, caption.length)];
+    [labelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, caption.length)];
+
+    
+    _releaseDateLabel.attributedText = labelString;
     [_releaseDateLabel sizeToFit];
 }
 
 - (void)setTitle:(NSString *)title
 {
     self.titleLabel.text = title;
+    [self.titleLabel invalidateIntrinsicContentSize];
     //[self.titleLabel sizeToFit];
 }
 
@@ -124,18 +168,42 @@
 
 - (void)setRuntime:(NSNumber *)runtime
 {
-    NSString *runtimeString = [NSString stringWithFormat:@"Runtime: %@ min", [runtime stringValue]];
-    _runtimeLabel.text = runtimeString;
+    NSMutableAttributedString *runtimeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Runtime %@ min", [runtime stringValue]]];
+    [runtimeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
+    [runtimeString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
+    _runtimeLabel.attributedText = runtimeString;
     [_runtimeLabel sizeToFit];
+}
+
+- (void)displayImage
+{
+    if (!_imageDisplayed) {
+        _imageDisplayed = YES;
+        CGRect newFrame = CGRectMake(0, 0, 320, 0);
+        self.coverImageView.frame = newFrame;
+        CGRect finalFrame = CGRectMake(0, 0, 320, 180);
+        CGFloat top = finalFrame.size.height - self.titleLabel.frame.size.height;
+        CGFloat initialOffset = self.scrollView.contentOffset.y;
+        [UIView animateWithDuration:0.3 animations:^(void) {
+            self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
+            self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
+            self.coverImageView.frame = finalFrame;
+        }];
+    }
 }
 
 - (void)setPosterToURL:(NSString *)posterURL
 {
     if (posterURL && ![posterURL isEqualToString:@""]) {
-        _imageLoaded = YES;
-        [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
-            self.coverImageView.image = image;
-        }];
+        if (!_imageLoaded) {
+            _imageLoaded = YES;
+            [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
+                self.coverImageView.image = image;
+                [self displayImage];
+            }];
+        } else {
+            [self displayImage];
+        }
     }
 }
 
@@ -153,7 +221,11 @@
 
 - (void)setNetwork:(NSString *)network
 {
-    _networkLabel.text = [NSString stringWithFormat:@"Network: %@", network];
+    NSMutableAttributedString *networkString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Network %@", network]];
+    [networkString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
+    [networkString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
+
+    _networkLabel.attributedText = networkString;
     [_networkLabel sizeToFit];
 }
 
@@ -171,8 +243,12 @@
 
 - (void)setAirDay:(NSString *)day andTime:(NSString *)time
 {
-    _airTimeLabel.text = [NSString stringWithFormat:@"Airs %@ at %@", day, time];
-    [_airTimeLabel sizeToFit];
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Airs %@ at %@", day, time]];
+    [title addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 4)];
+    [title addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 4)];
+
+    _airTimeLabel.attributedText = title;
+    //[_airTimeLabel sizeToFit];
 }
 
 - (void)loadValueForContent:(FATraktContentType *)item
@@ -184,7 +260,6 @@
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
 {
     [self setRuntime:item.runtime];
-    [self setPosterToURL:item.images.fanart];
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
@@ -195,8 +270,8 @@
     [self setReleaseDate:movie.released withCaption:@"Released"];
     [self setTagline:movie.tagline];
     
-    [self viewDidLayoutSubviews];
-    self.scrollView.contentSize = self.contentView.frame.size;
+    //[self viewDidLayoutSubviews];
+    [self.view layoutSubviews];
 }
 
 - (void)showDetailForMovie:(FATraktMovie *)movie
@@ -213,6 +288,7 @@
     self.actionButton.title = @"Check In";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
+    _imageDisplayed = NO;
     if (!movie.requestedDetailedInformation) {
         movie.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -231,6 +307,9 @@
     [self setNetwork:show.network];
     [self setReleaseDate:show.first_aired withCaption:@"First Aired"];
     [self setAirDay:show.air_day andTime:show.air_time];
+    
+    [self.view layoutSubviews];
+    [self.view updateConstraintsIfNeeded];
 }
 
 - (void)showDetailForShow:(FATraktShow *)show
@@ -248,6 +327,7 @@
     self.actionButton.title = @"Episodes";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
+    _imageDisplayed = NO;
     if (!show.requestedDetailedInformation) {
         show.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -268,10 +348,12 @@
     [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
     FATraktSeason *season = episode.show.seasons[episode.season.intValue];
     if (season.poster) {
-        [self setPosterToURL:season.poster];
+        //[self setPosterToURL:season.poster];
     } else {
-        [self setPosterToURL:episode.show.images.poster];
+        //[self setPosterToURL:episode.show.images.poster];
     }
+    
+    [self.view layoutSubviews];
 }
 
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
@@ -288,6 +370,7 @@
     self.actionButton.title = @"Check In";
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
+    _imageDisplayed = NO;
     if (!episode.requestedDetailedInformation) {
         episode.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -381,6 +464,33 @@
     [self.navigationController pushViewController:browser animated:YES];
 }
 
+#pragma mark UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
+    CGRect frame = self.coverImageView.frame;
+    //CGRect newFrame = CGRectMake(frame.origin.x, MIN(-offset, 0), frame.size.width, MAX(180, 180 - offset));
+    
+    CGFloat scale = (MAX(180, 180 - offset) / 180);
+    CGFloat width = 320 * scale;
+    CGFloat x = (320 - width) / 2;
+    
+    CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(180, 180 - offset));
+    
+    // zoom the image view
+    [APLog tiny:@"zooming image with scale: %f", scale];
+    /*if (_imageDisplayed) {
+        CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
+        self.coverImageView.transform = transform;
+    }*/
+    [APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
+    self.coverImageView.frame = newFrame;
+    [self.coverImageView layoutSubviews];
+    [self.view layoutSubviews];
+}
+
+#pragma mark misc
+
 - (BOOL)shouldPerformSegueWithIdentifier:identifier sender:sender
 {
     return YES;
@@ -395,6 +505,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    self.scrollView.delegate = nil;
 }
 
 @end

@@ -54,6 +54,7 @@
 		F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */; };
 		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
+		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
 		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
 		F390191E16514242006C8E5B /* APLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191D16514242006C8E5B /* APLog.m */; };
@@ -154,6 +155,8 @@
 		F357FA6E16A8B60100420EC4 /* FAListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListsViewController.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
+		F38BD69A16B770E300267137 /* FATitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATitleLabel.h; path = Elements/FATitleLabel.h; sourceTree = "<group>"; };
+		F38BD69B16B770E300267137 /* FATitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATitleLabel.m; path = Elements/FATitleLabel.m; sourceTree = "<group>"; };
 		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Util/SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFHFKeychainUtils.m; path = Util/SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		F390191A16513819006C8E5B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -501,6 +504,8 @@
 			children = (
 				F3F35E80169B655600A925B4 /* FASearchBar.h */,
 				F3F35E81169B655600A925B4 /* FASearchBar.m */,
+				F38BD69A16B770E300267137 /* FATitleLabel.h */,
+				F38BD69B16B770E300267137 /* FATitleLabel.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
@@ -694,6 +699,7 @@
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
+				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -818,6 +824,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
@@ -833,6 +840,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
