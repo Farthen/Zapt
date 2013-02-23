@@ -91,7 +91,12 @@
 {
     [super viewDidAppear:animated];
     self.scrollView.contentSize = self.contentView.frame.size;
-    [self setPosterToURL:_currentContent.images.fanart];
+    if (_contentType != FASearchScopeEpisodes) {
+        [self setPosterToURL:_currentContent.images.fanart];
+    } else {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        [self setPosterToURL:episode.show.images.fanart];
+    }
     [self.contentView updateConstraintsIfNeeded];
     [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
 }
@@ -113,10 +118,10 @@
         CGRect finalFrame = CGRectMake(0, 0, 320, 180);
         CGFloat top = finalFrame.size.height - self.titleLabel.frame.size.height;
         self.scrollView.contentOffset = CGPointMake(0, -top);
+    } else if (!_imageDisplayed) {
+        CGRect imageViewFrame = CGRectMake(0, 0, 320, 180);
+        self.coverImageView.frame = imageViewFrame;
     }
-    
-    CGRect imageViewFrame = CGRectMake(0, 0, 320, 180);
-    self.coverImageView.frame = imageViewFrame;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -141,7 +146,7 @@
 
     
     _releaseDateLabel.attributedText = labelString;
-    [_releaseDateLabel sizeToFit];
+    //[_releaseDateLabel sizeToFit];
 }
 
 - (void)setTitle:(NSString *)title
@@ -162,8 +167,12 @@
         }
     }
     
-    _directorLabel.text = directorString;
-    [_directorLabel sizeToFit];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:directorString];
+    [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, directorString.length)];
+    [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, directorString.length)];
+    _directorLabel.attributedText = text;
+
+    //[_directorLabel sizeToFit];
 }
 
 - (void)setRuntime:(NSNumber *)runtime
@@ -172,13 +181,14 @@
     [runtimeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
     [runtimeString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
     _runtimeLabel.attributedText = runtimeString;
-    [_runtimeLabel sizeToFit];
+    //[_runtimeLabel sizeToFit];
 }
 
 - (void)displayImage
 {
     if (!_imageDisplayed) {
         _imageDisplayed = YES;
+        _showing = YES;
         CGRect newFrame = CGRectMake(0, 0, 320, 0);
         self.coverImageView.frame = newFrame;
         CGRect finalFrame = CGRectMake(0, 0, 320, 180);
@@ -188,6 +198,15 @@
             self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
             self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
             self.coverImageView.frame = finalFrame;
+        } completion:^(BOOL finished) {
+            if (finished) {
+                /*[self.scrollView removeConstraint:_contentViewSizeConstraint];
+                [self.contentView sizeToFit];
+                [self.overviewLabel sizeToFit];
+                _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-top];
+                [self.scrollView addConstraint:_contentViewSizeConstraint];
+                [self.scrollView updateConstraintsIfNeeded];*/
+            }
         }];
     }
 }
@@ -210,13 +229,13 @@
 - (void)setOverview:(NSString *)overview
 {
     self.overviewLabel.text = overview;
-    [self.overviewLabel sizeToFit];
+    //[self.overviewLabel sizeToFit];
 }
 
 - (void)setTagline:(NSString *)tagline
 {
     _taglineLabel.text = tagline;
-    [_taglineLabel sizeToFit];
+    //[_taglineLabel sizeToFit];
 }
 
 - (void)setNetwork:(NSString *)network
@@ -226,19 +245,27 @@
     [networkString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
 
     _networkLabel.attributedText = networkString;
-    [_networkLabel sizeToFit];
+    //[_networkLabel sizeToFit];
 }
 
 - (void)setSeasonNum:(NSNumber *)season andEpisodeNum:(NSNumber *)episode
 {
-    _episodeNumLabel.text = [NSString stringWithFormat:@"Season: %@ Episode: %@", season.stringValue, episode.stringValue];
-    [_episodeNumLabel sizeToFit];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"S%02iE%02i", season.intValue, episode.intValue]];
+    [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 6)];
+    [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 6)];
+    
+    _episodeNumLabel.attributedText = text;
+    //[_episodeNumLabel sizeToFit];
 }
 
 - (void)setShowName:(NSString *)showName
 {
-    _showNameLabel.text = showName;
-    [_showNameLabel sizeToFit];
+    NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:showName];
+    [name addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, showName.length)];
+    [name addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, showName.length)];
+
+    _showNameLabel.attributedText = name;
+    //[_showNameLabel sizeToFit];
 }
 
 - (void)setAirDay:(NSString *)day andTime:(NSString *)time
@@ -282,7 +309,10 @@
     _directorLabel = self.detailLabel1;
     _runtimeLabel = self.detailLabel2;
     _releaseDateLabel = self.detailLabel3;
-    _taglineLabel = self.detailLabel4;
+    
+    // FIXME some other value for 4th label
+    self.detailLabel4.text = @"";
+    _taglineLabel = nil;
     _networkLabel = nil;
     
     self.actionButton.title = @"Check In";
@@ -347,12 +377,6 @@
     [self setRuntime:episode.show.runtime];
     [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
     FATraktSeason *season = episode.show.seasons[episode.season.intValue];
-    if (season.poster) {
-        //[self setPosterToURL:season.poster];
-    } else {
-        //[self setPosterToURL:episode.show.images.poster];
-    }
-    
     [self.view layoutSubviews];
 }
 
@@ -362,9 +386,9 @@
     _contentType = FASearchScopeEpisodes;
     _currentContent = episode;
     _directorLabel = nil;
-    _showNameLabel = self.detailLabel1;
+    _showNameLabel = self.detailLabel3;
     _runtimeLabel = self.detailLabel4;
-    _networkLabel = self.detailLabel3;
+    _networkLabel = self.detailLabel1;
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = @"Check In";
