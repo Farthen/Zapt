@@ -60,17 +60,23 @@
 {
     if ([object isKindOfClass:NSClassFromString(propertyType)]) {
         if ([object isKindOfClass:[NSString class]]) {
+            // If string, set string
             object = [object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             if ([object isEqualToString:@""]) {
+                // If string empty, set to nil
                 object = nil;
             }
         }
         [self setValue:object forKey:key];
     } else if ([propertyType isEqualToString:@"NSDate"] && [object isKindOfClass:[NSNumber class]]) {
+        // If NSDate, set date
         NSNumber *number = (NSNumber *)object;
         NSTimeInterval timeInterval = [number doubleValue];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         [self setValue:date forKey:key];
+    } else if ([propertyType isEqualToString:@"c"]) {
+        // If BOOL, set BOOL
+        [self setValue:object forKey:key];
     }
 }
 

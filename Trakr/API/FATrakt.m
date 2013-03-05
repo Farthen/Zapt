@@ -21,12 +21,17 @@
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
+#import "FATraktList.h"
+#import "FATraktListItem.h"
 #import "SFHFKeychainUtils.h"
 
 NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
-@implementation FATrakt
+@implementation FATrakt {
+    LRRestyClient *_restyClient;
+    LRRestyClient *_authRestyClient;
+}
 
 @synthesize apiUser = _apiUser;
 @synthesize apiPasswordHash = _apiPasswordHash;
@@ -50,6 +55,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         _apiPasswordHash = [self storedPassword];
         if (!_apiPasswordHash) _apiPasswordHash = @"";
         
+        [[LRResty client] setUsername:_apiUser password:_apiPasswordHash];
         /*[[LRResty client] setGlobalTimeout:15 handleWithBlock:^(LRRestyRequest *request) {
             [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
         }];*/
@@ -112,6 +118,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     [defaults setValue:username forKey:kFADefaultsKeyTraktUsername];
     _apiUser = username;
     _apiPasswordHash = passwordHash;
+    [[LRResty client] setUsername:username password:passwordHash];
 }
 
 #pragma mark - Error Handling
@@ -156,6 +163,22 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 {
     NSString *encodedString = [string stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     return encodedString;
+}
+
+- (NSString *)contentTypeToName:(FAContentType)type withPlural:(BOOL)plural
+{
+    NSString *name;
+    if (type == FAContentTypeMovies) {
+        name = @"movie";
+    } else if (type == FAContentTypeShows) {
+        name = @"show";
+    } else if (type == FAContentTypeEpisodes) {
+        name = @"episodes";
+    }
+    if (plural) {
+        name = [name stringByAppendingString:@"s"];
+    }
+    return name;
 }
 
 - (void)verifyCredentials:(void (^)(BOOL valid))block
@@ -346,5 +369,71 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         }
     }];
 }
+
+- (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block
+{
+    // type can either be shows, episodes or movies
+    NSString *watchlistName = [self contentTypeToName:type withPlural:YES];
+    NSString *url = [self urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
+    [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            FATraktList *list = [[FATraktList alloc] init];
+            list.isWatchlist = YES;
+            list.name = @"watchlist";
+            NSString *typeName = [self contentTypeToName:type withPlural:NO];
+            NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *dictitem in data) {
+                FATraktListItem *item = [[FATraktListItem alloc] init];
+                item.type = typeName;
+                [item setItem:dictitem];
+                [items addObject:item];
+            }
+            list.items = items;
+            block(list);
+        }
+    }];
+}
+
+- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block
+{
+    [self addToWatchlist:content add:YES callback:block];
+}
+
+- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block
+{
+    [self addToWatchlist:content add:NO callback:block];
+}
+
+- (void)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block
+{
+    NSString *watchlistName = [self contentTypeToName:content.contentType withPlural:NO];
+    
+    NSString *url;
+    if (add) {
+        url = [self urlForAPI:[NSString stringWithFormat:@"%@/watchlist", watchlistName]];
+    } else {
+        url = [self urlForAPI:[NSString stringWithFormat:@"%@/unwatchlist", watchlistName]];
+    }
+    
+    NSDictionary *data;
+    if (content.contentType == FAContentTypeMovies) {
+        FATraktMovie *movie = (FATraktMovie *)content;
+        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+    } else if (content.contentType == FAContentTypeShows) {
+        FATraktShow *show = (FATraktShow *)content;
+        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+    } else if (content.contentType == FAContentTypeEpisodes) {
+        FATraktEpisode *episode = (FATraktEpisode *)content;
+        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
+    }
+    
+    [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            block();
+        }
+    }];
+}
+
 
 @end

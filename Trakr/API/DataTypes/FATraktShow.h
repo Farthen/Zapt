@@ -28,7 +28,6 @@
 @property (retain) NSArray *genres;
 @property (retain) NSArray *seasons;
 
-@property (assign) BOOL requestedDetailedInformation;
 @property (assign) BOOL requestedExtendedInformation;
 
 @end

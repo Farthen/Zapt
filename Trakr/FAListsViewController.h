@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FAListsViewController : UIViewController
+@interface FAListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (retain) IBOutlet UITableView *tableView;
 
 @end

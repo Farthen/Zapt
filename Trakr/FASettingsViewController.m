@@ -153,7 +153,7 @@
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-                cell.textLabel.textAlignment = UITextAlignmentLeft;
+                cell.textLabel.textAlignment = NSTextAlignmentLeft;
             }
         } else {
             if (indexPath.row == 0) {
@@ -164,7 +164,7 @@
                 cell.textLabel.text = @"Not logged in";
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.textColor = [UIColor grayColor];
-                cell.textLabel.textAlignment = UITextAlignmentCenter;
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
         }
@@ -177,7 +177,7 @@
                 }
                 cell.textLabel.text = @"Check";
                 cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.textAlignment = UITextAlignmentCenter;
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 _checkAuthButtonCell = (FATableViewCellWithActivity *)cell;
@@ -189,7 +189,7 @@
                 cell.textLabel.text = @"Log Out";
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.textLabel.textAlignment = UITextAlignmentCenter;
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
         } else {
@@ -201,7 +201,7 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.text = @"Log In";
                 cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.textAlignment = UITextAlignmentCenter;
+                cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
             }
         }

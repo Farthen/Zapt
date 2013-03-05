@@ -19,9 +19,14 @@
     return self;
 }
 
+- (FAContentType)contentType
+{
+    return FAContentTypeMovies;
+}
+
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktMovie with title: %@>", self.title];
+    return [NSString stringWithFormat:@"<FATraktMovie with title: \"%@\">", self.title];
 }
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key

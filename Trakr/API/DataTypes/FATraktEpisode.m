@@ -20,6 +20,10 @@
     return self;
 }
 
+- (FAContentType)contentType
+{
+    return FAContentTypeEpisodes;
+}
 
 - (NSString *)description
 {

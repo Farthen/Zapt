@@ -21,23 +21,16 @@
 #import <MBProgressHUD.h>
 
 #import "FATrakt.h"
-#import "FATraktContentType.h"
-#import "FATraktWatchableBaseItem.h"
-#import "FATraktMovie.h"
-#import "FATraktPeopleList.h"
-#import "FATraktImageList.h"
-#import "FATraktPeople.h"
-#import "FATraktShow.h"
-#import "FATraktEpisode.h"
-#import "FATraktSeason.h"
 
 @interface FADetailViewController () {
     BOOL _showing;
     
     NSLayoutConstraint *_contentViewSizeConstraint;
+    UIActionSheet *_actionSheetAdd;
+    UIActionSheet *_actionSheetRemove;
     
-    FASearchScope _contentType;
-    FATraktContentType *_currentContent;
+    FAContentType _contentType;
+    FATraktContent *_currentContent;
     UIImage *_placeholderImage;
     BOOL _imageLoaded;
     BOOL _imageDisplayed;
@@ -80,6 +73,15 @@
     _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
     [self.scrollView addConstraint:_contentViewSizeConstraint];
     [self.contentView updateConstraintsIfNeeded];
+    
+    UIBarButtonItem *btnShare = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItem:)];
+    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:@"Check In" style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
+    self.actionButton = btnAction;
+    btnAction.possibleTitles = [NSSet setWithObjects:@"Check In", @"Episodes", nil];
+    [self.navigationItem setRightBarButtonItems:@[btnAction, btnShare] animated:NO];
+    
+    _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add to watchlist", @"Add to list …", nil];
+    _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Remove from watchlist", @"Add to list …", nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,7 +93,7 @@
 {
     [super viewDidAppear:animated];
     self.scrollView.contentSize = self.contentView.frame.size;
-    if (_contentType != FASearchScopeEpisodes) {
+    if (_contentType != FAContentTypeEpisodes) {
         [self setPosterToURL:_currentContent.images.fanart];
     } else {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
@@ -278,7 +280,7 @@
     //[_airTimeLabel sizeToFit];
 }
 
-- (void)loadValueForContent:(FATraktContentType *)item
+- (void)loadValueForContent:(FATraktContent *)item
 {
     self.title = item.title;
     [self setOverview:item.overview];
@@ -304,7 +306,7 @@
 - (void)showDetailForMovie:(FATraktMovie *)movie
 {
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
-    _contentType = FASearchScopeMovies;
+    _contentType = FAContentTypeMovies;
     _currentContent = movie;
     _directorLabel = self.detailLabel1;
     _runtimeLabel = self.detailLabel2;
@@ -324,6 +326,7 @@
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
+            movie.loadedDetailedInformation = YES;
             [self loadValuesForMovie:movie];
         }];
     }
@@ -345,7 +348,7 @@
 - (void)showDetailForShow:(FATraktShow *)show
 {
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
-    _contentType = FASearchScopeShows;
+    _contentType = FAContentTypeShows;
     _currentContent = show;
     _directorLabel = nil;
     
@@ -362,6 +365,7 @@
         show.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
+            show.loadedDetailedInformation = YES;
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForShow:show];
         }];
@@ -383,7 +387,7 @@
 - (void)showDetailForEpisode:(FATraktEpisode *)episode
 {
     self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
-    _contentType = FASearchScopeEpisodes;
+    _contentType = FAContentTypeEpisodes;
     _currentContent = episode;
     _directorLabel = nil;
     _showNameLabel = self.detailLabel3;
@@ -399,11 +403,24 @@
         episode.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+            episode.loadedDetailedInformation = YES;
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self loadValuesForEpisode:episode];
         }];
     }
     [self loadValuesForEpisode:episode];
+}
+
+
+- (void)showDetailForContentType:(FATraktContent *)content
+{
+    if ([content isKindOfClass:[FATraktMovie class]]) {
+        return [self showDetailForMovie:(FATraktMovie *)content];
+    } else if ([content isKindOfClass:[FATraktShow class]]) {
+        return [self showDetailForShow:(FATraktShow *)content];
+    } else if ([content isKindOfClass:[FATraktEpisode class]]) {
+        return [self showDetailForEpisode:(FATraktEpisode *)content];
+    }
 }
 
 #pragma mark MWPhotoBrowserDelegate
@@ -423,7 +440,7 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
 
-    if (_contentType == FASearchScopeMovies || _contentType == FASearchScopeEpisodes) {
+    if (_contentType == FAContentTypeMovies || _contentType == FAContentTypeEpisodes) {
         // do checkin
         UIBarButtonItem *button = sender;
         button.enabled = NO;
@@ -434,12 +451,21 @@
         hud.animationType = MBProgressHUDAnimationZoom;
         hud.labelText = @"Checking in…";
         [hud show:YES];
-        [hud hide:YES afterDelay:10];
+        [hud hide:YES afterDelay:2];
     } else {
         // show list of episodes
         FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
         [self.navigationController pushViewController:eplistViewController animated:YES];
         [eplistViewController showEpisodeListForShow:(FATraktShow *)_currentContent];
+    }
+}
+
+- (IBAction)shareItem:(id)sender
+{
+    if (_currentContent.in_watchlist) {
+        [_actionSheetRemove showFromTabBar:self.tabBarController.tabBar];
+    } else {
+        [_actionSheetAdd showFromTabBar:self.tabBarController.tabBar];
     }
 }
 
@@ -449,10 +475,10 @@
     FATraktImageList *imageList;
     
     FATraktShow *show = nil;
-    if (_contentType == FASearchScopeEpisodes) {
+    if (_contentType == FAContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
         show = episode.show;
-    } else if (_contentType == FASearchScopeShows) {
+    } else if (_contentType == FAContentTypeShows) {
         show = (FATraktShow *)_currentContent;
     }
     // TODO: load season information
@@ -511,6 +537,32 @@
     self.coverImageView.frame = newFrame;
     [self.coverImageView layoutSubviews];
     [self.view layoutSubviews];
+}
+
+#pragma mark UIActionSheet
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:hud];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.animationType = MBProgressHUDAnimationZoom;
+        if (_currentContent.in_watchlist) {
+            hud.labelText = @"Removing from watchlist";
+            [hud show:YES];
+            [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
+                [hud hide:YES];
+                _currentContent.in_watchlist = NO;
+            }];
+        } else if (!_currentContent.in_watchlist) {
+            hud.labelText = @"Adding to watchlist";
+            [hud show:YES];
+            [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
+                [hud hide:YES];
+                _currentContent.in_watchlist = YES;
+            }];
+        }
+    }
 }
 
 #pragma mark misc

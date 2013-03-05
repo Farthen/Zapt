@@ -16,15 +16,9 @@
 
 #import "FAAppDelegate.h"
 
-#import "FATraktMovie.h"
-#import "FATraktShow.h"
-#import "FATraktEpisode.h"
-#import "FATraktPeopleList.h"
-#import "FATraktPeople.h"
-
 @interface FASearchViewController () {
     FASearchData *_searchData;
-    FASearchScope _searchScope;
+    FAContentType _searchScope;
     UITableView *_resultsTableView;
 }
 
@@ -109,13 +103,13 @@
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     [self.navigationController pushViewController:detailViewController animated:YES];
     
-    if (_searchScope == FASearchScopeMovies) {
+    if (_searchScope == FAContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         [detailViewController showDetailForMovie:movie];
-    } else if (_searchScope == FASearchScopeShows) {
+    } else if (_searchScope == FAContentTypeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         [detailViewController showDetailForShow:show];
-    } else if (_searchScope == FASearchScopeEpisodes) {
+    } else if (_searchScope == FAContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
         [detailViewController showDetailForEpisode:episode];
     }
@@ -123,7 +117,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 70;
+    return [FASearchResultTableViewCell cellHeight];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,42 +128,16 @@
     if (!cell) {
         cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
-    if (_searchScope == FASearchScopeMovies) {
+    if (_searchScope == FAContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
-        cell.textLabel.text = movie.title;
-        NSString *genres = [movie.genres componentsJoinedByString:@", "];
-        NSString *detailString;
-        if (movie.year && ![genres isEqualToString:@""]) {
-            detailString = [NSString stringWithFormat:@"%@ - %@", movie.year, genres];
-        } else if (movie.year) {
-            detailString = [NSString stringWithFormat:@"%@", movie.year];
-        } else if (![genres isEqualToString:@""]) {
-            detailString = [NSString stringWithFormat:@"%@", genres];
-        } else {
-            detailString = @"";
-        }
-        
-        cell.leftAuxiliaryTextLabel.text = detailString;
-        NSString *tagline = movie.tagline;
-        cell.detailTextLabel.text = tagline;
-    } else if (_searchScope == FASearchScopeShows) {
+        [cell displayContent:movie];
+    } else if (_searchScope == FAContentTypeShows) {
         // TODO: Crashbug here
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
-        cell.textLabel.text = show.title;
-        NSString *genres = [show.genres componentsJoinedByString:@", "];
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
-        NSString *detailString = [NSString stringWithFormat:@"%i – %@", components.year, genres];
-        cell.leftAuxiliaryTextLabel.text = detailString;
-        cell.detailTextLabel.text = show.overview;
-    } else if (_searchScope == FASearchScopeEpisodes) {
+        [cell displayContent:show];
+    } else if (_searchScope == FAContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
-        cell.textLabel.text = episode.title;
-        cell.leftAuxiliaryTextLabel.text = episode.show.title;
-        if (episode.overview) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i – %@", episode.season.intValue, episode.episode.intValue, episode.overview];
-        } else {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i", episode.season.intValue, episode.episode.intValue];
-        }
+        [cell displayContent:episode];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -188,11 +156,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     _resultsTableView = tableView;
-    if (_searchScope == FASearchScopeMovies) {
+    if (_searchScope == FAContentTypeMovies) {
         return self.searchData.movies.count;
-    } else if (_searchScope == FASearchScopeShows) {
+    } else if (_searchScope == FAContentTypeShows) {
         return self.searchData.shows.count;
-    } else if (_searchScope == FASearchScopeEpisodes) {
+    } else if (_searchScope == FAContentTypeEpisodes) {
         return self.searchData.episodes.count;
     } else {
         return 0;

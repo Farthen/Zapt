@@ -7,9 +7,25 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "FATraktDatatype.h"
+#import "FATraktContent.h"
+#import "FATraktWatchableBaseItem.h"
+#import "FATraktMovie.h"
+#import "FATraktImageList.h"
+#import "FATraktShow.h"
+#import "FATraktSeason.h"
+#import "FATraktEpisode.h"
+#import "FATraktPeopleList.h"
+#import "FATraktPeople.h"
+#import "FATraktList.h"
+#import "FATraktListItem.h"
+
+
 @class FATraktMovie;
 @class FATraktShow;
 @class FATraktEpisode;
+@class FATraktList;
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;
@@ -46,4 +62,9 @@ extern NSString *const kFAKeychainKeyCredentials;
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block;
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
+
+- (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block;
+- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block;
+- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block;
+
 @end

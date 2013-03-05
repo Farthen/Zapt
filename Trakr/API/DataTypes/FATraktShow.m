@@ -21,6 +21,11 @@
     return self;
 }
 
+- (FAContentType)contentType
+{
+    return FAContentTypeShows;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow with title: %@>", self.title];

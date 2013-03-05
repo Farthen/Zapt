@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "FATraktContentType.h"
+#import "FATraktContent.h"
 @class FATraktPeopleList;
 
 // This is the superclass for movies and shows.
-@interface FATraktWatchableBaseItem : FATraktContentType
+@interface FATraktWatchableBaseItem : FATraktContent
 
 @property (retain) NSNumber *year;
 @property (retain) NSString *imdb_id;

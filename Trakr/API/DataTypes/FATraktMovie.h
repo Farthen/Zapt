@@ -21,6 +21,4 @@
 @property (retain) NSNumber *watched;
 @property (retain) NSNumber *plays;
 
-@property (assign) BOOL requestedDetailedInformation;
-
 @end

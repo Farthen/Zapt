@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATrakt.h"
 
 @interface FASearchResultTableViewCell : UITableViewCell
 
++ (CGFloat)cellHeight;
+
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
+
+- (void)displayContent:(FATraktContent *)content;
 
 @end

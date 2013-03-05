@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="4">
     <dependencies>
         <development version="4500" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
@@ -17,8 +17,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="GGD-7V-h0m" kind="relationship" relationship="viewControllers" id="fCr-Lk-BPh"/>
-                        <segue destination="mJW-HE-XMk" kind="relationship" relationship="viewControllers" id="Df4-5v-aD9"/>
                         <segue destination="cwK-6X-qfw" kind="relationship" relationship="viewControllers" id="SgX-Vq-TaA"/>
+                        <segue destination="xij-TG-CeT" kind="relationship" relationship="viewControllers" id="MOF-LO-D2y"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="14" sceneMemberID="firstResponder"/>
@@ -121,22 +121,91 @@
             </objects>
             <point key="canvasLocation" x="658" y="-116"/>
         </scene>
-        <!--View Controller - Item-->
+        <!--Lists View Controller - Lists-->
         <scene sceneID="VhP-x4-gcn">
             <objects>
-                <viewController id="mJW-HE-XMk" sceneMemberID="viewController">
+                <viewController id="mJW-HE-XMk" customClass="FAListsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="N2V-5s-kyU">
-                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="y9w-BN-Ot5">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mJW-HE-XMk" id="Y5O-FM-mOi"/>
+                                    <outlet property="delegate" destination="mJW-HE-XMk" id="77Y-Ho-3mZ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="y9w-BN-Ot5" firstAttribute="bottom" secondItem="N2V-5s-kyU" secondAttribute="bottom" type="default" id="0BU-KW-A4W"/>
+                            <constraint firstItem="y9w-BN-Ot5" firstAttribute="leading" secondItem="N2V-5s-kyU" secondAttribute="leading" type="default" id="67e-Hz-K8g"/>
+                            <constraint firstItem="y9w-BN-Ot5" firstAttribute="trailing" secondItem="N2V-5s-kyU" secondAttribute="trailing" type="default" id="FtT-6W-yjV"/>
+                            <constraint firstItem="y9w-BN-Ot5" firstAttribute="top" secondItem="N2V-5s-kyU" secondAttribute="top" type="default" id="ILt-m1-9N5"/>
+                        </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="j2t-Sw-vyJ"/>
+                    <tabBarItem key="tabBarItem" title="Lists" id="j2t-Sw-vyJ"/>
+                    <navigationItem key="navigationItem" title="Lists" id="woq-o1-d6K"/>
+                    <connections>
+                        <outlet property="tableView" destination="y9w-BN-Ot5" id="T5h-us-V3E"/>
+                        <segue destination="5s1-FL-ddE" kind="push" id="SQV-hL-OS4"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JF4-B1-lDs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="658" y="451"/>
+            <point key="canvasLocation" x="1126" y="473"/>
         </scene>
-        <!--Settings View Controller - Item-->
+        <!--Navigation Controller - Item-->
+        <scene sceneID="n6g-q5-5ag">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="xij-TG-CeT" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="p2B-W2-sJz"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mq6-vv-pjS">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="mJW-HE-XMk" kind="relationship" relationship="rootViewController" id="9AU-p9-swC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gp3-DX-TM5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="653" y="473"/>
+        </scene>
+        <!--List Detail View Controller-->
+        <scene sceneID="SM3-PK-PoM">
+            <objects>
+                <viewController storyboardIdentifier="listdetail" id="5s1-FL-ddE" customClass="FAListDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jdU-yf-vnt">
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Z7Q-gH-90H">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="5s1-FL-ddE" id="kX6-Az-raY"/>
+                                    <outlet property="delegate" destination="5s1-FL-ddE" id="HA7-eR-erl"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Z7Q-gH-90H" firstAttribute="bottom" secondItem="jdU-yf-vnt" secondAttribute="bottom" type="default" id="AW8-nq-Zb3"/>
+                            <constraint firstItem="Z7Q-gH-90H" firstAttribute="top" secondItem="jdU-yf-vnt" secondAttribute="top" type="default" id="Ezy-Ln-SGV"/>
+                            <constraint firstItem="Z7Q-gH-90H" firstAttribute="trailing" secondItem="jdU-yf-vnt" secondAttribute="trailing" type="default" id="jIo-lN-swH"/>
+                            <constraint firstItem="Z7Q-gH-90H" firstAttribute="leading" secondItem="jdU-yf-vnt" secondAttribute="leading" type="default" id="ytG-Av-c5g"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="O5Z-7G-2xl"/>
+                    <connections>
+                        <outlet property="tableView" destination="Z7Q-gH-90H" id="nNb-66-utX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dqk-Yb-nCH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1532" y="473"/>
+        </scene>
+        <!--Settings View Controller - Account-->
         <scene sceneID="3D7-vR-9cQ">
             <objects>
                 <viewController id="cwK-6X-qfw" customClass="FASettingsViewController" sceneMemberID="viewController">
@@ -160,14 +229,14 @@
                             <constraint firstItem="QRz-4v-OSn" firstAttribute="leading" secondItem="3Vm-oT-46a" secondAttribute="leading" type="default" id="um9-4o-4rj"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="qtS-ox-Bor"/>
+                    <tabBarItem key="tabBarItem" title="Account" id="qtS-ox-Bor"/>
                     <connections>
                         <outlet property="tableView" destination="QRz-4v-OSn" id="yis-2l-kSu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qpW-73-Bk7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="658" y="1034"/>
+            <point key="canvasLocation" x="658" y="1053"/>
         </scene>
         <!--Detail View Controller - Episode-->
         <scene sceneID="K8i-QQ-ZJI">
@@ -295,15 +364,8 @@
                             <constraint firstItem="foK-5Z-xbc" firstAttribute="bottom" secondItem="R4o-HJ-zDS" secondAttribute="bottom" type="user" id="sm9-Si-WT2"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Episode" id="w57-qb-XNS">
-                        <barButtonItem key="rightBarButtonItem" title="Check In" id="Utj-Uf-sFk">
-                            <connections>
-                                <action selector="actionItem:" destination="O2p-gS-ycq" id="OIT-mx-p7T"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Episode" id="w57-qb-XNS"/>
                     <connections>
-                        <outlet property="actionButton" destination="Utj-Uf-sFk" id="kUL-2U-xSB"/>
                         <outlet property="contentView" destination="ahf-Bo-dF9" id="5a4-O8-4Ou"/>
                         <outlet property="coverImageView" destination="Bim-Ms-Pm6" id="2Mx-XN-b0Y"/>
                         <outlet property="detailLabel1" destination="VaW-MT-Xll" id="6HU-6X-PEB"/>
@@ -389,6 +451,19 @@
         </class>
         <class className="FAEpisodeListViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FAEpisodeListViewController.h"/>
+        </class>
+        <class className="FAListDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FAListDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="segmentedControl" candidateClass="UISegmentedControl"/>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="FAListsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FAListsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
+            </relationships>
         </class>
         <class className="FASearchBar" superclassName="UISearchBar">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchBar.h"/>

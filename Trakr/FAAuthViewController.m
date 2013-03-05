@@ -106,7 +106,7 @@
         if (valid) {
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
-            [self dismissModalViewControllerAnimated:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
 }
@@ -186,7 +186,7 @@
         FATableViewCellWithActivity *cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         self.loginButtonCell = cell;
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
-        cell.textLabel.textAlignment = UITextAlignmentCenter;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
         return cell;
     }
 }

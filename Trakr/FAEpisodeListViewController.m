@@ -9,9 +9,6 @@
 #import "FAEpisodeListViewController.h"
 
 #import "FATrakt.h"
-#import "FATraktShow.h"
-#import "FATraktSeason.h"
-#import "FATraktEpisode.h"
 #import "FAStatusBarSpinnerController.h"
 #import "FADetailViewController.h"
 
@@ -130,7 +127,6 @@
 {    
     FATraktSeason *season;
     FATraktEpisode *episode;
-
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         NSArray *episodeArray = _filteredSeasons[indexPath.section];

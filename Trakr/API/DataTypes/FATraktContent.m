@@ -6,13 +6,16 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "FATraktContentType.h"
+#import "FATraktContent.h"
 #import "FATraktImageList.h"
 
-@implementation FATraktContentType
+@implementation FATraktContent
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key
+- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
 {
+    if ([key isEqualToString:@"in_watchlist"]) {
+        NSLog(@"blaj");
+    }
     if ([key isEqualToString:@"images"] && [propertyType isEqualToString:@"FATraktImageList"] && [object isKindOfClass:[NSDictionary class]]) {
         FATraktImageList *imageList = [[FATraktImageList alloc] initWithJSONDict:(NSDictionary *)object];
         [self setValue:imageList forKey:key];

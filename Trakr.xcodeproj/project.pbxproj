@@ -54,6 +54,8 @@
 		F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */; };
 		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
+		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
+		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
 		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
 		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
@@ -62,8 +64,9 @@
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
 		F3C84B7D162A1BCA006CBFEF /* FAImagePlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */; };
+		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
-		F3F35E85169B6B7C00A925B4 /* FATraktContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */; };
+		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
 		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
 		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 		F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */; };
@@ -155,6 +158,10 @@
 		F357FA6E16A8B60100420EC4 /* FAListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListsViewController.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
+		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktList.h; path = API/DataTypes/FATraktList.h; sourceTree = "<group>"; };
+		F386984E16DA75C600FA3F2E /* FATraktList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktList.m; path = API/DataTypes/FATraktList.m; sourceTree = "<group>"; };
+		F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListDetailViewController.h; sourceTree = "<group>"; };
+		F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListDetailViewController.m; sourceTree = "<group>"; };
 		F38BD69A16B770E300267137 /* FATitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATitleLabel.h; path = Elements/FATitleLabel.h; sourceTree = "<group>"; };
 		F38BD69B16B770E300267137 /* FATitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATitleLabel.m; path = Elements/FATitleLabel.m; sourceTree = "<group>"; };
 		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Util/SFHFKeychainUtils.h; sourceTree = "<group>"; };
@@ -169,10 +176,12 @@
 		F3C84B781629719D006CBFEF /* FADetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailViewController.m; sourceTree = "<group>"; };
 		F3C84B7A162976A5006CBFEF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FAImagePlaceholder.png; path = Resources/FAImagePlaceholder.png; sourceTree = "<group>"; };
+		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktListItem.h; path = API/DataTypes/FATraktListItem.h; sourceTree = "<group>"; };
+		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktListItem.m; path = API/DataTypes/FATraktListItem.m; sourceTree = "<group>"; };
 		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASearchBar.h; path = Elements/FASearchBar.h; sourceTree = "<group>"; };
 		F3F35E81169B655600A925B4 /* FASearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASearchBar.m; path = Elements/FASearchBar.m; sourceTree = "<group>"; };
-		F3F35E83169B6B7C00A925B4 /* FATraktContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktContentType.h; path = API/DataTypes/FATraktContentType.h; sourceTree = "<group>"; };
-		F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktContentType.m; path = API/DataTypes/FATraktContentType.m; sourceTree = "<group>"; };
+		F3F35E83169B6B7C00A925B4 /* FATraktContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktContent.h; path = API/DataTypes/FATraktContent.h; sourceTree = "<group>"; };
+		F3F35E84169B6B7C00A925B4 /* FATraktContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktContent.m; path = API/DataTypes/FATraktContent.m; sourceTree = "<group>"; };
 		F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktWatchableBaseItem.h; path = API/DataTypes/FATraktWatchableBaseItem.h; sourceTree = "<group>"; };
 		F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktWatchableBaseItem.m; path = API/DataTypes/FATraktWatchableBaseItem.m; sourceTree = "<group>"; };
 		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
@@ -326,6 +335,8 @@
 			children = (
 				F357FA6D16A8B60100420EC4 /* FAListsViewController.h */,
 				F357FA6E16A8B60100420EC4 /* FAListsViewController.m */,
+				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
+				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 			);
 			name = "Lists Tab";
 			sourceTree = "<group>";
@@ -468,8 +479,8 @@
 			children = (
 				F3328C24162740C500FB65B8 /* FATraktDatatype.h */,
 				F3328C25162740C500FB65B8 /* FATraktDatatype.m */,
-				F3F35E83169B6B7C00A925B4 /* FATraktContentType.h */,
-				F3F35E84169B6B7C00A925B4 /* FATraktContentType.m */,
+				F3F35E83169B6B7C00A925B4 /* FATraktContent.h */,
+				F3F35E84169B6B7C00A925B4 /* FATraktContent.m */,
 				F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */,
 				F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */,
 				B64C8F3C16238B0600A7C784 /* FATraktMovie.h */,
@@ -486,6 +497,10 @@
 				F330966116281728000BD107 /* FATraktPeopleList.m */,
 				F330965D162816DE000BD107 /* FATraktPeople.h */,
 				F330965E162816DE000BD107 /* FATraktPeople.m */,
+				F386984D16DA75C600FA3F2E /* FATraktList.h */,
+				F386984E16DA75C600FA3F2E /* FATraktList.m */,
+				F3EE743C16DA916300FF2C9F /* FATraktListItem.h */,
+				F3EE743D16DA916300FF2C9F /* FATraktListItem.m */,
 			);
 			name = "Data Types";
 			sourceTree = "<group>";
@@ -693,13 +708,16 @@
 				F390191E16514242006C8E5B /* APLog.m in Sources */,
 				F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */,
 				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,
-				F3F35E85169B6B7C00A925B4 /* FATraktContentType.m in Sources */,
+				F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */,
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
+				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
+				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
+				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

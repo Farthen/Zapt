@@ -12,8 +12,11 @@
 @class FATraktShow;
 @class FATraktEpisode;
 @class FATitleLabel;
+@class FATraktContent;
 
-@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate>
+@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
+
+- (void)showDetailForContentType:(FATraktContent *)content;
 
 - (void)showDetailForMovie:(FATraktMovie *)movie;
 - (void)showDetailForShow:(FATraktShow *)show;
@@ -22,7 +25,7 @@
 - (IBAction)actionItem:(id)sender;
 - (IBAction)touchedCover:(id)sender;
 
-@property (retain) IBOutlet UIBarButtonItem *actionButton;
+@property (retain) UIBarButtonItem *actionButton;
 
 @property (retain) IBOutlet UIScrollView *scrollView;
 @property (retain) IBOutlet UIView *contentView;
