@@ -10,4 +10,13 @@
 
 @interface FAProgressHUD : NSObject
 
+@property (retain) NSArray *disabledUIElements;
+
+- (id)initWithView:(UIView *)view;
+- (void)showProgressHUDSuccessMessage:(NSString *)message;
+- (void)showProgressHUDFailedMessage:(NSString *)message;
+- (void)hideProgressHUD:(NSString *)message;
+- (void)showProgressHUDSpinner;
+- (void)showProgressHUDSpinnerWithText:(NSString *)text;
+
 @end

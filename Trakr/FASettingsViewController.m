@@ -11,7 +11,7 @@
 #import "FAAppDelegate.h"
 
 #import <MWPhotoBrowser.h>
-#import <MBProgressHUD.h>
+#import "FAProgressHUD.h"
 #import "FATableViewCellWithActivity.h"
 
 @interface FASettingsViewController ()
@@ -20,27 +20,8 @@
 
 @implementation FASettingsViewController {
     BOOL _loggedIn;
+    FAProgressHUD *_progressHUD;
     FATableViewCellWithActivity *_checkAuthButtonCell;
-    MBProgressHUD *_progressHUD;
-}
-
-- (void)showProgressHUDCompleteMessage:(NSString *)message {
-    if (message) {
-        if (_progressHUD.isHidden) [_progressHUD show:YES];
-        _progressHUD.labelText = message;
-        _progressHUD.mode = MBProgressHUDModeCustomView;
-        [_progressHUD hide:YES afterDelay:1.5];
-    } else {
-        [_progressHUD hide:YES];
-    }
-    self.tabBarController.tabBar.userInteractionEnabled = YES;
-}
-
-- (void)showProgressHUDSpinner {
-    self.tabBarController.tabBar.userInteractionEnabled = NO;
-    _progressHUD.mode = MBProgressHUDModeIndeterminate;
-    _progressHUD.labelText = @"Checking";
-    [_progressHUD show:YES];
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -54,10 +35,8 @@
 
 - (void)awakeFromNib
 {
-    _progressHUD = [[MBProgressHUD alloc] initWithView:self.view];
-    _progressHUD.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
-    _progressHUD.animationType = MBProgressHUDAnimationZoom;
-    [self.view addSubview:_progressHUD];
+    _progressHUD = [[FAProgressHUD alloc] initWithView:self.view];
+    _progressHUD.disabledUIElements = @[self.tabBarController.tabBar, self.tableView];
 }
 
 - (void)viewDidLoad
@@ -230,12 +209,12 @@
 - (void)checkAuthButtonPressed
 {
     [APLog tiny:@"Button pressed"];
-    [self showProgressHUDSpinner];
+    [_progressHUD showProgressHUDSpinner];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         if (valid) {
-            [self showProgressHUDCompleteMessage:@"Success"];
+            [_progressHUD showProgressHUDSuccessMessage:@"Success"];
         } else {
-            [self showProgressHUDCompleteMessage:nil];
+            [_progressHUD showProgressHUDFailedMessage:@"Failed!"];
         }
     }];
 }
