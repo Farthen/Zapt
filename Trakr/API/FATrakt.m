@@ -12,7 +12,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <Security/Security.h>
 
-#import "NSDictionary+FAJSONRequest.h"
 #import "NSString+URLEncode.h"
 #import "NSString+StringByAppendingSuffixToFilename.h"
 
@@ -416,17 +415,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         url = [self urlForAPI:[NSString stringWithFormat:@"%@/unwatchlist", watchlistName]];
     }
     
-    NSDictionary *data;
+    NSDictionary *dict;
     if (content.contentType == FAContentTypeMovies) {
         FATraktMovie *movie = (FATraktMovie *)content;
-        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
     } else if (content.contentType == FAContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
-        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
     } else if (content.contentType == FAContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
-        data = @{@"username": _apiUser, @"password": _apiPasswordHash, @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
+        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
     }
+    
+    NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
     [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
