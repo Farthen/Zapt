@@ -8,6 +8,8 @@
 
 #import "FAListDetailViewController.h"
 
+#import <MBProgressHUD.h>
+
 #import "FATrakt.h"
 #import "FASearchViewController.h"
 #import "FADetailViewController.h"
@@ -20,6 +22,7 @@
 
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
+    BOOL _isWatchlist;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -45,6 +48,19 @@
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
+    if (_isWatchlist) {
+        for (int i = 0; i < _displayedList.items.count; i++) {
+            FATraktListItem *item = [_displayedList.items objectAtIndex:i];
+            if (!item.content.in_watchlist) {
+                NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+                [self.tableView beginUpdates];
+                [newList removeObjectAtIndex:i];
+                _displayedList.items = newList;
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,12 +71,38 @@
 
 - (void)loadWatchlistOfType:(FAContentType)type
 {
+    _isWatchlist = YES;
     [[FAStatusBarSpinnerController sharedInstance] startActivity];
     [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
         _displayedList = list;
         [self.tableView reloadData];
         [[FAStatusBarSpinnerController sharedInstance] stopAllActivity];
     }];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // If row is deleted, remove it from the list.
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+        [self.view addSubview:hud];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.animationType = MBProgressHUDAnimationZoom;
+        hud.labelText = @"Removing from watchlist";
+        [hud show:YES];
+        [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:indexPath.row] content] callback:^(void) {
+            [hud hide:YES];
+            [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
+            NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+            [self.tableView beginUpdates];
+            [newList removeObjectAtIndex:indexPath.row];
+            _displayedList.items = newList;
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView endUpdates];
+        }];
+        // Animate the deletion from the table.
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
