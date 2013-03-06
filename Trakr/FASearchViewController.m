@@ -67,7 +67,7 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [APLog tiny:@"New search string: %@", searchText];
+    //[APLog tiny:@"New search string: %@", searchText];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

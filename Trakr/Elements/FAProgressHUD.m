@@ -30,7 +30,7 @@
 
 - (void)showProgressHUDSuccess
 {
-    [self showProgressHUDSuccessMessage:@"Success"];
+    [self showProgressHUDSuccessMessage:NSLocalizedString(@"Success", nil)];
 }
 
 - (void)showProgressHUDSuccessMessage:(NSString *)message
@@ -41,7 +41,7 @@
 
 - (void)showProgressHUDFailed
 {
-    [self showProgressHUDFailedMessage:@"Failed"];
+    [self showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
 }
 
 

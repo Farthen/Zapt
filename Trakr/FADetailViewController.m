@@ -76,13 +76,13 @@
     [self.contentView updateConstraintsIfNeeded];
     
     UIBarButtonItem *btnShare = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItem:)];
-    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:@"Check In" style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
+    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Check In", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
     self.actionButton = btnAction;
-    btnAction.possibleTitles = [NSSet setWithObjects:@"Check In", @"Episodes", nil];
+    btnAction.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     [self.navigationItem setRightBarButtonItems:@[btnAction, btnShare] animated:NO];
     
-    _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add to watchlist", /*@"Add to list …",*/ nil];
-    _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Remove from watchlist", /*@"Add to list …",*/ nil];
+    _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Actions", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Add to watchlist", nil), /*NSLocalizedString(@"Add to list …", nil),*/ nil];
+    _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Actions", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Remove from watchlist", nil), /*NSLocalizedString(@"Add to list …", nil),*/ nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -137,7 +137,7 @@
     
     NSString *dateString = [dateFormatter stringFromDate:date];
     
-    NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@: %@", caption, dateString]];
+    NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@: %@", nil), caption, dateString]];
     [labelString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, caption.length)];
     [labelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, caption.length)];
 
@@ -160,7 +160,7 @@
         if ([directorString isEqualToString:@""]) {
             [directorString appendString:people.name];
         } else {
-            [directorString appendFormat:@", %@", people.name];
+            [directorString appendFormat:NSLocalizedString(@", %@", nil), people.name];
         }
     }
     
@@ -174,7 +174,7 @@
 
 - (void)setRuntime:(NSNumber *)runtime
 {
-    NSMutableAttributedString *runtimeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Runtime %@ min", [runtime stringValue]]];
+    NSMutableAttributedString *runtimeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Runtime %@ min", nil), [runtime stringValue]]];
     [runtimeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
     [runtimeString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
     _runtimeLabel.attributedText = runtimeString;
@@ -259,7 +259,7 @@
 
 - (void)setNetwork:(NSString *)network
 {
-    NSMutableAttributedString *networkString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Network %@", network]];
+    NSMutableAttributedString *networkString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Network %@", nil), network]];
     [networkString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
     [networkString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
 
@@ -269,7 +269,7 @@
 
 - (void)setSeasonNum:(NSNumber *)season andEpisodeNum:(NSNumber *)episode
 {
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"S%02iE%02i", season.intValue, episode.intValue]];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.intValue, episode.intValue]];
     [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 6)];
     [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 6)];
     
@@ -289,7 +289,7 @@
 
 - (void)setAirDay:(NSString *)day andTime:(NSString *)time
 {
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Airs %@ at %@", day, time]];
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Airs %@ at %@", nil), day, time]];
     [title addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 4)];
     [title addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 4)];
 
@@ -313,7 +313,7 @@
     [self loadValueForContent:movie];
     [self loadValueForWatchableBaseItem:movie];
     [self setDirectors:movie.people.directors];
-    [self setReleaseDate:movie.released withCaption:@"Released"];
+    [self setReleaseDate:movie.released withCaption:NSLocalizedString(@"Released", nil)];
     [self setTagline:movie.tagline];
     
     //[self viewDidLayoutSubviews];
@@ -358,7 +358,7 @@
     [self loadValueForContent:show];
     [self loadValueForWatchableBaseItem:show];
     [self setNetwork:show.network];
-    [self setReleaseDate:show.first_aired withCaption:@"First Aired"];
+    [self setReleaseDate:show.first_aired withCaption:NSLocalizedString(@"First Aired", nil)];
     [self setAirDay:show.air_day andTime:show.air_time];
     
     [self.view layoutSubviews];
@@ -377,7 +377,7 @@
     _releaseDateLabel = self.detailLabel3;
     _airTimeLabel = self.detailLabel4;
     
-    self.actionButton.title = @"Episodes";
+    self.actionButton.title = NSLocalizedString(@"Episodes", nil);
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
     _imageDisplayed = NO;
@@ -415,7 +415,7 @@
     _networkLabel = self.detailLabel1;
     _episodeNumLabel = self.detailLabel2;
     
-    self.actionButton.title = @"Check In";
+    self.actionButton.title = NSLocalizedString(@"Check In", nil);
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
     _imageDisplayed = NO;
@@ -466,7 +466,7 @@
         button.enabled = NO;
         
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        [hud showProgressHUDSpinnerWithText:@"Checking In…"];
+        [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
         [hud hideProgressHUD];
         button.enabled = YES;
     } else {
@@ -563,7 +563,7 @@
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
         hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
         if (_currentContent.in_watchlist) {
-            [hud showProgressHUDSpinnerWithText:@"Removing from watchlist"];
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
             [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                 [hud showProgressHUDSuccess];
                 _currentContent.in_watchlist = NO;
@@ -571,7 +571,7 @@
                 [hud showProgressHUDFailed];
             }];
         } else if (!_currentContent.in_watchlist) {
-            [hud showProgressHUDSpinnerWithText:@"Adding to watchlist"];
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
             [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
                 [hud showProgressHUDSuccess];
                 _currentContent.in_watchlist = YES;

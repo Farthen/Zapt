@@ -79,7 +79,7 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"User";
+        return NSLocalizedString(@"User", nil);
     }
     return nil;
 }
@@ -117,7 +117,7 @@
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:RightDetailCellIdentifier];
                 }
-                cell.textLabel.text = @"User";
+                cell.textLabel.text = NSLocalizedString(@"User", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 NSString *username = [[FATrakt sharedInstance] storedUsername];
@@ -128,7 +128,7 @@
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
                 }
-                cell.textLabel.text = @"Profile";
+                cell.textLabel.text = NSLocalizedString(@"Profile", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -140,7 +140,7 @@
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
                 }
-                cell.textLabel.text = @"Not logged in";
+                cell.textLabel.text = NSLocalizedString(@"Not logged in", nil);
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.textColor = [UIColor grayColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -154,7 +154,7 @@
                 if (cell == nil) {
                     cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActivityCellIdentifier];
                 }
-                cell.textLabel.text = @"Check";
+                cell.textLabel.text = NSLocalizedString(@"Check", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -165,7 +165,7 @@
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
                 }
-                cell.textLabel.text = @"Log Out";
+                cell.textLabel.text = NSLocalizedString(@"Log Out", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
@@ -178,7 +178,7 @@
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
                 }
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.textLabel.text = @"Log In";
+                cell.textLabel.text = NSLocalizedString(@"Log In", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -212,9 +212,9 @@
     [_progressHUD showProgressHUDSpinner];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         if (valid) {
-            [_progressHUD showProgressHUDSuccessMessage:@"Success"];
+            [_progressHUD showProgressHUDSuccess];
         } else {
-            [_progressHUD showProgressHUDFailedMessage:@"Failed!"];
+            [_progressHUD showProgressHUDFailed];
         }
     }];
 }

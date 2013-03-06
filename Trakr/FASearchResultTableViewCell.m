@@ -28,11 +28,11 @@
         NSString *genres = [movie.genres componentsJoinedByString:@", "];
         NSString *detailString;
         if (movie.year && ![genres isEqualToString:@""]) {
-            detailString = [NSString stringWithFormat:@"%@ - %@", movie.year, genres];
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%@ - %@", nil), movie.year, genres];
         } else if (movie.year) {
-            detailString = [NSString stringWithFormat:@"%@", movie.year];
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), movie.year];
         } else if (![genres isEqualToString:@""]) {
-            detailString = [NSString stringWithFormat:@"%@", genres];
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];
         } else {
             detailString = @"";
         }
@@ -44,9 +44,9 @@
         // TODO: Crashbug here
         FATraktShow *show = (FATraktShow *)content;
         self.textLabel.text = show.title;
-        NSString *genres = [show.genres componentsJoinedByString:@", "];
+        NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
-        NSString *detailString = [NSString stringWithFormat:@"%i – %@", components.year, genres];
+        NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
         self.leftAuxiliaryTextLabel.text = detailString;
         self.detailTextLabel.text = show.overview;
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
@@ -54,9 +54,9 @@
         self.textLabel.text = episode.title;
         self.leftAuxiliaryTextLabel.text = episode.show.title;
         if (episode.overview) {
-            self.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i – %@", episode.season.intValue, episode.episode.intValue, episode.overview];
+            self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.season.intValue, episode.episode.intValue, episode.overview];
         } else {
-            self.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i", episode.season.intValue, episode.episode.intValue];
+            self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
         }
     } else {
         [APLog error:@"Tried to display a datatype in FASearchResultTableViewCell that is not possible to be displayed!"];

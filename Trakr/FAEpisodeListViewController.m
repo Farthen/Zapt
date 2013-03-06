@@ -58,7 +58,7 @@
         FATraktSeason *season = _displayedShow.seasons[i];
         NSMutableArray *filteredEpisodes = [[NSMutableArray alloc] init];
         for (FATraktEpisode *episode in season.episodes) {
-            NSString *episodeString = [NSString stringWithFormat:@"S%02iE%02i", season.season.intValue, episode.episode.intValue];
+            NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.season.intValue, episode.episode.intValue];
             if ([episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                 [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
                 [filteredEpisodes addObject:episode];
@@ -113,14 +113,14 @@
     }
     
     cell.textLabel.text = episode.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"S%02iE%02i", season.season.intValue, episode.episode.intValue];
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.season.intValue, episode.episode.intValue];
     return cell;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     FATraktSeason *season = _displayedShow.seasons[section + 1];
-    return [NSString stringWithFormat:@"Season %@", season.season];
+    return [NSString stringWithFormat:NSLocalizedString(@"Season %@", nil), season.season];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

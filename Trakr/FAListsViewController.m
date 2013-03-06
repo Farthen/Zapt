@@ -58,9 +58,9 @@
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return @"Watchlists";
+        return NSLocalizedString(@"Watchlists", nil);
     }
-    return @"Custom Lists";
+    return NSLocalizedString(@"Custom Lists", nil);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -83,11 +83,11 @@
     }
     if (indexPath.section == 0) {
         if(indexPath.item == FAContentTypeMovies) {
-            cell.textLabel.text = @"Movies";
+            cell.textLabel.text = NSLocalizedString(@"Movies", nil);
         } else if(indexPath.item == FAContentTypeShows) {
-            cell.textLabel.text = @"Shows";
+            cell.textLabel.text = NSLocalizedString(@"Shows", nil);
         } else if(indexPath.item == FAContentTypeEpisodes) {
-            cell.textLabel.text = @"Episodes";
+            cell.textLabel.text = NSLocalizedString(@"Episodes", nil);
         }
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

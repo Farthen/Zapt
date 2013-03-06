@@ -35,10 +35,15 @@
     return self;
 }
 
+- (void)awakeFromNib
+{
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	// Set the row height before loading the tableView for a more smooth experience
+    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,7 +96,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        [hud showProgressHUDSpinnerWithText:@"Removing from watchlist"];
+        [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
         [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:indexPath.row] content] callback:^(void) {
             [hud showProgressHUDSuccess];
             [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
