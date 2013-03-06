@@ -61,11 +61,14 @@
     } else {
         [_progressHUD hide:YES];
     }
-    [self hideProgressHUD];
+    for (UIView *view in self.disabledUIElements) {
+        view.userInteractionEnabled = YES;
+    }
 }
 
 - (void)hideProgressHUD
 {
+    [_progressHUD hide:YES];
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = YES;
     }

@@ -81,8 +81,8 @@
     btnAction.possibleTitles = [NSSet setWithObjects:@"Check In", @"Episodes", nil];
     [self.navigationItem setRightBarButtonItems:@[btnAction, btnShare] animated:NO];
     
-    _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add to watchlist", @"Add to list …", nil];
-    _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Remove from watchlist", @"Add to list …", nil];
+    _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Add to watchlist", /*@"Add to list …",*/ nil];
+    _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:@"Actions" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Remove from watchlist", /*@"Add to list …",*/ nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -468,6 +468,7 @@
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
         [hud showProgressHUDSpinnerWithText:@"Checking In…"];
         [hud hideProgressHUD];
+        button.enabled = YES;
     } else {
         // show list of episodes
         FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
