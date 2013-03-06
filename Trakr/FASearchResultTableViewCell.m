@@ -34,7 +34,7 @@
         } else if (![genres isEqualToString:@""]) {
             detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];
         } else {
-            detailString = @"";
+            detailString = NSLocalizedString(@"", nil);
         }
         
         self.leftAuxiliaryTextLabel.text = detailString;
@@ -44,20 +44,35 @@
         // TODO: Crashbug here
         FATraktShow *show = (FATraktShow *)content;
         self.textLabel.text = show.title;
-        NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
+        
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
-        NSString *detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
+        NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
+        NSString *detailString;
+        if (![genres isEqualToString:@""] && show.first_aired) {
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
+        } else if (show.first_aired) {
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), components.year];
+        } else if (![genres isEqualToString:@""]) {
+            detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];
+        } else {
+            detailString = NSLocalizedString(@"", nil);
+        }
         self.leftAuxiliaryTextLabel.text = detailString;
         self.detailTextLabel.text = show.overview;
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
         self.textLabel.text = episode.title;
         self.leftAuxiliaryTextLabel.text = episode.show.title;
-        if (episode.overview) {
+        if (episode.season && episode.episode && episode.overview) {
             self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.season.intValue, episode.episode.intValue, episode.overview];
-        } else {
+        } else if (episode.season && episode.episode) {
             self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+        } else if (episode.overview) {
+            self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), episode.overview];
+        } else {
+            self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"", nil)];
         }
+
     } else {
         [APLog error:@"Tried to display a datatype in FASearchResultTableViewCell that is not possible to be displayed!"];
     }
