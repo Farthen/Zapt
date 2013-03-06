@@ -43,7 +43,6 @@
 - (NSString *)cacheKey
 {
     NSString *key = [NSString stringWithFormat:@"tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
-    [APLog info:@"Show key = %@", key];
     return key;
 }
 
