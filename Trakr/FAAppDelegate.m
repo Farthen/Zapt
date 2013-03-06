@@ -28,7 +28,7 @@
 {
     // Override point for customization after application launch.
     [APLog tiny:@"Application Launched"];
-    [[NSUserDefaults standardUserDefaults] setInteger:3 forKey:@"logging"];
+    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];

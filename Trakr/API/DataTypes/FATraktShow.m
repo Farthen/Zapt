@@ -8,6 +8,7 @@
 
 #import "FATraktShow.h"
 #import "FATraktSeason.h"
+#import "FATraktCache.h"
 
 @implementation FATraktShow
 
@@ -17,6 +18,14 @@
     if (self) {
         self.requestedDetailedInformation = NO;
         self.requestedExtendedInformation = NO;
+        FATraktShow *cachedShow = [[FATraktCache sharedInstance].shows objectForKey:self.cacheKey];
+        if (cachedShow) {
+            // cache hit!
+            // update the cached show with new values
+            [cachedShow mapObjectsInDict:dict];
+            // return the cached show
+            self = cachedShow;
+        }
     }
     return self;
 }
@@ -29,6 +38,13 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow with title: %@>", self.title];
+}
+
+- (NSString *)cacheKey
+{
+    NSString *key = [NSString stringWithFormat:@"tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
+    [APLog info:@"Show key = %@", key];
+    return key;
 }
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key

@@ -7,6 +7,7 @@
 //
 
 #import "FATraktMovie.h"
+#import "FATraktCache.h"
 
 @implementation FATraktMovie
 
@@ -15,6 +16,14 @@
     self = [super initWithJSONDict:dict];
     if (self) {
         self.requestedDetailedInformation = NO;
+        FATraktMovie *cachedMovie = [[FATraktCache sharedInstance].movies objectForKey:self.cacheKey];
+        if (cachedMovie) {
+            // cache hit!
+            // update the cached movie with new values
+            [cachedMovie mapObjectsInDict:dict];
+            // return the cached movie
+            self = cachedMovie;
+        }
     }
     return self;
 }
@@ -26,7 +35,12 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktMovie with title: \"%@\">", self.title];
+    return [NSString stringWithFormat:@"<FATraktMovie %p with title: \"%@\">", self, self.title];
+}
+
+- (NSString *)cacheKey
+{
+    return [NSString stringWithFormat:@"imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
 }
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key

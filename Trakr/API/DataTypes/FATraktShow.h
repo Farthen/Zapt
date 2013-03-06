@@ -8,8 +8,9 @@
 
 #import "FATraktDatatype.h"
 #import "FATraktWatchableBaseItem.h"
+#import "FATraktCacheable.h"
 
-@interface FATraktShow : FATraktWatchableBaseItem
+@interface FATraktShow : FATraktWatchableBaseItem <FATraktCacheable>
 
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;
@@ -27,6 +28,9 @@
 @property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
 @property (retain) NSArray *seasons;
+
+// This is present when getting a show from an episodes watchlist
+@property (retain) NSArray *episodes;
 
 @property (assign) BOOL requestedExtendedInformation;
 

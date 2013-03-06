@@ -8,7 +8,7 @@
 
 #import "FAListDetailViewController.h"
 
-#import <MBProgressHUD.h>
+#import "FAProgressHUD.h"
 
 #import "FATrakt.h"
 #import "FASearchViewController.h"
@@ -23,6 +23,7 @@
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
     BOOL _isWatchlist;
+    FAContentType _watchlistType;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -60,6 +61,7 @@
                 [self.tableView endUpdates];
             }
         }
+        [self loadWatchlistOfType:_watchlistType];
     }
 }
 
@@ -72,10 +74,13 @@
 - (void)loadWatchlistOfType:(FAContentType)type
 {
     _isWatchlist = YES;
+    _watchlistType = type;
     [[FAStatusBarSpinnerController sharedInstance] startActivity];
     [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
-        _displayedList = list;
-        [self.tableView reloadData];
+        if (![_displayedList.items isEqualToArray:list.items]) {
+            _displayedList = list;
+            [self.tableView reloadData];
+        }
         [[FAStatusBarSpinnerController sharedInstance] stopAllActivity];
     }];
 }
@@ -85,14 +90,10 @@
     // If row is deleted, remove it from the list.
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:hud];
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.animationType = MBProgressHUDAnimationZoom;
-        hud.labelText = @"Removing from watchlist";
-        [hud show:YES];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+        [hud showProgressHUDSpinnerWithText:@"Removing from watchlist"];
         [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:indexPath.row] content] callback:^(void) {
-            [hud hide:YES];
+            [hud showProgressHUDSuccess];
             [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
             NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
             [self.tableView beginUpdates];
@@ -100,6 +101,8 @@
             _displayedList.items = newList;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
+        } onError:^(LRRestyResponse *response) {
+            [hud showProgressHUDFailed];
         }];
         // Animate the deletion from the table.
     }

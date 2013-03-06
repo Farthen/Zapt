@@ -13,9 +13,6 @@
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"in_watchlist"]) {
-        NSLog(@"blaj");
-    }
     if ([key isEqualToString:@"images"] && [propertyType isEqualToString:@"FATraktImageList"] && [object isKindOfClass:[NSDictionary class]]) {
         FATraktImageList *imageList = [[FATraktImageList alloc] initWithJSONDict:(NSDictionary *)object];
         [self setValue:imageList forKey:key];

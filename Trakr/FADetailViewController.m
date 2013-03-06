@@ -18,7 +18,7 @@
 #import "FASearchViewController.h"
 #import "FAEpisodeListViewController.h"
 
-#import <MBProgressHUD.h>
+#import "FAProgressHUD.h"
 
 #import "FATrakt.h"
 
@@ -33,6 +33,7 @@
     FATraktContent *_currentContent;
     UIImage *_placeholderImage;
     BOOL _imageLoaded;
+    BOOL _imageLoading;
     BOOL _imageDisplayed;
     UILabel *_networkLabel;
     UILabel *_episodeNumLabel;
@@ -93,12 +94,6 @@
 {
     [super viewDidAppear:animated];
     self.scrollView.contentSize = self.contentView.frame.size;
-    if (_contentType != FAContentTypeEpisodes) {
-        [self setPosterToURL:_currentContent.images.fanart];
-    } else {
-        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-        [self setPosterToURL:episode.show.images.fanart];
-    }
     [self.contentView updateConstraintsIfNeeded];
     [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
 }
@@ -186,7 +181,7 @@
     //[_runtimeLabel sizeToFit];
 }
 
-- (void)displayImage
+- (void)displayImageAnimated:(BOOL)animated
 {
     if (!_imageDisplayed) {
         _imageDisplayed = YES;
@@ -194,36 +189,52 @@
         CGRect newFrame = CGRectMake(0, 0, 320, 0);
         self.coverImageView.frame = newFrame;
         CGRect finalFrame = CGRectMake(0, 0, 320, 180);
-        CGFloat top = finalFrame.size.height - self.titleLabel.frame.size.height;
+        CGFloat titleHeight;
+        if (self.titleLabel.frame.size.height != 0) {
+            titleHeight = self.titleLabel.frame.size.height;
+        } else {
+            titleHeight = 27;
+        }
+        CGFloat top = finalFrame.size.height - titleHeight;
         CGFloat initialOffset = self.scrollView.contentOffset.y;
-        [UIView animateWithDuration:0.3 animations:^(void) {
+        if (animated) {
+            [UIView animateWithDuration:0.3 animations:^(void) {
+                self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
+                self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
+                self.coverImageView.frame = finalFrame;
+            } completion:^(BOOL finished) {
+                if (finished) {
+                    /*[self.scrollView removeConstraint:_contentViewSizeConstraint];
+                     [self.contentView sizeToFit];
+                     [self.overviewLabel sizeToFit];
+                     _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-top];
+                     [self.scrollView addConstraint:_contentViewSizeConstraint];
+                     [self.scrollView updateConstraintsIfNeeded];*/
+                }
+            }];
+        } else {
             self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
             self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
             self.coverImageView.frame = finalFrame;
-        } completion:^(BOOL finished) {
-            if (finished) {
-                /*[self.scrollView removeConstraint:_contentViewSizeConstraint];
-                [self.contentView sizeToFit];
-                [self.overviewLabel sizeToFit];
-                _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-top];
-                [self.scrollView addConstraint:_contentViewSizeConstraint];
-                [self.scrollView updateConstraintsIfNeeded];*/
-            }
-        }];
+        }
     }
 }
 
 - (void)setPosterToURL:(NSString *)posterURL
 {
-    if (posterURL && ![posterURL isEqualToString:@""]) {
+    if (posterURL && ![posterURL isEqualToString:@""] && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
         if (!_imageLoaded) {
             _imageLoaded = YES;
+            _imageLoading = NO;
             [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
                 self.coverImageView.image = image;
-                [self displayImage];
+                
+                // Fade it in animated if this is called from non-main thread. Otherwise the result is cached and can be displayed immediately
+                [self displayImageAnimated:_imageLoading];
             }];
+            _imageLoading = YES;
         } else {
-            [self displayImage];
+            [self displayImageAnimated:NO];
         }
     }
 }
@@ -231,6 +242,12 @@
 - (void)setOverview:(NSString *)overview
 {
     self.overviewLabel.text = overview;
+    if (_contentType != FAContentTypeEpisodes) {
+        [self setPosterToURL:_currentContent.images.fanart];
+    } else {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        [self setPosterToURL:episode.show.images.fanart];
+    }
     //[self.overviewLabel sizeToFit];
 }
 
@@ -321,6 +338,9 @@
     self.coverImageView.image = _placeholderImage;
     _imageLoaded = NO;
     _imageDisplayed = NO;
+    
+    [self loadValuesForMovie:movie];
+    
     if (!movie.requestedDetailedInformation) {
         movie.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -328,9 +348,9 @@
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             movie.loadedDetailedInformation = YES;
             [self loadValuesForMovie:movie];
+            _currentContent = movie;
         }];
     }
-    [self loadValuesForMovie:movie];
 }
 
 - (void)loadValuesForShow:(FATraktShow *)show
@@ -445,13 +465,9 @@
         UIBarButtonItem *button = sender;
         button.enabled = NO;
         
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:hud];
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.animationType = MBProgressHUDAnimationZoom;
-        hud.labelText = @"Checking in…";
-        [hud show:YES];
-        [hud hide:YES afterDelay:2];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+        [hud showProgressHUDSpinnerWithText:@"Checking In…"];
+        [hud hideProgressHUD];
     } else {
         // show list of episodes
         FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
@@ -528,12 +544,12 @@
     CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(180, 180 - offset));
     
     // zoom the image view
-    [APLog tiny:@"zooming image with scale: %f", scale];
+    //[APLog tiny:@"zooming image with scale: %f", scale];
     /*if (_imageDisplayed) {
         CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
         self.coverImageView.transform = transform;
     }*/
-    [APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
+    //[APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
     self.coverImageView.frame = newFrame;
     [self.coverImageView layoutSubviews];
     [self.view layoutSubviews];
@@ -543,23 +559,23 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
-        [self.view addSubview:hud];
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.animationType = MBProgressHUDAnimationZoom;
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+        hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
         if (_currentContent.in_watchlist) {
-            hud.labelText = @"Removing from watchlist";
-            [hud show:YES];
+            [hud showProgressHUDSpinnerWithText:@"Removing from watchlist"];
             [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
-                [hud hide:YES];
+                [hud showProgressHUDSuccess];
                 _currentContent.in_watchlist = NO;
+            } onError:^(LRRestyResponse *response) {
+                [hud showProgressHUDFailed];
             }];
         } else if (!_currentContent.in_watchlist) {
-            hud.labelText = @"Adding to watchlist";
-            [hud show:YES];
+            [hud showProgressHUDSpinnerWithText:@"Adding to watchlist"];
             [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
-                [hud hide:YES];
+                [hud showProgressHUDSuccess];
                 _currentContent.in_watchlist = YES;
+            } onError:^(LRRestyResponse *response) {
+                [hud showProgressHUDFailed];
             }];
         }
     }

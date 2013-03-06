@@ -84,7 +84,7 @@
 {
     NSString *propertyType = [_propertyInfo objectForKey:key];
     if (!propertyType) {
-        [APLog warning:@"Can't match object\n%@\nto non-existing property with key \"%@\"", NSStringFromClass([self class]), object, key];
+        [APLog fine:@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key];
         return;
     }
     

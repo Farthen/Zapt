@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "FATraktWatchableBaseItem.h"
+#import "FATraktCacheable.h"
 
 @class FATraktPeopleList;
 @class FATraktImageList;
 
-@interface FATraktMovie : FATraktWatchableBaseItem
+@interface FATraktMovie : FATraktWatchableBaseItem <FATraktCacheable>
 
 @property (retain) NSDate *released;
 @property (retain) NSString *rt_id;

@@ -39,12 +39,12 @@
 - (void)showEpisodeListForShow:(FATraktShow *)show
 {
     if (!show.requestedExtendedInformation) {
-        //show.requestedExtendedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
         [[FATrakt sharedInstance] showDetailsForShow:show extended:YES callback:^(FATraktShow *show) {
             [[FAStatusBarSpinnerController sharedInstance] finishActivity];
             [self populateEpisodeListForShow:show];
         }];
+        show.requestedExtendedInformation = YES;
     } else {
         [self populateEpisodeListForShow:show];
     }

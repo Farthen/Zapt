@@ -17,6 +17,8 @@
 
 #import "FAAppDelegate.h"
 
+#import "FATraktCache.h"
+
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
@@ -30,6 +32,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 @implementation FATrakt {
     LRRestyClient *_restyClient;
     LRRestyClient *_authRestyClient;
+    FATraktCache *_cache;
 }
 
 @synthesize apiUser = _apiUser;
@@ -55,6 +58,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         if (!_apiPasswordHash) _apiPasswordHash = @"";
         
         [[LRResty client] setUsername:_apiUser password:_apiPasswordHash];
+        
+        _cache = [FATraktCache sharedInstance];
         /*[[LRResty client] setGlobalTimeout:15 handleWithBlock:^(LRRestyRequest *request) {
             [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
         }];*/
@@ -172,12 +177,24 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     } else if (type == FAContentTypeShows) {
         name = @"show";
     } else if (type == FAContentTypeEpisodes) {
-        name = @"episodes";
+        name = @"episode";
     }
     if (plural) {
         name = [name stringByAppendingString:@"s"];
     }
     return name;
+}
+
+- (NSString *)watchlistNameForContentType:(FAContentType)type
+{
+    if (type == FAContentTypeMovies) {
+        return @"movie";
+    } else if (type == FAContentTypeShows) {
+        return @"show";
+    } else if (type == FAContentTypeEpisodes) {
+        return @"show/episode";
+    }
+    return nil;
 }
 
 - (void)verifyCredentials:(void (^)(BOOL valid))block
@@ -231,9 +248,16 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     }
     NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
     [APLog fine:@"Loading image with url \"%@\"", imageURL];
+    
+    if ([_cache.images objectForKey:imageURL]) {
+        block([_cache.images objectForKey:imageURL]);
+        return;
+    }
+    
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             UIImage *image = [UIImage imageWithData:[response responseData]];
+            [_cache.images setObject:image forKey:imageURL];
             /*if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
                 // Invert the colors to make it look good on black background
                 UIGraphicsBeginImageContext(image.size);
@@ -272,15 +296,26 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
-    [APLog fine:@"Fetching all information about movie with title: \"%@\"", movie.title];
+    [APLog fine:@"Fetching all information about movie: \"%@\"", movie.description];
     if (!movie.imdb_id) {
         [APLog error:@"Trying to fetch information about movie without imdb_id"];
     }
+    
+    FATraktMovie *cachedMovie = [_cache.movies objectForKey:movie.cacheKey];
+    if (cachedMovie && cachedMovie.loadedDetailedInformation) {
+        block([_cache.movies objectForKey:movie.cacheKey]);
+        // Fall through and still make the request. It's not that much data and things could have changed
+        // This will call block twice. Make sure it can handle this.
+    }
+    
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [movie mapObjectsInDict:data];
+            
+            movie.loadedDetailedInformation = YES;
+            [_cache.movies setObject:movie forKey:movie.cacheKey];
             block(movie);
         }
     }];
@@ -317,14 +352,33 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     if (!show.tvdb_id) {
         [APLog error:@"Trying to fetch information about show without tbdb_id"];
     }
+    
+    FATraktShow *cachedShow = [_cache.shows objectForKey:show.cacheKey];
+    if (cachedShow && cachedShow.loadedDetailedInformation) {
+        if (extended) {
+            if (show.requestedExtendedInformation) {
+                // Don't request extended information twice, this is definitely overkill
+                extended = NO;
+            }
+        } else {
+            block([_cache.shows objectForKey:show.cacheKey]);
+            // Fall through and still make the request. It's not that much data and things could have changed
+            // This will call block twice. Make sure it can handle this.
+        }
+    }
+    
     NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.tvdb_id];
     if (extended) {
         url = [url stringByAppendingString:@"/extended"];
     }
+    
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [show mapObjectsInDict:data];
+            
+            show.loadedDetailedInformation = YES;
+            [_cache.shows setObject:show forKey:show.cacheKey];
             block(show);
         }
     }];
@@ -359,11 +413,22 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     if (!episode.show.tvdb_id) {
         [APLog error:@"Trying to fetch information about show without tvdb_id"];
     }
+    
+    FATraktEpisode *cachedEpisode = [_cache.episodes objectForKey:episode.cacheKey];
+    if (cachedEpisode && cachedEpisode.loadedDetailedInformation) {
+        block([_cache.episodes objectForKey:episode.cacheKey]);
+        // Fall through and still make the request. It's not that much data and things could have changed
+        // This will call block twice. Make sure it can handle this.
+    }
+    
     NSString *url = [self urlForAPI:@"show/episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [episode mapObjectsInDict:data];
+            
+            episode.loadedDetailedInformation = YES;
+            [_cache.episodes setObject:episode forKey:episode.cacheKey];
             block(episode);
         }
     }];
@@ -383,10 +448,24 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             NSString *typeName = [self contentTypeToName:type withPlural:NO];
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *dictitem in data) {
-                FATraktListItem *item = [[FATraktListItem alloc] init];
-                item.type = typeName;
-                [item setItem:dictitem];
-                [items addObject:item];
+                if (type == FAContentTypeEpisodes) {
+                    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dictitem];
+                    for (NSDictionary *episodeDict in show.episodes) {
+                        FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+                        episode.in_watchlist = YES;
+                        [_cache.episodes setObject:episode forKey:episode.cacheKey];
+                        
+                        FATraktListItem *item = [[FATraktListItem alloc] init];
+                        item.type = typeName;
+                        item.episode = episode;
+                        [items addObject:item];
+                    }
+                } else {
+                    FATraktListItem *item = [[FATraktListItem alloc] init];
+                    item.type = typeName;
+                    [item setItem:dictitem];
+                    [items addObject:item];
+                }                
             }
             list.items = items;
             block(list);
@@ -394,20 +473,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     }];
 }
 
-- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block
+- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    [self addToWatchlist:content add:YES callback:block];
+    [self addToWatchlist:content add:YES callback:block onError:error];
 }
 
-- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block
+- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    [self addToWatchlist:content add:NO callback:block];
+    [self addToWatchlist:content add:NO callback:block onError:error];
 }
 
-- (void)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block
+- (void)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    NSString *watchlistName = [self contentTypeToName:content.contentType withPlural:NO];
-    
+    NSString *watchlistName = [self watchlistNameForContentType:content.contentType];
     NSString *url;
     if (add) {
         url = [self urlForAPI:[NSString stringWithFormat:@"%@/watchlist", watchlistName]];
@@ -432,6 +510,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             block();
+        } else {
+            error(response);
         }
     }];
 }

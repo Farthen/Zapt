@@ -59,6 +59,9 @@
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
 		F390191E16514242006C8E5B /* APLog.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191D16514242006C8E5B /* APLog.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
+		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
+		F3B74B2F16E6E23A00230C43 /* X-Mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */; };
+		F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B3216E6EF5400230C43 /* FATraktCache.m */; };
 		F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */; };
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
@@ -168,6 +171,11 @@
 		F390191D16514242006C8E5B /* APLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = APLog.m; path = Util/APLog.m; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressHUD.h; path = Elements/FAProgressHUD.h; sourceTree = "<group>"; };
 		F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressHUD.m; path = Elements/FAProgressHUD.m; sourceTree = "<group>"; };
+		F3B74B2C16E6E23A00230C43 /* X-Mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "X-Mark.png"; path = "Resources/X-Mark.png"; sourceTree = "<group>"; };
+		F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "X-Mark@2x.png"; path = "Resources/X-Mark@2x.png"; sourceTree = "<group>"; };
+		F3B74B3116E6EF5400230C43 /* FATraktCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktCache.h; path = API/Cache/FATraktCache.h; sourceTree = "<group>"; };
+		F3B74B3216E6EF5400230C43 /* FATraktCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktCache.m; path = API/Cache/FATraktCache.m; sourceTree = "<group>"; };
+		F3B74B3416E6F06C00230C43 /* FATraktCacheable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FATraktCacheable.h; path = API/Cache/FATraktCacheable.h; sourceTree = "<group>"; };
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATableViewCellWithActivity.h; path = Elements/FATableViewCellWithActivity.h; sourceTree = "<group>"; };
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATableViewCellWithActivity.m; path = Elements/FATableViewCellWithActivity.m; sourceTree = "<group>"; };
@@ -311,6 +319,7 @@
 		B667534115F12FEB00A8D76D /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F3B74B3016E6EF3900230C43 /* Cache */,
 				F3F8C5FC1627297800D6BD4C /* Data Types */,
 				B667534515F1319500A8D76D /* FATrakt.h */,
 				B667534615F1319500A8D76D /* FATrakt.m */,
@@ -340,6 +349,16 @@
 			name = "Lists Tab";
 			sourceTree = "<group>";
 		};
+		F3B74B3016E6EF3900230C43 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				F3B74B3116E6EF5400230C43 /* FATraktCache.h */,
+				F3B74B3216E6EF5400230C43 /* FATraktCache.m */,
+				F3B74B3416E6F06C00230C43 /* FATraktCacheable.h */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +377,8 @@
 			children = (
 				F357FA6916A899DD00420EC4 /* Checkmark.png */,
 				F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */,
+				F3B74B2C16E6E23A00230C43 /* X-Mark.png */,
+				F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */,
 				F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */,
 				B667531915F12FBE00A8D76D /* first.png */,
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
@@ -616,6 +637,8 @@
 				F357FA6516A8695C00420EC4 /* license.txt in Resources */,
 				F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */,
 				F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */,
+				F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */,
+				F3B74B2F16E6E23A00230C43 /* X-Mark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,6 +739,7 @@
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
+				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

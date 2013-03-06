@@ -7,10 +7,11 @@
 //
 
 #import "FATraktContent.h"
+#import "FATraktCacheable.h"
 
 @class FATraktShow;
 
-@interface FATraktEpisode : FATraktContent
+@interface FATraktEpisode : FATraktContent <FATraktCacheable>
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 
@@ -22,5 +23,8 @@
 @property (retain) NSString *overview;
 @property (retain) NSDate *first_aired;
 @property (retain) NSString *url;
+
+// watchlist API calls "episode" "number"
+@property (retain) NSNumber *number;
 
 @end

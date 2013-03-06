@@ -28,6 +28,7 @@
     } else if ([self.type isEqualToString:@"episode"]) {
         return self.episode;
     }
+    return nil;
 }
 
 - (void)setItem:(id)object

@@ -13,9 +13,11 @@
 @property (retain) NSArray *disabledUIElements;
 
 - (id)initWithView:(UIView *)view;
+- (void)showProgressHUDSuccess;
 - (void)showProgressHUDSuccessMessage:(NSString *)message;
+- (void)showProgressHUDFailed;
 - (void)showProgressHUDFailedMessage:(NSString *)message;
-- (void)hideProgressHUD:(NSString *)message;
+- (void)hideProgressHUD;
 - (void)showProgressHUDSpinner;
 - (void)showProgressHUDSpinnerWithText:(NSString *)text;
 

@@ -28,11 +28,22 @@
     return self;
 }
 
+- (void)showProgressHUDSuccess
+{
+    [self showProgressHUDSuccessMessage:@"Success"];
+}
+
 - (void)showProgressHUDSuccessMessage:(NSString *)message
 {
     _progressHUD.customView = _successView;
     [self showProgressHUDCompleteMessage:message];
 }
+
+- (void)showProgressHUDFailed
+{
+    [self showProgressHUDFailedMessage:@"Failed"];
+}
+
 
 - (void)showProgressHUDFailedMessage:(NSString *)message
 {

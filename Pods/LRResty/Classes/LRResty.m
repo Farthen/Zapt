@@ -46,7 +46,7 @@ static LRRestyClient *__LR_SharedClient = nil;
   return [[[LRRestyResource alloc] initWithRestClient:client URL:[NSURL URLWithString:urlString]] autorelease];
 }
 
-static BOOL __RestyDebugLoggingEnabled = YES;
+static BOOL __RestyDebugLoggingEnabled = NO;
 
 + (void)setDebugLoggingEnabled:(BOOL)isEnabled;
 {

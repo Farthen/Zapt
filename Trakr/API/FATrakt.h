@@ -26,6 +26,7 @@
 @class FATraktShow;
 @class FATraktEpisode;
 @class FATraktList;
+@class LRRestyResponse;
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;
@@ -64,7 +65,7 @@ extern NSString *const kFAKeychainKeyCredentials;
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 
 - (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block;
-- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block;
-- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block;
+- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 
 @end
