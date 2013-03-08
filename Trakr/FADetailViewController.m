@@ -347,8 +347,7 @@
 - (void)loadValueForContent:(FATraktContent *)item
 {
     self.title = item.title;
-    NSString *overviewString = [NSString stringWithFormat:@"%@ %@ %@ %@", item.overview, item.overview, item.overview, item.overview];
-    [self setOverview:overviewString];
+    [self setOverview:item.overview];
 }
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
