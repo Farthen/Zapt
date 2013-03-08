@@ -101,7 +101,7 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController view];
     
     if (_searchScope == FAContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
@@ -113,6 +113,8 @@
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
         [detailViewController showDetailForEpisode:episode];
     }
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

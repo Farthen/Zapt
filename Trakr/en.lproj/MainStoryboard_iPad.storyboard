@@ -103,6 +103,20 @@
         <image name="first" width="16" height="16"/>
         <image name="second" width="16" height="16"/>
     </resources>
+    <classes>
+        <class className="FASearchBar" superclassName="UISearchBar">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchBar.h"/>
+        </class>
+        <class className="FASearchBarWithActivity" superclassName="FASearchBar">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchBarWithActivity.h"/>
+        </class>
+        <class className="FASearchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="FASearchBarWithActivity"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

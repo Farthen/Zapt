@@ -13,6 +13,7 @@
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "UIView+SizeToFitSubviews.h"
+#import "NSObject+PerformBlock.h"
 #import "FATitleLabel.h"
 
 #import "FASearchViewController.h"
@@ -24,6 +25,7 @@
 
 @interface FADetailViewController () {
     BOOL _showing;
+    BOOL _willAppear;
     
     NSLayoutConstraint *_contentViewSizeConstraint;
     UIActionSheet *_actionSheetAdd;
@@ -32,9 +34,13 @@
     FAContentType _contentType;
     FATraktContent *_currentContent;
     UIImage *_placeholderImage;
+    UIImage *_coverImage;
+    CGFloat _imageHeight;
     BOOL _imageLoaded;
     BOOL _imageLoading;
     BOOL _imageDisplayed;
+    BOOL _willDisplayImage;
+    BOOL _displayImageWhenFinishedShowing;
     UILabel *_networkLabel;
     UILabel *_episodeNumLabel;
     UILabel *_runtimeLabel;
@@ -62,7 +68,8 @@
 
 - (void)awakeFromNib
 {
-    _placeholderImage = self.coverImageView.image;
+    [super awakeFromNib];
+    //_placeholderImage = self.coverImageView.image;
 }
 
 - (void)viewDidLoad
@@ -71,9 +78,9 @@
     _showing = NO;
     
     // Add constraint for minimal size of scroll view content
-    _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
+    /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
     [self.scrollView addConstraint:_contentViewSizeConstraint];
-    [self.contentView updateConstraintsIfNeeded];
+    [self.contentView updateConstraintsIfNeeded];*/
     
     UIBarButtonItem *btnShare = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(shareItem:)];
     UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Check In", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
@@ -88,14 +95,27 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.scrollView.contentSize = self.contentView.frame.size;
+    [self.contentView updateConstraintsIfNeeded];
+    [self.scrollView layoutSubviews];
+    
+    [self.overviewLabel sizeToFit];
+    [self.contentView resizeHeightToFitSubviewsWithMinimumSize:0];
+    
+    self.scrollView.contentSize = self.contentView.frame.size;
+    
+    _willAppear = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.scrollView.contentSize = self.contentView.frame.size;
-    [self.contentView updateConstraintsIfNeeded];
     [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
+    _showing = YES;
+    if (_displayImageWhenFinishedShowing) {
+        [self displayImage];
+        _displayImageWhenFinishedShowing = NO;
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -106,27 +126,15 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self updateViewConstraints];
-    [self.contentView updateConstraintsIfNeeded];
-    self.scrollView.contentSize = self.contentView.frame.size;
-    
-    if (_imageDisplayed && !_showing) {
-        _showing = YES;
-        CGRect finalFrame = CGRectMake(0, 0, 320, 180);
-        CGFloat top = finalFrame.size.height - self.titleLabel.frame.size.height;
-        self.scrollView.contentOffset = CGPointMake(0, -top);
-    } else if (!_imageDisplayed) {
-        CGRect imageViewFrame = CGRectMake(0, 0, 320, 180);
-        self.coverImageView.frame = imageViewFrame;
-    }
+    [self updateViewConstraints];    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     
     // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
-    _showing = NO;
-    self.scrollView.contentOffset = CGPointZero;
+    //_showing = NO;
+    //self.scrollView.contentOffset = CGPointZero;
 }
 
 - (void)setReleaseDate:(NSDate *)date withCaption:(NSString *)caption
@@ -181,36 +189,78 @@
     //[_runtimeLabel sizeToFit];
 }
 
-- (void)displayImageAnimated:(BOOL)animated
+- (void)displayImage
 {
-    if (!_imageDisplayed) {
-        _imageDisplayed = YES;
+    // decide if displaying it animated or not
+    BOOL animated;
+    if (_willAppear && !_showing) {
+        _displayImageWhenFinishedShowing = YES;
+        return;
+    } else if (_willAppear && _showing) {
+        animated = YES;
+    } else {
+        animated = NO;
+    }
+    if (!_willDisplayImage) {
+        _imageDisplayed = NO;
+        _willDisplayImage = YES;
         _showing = YES;
-        CGRect newFrame = CGRectMake(0, 0, 320, 0);
+        self.coverImageView.image = _coverImage;
+        CGFloat imageWidth = self.contentView.frame.size.width;
+        CGFloat originalImageWidth = _coverImage.size.width;
+        CGFloat scale = imageWidth / originalImageWidth;
+        CGFloat imageHeight = _coverImage.size.height * scale;
+        _imageHeight = imageHeight;
+        CGRect newFrame = CGRectMake(0, -imageHeight, 320, imageHeight);
         self.coverImageView.frame = newFrame;
-        CGRect finalFrame = CGRectMake(0, 0, 320, 180);
         CGFloat titleHeight;
         if (self.titleLabel.frame.size.height != 0) {
             titleHeight = self.titleLabel.frame.size.height;
         } else {
             titleHeight = 27;
         }
-        CGFloat top = finalFrame.size.height - titleHeight;
         CGFloat initialOffset = self.scrollView.contentOffset.y;
+        
+        CGRect intermediateFrame = CGRectMake(0, - initialOffset - imageHeight + titleHeight, 320, imageHeight);
+        CGRect finalFrame = CGRectMake(0, - initialOffset, 320, imageHeight);
+        if (initialOffset <= finalFrame.size.height) {
+            finalFrame = CGRectMake(0, 0, 320, imageHeight);
+        }
+        CGFloat top = finalFrame.size.height - titleHeight;
+
+        CGRect finalTitleBackgroundFrame = CGRectMake(0, titleHeight, self.titleBackgroundView.frame.size.width, 0);
         if (animated) {
-            [UIView animateWithDuration:0.3 animations:^(void) {
-                self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
-                self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
-                self.coverImageView.frame = finalFrame;
+            self.scrollView.userInteractionEnabled = NO;
+            CGFloat animationDuration = 0.3;
+            CGFloat intermediateFraction = titleHeight / imageHeight;
+            CGFloat intermediateDuration = intermediateFraction * animationDuration;
+            CGFloat finishingDuration = animationDuration - intermediateDuration;
+            __block BOOL blinkScrollers = NO;
+            [UIView animateWithDuration:intermediateDuration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^(void) {
+                self.coverImageView.frame = intermediateFrame;
+                self.titleBackgroundView.frame = finalTitleBackgroundFrame;
             } completion:^(BOOL finished) {
-                if (finished) {
-                    /*[self.scrollView removeConstraint:_contentViewSizeConstraint];
-                     [self.contentView sizeToFit];
-                     [self.overviewLabel sizeToFit];
-                     _contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:-top];
-                     [self.scrollView addConstraint:_contentViewSizeConstraint];
-                     [self.scrollView updateConstraintsIfNeeded];*/
-                }
+                [UIView animateWithDuration:finishingDuration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(void) {
+                    if (initialOffset > finalFrame.size.height) {
+                        // We are scrolled more down than the image is high, don't scroll the contentOffset at all
+                        // just blink the scrollers to indicate something happened
+                        blinkScrollers = YES;
+                    } else {
+                        // Scroll to the top
+                        self.scrollView.contentOffset = CGPointMake(0, -top);
+                    }
+                    self.coverImageView.frame = finalFrame;
+                } completion:^(BOOL finished) {
+                    if (finished) {
+                        self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
+                        self.scrollView.userInteractionEnabled = YES;
+                        _imageDisplayed = YES;
+                        self.titleBackgroundView.hidden = YES;
+                        if (blinkScrollers) {
+                            [self.scrollView flashScrollIndicators];
+                        }
+                    }
+                }];
             }];
         } else {
             self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
@@ -225,16 +275,13 @@
     if (posterURL && ![posterURL isEqualToString:@""] && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
         if (!_imageLoaded) {
             _imageLoaded = YES;
-            _imageLoading = NO;
             [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
-                self.coverImageView.image = image;
+                _coverImage = image;
+                [self displayImage];
                 
-                // Fade it in animated if this is called from non-main thread. Otherwise the result is cached and can be displayed immediately
-                [self displayImageAnimated:_imageLoading];
             }];
-            _imageLoading = YES;
         } else {
-            [self displayImageAnimated:NO];
+            [self displayImage];
         }
     }
 }
@@ -300,7 +347,8 @@
 - (void)loadValueForContent:(FATraktContent *)item
 {
     self.title = item.title;
-    [self setOverview:item.overview];
+    NSString *overviewString = [NSString stringWithFormat:@"%@ %@ %@ %@", item.overview, item.overview, item.overview, item.overview];
+    [self setOverview:overviewString];
 }
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
@@ -534,26 +582,29 @@
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
-    CGRect frame = self.coverImageView.frame;
-    //CGRect newFrame = CGRectMake(frame.origin.x, MIN(-offset, 0), frame.size.width, MAX(180, 180 - offset));
-    
-    CGFloat scale = (MAX(180, 180 - offset) / 180);
-    CGFloat width = 320 * scale;
-    CGFloat x = (320 - width) / 2;
-    
-    CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(180, 180 - offset));
-    
-    // zoom the image view
-    //[APLog tiny:@"zooming image with scale: %f", scale];
-    /*if (_imageDisplayed) {
-        CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
-        self.coverImageView.transform = transform;
-    }*/
-    //[APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
-    self.coverImageView.frame = newFrame;
-    [self.coverImageView layoutSubviews];
-    [self.view layoutSubviews];
+    if (_imageDisplayed) {
+        CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
+        
+        CGFloat imageHeight = _imageHeight;
+        CGFloat viewWidth = self.contentView.frame.size.width;
+        
+        CGFloat scale = (MAX(imageHeight, imageHeight - offset) / imageHeight);
+        CGFloat width = viewWidth * scale;
+        CGFloat x = (viewWidth - width) / 2;
+        
+        CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(imageHeight, imageHeight - offset));
+        
+        // zoom the image view
+        //[APLog tiny:@"zooming image with scale: %f", scale];
+        /*if (_imageDisplayed) {
+         CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
+         self.coverImageView.transform = transform;
+         }*/
+        //[APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
+        self.coverImageView.frame = newFrame;
+        [self.coverImageView layoutSubviews];
+        [self.view layoutSubviews];
+    }
 }
 
 #pragma mark UIActionSheet

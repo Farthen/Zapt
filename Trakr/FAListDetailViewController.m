@@ -142,9 +142,12 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController view];
+    
     FATraktListItem *element = [_displayedList.items objectAtIndex:indexPath.row];
     [detailViewController showDetailForContentType:element.content];
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 @end

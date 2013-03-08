@@ -32,6 +32,8 @@
 
 @property (retain) IBOutlet UIImageView *backgroundImageView;
 @property (retain) IBOutlet UIImageView *coverImageView;
+@property (retain) IBOutlet UIView *detailBackgroundView;
+@property (retain) IBOutlet UIView *titleBackgroundView;
 
 @property (retain) IBOutlet FATitleLabel *titleLabel;
 @property (retain) IBOutlet UILabel *detailLabel1;
