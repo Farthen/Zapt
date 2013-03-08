@@ -46,6 +46,46 @@
     // Release any retained subviews of the main view.
 }
 
+- (void)searchForString:(NSString *)searchString
+{
+    [self searchForString:searchString animation:YES];
+}
+
+- (void)searchForString:(NSString *)searchString animation:(BOOL)animation
+{
+    [APLog error:@"Searching for string: %@", searchString];
+    FASearchData *searchData = [[FASearchData alloc] init];
+    self.searchData = searchData;
+    
+    [_resultsTableView reloadData];
+    
+    if (animation) {
+        [self.searchBar startActivityWithCount:3];
+    }
+    
+    [[FATrakt sharedInstance] searchMovies:searchString callback:^(NSArray *result) {
+        searchData.movies = result;
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        if (animation) {
+            [self.searchBar finishActivity];
+        }
+    }];
+    [[FATrakt sharedInstance] searchShows:searchString callback:^(NSArray *result) {
+        searchData.shows = result;
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        if (animation) {
+            [self.searchBar finishActivity];
+        }
+    }];
+    [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(NSArray *result) {
+        searchData.episodes = result;
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        if (animation) {
+            [self.searchBar finishActivity];
+        }
+    }];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
@@ -68,50 +108,35 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     //[APLog tiny:@"New search string: %@", searchText];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    if (![searchText isEqualToString:@""]) {
+        [self performSelector:@selector(searchForString:) withObject:searchText afterDelay:0.20];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSString *searchString = searchBar.text;
-    [APLog fine:@"Searching for string: %@", searchString];
-    FASearchData *searchData = [[FASearchData alloc] init];
-    self.searchData = searchData;
-    [_resultsTableView reloadData];
-    
-    [self.searchBar startActivityWithCount:3];
-    
-    [[FATrakt sharedInstance] searchMovies:searchString callback:^(NSArray *result) {
-        searchData.movies = result;
-        [self.searchDisplayController.searchResultsTableView reloadData];
-        [self.searchBar finishActivity];
-    }];
-    [[FATrakt sharedInstance] searchShows:searchString callback:^(NSArray *result) {
-        searchData.shows = result;
-        [self.searchDisplayController.searchResultsTableView reloadData];
-        [self.searchBar finishActivity];
-    }];
-    [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(NSArray *result) {
-        searchData.episodes = result;
-        [self.searchDisplayController.searchResultsTableView reloadData];
-        [self.searchBar finishActivity];
-    }];
+    [self searchForString:searchString animation:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.searchBar resignFirstResponder];
+    
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [detailViewController view];
+    //[detailViewController view];
     
     if (_searchScope == FAContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
-        [detailViewController showDetailForMovie:movie];
+        [detailViewController loadContent:movie];
     } else if (_searchScope == FAContentTypeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
-        [detailViewController showDetailForShow:show];
+        [detailViewController loadContent:show];
     } else if (_searchScope == FAContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
-        [detailViewController showDetailForEpisode:episode];
+        [detailViewController loadContent:episode];
     }
     
     [self.navigationController pushViewController:detailViewController animated:YES];

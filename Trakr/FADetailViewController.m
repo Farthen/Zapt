@@ -27,12 +27,16 @@
     BOOL _showing;
     BOOL _willAppear;
     
+    UIImageView *_ratingsView;
+    
     NSLayoutConstraint *_contentViewSizeConstraint;
     UIActionSheet *_actionSheetAdd;
     UIActionSheet *_actionSheetRemove;
     
     FAContentType _contentType;
     FATraktContent *_currentContent;
+    BOOL _loadContent;
+    
     UIImage *_placeholderImage;
     UIImage *_coverImage;
     CGFloat _imageHeight;
@@ -76,7 +80,7 @@
 {
     [super viewDidLoad];
     _showing = NO;
-    
+        
     // Add constraint for minimal size of scroll view content
     /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
     [self.scrollView addConstraint:_contentViewSizeConstraint];
@@ -90,6 +94,19 @@
     
     _actionSheetAdd = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Actions", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Add to watchlist", nil), /*NSLocalizedString(@"Add to list …", nil),*/ nil];
     _actionSheetRemove = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Actions", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Remove from watchlist", nil), /*NSLocalizedString(@"Add to list …", nil),*/ nil];
+    
+    if (_loadContent) {
+        if (_contentType == FAContentTypeMovies) {
+            self.navigationItem.title = NSLocalizedString(@"Movie", nil);
+            [self displayMovie:(FATraktMovie *)_currentContent];
+        } else if (_contentType == FAContentTypeShows) {
+            self.navigationItem.title = NSLocalizedString(@"Show", nil);
+            [self displayShow:(FATraktShow *)_currentContent];
+        } else if (_contentType == FAContentTypeEpisodes) {
+            self.navigationItem.title = NSLocalizedString(@"Episode", nil);
+            [self displayEpisode:(FATraktEpisode *)_currentContent];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -98,11 +115,6 @@
     self.scrollView.contentSize = self.contentView.frame.size;
     [self.contentView updateConstraintsIfNeeded];
     [self.scrollView layoutSubviews];
-    
-    [self.overviewLabel sizeToFit];
-    [self.contentView resizeHeightToFitSubviewsWithMinimumSize:0];
-    
-    self.scrollView.contentSize = self.contentView.frame.size;
     
     _willAppear = YES;
 }
@@ -113,7 +125,7 @@
     [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
     _showing = YES;
     if (_displayImageWhenFinishedShowing) {
-        [self displayImage];
+        [self doDisplayImageAnimated:YES];
         _displayImageWhenFinishedShowing = NO;
     }
 }
@@ -126,7 +138,9 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self updateViewConstraints];    
+    [self updateViewConstraints];
+    [self.contentView resizeHeightToFitSubviewsWithMinimumSize:0];
+    self.scrollView.contentSize = self.contentView.frame.size;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -135,58 +149,6 @@
     // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
     //_showing = NO;
     //self.scrollView.contentOffset = CGPointZero;
-}
-
-- (void)setReleaseDate:(NSDate *)date withCaption:(NSString *)caption
-{
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    
-    NSString *dateString = [dateFormatter stringFromDate:date];
-    
-    NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@: %@", nil), caption, dateString]];
-    [labelString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, caption.length)];
-    [labelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, caption.length)];
-
-    
-    _releaseDateLabel.attributedText = labelString;
-    //[_releaseDateLabel sizeToFit];
-}
-
-- (void)setTitle:(NSString *)title
-{
-    self.titleLabel.text = title;
-    [self.titleLabel invalidateIntrinsicContentSize];
-    //[self.titleLabel sizeToFit];
-}
-
-- (void)setDirectors:(NSArray *)directors
-{
-    NSMutableString *directorString = [[NSMutableString alloc] init];
-    for (FATraktPeople *people in directors) {
-        if ([directorString isEqualToString:@""]) {
-            [directorString appendString:people.name];
-        } else {
-            [directorString appendFormat:NSLocalizedString(@", %@", nil), people.name];
-        }
-    }
-    
-    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:directorString];
-    [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, directorString.length)];
-    [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, directorString.length)];
-    _directorLabel.attributedText = text;
-
-    //[_directorLabel sizeToFit];
-}
-
-- (void)setRuntime:(NSNumber *)runtime
-{
-    NSMutableAttributedString *runtimeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Runtime %@ min", nil), [runtime stringValue]]];
-    [runtimeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
-    [runtimeString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
-    _runtimeLabel.attributedText = runtimeString;
-    //[_runtimeLabel sizeToFit];
 }
 
 - (void)displayImage
@@ -201,6 +163,11 @@
     } else {
         animated = NO;
     }
+    [self doDisplayImageAnimated:animated];
+}
+
+- (void)doDisplayImageAnimated:(BOOL)animated
+{
     if (!_willDisplayImage) {
         _imageDisplayed = NO;
         _willDisplayImage = YES;
@@ -208,6 +175,10 @@
         self.coverImageView.image = _coverImage;
         CGFloat imageWidth = self.contentView.frame.size.width;
         CGFloat originalImageWidth = _coverImage.size.width;
+        if (originalImageWidth == 0) {
+            [APLog error:@"Wanting to set an image with zero width - this is not possible"];
+            return;
+        }
         CGFloat scale = imageWidth / originalImageWidth;
         CGFloat imageHeight = _coverImage.size.height * scale;
         _imageHeight = imageHeight;
@@ -254,31 +225,35 @@
                     if (finished) {
                         self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
                         self.scrollView.userInteractionEnabled = YES;
-                        _imageDisplayed = YES;
                         self.titleBackgroundView.hidden = YES;
                         if (blinkScrollers) {
                             [self.scrollView flashScrollIndicators];
                         }
+                        _imageDisplayed = YES;
                     }
                 }];
             }];
         } else {
+            self.titleBackgroundView.hidden = YES;
             self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
             self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
             self.coverImageView.frame = finalFrame;
+            _imageDisplayed = YES;
         }
     }
 }
 
 - (void)setPosterToURL:(NSString *)posterURL
 {
-    if (posterURL && ![posterURL isEqualToString:@""] && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
+    if (posterURL && ![posterURL isEqualToString:@""]/* && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]*/) {
         if (!_imageLoaded) {
-            _imageLoaded = YES;
             [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
+                _imageLoaded = YES;
                 _coverImage = image;
                 [self displayImage];
-                
+            } onError:^(LRRestyResponse *response) {
+                [APLog error:@"Not displaying image of item %@ because an error occured", _currentContent];
+                _imageLoaded = NO;
             }];
         } else {
             [self displayImage];
@@ -286,32 +261,92 @@
     }
 }
 
+- (void)setReleaseDate:(NSDate *)date withCaption:(NSString *)caption
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
+    NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@ %@", nil), caption, dateString]];
+    [labelString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, caption.length)];
+    [labelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, caption.length)];
+    
+    
+    _releaseDateLabel.attributedText = labelString;
+}
+
+- (void)setTitle:(NSString *)title
+{
+    self.titleLabel.text = title;
+    [self.titleLabel invalidateIntrinsicContentSize];
+}
+
+- (void)setDirectors:(NSArray *)directors
+{
+    NSMutableString *directorString = [[NSMutableString alloc] init];
+    for (FATraktPeople *people in directors) {
+        if ([directorString isEqualToString:@""]) {
+            [directorString appendString:people.name];
+        } else {
+            [directorString appendFormat:NSLocalizedString(@", %@", nil), people.name];
+        }
+    }
+    NSAttributedString *directorString_ = [[NSAttributedString alloc] initWithString:directorString];
+    NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:directorString];
+    if ([directorString isEqualToString:@""]) {
+        directorString_ = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"unknown", nil) attributes:@{NSFontAttributeName: [UIFont italicSystemFontOfSize:14]}];
+        text = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Directors ", nil)]];
+        [text appendAttributedString:directorString_];
+        [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 9)];
+        [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 9)];
+    } else {
+        [text addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, directorString.length)];
+        [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, directorString.length)];
+    }
+    _directorLabel.attributedText = text;
+}
+
+- (void)setRuntime:(NSNumber *)runtime
+{
+    NSAttributedString *runtime_;
+    if (!runtime || runtime.intValue == 0) {
+        runtime_ = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"unknown", nil) attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14]}];
+    } else {
+        runtime_ = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@ min", nil), [runtime stringValue]]];
+    }
+    NSMutableAttributedString *runtimeString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Runtime ", nil)]];
+    [runtimeString appendAttributedString:runtime_];
+    [runtimeString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
+    [runtimeString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
+    _runtimeLabel.attributedText = runtimeString;
+}
+
 - (void)setOverview:(NSString *)overview
 {
     self.overviewLabel.text = overview;
-    if (_contentType != FAContentTypeEpisodes) {
-        [self setPosterToURL:_currentContent.images.fanart];
-    } else {
-        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-        [self setPosterToURL:episode.show.images.fanart];
-    }
-    //[self.overviewLabel sizeToFit];
 }
 
 - (void)setTagline:(NSString *)tagline
 {
     _taglineLabel.text = tagline;
-    //[_taglineLabel sizeToFit];
 }
 
 - (void)setNetwork:(NSString *)network
 {
-    NSMutableAttributedString *networkString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Network %@", nil), network]];
+    NSAttributedString *network_;
+    if (!network) {
+        network_ = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"unknown", nil) attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14]}];
+    } else {
+        network_ = [[NSAttributedString alloc] initWithString:network];
+    }
+    NSMutableAttributedString *networkString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Network ", nil)];
+    [networkString appendAttributedString:network_];
     [networkString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 7)];
     [networkString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 7)];
-
+    
     _networkLabel.attributedText = networkString;
-    //[_networkLabel sizeToFit];
 }
 
 - (void)setSeasonNum:(NSNumber *)season andEpisodeNum:(NSNumber *)episode
@@ -321,7 +356,6 @@
     [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 6)];
     
     _episodeNumLabel.attributedText = text;
-    //[_episodeNumLabel sizeToFit];
 }
 
 - (void)setShowName:(NSString *)showName
@@ -331,23 +365,55 @@
     [name addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, showName.length)];
 
     _showNameLabel.attributedText = name;
-    //[_showNameLabel sizeToFit];
 }
 
 - (void)setAirDay:(NSString *)day andTime:(NSString *)time
 {
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"Airs %@ at %@", nil), day, time]];
+    NSAttributedString *time_;
+    if (!day || !time) {
+        time_ = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"unknown", nil) attributes:@{NSFontAttributeName:[UIFont italicSystemFontOfSize:14]}];
+    } else {
+        time_ = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ at %@", day, time]];
+    }
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"Airs ", nil)];
+    [title appendAttributedString:time_];
     [title addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, 4)];
     [title addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, 4)];
 
     _airTimeLabel.attributedText = title;
-    //[_airTimeLabel sizeToFit];
 }
 
 - (void)loadValueForContent:(FATraktContent *)item
 {
     self.title = item.title;
     [self setOverview:item.overview];
+    if (_contentType != FAContentTypeEpisodes) {
+        [self setPosterToURL:_currentContent.images.fanart];
+    } else {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        if (episode.images.screen) {
+            NSLog(@"Setting poster to url: %@", episode.images.screen);
+            [self setPosterToURL:episode.images.screen];
+        } else {
+            [self setPosterToURL:episode.show.images.fanart];
+        }
+    }
+    [self.overviewLabel sizeToFit];
+    
+    if ([item.rating isEqualToString:@"love"]) {
+        if (!_ratingsView) {
+            _ratingsView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"badge-love"]];
+            CGFloat imageWidth = 26;
+            CGFloat imageHeight = 25.5;
+            CGFloat x = self.scrollViewBackgroundView.frame.size.width - imageWidth;
+            CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
+            _ratingsView.frame = imageFrame;
+            [self.scrollViewBackgroundView addSubview:_ratingsView];
+        }
+        _ratingsView.hidden = NO;
+    } else {
+        _ratingsView.hidden = YES;
+    }
 }
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
@@ -367,11 +433,8 @@
     [self.view layoutSubviews];
 }
 
-- (void)showDetailForMovie:(FATraktMovie *)movie
+- (void)displayMovie:(FATraktMovie *)movie
 {
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Movie", nil);
-    _contentType = FAContentTypeMovies;
-    _currentContent = movie;
     _directorLabel = self.detailLabel1;
     _runtimeLabel = self.detailLabel2;
     _releaseDateLabel = self.detailLabel3;
@@ -381,10 +444,8 @@
     _taglineLabel = nil;
     _networkLabel = nil;
     
-    self.actionButton.title = @"Check In";
+    self.actionButton.title = NSLocalizedString(@"Check In", nil);
     self.coverImageView.image = _placeholderImage;
-    _imageLoaded = NO;
-    _imageDisplayed = NO;
     
     [self loadValuesForMovie:movie];
     
@@ -412,11 +473,8 @@
     [self.view updateConstraintsIfNeeded];
 }
 
-- (void)showDetailForShow:(FATraktShow *)show
+- (void)displayShow:(FATraktShow *)show
 {
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Show", nil);
-    _contentType = FAContentTypeShows;
-    _currentContent = show;
     _directorLabel = nil;
     
     _runtimeLabel = self.detailLabel2;
@@ -426,8 +484,6 @@
     
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
     self.coverImageView.image = _placeholderImage;
-    _imageLoaded = NO;
-    _imageDisplayed = NO;
     if (!show.requestedDetailedInformation) {
         show.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -451,11 +507,8 @@
     [self.view layoutSubviews];
 }
 
-- (void)showDetailForEpisode:(FATraktEpisode *)episode
+- (void)displayEpisode:(FATraktEpisode *)episode
 {
-    self.navigationController.navigationBar.topItem.title = NSLocalizedString(@"Episode", nil);
-    _contentType = FAContentTypeEpisodes;
-    _currentContent = episode;
     _directorLabel = nil;
     _showNameLabel = self.detailLabel3;
     _runtimeLabel = self.detailLabel4;
@@ -464,8 +517,6 @@
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
     self.coverImageView.image = _placeholderImage;
-    _imageLoaded = NO;
-    _imageDisplayed = NO;
     if (!episode.requestedDetailedInformation) {
         episode.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -479,14 +530,21 @@
 }
 
 
-- (void)showDetailForContentType:(FATraktContent *)content
+- (void)loadContent:(FATraktContent *)content
 {
-    if ([content isKindOfClass:[FATraktMovie class]]) {
-        return [self showDetailForMovie:(FATraktMovie *)content];
-    } else if ([content isKindOfClass:[FATraktShow class]]) {
-        return [self showDetailForShow:(FATraktShow *)content];
-    } else if ([content isKindOfClass:[FATraktEpisode class]]) {
-        return [self showDetailForEpisode:(FATraktEpisode *)content];
+    _currentContent = content;
+    _contentType = content.contentType;
+    
+    if (_willAppear) {
+        if (content.contentType == FAContentTypeMovies) {
+            return [self displayMovie:(FATraktMovie *)content];
+        } else if (content.contentType == FAContentTypeShows) {
+            return [self displayShow:(FATraktShow *)content];
+        } else if (content.contentType == FAContentTypeEpisodes) {
+            return [self displayEpisode:(FATraktEpisode *)content];
+        }
+    } else {
+        _loadContent = YES;
     }
 }
 
@@ -581,17 +639,22 @@
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (_imageDisplayed) {
+    if (_imageDisplayed && _imageHeight) {
         CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
         
-        CGFloat imageHeight = _imageHeight;
         CGFloat viewWidth = self.contentView.frame.size.width;
         
-        CGFloat scale = (MAX(imageHeight, imageHeight - offset) / imageHeight);
+        CGFloat scale = (MAX(_imageHeight, _imageHeight - offset) / _imageHeight);
         CGFloat width = viewWidth * scale;
         CGFloat x = (viewWidth - width) / 2;
         
-        CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(imageHeight, imageHeight - offset));
+        CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(_imageHeight, _imageHeight - offset));
+        
+        // Set the scrollviewbackgroundview x to the imageview x
+        CGFloat y = MIN(0, -offset);
+        CGRect svbvFrame = self.scrollViewBackgroundView.frame;
+        svbvFrame.origin.y = y;
+        self.scrollViewBackgroundView.frame = svbvFrame;
         
         // zoom the image view
         //[APLog tiny:@"zooming image with scale: %f", scale];

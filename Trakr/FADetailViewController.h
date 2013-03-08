@@ -16,11 +16,7 @@
 
 @interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
 
-- (void)showDetailForContentType:(FATraktContent *)content;
-
-- (void)showDetailForMovie:(FATraktMovie *)movie;
-- (void)showDetailForShow:(FATraktShow *)show;
-- (void)showDetailForEpisode:(FATraktEpisode *)episode;
+- (void)loadContent:(FATraktContent *)content;
 
 - (IBAction)actionItem:(id)sender;
 - (IBAction)touchedCover:(id)sender;
@@ -34,6 +30,7 @@
 @property (retain) IBOutlet UIImageView *coverImageView;
 @property (retain) IBOutlet UIView *detailBackgroundView;
 @property (retain) IBOutlet UIView *titleBackgroundView;
+@property (retain) IBOutlet UIView *scrollViewBackgroundView;
 
 @property (retain) IBOutlet FATitleLabel *titleLabel;
 @property (retain) IBOutlet UILabel *detailLabel1;

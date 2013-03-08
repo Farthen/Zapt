@@ -52,7 +52,7 @@ extern NSString *const kFAKeychainKeyCredentials;
 #pragma mark API
 - (void)verifyCredentials:(void (^)(BOOL valid))block;
 
-- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block;
+- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
 
 - (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block;
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;

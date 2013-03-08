@@ -23,6 +23,7 @@
 @property (retain) NSString *overview;
 @property (retain) NSDate *first_aired;
 @property (retain) NSString *url;
+@property (assign) BOOL watched;
 
 // watchlist API calls "episode" "number"
 @property (retain) NSNumber *number;

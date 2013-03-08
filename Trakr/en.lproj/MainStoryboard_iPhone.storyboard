@@ -9,6 +9,7 @@
         <scene sceneID="15">
             <objects>
                 <tabBarController id="4" customClass="FATabBarController" sceneMemberID="viewController">
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="5">
                         <rect key="frame" x="0.0" y="431" width="320" height="49"/>
@@ -58,10 +59,10 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" id="2MJ-Ra-XWP" customClass="FASearchBarWithActivity">
+                            <searchBar contentMode="redraw" placeholder="Search Trakt Database" id="2MJ-Ra-XWP" customClass="FASearchBarWithActivity">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <scopeButtonTitles>
                                     <string>Movies</string>
                                     <string>Shows</string>
@@ -148,8 +149,10 @@
         <scene sceneID="n6g-q5-5ag">
             <objects>
                 <navigationController definesPresentationContext="YES" id="xij-TG-CeT" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Lists" image="first.png" id="p2B-W2-sJz"/>
+                    <tabBarItem key="tabBarItem" title="Lists" image="profile-lists-dark.png" id="p2B-W2-sJz"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Mq6-vv-pjS">
+                        <rect key="frame" x="0.0" y="-44" width="0.0" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -194,11 +197,11 @@
             <objects>
                 <viewController id="cwK-6X-qfw" customClass="FASettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3Vm-oT-46a">
-                        <rect key="frame" x="0.0" y="20" width="320" height="411"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="367"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="QRz-4v-OSn">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="411"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <connections>
@@ -218,7 +221,7 @@
             </objects>
             <point key="canvasLocation" x="658" y="1053"/>
         </scene>
-        <!--Detail View Controller - Episode-->
+        <!--Detail View Controller-->
         <scene sceneID="K8i-QQ-ZJI">
             <objects>
                 <viewController storyboardIdentifier="detail" id="O2p-gS-ycq" customClass="FADetailViewController" sceneMemberID="viewController">
@@ -235,6 +238,11 @@
                                 <rect key="frame" x="0.0" y="127" width="320" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" id="UVe-0X-PML">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="foK-5Z-xbc">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
@@ -279,11 +287,11 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" id="rzI-In-2Ee" customClass="FATitleLabel">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" id="rzI-In-2Ee" customClass="FATitleLabel">
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="27"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="19"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -305,7 +313,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Episode" id="w57-qb-XNS"/>
+                    <navigationItem key="navigationItem" id="w57-qb-XNS"/>
                     <connections>
                         <outlet property="contentView" destination="ahf-Bo-dF9" id="5a4-O8-4Ou"/>
                         <outlet property="coverImageView" destination="Bim-Ms-Pm6" id="2Mx-XN-b0Y"/>
@@ -316,6 +324,7 @@
                         <outlet property="detailLabel4" destination="LJr-CU-FjF" id="eBE-0t-34y"/>
                         <outlet property="overviewLabel" destination="ppK-aD-MNh" id="jLV-CJ-rai"/>
                         <outlet property="scrollView" destination="foK-5Z-xbc" id="SnW-SL-fzc"/>
+                        <outlet property="scrollViewBackgroundView" destination="UVe-0X-PML" id="Xc4-TC-u1B"/>
                         <outlet property="titleBackgroundView" destination="PWE-hp-lHF" id="BUm-UW-p9k"/>
                         <outlet property="titleLabel" destination="rzI-In-2Ee" id="zhV-YN-G6I"/>
                         <segue destination="YqG-nB-QyF" kind="push" id="T3e-Ln-l8L"/>
@@ -367,7 +376,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="first.png" width="30" height="30"/>
+        <image name="profile-lists-dark.png" width="24" height="23"/>
         <image name="second.png" width="30" height="30"/>
     </resources>
     <classes>
@@ -394,6 +403,7 @@
                 <relationship kind="outlet" name="detailLabel4" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="overviewLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="scrollViewBackgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="titleBackgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="FATitleLabel"/>
             </relationships>

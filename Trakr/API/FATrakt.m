@@ -197,6 +197,30 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     return nil;
 }
 
+- (void)postDateAddAuthToDict:(NSMutableDictionary *)dict
+{
+    NSDictionary *authDict = @{@"username:": _apiUser, @"password": _apiPasswordHash};
+    [dict addEntriesFromDictionary:authDict];
+}
+
+- (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content
+{
+    NSDictionary *dict;
+    if (content.contentType == FAContentTypeMovies) {
+        FATraktMovie *movie = (FATraktMovie *)content;
+        dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+    } else if (content.contentType == FAContentTypeShows) {
+        FATraktShow *show = (FATraktShow *)content;
+        dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+    } else if (content.contentType == FAContentTypeEpisodes) {
+        FATraktEpisode *episode = (FATraktEpisode *)content;
+        dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
+    }
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    [self postDateAddAuthToDict:mutableDict];
+    return mutableDict;
+}
+
 - (void)verifyCredentials:(void (^)(BOOL valid))block
 {
     [APLog fine:@"Account test!"];
@@ -218,7 +242,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     }];
 }
 
-- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block
+- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error
 {
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
@@ -230,7 +254,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         } else {
             suffix = @"";
         }
-    } else if ([url hasPrefix:@"http://trakt.us/images/fanart"]) {
+    } else if ([url hasPrefix:@"http://trakt.us/images/fanart"] && ![url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
         [APLog tiny:@"Loading image of type fanart"];
         if (width <= 218) {
             suffix = @"-218";
@@ -256,9 +280,12 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
+            if (response.responseData.length == 0) {
+                error(response);
+            }
             UIImage *image = [UIImage imageWithData:[response responseData]];
-            [_cache.images setObject:image forKey:imageURL];
-            /*if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+            
+            if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"] || [url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
                 // Invert the colors to make it look good on black background
                 UIGraphicsBeginImageContext(image.size);
                 CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeCopy);
@@ -268,8 +295,12 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                 CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, image.size.width, image.size.height));
                 image = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
-            }*/
+            }
+            
+            [_cache.images setObject:image forKey:imageURL];
             block(image);
+        } else {
+            error(response);
         }
     }];
 }
@@ -465,7 +496,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                     item.type = typeName;
                     [item setItem:dictitem];
                     [items addObject:item];
-                }                
+                }
             }
             list.items = items;
             block(list);
@@ -493,17 +524,26 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         url = [self urlForAPI:[NSString stringWithFormat:@"%@/unwatchlist", watchlistName]];
     }
     
-    NSDictionary *dict;
-    if (content.contentType == FAContentTypeMovies) {
-        FATraktMovie *movie = (FATraktMovie *)content;
-        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
-    } else if (content.contentType == FAContentTypeShows) {
-        FATraktShow *show = (FATraktShow *)content;
-        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
-    } else if (content.contentType == FAContentTypeEpisodes) {
-        FATraktEpisode *episode = (FATraktEpisode *)content;
-        dict = @{@"username": _apiUser, @"password": _apiPasswordHash, @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
-    }
+    NSDictionary *dict = [self postDataContentTypeDictForContent:content];
+    
+    NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            block();
+        } else {
+            error(response);
+        }
+    }];
+}
+
+- (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+{
+    NSString *contentType = [self contentTypeToName:content.contentType withPlural:NO];
+    NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
+    
+    NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content];
+    [dict addEntriesFromDictionary:@{@"love": love}];
     
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
