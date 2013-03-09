@@ -10,22 +10,28 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreText/CoreText.h>
 
+#import "FADetailImageViewController.h"
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "UIView+SizeToFitSubviews.h"
 #import "NSObject+PerformBlock.h"
 #import "FATitleLabel.h"
+#import "FAScrollViewWithTopView.h"
 
 #import "FASearchViewController.h"
 #import "FAEpisodeListViewController.h"
 
 #import "FAProgressHUD.h"
+#import "FAContentPrefsView.h"
 
 #import "FATrakt.h"
 
 @interface FADetailViewController () {
     BOOL _showing;
     BOOL _willAppear;
+    
+    UIViewController *_imageViewController;
+    UIViewController *_prefsViewController;
     
     UIImageView *_ratingsView;
     
@@ -151,6 +157,15 @@
     //self.scrollView.contentOffset = CGPointZero;
 }
 
+- (void)displayPageControl:(BOOL)animated
+{
+    FAContentPrefsView *contentPrefsview = [[FAContentPrefsView alloc] initWithFrame:self.coverImageView.frame];
+    [contentPrefsview displayContent:_currentContent];
+        
+    self.pageControl = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
+    self.pageControl.dataSource = self;
+}
+
 - (void)displayImage
 {
     // decide if displaying it animated or not
@@ -173,73 +188,19 @@
         _willDisplayImage = YES;
         _showing = YES;
         self.coverImageView.image = _coverImage;
-        CGFloat imageWidth = self.contentView.frame.size.width;
         CGFloat originalImageWidth = _coverImage.size.width;
         if (originalImageWidth == 0) {
             [APLog error:@"Wanting to set an image with zero width - this is not possible"];
             return;
         }
-        CGFloat scale = imageWidth / originalImageWidth;
-        CGFloat imageHeight = _coverImage.size.height * scale;
-        _imageHeight = imageHeight;
-        CGRect newFrame = CGRectMake(0, -imageHeight, 320, imageHeight);
-        self.coverImageView.frame = newFrame;
         CGFloat titleHeight;
         if (self.titleLabel.frame.size.height != 0) {
             titleHeight = self.titleLabel.frame.size.height;
         } else {
             titleHeight = 27;
         }
-        CGFloat initialOffset = self.scrollView.contentOffset.y;
-        
-        CGRect intermediateFrame = CGRectMake(0, - initialOffset - imageHeight + titleHeight, 320, imageHeight);
-        CGRect finalFrame = CGRectMake(0, - initialOffset, 320, imageHeight);
-        if (initialOffset <= finalFrame.size.height) {
-            finalFrame = CGRectMake(0, 0, 320, imageHeight);
-        }
-        CGFloat top = finalFrame.size.height - titleHeight;
-
-        CGRect finalTitleBackgroundFrame = CGRectMake(0, titleHeight, self.titleBackgroundView.frame.size.width, 0);
-        if (animated) {
-            self.scrollView.userInteractionEnabled = NO;
-            CGFloat animationDuration = 0.3;
-            CGFloat intermediateFraction = titleHeight / imageHeight;
-            CGFloat intermediateDuration = intermediateFraction * animationDuration;
-            CGFloat finishingDuration = animationDuration - intermediateDuration;
-            __block BOOL blinkScrollers = NO;
-            [UIView animateWithDuration:intermediateDuration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^(void) {
-                self.coverImageView.frame = intermediateFrame;
-                self.titleBackgroundView.frame = finalTitleBackgroundFrame;
-            } completion:^(BOOL finished) {
-                [UIView animateWithDuration:finishingDuration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(void) {
-                    if (initialOffset > finalFrame.size.height) {
-                        // We are scrolled more down than the image is high, don't scroll the contentOffset at all
-                        // just blink the scrollers to indicate something happened
-                        blinkScrollers = YES;
-                    } else {
-                        // Scroll to the top
-                        self.scrollView.contentOffset = CGPointMake(0, -top);
-                    }
-                    self.coverImageView.frame = finalFrame;
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
-                        self.scrollView.userInteractionEnabled = YES;
-                        self.titleBackgroundView.hidden = YES;
-                        if (blinkScrollers) {
-                            [self.scrollView flashScrollIndicators];
-                        }
-                        _imageDisplayed = YES;
-                    }
-                }];
-            }];
-        } else {
-            self.titleBackgroundView.hidden = YES;
-            self.scrollView.contentInset = UIEdgeInsetsMake(top, 0, 0, 0);
-            self.scrollView.contentOffset = CGPointMake(0, initialOffset - top);
-            self.coverImageView.frame = finalFrame;
-            _imageDisplayed = YES;
-        }
+        self.scrollView.topViewAnimationStyle = FAScrollViewWithTopViewAnimationStyleNone;
+        [self.scrollView presentTopView:self.coverImageView withBackgroundView:self.titleBackgroundView overlapping:titleHeight animated:animated];
     }
 }
 
@@ -409,6 +370,7 @@
             CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
             _ratingsView.frame = imageFrame;
             [self.scrollViewBackgroundView addSubview:_ratingsView];
+            self.scrollView.hoverView = self.scrollViewBackgroundView;
         }
         _ratingsView.hidden = NO;
     } else {
@@ -636,39 +598,6 @@
     [self.navigationController pushViewController:browser animated:YES];
 }
 
-#pragma mark UIScrollViewDelegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (_imageDisplayed && _imageHeight) {
-        CGFloat offset = scrollView.contentOffset.y + scrollView.contentInset.top;
-        
-        CGFloat viewWidth = self.contentView.frame.size.width;
-        
-        CGFloat scale = (MAX(_imageHeight, _imageHeight - offset) / _imageHeight);
-        CGFloat width = viewWidth * scale;
-        CGFloat x = (viewWidth - width) / 2;
-        
-        CGRect newFrame = CGRectMake(x, MIN(-offset, 0), width, MAX(_imageHeight, _imageHeight - offset));
-        
-        // Set the scrollviewbackgroundview x to the imageview x
-        CGFloat y = MIN(0, -offset);
-        CGRect svbvFrame = self.scrollViewBackgroundView.frame;
-        svbvFrame.origin.y = y;
-        self.scrollViewBackgroundView.frame = svbvFrame;
-        
-        // zoom the image view
-        //[APLog tiny:@"zooming image with scale: %f", scale];
-        /*if (_imageDisplayed) {
-         CGAffineTransform transform = CGAffineTransformMakeScale(scale, scale);
-         self.coverImageView.transform = transform;
-         }*/
-        //[APLog tiny:@"setting frame to: %fx%f size: %fx%f", newFrame.origin.x, newFrame.origin.y, newFrame.size.width, newFrame.size.height];
-        self.coverImageView.frame = newFrame;
-        [self.coverImageView layoutSubviews];
-        [self.view layoutSubviews];
-    }
-}
-
 #pragma mark UIActionSheet
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -693,6 +622,11 @@
             }];
         }
     }
+}
+
+#pragma mark UIPageViewControllerDataSource
+- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
+{
 }
 
 #pragma mark misc

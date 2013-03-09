@@ -243,7 +243,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="foK-5Z-xbc">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" id="foK-5Z-xbc" customClass="FAScrollViewWithTopView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="367"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -402,7 +402,7 @@
                 <relationship kind="outlet" name="detailLabel3" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="detailLabel4" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="overviewLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="scrollView" candidateClass="FAScrollViewWithTopView"/>
                 <relationship kind="outlet" name="scrollViewBackgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="titleBackgroundView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="FATitleLabel"/>
@@ -423,6 +423,9 @@
             <relationships>
                 <relationship kind="outlet" name="tableView" candidateClass="UITableView"/>
             </relationships>
+        </class>
+        <class className="FAScrollViewWithTopView" superclassName="UIScrollView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FAScrollViewWithTopView.h"/>
         </class>
         <class className="FASearchBar" superclassName="UISearchBar">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FASearchBar.h"/>

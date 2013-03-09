@@ -13,20 +13,22 @@
 @class FATraktEpisode;
 @class FATitleLabel;
 @class FATraktContent;
+@class FAScrollViewWithTopView;
 
-@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
+@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UIPageViewControllerDataSource>
 
 - (void)loadContent:(FATraktContent *)content;
 
 - (IBAction)actionItem:(id)sender;
 - (IBAction)touchedCover:(id)sender;
 
+@property (retain) UIPageViewController *pageControl;
+
 @property (retain) UIBarButtonItem *actionButton;
 
-@property (retain) IBOutlet UIScrollView *scrollView;
+@property (retain) IBOutlet FAScrollViewWithTopView *scrollView;
 @property (retain) IBOutlet UIView *contentView;
 
-@property (retain) IBOutlet UIImageView *backgroundImageView;
 @property (retain) IBOutlet UIImageView *coverImageView;
 @property (retain) IBOutlet UIView *detailBackgroundView;
 @property (retain) IBOutlet UIView *titleBackgroundView;
