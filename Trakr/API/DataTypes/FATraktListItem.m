@@ -16,7 +16,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktListItem of type \"%@\">", self.type];
+    return [NSString stringWithFormat:@"<FATraktListItem %p of type \"%@\">", self, self.type];
 }
 
 - (FATraktContent *)content

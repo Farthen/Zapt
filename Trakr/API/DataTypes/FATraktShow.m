@@ -37,7 +37,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktShow with title: %@>", self.title];
+    return [NSString stringWithFormat:@"<FATraktShow %p with title: %@>", self, self.title];
 }
 
 - (NSString *)cacheKey

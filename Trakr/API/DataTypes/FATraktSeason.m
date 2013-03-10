@@ -15,7 +15,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktSeason %@ of show with title: %@>", self.season, self.show.title];
+    return [NSString stringWithFormat:@"<FATraktSeason %p season %@ of show with title: %@>", self, self.season, self.show.title];
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show

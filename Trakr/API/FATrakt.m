@@ -281,12 +281,20 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             if (response.responseData.length == 0) {
-                error(response);
+                if (error) {
+                    error(response);
+                }
+                return;
             }
             UIImage *image = [UIImage imageWithData:[response responseData]];
             
             if ([url isEqualToString:@"http://trakt.us/images/poster-small.jpg"] || [url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
-                // Invert the colors to make it look good on black background
+                image = nil;
+                if (error) {
+                    error(response);
+                }
+                return;
+                /*// Invert the colors to make it look good on black background
                 UIGraphicsBeginImageContext(image.size);
                 CGContextSetBlendMode(UIGraphicsGetCurrentContext(), kCGBlendModeCopy);
                 [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
@@ -294,13 +302,15 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                 CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(),[UIColor whiteColor].CGColor);
                 CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, image.size.width, image.size.height));
                 image = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
+                UIGraphicsEndImageContext();*/
             }
             
             [_cache.images setObject:image forKey:imageURL];
             block(image);
         } else {
-            error(response);
+            if (error) {
+                error(response);
+            }
         }
     }];
 }
@@ -532,7 +542,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         if ([self handleResponse:response]) {
             block();
         } else {
-            error(response);
+            if (error) {
+                error(response);
+            }
         }
     }];
 }
@@ -551,7 +563,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         if ([self handleResponse:response]) {
             block();
         } else {
-            error(response);
+            if (error) {
+                error(response);
+            }
         }
     }];
 }

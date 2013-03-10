@@ -13,7 +13,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktList \"%@\">", self.name];
+    return [NSString stringWithFormat:@"<FATraktList %p with name \"%@\">", self, self.name];
 }
 
 - (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
