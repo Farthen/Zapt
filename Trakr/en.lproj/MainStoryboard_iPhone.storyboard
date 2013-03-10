@@ -234,8 +234,8 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="Bim-Ms-Pm6">
-                                <rect key="frame" x="0.0" y="127" width="320" height="180"/>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" id="Bim-Ms-Pm6">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="UVe-0X-PML">
@@ -393,7 +393,6 @@
                 <relationship kind="action" name="actionItem:"/>
                 <relationship kind="action" name="shareItem:"/>
                 <relationship kind="action" name="touchedCover:"/>
-                <relationship kind="outlet" name="backgroundImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="contentView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="detailBackgroundView" candidateClass="UIView"/>

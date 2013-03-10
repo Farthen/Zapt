@@ -14,6 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor redColor];
         // Initialization code
     }
     return self;
@@ -25,7 +26,10 @@
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    self.backgroundColor = [UIColor redColor];
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextAddEllipseInRect(ctx, rect);
+    CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor blueColor] CGColor]));
+    CGContextFillPath(ctx);
 }
 
 
