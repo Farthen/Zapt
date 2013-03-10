@@ -165,14 +165,16 @@
 
 - (UIView *)backView
 {
-    return _backView;
+    if (_backView.subviews.count == 1) {
+        return _backView.subviews[0];
+    }
+    return nil;
 }
 
 - (void)setBackView:(UIView *)backView
 {
     if (!_backView) {
         _backView = [[UIView alloc] initWithFrame:backView.frame];
-        [_backView insertSubview:backView atIndex:0];
         [self.topViewContentView insertSubview:_backView atIndex:0];
     } else {
         for (int i = 0; i < _backView.subviews.count; i++) {
@@ -183,11 +185,15 @@
     _backView.frame = CGRectMake(backView.frame.origin.x, backView.frame.origin.y, backView.frame.size.width, 0);
     [_backView setNeedsDisplay];
     _backView.clipsToBounds = YES;
+    [_backView insertSubview:backView atIndex:0];
+    if (_presentedBackView) {
+        [self presentBackView:NO];
+    }
 }
 
 - (void)presentBackView:(BOOL)animated
 {
-    if (!_presentingBackView && !_presentedBackView) {
+    if (!_presentingBackView) {
         if (animated) {
             self.showsVerticalScrollIndicator = NO;
             self.userInteractionEnabled = NO;
@@ -223,6 +229,9 @@
             CGFloat bottomInset = self.contentSize.height - self.frame.size.height + oldInset + _backViewFrame.size.height;
             _backViewContentInsets = UIEdgeInsetsMake(oldInset + _backViewFrame.size.height, 0, -bottomInset, 0);
             self.contentInset = _backViewContentInsets;
+            
+            [self setContentOffset:self.contentOffset];
+            
             self.userInteractionEnabled = YES;
         }
     }
@@ -248,6 +257,8 @@
                 [self setContentOffset:CGPointMake(0, - _viewFrame.size.height + _overlap) animated:NO];
             }];
         } else {
+            _presentedBackView = NO;
+            self.contentOffset = CGPointMake(0, - _viewFrame.size.height + _overlap);
             CGFloat oldInset = _topViewContentInsets.top;
             self.contentInset = UIEdgeInsetsMake(oldInset, 0, 0, 0);
             self.showsVerticalScrollIndicator = YES;

@@ -82,7 +82,17 @@
     _watchlistType = type;
     [[FAStatusBarSpinnerController sharedInstance] startActivity];
     [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
-        if (![_displayedList.items isEqualToArray:list.items]) {
+        BOOL reloadData = NO;
+        if (_displayedList.items.count == list.items.count) {
+            for (int i = 0; i < _displayedList.items.count; i++) {
+                if (((FATraktListItem *)_displayedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
+                    reloadData = YES;
+                }
+            }
+        } else {
+            reloadData = YES;
+        }
+        if (reloadData) {
             _displayedList = list;
             [self.tableView reloadData];
         }

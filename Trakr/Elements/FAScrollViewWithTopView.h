@@ -23,6 +23,7 @@ typedef enum {
 @property (assign) FAScrollViewWithTopViewAnimationStyle topViewAnimationStyle;
 
 - (void)presentBackView:(BOOL)animated;
+- (void)hideBackView:(BOOL)animated;
 - (void)presentTopView:(UIView *)topView withBackgroundView:(UIView *)backgroundView overlapping:(CGFloat)overlap animated:(BOOL)animated;
 
 @end
