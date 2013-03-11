@@ -9,6 +9,11 @@
 #ifndef Trakr_CGFunctions_h
 #define Trakr_CGFunctions_h
 
+#include <CoreGraphics/CoreGraphics.h>
 
+CGPoint CGPointAdd(CGPoint a, CGPoint b);
+CGPoint CGPointSubtract(CGPoint a, CGPoint b);
+CGSize CGSizeAdd(CGSize a, CGSize b);
+CGSize CGSizeSubtract(CGSize a, CGSize b);
 
 #endif
