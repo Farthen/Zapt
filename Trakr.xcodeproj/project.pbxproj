@@ -58,6 +58,10 @@
 		F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6916A899DD00420EC4 /* Checkmark.png */; };
 		F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */; };
 		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
+		F3636B6E16EDDAAA0062E885 /* --mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B6C16EDDAAA0062E885 /* --mark.png */; };
+		F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B6D16EDDAAA0062E885 /* --mark@2x.png */; };
+		F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7016EDDE350062E885 /* badge-hate@2x.png */; };
+		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -184,6 +188,10 @@
 		F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Checkmark@2x.png"; path = "Resources/Checkmark@2x.png"; sourceTree = "<group>"; };
 		F357FA6D16A8B60100420EC4 /* FAListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListsViewController.h; sourceTree = "<group>"; };
 		F357FA6E16A8B60100420EC4 /* FAListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListsViewController.m; sourceTree = "<group>"; };
+		F3636B6C16EDDAAA0062E885 /* --mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "--mark.png"; path = "Resources/--mark.png"; sourceTree = "<group>"; };
+		F3636B6D16EDDAAA0062E885 /* --mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "--mark@2x.png"; path = "Resources/--mark@2x.png"; sourceTree = "<group>"; };
+		F3636B7016EDDE350062E885 /* badge-hate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "badge-hate@2x.png"; path = "Resources/badge-hate@2x.png"; sourceTree = "<group>"; };
+		F3636B7416EDDE420062E885 /* badge-hate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "badge-hate.png"; path = "Resources/badge-hate.png"; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktList.h; path = API/DataTypes/FATraktList.h; sourceTree = "<group>"; };
@@ -427,6 +435,8 @@
 				F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */,
 				F3E2209016EA7B14008C3AFA /* badge-love.png */,
 				F3E2208616EA799F008C3AFA /* badge-love@2x.png */,
+				F3636B7416EDDE420062E885 /* badge-hate.png */,
+				F3636B7016EDDE350062E885 /* badge-hate@2x.png */,
 				F3E2208716EA799F008C3AFA /* episode-bookmark.png */,
 				F3E2208E16EA7A68008C3AFA /* profile-lists-dark.png */,
 				F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */,
@@ -437,6 +447,8 @@
 				F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */,
 				F33631CB16ED3E46004FC205 /* +-mark.png */,
 				F33631CF16ED3E52004FC205 /* +-mark@2x.png */,
+				F3636B6C16EDDAAA0062E885 /* --mark.png */,
+				F3636B6D16EDDAAA0062E885 /* --mark@2x.png */,
 				F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */,
 				B667531915F12FBE00A8D76D /* first.png */,
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
@@ -718,6 +730,10 @@
 				F33631CA16ED3752004FC205 /* outlets@2X.png in Resources */,
 				F33631CD16ED3E46004FC205 /* +-mark.png in Resources */,
 				F33631D016ED3E52004FC205 /* +-mark@2x.png in Resources */,
+				F3636B6E16EDDAAA0062E885 /* --mark.png in Resources */,
+				F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */,
+				F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */,
+				F3636B7516EDDE420062E885 /* badge-hate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -58,7 +58,10 @@
     UILabel *_showNameLabel;
     UILabel *_airTimeLabel;
     
+    UIView *_prefsView;
     UIButton *_prefsWatchlistAddButton;
+    UIImage *_prefsWatchlistAddImage;
+    UIImage *_prefsWatchlistRemoveImage;
     
     NSMutableArray *_photos;
 }
@@ -129,21 +132,7 @@
     if (_displayImageWhenFinishedShowing) {
         [self doDisplayImageAnimated:YES];
         _displayImageWhenFinishedShowing = NO;
-    }
-    
-    if (!self.scrollView.backView) {
-        UIView *backView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
-        
-        _prefsWatchlistAddButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        //[_prefsWatchlistAddButton setImage:[UIImage imageNamed:@"+-mark"] forState:UIControlStateNormal];
-        [_prefsWatchlistAddButton setTitle:@"Add to watchlist" forState:UIControlStateNormal];
-        _prefsWatchlistAddButton.frame = CGRectMake(20, 20, 200, 50);
-        [_prefsWatchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
-        [backView addSubview:_prefsWatchlistAddButton];
-        
-        self.scrollView.backView = backView;
-        self.scrollView.backViewContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"outlets"]];
-    }
+    }    
 }
 
 - (void)viewWillLayoutSubviews
@@ -168,14 +157,34 @@
     //self.scrollView.contentOffset = CGPointZero;
 }
 
-- (void)displayPageControl:(BOOL)animated
+- (void)setUpPrefs
 {
-    FAContentPrefsView *contentPrefsview = [[FAContentPrefsView alloc] initWithFrame:self.coverImageView.frame];
-    [contentPrefsview displayContent:_currentContent];
+    if (!self.scrollView.backView) {
+        _prefsView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
+        
+        self.scrollView.backView = _prefsView;
+        self.scrollView.backViewContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"outlets"]];
+    }
     
-    self.pageControl = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
-    self.pageControl.dataSource = self;
+    if (!_prefsWatchlistAddButton) {
+        _prefsWatchlistAddButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [_prefsView addSubview:_prefsWatchlistAddButton];
+        _prefsWatchlistAddImage = [UIImage imageNamed:@"+-mark"];
+        _prefsWatchlistRemoveImage = [UIImage imageNamed:@"--mark"];
+    }
+    
+    [_prefsWatchlistAddButton setTitle:@"  Watchlist" forState:UIControlStateNormal];
+    _prefsWatchlistAddImage = [UIImage imageNamed:@"+-mark"];
+    _prefsWatchlistRemoveImage = [UIImage imageNamed:@"--mark"];
+    if (_currentContent.in_watchlist) {
+        [_prefsWatchlistAddButton setImage:_prefsWatchlistRemoveImage forState:UIControlStateNormal];
+    } else {
+        [_prefsWatchlistAddButton setImage:_prefsWatchlistAddImage forState:UIControlStateNormal];
+    }
+    _prefsWatchlistAddButton.frame = CGRectMake(20, 20, 120, 30);
+    [_prefsWatchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
 }
+
 
 - (void)displayImage
 {
@@ -244,7 +253,6 @@
     NSMutableAttributedString *labelString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:NSLocalizedString(@"%@ %@", nil), caption, dateString]];
     [labelString addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, caption.length)];
     [labelString addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, caption.length)];
-    
     
     _releaseDateLabel.attributedText = labelString;
 }
@@ -358,6 +366,7 @@
 
 - (void)loadValueForContent:(FATraktContent *)item
 {
+    [self setUpPrefs];
     self.title = item.title;
     [self setOverview:item.overview];
     if (_contentType != FAContentTypeEpisodes) {
@@ -604,7 +613,29 @@
 #pragma mark UIActionSheet
 - (void)prefsViewAction:(id)sender
 {
-    
+    if (sender == _prefsWatchlistAddButton) {
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+        hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
+        if (_currentContent.in_watchlist) {
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
+            [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
+                [hud showProgressHUDSuccess];
+                _currentContent.in_watchlist = NO;
+                [self setUpPrefs];
+            } onError:^(LRRestyResponse *response) {
+                [hud showProgressHUDFailed];
+            }];
+        } else {
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
+            [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
+                [hud showProgressHUDSuccess];
+                _currentContent.in_watchlist = YES;
+                [self setUpPrefs];
+            } onError:^(LRRestyResponse *response) {
+                [hud showProgressHUDFailed];
+            }];
+        }
+    }
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

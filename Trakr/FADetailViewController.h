@@ -15,7 +15,7 @@
 @class FATraktContent;
 @class FAScrollViewWithTopView;
 
-@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate, UIPageViewControllerDataSource>
+@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
