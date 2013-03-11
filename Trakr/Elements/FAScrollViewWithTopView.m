@@ -8,6 +8,9 @@
 
 #import "FAScrollViewWithTopView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "UIView+FrameAdditions.h"
+#import "UIFunctions.h"
+#import "NSObject+PerformBlock.h"
 
 @implementation FAScrollViewWithTopView {
     UIView *_hoverView;
@@ -24,6 +27,10 @@
     CGFloat _overlap;
     UIEdgeInsets _topViewContentInsets;
     UIEdgeInsets _backViewContentInsets;
+    
+    CGFloat _topViewOffset;
+    /*CGFloat _backViewOffset;
+    CGFloat _totalOffset;*/
 }
 
 @synthesize topView = _topView;
@@ -43,41 +50,49 @@
     [_topView removeFromSuperview];
     _topView = topView;
     _topView.hidden = NO;
-    _viewFrame = CGRectMake(topView.frame.origin.x, topView.frame.origin.y, topView.frame.size.width, topView.frame.size.height);
+    _viewFrame = topView.frame;
     _overlap = overlap;
     CGSize contentSize = self.contentSize;
     CGFloat topViewHeight = topView.frame.size.height;
+    _topViewOffset = - topViewHeight + overlap;
     
-    CGRect newTopViewFrame = CGRectMake(0, - topViewHeight, contentSize.width, topViewHeight);
+    CGFloat backViewOffset = 0;
+    
+    if (_presentedBackView) {
+        backViewOffset = _backViewFrame.size.height;
+    }
+    
+    CGRect newTopViewFrame = CGRectMake(0, - topViewHeight + backViewOffset, contentSize.width, topViewHeight);
     topView.frame = newTopViewFrame;
     
     [self.topViewContentView insertSubview:topView atIndex:0];
     [self.topViewContentView insertSubview:backgroundView belowSubview:topView];
+    backgroundView.frameY += backViewOffset;
     [self.topViewContentView insertSubview:_hoverView aboveSubview:topView];
     _hoverView.hidden = NO;
     
     CGFloat initialContentOffset = self.contentOffset.y;
     
-    CGFloat backViewOffset = 0;
+    [self setTopViewContentViewFrame];
     
+    CGRect intermediateFrame = CGRectMake(0, _topViewOffset, contentSize.width, topViewHeight);
     if (_presentedBackView) {
-        initialContentOffset += _backViewFrame.size.height;
-        backViewOffset = _backViewFrame.size.height;
+        intermediateFrame.origin.y += _backViewFrame.size.height;
     }
+    _hoverView.frameY = - topViewHeight + backViewOffset;
     
-    CGRect intermediateFrame = CGRectMake(0, - topViewHeight + overlap, contentSize.width, topViewHeight);
     CGRect hoverViewIntermediateFrame = _hoverView.frame;
-    hoverViewIntermediateFrame.origin.y = intermediateFrame.origin.y;
-    _hoverView.frame = hoverViewIntermediateFrame;
-    CGRect finalFrame = CGRectMake(0, -topViewHeight + overlap, contentSize.width, topViewHeight);
-    CGFloat top = finalFrame.size.height - overlap;
-    _topViewContentInsets = UIEdgeInsetsMake(top, 0, 0, 0);
+    hoverViewIntermediateFrame.origin.y = _topViewOffset;
+    
+    CGRect finalFrame = CGRectMake(0, 0, contentSize.width, topViewHeight);
+    finalFrame.origin.y += backViewOffset;
+    
+    _topViewContentInsets = UIEdgeInsetsMake(finalFrame.size.height - overlap, 0, 0, 0);
+    CGFloat top = finalFrame.size.height - overlap - self.contentOffset.y;
+    
     UIEdgeInsets topViewContentInsets = _topViewContentInsets;
     if (_presentedBackView) {
-        topViewContentInsets.top += _backViewContentInsets.top;
-        topViewContentInsets.left += _backViewContentInsets.left;
-        topViewContentInsets.bottom += _backViewContentInsets.bottom;
-        topViewContentInsets.right += _backViewContentInsets.right;
+        topViewContentInsets = UIEdgeInsetsAdd(topViewContentInsets, _backViewContentInsets);
     }
         
     if (animated) {
@@ -90,24 +105,27 @@
         
         [UIView animateWithDuration:intermediateDuration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^(void) {
             topView.frame = intermediateFrame;
+            _hoverView.frameY = intermediateFrame.origin.y;
         } completion:^(BOOL finished) {
+            CGFloat difference = _topViewOffset - backViewOffset - self.topViewContentView.frameY;
+            [self setTopViewContentViewFrameToOffset:CGPointMake(0, _topViewOffset - backViewOffset)];
+            if (_backView) {
+                _backView.frameY = -difference;
+            }
+            topView.frameY = backViewOffset;
+            _hoverView.frameY = backViewOffset;
             [UIView animateWithDuration:finishingDuration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(void) {
-                if (_hoverView) {
-                    CGRect hoverViewFrame = _hoverView.frame;
-                    hoverViewFrame.origin.y = finalFrame.origin.y;//MIN(self.contentOffset.y + backViewOffset, - _viewFrame.size.height + _overlap + backViewOffset);
-                    _hoverView.frame = hoverViewFrame;
-                }
                 if (initialContentOffset > finalFrame.size.height) {
                     // We are scrolled more down than the image is high, don't scroll the contentOffset at all
                     // just blink the scrollers to indicate something happened
                     blinkScrollers = YES;
                 } else {
                     // Scroll to the top
-                    self.contentOffset = CGPointMake(0, -top - backViewOffset);
+                    self.contentOffset = CGPointMake(0, -top);
                 }
-                topView.frame = finalFrame;
             } completion:^(BOOL finished) {
                 if (finished) {
+                    [self setTopViewContentViewFrame];
                     self.contentInset = topViewContentInsets;
                     self.userInteractionEnabled = YES;
                     backgroundView.hidden = YES;
@@ -139,7 +157,8 @@
 {
     if (!_topViewContentView) {
         _topViewContentView = [[UIView alloc] initWithFrame:_viewFrame];
-        _topViewContentView.frame = CGRectMake(0, 0, _viewFrame.size.width, _viewFrame.size.height);
+        //_topViewContentView.frame = CGRectMake(0, 0, _viewFrame.size.width, _viewFrame.size.height);
+        [self setTopViewContentViewFrame];
         [self insertSubview:_topViewContentView atIndex:0];
     }
     return _topViewContentView;
@@ -154,13 +173,16 @@
 {
     [_hoverView removeFromSuperview];
     _hoverView = hoverView;
-    CGRect hoverViewFrame = _hoverView.frame;
-    hoverViewFrame.origin.y = 0;//MIN(self.contentOffset.y, - _viewFrame.size.height + _overlap);
+    [_hoverView setFrameY:0];
     if (!_topViewDisplayed) {
         hoverView.hidden = YES;
     }
-    _hoverView.frame = hoverViewFrame;
     [self.topViewContentView addSubview:hoverView];
+}
+
+- (UIView *)backViewContainer
+{
+    return _backView;
 }
 
 - (UIView *)backView
@@ -182,7 +204,7 @@
         }
     }
     _backViewFrame = backView.frame;
-    _backView.frame = CGRectMake(backView.frame.origin.x, backView.frame.origin.y, backView.frame.size.width, 0);
+    [_backView setFrameHeight:0];
     [_backView setNeedsDisplay];
     _backView.clipsToBounds = YES;
     [_backView insertSubview:backView atIndex:0];
@@ -193,34 +215,38 @@
 
 - (void)presentBackView:(BOOL)animated
 {
-    if (!_presentingBackView) {
+    if (!_presentingBackView && !_presentedBackView) {
         if (animated) {
             self.showsVerticalScrollIndicator = NO;
             self.userInteractionEnabled = NO;
             _presentingBackView = YES;
             self.bounces = NO;
+            
+            CGPoint contentOffset = CGPointMake(0, _topViewOffset - self.backView.frameHeight);
+            CGFloat difference = contentOffset.y - self.topViewContentView.frameY;
+            
+            [self setTopViewContentViewFrameToOffset:contentOffset];
+            [_hoverView setFrameY:self.backView.frameHeight];
+            [_topView setFrameY:self.backView.frameHeight];
+            [_backView setFrameY:-difference];
+            
             //_backView.frame = CGRectMake(_backViewFrame.origin.x, self.contentOffset.y, _backViewFrame.size.width, _backViewFrame.size.height);
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(void) {
-                CGFloat contentOffsetY = -_backViewFrame.size.height - _viewFrame.size.height + _overlap;
+                CGFloat contentOffsetY = -_backViewFrame.size.height + _topViewOffset;
                 //NSLog(@"Will set contentOffset to %f", contentOffsetY);
                 self.contentOffset = CGPointMake(0, contentOffsetY);
             } completion:^(BOOL finished) {
                 _presentingBackView = NO;
                 _presentedBackView = YES;
                 self.bounces = YES;
-                CGFloat oldInset;
-                if (_topView) {
-                    oldInset = _topViewContentInsets.top;
-                } else {
-                    oldInset = 0;
-                }
-                CGFloat bottomInset = self.contentSize.height - self.frame.size.height + oldInset + _backViewFrame.size.height;
-                _backViewContentInsets = UIEdgeInsetsMake(oldInset + _backViewFrame.size.height, 0, -bottomInset, 0);
-                self.contentInset = _backViewContentInsets;
+                CGFloat bottomInset = self.contentSize.height - self.frame.size.height + _backViewFrame.size.height;
+                _backViewContentInsets = UIEdgeInsetsMake(_backViewFrame.size.height, 0, -bottomInset, 0);
+                UIEdgeInsets newEdgeInsets = UIEdgeInsetsAdd(_topViewContentInsets, _backViewContentInsets);
+                self.contentInset = newEdgeInsets;
                 self.userInteractionEnabled = YES;
             }];
         } else {
-            CGFloat contentOffsetY = -_backViewFrame.size.height - _viewFrame.size.height + _overlap;
+            CGFloat contentOffsetY = -_backViewFrame.size.height + _topViewOffset;
             //NSLog(@"Will set contentOffset to %f", contentOffsetY);
             self.contentOffset = CGPointMake(0, contentOffsetY);
             _presentedBackView = YES;
@@ -246,40 +272,74 @@
             self.bounces = NO;
             _hidingBackView = YES;
             _presentedBackView = NO;
+            
+            CGPoint contentOffset = CGPointMake(0, _topViewOffset);
+            CGFloat difference = contentOffset.y - self.topViewContentView.frameY;
+            
+            [self setTopViewContentViewFrameToOffset:contentOffset];
+            [_hoverView setFrameY:0];
+            [_topView setFrameY:0];
+            [_backView setFrameY:-difference];
+            
             [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^(void) {
-                self.contentOffset = CGPointMake(0, - _viewFrame.size.height + _overlap);
+                self.contentOffset = contentOffset;
             } completion:^(BOOL finished) {
                 _hidingBackView = NO;
-                CGFloat oldInset = _topViewContentInsets.top;
-                self.contentInset = UIEdgeInsetsMake(oldInset, 0, 0, 0);
+                //CGFloat oldInset = _topViewContentInsets.top;
+                //self.contentInset = UIEdgeInsetsMake(oldInset, 0, 0, 0);
+                self.contentInset = _topViewContentInsets;
                 self.bounces = YES;
                 self.showsVerticalScrollIndicator = YES;
-                [self setContentOffset:CGPointMake(0, - _viewFrame.size.height + _overlap) animated:NO];
+                [self setContentOffset:CGPointMake(0, _topViewOffset) animated:NO];
             }];
         } else {
             _presentedBackView = NO;
-            self.contentOffset = CGPointMake(0, - _viewFrame.size.height + _overlap);
+            self.contentOffset = CGPointMake(0, _topViewOffset);
             CGFloat oldInset = _topViewContentInsets.top;
             self.contentInset = UIEdgeInsetsMake(oldInset, 0, 0, 0);
             self.showsVerticalScrollIndicator = YES;
-            [self setContentOffset:CGPointMake(0, - _viewFrame.size.height + _overlap) animated:NO];
+            [self setContentOffset:CGPointMake(0, _topViewOffset) animated:NO];
         }
     }
 }
+
+- (void)setTopViewContentViewFrame
+{
+    [self setTopViewContentViewFrameToOffset:self.contentOffset];
+}
+
+- (void)setTopViewContentViewFrameToOffset:(CGPoint)offset
+{
+    CGRect topViewContentViewFrame = self.topViewContentView.frame;
+    topViewContentViewFrame.origin.x = offset.x;
+    topViewContentViewFrame.origin.y = offset.y;
+    topViewContentViewFrame.size.height = -offset.y;
+    topViewContentViewFrame.size.width = self.frame.size.width;
+    self.topViewContentView.frame = topViewContentViewFrame;
+}
+/*
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+    UIView *hitTest = [super hitTest:point withEvent:event];
+    NSLog(@"HitTest for location: %fx%f returned view: %@", point.x, point.y, hitTest);
+    return hitTest;
+}*/
 
 -(void)setContentOffset:(CGPoint)contentOffset
 {
     if (_presentingBackView) {
         //NSLog(@"removing bouncing");
-        contentOffset.y = - _backViewFrame.size.height - _viewFrame.size.height + _overlap;
+        contentOffset.y = - _backViewFrame.size.height + _topViewOffset;
     }
-        
-    //NSLog(@"Setting contentOffset from %f to %f", self.contentOffset.y, contentOffset.y);
     
     [super setContentOffset:contentOffset];
     
     if (_topViewDisplayed || _backView) {
-        CGFloat normalizedContentOffset = contentOffset.y + _viewFrame.size.height - _overlap;
+        if (_topViewContentView) {
+            [self setTopViewContentViewFrame];
+        }
+        
+        CGFloat normalizedContentOffset = contentOffset.y - _topViewOffset;
         //NSLog(@"NormalizedContentOffset: %f", normalizedContentOffset);
         
         CGFloat viewWidth = self.frame.size.width;
@@ -291,17 +351,11 @@
         if (_backView) {
             topViewAnimationStyle = FAScrollViewWithTopViewAnimationStyleNone;
             CGFloat backViewX, backViewY, backViewWidth, backViewHeight;
-            CGFloat bwOffset = contentOffset.y;
+            CGFloat bwOffset = self.contentOffset.y;
             backViewWidth = viewWidth;
             backViewX = 0;
-            if (_presentedBackView || _hidingBackView) {
-                backViewY = MAX(bwOffset, bwOffset - ((normalizedContentOffset + _backViewFrame.size.height) / 2));
-                //NSLog(@"Setting backViewY: %f", backViewY);
-            } else {
-                backViewY = bwOffset;
-            }
-            //NSLog(@"backviewy: %f, contentOffset:%f", backViewY, normalizedContentOffset);
-            backViewHeight = _backViewFrame.size.height;
+            backViewY = 0;
+            //backViewHeight = _backViewFrame.size.height;
             backViewHeight = MAX(0, - normalizedContentOffset);
             //NSLog(@"backViewHeight:%f", backViewHeight);
             _backView.frame = CGRectMake(backViewX, backViewY, backViewWidth, backViewHeight);
@@ -313,17 +367,17 @@
         if (topViewAnimationStyle == FAScrollViewWithTopViewAnimationStyleZoom) {
             width = viewWidth * scale;
             x = (viewWidth - width) / 2;
-            y = MIN(contentOffset.y, - _viewFrame.size.height + _overlap);
+            y = MIN(contentOffset.y, _topViewOffset) - contentOffset.y;
             height = MAX(- normalizedContentOffset + _viewFrame.size.height, _viewFrame.size.height);
         } else if (topViewAnimationStyle == FAScrollViewWithTopViewAnimationStyleCenter) {
             width = viewWidth;
             x = 0;
-            y = MIN( - (_viewFrame.size.height - contentOffset.y - _overlap) / 2, - _viewFrame.size.height + _overlap);
+            y = MIN( (_topViewOffset + contentOffset.y) / 2, _topViewOffset) - contentOffset.y;
             height = _viewFrame.size.height;
         } else {
             width = viewWidth;
             x = 0;
-            y = - _viewFrame.size.height + _overlap;
+            y = _topViewOffset - contentOffset.y;
             height = _viewFrame.size.height;
             if (_backView) {
                 if (normalizedContentOffset < 0) {
@@ -334,16 +388,9 @@
             }
         }
         
-        if (_hoverView && _topViewDisplayed) {
-            CGRect hoverViewFrame = _hoverView.frame;
-            if (self.topViewAnimationStyle != FAScrollViewWithTopViewAnimationStyleNone) {
-                hoverViewFrame.origin.y = MIN(contentOffset.y, - _viewFrame.size.height + _overlap);
-            } else {
-                hoverViewFrame.origin.y = - _viewFrame.size.height + _overlap;
-            }
-            _hoverView.frame = hoverViewFrame;
+        if (_hoverView) {
+            [_hoverView setFrameY:y];
         }
-        
         
         CGRect newFrame = CGRectMake(x, y, width, height);
         

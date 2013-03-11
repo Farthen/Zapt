@@ -14,13 +14,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor clearColor];
         // Initialization code
     }
     return self;
 }
 
-
+/*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -30,12 +30,13 @@
     CGContextAddEllipseInRect(ctx, rect);
     CGContextSetFillColor(ctx, CGColorGetComponents([[UIColor blueColor] CGColor]));
     CGContextFillPath(ctx);
-}
+}*/
 
 
 - (void)displayContent:(FATraktContent *)content
 {
     
 }
+
 
 @end

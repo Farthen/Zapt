@@ -391,7 +391,6 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/FADetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="actionItem:"/>
-                <relationship kind="action" name="shareItem:"/>
                 <relationship kind="action" name="touchedCover:"/>
                 <relationship kind="outlet" name="contentView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="coverImageView" candidateClass="UIImageView"/>

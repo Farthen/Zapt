@@ -42,6 +42,13 @@
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
 		F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */ = {isa = PBXBuildFile; fileRef = F3328C25162740C500FB65B8 /* FATraktDatatype.m */; };
+		F33631C916ED3752004FC205 /* outlets.png in Resources */ = {isa = PBXBuildFile; fileRef = F33631C716ED3752004FC205 /* outlets.png */; };
+		F33631CA16ED3752004FC205 /* outlets@2X.png in Resources */ = {isa = PBXBuildFile; fileRef = F33631C816ED3752004FC205 /* outlets@2X.png */; };
+		F33631CD16ED3E46004FC205 /* +-mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F33631CB16ED3E46004FC205 /* +-mark.png */; };
+		F33631D016ED3E52004FC205 /* +-mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F33631CF16ED3E52004FC205 /* +-mark@2x.png */; };
+		F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */; };
+		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
+		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
@@ -152,6 +159,16 @@
 		F330966116281728000BD107 /* FATraktPeopleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktPeopleList.m; path = API/DataTypes/FATraktPeopleList.m; sourceTree = "<group>"; };
 		F3328C24162740C500FB65B8 /* FATraktDatatype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktDatatype.h; path = API/DataTypes/FATraktDatatype.h; sourceTree = "<group>"; };
 		F3328C25162740C500FB65B8 /* FATraktDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktDatatype.m; path = API/DataTypes/FATraktDatatype.m; sourceTree = "<group>"; };
+		F33631C716ED3752004FC205 /* outlets.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = outlets.png; path = Resources/outlets.png; sourceTree = "<group>"; };
+		F33631C816ED3752004FC205 /* outlets@2X.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "outlets@2X.png"; path = "Resources/outlets@2X.png"; sourceTree = "<group>"; };
+		F33631CB16ED3E46004FC205 /* +-mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "+-mark.png"; path = "Resources/+-mark.png"; sourceTree = "<group>"; };
+		F33631CF16ED3E52004FC205 /* +-mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "+-mark@2x.png"; path = "Resources/+-mark@2x.png"; sourceTree = "<group>"; };
+		F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+FrameAdditions.h"; path = "Categories/UIView+FrameAdditions.h"; sourceTree = "<group>"; };
+		F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+FrameAdditions.m"; path = "Categories/UIView+FrameAdditions.m"; sourceTree = "<group>"; };
+		F33631D716ED606C004FC205 /* CGFunctions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CGFunctions.c; path = Util/CGFunctions.c; sourceTree = "<group>"; };
+		F33631D916ED6082004FC205 /* CGFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGFunctions.h; path = Util/CGFunctions.h; sourceTree = "<group>"; };
+		F33631DA16ED85A5004FC205 /* UIFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIFunctions.h; path = Util/UIFunctions.h; sourceTree = "<group>"; };
+		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIFunctions.m; path = Util/UIFunctions.m; sourceTree = "<group>"; };
 		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
 		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktImageList.h; path = API/DataTypes/FATraktImageList.h; sourceTree = "<group>"; };
@@ -396,6 +413,8 @@
 				F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */,
 				F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */,
 				F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */,
+				F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */,
+				F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -403,6 +422,8 @@
 		F3C84B681628DC1A006CBFEF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F33631C716ED3752004FC205 /* outlets.png */,
+				F33631C816ED3752004FC205 /* outlets@2X.png */,
 				F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */,
 				F3E2209016EA7B14008C3AFA /* badge-love.png */,
 				F3E2208616EA799F008C3AFA /* badge-love@2x.png */,
@@ -414,6 +435,8 @@
 				F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */,
 				F3B74B2C16E6E23A00230C43 /* X-Mark.png */,
 				F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */,
+				F33631CB16ED3E46004FC205 /* +-mark.png */,
+				F33631CF16ED3E52004FC205 /* +-mark@2x.png */,
 				F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */,
 				B667531915F12FBE00A8D76D /* first.png */,
 				B667531B15F12FBE00A8D76D /* first@2x.png */,
@@ -527,6 +550,10 @@
 				F3309658162743D7000BD107 /* FAPropertyUtil.m */,
 				F390191C16514242006C8E5B /* APLog.h */,
 				F390191D16514242006C8E5B /* APLog.m */,
+				F33631D916ED6082004FC205 /* CGFunctions.h */,
+				F33631D716ED606C004FC205 /* CGFunctions.c */,
+				F33631DA16ED85A5004FC205 /* UIFunctions.h */,
+				F33631DB16ED85A5004FC205 /* UIFunctions.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -687,6 +714,10 @@
 				F3E2208F16EA7A68008C3AFA /* profile-lists-dark.png in Resources */,
 				F3E2209116EA7B14008C3AFA /* badge-love.png in Resources */,
 				F3E2209316EA8A48008C3AFA /* fanart-summary.jpg in Resources */,
+				F33631C916ED3752004FC205 /* outlets.png in Resources */,
+				F33631CA16ED3752004FC205 /* outlets@2X.png in Resources */,
+				F33631CD16ED3E46004FC205 /* +-mark.png in Resources */,
+				F33631D016ED3E52004FC205 /* +-mark@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -792,6 +823,9 @@
 				F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */,
 				F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */,
 				F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */,
+				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
+				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
+				F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

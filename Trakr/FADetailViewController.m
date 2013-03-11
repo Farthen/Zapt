@@ -58,6 +58,8 @@
     UILabel *_showNameLabel;
     UILabel *_airTimeLabel;
     
+    UIButton *_prefsWatchlistAddButton;
+    
     NSMutableArray *_photos;
 }
 
@@ -129,8 +131,19 @@
         _displayImageWhenFinishedShowing = NO;
     }
     
-    UIView *backView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
-    self.scrollView.backView = backView;
+    if (!self.scrollView.backView) {
+        UIView *backView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
+        
+        _prefsWatchlistAddButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        //[_prefsWatchlistAddButton setImage:[UIImage imageNamed:@"+-mark"] forState:UIControlStateNormal];
+        [_prefsWatchlistAddButton setTitle:@"Add to watchlist" forState:UIControlStateNormal];
+        _prefsWatchlistAddButton.frame = CGRectMake(20, 20, 200, 50);
+        [_prefsWatchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:_prefsWatchlistAddButton];
+        
+        self.scrollView.backView = backView;
+        self.scrollView.backViewContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"outlets"]];
+    }
 }
 
 - (void)viewWillLayoutSubviews
@@ -159,7 +172,7 @@
 {
     FAContentPrefsView *contentPrefsview = [[FAContentPrefsView alloc] initWithFrame:self.coverImageView.frame];
     [contentPrefsview displayContent:_currentContent];
-        
+    
     self.pageControl = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation:UIPageViewControllerNavigationOrientationHorizontal options:nil];
     self.pageControl.dataSource = self;
 }
@@ -589,6 +602,11 @@
 }
 
 #pragma mark UIActionSheet
+- (void)prefsViewAction:(id)sender
+{
+    
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
