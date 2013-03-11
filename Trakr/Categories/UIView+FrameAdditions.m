@@ -7,6 +7,7 @@
 //
 
 #import "UIView+FrameAdditions.h"
+#import "CGFunctions.h"
 
 @implementation UIView (FrameAdditions)
 
@@ -24,6 +25,16 @@
     self.frame = frame;
 }
 
+- (void)frameAddX:(CGFloat)x
+{
+    self.frameX = self.frameX + x;
+}
+
+- (void)frameSubtractX:(CGFloat)x
+{
+    self.frameX = self.frameX - x;
+}
+
 - (CGFloat)frameY
 {
     return self.frame.origin.y;
@@ -34,6 +45,16 @@
     CGRect frame = self.frame;
     frame.origin.y = y;
     self.frame = frame;
+}
+
+- (void)frameAddY:(CGFloat)y
+{
+    self.frameY = self.frameY + y;
+}
+
+- (void)frameSubtractY:(CGFloat)y
+{
+    self.frameY = self.frameY - y;
 }
 
 - (CGFloat)frameWidth
@@ -48,6 +69,16 @@
     self.frame = frame;
 }
 
+- (void)frameAddWidth:(CGFloat)width
+{
+    self.frameWidth = self.frameWidth + width;
+}
+
+- (void)frameSubtractWidth:(CGFloat)width
+{
+    self.frameWidth = self.frameWidth - width;
+}
+
 - (CGFloat)frameHeight
 {
     return self.frame.size.height;
@@ -58,6 +89,16 @@
     CGRect frame = self.frame;
     frame.size.height = height;
     self.frame = frame;
+}
+
+- (void)frameAddHeight:(CGFloat)height
+{
+    self.frameHeight = self.frameHeight + height;
+}
+
+- (void)frameSubtractHeight:(CGFloat)height
+{
+    self.frameHeight = self.frameHeight - height;
 }
 
 - (CGPoint)frameOrigin
@@ -72,6 +113,16 @@
     self.frame = frame;
 }
 
+- (void)frameAddOrigin:(CGPoint)origin
+{
+    self.frameOrigin = CGPointAdd(self.frameOrigin, origin);
+}
+
+- (void)frameSubtractOrigin:(CGPoint)origin
+{
+    self.frameOrigin = CGPointSubtract(self.frameOrigin, origin);
+}
+
 - (CGSize)frameSize
 {
     return self.frame.size;
@@ -82,6 +133,16 @@
     CGRect frame = self.frame;
     frame.size = size;
     self.frame = frame;
+}
+
+- (void)frameAddSize:(CGSize)size
+{
+    self.frameSize = CGSizeAdd(self.frameSize, size);
+}
+
+- (void)frameSubtractSize:(CGSize)size
+{
+    self.frameSize = CGSizeSubtract(self.frameSize, size);
 }
 
 #pragma mark bounds
@@ -98,6 +159,16 @@
     self.bounds = bounds;
 }
 
+- (void)boundsAddX:(CGFloat)x
+{
+    self.boundsX = self.boundsX + x;
+}
+
+- (void)boundsSubtractX:(CGFloat)x
+{
+    self.boundsX = self.boundsX - x;
+}
+
 - (CGFloat)boundsY
 {
     return self.bounds.origin.y;
@@ -108,6 +179,16 @@
     CGRect bounds = self.bounds;
     bounds.origin.y = y;
     self.bounds = bounds;
+}
+
+- (void)boundsAddY:(CGFloat)y
+{
+    self.boundsY = self.boundsY + y;
+}
+
+- (void)boundsSubtractY:(CGFloat)y
+{
+    self.boundsY = self.boundsY - y;
 }
 
 - (CGFloat)boundsWidth
@@ -122,6 +203,16 @@
     self.bounds = bounds;
 }
 
+- (void)boundsAddWidth:(CGFloat)width
+{
+    self.boundsWidth = self.boundsWidth + width;
+}
+
+- (void)boundsSubtractWidth:(CGFloat)width
+{
+    self.boundsWidth = self.boundsWidth - width;
+}
+
 - (CGFloat)boundsHeight
 {
     return self.bounds.size.height;
@@ -132,6 +223,16 @@
     CGRect bounds = self.bounds;
     bounds.size.height = height;
     self.bounds = bounds;
+}
+
+- (void)boundsAddHeight:(CGFloat)height
+{
+    self.boundsHeight = self.boundsHeight + height;
+}
+
+- (void)boundsSubtractHeight:(CGFloat)height
+{
+    self.boundsHeight = self.boundsHeight - height;
 }
 
 - (CGPoint)boundsOrigin
@@ -146,16 +247,36 @@
     self.bounds = bounds;
 }
 
+- (void)boundsAddOrigin:(CGPoint)origin
+{
+    self.boundsOrigin = CGPointAdd(self.boundsOrigin, origin);
+}
+
+- (void)boundsSubtractOrigin:(CGPoint)origin
+{
+    self.boundsOrigin = CGPointSubtract(self.boundsOrigin, origin);
+}
+
 - (CGSize)boundsSize
 {
     return self.bounds.size;
 }
 
-- (void)setboundsSize:(CGSize)size
+- (void)setBoundsSize:(CGSize)size
 {
     CGRect bounds = self.bounds;
     bounds.size = size;
     self.bounds = bounds;
+}
+
+- (void)boundsAddSize:(CGSize)size
+{
+    self.boundsSize = CGSizeAdd(self.boundsSize, size);
+}
+
+- (void)boundsSubtractSize:(CGSize)size
+{
+    self.boundsSize = CGSizeSubtract(self.boundsSize, size);
 }
 
 #pragma mark center
@@ -172,6 +293,16 @@
     self.center = center;
 }
 
+- (void)centerAddX:(CGFloat)x
+{
+    self.centerX = self.centerX + x;
+}
+
+- (void)centerSubtractX:(CGFloat)x
+{
+    self.centerX = self.centerX - x;
+}
+
 - (CGFloat)centerY
 {
     return self.center.y;
@@ -182,6 +313,16 @@
     CGPoint center = self.center;
     center.y = y;
     self.center = center;
+}
+
+- (void)centerAddY:(CGFloat)y
+{
+    self.centerY = self.centerY + y;
+}
+
+- (void)centerSubtractY:(CGFloat)y
+{
+    self.centerY = self.centerY - y;
 }
 
 @end
