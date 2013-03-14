@@ -21,4 +21,3 @@ install_resource()
       ;;
   esac
 }
-install_resource 'MWPhotoBrowser/MWPhotoBrowser/MWPhotoBrowser.bundle'

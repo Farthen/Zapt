@@ -46,9 +46,9 @@
     return key;
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"seasons"] && [propertyType isEqualToString:@"NSArray"] && [object isKindOfClass:[NSArray class]]) {
+    if ([key isEqualToString:@"seasons"] && propertyType.objcClass == [NSArray class] && [object isKindOfClass:[NSArray class]]) {
         NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
         for (NSDictionary *seasonDict in (NSArray *)object) {
             FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];

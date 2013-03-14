@@ -80,6 +80,7 @@
 {
     _isWatchlist = YES;
     _watchlistType = type;
+    self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt nameForContentType:type withPlural:YES capitalized:YES]];
     [[FAStatusBarSpinnerController sharedInstance] startActivity];
     [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
         BOOL reloadData = NO;

@@ -152,6 +152,42 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     }
 }
 
++ (NSString *)nameForContentType:(FAContentType)type
+{
+    return [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
+}
+
++ (NSString *)nameForContentType:(FAContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
+{
+    NSString *name;
+    if (type == FAContentTypeMovies) {
+        name = @"movie";
+    } else if (type == FAContentTypeShows) {
+        name = @"show";
+    } else if (type == FAContentTypeEpisodes) {
+        name = @"episode";
+    }
+    if (plural) {
+        name = [name stringByAppendingString:@"s"];
+    }
+    if (capitalized) {
+        name = [name capitalizedString];
+    }
+    return name;
+}
+
++ (NSString *)watchlistNameForContentType:(FAContentType)type
+{
+    if (type == FAContentTypeMovies) {
+        return @"movie";
+    } else if (type == FAContentTypeShows) {
+        return @"show";
+    } else if (type == FAContentTypeEpisodes) {
+        return @"show/episode";
+    }
+    return nil;
+}
+
 #pragma mark - API
 
 - (NSString *)urlForAPI:(NSString *)api
@@ -168,34 +204,6 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 {
     NSString *encodedString = [string stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     return encodedString;
-}
-
-- (NSString *)contentTypeToName:(FAContentType)type withPlural:(BOOL)plural
-{
-    NSString *name;
-    if (type == FAContentTypeMovies) {
-        name = @"movie";
-    } else if (type == FAContentTypeShows) {
-        name = @"show";
-    } else if (type == FAContentTypeEpisodes) {
-        name = @"episode";
-    }
-    if (plural) {
-        name = [name stringByAppendingString:@"s"];
-    }
-    return name;
-}
-
-- (NSString *)watchlistNameForContentType:(FAContentType)type
-{
-    if (type == FAContentTypeMovies) {
-        return @"movie";
-    } else if (type == FAContentTypeShows) {
-        return @"show";
-    } else if (type == FAContentTypeEpisodes) {
-        return @"show/episode";
-    }
-    return nil;
 }
 
 - (void)postDateAddAuthToDict:(NSMutableDictionary *)dict
@@ -306,7 +314,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                 UIGraphicsEndImageContext();*/
             }
             
-            [_cache.images setObject:image forKey:imageURL];
+            [_cache.images setObject:image forKey:imageURL cost:response.responseData.length];
             block(image);
         } else {
             if (error) {
@@ -400,6 +408,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         if (extended) {
             if (show.requestedExtendedInformation) {
                 // Don't request extended information twice, this is definitely overkill
+                // TODO: actually do this when episode data has changed (new episodes!)
                 extended = NO;
             }
         } else {
@@ -479,7 +488,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 - (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block
 {
     // type can either be shows, episodes or movies
-    NSString *watchlistName = [self contentTypeToName:type withPlural:YES];
+    NSString *watchlistName = [FATrakt nameForContentType:type withPlural:YES capitalized:NO];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
     [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -487,7 +496,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             FATraktList *list = [[FATraktList alloc] init];
             list.isWatchlist = YES;
             list.name = @"watchlist";
-            NSString *typeName = [self contentTypeToName:type withPlural:NO];
+            NSString *typeName = [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *dictitem in data) {
                 if (type == FAContentTypeEpisodes) {
@@ -527,7 +536,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    NSString *watchlistName = [self watchlistNameForContentType:content.contentType];
+    NSString *watchlistName = [FATrakt watchlistNameForContentType:content.contentType];
     NSString *url;
     if (add) {
         url = [self urlForAPI:[NSString stringWithFormat:@"%@/watchlist", watchlistName]];
@@ -552,7 +561,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    NSString *contentType = [self contentTypeToName:content.contentType withPlural:NO];
+    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO capitalized:NO];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
     
     NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content];

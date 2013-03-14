@@ -25,7 +25,7 @@ typedef enum {
 @property (retain) NSString *overview;
 
 @property (retain) FATraktImageList *images;
-@property (retain) NSDictionary *ratings;
+@property (retain) NSString *ratings;
 
 @property (assign) BOOL in_watchlist;
 @property (assign) BOOL in_collection;

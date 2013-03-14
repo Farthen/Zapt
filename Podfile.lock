@@ -1,30 +1,23 @@
 
 PODS:
+- CocoaLumberjack (1.6)
 - JSONKit (1.5pre)
 - LRResty (0.11.0):
   - NSData+Base64 (~> 1.0)
 - MBProgressHUD (0.5)
-- MWPhotoBrowser (1.0.1):
-  - MBProgressHUD
-  - SDWebImage (< 3.0.0)
 - NSData+Base64 (1.0.0)
-- SDWebImage (2.7):
-  - SDWebImage/Main (= 2.7)
-- SDWebImage/Main (2.7)
 
 DEPENDENCIES:
+- CocoaLumberjack
 - JSONKit (~> 1.5pre)
 - LRResty (~> 0.11.0)
 - MBProgressHUD
-- MWPhotoBrowser
 
 SPEC CHECKSUMS:
+  CocoaLumberjack: 0f2fa7090a23f13261072d882e017c688300efbe
   JSONKit: 3d4708953ea7ae399a49777372d8b060a43ddd27
   LRResty: 8a51275030ac5bfc6c44775d64a16dc0f9267b8e
   MBProgressHUD: b23ee11c42253d6d804e8e0bfabdc334e8b2571f
-  MWPhotoBrowser: e54233d4c88e951a3b6b8f136393614cf319ac47
   NSData+Base64: 8b910cb8a64f45daec6fb15936c36a9a911c57ca
-  SDWebImage: c3306b8c68f3569f5c676d585ad77393255887dd
-  SDWebImage/Main: c3306b8c68f3569f5c676d585ad77393255887dd
 
 COCOAPODS: 0.16.1

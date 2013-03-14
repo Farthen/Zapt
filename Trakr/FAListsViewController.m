@@ -99,11 +99,11 @@
     if (indexPath.section == 0) {
         UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
         FAListDetailViewController *listDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"listdetail"];
-        [self.navigationController pushViewController:listDetailViewController animated:YES];
-        
         if (indexPath.section == 0) {
             [listDetailViewController loadWatchlistOfType:indexPath.item];
         }
+        
+        [self.navigationController pushViewController:listDetailViewController animated:YES];        
     }
 }
 

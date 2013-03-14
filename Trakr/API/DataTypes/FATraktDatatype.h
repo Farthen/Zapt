@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FAPropertyInfo.h"
 
-@interface FATraktDatatype : NSObject {
+@interface FATraktDatatype : NSObject <NSCoding> {
     NSDictionary *_originDict;
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict;
 - (void)mapObjectsInDict:(NSDictionary *)dict;
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key;
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key;
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key;
 
 @end

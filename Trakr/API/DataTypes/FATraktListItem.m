@@ -37,7 +37,7 @@
     [self mapObject:object ofType:nil toPropertyWithKey:key];
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"movie"]) {
         [self setValue:[[FATraktMovie alloc] initWithJSONDict:object] forKey:key];

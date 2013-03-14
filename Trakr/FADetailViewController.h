@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MWPhotoBrowser/MWPhotoBrowser.h>
 @class FATraktMovie;
 @class FATraktShow;
 @class FATraktEpisode;
@@ -15,7 +14,7 @@
 @class FATraktContent;
 @class FAScrollViewWithTopView;
 
-@interface FADetailViewController : UIViewController <MWPhotoBrowserDelegate, UIScrollViewDelegate, UIActionSheetDelegate>
+@interface FADetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 

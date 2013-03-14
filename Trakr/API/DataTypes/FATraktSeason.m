@@ -28,9 +28,9 @@
     return self;
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"episodes"] && [propertyType isEqualToString:@"NSArray"] && [object isKindOfClass:[NSArray class]]) {
+    if ([key isEqualToString:@"episodes"] && propertyType.objcClass == [NSArray class] && [object isKindOfClass:[NSArray class]]) {
         NSMutableArray *episodesArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
         for (NSDictionary *episodeDict in (NSArray *)object) {
             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];

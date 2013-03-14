@@ -1,5 +1,5 @@
 //
-//  FATraktCacheable.h
+//  FACacheableItem.h
 //  Trakr
 //
 //  Created by Finn Wilke on 06.03.13.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol FATraktCacheable <NSObject>
+@protocol FACacheableItem <NSObject>
 
 @required
 // the key of the item to be used for the cache

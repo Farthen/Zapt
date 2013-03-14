@@ -18,18 +18,47 @@
     NSMutableDictionary *_propertyInfo;
 }
 
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+
 - (id)init
 {
     self = [super init];
     if (self) {
         Class cls = [self class];
-        _propertyInfo = [[NSMutableDictionary alloc] initWithDictionary:[FAPropertyUtil classPropsFor:cls]];
+        //_propertyInfo = [[NSMutableDictionary alloc] initWithDictionary:[FAPropertyUtil classPropsFor:cls]];
+        
+        _propertyInfo = [[NSMutableDictionary alloc] init];
         do {
+            [_propertyInfo addEntriesFromDictionary:[FAPropertyUtil propertyInfoForClass:cls]];
             cls = [cls superclass];
-            [_propertyInfo addEntriesFromDictionary:[FAPropertyUtil classPropsFor:cls]];
         } while (cls != [FATraktDatatype class]);
     }
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [self init];
+    if (self) {
+        for (NSString *key in _propertyInfo) {
+            if ([aDecoder containsValueForKey:key]) {
+                id value = [aDecoder decodeObjectForKey:key];
+                [self setValue:value forKey:key];
+            }
+        }
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    for (NSString *key in _propertyInfo) {
+        FAPropertyInfo *propertyInfo = [_propertyInfo objectForKey:key];
+        if (!propertyInfo.isReadonly) {
+            id value = [self valueForKey:key];
+            [aCoder encodeObject:value forKey:key];
+        }
+    }
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict
@@ -56,9 +85,9 @@
     [self finishedMappingObjects];
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
-    if ([object isKindOfClass:NSClassFromString(propertyType)]) {
+    if ([object isKindOfClass:propertyType.objcClass]) {
         if ([object isKindOfClass:[NSString class]]) {
             // If string, set string
             object = [object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
@@ -68,13 +97,13 @@
             }
         }
         [self setValue:object forKey:key];
-    } else if ([propertyType isEqualToString:@"NSDate"] && [object isKindOfClass:[NSNumber class]]) {
+    } else if (propertyType.objcClass == [NSDate class] && [object isKindOfClass:[NSNumber class]]) {
         // If NSDate, set date
         NSNumber *number = (NSNumber *)object;
         NSTimeInterval timeInterval = [number doubleValue];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         [self setValue:date forKey:key];
-    } else if ([propertyType isEqualToString:@"c"]) {
+    } else if ([propertyType typeIsEqualToEncode:@encode(BOOL)]) {
         // If BOOL, set BOOL
         [self setValue:object forKey:key];
     }
@@ -82,13 +111,14 @@
 
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
-    NSString *propertyType = [_propertyInfo objectForKey:key];
-    if (!propertyType) {
+    FAPropertyInfo *propertyInfo = [_propertyInfo objectForKey:key];
+    
+    if (!propertyInfo) {
         [APLog fine:@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key];
         return;
     }
     
-    [self mapObject:object ofType:propertyType toPropertyWithKey:key];
+    [self mapObject:object ofType:propertyInfo toPropertyWithKey:key];
 }
 
 @end

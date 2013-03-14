@@ -16,7 +16,7 @@
     return [NSString stringWithFormat:@"<FATraktList %p with name \"%@\">", self, self.name];
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([object isKindOfClass:[NSArray class]]) {
         NSMutableArray *itemArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];

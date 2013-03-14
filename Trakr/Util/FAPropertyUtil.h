@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FAPropertyInfo.h"
 
 @interface FAPropertyUtil : NSObject
 
-+ (NSDictionary *)classPropsFor:(Class)klass;
-
++ (NSDictionary *)propertyInfoForClass:(Class)class;
 @end

@@ -10,7 +10,6 @@
 #import "FATrakt.h"
 #import "FAAppDelegate.h"
 
-#import <MWPhotoBrowser.h>
 #import "FAProgressHUD.h"
 #import "FATableViewCellWithActivity.h"
 

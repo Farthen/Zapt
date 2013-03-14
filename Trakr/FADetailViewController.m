@@ -32,9 +32,7 @@
     
     UIViewController *_imageViewController;
     UIViewController *_prefsViewController;
-    
-    UIImageView *_ratingsView;
-    
+        
     NSLayoutConstraint *_contentViewSizeConstraint;
     
     FAContentType _contentType;
@@ -57,6 +55,10 @@
     UILabel *_releaseDateLabel;
     UILabel *_showNameLabel;
     UILabel *_airTimeLabel;
+    
+    UIImageView *_ratingsView;
+    UIImage *_ratingsViewImageLove;
+    UIImage *_ratingsViewImageHate;
     
     UIView *_prefsView;
     UIButton *_prefsWatchlistAddButton;
@@ -382,17 +384,24 @@
     }
     [self.overviewLabel sizeToFit];
     
+    if (!_ratingsView) {
+        _ratingsViewImageLove = [UIImage imageNamed:@"badge-love"];
+        _ratingsViewImageHate = [UIImage imageNamed:@"badge-hate"];
+        _ratingsView = [[UIImageView alloc] initWithImage:_ratingsViewImageLove];
+        CGFloat imageWidth = 26;
+        CGFloat imageHeight = 25.5;
+        CGFloat x = self.scrollViewBackgroundView.frame.size.width - imageWidth;
+        CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
+        _ratingsView.frame = imageFrame;
+        [self.scrollViewBackgroundView addSubview:_ratingsView];
+        self.scrollView.hoverView = self.scrollViewBackgroundView;
+    }
+    
     if ([item.rating isEqualToString:@"love"]) {
-        if (!_ratingsView) {
-            _ratingsView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"badge-love"]];
-            CGFloat imageWidth = 26;
-            CGFloat imageHeight = 25.5;
-            CGFloat x = self.scrollViewBackgroundView.frame.size.width - imageWidth;
-            CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
-            _ratingsView.frame = imageFrame;
-            [self.scrollViewBackgroundView addSubview:_ratingsView];
-            self.scrollView.hoverView = self.scrollViewBackgroundView;
-        }
+        _ratingsView.image = _ratingsViewImageLove;
+        _ratingsView.hidden = NO;
+    } else if ([item.rating isEqualToString:@"hate"]) {
+        _ratingsView.image = _ratingsViewImageHate;
         _ratingsView.hidden = NO;
     } else {
         _ratingsView.hidden = YES;
@@ -493,9 +502,9 @@
 - (void)displayEpisode:(FATraktEpisode *)episode
 {
     _directorLabel = nil;
-    _showNameLabel = self.detailLabel3;
+    _showNameLabel = self.detailLabel1;
     _runtimeLabel = self.detailLabel4;
-    _networkLabel = self.detailLabel1;
+    _networkLabel = self.detailLabel3;
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
@@ -531,18 +540,6 @@
     }
 }
 
-#pragma mark MWPhotoBrowserDelegate
-- (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
-{
-    return _photos.count;
-}
-
-- (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
-{
-    NSString *photoURLString = _photos[index];
-    return [MWPhoto photoWithURL:[NSURL URLWithString:photoURLString]];
-}
-
 #pragma mark IBActions
 - (IBAction)actionItem:(id)sender
 {
@@ -565,50 +562,6 @@
     }
 }
 
-- (IBAction)touchedCover:(id)sender
-{
-    _photos = [[NSMutableArray alloc] init];
-    FATraktImageList *imageList;
-    
-    FATraktShow *show = nil;
-    if (_contentType == FAContentTypeEpisodes) {
-        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-        show = episode.show;
-    } else if (_contentType == FAContentTypeShows) {
-        show = (FATraktShow *)_currentContent;
-    }
-    // TODO: load season information
-    if (show) {
-        imageList = show.images;
-        NSArray *seasons = show.seasons;
-        for (int i = 1; i < seasons.count; i++) {
-            FATraktSeason *season = seasons[i];
-            if (season.poster) {
-                [_photos addObject:season.poster];
-            }
-        }
-    } else {
-        imageList = _currentContent.images;
-    }
-    if (imageList.poster) {
-        [_photos addObject:imageList.poster];
-    }
-    if (imageList.fanart) {
-        [_photos addObject:imageList.fanart];
-    }
-    if (imageList.banner) {
-        [_photos addObject:imageList.banner];
-    }
-    
-    // Create & present browser
-    MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-    // Set options
-    browser.wantsFullScreenLayout = YES; // Decide if you want the photo browser full screen, i.e. whether the status bar is affected (defaults to YES)
-    browser.displayActionButton = YES; // Show action button to save, copy or email photos (defaults to NO)
-    [browser setInitialPageIndex:0]; // Example: allows second image to be presented first
-    // Present
-    [self.navigationController pushViewController:browser animated:YES];
-}
 
 #pragma mark UIActionSheet
 - (void)prefsViewAction:(id)sender

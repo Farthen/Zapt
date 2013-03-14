@@ -49,6 +49,7 @@
 		F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */; };
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
+		F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
@@ -62,6 +63,8 @@
 		F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B6D16EDDAAA0062E885 /* --mark@2x.png */; };
 		F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7016EDDE350062E885 /* badge-hate@2x.png */; };
 		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
+		F3636B7816F03D050062E885 /* FACache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7716F03D050062E885 /* FACache.m */; };
+		F3636B7C16F06C2D0062E885 /* FACachedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7B16F06C2D0062E885 /* FACachedItem.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -173,6 +176,8 @@
 		F33631D916ED6082004FC205 /* CGFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CGFunctions.h; path = Util/CGFunctions.h; sourceTree = "<group>"; };
 		F33631DA16ED85A5004FC205 /* UIFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIFunctions.h; path = Util/UIFunctions.h; sourceTree = "<group>"; };
 		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIFunctions.m; path = Util/UIFunctions.m; sourceTree = "<group>"; };
+		F33CC36316F093D200B7D443 /* FAPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyInfo.h; path = Util/FAPropertyInfo.h; sourceTree = "<group>"; };
+		F33CC36416F093D200B7D443 /* FAPropertyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPropertyInfo.m; path = Util/FAPropertyInfo.m; sourceTree = "<group>"; };
 		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
 		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktImageList.h; path = API/DataTypes/FATraktImageList.h; sourceTree = "<group>"; };
@@ -192,6 +197,11 @@
 		F3636B6D16EDDAAA0062E885 /* --mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "--mark@2x.png"; path = "Resources/--mark@2x.png"; sourceTree = "<group>"; };
 		F3636B7016EDDE350062E885 /* badge-hate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "badge-hate@2x.png"; path = "Resources/badge-hate@2x.png"; sourceTree = "<group>"; };
 		F3636B7416EDDE420062E885 /* badge-hate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "badge-hate.png"; path = "Resources/badge-hate.png"; sourceTree = "<group>"; };
+		F3636B7616F03D050062E885 /* FACache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FACache.h; path = Util/FACache.h; sourceTree = "<group>"; };
+		F3636B7716F03D050062E885 /* FACache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FACache.m; path = Util/FACache.m; sourceTree = "<group>"; };
+		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = Util/Misc.h; sourceTree = "<group>"; };
+		F3636B7A16F06C2D0062E885 /* FACachedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FACachedItem.h; path = Util/FACachedItem.h; sourceTree = "<group>"; };
+		F3636B7B16F06C2D0062E885 /* FACachedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FACachedItem.m; path = Util/FACachedItem.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktList.h; path = API/DataTypes/FATraktList.h; sourceTree = "<group>"; };
@@ -213,7 +223,7 @@
 		F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "X-Mark@2x.png"; path = "Resources/X-Mark@2x.png"; sourceTree = "<group>"; };
 		F3B74B3116E6EF5400230C43 /* FATraktCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktCache.h; path = API/Cache/FATraktCache.h; sourceTree = "<group>"; };
 		F3B74B3216E6EF5400230C43 /* FATraktCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktCache.m; path = API/Cache/FATraktCache.m; sourceTree = "<group>"; };
-		F3B74B3416E6F06C00230C43 /* FATraktCacheable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FATraktCacheable.h; path = API/Cache/FATraktCacheable.h; sourceTree = "<group>"; };
+		F3B74B3416E6F06C00230C43 /* FACacheableItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FACacheableItem.h; path = API/Cache/FACacheableItem.h; sourceTree = "<group>"; };
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATableViewCellWithActivity.h; path = Elements/FATableViewCellWithActivity.h; sourceTree = "<group>"; };
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATableViewCellWithActivity.m; path = Elements/FATableViewCellWithActivity.m; sourceTree = "<group>"; };
@@ -405,7 +415,7 @@
 			children = (
 				F3B74B3116E6EF5400230C43 /* FATraktCache.h */,
 				F3B74B3216E6EF5400230C43 /* FATraktCache.m */,
-				F3B74B3416E6F06C00230C43 /* FATraktCacheable.h */,
+				F3B74B3416E6F06C00230C43 /* FACacheableItem.h */,
 			);
 			name = Cache;
 			sourceTree = "<group>";
@@ -560,12 +570,19 @@
 				F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */,
 				F3309657162743D7000BD107 /* FAPropertyUtil.h */,
 				F3309658162743D7000BD107 /* FAPropertyUtil.m */,
+				F33CC36316F093D200B7D443 /* FAPropertyInfo.h */,
+				F33CC36416F093D200B7D443 /* FAPropertyInfo.m */,
 				F390191C16514242006C8E5B /* APLog.h */,
 				F390191D16514242006C8E5B /* APLog.m */,
 				F33631D916ED6082004FC205 /* CGFunctions.h */,
 				F33631D716ED606C004FC205 /* CGFunctions.c */,
 				F33631DA16ED85A5004FC205 /* UIFunctions.h */,
 				F33631DB16ED85A5004FC205 /* UIFunctions.m */,
+				F3636B7916F05B890062E885 /* Misc.h */,
+				F3636B7616F03D050062E885 /* FACache.h */,
+				F3636B7716F03D050062E885 /* FACache.m */,
+				F3636B7A16F06C2D0062E885 /* FACachedItem.h */,
+				F3636B7B16F06C2D0062E885 /* FACachedItem.m */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -842,6 +859,9 @@
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
 				F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */,
+				F3636B7816F03D050062E885 /* FACache.m in Sources */,
+				F3636B7C16F06C2D0062E885 /* FACachedItem.m in Sources */,
+				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

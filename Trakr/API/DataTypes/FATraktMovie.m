@@ -43,7 +43,7 @@
     return [NSString stringWithFormat:@"imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(id)key
 {
     [super mapObject:object ofType:propertyType toPropertyWithKey:key];
 }

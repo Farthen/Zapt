@@ -7,11 +7,11 @@
 //
 
 #import "FATraktContent.h"
-#import "FATraktCacheable.h"
+#import "FACacheableItem.h"
 
 @class FATraktShow;
 
-@interface FATraktEpisode : FATraktContent <FATraktCacheable>
+@interface FATraktEpisode : FATraktContent <FACacheableItem>
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 

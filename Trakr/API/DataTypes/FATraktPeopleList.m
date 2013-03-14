@@ -12,7 +12,7 @@
 
 @implementation FATraktPeopleList
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([object isKindOfClass:[NSArray class]]) {
         NSMutableArray *peopleArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];

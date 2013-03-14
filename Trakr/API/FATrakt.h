@@ -46,6 +46,8 @@
 + (NSString *)passwordHashForPassword:(NSString *)password;
 - (id)initWithUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash;
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash;
++ (NSString *)nameForContentType:(FAContentType)type;
++ (NSString *)nameForContentType:(FAContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
 
 extern NSString *const kFAKeychainKeyCredentials;
 

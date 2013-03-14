@@ -9,6 +9,10 @@
 #import "FAAppDelegate.h"
 #import "FATrakt.h"
 #import "FAConnectingViewController.h"
+#import "FATraktCache.h"
+
+#import <DDASLLogger.h>
+#import <DDTTYLogger.h>
 
 @interface FAAppDelegate () {
     UIAlertView *_timeoutAlert;
@@ -35,6 +39,9 @@
     _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
     _overCapacityAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _authViewShowing = NO;
+    
+    [DDLog addLogger:[DDASLLogger sharedInstance]];
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];
     return YES;
 }
 
@@ -84,6 +91,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[FATraktCache sharedInstance] saveToDisk];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -99,6 +107,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[FATraktCache sharedInstance] saveToDisk];
 }
 
 @end

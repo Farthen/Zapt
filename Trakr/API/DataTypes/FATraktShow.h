@@ -8,9 +8,9 @@
 
 #import "FATraktDatatype.h"
 #import "FATraktWatchableBaseItem.h"
-#import "FATraktCacheable.h"
+#import "FACacheableItem.h"
 
-@interface FATraktShow : FATraktWatchableBaseItem <FATraktCacheable>
+@interface FATraktShow : FATraktWatchableBaseItem <FACacheableItem>
 
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;

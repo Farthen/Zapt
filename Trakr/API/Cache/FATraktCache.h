@@ -7,15 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FACache.h"
 
-@interface FATraktCache : NSObject
+@interface FATraktCache : NSObject <NSCoding>
 
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
+- (BOOL)saveToDisk;
 
-@property (readonly) NSCache *movies;
-@property (readonly) NSCache *episodes;
-@property (readonly) NSCache *shows;
-@property (readonly) NSCache *images;
+@property (readonly) FACache *movies;
+@property (readonly) FACache *episodes;
+@property (readonly) FACache *shows;
+@property (readonly) FACache *images;
+@property (readonly) FACache *lists;
 
 @end

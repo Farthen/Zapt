@@ -13,9 +13,9 @@
     NSNumber *_year;
 }
 
-- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(id)key
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(id)key
 {
-    if ([key isEqualToString:@"people"] && [propertyType isEqualToString:@"FATraktPeopleList"] && [object isKindOfClass:[NSDictionary class]]) {
+    if ([key isEqualToString:@"people"] && propertyType.objcClass == [FATraktPeopleList class] && [object isKindOfClass:[NSDictionary class]]) {
         FATraktPeopleList *peopleList = [[FATraktPeopleList alloc] initWithJSONDict:(NSDictionary *)object];
         [self setValue:peopleList forKey:key];
     } else {
