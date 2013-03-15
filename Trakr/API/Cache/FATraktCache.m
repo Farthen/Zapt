@@ -23,33 +23,7 @@ static NSString *codingFileName = @"Cache";
 {
     self = [super init];
     if (self) {
-        // Don't cache more than 50 movies
-        _movies = [[FACache alloc] initWithName:@"movies"];
-        _movies.countLimit = 50;
-        _movies.defaultExpirationTime = NSTimeIntervalOneWeek;
-        
-        // Don't cache more than 50 shows
-        _shows = [[FACache alloc] initWithName:@"shows"];
-        _shows.countLimit = 50;
-        _shows.defaultExpirationTime = NSTimeIntervalOneWeek;
-        
-        // Don't cache more than 500 episodes
-        _episodes = [[FACache alloc] initWithName:@"episodes"];
-        _episodes.countLimit = 500;
-        _episodes.defaultExpirationTime = NSTimeIntervalOneWeek;
-        
-        // Don't cache more than 100 images
-        _images = [[FACache alloc] initWithName:@"images"];
-        _images.countLimit = 100;
-        _images.totalCostLimit = FACacheCostMebibytes(20);
-        
-        // Make all images expire after 7 days
-        _images.defaultExpirationTime = NSTimeIntervalOneWeek;
-        
-        // Don't cache more than 20 lists
-        _lists = [[FACache alloc] initWithName:@"lists"];
-        _lists.countLimit = 20;
-        _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
+        [self setupCaches];
     }
     return self;
 }
@@ -66,11 +40,57 @@ static NSString *codingFileName = @"Cache";
             _images = [aDecoder decodeObjectForKey:@"images"];
             NSLog(@"total cost of images: %iKB", _images.totalCost / 1024);
             _lists = [aDecoder decodeObjectForKey:@"lists"];
+            [self setupCaches];
         }
     } else {
         self = [self init];
+        [APLog warning:@"Cache version number has changed. Rebuilding cache…"];
     }
     return self;
+}
+
+- (void)setupCaches
+{
+    if (!_movies) {
+        _movies = [[FACache alloc] initWithName:@"movies"];
+    }
+    
+    // Don't cache more than 50 movies
+    _movies.countLimit = 50;
+    _movies.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
+    if (!_shows) {
+        _shows = [[FACache alloc] initWithName:@"shows"];
+    }
+    
+    // Don't cache more than 50 shows
+    _shows.countLimit = 50;
+    _shows.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
+    if (!_episodes) {
+        _episodes = [[FACache alloc] initWithName:@"episodes"];
+    }
+    
+    // Don't cache more than 500 episodes
+    _episodes.countLimit = 500;
+    _episodes.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
+    if (!_images) {
+        _images = [[FACache alloc] initWithName:@"images"];
+    }
+    
+    // Don't cache more than 100 images
+    _images.countLimit = 100;
+    _images.totalCostLimit = FACacheCostMebibytes(20);
+    _images.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
+    if (!_lists) {
+        _lists = [[FACache alloc] initWithName:@"lists"];
+    }
+    
+    // Don't cache more than 20 lists
+    _lists.countLimit = 20;
+    _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
