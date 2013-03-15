@@ -16,6 +16,11 @@
     return [NSString stringWithFormat:@"<FATraktList %p with name \"%@\">", self, self.name];
 }
 
+- (NSString *)cacheKey
+{
+    return [NSString stringWithFormat:@"name=%@&url=%@&isWatchlist=%i", self.name, self.url, self.isWatchlist];
+}
+
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([object isKindOfClass:[NSArray class]]) {

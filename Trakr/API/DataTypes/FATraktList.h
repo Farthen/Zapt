@@ -7,8 +7,9 @@
 //
 
 #import "FATraktDatatype.h"
+#import "FACacheableItem.h"
 
-@interface FATraktList : FATraktDatatype
+@interface FATraktList : FATraktDatatype <FACacheableItem>
 
 @property (retain) NSString *name;
 @property (retain) NSString *slug;

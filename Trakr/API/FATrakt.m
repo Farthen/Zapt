@@ -489,14 +489,23 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 {
     // type can either be shows, episodes or movies
     NSString *watchlistName = [FATrakt nameForContentType:type withPlural:YES capitalized:NO];
+    NSString *typeName = [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
+    
+    FATraktList *list = [[FATraktList alloc] init];
+    list.isWatchlist = YES;
+    list.name = @"watchlist";
+    list.url = url;
+    
+    FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
+    if (cachedList) {
+        block(cachedList);
+        list = cachedList;
+    }
+    
     [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
-            FATraktList *list = [[FATraktList alloc] init];
-            list.isWatchlist = YES;
-            list.name = @"watchlist";
-            NSString *typeName = [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *dictitem in data) {
                 if (type == FAContentTypeEpisodes) {
@@ -519,6 +528,8 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
                 }
             }
             list.items = items;
+            
+            [_cache.lists setObject:list forKey:list.cacheKey];
             block(list);
         }
     }];
