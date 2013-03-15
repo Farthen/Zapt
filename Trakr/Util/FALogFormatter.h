@@ -12,4 +12,5 @@
 
 @interface FALogFormatter : NSObject <DDLogFormatter>
 
+
 @end
