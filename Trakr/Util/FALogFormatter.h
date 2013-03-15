@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <DDLog.h>
+
 
 @interface FALogFormatter : NSObject <DDLogFormatter>
 

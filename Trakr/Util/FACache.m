@@ -240,7 +240,7 @@
             oldest = item;
         }
     }
-    [APLog info:@"Oldest item in cache:%@, date:%@", oldest, oldest.dateAdded];
+    DDLogModel(@"Oldest item in cache:%@, date:%@", oldest, oldest.dateAdded);
     return oldest.object;
 }
 
