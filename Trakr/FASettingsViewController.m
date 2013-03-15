@@ -207,7 +207,7 @@
 
 - (void)checkAuthButtonPressed
 {
-    [APLog tiny:@"Button pressed"];
+    DDLogViewController(@"Auth Button pressed");
     [_progressHUD showProgressHUDSpinner];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         if (valid) {

@@ -10,10 +10,4 @@
 
 @implementation FATraktImageList
 
-/*- (void)mapObject:(id)object ofType:(NSString *)propertyType toPropertyWithKey:(NSString *)key
-{
-    NSLog(@"3, 2, 1... booom!");
-    [super mapObject:object ofType:propertyType toPropertyWithKey:key];
-}*/
-
 @end

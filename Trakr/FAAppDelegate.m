@@ -10,9 +10,14 @@
 #import "FATrakt.h"
 #import "FAConnectingViewController.h"
 #import "FATraktCache.h"
+#import "FALogFormatter.h"
 
 #import <DDASLLogger.h>
 #import <DDTTYLogger.h>
+#import <DDFileLogger.h>
+
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_TINY
 
 @interface FAAppDelegate () {
     UIAlertView *_timeoutAlert;
@@ -31,7 +36,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [APLog tiny:@"Application Launched"];
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
@@ -40,8 +44,23 @@
     _overCapacityAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _authViewShowing = NO;
     
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
+    FALogFormatter *logFormatter = [[FALogFormatter alloc] init];
+    
+    DDASLLogger *aslLogger = [DDASLLogger sharedInstance];
+    [aslLogger setLogFormatter:logFormatter];
+    [DDLog addLogger:aslLogger];
+    
+    DDTTYLogger *ttyLogger = [DDTTYLogger sharedInstance];
+    [ttyLogger setLogFormatter:logFormatter];
+    [DDLog addLogger:ttyLogger];
+    
+    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString *name = [infoDict objectForKey:@"CFBundleDisplayName"];
+    NSString *version = [infoDict objectForKey:@"CFBundleVersion"];
+    
+    DDLogInfo(@"%@ Version %@", name, version);
+    
+    [self performLoginAnimated:YES];
     return YES;
 }
 
@@ -76,11 +95,11 @@
         _authViewShowing = YES;
         UIStoryboard *storyboard = self.window.rootViewController.storyboard;
         UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
-        [APLog tiny:@"Presenting View Controller %@", authController];
+        DDLogViewController(@"Presenting View Controller %@", authController);
         [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:authController animated:animated completion:nil];
     }
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -97,6 +116,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [[FATraktCache sharedInstance] reloadFromDisk];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

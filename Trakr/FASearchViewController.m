@@ -53,7 +53,7 @@
 
 - (void)searchForString:(NSString *)searchString animation:(BOOL)animation
 {
-    [APLog error:@"Searching for string: %@", searchString];
+    DDLogViewController(@"Searching for string: %@", searchString);
     FASearchData *searchData = [[FASearchData alloc] init];
     self.searchData = searchData;
     

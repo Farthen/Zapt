@@ -74,7 +74,7 @@
         }
 
     } else {
-        [APLog error:@"Tried to display a datatype in FASearchResultTableViewCell that is not possible to be displayed!"];
+        DDLogError(@"Tried to display a datatype in FASearchResultTableViewCell that is not possible to be displayed!");
     }
 }
 

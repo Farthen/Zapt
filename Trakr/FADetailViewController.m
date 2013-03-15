@@ -129,7 +129,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [APLog tiny:@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height];
+    DDLogViewController(@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height);
     _showing = YES;
     if (_displayImageWhenFinishedShowing) {
         [self doDisplayImageAnimated:YES];
@@ -212,7 +212,7 @@
         self.coverImageView.image = _coverImage;
         CGFloat originalImageWidth = _coverImage.size.width;
         if (originalImageWidth == 0) {
-            [APLog error:@"Wanting to set an image with zero width - this is not possible"];
+            DDLogViewController(@"Wanting to set an image with zero width - this is not possible");
             return;
         }
         CGFloat titleHeight;
@@ -235,7 +235,7 @@
                 _coverImage = image;
                 [self displayImage];
             } onError:^(LRRestyResponse *response) {
-                [APLog error:@"Not displaying image of item %@ because an error occured", _currentContent];
+                DDLogViewController(@"Not displaying image of item %@ because an error occured", _currentContent);
                 _imageLoaded = NO;
             }];
         } else {
@@ -376,7 +376,6 @@
     } else {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
         if (episode.images.screen) {
-            NSLog(@"Setting poster to url: %@", episode.images.screen);
             [self setPosterToURL:episode.images.screen];
         } else {
             [self setPosterToURL:episode.show.images.fanart];

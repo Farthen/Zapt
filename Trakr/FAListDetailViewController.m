@@ -23,6 +23,7 @@
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
     BOOL _isWatchlist;
+    BOOL _reloadWhenShowing;
     FAContentType _watchlistType;
 }
 
@@ -54,7 +55,7 @@
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
-    if (_isWatchlist) {
+    if (_isWatchlist && _reloadWhenShowing) {
         for (int i = 0; i < _displayedList.items.count; i++) {
             FATraktListItem *item = [_displayedList.items objectAtIndex:i];
             if (!item.content.in_watchlist) {
@@ -70,6 +71,12 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    _reloadWhenShowing = YES;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -79,6 +86,7 @@
 - (void)loadWatchlistOfType:(FAContentType)type
 {
     _isWatchlist = YES;
+    _reloadWhenShowing = NO;
     _watchlistType = type;
     self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt nameForContentType:type withPlural:YES capitalized:YES]];
     [[FAStatusBarSpinnerController sharedInstance] startActivity];

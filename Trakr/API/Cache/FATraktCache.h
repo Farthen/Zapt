@@ -14,6 +14,8 @@
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
 - (BOOL)saveToDisk;
+- (BOOL)reloadFromDisk;
+
 
 @property (readonly) FACache *movies;
 @property (readonly) FACache *episodes;

@@ -72,7 +72,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void)finishedMappingObjects
 {
-    [APLog tiny:@"Finished mapping objects for datatype %@", NSStringFromClass([self class])];
+    DDLogModel(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));
 }
 
 - (void)mapObjectsInDict:(NSDictionary *)dict
@@ -114,7 +114,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     FAPropertyInfo *propertyInfo = [_propertyInfo objectForKey:key];
     
     if (!propertyInfo) {
-        [APLog fine:@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key];
+        DDLogModel(@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key);
         return;
     }
     

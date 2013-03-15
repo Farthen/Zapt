@@ -38,13 +38,13 @@ static NSString *codingFileName = @"Cache";
             _shows = [aDecoder decodeObjectForKey:@"shows"];
             _episodes = [aDecoder decodeObjectForKey:@"episodes"];
             _images = [aDecoder decodeObjectForKey:@"images"];
-            NSLog(@"total cost of images: %iKB", _images.totalCost / 1024);
             _lists = [aDecoder decodeObjectForKey:@"lists"];
             [self setupCaches];
         }
     } else {
+        [FATraktCache removeCacheFile];
         self = [self init];
-        [APLog warning:@"Cache version number has changed. Rebuilding cache…"];
+        DDLogWarn(@"Cache version number has changed. Rebuilding cache…");
     }
     return self;
 }
@@ -103,25 +103,53 @@ static NSString *codingFileName = @"Cache";
     [aCoder encodeInteger:codingVersionNumber forKey:@"codingVersionNumber"];
 }
 
-+ (id)cacheFromDisk
+- (BOOL)reloadFromDisk
+{
+    FATraktCache *newCache = [FATraktCache cacheFromDisk];
+    _movies = newCache.movies;
+    _shows = newCache.shows;
+    _episodes = newCache.episodes;
+    _images = newCache.images;
+    _lists = newCache.lists;
+    [self setupCaches];
+    return !!newCache;
+}
+
++ (NSString *)filePath
 {
     NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *myPath = [myPathList  objectAtIndex:0];
     
-    NSString *filePath = [myPath stringByAppendingPathComponent:codingFileName];
+    return [myPath stringByAppendingPathComponent:codingFileName];
+}
+
++ (long long)fileSize
+{
+    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[FATraktCache filePath] error:nil];
     
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    NSNumber *fileSizeNumber = [fileAttributes objectForKey:NSFileSize];
+    return [fileSizeNumber longLongValue];
+}
+
++ (id)cacheFromDisk
+{
+    FATraktCache *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[FATraktCache filePath]];
+    DDLogInfo(@"Loading cache. File size: %fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
+    [cache.images oldestObjectInCache];
+    return cache;
+}
+
++ (BOOL)removeCacheFile
+{
+    return [[NSFileManager defaultManager] removeItemAtPath:[FATraktCache filePath] error:nil];
 }
 
 - (BOOL)saveToDisk
 {
-    NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *myPath = [myPathList  objectAtIndex:0];
-    NSString *filePath = [myPath stringByAppendingPathComponent:codingFileName];
+    BOOL worked = [NSKeyedArchiver archiveRootObject:self toFile:[FATraktCache filePath]];
     
-    BOOL success = [NSKeyedArchiver archiveRootObject:self toFile:filePath];
-    NSLog(@"Success: %i", success);
-    return success;
+    DDLogInfo(@"Saving cache. File size: %fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
+    return worked;
 }
 
 - (void)clearCaches

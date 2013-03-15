@@ -12,6 +12,6 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 
-    #import "APLog.h"
     #import <DDLog.h>
+    #import "FALogLevels.h"
 #endif

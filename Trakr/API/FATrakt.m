@@ -135,19 +135,19 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     if (response.status == 200) {
         return YES;
     } else if (response.status == 401) {
-        [APLog error:@"Invalid username/password"];
+        DDLogWarn(@"Invalid username/password");
         [delegate handleInvalidCredentials];
         return NO;
     } else if (response.status == 0) {
-        [APLog error:@"Network Connection Problems!"];
+        DDLogWarn(@"Network Connection Problems!");
         [delegate handleNetworkNotAvailable];
         return NO;
     } else if(response.status == 503) {
-        [APLog error:@"Trakt is over capacity"];
+        DDLogWarn(@"Trakt is over capacity");
         [delegate handleOverCapacity];
         return NO;
     } else {
-        [APLog error:@"HTTP status code %i recieved", response.status];
+        DDLogWarn(@"HTTP status code %i recieved", response.status);
         return NO;
     }
 }
@@ -206,10 +206,14 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
     return encodedString;
 }
 
-- (void)postDateAddAuthToDict:(NSMutableDictionary *)dict
+- (BOOL)postDateAddAuthToDict:(NSMutableDictionary *)dict
 {
+    if (![self usernameAndPasswordSaved]) {
+        return NO;
+    }
     NSDictionary *authDict = @{@"username:": _apiUser, @"password": _apiPasswordHash};
     [dict addEntriesFromDictionary:authDict];
+    return YES;
 }
 
 - (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content
@@ -232,13 +236,12 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)verifyCredentials:(void (^)(BOOL valid))block
 {
-    [APLog fine:@"Account test!"];
+    DDLogController(@"Account test!");
     NSDictionary *data = @{ @"username" : _apiUser, @"password" : _apiPasswordHash };
     [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
         if (![self handleResponse:response]) {
             block(NO);
         } else {
-            [APLog tiny:@"%@", [response asString]];
             NSDictionary *data = [[response asString] objectFromJSONString];
             NSString *statusResponse = [data objectForKey:@"status"];
             if ([statusResponse isEqualToString:@"success"]) {
@@ -246,7 +249,6 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             } else {
                 block(NO);
             }
-            [APLog fine:@"finishing…" ];
         }
     }];
 }
@@ -255,7 +257,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 {
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
-        [APLog tiny:@"Loading image of type poster"];
+        DDLogController(@"Loading image of type poster");
         if (width <= 138) {
             suffix = @"-138";
         } else if (width <= 300) {
@@ -264,7 +266,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
             suffix = @"";
         }
     } else if ([url hasPrefix:@"http://trakt.us/images/fanart"] && ![url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
-        [APLog tiny:@"Loading image of type fanart"];
+        DDLogController(@"Loading image of type fanart");
         if (width <= 218) {
             suffix = @"-218";
         } else if (width <= 940) {
@@ -280,7 +282,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
         suffix = @"";
     }
     NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
-    [APLog fine:@"Loading image with url \"%@\"", imageURL];
+    DDLogController(@"Loading image with url \"%@\"", imageURL);
     
     if ([_cache.images objectForKey:imageURL]) {
         block([_cache.images objectForKey:imageURL]);
@@ -326,7 +328,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    [APLog fine:@"Searching for movies!"];
+    DDLogController(@"Searching for movies!");
     NSString *url = [self urlForAPI:@"search/movies.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -346,9 +348,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
-    [APLog fine:@"Fetching all information about movie: \"%@\"", movie.description];
+    DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
     if (!movie.imdb_id) {
-        [APLog error:@"Trying to fetch information about movie without imdb_id"];
+        DDLogError(@"Trying to fetch information about movie without imdb_id");
     }
     
     FATraktMovie *cachedMovie = [_cache.movies objectForKey:movie.cacheKey];
@@ -373,7 +375,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    [APLog fine:@"Searching for shows!"];
+    DDLogController(@"Searching for shows!");
     NSString *url = [self urlForAPI:@"search/shows.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -398,9 +400,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block
 {
-    [APLog fine:@"Fetching all information about show with title: \"%@\"", show.title];
+    DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     if (!show.tvdb_id) {
-        [APLog error:@"Trying to fetch information about show without tbdb_id"];
+        DDLogError(@"Trying to fetch information about show without tbdb_id");
     }
     
     FATraktShow *cachedShow = [_cache.shows objectForKey:show.cacheKey];
@@ -437,7 +439,7 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block
 {
-    [APLog fine:@"Searching for episodes!"];
+    DDLogController(@"Searching for episodes!");
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
@@ -460,9 +462,9 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
-    [APLog fine:@"Fetching all information about episode with title: \"%@\"", episode.title];
+    DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     if (!episode.show.tvdb_id) {
-        [APLog error:@"Trying to fetch information about show without tvdb_id"];
+        DDLogController(@"Trying to fetch information about show without tvdb_id");
     }
     
     FATraktEpisode *cachedEpisode = [_cache.episodes objectForKey:episode.cacheKey];
