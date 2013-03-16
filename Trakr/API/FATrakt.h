@@ -21,12 +21,12 @@
 #import "FATraktList.h"
 #import "FATraktListItem.h"
 
-
-@class FATraktMovie;
-@class FATraktShow;
-@class FATraktEpisode;
-@class FATraktList;
 @class LRRestyResponse;
+
+extern NSString *const FATraktRatingNone;
+extern NSString *const FATraktRatingLove;
+extern NSString *const FATraktRatingHate;
+
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;
@@ -70,4 +70,5 @@ extern NSString *const kFAKeychainKeyCredentials;
 - (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 - (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 
+- (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 @end

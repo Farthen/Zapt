@@ -14,14 +14,11 @@
 @class FATraktContent;
 @class FAScrollViewWithTopView;
 
-@interface FADetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
+@interface FADetailViewController : UIViewController <UIActionSheetDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
 - (IBAction)actionItem:(id)sender;
-- (IBAction)touchedCover:(id)sender;
-
-@property (retain) UIPageViewController *pageControl;
 
 @property (retain) UIBarButtonItem *actionButton;
 

@@ -13,4 +13,7 @@
 
 - (void)displayContent:(FATraktContent *)content;
 
+@property (readonly) UIButton *watchlistAddButton;
+@property (readonly) UISegmentedControl *loveSegmentedControl;
+
 @end

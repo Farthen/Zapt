@@ -9,7 +9,7 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 
-static const NSInteger codingVersionNumber = 0;
+static const NSInteger codingVersionNumber = 1;
 static NSString *codingFileName = @"Cache";
 
 @implementation FATraktCache

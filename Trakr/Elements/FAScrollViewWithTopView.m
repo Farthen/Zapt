@@ -29,8 +29,6 @@
     UIEdgeInsets _backViewContentInsets;
     
     CGFloat _topViewOffset;
-    /*CGFloat _backViewOffset;
-    CGFloat _totalOffset;*/
 }
 
 @synthesize topView = _topView;

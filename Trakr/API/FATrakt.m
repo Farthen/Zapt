@@ -30,6 +30,10 @@
 NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
+NSString *const FATraktRatingNone = nil;
+NSString *const FATraktRatingLove = @"love";
+NSString *const FATraktRatingHate = @"hate";
+
 @implementation FATrakt {
     LRRestyClient *_restyClient;
     LRRestyClient *_authRestyClient;
@@ -574,11 +578,15 @@ NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
 - (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO capitalized:NO];
+    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES capitalized:NO];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
     
     NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content];
-    [dict addEntriesFromDictionary:@{@"love": love}];
+    if (love == nil) {
+        [dict addEntriesFromDictionary:@{@"love": @"unrate"}];
+    } else {
+        [dict addEntriesFromDictionary:@{@"love": love}];
+    }
     
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     

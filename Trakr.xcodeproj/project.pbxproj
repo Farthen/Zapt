@@ -70,6 +70,12 @@
 		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
 		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
+		F3938E5216F46DC300A19FD1 /* hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E4E16F46DC300A19FD1 /* hate.png */; };
+		F3938E5316F46DC300A19FD1 /* hate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E4F16F46DC300A19FD1 /* hate@2x.png */; };
+		F3938E5416F46DC300A19FD1 /* love.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5016F46DC300A19FD1 /* love.png */; };
+		F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5116F46DC300A19FD1 /* love@2x.png */; };
+		F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5716F4740300A19FD1 /* FASegmentedControl.m */; };
+		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
 		F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
 		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
@@ -209,6 +215,14 @@
 		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SFHFKeychainUtils.h; path = Util/SFHFKeychainUtils.h; sourceTree = "<group>"; };
 		F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SFHFKeychainUtils.m; path = Util/SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		F390191A16513819006C8E5B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F3938E4E16F46DC300A19FD1 /* hate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hate.png; path = Resources/hate.png; sourceTree = "<group>"; };
+		F3938E4F16F46DC300A19FD1 /* hate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "hate@2x.png"; path = "Resources/hate@2x.png"; sourceTree = "<group>"; };
+		F3938E5016F46DC300A19FD1 /* love.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = love.png; path = Resources/love.png; sourceTree = "<group>"; };
+		F3938E5116F46DC300A19FD1 /* love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "love@2x.png"; path = "Resources/love@2x.png"; sourceTree = "<group>"; };
+		F3938E5616F4740300A19FD1 /* FASegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASegmentedControl.h; path = Elements/FASegmentedControl.h; sourceTree = "<group>"; };
+		F3938E5716F4740300A19FD1 /* FASegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASegmentedControl.m; path = Elements/FASegmentedControl.m; sourceTree = "<group>"; };
+		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Categories/UIView+Animations.h"; sourceTree = "<group>"; };
+		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
 		F3B12D0116EAD2E200735BF3 /* FADetailImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailImageViewController.h; sourceTree = "<group>"; };
 		F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailImageViewController.m; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressHUD.h; path = Elements/FAProgressHUD.h; sourceTree = "<group>"; };
@@ -429,6 +443,8 @@
 				F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */,
 				F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */,
 				F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */,
+				F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */,
+				F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -436,6 +452,10 @@
 		F3C84B681628DC1A006CBFEF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F3938E4E16F46DC300A19FD1 /* hate.png */,
+				F3938E4F16F46DC300A19FD1 /* hate@2x.png */,
+				F3938E5016F46DC300A19FD1 /* love.png */,
+				F3938E5116F46DC300A19FD1 /* love@2x.png */,
 				F33631C716ED3752004FC205 /* outlets.png */,
 				F33631C816ED3752004FC205 /* outlets@2X.png */,
 				F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */,
@@ -632,6 +652,8 @@
 				F3F35E81169B655600A925B4 /* FASearchBar.m */,
 				F38BD69A16B770E300267137 /* FATitleLabel.h */,
 				F38BD69B16B770E300267137 /* FATitleLabel.m */,
+				F3938E5616F4740300A19FD1 /* FASegmentedControl.h */,
+				F3938E5716F4740300A19FD1 /* FASegmentedControl.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
@@ -744,6 +766,10 @@
 				F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */,
 				F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */,
 				F3636B7516EDDE420062E885 /* badge-hate.png in Resources */,
+				F3938E5216F46DC300A19FD1 /* hate.png in Resources */,
+				F3938E5316F46DC300A19FD1 /* hate@2x.png in Resources */,
+				F3938E5416F46DC300A19FD1 /* love.png in Resources */,
+				F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -854,6 +880,8 @@
 				F3636B7816F03D050062E885 /* FACache.m in Sources */,
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
+				F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */,
+				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,9 @@
 
 #import "FATrakt.h"
 
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_TINY
+
 @interface FADetailViewController () {
     BOOL _showing;
     BOOL _willAppear;
@@ -39,7 +42,6 @@
     FATraktContent *_currentContent;
     BOOL _loadContent;
     
-    UIImage *_placeholderImage;
     UIImage *_coverImage;
     CGFloat _imageHeight;
     BOOL _imageLoaded;
@@ -60,10 +62,7 @@
     UIImage *_ratingsViewImageLove;
     UIImage *_ratingsViewImageHate;
     
-    UIView *_prefsView;
-    UIButton *_prefsWatchlistAddButton;
-    UIImage *_prefsWatchlistAddImage;
-    UIImage *_prefsWatchlistRemoveImage;
+    FAContentPrefsView *_prefsView;
     
     NSMutableArray *_photos;
 }
@@ -84,7 +83,6 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    //_placeholderImage = self.coverImageView.image;
 }
 
 - (void)viewDidLoad
@@ -167,24 +165,9 @@
         self.scrollView.backView = _prefsView;
         self.scrollView.backViewContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"outlets"]];
     }
-    
-    if (!_prefsWatchlistAddButton) {
-        _prefsWatchlistAddButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [_prefsView addSubview:_prefsWatchlistAddButton];
-        _prefsWatchlistAddImage = [UIImage imageNamed:@"+-mark"];
-        _prefsWatchlistRemoveImage = [UIImage imageNamed:@"--mark"];
-    }
-    
-    [_prefsWatchlistAddButton setTitle:@"  Watchlist" forState:UIControlStateNormal];
-    _prefsWatchlistAddImage = [UIImage imageNamed:@"+-mark"];
-    _prefsWatchlistRemoveImage = [UIImage imageNamed:@"--mark"];
-    if (_currentContent.in_watchlist) {
-        [_prefsWatchlistAddButton setImage:_prefsWatchlistRemoveImage forState:UIControlStateNormal];
-    } else {
-        [_prefsWatchlistAddButton setImage:_prefsWatchlistAddImage forState:UIControlStateNormal];
-    }
-    _prefsWatchlistAddButton.frame = CGRectMake(20, 20, 120, 30);
-    [_prefsWatchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_prefsView displayContent:_currentContent];
+    [_prefsView.watchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_prefsView.loveSegmentedControl addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventValueChanged];
 }
 
 
@@ -396,10 +379,10 @@
         self.scrollView.hoverView = self.scrollViewBackgroundView;
     }
     
-    if ([item.rating isEqualToString:@"love"]) {
+    if ([item.rating isEqualToString:FATraktRatingLove]) {
         _ratingsView.image = _ratingsViewImageLove;
         _ratingsView.hidden = NO;
-    } else if ([item.rating isEqualToString:@"hate"]) {
+    } else if ([item.rating isEqualToString:FATraktRatingHate]) {
         _ratingsView.image = _ratingsViewImageHate;
         _ratingsView.hidden = NO;
     } else {
@@ -421,7 +404,7 @@
     [self setTagline:movie.tagline];
     
     //[self viewDidLayoutSubviews];
-    [self.view layoutSubviews];
+    //[self.view layoutSubviews];
 }
 
 - (void)displayMovie:(FATraktMovie *)movie
@@ -436,7 +419,6 @@
     _networkLabel = nil;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    self.coverImageView.image = _placeholderImage;
     
     [self loadValuesForMovie:movie];
     
@@ -474,7 +456,6 @@
     _airTimeLabel = self.detailLabel4;
     
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
-    self.coverImageView.image = _placeholderImage;
     if (!show.requestedDetailedInformation) {
         show.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -507,7 +488,6 @@
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    self.coverImageView.image = _placeholderImage;
     if (!episode.requestedDetailedInformation) {
         episode.requestedDetailedInformation = YES;
         [[FAStatusBarSpinnerController sharedInstance] startActivity];
@@ -565,9 +545,9 @@
 #pragma mark UIActionSheet
 - (void)prefsViewAction:(id)sender
 {
-    if (sender == _prefsWatchlistAddButton) {
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
+    FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+    hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
+    if (sender == _prefsView.watchlistAddButton) {
         if (_currentContent.in_watchlist) {
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
             [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
@@ -587,6 +567,33 @@
                 [hud showProgressHUDFailed];
             }];
         }
+    } else if (sender == _prefsView.loveSegmentedControl) {
+        NSUInteger selectedSegment = _prefsView.loveSegmentedControl.selectedSegmentIndex;
+        DDLogViewController(@"Selected Rating segment: %i", selectedSegment);
+        NSString *newRating = FATraktRatingNone;
+        if (selectedSegment == 0) {
+            if (![_currentContent.rating isEqualToString:FATraktRatingLove]) {
+                newRating = FATraktRatingLove;
+            } else {
+                newRating = FATraktRatingNone;
+            }
+        } else if (selectedSegment == 1) {
+            if (![_currentContent.rating isEqualToString:FATraktRatingHate]) {
+                newRating = FATraktRatingHate;
+            } else {
+                newRating = FATraktRatingNone;
+            }
+        }
+        [hud showProgressHUDSpinnerWithText:@"Rating"];
+        [[FATrakt sharedInstance] rate:_currentContent love:newRating callback:^{
+            _currentContent.rating = newRating;
+            [hud showProgressHUDSuccess];
+            [self loadContent:_currentContent];
+            [_prefsView displayContent:_currentContent];
+        } onError:^(LRRestyResponse *response){
+            [hud showProgressHUDFailed];
+            [_prefsView displayContent:_currentContent];
+        }];
     }
 }
 
@@ -613,11 +620,6 @@
             }];
         }
     }
-}
-
-#pragma mark UIPageViewControllerDataSource
-- (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController
-{
 }
 
 #pragma mark misc

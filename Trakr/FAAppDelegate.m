@@ -58,9 +58,10 @@
     NSString *name = [infoDict objectForKey:@"CFBundleDisplayName"];
     NSString *version = [infoDict objectForKey:@"CFBundleVersion"];
     
+    _authViewShowing = NO;
+    
     DDLogInfo(@"%@ Version %@", name, version);
     
-    [self performLoginAnimated:YES];
     return YES;
 }
 
@@ -76,7 +77,7 @@
 
 - (void)handleOverCapacity
 {
-    
+    [_overCapacityAlert show];
 }
 
 - (void)handleInvalidCredentials
@@ -96,7 +97,10 @@
         UIStoryboard *storyboard = self.window.rootViewController.storyboard;
         UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
         DDLogViewController(@"Presenting View Controller %@", authController);
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:authController animated:animated completion:nil];
+        authController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:authController animated:animated completion:^{
+            _authViewShowing = NO;
+        }];
     }
 }
 

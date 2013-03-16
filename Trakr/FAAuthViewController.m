@@ -15,6 +15,7 @@
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
+    UITableView *_tableView;
 }
 
 @end
@@ -107,6 +108,8 @@
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
             [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.usernameTableViewCell.textField becomeFirstResponder];
         }
     }];
 }

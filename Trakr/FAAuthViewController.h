@@ -19,6 +19,7 @@
 @property IBOutlet UILabel *introLabel;
 @property IBOutlet UILabel *invalidLabel;
 @property FATableViewCellWithActivity *loginButtonCell;
+@property IBOutlet UITableView *tableView;
 
 - (void)loginButtonPressed;
 @end
