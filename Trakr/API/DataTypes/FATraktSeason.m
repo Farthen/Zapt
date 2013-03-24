@@ -41,6 +41,7 @@
                 FATraktEpisode *episode = [[FATraktEpisode alloc] init];
                 episode.episode = item;
                 episode.season = self.season;
+                episode.detailLevel = FATraktDetailLevelMinimal;
                 [episodesArray addObject:episode];
             }
         }
