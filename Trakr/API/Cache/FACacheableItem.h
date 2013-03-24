@@ -14,4 +14,6 @@
 // the key of the item to be used for the cache
 @property (readonly) NSString *cacheKey;
 
+- (void)commitToCache;
+
 @end

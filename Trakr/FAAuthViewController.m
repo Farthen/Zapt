@@ -12,6 +12,7 @@
 #import "FAEditableTableViewCell.h"
 #import "FATableViewCellWithActivity.h"
 #import "FAAppDelegate.h"
+#import "FAActivityDispatch.h"
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -91,7 +92,7 @@
     DDLogTiny(@"Button pressed");
     self.usernameTextField.userInteractionEnabled = NO;
     self.passwordTextField.userInteractionEnabled = NO;
-    [self.loginButtonCell startActivity];
+    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationCheckAuth observer:self.loginButtonCell];
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
     if (_passwordFieldContainsHash) {
@@ -101,7 +102,6 @@
     }
     [[FATrakt sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
-        [self.loginButtonCell finishActivity];
         self.usernameTextField.userInteractionEnabled = YES;
         self.passwordTextField.userInteractionEnabled = YES;
         if (valid) {
@@ -192,6 +192,11 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         return cell;
     }
+}
+
+- (void)dealloc
+{
+    [[FAActivityDispatch sharedInstance] unregister:self.loginButtonCell];
 }
 
 @end

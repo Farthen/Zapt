@@ -15,7 +15,7 @@
 {
     self = [super initWithJSONDict:dict];
     if (self) {
-        self.requestedDetailedInformation = NO;
+        self.detailLevel = FATraktDetailLevelMinimal;
         FATraktMovie *cachedMovie = [[FATraktCache sharedInstance].movies objectForKey:self.cacheKey];
         if (cachedMovie) {
             // cache hit!
@@ -28,9 +28,9 @@
     return self;
 }
 
-- (FAContentType)contentType
+- (FATraktContentType)contentType
 {
-    return FAContentTypeMovies;
+    return FATraktContentTypeMovies;
 }
 
 - (NSString *)description
@@ -40,7 +40,13 @@
 
 - (NSString *)cacheKey
 {
-    return [NSString stringWithFormat:@"imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
+    return [NSString stringWithFormat:@"FATraktMovie&imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
+}
+
+- (void)commitToCache
+{
+    FATraktCache *cache = [FATraktCache sharedInstance];
+    [cache.movies setObject:self forKey:self.cacheKey];
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(id)key

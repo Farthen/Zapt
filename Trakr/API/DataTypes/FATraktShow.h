@@ -32,6 +32,4 @@
 // This is present when getting a show from an episodes watchlist
 @property (retain) NSArray *episodes;
 
-@property (assign) BOOL requestedExtendedInformation;
-
 @end

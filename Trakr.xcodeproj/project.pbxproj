@@ -76,6 +76,7 @@
 		F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5116F46DC300A19FD1 /* love@2x.png */; };
 		F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5716F4740300A19FD1 /* FASegmentedControl.m */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
+		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
 		F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
 		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
@@ -86,6 +87,7 @@
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
 		F3C84B7D162A1BCA006CBFEF /* FAImagePlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */; };
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
+		F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DC466316FC93350022BE12 /* FATraktSearchResult.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -223,6 +225,8 @@
 		F3938E5716F4740300A19FD1 /* FASegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASegmentedControl.m; path = Elements/FASegmentedControl.m; sourceTree = "<group>"; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAActivityDispatch.h; path = Elements/FAActivityDispatch.h; sourceTree = "<group>"; };
+		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAActivityDispatch.m; path = Elements/FAActivityDispatch.m; sourceTree = "<group>"; };
 		F3B12D0116EAD2E200735BF3 /* FADetailImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailImageViewController.h; sourceTree = "<group>"; };
 		F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailImageViewController.m; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressHUD.h; path = Elements/FAProgressHUD.h; sourceTree = "<group>"; };
@@ -241,6 +245,8 @@
 		F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FAImagePlaceholder.png; path = Resources/FAImagePlaceholder.png; sourceTree = "<group>"; };
 		F3CAC39216F2C53600CCEE37 /* FALogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FALogFormatter.h; path = Util/FALogFormatter.h; sourceTree = "<group>"; };
 		F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FALogFormatter.m; path = Util/FALogFormatter.m; sourceTree = "<group>"; };
+		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSearchResult.h; path = API/DataTypes/FATraktSearchResult.h; sourceTree = "<group>"; };
+		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSearchResult.m; path = API/DataTypes/FATraktSearchResult.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+PerformBlock.h"; path = "Categories/NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+PerformBlock.m"; path = "Categories/NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "badge-love@2x.png"; path = "Resources/badge-love@2x.png"; sourceTree = "<group>"; };
@@ -510,6 +516,8 @@
 			isa = PBXGroup;
 			children = (
 				F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */,
+				F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */,
+				F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */,
 				F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */,
 				F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */,
 				F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */,
@@ -628,6 +636,8 @@
 				F386984E16DA75C600FA3F2E /* FATraktList.m */,
 				F3EE743C16DA916300FF2C9F /* FATraktListItem.h */,
 				F3EE743D16DA916300FF2C9F /* FATraktListItem.m */,
+				F3DC466216FC93350022BE12 /* FATraktSearchResult.h */,
+				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
 			);
 			name = "Data Types";
 			sourceTree = "<group>";
@@ -882,6 +892,8 @@
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
 				F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
+				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
+				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

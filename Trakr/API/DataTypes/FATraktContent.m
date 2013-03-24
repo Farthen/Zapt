@@ -9,7 +9,19 @@
 #import "FATraktContent.h"
 #import "FATraktImageList.h"
 
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_MODEL
+
 @implementation FATraktContent
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.detailLevel = FATraktDetailLevelDefault;
+    }
+    return self;
+}
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {

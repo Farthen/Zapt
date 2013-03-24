@@ -22,5 +22,6 @@
 @property (readonly) FACache *shows;
 @property (readonly) FACache *images;
 @property (readonly) FACache *lists;
+@property (readonly) FACache *searches;
 
 @end

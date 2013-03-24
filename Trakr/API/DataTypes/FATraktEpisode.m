@@ -16,7 +16,7 @@
 {
     self = [super initWithJSONDict:dict];
     if (self) {
-        self.requestedDetailedInformation = NO;        
+        self.detailLevel = FATraktDetailLevelMinimal;
     }
     return self;
 }
@@ -39,9 +39,9 @@
     return self;
 }
 
-- (FAContentType)contentType
+- (FATraktContentType)contentType
 {
-    return FAContentTypeEpisodes;
+    return FATraktContentTypeEpisodes;
 }
 
 - (NSString *)description
@@ -72,7 +72,13 @@
     } else {
         showKey = self.show.cacheKey;
     }
-    return [NSString stringWithFormat:@"%@&season=%@&episode=%@", showKey, self.season.stringValue, self.episode.stringValue];
+    return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.season.stringValue, self.episode.stringValue];
+}
+
+- (void)commitToCache
+{
+    FATraktCache *cache = [FATraktCache sharedInstance];
+    [cache.episodes setObject:self forKey:self.cacheKey];
 }
 
 @end

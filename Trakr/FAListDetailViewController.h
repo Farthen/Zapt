@@ -17,7 +17,8 @@ typedef enum {
     FAWatchlistTypeEpisodes = 2
 } FAWatchlistTypes;
 
-- (void)loadWatchlistOfType:(FAContentType)type;
+- (void)loadWatchlistOfType:(FATraktContentType)type;
+- (void)loadLibraryOfType:(FATraktContentType)type libraryType:(FATraktLibraryType)libraryType;
 
 @property (retain) IBOutlet UISegmentedControl *segmentedControl;
 @property (retain) IBOutlet UITableView *tableView;

@@ -17,7 +17,7 @@
 #import <DDFileLogger.h>
 
 #undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_TINY
+#define LOG_LEVEL LOG_LEVEL_INFO
 
 @interface FAAppDelegate () {
     UIAlertView *_timeoutAlert;
@@ -60,8 +60,13 @@
     
     _authViewShowing = NO;
     
-    DDLogInfo(@"%@ Version %@", name, version);
+    // Let a thread load the cache from disk to improve launch time for a few fractions of a second ;)
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
+        [FATraktCache sharedInstance];
+    });
     
+    DDLogInfo(@"%@ Version %@", name, version);
+        
     return YES;
 }
 

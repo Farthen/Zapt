@@ -8,8 +8,12 @@
 
 #import "FATraktDatatype.h"
 #import "FACacheableItem.h"
+#import "FATraktContent.h"
 
 @interface FATraktList : FATraktDatatype <FACacheableItem>
+
++ (FATraktList *)cachedListForWatchlistWithContentType:(FATraktContentType)contentType;
++ (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType;
 
 @property (retain) NSString *name;
 @property (retain) NSString *slug;
@@ -21,4 +25,10 @@
 @property (retain) NSArray *items;
 
 @property (assign) BOOL isWatchlist;
+@property (assign) BOOL isLibrary;
+
+@property (assign) FATraktLibraryType libraryType;
+@property (assign) FATraktContentType contentType;
+
+@property (assign) FATraktDetailLevel detailLevel;
 @end

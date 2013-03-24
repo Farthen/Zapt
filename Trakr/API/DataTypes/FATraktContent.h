@@ -7,18 +7,33 @@
 //
 
 #import "FATraktDatatype.h"
+#import "FACacheableItem.h"
 @class FATraktImageList;
 
 typedef enum {
-    FAContentTypeMovies = 0,
-    FAContentTypeShows = 1,
-    FAContentTypeEpisodes = 2
-} FAContentType;
+    FATraktContentTypeMovies = 0,
+    FATraktContentTypeShows = 1,
+    FATraktContentTypeEpisodes = 2,
+    FATraktContentTypeNone = -1,
+} FATraktContentType;
+
+typedef enum {
+    FATraktLibraryTypeNone = -1,
+    FATraktLibraryTypeAll = 0,
+    FATraktLibraryTypeCollection = 1,
+    FATraktLibraryTypeWatched = 2,
+} FATraktLibraryType;
+
+typedef enum {
+    FATraktDetailLevelMinimal = -1,
+    FATraktDetailLevelDefault = 0,
+    FATraktDetailLevelExtended = 1,
+} FATraktDetailLevel;
 
 // This is the superclass of movies, shows and episodes.
 @interface FATraktContent : FATraktDatatype
 
-@property (readonly) FAContentType contentType;
+@property (readonly) FATraktContentType contentType;
 
 @property (retain) NSString *title;
 @property (retain) NSString *url;
@@ -32,7 +47,5 @@ typedef enum {
 @property (retain) NSString *rating;
 @property (retain) NSNumber *rating_advanced;
 
-@property (assign) BOOL requestedDetailedInformation;
-@property (assign) BOOL loadedDetailedInformation;
-
+@property (assign) FATraktDetailLevel detailLevel;
 @end

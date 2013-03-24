@@ -16,8 +16,7 @@
 {
     self = [super initWithJSONDict:dict];
     if (self) {
-        self.requestedDetailedInformation = NO;
-        self.requestedExtendedInformation = NO;
+        self.detailLevel = FATraktDetailLevelMinimal;
         FATraktShow *cachedShow = [[FATraktCache sharedInstance].shows objectForKey:self.cacheKey];
         if (cachedShow) {
             // cache hit!
@@ -30,9 +29,9 @@
     return self;
 }
 
-- (FAContentType)contentType
+- (FATraktContentType)contentType
 {
-    return FAContentTypeShows;
+    return FATraktContentTypeShows;
 }
 
 - (NSString *)description
@@ -42,8 +41,14 @@
 
 - (NSString *)cacheKey
 {
-    NSString *key = [NSString stringWithFormat:@"tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
+    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
     return key;
+}
+
+- (void)commitToCache
+{
+    FATraktCache *cache = [FATraktCache sharedInstance];
+    [cache.shows setObject:self forKey:self.cacheKey];
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key

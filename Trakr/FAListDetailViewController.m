@@ -23,8 +23,10 @@
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
     BOOL _isWatchlist;
+    BOOL _isLibrary;
     BOOL _reloadWhenShowing;
-    FAContentType _watchlistType;
+    FATraktContentType _contentType;
+    FATraktLibraryType _libraryType;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,10 +57,16 @@
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
-    if (_isWatchlist && _reloadWhenShowing) {
+    if (_reloadWhenShowing) {
         for (int i = 0; i < _displayedList.items.count; i++) {
             FATraktListItem *item = [_displayedList.items objectAtIndex:i];
-            if (!item.content.in_watchlist) {
+            BOOL contentInList = NO;
+            if (_isWatchlist) {
+                contentInList = item.content.in_watchlist;
+            } else if (_isLibrary) {
+                contentInList = YES;
+            }
+            if (!contentInList) {
                 NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
                 [self.tableView beginUpdates];
                 [newList removeObjectAtIndex:i];
@@ -67,7 +75,11 @@
                 [self.tableView endUpdates];
             }
         }
-        [self loadWatchlistOfType:_watchlistType];
+        if (_isWatchlist) {
+            [self loadWatchlistOfType:_contentType];
+        } else if (_isLibrary){
+            [self loadLibraryOfType:_contentType libraryType:_libraryType];
+        }
     }
 }
 
@@ -83,29 +95,46 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadWatchlistOfType:(FAContentType)type
+- (void)checkReloadDataForList:(FATraktList *)list
+{
+    BOOL reloadData = NO;
+    if (_displayedList.items.count == list.items.count) {
+        for (int i = 0; i < _displayedList.items.count; i++) {
+            if (((FATraktListItem *)_displayedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
+                reloadData = YES;
+            }
+        }
+    } else {
+        reloadData = YES;
+    }
+    if (reloadData) {
+        _displayedList = list;
+        [self.tableView reloadData];
+    }
+}
+
+- (void)loadWatchlistOfType:(FATraktContentType)type
 {
     _isWatchlist = YES;
+    _isLibrary = NO;
     _reloadWhenShowing = NO;
-    _watchlistType = type;
-    self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt nameForContentType:type withPlural:YES capitalized:YES]];
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
+    _contentType = type;
+    self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
     [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
-        BOOL reloadData = NO;
-        if (_displayedList.items.count == list.items.count) {
-            for (int i = 0; i < _displayedList.items.count; i++) {
-                if (((FATraktListItem *)_displayedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
-                    reloadData = YES;
-                }
-            }
-        } else {
-            reloadData = YES;
-        }
-        if (reloadData) {
-            _displayedList = list;
-            [self.tableView reloadData];
-        }
-        [[FAStatusBarSpinnerController sharedInstance] stopAllActivity];
+        [self checkReloadDataForList:list];
+    }];
+}
+
+- (void)loadLibraryOfType:(FATraktContentType)type libraryType:(FATraktLibraryType)libraryType
+{
+    _isWatchlist = NO;
+    _isLibrary = YES;
+    _reloadWhenShowing = NO;
+    _contentType = type;
+    _libraryType = libraryType;
+    self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
+    [[FATrakt sharedInstance] libraryForContentType:type libraryType:libraryType callback:^(FATraktList *list){
+        [self checkReloadDataForList:list];
     }];
 }
 
@@ -159,6 +188,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // FIXME: Crashbug
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     

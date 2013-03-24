@@ -26,9 +26,6 @@
 
 #import "FATrakt.h"
 
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_TINY
-
 @interface FADetailViewController () {
     BOOL _showing;
     BOOL _willAppear;
@@ -38,7 +35,7 @@
         
     NSLayoutConstraint *_contentViewSizeConstraint;
     
-    FAContentType _contentType;
+    FATraktContentType _contentType;
     FATraktContent *_currentContent;
     BOOL _loadContent;
     
@@ -101,13 +98,13 @@
     [self.navigationItem setRightBarButtonItems:@[btnAction] animated:NO];
     
     if (_loadContent) {
-        if (_contentType == FAContentTypeMovies) {
+        if (_contentType == FATraktContentTypeMovies) {
             self.navigationItem.title = NSLocalizedString(@"Movie", nil);
             [self displayMovie:(FATraktMovie *)_currentContent];
-        } else if (_contentType == FAContentTypeShows) {
+        } else if (_contentType == FATraktContentTypeShows) {
             self.navigationItem.title = NSLocalizedString(@"Show", nil);
             [self displayShow:(FATraktShow *)_currentContent];
-        } else if (_contentType == FAContentTypeEpisodes) {
+        } else if (_contentType == FATraktContentTypeEpisodes) {
             self.navigationItem.title = NSLocalizedString(@"Episode", nil);
             [self displayEpisode:(FATraktEpisode *)_currentContent];
         }
@@ -155,6 +152,12 @@
     // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
     //_showing = NO;
     //self.scrollView.contentOffset = CGPointZero;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self.overviewLabel sizeToFit];
+    [self viewDidLayoutSubviews];
 }
 
 - (void)setUpPrefs
@@ -354,7 +357,7 @@
     [self setUpPrefs];
     self.title = item.title;
     [self setOverview:item.overview];
-    if (_contentType != FAContentTypeEpisodes) {
+    if (_contentType != FATraktContentTypeEpisodes) {
         [self setPosterToURL:_currentContent.images.fanart];
     } else {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
@@ -422,16 +425,10 @@
     
     [self loadValuesForMovie:movie];
     
-    if (!movie.requestedDetailedInformation) {
-        movie.requestedDetailedInformation = YES;
-        [[FAStatusBarSpinnerController sharedInstance] startActivity];
-        [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
-            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
-            movie.loadedDetailedInformation = YES;
-            [self loadValuesForMovie:movie];
-            _currentContent = movie;
-        }];
-    }
+    [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
+        [self loadValuesForMovie:movie];
+        _currentContent = movie;
+    }];
 }
 
 - (void)loadValuesForShow:(FATraktShow *)show
@@ -456,15 +453,9 @@
     _airTimeLabel = self.detailLabel4;
     
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
-    if (!show.requestedDetailedInformation) {
-        show.requestedDetailedInformation = YES;
-        [[FAStatusBarSpinnerController sharedInstance] startActivity];
-        [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
-            show.loadedDetailedInformation = YES;
-            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
-            [self loadValuesForShow:show];
-        }];
-    }
+    [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
+        [self loadValuesForShow:show];
+    }];
     [self loadValuesForShow:show];
 }
 
@@ -488,15 +479,9 @@
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    if (!episode.requestedDetailedInformation) {
-        episode.requestedDetailedInformation = YES;
-        [[FAStatusBarSpinnerController sharedInstance] startActivity];
-        [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
-            episode.loadedDetailedInformation = YES;
-            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
-            [self loadValuesForEpisode:episode];
-        }];
-    }
+    [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+        [self loadValuesForEpisode:episode];
+    }];
     [self loadValuesForEpisode:episode];
 }
 
@@ -507,11 +492,11 @@
     _contentType = content.contentType;
     
     if (_willAppear) {
-        if (content.contentType == FAContentTypeMovies) {
+        if (content.contentType == FATraktContentTypeMovies) {
             return [self displayMovie:(FATraktMovie *)content];
-        } else if (content.contentType == FAContentTypeShows) {
+        } else if (content.contentType == FATraktContentTypeShows) {
             return [self displayShow:(FATraktShow *)content];
-        } else if (content.contentType == FAContentTypeEpisodes) {
+        } else if (content.contentType == FATraktContentTypeEpisodes) {
             return [self displayEpisode:(FATraktEpisode *)content];
         }
     } else {
@@ -524,7 +509,7 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
 
-    if (_contentType == FAContentTypeMovies || _contentType == FAContentTypeEpisodes) {
+    if (_contentType == FATraktContentTypeMovies || _contentType == FATraktContentTypeEpisodes) {
         // do checkin
         UIBarButtonItem *button = sender;
         button.enabled = NO;

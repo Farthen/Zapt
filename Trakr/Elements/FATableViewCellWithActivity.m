@@ -38,7 +38,6 @@
     self.textLabel.hidden = YES;
     self.activityIndicatorView.hidden = NO;
     [self.activityIndicatorView startAnimating];
-    [[FAStatusBarSpinnerController sharedInstance] startActivity];
 }
 
 - (void)finishActivity
@@ -47,7 +46,6 @@
     self.activityIndicatorView.hidden = YES;
     self.textLabel.hidden = NO;
     self.userInteractionEnabled = _userInteractionsEnabledState;
-    [[FAStatusBarSpinnerController sharedInstance] finishActivity];
 }
 
 @end

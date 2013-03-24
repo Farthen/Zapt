@@ -26,6 +26,11 @@
 #import "FATraktList.h"
 #import "FATraktListItem.h"
 #import "SFHFKeychainUtils.h"
+#import "FAStatusBarSpinnerController.h"
+#import "FAActivityDispatch.h"
+
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_CONTROLLER
 
 NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
@@ -34,10 +39,15 @@ NSString *const FATraktRatingNone = nil;
 NSString *const FATraktRatingLove = @"love";
 NSString *const FATraktRatingHate = @"hate";
 
+NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
+NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";
+NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificationDefault";
+
 @implementation FATrakt {
     LRRestyClient *_restyClient;
     LRRestyClient *_authRestyClient;
     FATraktCache *_cache;
+    FAActivityDispatch *_activity;
 }
 
 @synthesize apiUser = _apiUser;
@@ -65,6 +75,10 @@ NSString *const FATraktRatingHate = @"hate";
         [[LRResty client] setUsername:_apiUser password:_apiPasswordHash];
         
         _cache = [FATraktCache sharedInstance];
+        
+        _activity = [FAActivityDispatch sharedInstance];
+        [_activity registerForAllActivity:[FAStatusBarSpinnerController sharedInstance]];
+        
         /*[[LRResty client] setGlobalTimeout:15 handleWithBlock:^(LRRestyRequest *request) {
             [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
         }];*/
@@ -138,41 +152,81 @@ NSString *const FATraktRatingHate = @"hate";
     FAAppDelegate *delegate = application.delegate;
     if (response.status == 200) {
         return YES;
-    } else if (response.status == 401) {
-        DDLogWarn(@"Invalid username/password");
-        [delegate handleInvalidCredentials];
-        return NO;
-    } else if (response.status == 0) {
-        DDLogWarn(@"Network Connection Problems!");
-        [delegate handleNetworkNotAvailable];
-        return NO;
-    } else if(response.status == 503) {
-        DDLogWarn(@"Trakt is over capacity");
-        [delegate handleOverCapacity];
-        return NO;
     } else {
-        DDLogWarn(@"HTTP status code %i recieved", response.status);
-        return NO;
+        DDLogWarn(@"Request for URL %@ failed:", response.originalRequest.URL);
+        if (response.status == 401) {
+            DDLogWarn(@"Invalid username/password");
+            [delegate handleInvalidCredentials];
+            return NO;
+        } else if (response.status == 0) {
+            DDLogWarn(@"Network Connection Problems!");
+            [delegate handleNetworkNotAvailable];
+            return NO;
+        } else if(response.status == 503) {
+            DDLogWarn(@"Trakt is over capacity");
+            [delegate handleOverCapacity];
+            return NO;
+        } else {
+            DDLogWarn(@"HTTP status code %i received", response.status);
+            return NO;
+        }
     }
 }
 
-+ (NSString *)nameForContentType:(FAContentType)type
++ (NSString *)nameForContentType:(FATraktContentType)type
 {
-    return [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
+    return [FATrakt nameForContentType:type withPlural:NO];
 }
 
-+ (NSString *)nameForContentType:(FAContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
++ (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural
 {
     NSString *name;
-    if (type == FAContentTypeMovies) {
+    if (type == FATraktContentTypeMovies) {
         name = @"movie";
-    } else if (type == FAContentTypeShows) {
+    } else if (type == FATraktContentTypeShows) {
         name = @"show";
-    } else if (type == FAContentTypeEpisodes) {
+    } else if (type == FATraktContentTypeEpisodes) {
         name = @"episode";
     }
     if (plural) {
         name = [name stringByAppendingString:@"s"];
+    }
+    return name;
+}
+
++ (NSString *)nameForLibraryType:(FATraktLibraryType)type
+{
+    NSString *name;
+    if (type == FATraktLibraryTypeAll) {
+        name = @"all";
+    } else if (type == FATraktLibraryTypeCollection) {
+        name = @"collection";
+    } else if (type == FATraktLibraryTypeWatched) {
+        name = @"watched";
+    }
+    return name;
+}
+
+
++ (NSString *)interfaceNameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
+{
+    NSString *name;
+    if (!plural) {
+        if (type == FATraktContentTypeMovies) {
+            name = NSLocalizedString(@"movie", nil);
+        } else if (type == FATraktContentTypeShows) {
+            name = NSLocalizedString(@"show", nil);
+        } else if (type == FATraktContentTypeEpisodes) {
+            name = NSLocalizedString(@"episode", nil);
+        }
+    } else {
+        if (type == FATraktContentTypeMovies) {
+            name = NSLocalizedString(@"movies", nil);
+        } else if (type == FATraktContentTypeShows) {
+            name = NSLocalizedString(@"shows", nil);
+        } else if (type == FATraktContentTypeEpisodes) {
+            name = NSLocalizedString(@"episodes", nil);
+        }
     }
     if (capitalized) {
         name = [name capitalizedString];
@@ -180,13 +234,13 @@ NSString *const FATraktRatingHate = @"hate";
     return name;
 }
 
-+ (NSString *)watchlistNameForContentType:(FAContentType)type
++ (NSString *)watchlistNameForContentType:(FATraktContentType)type
 {
-    if (type == FAContentTypeMovies) {
+    if (type == FATraktContentTypeMovies) {
         return @"movie";
-    } else if (type == FAContentTypeShows) {
+    } else if (type == FATraktContentTypeShows) {
         return @"show";
-    } else if (type == FAContentTypeEpisodes) {
+    } else if (type == FATraktContentTypeEpisodes) {
         return @"show/episode";
     }
     return nil;
@@ -223,13 +277,13 @@ NSString *const FATraktRatingHate = @"hate";
 - (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content
 {
     NSDictionary *dict;
-    if (content.contentType == FAContentTypeMovies) {
+    if (content.contentType == FATraktContentTypeMovies) {
         FATraktMovie *movie = (FATraktMovie *)content;
         dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
-    } else if (content.contentType == FAContentTypeShows) {
+    } else if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
         dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
-    } else if (content.contentType == FAContentTypeEpisodes) {
+    } else if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
         dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
     }
@@ -242,6 +296,8 @@ NSString *const FATraktRatingHate = @"hate";
 {
     DDLogController(@"Account test!");
     NSDictionary *data = @{ @"username" : _apiUser, @"password" : _apiPasswordHash };
+    
+    [_activity startActivityNamed:FATraktActivityNotificationCheckAuth];
     [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
         if (![self handleResponse:response]) {
             block(NO);
@@ -254,6 +310,8 @@ NSString *const FATraktRatingHate = @"hate";
                 block(NO);
             }
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationCheckAuth];
     }];
 }
 
@@ -293,6 +351,7 @@ NSString *const FATraktRatingHate = @"hate";
         return;
     }
     
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             if (response.responseData.length == 0) {
@@ -327,13 +386,25 @@ NSString *const FATraktRatingHate = @"hate";
                 error(response);
             }
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 
-- (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block
+- (void)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
 {
     DDLogController(@"Searching for movies!");
     NSString *url = [self urlForAPI:@"search/movies.json" withParameters:[query URLEncodedString]];
+    
+    FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeMovies];
+    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
+    
+    if (cachedResult) {
+        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+        block(cachedResult);
+    }
+    
+    [_activity startActivityNamed:FATraktActivityNotificationSearch];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
@@ -343,10 +414,14 @@ NSString *const FATraktRatingHate = @"hate";
                 FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
                 [movies addObject:movie];
             }
-            block(movies);
+            searchResult.results = movies;
+            [searchResult commitToCache];
+            block(searchResult);
         } else {
             block(nil);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationSearch];
     }];
 }
 
@@ -358,29 +433,43 @@ NSString *const FATraktRatingHate = @"hate";
     }
     
     FATraktMovie *cachedMovie = [_cache.movies objectForKey:movie.cacheKey];
-    if (cachedMovie && cachedMovie.loadedDetailedInformation) {
+    if (cachedMovie && cachedMovie.detailLevel >= FATraktDetailLevelDefault) {
         block([_cache.movies objectForKey:movie.cacheKey]);
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call block twice. Make sure it can handle this.
     }
     
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
+    
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [movie mapObjectsInDict:data];
             
-            movie.loadedDetailedInformation = YES;
-            [_cache.movies setObject:movie forKey:movie.cacheKey];
+            movie.detailLevel = FATraktDetailLevelDefault;
+            [movie commitToCache];
             block(movie);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 
-- (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block
+- (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
 {
     DDLogController(@"Searching for shows!");
     NSString *url = [self urlForAPI:@"search/shows.json" withParameters:[query URLEncodedString]];
+    
+    FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeShows];
+    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
+    
+    if (cachedResult) {
+        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+        block(cachedResult);
+    }
+    
+    [_activity startActivityNamed:FATraktActivityNotificationSearch];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
@@ -390,10 +479,14 @@ NSString *const FATraktRatingHate = @"hate";
                 FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
                 [shows addObject:show];
             }
-            block(shows);
+            searchResult.results = shows;
+            [searchResult commitToCache];
+            block(searchResult);
         } else {
             block(nil);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationSearch];
     }];
 }
 
@@ -410,9 +503,9 @@ NSString *const FATraktRatingHate = @"hate";
     }
     
     FATraktShow *cachedShow = [_cache.shows objectForKey:show.cacheKey];
-    if (cachedShow && cachedShow.loadedDetailedInformation) {
+    if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
         if (extended) {
-            if (show.requestedExtendedInformation) {
+            if (show.detailLevel == FATraktDetailLevelExtended) {
                 // Don't request extended information twice, this is definitely overkill
                 // TODO: actually do this when episode data has changed (new episodes!)
                 extended = NO;
@@ -429,22 +522,40 @@ NSString *const FATraktRatingHate = @"hate";
         url = [url stringByAppendingString:@"/extended"];
     }
     
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [show mapObjectsInDict:data];
             
-            show.loadedDetailedInformation = YES;
-            [_cache.shows setObject:show forKey:show.cacheKey];
+            if (extended) {
+                show.detailLevel = FATraktDetailLevelExtended;
+            } else {
+                show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelExtended);
+            }
+            
+            [show commitToCache];            
             block(show);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 
-- (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block
+- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
 {
     DDLogController(@"Searching for episodes!");
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];
+    
+    FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeEpisodes];
+    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
+    
+    if (cachedResult) {
+        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+        block(cachedResult);
+    }
+    
+    [_activity startActivityNamed:FATraktActivityNotificationSearch];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
@@ -457,10 +568,14 @@ NSString *const FATraktRatingHate = @"hate";
                 FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
                 [episodes addObject:episode];
             }
-            block(episodes);
+            searchResult.results = episodes;
+            [searchResult commitToCache];
+            block(searchResult);
         } else {
             block(nil);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationSearch];
     }];
 }
 
@@ -472,49 +587,49 @@ NSString *const FATraktRatingHate = @"hate";
     }
     
     FATraktEpisode *cachedEpisode = [_cache.episodes objectForKey:episode.cacheKey];
-    if (cachedEpisode && cachedEpisode.loadedDetailedInformation) {
+    if (cachedEpisode && cachedEpisode.detailLevel >= FATraktDetailLevelDefault) {
         block([_cache.episodes objectForKey:episode.cacheKey]);
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call block twice. Make sure it can handle this.
     }
     
     NSString *url = [self urlForAPI:@"show/episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
+    
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [episode mapObjectsInDict:data];
             
-            episode.loadedDetailedInformation = YES;
-            [_cache.episodes setObject:episode forKey:episode.cacheKey];
+            episode.detailLevel = FATraktDetailLevelDefault;
+            [episode commitToCache];
             block(episode);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 
-- (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block
+- (void)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))block
 {
-    // type can either be shows, episodes or movies
-    NSString *watchlistName = [FATrakt nameForContentType:type withPlural:YES capitalized:NO];
-    NSString *typeName = [FATrakt nameForContentType:type withPlural:NO capitalized:NO];
-    NSString *url = [self urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
-    
-    FATraktList *list = [[FATraktList alloc] init];
-    list.isWatchlist = YES;
-    list.name = @"watchlist";
-    list.url = url;
-    
     FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
     if (cachedList) {
         block(cachedList);
-        list = cachedList;
+        // FIXME: check if it fixes crashbug?
+        //list = cachedList;
     }
     
+    NSString *url = list.url;
+    FATraktContentType type = list.contentType;
+    NSString *typeName = [FATrakt nameForContentType:type];
+    
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *dictitem in data) {
-                if (type == FAContentTypeEpisodes) {
+                if (type == FATraktContentTypeEpisodes) {
                     FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dictitem];
                     for (NSDictionary *episodeDict in show.episodes) {
                         FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
@@ -535,10 +650,57 @@ NSString *const FATraktRatingHate = @"hate";
             }
             list.items = items;
             
-            [_cache.lists setObject:list forKey:list.cacheKey];
+            [list commitToCache];
             block(list);
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
+}
+
+- (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block
+{
+    // type can either be shows, episodes or movies
+    NSString *watchlistName = [FATrakt nameForContentType:contentType withPlural:YES];
+    NSString *url = [self urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
+    
+    FATraktList *list = [[FATraktList alloc] init];
+    list.isWatchlist = YES;
+    list.name = @"watchlist";
+    list.url = url;
+    list.contentType = contentType;
+    
+    [self loadDataForList:list callback:block];
+}
+
+- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block
+{
+    // type can either be shows, episodes or movies
+    NSString *libraryName = [FATrakt nameForContentType:contentType withPlural:YES];
+    NSString *libraryTypeName = [FATrakt nameForLibraryType:libraryType];
+    NSString *url;
+    if (detailLevel == FATraktDetailLevelExtended) {
+        url = [self urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:[NSString stringWithFormat:@"%@/extended", self.apiUser]];
+    } else if (detailLevel == FATraktDetailLevelMinimal) {
+        url = [self urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:[NSString stringWithFormat:@"%@/min", self.apiUser]];
+    } else {
+        url = [self urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:[NSString stringWithFormat:@"%@", self.apiUser]];
+    }
+    
+    FATraktList *list = [[FATraktList alloc] init];
+    list.isLibrary = YES;
+    list.name = [NSString stringWithFormat:@"library"];
+    list.url = url;
+    list.contentType = contentType;
+    list.libraryType = libraryType;
+    
+    [self loadDataForList:list callback:block];
+}
+
+- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
+{
+    // TODO: Check if I really need the extended information
+    [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:block];
 }
 
 - (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
@@ -565,6 +727,7 @@ NSString *const FATraktRatingHate = @"hate";
     
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             block();
@@ -573,12 +736,15 @@ NSString *const FATraktRatingHate = @"hate";
                 error(response);
             }
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 
+
 - (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES capitalized:NO];
+    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
     
     NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content];
@@ -590,6 +756,7 @@ NSString *const FATraktRatingHate = @"hate";
     
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
     [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             block();
@@ -598,6 +765,8 @@ NSString *const FATraktRatingHate = @"hate";
                 error(response);
             }
         }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
 }
 

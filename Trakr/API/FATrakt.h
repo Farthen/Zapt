@@ -20,6 +20,7 @@
 #import "FATraktPeople.h"
 #import "FATraktList.h"
 #import "FATraktListItem.h"
+#import "FATraktSearchResult.h"
 
 @class LRRestyResponse;
 
@@ -27,6 +28,8 @@ extern NSString *const FATraktRatingNone;
 extern NSString *const FATraktRatingLove;
 extern NSString *const FATraktRatingHate;
 
+extern NSString *const FATraktActivityNotificationSearch;
+extern NSString *const FATraktActivityNotificationCheckAuth;
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;
@@ -46,8 +49,9 @@ extern NSString *const FATraktRatingHate;
 + (NSString *)passwordHashForPassword:(NSString *)password;
 - (id)initWithUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash;
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash;
-+ (NSString *)nameForContentType:(FAContentType)type;
-+ (NSString *)nameForContentType:(FAContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
++ (NSString *)nameForContentType:(FATraktContentType)type;
++ (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural;
++ (NSString *)interfaceNameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
 
 extern NSString *const kFAKeychainKeyCredentials;
 
@@ -56,19 +60,22 @@ extern NSString *const kFAKeychainKeyCredentials;
 
 - (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
 
-- (void)searchMovies:(NSString *)query callback:(void (^)(NSArray* result))block;
+- (void)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
 
-- (void)searchShows:(NSString *)query callback:(void (^)(NSArray* result))block;
+- (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
 - (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block;
 
-- (void)searchEpisodes:(NSString *)query callback:(void (^)(NSArray* result))block;
+- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 
-- (void)watchlistForType:(FAContentType)type callback:(void (^)(FATraktList *))block;
+- (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block;
 - (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 - (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+
+- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
+- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block;
 
 - (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 @end

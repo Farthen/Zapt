@@ -32,9 +32,17 @@
 {
     if ([key isEqualToString:@"episodes"] && propertyType.objcClass == [NSArray class] && [object isKindOfClass:[NSArray class]]) {
         NSMutableArray *episodesArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-        for (NSDictionary *episodeDict in (NSArray *)object) {
-            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
-            [episodesArray addObject:episode];
+        for (id item in (NSArray *)object) {
+            if ([item isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *episodeDict = item;
+                FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
+                [episodesArray addObject:episode];
+            } else if ([item isKindOfClass:[NSNumber class]]) {
+                FATraktEpisode *episode = [[FATraktEpisode alloc] init];
+                episode.episode = item;
+                episode.season = self.season;
+                [episodesArray addObject:episode];
+            }
         }
         [self setValue:[NSArray arrayWithArray:episodesArray] forKey:key];
     } else {

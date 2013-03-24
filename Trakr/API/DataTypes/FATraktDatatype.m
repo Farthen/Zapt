@@ -9,29 +9,49 @@
 #import "FATraktDatatype.h"
 #import "FAPropertyUtil.h"
 
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_CONTROLLER
+
 @interface FATraktDatatype ()
 - (void)finishedMappingObjects;
 
 @end
 
-@implementation FATraktDatatype {
-    NSMutableDictionary *_propertyInfo;
+static NSMutableDictionary *__traktPropertyInfos = nil;
+
+@implementation FATraktDatatype
+
++ (void)initialize
+{
+    if (!__traktPropertyInfos) {
+        __traktPropertyInfos = [[NSMutableDictionary alloc] init];
+    }
+    DDLogController(@"Adding class %@ to dict", self);
+    [__traktPropertyInfos setObject:[self.class fetchPropertyInfo] forKey:NSStringFromClass(self)];
 }
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
++ (NSDictionary *)fetchPropertyInfo
+{
+    Class cls = [self class];
+    NSMutableDictionary *propertyInfo = [[NSMutableDictionary alloc] init];
+    while (cls != [FATraktDatatype class])
+    {
+        [propertyInfo addEntriesFromDictionary:[FAPropertyUtil propertyInfoForClass:cls]];
+        cls = [cls superclass];
+    }
+    return [((NSDictionary *)propertyInfo) copy];
+}
+
++ (NSDictionary *)propertyInfo
+{
+    NSDictionary *propertyInfos = [__traktPropertyInfos objectForKey:NSStringFromClass(self)];
+    return propertyInfos;
+}
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        Class cls = [self class];
-        //_propertyInfo = [[NSMutableDictionary alloc] initWithDictionary:[FAPropertyUtil classPropsFor:cls]];
-        
-        _propertyInfo = [[NSMutableDictionary alloc] init];
-        do {
-            [_propertyInfo addEntriesFromDictionary:[FAPropertyUtil propertyInfoForClass:cls]];
-            cls = [cls superclass];
-        } while (cls != [FATraktDatatype class]);
     }
     return self;
 }
@@ -40,7 +60,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     self = [self init];
     if (self) {
-        for (NSString *key in _propertyInfo) {
+        NSDictionary *propertyInfos = [self.class propertyInfo];
+        for (NSString *key in propertyInfos) {
             if ([aDecoder containsValueForKey:key]) {
                 id value = [aDecoder decodeObjectForKey:key];
                 [self setValue:value forKey:key];
@@ -52,8 +73,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    for (NSString *key in _propertyInfo) {
-        FAPropertyInfo *propertyInfo = [_propertyInfo objectForKey:key];
+    NSDictionary *propertyInfos = [self.class propertyInfo];
+    for (NSString *key in propertyInfos) {
+        FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
         if (!propertyInfo.isReadonly) {
             id value = [self valueForKey:key];
             [aCoder encodeObject:value forKey:key];
@@ -111,7 +133,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
-    FAPropertyInfo *propertyInfo = [_propertyInfo objectForKey:key];
+    NSDictionary *propertyInfos = [self.class propertyInfo];
+    FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
     
     if (!propertyInfo) {
         DDLogModel(@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key);

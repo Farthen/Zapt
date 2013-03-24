@@ -11,6 +11,7 @@
 #import "FASearchData.h"
 #import "FASearchBarWithActivity.h"
 #import "FASearchResultTableViewCell.h"
+#import "FAActivityDispatch.h"
 
 #import "FADetailViewController.h"
 
@@ -18,7 +19,7 @@
 
 @interface FASearchViewController () {
     FASearchData *_searchData;
-    FAContentType _searchScope;
+    FATraktContentType _searchScope;
     UITableView *_resultsTableView;
 }
 
@@ -31,6 +32,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.searchData = [[FASearchData alloc] init];
+    
+    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -44,14 +47,11 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    
+    [[FAActivityDispatch sharedInstance] unregister:self.searchBar];
 }
 
 - (void)searchForString:(NSString *)searchString
-{
-    [self searchForString:searchString animation:YES];
-}
-
-- (void)searchForString:(NSString *)searchString animation:(BOOL)animation
 {
     DDLogViewController(@"Searching for string: %@", searchString);
     FASearchData *searchData = [[FASearchData alloc] init];
@@ -59,30 +59,17 @@
     
     [_resultsTableView reloadData];
     
-    if (animation) {
-        [self.searchBar startActivityWithCount:3];
-    }
-    
-    [[FATrakt sharedInstance] searchMovies:searchString callback:^(NSArray *result) {
-        searchData.movies = result;
+    [[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
+        searchData.movies = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-        if (animation) {
-            [self.searchBar finishActivity];
-        }
     }];
-    [[FATrakt sharedInstance] searchShows:searchString callback:^(NSArray *result) {
-        searchData.shows = result;
+    [[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
+        searchData.shows = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-        if (animation) {
-            [self.searchBar finishActivity];
-        }
     }];
-    [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(NSArray *result) {
-        searchData.episodes = result;
+    [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
+        searchData.episodes = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-        if (animation) {
-            [self.searchBar finishActivity];
-        }
     }];
 }
 
@@ -117,7 +104,7 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     NSString *searchString = searchBar.text;
-    [self searchForString:searchString animation:YES];
+    [self searchForString:searchString];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,13 +115,13 @@
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     //[detailViewController view];
     
-    if (_searchScope == FAContentTypeMovies) {
+    if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         [detailViewController loadContent:movie];
-    } else if (_searchScope == FAContentTypeShows) {
+    } else if (_searchScope == FATraktContentTypeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         [detailViewController loadContent:show];
-    } else if (_searchScope == FAContentTypeEpisodes) {
+    } else if (_searchScope == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
         [detailViewController loadContent:episode];
     }
@@ -155,14 +142,14 @@
     if (!cell) {
         cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
-    if (_searchScope == FAContentTypeMovies) {
+    if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
         [cell displayContent:movie];
-    } else if (_searchScope == FAContentTypeShows) {
+    } else if (_searchScope == FATraktContentTypeShows) {
         // TODO: Crashbug here
         FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
         [cell displayContent:show];
-    } else if (_searchScope == FAContentTypeEpisodes) {
+    } else if (_searchScope == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
         [cell displayContent:episode];
     }
@@ -183,11 +170,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     _resultsTableView = tableView;
-    if (_searchScope == FAContentTypeMovies) {
+    if (_searchScope == FATraktContentTypeMovies) {
         return self.searchData.movies.count;
-    } else if (_searchScope == FAContentTypeShows) {
+    } else if (_searchScope == FATraktContentTypeShows) {
         return self.searchData.shows.count;
-    } else if (_searchScope == FAContentTypeEpisodes) {
+    } else if (_searchScope == FATraktContentTypeEpisodes) {
         return self.searchData.episodes.count;
     } else {
         return 0;

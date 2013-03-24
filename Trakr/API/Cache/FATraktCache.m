@@ -9,6 +9,10 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 
+
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_INFO
+
 static const NSInteger codingVersionNumber = 1;
 static NSString *codingFileName = @"Cache";
 
@@ -39,6 +43,7 @@ static NSString *codingFileName = @"Cache";
             _episodes = [aDecoder decodeObjectForKey:@"episodes"];
             _images = [aDecoder decodeObjectForKey:@"images"];
             _lists = [aDecoder decodeObjectForKey:@"lists"];
+            _searches = [aDecoder decodeObjectForKey:@"searches"];
             [self setupCaches];
         }
     } else {
@@ -91,6 +96,14 @@ static NSString *codingFileName = @"Cache";
     // Don't cache more than 20 lists
     _lists.countLimit = 20;
     _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
+    if (!_searches) {
+        _searches = [[FACache alloc] initWithName:@"searches"];
+    }
+    
+    // Don't cache more than 100 search results
+    _searches.countLimit = 100;
+    _searches.defaultExpirationTime = NSTimeIntervalOneWeek;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -100,6 +113,7 @@ static NSString *codingFileName = @"Cache";
     [aCoder encodeObject:_episodes forKey:@"episodes"];
     [aCoder encodeObject:_images forKey:@"images"];
     [aCoder encodeObject:_lists forKey:@"lists"];
+    [aCoder encodeObject:_searches forKey:@"searches"];
     [aCoder encodeInteger:codingVersionNumber forKey:@"codingVersionNumber"];
 }
 
@@ -111,6 +125,7 @@ static NSString *codingFileName = @"Cache";
     _episodes = newCache.episodes;
     _images = newCache.images;
     _lists = newCache.lists;
+    _searches = newCache.searches;
     [self setupCaches];
     return !!newCache;
 }
@@ -134,7 +149,7 @@ static NSString *codingFileName = @"Cache";
 + (id)cacheFromDisk
 {
     FATraktCache *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[FATraktCache filePath]];
-    DDLogInfo(@"Loading cache. File size: %fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
+    DDLogInfo(@"Loading cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
     [cache.images oldestObjectInCache];
     return cache;
 }
@@ -148,7 +163,7 @@ static NSString *codingFileName = @"Cache";
 {
     BOOL worked = [NSKeyedArchiver archiveRootObject:self toFile:[FATraktCache filePath]];
     
-    DDLogInfo(@"Saving cache. File size: %fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
+    DDLogInfo(@"Saving cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
     return worked;
 }
 
@@ -159,6 +174,7 @@ static NSString *codingFileName = @"Cache";
     [self.episodes removeAllObjects];
     [self.images removeAllObjects];
     [self.lists removeAllObjects];
+    [self.searches removeAllObjects];
 }
 
 + (FATraktCache *)sharedInstance

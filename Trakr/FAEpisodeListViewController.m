@@ -85,16 +85,9 @@
 
 - (void)showEpisodeListForShow:(FATraktShow *)show
 {
-    if (!show.requestedExtendedInformation) {
-        [[FAStatusBarSpinnerController sharedInstance] startActivity];
-        [[FATrakt sharedInstance] showDetailsForShow:show extended:YES callback:^(FATraktShow *show) {
-            [[FAStatusBarSpinnerController sharedInstance] finishActivity];
-            [self populateEpisodeListForShow:show];
-        }];
-        show.requestedExtendedInformation = YES;
-    } else {
+    [[FATrakt sharedInstance] showDetailsForShow:show extended:YES callback:^(FATraktShow *show) {
         [self populateEpisodeListForShow:show];
-    }
+    }];
 }
 
 #pragma mark UISearchBarDelegate

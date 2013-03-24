@@ -7,6 +7,7 @@
 //
 
 #import "FATrakt.h"
+#import "FATraktCache.h"
 #import "FAListsViewController.h"
 #import "FASearchViewController.h"
 #import "FAListDetailViewController.h"
@@ -32,6 +33,29 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    // Load all the list information to get the count
+    if ([FATraktCache sharedInstance].lists.objectCount == 0) {
+        [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeShows callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeEpisodes callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+        }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -42,6 +66,8 @@
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,13 +78,15 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
         return NSLocalizedString(@"Watchlists", nil);
+    } else if (section == 1) {
+        return NSLocalizedString(@"Seen", nil);
     }
     return NSLocalizedString(@"Custom Lists", nil);
 }
@@ -68,6 +96,8 @@
     if (section == 0) {
         return 3;
     } else if(section == 1) {
+        return 2;
+    } else if(section == 2) {
         return 0;
     }
     return 0;
@@ -79,16 +109,22 @@
     static NSString *id = @"FAListsViewControllerCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:id];
     }
+    if (indexPath.section == 0 || indexPath.section == 1) {
+        FATraktContentType type = (FATraktContentType)indexPath.item;
+        cell.textLabel.text = [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES];
+    }
+    FATraktList *cachedList;
     if (indexPath.section == 0) {
-        if(indexPath.item == FAContentTypeMovies) {
-            cell.textLabel.text = NSLocalizedString(@"Movies", nil);
-        } else if(indexPath.item == FAContentTypeShows) {
-            cell.textLabel.text = NSLocalizedString(@"Shows", nil);
-        } else if(indexPath.item == FAContentTypeEpisodes) {
-            cell.textLabel.text = NSLocalizedString(@"Episodes", nil);
-        }
+        cachedList = [FATraktList cachedListForWatchlistWithContentType:indexPath.row];
+    } else {
+        cachedList = [FATraktList cachedListForLibraryWithContentType:indexPath.row libraryType:FATraktLibraryTypeWatched];
+    }
+    if (cachedList.items) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i", cachedList.items.count];
+    } else {
+        cell.detailTextLabel.text = nil;
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -96,11 +132,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 || indexPath.section == 1) {
         UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
         FAListDetailViewController *listDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"listdetail"];
         if (indexPath.section == 0) {
             [listDetailViewController loadWatchlistOfType:indexPath.item];
+        } else if (indexPath.section == 1) {
+            [listDetailViewController loadLibraryOfType:indexPath.item libraryType:FATraktLibraryTypeWatched];
         }
         
         [self.navigationController pushViewController:listDetailViewController animated:YES];        

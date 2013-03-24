@@ -375,7 +375,7 @@
         } else {
             width = viewWidth;
             x = 0;
-            y = _topViewOffset - contentOffset.y;
+            y = MAX(- normalizedContentOffset, _topViewOffset);
             height = _viewFrame.size.height;
             if (_backView) {
                 if (normalizedContentOffset < 0) {
@@ -385,6 +385,8 @@
                 }
             }
         }
+        
+        DDLogView(@"contentOffset: %f, normalized: %f, y: %f", contentOffset.y, normalizedContentOffset, y);
         
         if (_hoverView) {
             [_hoverView setFrameY:y];
