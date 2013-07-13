@@ -46,13 +46,13 @@
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }];
         
-        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         }];
-        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         }];
-        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeWatched detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
         }];
     }
@@ -119,7 +119,7 @@
     if (indexPath.section == 0) {
         cachedList = [FATraktList cachedListForWatchlistWithContentType:indexPath.row];
     } else {
-        cachedList = [FATraktList cachedListForLibraryWithContentType:indexPath.row libraryType:FATraktLibraryTypeWatched];
+        cachedList = [FATraktList cachedListForLibraryWithContentType:indexPath.row libraryType:FATraktLibraryTypeAll];
     }
     if (cachedList.items) {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%i", cachedList.items.count];
@@ -138,7 +138,7 @@
         if (indexPath.section == 0) {
             [listDetailViewController loadWatchlistOfType:indexPath.item];
         } else if (indexPath.section == 1) {
-            [listDetailViewController loadLibraryOfType:indexPath.item libraryType:FATraktLibraryTypeWatched];
+            [listDetailViewController loadLibraryOfType:indexPath.item];
         }
         
         [self.navigationController pushViewController:listDetailViewController animated:YES];        

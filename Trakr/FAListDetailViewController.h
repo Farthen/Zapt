@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FATrakt.h"
 
-@interface FAListDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface FAListDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
 typedef enum {
     FAWatchlistTypeMovies = 0,
@@ -18,9 +18,10 @@ typedef enum {
 } FAWatchlistTypes;
 
 - (void)loadWatchlistOfType:(FATraktContentType)type;
-- (void)loadLibraryOfType:(FATraktContentType)type libraryType:(FATraktLibraryType)libraryType;
+- (void)loadLibraryOfType:(FATraktContentType)type;
 
 @property (retain) IBOutlet UISegmentedControl *segmentedControl;
 @property (retain) IBOutlet UITableView *tableView;
+@property (retain) IBOutlet UISearchBar *searchBar;
 
 @end

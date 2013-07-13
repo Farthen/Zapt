@@ -18,11 +18,13 @@
 
 - (void)loadContent:(FATraktContent *)content;
 
+- (IBAction)actionDoneButton:(id)sender;
 - (IBAction)actionItem:(id)sender;
 
-@property (retain) UIBarButtonItem *actionButton;
+@property (retain) IBOutlet UIBarButtonItem *actionButton;
 
-@property (retain) IBOutlet FAScrollViewWithTopView *scrollView;
+//@property (retain) IBOutlet FAScrollViewWithTopView *scrollView;
+@property (retain) IBOutlet UIScrollView *scrollView;
 @property (retain) IBOutlet UIView *contentView;
 
 @property (retain) IBOutlet UIImageView *coverImageView;
@@ -36,5 +38,10 @@
 @property (retain) IBOutlet UILabel *detailLabel3;
 @property (retain) IBOutlet UILabel *detailLabel4;
 @property (retain) IBOutlet UILabel *overviewLabel;
+
+
+
+@property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
+@property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
 
 @end

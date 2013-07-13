@@ -35,7 +35,7 @@
 - (void)awakeFromNib
 {
     _progressHUD = [[FAProgressHUD alloc] initWithView:self.view];
-    _progressHUD.disabledUIElements = @[self.tabBarController.tabBar, self.tableView];
+    _progressHUD.disabledUIElements = @[self.tableView];
 }
 
 - (void)viewDidLoad

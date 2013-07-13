@@ -92,6 +92,27 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    id newObject = [[self.class allocWithZone:zone] init];
+    NSDictionary *propertyInfos = [self.class propertyInfo];
+    for (id key in propertyInfos) {
+        FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
+        if (!propertyInfo.isReadonly) {
+            NSString *propertyKey = propertyInfo.name;
+            id propertyData = [self valueForKey:propertyKey];
+            if ([propertyData conformsToProtocol:@protocol(NSCopying)] || propertyInfo.isRetain == NO) {
+                id copiedData = [propertyData copy];
+                [newObject setValue:copiedData forKey:key];
+            } else if (propertyData != nil) {
+                DDLogWarn(@"Failed copying property with key %@: Underlying object does not support NSCopying", propertyKey);
+            }
+        }
+    }
+    DDLogModel(@"Copied object %@ to new object %@", self, newObject);
+    return newObject;
+}
+
 - (void)finishedMappingObjects
 {
     DDLogModel(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));

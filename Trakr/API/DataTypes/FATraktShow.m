@@ -41,7 +41,13 @@
 
 - (NSString *)cacheKey
 {
-    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
+    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@&detailLevel=%i", self.tvdb_id, self.title, self.year, self.detailLevel];
+    return key;
+}
+
+- (NSString *)cacheKeyWithDetailLevel:(FATraktDetailLevel)detailLevel
+{
+    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@&detailLevel=%i", self.tvdb_id, self.title, self.year, detailLevel];
     return key;
 }
 

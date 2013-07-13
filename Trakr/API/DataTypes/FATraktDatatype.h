@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FAPropertyInfo.h"
 
-@interface FATraktDatatype : NSObject <NSCoding> {
+@interface FATraktDatatype : NSObject <NSCoding, NSCopying> {
     NSDictionary *_originDict;
 }
 

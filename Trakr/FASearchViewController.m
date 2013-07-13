@@ -36,9 +36,21 @@
     [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    // Add constraint to correctly position the UISearchBar
+    //NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+    //[self.view.superview addConstraint:searchBarConstraint];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    /*NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+    [self.view.window addConstraint:searchBarConstraint];*/
+    
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
 }
@@ -190,5 +202,11 @@
 {
     _searchData = searchData;
 }
+
+- (IBAction)actionDoneButton:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

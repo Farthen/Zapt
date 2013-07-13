@@ -11,6 +11,7 @@
 #import "UIView+FrameAdditions.h"
 #import "UIFunctions.h"
 #import "NSObject+PerformBlock.h"
+#import "UIView+Animations.h"
 
 @implementation FAScrollViewWithTopView {
     UIView *_hoverView;
@@ -44,6 +45,9 @@
 
 - (void)presentTopView:(UIView *)topView withBackgroundView:(UIView *)backgroundView overlapping:(CGFloat)overlap animated:(BOOL)animated
 {
+    
+    
+    /*
     _presentingTopView = YES;
     [_topView removeFromSuperview];
     _topView = topView;
@@ -148,7 +152,7 @@
         if (_presentedBackView) {
             [self.topViewContentView insertSubview:_backView aboveSubview:backgroundView];
         }
-    }
+    }*/
 }
 
 - (UIView *)topViewContentView

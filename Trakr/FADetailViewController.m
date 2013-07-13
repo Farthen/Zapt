@@ -14,7 +14,9 @@
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "UIView+SizeToFitSubviews.h"
+#import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
+#import "UIView+Animations.h"
 #import "FATitleLabel.h"
 #import "FAScrollViewWithTopView.h"
 
@@ -92,10 +94,9 @@
     [self.scrollView addConstraint:_contentViewSizeConstraint];
     [self.contentView updateConstraintsIfNeeded];*/
     
-    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Check In", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
-    self.actionButton = btnAction;
-    btnAction.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
-    [self.navigationItem setRightBarButtonItems:@[btnAction] animated:NO];
+    /*UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Check In", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
+    self.actionButton = btnAction;*/
+    self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
     if (_loadContent) {
         if (_contentType == FATraktContentTypeMovies) {
@@ -147,7 +148,7 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.scrollView hideBackView:NO];
+    //[self.scrollView hideBackView:NO];
     
     // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
     //_showing = NO;
@@ -162,7 +163,7 @@
 
 - (void)setUpPrefs
 {
-    if (!self.scrollView.backView) {
+    /*if (!self.scrollView.backView) {
         _prefsView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
         
         self.scrollView.backView = _prefsView;
@@ -170,7 +171,7 @@
     }
     [_prefsView displayContent:_currentContent];
     [_prefsView.watchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_prefsView.loveSegmentedControl addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventValueChanged];
+    [_prefsView.loveSegmentedControl addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventValueChanged];*/
 }
 
 
@@ -195,20 +196,36 @@
         _imageDisplayed = NO;
         _willDisplayImage = YES;
         _showing = YES;
+        
         self.coverImageView.image = _coverImage;
-        CGFloat originalImageWidth = _coverImage.size.width;
-        if (originalImageWidth == 0) {
-            DDLogViewController(@"Wanting to set an image with zero width - this is not possible");
-            return;
-        }
-        CGFloat titleHeight;
-        if (self.titleLabel.frame.size.height != 0) {
-            titleHeight = self.titleLabel.frame.size.height;
-        } else {
-            titleHeight = 27;
-        }
-        self.scrollView.topViewAnimationStyle = FAScrollViewWithTopViewAnimationStyleNone;
-        [self.scrollView presentTopView:self.coverImageView withBackgroundView:self.titleBackgroundView overlapping:titleHeight animated:animated];
+        
+        self.navigationController.navigationBar.alpha = 1;
+        
+        CGFloat topSpaceHeight = [self.scrollView convertPoint:CGPointMake(0, 0) toView:nil].y;
+        NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
+        [self.coverImageView addConstraint:imageHeight];
+        self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height - topSpaceHeight;
+        [self.scrollView layoutSubviews];
+        
+        CGFloat firstOffset = -(self.imageViewToTopLayoutConstraint.constant + self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight);
+        self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight;
+        CGFloat secondOffset = - self.imageViewToTopLayoutConstraint.constant;
+        self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.frameHeight;
+        
+        CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
+        CGFloat totalDuration = 1;
+        CGFloat firstDuration = timeFactor * totalDuration;
+        CGFloat secondDuration = totalDuration - firstDuration;
+        
+        [UIView animateIf:animated duration:firstDuration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self.scrollView layoutSubviews];
+        } completion:^(BOOL finished){
+            self.imageViewToTopLayoutConstraint.constant = 0;
+            [UIView animateIf:animated duration:secondDuration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                [self.scrollView layoutSubviews];
+            } completion:nil];
+        }];
+        
     }
 }
 
@@ -329,10 +346,12 @@
 
 - (void)setShowName:(NSString *)showName
 {
-    NSMutableAttributedString *name = [[NSMutableAttributedString alloc] initWithString:showName];
-    [name addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, showName.length)];
-    [name addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, showName.length)];
-
+    NSMutableAttributedString *name = nil;
+    if (showName) {
+        name = [[NSMutableAttributedString alloc] initWithString:showName];
+        [name addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, showName.length)];
+        [name addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:NSMakeRange(0, showName.length)];        
+    }
     _showNameLabel.attributedText = name;
 }
 
@@ -379,7 +398,7 @@
         CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
         _ratingsView.frame = imageFrame;
         [self.scrollViewBackgroundView addSubview:_ratingsView];
-        self.scrollView.hoverView = self.scrollViewBackgroundView;
+        //self.scrollView.hoverView = self.scrollViewBackgroundView;
     }
     
     if ([item.rating isEqualToString:FATraktRatingLove]) {
@@ -479,7 +498,7 @@
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    [[FATrakt sharedInstance] showDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+    [[FATrakt sharedInstance] episodeDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
         [self loadValuesForEpisode:episode];
     }];
     [self loadValuesForEpisode:episode];
@@ -505,6 +524,11 @@
 }
 
 #pragma mark IBActions
+- (IBAction)actionDoneButton:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (IBAction)actionItem:(id)sender
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;

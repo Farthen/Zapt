@@ -32,4 +32,6 @@
 // This is present when getting a show from an episodes watchlist
 @property (retain) NSArray *episodes;
 
+- (NSString *)cacheKeyWithDetailLevel:(FATraktDetailLevel)detailLevel;
+
 @end

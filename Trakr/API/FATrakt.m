@@ -492,33 +492,37 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
 {
-    return [self showDetailsForShow:show extended:NO callback:block];
+    return [self showDetailsForShow:show detailLevel:FATraktDetailLevelDefault callback:block];
 }
 
-- (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block
+- (void)showDetailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block
 {
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     if (!show.tvdb_id) {
         DDLogError(@"Trying to fetch information about show without tbdb_id");
     }
     
-    FATraktShow *cachedShow = [_cache.shows objectForKey:show.cacheKey];
+    NSString *cacheKey = [show cacheKeyWithDetailLevel:detailLevel];
+    FATraktShow *cachedShow = [_cache.shows objectForKey:cacheKey];
     if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
-        if (extended) {
-            if (show.detailLevel == FATraktDetailLevelExtended) {
+        if (detailLevel == FATraktDetailLevelExtended) {
+            if (cachedShow.detailLevel == FATraktDetailLevelExtended) {
                 // Don't request extended information twice, this is definitely overkill
                 // TODO: actually do this when episode data has changed (new episodes!)
-                extended = NO;
+                //detailLevel = FATraktDetailLevelDefault;
+                block(cachedShow);
+                return;
             }
         } else {
-            block([_cache.shows objectForKey:show.cacheKey]);
-            // Fall through and still make the request. It's not that much data and things could have changed
-            // This will call block twice. Make sure it can handle this.
+            block(cachedShow);
         }
+        // Fall through and still make the request. It's not that much data and things could have changed
+        // This will call block twice. Make sure it can handle this.
+        show = cachedShow;
     }
     
     NSString *url = [self urlForAPI:@"show/summary.json" withParameters:show.tvdb_id];
-    if (extended) {
+    if (detailLevel == FATraktDetailLevelExtended) {
         url = [url stringByAppendingString:@"/extended"];
     }
     
@@ -528,13 +532,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSDictionary *data = [[response asString] objectFromJSONString];
             [show mapObjectsInDict:data];
             
-            if (extended) {
+            if (detailLevel == FATraktDetailLevelExtended) {
                 show.detailLevel = FATraktDetailLevelExtended;
             } else {
-                show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelExtended);
+                show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelDefault);
             }
             
-            [show commitToCache];            
+            [show commitToCache];
             block(show);
         }
         
@@ -579,7 +583,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
+- (void)episodeDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     if (!episode.show.tvdb_id) {
@@ -739,6 +743,16 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         [_activity finishActivityNamed:FATraktActivityNotificationDefault];
     }];
+}
+
+- (void)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+{
+    
+}
+
+- (void)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+{
+    
 }
 
 

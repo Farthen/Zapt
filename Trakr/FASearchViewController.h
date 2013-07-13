@@ -14,7 +14,8 @@
 @interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (retain) FASearchData *searchData;
-
 @property (retain) IBOutlet FASearchBarWithActivity *searchBar;
+
+- (IBAction)actionDoneButton:(id)sender;
 
 @end

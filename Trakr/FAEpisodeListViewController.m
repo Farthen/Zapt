@@ -33,6 +33,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    [self.searchDisplayController setActive:NO animated:NO];
     _visible = false;
 }
 
@@ -50,7 +51,6 @@
             FATraktEpisode *episode = season.episodes[e];
             if (episode.watched) {
                 _watchedAny = YES;
-                NSLog(@"Adding season %@", episode);
                 [_filteredWatchedIndexPaths addObject:[NSIndexPath indexPathForRow:e inSection:s]];
             } else {
                 [filteredEpisodes addObject:episode];
@@ -85,7 +85,7 @@
 
 - (void)showEpisodeListForShow:(FATraktShow *)show
 {
-    [[FATrakt sharedInstance] showDetailsForShow:show extended:YES callback:^(FATraktShow *show) {
+    [[FATrakt sharedInstance] showDetailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
         [self populateEpisodeListForShow:show];
     }];
 }
@@ -201,7 +201,6 @@
         season = _displayedShow.seasons[indexPath.section];
         episode = season.episodes[indexPath.row];
     }
-    [self.searchDisplayController setActive:NO animated:YES];
     
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
@@ -218,6 +217,11 @@
 - (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
 {
     return;
+}
+
+- (void)dealloc
+{
+    self.searchDisplayController.delegate = nil;
 }
 
 @end

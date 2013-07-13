@@ -65,10 +65,10 @@ extern NSString *const kFAKeychainKeyCredentials;
 
 - (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
-- (void)showDetailsForShow:(FATraktShow *)show extended:(BOOL)extended callback:(void (^)(FATraktShow *))block;
+- (void)showDetailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)showDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
+- (void)episodeDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 
 - (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block;
 - (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;

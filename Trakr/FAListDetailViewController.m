@@ -22,6 +22,9 @@
 
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
+    FATraktList *_loadedList;
+    FATraktLibraryType _displayedLibraryType;
+    NSMutableArray *_loadedLibrary;
     BOOL _isWatchlist;
     BOOL _isLibrary;
     BOOL _reloadWhenShowing;
@@ -46,7 +49,7 @@
 {
     [super viewDidLoad];
 	// Set the row height before loading the tableView for a more smooth experience
-    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];
+    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,8 +81,19 @@
         if (_isWatchlist) {
             [self loadWatchlistOfType:_contentType];
         } else if (_isLibrary){
-            [self loadLibraryOfType:_contentType libraryType:_libraryType];
+            [self loadLibraryOfType:_contentType];
         }
+    }
+    
+    if (_isLibrary) {
+        self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collection", nil)];
+        self.searchBar.showsScopeBar = YES;
+        [self.searchBar sizeToFit];
+        self.searchBar.tintColor = nil;
+        [self.searchBar setNeedsDisplay];
+        self.tableView.tableHeaderView = self.searchBar;
+    } else {
+        self.searchBar.showsScopeBar = NO;
     }
 }
 
@@ -87,6 +101,7 @@
 {
     [super viewDidDisappear:animated];
     _reloadWhenShowing = YES;
+    [self.searchDisplayController setActive:NO animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -98,18 +113,39 @@
 - (void)checkReloadDataForList:(FATraktList *)list
 {
     BOOL reloadData = NO;
-    if (_displayedList.items.count == list.items.count) {
-        for (int i = 0; i < _displayedList.items.count; i++) {
-            if (((FATraktListItem *)_displayedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
+    
+    FATraktList *loadedList;
+    if (list.isLibrary) {
+        loadedList = [_loadedLibrary objectAtIndex:list.libraryType];
+        if ([loadedList isMemberOfClass:[NSNull class]]) {
+            loadedList = nil;
+        }
+    } else {
+        loadedList = _loadedList;
+    }
+    
+    if (loadedList.items.count == list.items.count) {
+        for (int i = 0; i < loadedList.items.count; i++) {
+            if (((FATraktListItem *)loadedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
                 reloadData = YES;
             }
         }
     } else {
         reloadData = YES;
     }
+    
     if (reloadData) {
-        _displayedList = list;
-        [self.tableView reloadData];
+        if (list.isLibrary) {
+            [_loadedLibrary replaceObjectAtIndex:list.libraryType withObject:list];
+            if (_displayedLibraryType == list.libraryType) {
+                _displayedList = loadedList;
+                [self.tableView reloadData];
+            }
+        } else {
+            _loadedList = list;
+            _displayedList = _loadedList;
+            [self.tableView reloadData];
+        }
     }
 }
 
@@ -125,15 +161,25 @@
     }];
 }
 
-- (void)loadLibraryOfType:(FATraktContentType)type libraryType:(FATraktLibraryType)libraryType
+- (void)loadLibraryOfType:(FATraktContentType)type
 {
     _isWatchlist = NO;
     _isLibrary = YES;
     _reloadWhenShowing = NO;
     _contentType = type;
-    _libraryType = libraryType;
+    _displayedLibraryType = FATraktLibraryTypeAll;
+    if (!_loadedLibrary) {
+        _loadedLibrary = [[NSMutableArray alloc] initWithArray:@[[NSNull null], [NSNull null], [NSNull null]]];
+    }
+        
     self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
-    [[FATrakt sharedInstance] libraryForContentType:type libraryType:libraryType callback:^(FATraktList *list){
+    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
+        [self checkReloadDataForList:list];
+    }];
+    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
+        [self checkReloadDataForList:list];
+    }];
+    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
         [self checkReloadDataForList:list];
     }];
 }
@@ -149,15 +195,17 @@
             [hud showProgressHUDSuccess];
             [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
             NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+            
+            // Animate the deletion from the table.
             [self.tableView beginUpdates];
             [newList removeObjectAtIndex:indexPath.row];
             _displayedList.items = newList;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
+            
         } onError:^(LRRestyResponse *response) {
             [hud showProgressHUDFailed];
         }];
-        // Animate the deletion from the table.
     }
 }
 
@@ -196,6 +244,88 @@
     [detailViewController loadContent:element.content];
     
     [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+#pragma mark Search
+- (void)filterContentForSearchBar:(UISearchBar *)searchBar
+{
+    NSString *searchText = searchBar.text;
+    FATraktList *loadedList = _loadedList;
+    if (_isLibrary) {
+        FATraktLibraryType libraryType = searchBar.selectedScopeButtonIndex;
+        loadedList = [_loadedLibrary objectAtIndex:libraryType];
+    }
+    
+    FATraktList *displayedList = [loadedList copy];
+    NSMutableArray *items = [[NSMutableArray alloc] init];
+    if (searchText) {
+        for (int i = 0; i < loadedList.items.count; i++) {
+            FATraktListItem *listItem = loadedList.items[i];
+            FATraktContent *content = listItem.content;
+            BOOL add = NO;
+            if (content.contentType == FATraktContentTypeEpisodes) {
+                FATraktEpisode *episode = (FATraktEpisode *)content;
+                NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+                if ([episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
+                    [episode.show.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
+                    add = YES;
+                }
+            }
+            if ([content.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
+                add = YES;
+            }
+            
+            if (add) {
+                [items addObject:listItem];
+            }
+        }
+        displayedList.items = items;
+    }
+    
+    _displayedList = displayedList;
+    
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - UISearchBarDelegate Methods
+// React to any delegate method we are interested in and change whatever needs changing
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [searchBar resignFirstResponder];
+    
+    searchBar.text = nil;
+    [self filterContentForSearchBar:searchBar];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self filterContentForSearchBar:searchBar];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
+{
+    [self filterContentForSearchBar:searchBar];
+}
+
+- (void)dealloc
+{
+    //self.searchBar.delegate = nil;
 }
 
 @end

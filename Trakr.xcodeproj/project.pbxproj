@@ -20,7 +20,6 @@
 		B667530915F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667530715F12FBE00A8D76D /* InfoPlist.strings */; };
 		B667530B15F12FBE00A8D76D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B667530A15F12FBE00A8D76D /* main.m */; };
 		B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B667530E15F12FBE00A8D76D /* FAAppDelegate.m */; };
-		B667531215F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */; };
 		B667531515F12FBE00A8D76D /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */; };
 		B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B667531715F12FBE00A8D76D /* FASearchViewController.m */; };
 		B667531A15F12FBE00A8D76D /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531915F12FBE00A8D76D /* first.png */; };
@@ -38,6 +37,7 @@
 		B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBE161DF2C100043207 /* FASearchData.m */; };
 		C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D0B6AA985E4CD4B698AA53 /* libPods.a */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
+		F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323CF97177E12AE007378CA /* FAHomeViewController.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
@@ -50,6 +50,7 @@
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
 		F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
+		F3529E7E17917E280094F65E /* FAFanartImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3529E7D17917E280094F65E /* FAFanartImageView.m */; };
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
@@ -86,6 +87,7 @@
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
 		F3C84B7D162A1BCA006CBFEF /* FAImagePlaceholder.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */; };
+		F3CA530D1790B70900C33100 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3CA530B1790B70900C33100 /* MainStoryboard_iPhone.storyboard */; };
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
 		F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DC466316FC93350022BE12 /* FATraktSearchResult.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
@@ -140,7 +142,6 @@
 		B667530C15F12FBE00A8D76D /* Trakr-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Trakr-Prefix.pch"; sourceTree = "<group>"; };
 		B667530D15F12FBE00A8D76D /* FAAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAAppDelegate.h; sourceTree = "<group>"; };
 		B667530E15F12FBE00A8D76D /* FAAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAAppDelegate.m; sourceTree = "<group>"; };
-		B667531115F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		B667531415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		B667531615F12FBE00A8D76D /* FASearchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FASearchViewController.h; sourceTree = "<group>"; };
 		B667531715F12FBE00A8D76D /* FASearchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FASearchViewController.m; sourceTree = "<group>"; };
@@ -164,6 +165,8 @@
 		E6D0B6AA985E4CD4B698AA53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
+		F323CF96177E12AE007378CA /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
+		F323CF97177E12AE007378CA /* FAHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHomeViewController.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyUtil.h; path = Util/FAPropertyUtil.h; sourceTree = "<group>"; };
 		F3309658162743D7000BD107 /* FAPropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPropertyUtil.m; path = Util/FAPropertyUtil.m; sourceTree = "<group>"; };
 		F330965D162816DE000BD107 /* FATraktPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktPeople.h; path = API/DataTypes/FATraktPeople.h; sourceTree = "<group>"; };
@@ -184,6 +187,8 @@
 		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIFunctions.m; path = Util/UIFunctions.m; sourceTree = "<group>"; };
 		F33CC36316F093D200B7D443 /* FAPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyInfo.h; path = Util/FAPropertyInfo.h; sourceTree = "<group>"; };
 		F33CC36416F093D200B7D443 /* FAPropertyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPropertyInfo.m; path = Util/FAPropertyInfo.m; sourceTree = "<group>"; };
+		F3529E7C17917E280094F65E /* FAFanartImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAFanartImageView.h; path = Elements/FAFanartImageView.h; sourceTree = "<group>"; };
+		F3529E7D17917E280094F65E /* FAFanartImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAFanartImageView.m; path = Elements/FAFanartImageView.m; sourceTree = "<group>"; };
 		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
 		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktImageList.h; path = API/DataTypes/FATraktImageList.h; sourceTree = "<group>"; };
@@ -243,6 +248,7 @@
 		F3C84B781629719D006CBFEF /* FADetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailViewController.m; sourceTree = "<group>"; };
 		F3C84B7A162976A5006CBFEF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
 		F3C84B7C162A1BC9006CBFEF /* FAImagePlaceholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FAImagePlaceholder.png; path = Resources/FAImagePlaceholder.png; sourceTree = "<group>"; };
+		F3CA530C1790B70900C33100 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		F3CAC39216F2C53600CCEE37 /* FALogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FALogFormatter.h; path = Util/FALogFormatter.h; sourceTree = "<group>"; };
 		F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FALogFormatter.m; path = Util/FALogFormatter.m; sourceTree = "<group>"; };
 		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSearchResult.h; path = API/DataTypes/FATraktSearchResult.h; sourceTree = "<group>"; };
@@ -544,6 +550,8 @@
 		F3C84B6D1628DCB1006CBFEF /* Main Interface */ = {
 			isa = PBXGroup;
 			children = (
+				F323CF96177E12AE007378CA /* FAHomeViewController.h */,
+				F323CF97177E12AE007378CA /* FAHomeViewController.m */,
 				B63EAB2915FD762800DB2663 /* FATabBarController.h */,
 				B63EAB2A15FD762800DB2663 /* FATabBarController.m */,
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
@@ -571,7 +579,7 @@
 		F3C84B6F1628DCDA006CBFEF /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */,
+				F3CA530B1790B70900C33100 /* MainStoryboard_iPhone.storyboard */,
 				B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */,
 			);
 			name = Storyboards;
@@ -654,6 +662,8 @@
 		F3F9E31C1628DBC70077CBAA /* Interface Elements */ = {
 			isa = PBXGroup;
 			children = (
+				F3529E7C17917E280094F65E /* FAFanartImageView.h */,
+				F3529E7D17917E280094F65E /* FAFanartImageView.m */,
 				F3E2209716EAA3EA008C3AFA /* FAScrollViewWithTopView.h */,
 				F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */,
 				F3E2209416EA9671008C3AFA /* FAContentPrefsView.h */,
@@ -718,7 +728,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FA;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Finn Wilke";
 			};
 			buildConfigurationList = B66752F415F12FBE00A8D76D /* Build configuration list for PBXProject "Trakr" */;
@@ -745,7 +755,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B667530915F12FBE00A8D76D /* InfoPlist.strings in Resources */,
-				B667531215F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard in Resources */,
+				F3CA530D1790B70900C33100 /* MainStoryboard_iPhone.storyboard in Resources */,
 				B667531515F12FBE00A8D76D /* MainStoryboard_iPad.storyboard in Resources */,
 				B667531A15F12FBE00A8D76D /* first.png in Resources */,
 				B667531C15F12FBE00A8D76D /* first@2x.png in Resources */,
@@ -832,7 +842,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/ruby;
-			shellScript = "# An API keys script written by Patrick Gibson (@patr1ck) and Christopher Bowns (@cbowns)\n# This script sets API keys in your app's Info.plist from an .api_keys file you keep in your home directory (~/.api_keys)\n# This allows you to not check API keys into your source control system,\n# or for different developers to use different keys without needing to patch their working copies.\n\n# Installation directions:\n=begin\n1. Create a Run Script build phase in your Xcode project before Compile Sources\n2. Copy and paste this whole script in.\n3. Create or modify your .api_keys file to hold your API keys\n4. Modify the keys hash below to reference your .api_keys names from step 3\n5. Add placeholder keys to your app's Info.plist for the script to sub into.\n6. Add appropriate code to your app to pull from your Info.plist (see below)\n7. Build your app!\n=end\n\n# Your .api_keys should be in this format: (we recommend changing APPNAME to, well, your app name)\n=begin\nPARSE_APPNAME_PROD_APP_ID=foo\nPARSE_APPNAME_PROD_CLIENT_KEY=bar\nTESTFLIGHT_APPNAME=PartyApp\n=end\n\n# You can move your .api_keys file:\napi_keys_file=\"/Users/#{ENV['USER']}/Dropbox/Sync/misc/api_keys.txt\"\n\n# Declare your app-specific keys' names here, like so:\n# '.api_keys_key' => 'Info.plist_key'\nkeys = {\n    'TRAKT_API_KEY' => 'TraktAPIKey',\n}\n\n# A reminder: you need to add keys to your Info.plist so this script can put these values somewhere.\n# In XML, it should look something like:\n=begin\n<key>ParseProdClientKey</key>\n<string>?merp?</string>\n<key>TestFlightKey</key>\n<string>?hmm?</string>\n=end\n\n# Once this script is done running, it should look like:\n=begin\n<key>ParseProdClientKey</key>\n<string>bar</string>\n<key>TestFlightKey</key>\n<string>PartyApp</string>\n=end\n\n# Using these values in code looks something like:\n=begin\n[Parse setApplicationId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevAppID\"]\nclientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevClientKey\"]];\nor\nNSString *testFlightName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@\"TestFlightKey\"];\n=end\n\n# And now, it's time to do some work.\n\n\n# Fail if not run from Xcode\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\ninfo_plist = \"#{ENV['BUILT_PRODUCTS_DIR']}/#{ENV['INFOPLIST_PATH']}\"\n\n# When building for the device, the plist is already converted to binary, so change it back.\n`plutil -convert xml1 #{info_plist}`\n\n# Load our keys from $HOME/.api_keys\napi_keys = IO.readlines(api_keys_file).join\napi_keys.each do |line|\n# puts \"line is #{line}\"\nif line.to_s.strip.length != 0 # Skip nil or empty or whitespace lines\nkey, value = line.split(\"=\")\nputs \"Loading #{key} = #{value}\"\nENV[key] = value.strip!\nend\nend\n\n# Open Info.plist and set the appropriate value to the revision hash\nlines = IO.readlines(info_plist).join\nkeys.each do |apikey, infokey|\nlines.gsub! /(<key>#{infokey}<\\/key>\\n\\t<string>).*?(<\\/string>)/, \"\\\\1#{ENV[apikey]}\\\\2\"\nend\n\n# Overwrite the original Info.plist file with our updated version\nFile.open(info_plist, 'w') {|f| f.puts lines}\n\n# Convert back to binary1 if we're building for the device\nif ENV['EFFECTIVE_PLATFORM_NAME'] == \"-iphonesimulator\" then\n`plutil -convert xml1 #{info_plist}`\nelse\n`plutil -convert binary1 #{info_plist}`\nend\n\n# Report to the user\nputs \"Updated the API Keys\"\n";
+			shellScript = "# An API keys script written by Patrick Gibson (@patr1ck) and Christopher Bowns (@cbowns)\n# This script sets API keys in your app's Info.plist from an .api_keys file you keep in your home directory (~/.api_keys)\n# This allows you to not check API keys into your source control system,\n# or for different developers to use different keys without needing to patch their working copies.\n\n# Installation directions:\n=begin\n1. Create a Run Script build phase in your Xcode project before Compile Sources\n2. Copy and paste this whole script in.\n3. Create or modify your .api_keys file to hold your API keys\n4. Modify the keys hash below to reference your .api_keys names from step 3\n5. Add placeholder keys to your app's Info.plist for the script to sub into.\n6. Add appropriate code to your app to pull from your Info.plist (see below)\n7. Build your app!\n=end\n\n# Your .api_keys should be in this format: (we recommend changing APPNAME to, well, your app name)\n=begin\nPARSE_APPNAME_PROD_APP_ID=foo\nPARSE_APPNAME_PROD_CLIENT_KEY=bar\nTESTFLIGHT_APPNAME=PartyApp\n=end\n\n# You can move your .api_keys file:\napi_keys_file=\"/Users/#{ENV['USER']}/Dropbox/Sync/misc/api_keys.txt\"\n\n# Declare your app-specific keys' names here, like so:\n# '.api_keys_key' => 'Info.plist_key'\nkeys = {\n    'TRAKT_API_KEY' => 'TraktAPIKey',\n}\n\n# A reminder: you need to add keys to your Info.plist so this script can put these values somewhere.\n# In XML, it should look something like:\n=begin\n<key>ParseProdClientKey</key>\n<string>?merp?</string>\n<key>TestFlightKey</key>\n<string>?hmm?</string>\n=end\n\n# Once this script is done running, it should look like:\n=begin\n<key>ParseProdClientKey</key>\n<string>bar</string>\n<key>TestFlightKey</key>\n<string>PartyApp</string>\n=end\n\n# Using these values in code looks something like:\n=begin\n[Parse setApplicationId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevAppID\"]\nclientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevClientKey\"]];\nor\nNSString *testFlightName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@\"TestFlightKey\"];\n=end\n\n# And now, it's time to do some work.\n\n\n# Fail if not run from Xcode\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\ninfo_plist = \"#{ENV['BUILT_PRODUCTS_DIR']}/#{ENV['INFOPLIST_PATH']}\"\n\n# When building for the device, the plist is already converted to binary, so change it back.\n`plutil -convert xml1 #{info_plist}`\n\n# Load our keys from $HOME/.api_keys\napi_keys = IO.readlines(api_keys_file).join\napi_keys.lines.each do |line|\n# puts \"line is #{line}\"\nif line.to_s.strip.length != 0 # Skip nil or empty or whitespace lines\nkey, value = line.split(\"=\")\nputs \"Loading #{key} = #{value}\"\nENV[key] = value.strip!\nend\nend\n\n# Open Info.plist and set the appropriate value to the revision hash\nlines = IO.readlines(info_plist).join\nkeys.each do |apikey, infokey|\nlines.gsub! /(<key>#{infokey}<\\/key>\\n\\t<string>).*?(<\\/string>)/, \"\\\\1#{ENV[apikey]}\\\\2\"\nend\n\n# Overwrite the original Info.plist file with our updated version\nFile.open(info_plist, 'w') {|f| f.puts lines}\n\n# Convert back to binary1 if we're building for the device\nif ENV['EFFECTIVE_PLATFORM_NAME'] == \"-iphonesimulator\" then\n`plutil -convert xml1 #{info_plist}`\nelse\n`plutil -convert binary1 #{info_plist}`\nend\n\n# Report to the user\nputs \"Updated the API Keys\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -859,6 +869,7 @@
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
+				F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
@@ -885,6 +896,7 @@
 				F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */,
 				F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
+				F3529E7E17917E280094F65E /* FAFanartImageView.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
 				F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */,
 				F3636B7816F03D050062E885 /* FACache.m in Sources */,
@@ -925,14 +937,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		B667531015F12FBE00A8D76D /* MainStoryboard_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B667531115F12FBE00A8D76D /* en */,
-			);
-			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
 		B667531315F12FBE00A8D76D /* MainStoryboard_iPad.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -949,6 +953,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		F3CA530B1790B70900C33100 /* MainStoryboard_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F3CA530C1790B70900C33100 /* en */,
+			);
+			name = MainStoryboard_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -956,10 +968,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -975,9 +988,12 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -987,10 +1003,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -999,7 +1016,9 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";

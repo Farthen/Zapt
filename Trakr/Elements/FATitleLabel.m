@@ -24,14 +24,35 @@
     return;
 }
 
+- (CGFloat)insetX
+{
+    return 5;
+}
+
+- (CGFloat)insetY
+{
+    return 2;
+}
+
 - (CGRect)textRectForBounds:(CGRect)bounds {
-    CGRect inset = CGRectMake(bounds.origin.x + 5, bounds.origin.y + 2, bounds.size.width - 10, bounds.size.height - 4);
-    return inset;
+    bounds.origin.x += [self insetX];
+    bounds.size.width -= 2 * [self insetX];
+    //bounds.origin.y = [self insetY];
+    return bounds;
+}
+
+- (CGSize)intrinsicContentSize
+{
+    CGSize intrinsicContentSize = super.intrinsicContentSize;
+    intrinsicContentSize.width += [self insetX] * 2;
+    intrinsicContentSize.height += [self insetY] * 2;
+    return intrinsicContentSize;
 }
 
 - (void)drawTextInRect:(CGRect)rect
 {
     [super drawTextInRect: [self textRectForBounds:rect]];
+    [self invalidateIntrinsicContentSize];
 }
 
 

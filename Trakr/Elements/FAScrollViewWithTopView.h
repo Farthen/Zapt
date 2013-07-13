@@ -16,6 +16,7 @@ typedef enum {
     FAScrollViewWithTopViewAnimationStyleNone = 2,
 } FAScrollViewWithTopViewAnimationStyle;
 
+@property (retain) IBOutlet UIView *contentView;
 @property (readonly) UIView *topViewContentView;
 @property (readonly) UIView *topView;
 @property (retain) UIView *backView;
