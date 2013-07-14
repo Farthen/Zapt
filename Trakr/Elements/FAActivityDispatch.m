@@ -10,7 +10,7 @@
 #import "FAUIElementWithActivity.h"
 
 #undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_WARN
+#define LOG_LEVEL LOG_LEVEL_CONTROLLER
 
 static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotificationAll";
 
@@ -55,7 +55,7 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
     NSString *stopAllName = [self stopAllNotificationNameForName:name];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(stopAllActivity) name:stopAllName object:nil];
     
-    DDLogController(@"Registered for: %@, %@, %@", didStartName, didFinishName, stopAllName);
+    DDLogController(@"Registered observer: %@ for: %@, %@, %@", observer, didStartName, didFinishName, stopAllName);
 }
 
 - (void)unregister:(id <FAUIElementWithActivity>)observer

@@ -109,7 +109,7 @@
             self.navigationItem.title = NSLocalizedString(@"Episode", nil);
             [self displayEpisode:(FATraktEpisode *)_currentContent];
         }
-    }    
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -118,6 +118,10 @@
     self.scrollView.contentSize = self.contentView.frame.size;
     [self.contentView updateConstraintsIfNeeded];
     [self.scrollView layoutSubviews];
+    
+    if (_imageLoaded) {
+        [self doDisplayImageAnimated:NO];
+    }
     
     _willAppear = YES;
 }
@@ -210,20 +214,25 @@
         CGFloat firstOffset = -(self.imageViewToTopLayoutConstraint.constant + self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight);
         self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight;
         CGFloat secondOffset = - self.imageViewToTopLayoutConstraint.constant;
-        self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.frameHeight;
+        
+        self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.intrinsicContentSize.height;
         
         CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
         CGFloat totalDuration = 1;
         CGFloat firstDuration = timeFactor * totalDuration;
         CGFloat secondDuration = totalDuration - firstDuration;
         
+        self.view.userInteractionEnabled = NO;
         [UIView animateIf:animated duration:firstDuration delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
             [self.scrollView layoutSubviews];
         } completion:^(BOOL finished){
             self.imageViewToTopLayoutConstraint.constant = 0;
             [UIView animateIf:animated duration:secondDuration delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
                 [self.scrollView layoutSubviews];
-            } completion:nil];
+            } completion:^(BOOL finished){
+                self.view.userInteractionEnabled = YES;
+                _imageDisplayed = YES;
+            }];
         }];
         
     }

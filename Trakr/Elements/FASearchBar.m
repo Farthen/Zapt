@@ -19,11 +19,18 @@
     return self;
 }
 
-// Fixes radar://12901765
+// Fixes radar://12901765 - fixed in iOS 7
 - (void)setShowsScopeBar:(BOOL)showsScopeBar
 {
     if (self.showsScopeBar != !!showsScopeBar) [self invalidateIntrinsicContentSize];
     [super setShowsScopeBar:showsScopeBar];
+}
+
+- (CGSize)intrinsicContentSize
+{
+    CGSize intrinsicContentSize = [super intrinsicContentSize];
+    intrinsicContentSize.width = self.superview.frame.size.width;
+    return intrinsicContentSize;
 }
 
 /*

@@ -12,6 +12,7 @@
 #import "FASearchBarWithActivity.h"
 #import "FASearchResultTableViewCell.h"
 #import "FAActivityDispatch.h"
+#import "UIView+Animations.h"
 
 #import "FADetailViewController.h"
 
@@ -42,6 +43,9 @@
     // Add constraint to correctly position the UISearchBar
     //NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
     //[self.view.superview addConstraint:searchBarConstraint];
+    
+    // Automatically activate the UISearchBar
+    [self.searchDisplayController setActive:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -53,14 +57,34 @@
     
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
+    [self.searchBar becomeFirstResponder];
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
     [[FAActivityDispatch sharedInstance] unregister:self.searchBar];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    } else {
+        return YES;
+    }
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:interfaceOrientation duration:duration];
+    [self.searchBar invalidateIntrinsicContentSize];
 }
 
 - (void)searchForString:(NSString *)searchString
@@ -85,14 +109,6 @@
     }];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchScope
 {
@@ -111,6 +127,11 @@
     if (![searchText isEqualToString:@""]) {
         [self performSelector:@selector(searchForString:) withObject:searchText afterDelay:0.20];
     }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -206,6 +227,11 @@
 - (IBAction)actionDoneButton:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)dealloc
+{
+    self.searchDisplayController.delegate = nil;
 }
 
 
