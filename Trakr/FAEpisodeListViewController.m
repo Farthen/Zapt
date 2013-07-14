@@ -24,6 +24,13 @@
     BOOL _filterWatched;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
+    self.navigationItem.rightBarButtonItem = btnAction;
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -88,6 +95,11 @@
     [[FATrakt sharedInstance] showDetailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
         [self populateEpisodeListForShow:show];
     }];
+}
+
+- (IBAction)actionDoneButton:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark UISearchBarDelegate

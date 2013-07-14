@@ -94,8 +94,8 @@
     [self.scrollView addConstraint:_contentViewSizeConstraint];
     [self.contentView updateConstraintsIfNeeded];*/
     
-    /*UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Check In", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionItem:)];
-    self.actionButton = btnAction;*/
+    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
+    self.navigationItem.rightBarButtonItem = btnAction;
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
     if (_loadContent) {
@@ -134,12 +134,18 @@
     if (_displayImageWhenFinishedShowing) {
         [self doDisplayImageAnimated:YES];
         _displayImageWhenFinishedShowing = NO;
-    }    
+    }
 }
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    [self.scrollView layoutSubviews];
+    [self.titleLabel invalidateIntrinsicContentSize];
+    [self.titleLabel.superview updateConstraints];
+    if (_imageDisplayed) {
+        [self doDisplayImageAnimated:NO];
+    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -148,6 +154,15 @@
     [self updateViewConstraints];
     [self.contentView resizeHeightToFitSubviewsWithMinimumSize:0];
     self.scrollView.contentSize = self.contentView.frame.size;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self.coverImageView invalidateIntrinsicContentSize];
+    //[self.coverImageView updateConstraints];
+    [self.view layoutSubviews];
+    [self viewDidLayoutSubviews];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -162,6 +177,7 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self.overviewLabel sizeToFit];
+    [self.view layoutSubviews];
     [self viewDidLayoutSubviews];
 }
 
@@ -206,8 +222,13 @@
         self.navigationController.navigationBar.alpha = 1;
         
         CGFloat topSpaceHeight = [self.scrollView convertPoint:CGPointMake(0, 0) toView:nil].y;
-        NSLayoutConstraint *imageHeight = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
-        [self.coverImageView addConstraint:imageHeight];
+        if (!self.coverImageViewHeightConstraint) {
+            self.coverImageViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
+            [self.coverImageView addConstraint:self.coverImageViewHeightConstraint];
+        } else {
+            self.coverImageViewHeightConstraint.constant = self.coverImageView.intrinsicContentSize.height;
+            [self.coverImageView setNeedsUpdateConstraints];
+        }
         self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height - topSpaceHeight;
         [self.scrollView layoutSubviews];
         
@@ -232,6 +253,7 @@
             } completion:^(BOOL finished){
                 self.view.userInteractionEnabled = YES;
                 _imageDisplayed = YES;
+                _willDisplayImage = NO;
             }];
         }];
         

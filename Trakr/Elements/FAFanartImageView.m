@@ -22,8 +22,11 @@
 
 - (CGSize)intrinsicContentSize
 {
+    return [self intrinsicContentSizeForWidth:self.frame.size.width];
+}
 
-    CGFloat width = self.superview.frameWidth;
+- (CGSize)intrinsicContentSizeForWidth:(CGFloat)width
+{
     CGFloat height;
     if (self.image) {
         CGFloat imageWidth = self.image.size.width;
@@ -32,7 +35,6 @@
     } else {
         height = 120;
     }
-    NSLog(@"Intrinsic content size of image view: %fx%f", width, height);
     return CGSizeMake(width, height);
 }
 
@@ -40,6 +42,20 @@
 {
     [super setImage:image];
     [self invalidateIntrinsicContentSize];
+}
+/*
+- (void)setFrame:(CGRect)frame
+{
+    frame.size = [self intrinsicContentSize];
+    [super setFrame:frame];
+}*/
+
+- (void)setBounds:(CGRect)bounds
+{
+    bounds.size = [self intrinsicContentSizeForWidth:bounds.size.width];
+    [super setBounds:bounds];
+    [self invalidateIntrinsicContentSize];
+    [self.superview setNeedsUpdateConstraints];
 }
 
 /*

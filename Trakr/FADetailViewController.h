@@ -43,5 +43,6 @@
 
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
+@property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
 
 @end
