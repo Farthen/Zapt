@@ -92,7 +92,7 @@
 
 - (void)showEpisodeListForShow:(FATraktShow *)show
 {
-    [[FATrakt sharedInstance] showDetailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
+    [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
         [self populateEpisodeListForShow:show];
     }];
 }

@@ -61,14 +61,14 @@ extern NSString *const kFAKeychainKeyCredentials;
 - (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
 
 - (void)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
+- (void)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
 
 - (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
-- (void)showDetailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
+- (void)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
+- (void)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)episodeDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
+- (void)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 
 - (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block;
 - (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;

@@ -477,7 +477,7 @@
     
     [self loadValuesForMovie:movie];
     
-    [[FATrakt sharedInstance] movieDetailsForMovie:movie callback:^(FATraktMovie *movie) {
+    [[FATrakt sharedInstance] detailsForMovie:movie callback:^(FATraktMovie *movie) {
         [self loadValuesForMovie:movie];
         _currentContent = movie;
     }];
@@ -505,7 +505,7 @@
     _airTimeLabel = self.detailLabel4;
     
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
-    [[FATrakt sharedInstance] showDetailsForShow:show callback:^(FATraktShow *show) {
+    [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self loadValuesForShow:show];
     }];
     [self loadValuesForShow:show];
@@ -531,7 +531,7 @@
     _episodeNumLabel = self.detailLabel2;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    [[FATrakt sharedInstance] episodeDetailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+    [[FATrakt sharedInstance] detailsForEpisode:episode callback:^(FATraktEpisode *episode) {
         [self loadValuesForEpisode:episode];
     }];
     [self loadValuesForEpisode:episode];

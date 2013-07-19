@@ -425,7 +425,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)movieDetailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
+- (void)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
     DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
     if (!movie.imdb_id) {
@@ -490,12 +490,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)showDetailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
+- (void)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
 {
-    return [self showDetailsForShow:show detailLevel:FATraktDetailLevelDefault callback:block];
+    return [self detailsForShow:show detailLevel:FATraktDetailLevelDefault callback:block];
 }
 
-- (void)showDetailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block
+- (void)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block
 {
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     if (!show.tvdb_id) {
@@ -583,7 +583,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)episodeDetailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
+- (void)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     if (!episode.show.tvdb_id) {
