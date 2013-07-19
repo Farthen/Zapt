@@ -37,12 +37,16 @@
 @property (retain) IBOutlet UILabel *detailLabel2;
 @property (retain) IBOutlet UILabel *detailLabel3;
 @property (retain) IBOutlet UILabel *detailLabel4;
+
 @property (retain) IBOutlet UILabel *overviewLabel;
+@property (retain) IBOutlet UILabel *actionLabel;
 
 
 
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
 @property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
+
+@property (retain) IBOutlet NSLayoutConstraint *episodeCountVerticalSpaceConstraint;
 
 @end

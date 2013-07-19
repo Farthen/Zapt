@@ -15,6 +15,7 @@
 #import "UIView+Animations.h"
 
 #import "FADetailViewController.h"
+#import "UINavigationController+LongButtonTouch.h"
 
 #import "FAAppDelegate.h"
 
@@ -34,6 +35,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.searchData = [[FASearchData alloc] init];
     
+    self.searchBar.translucent = YES;
     [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
 }
 
@@ -45,7 +47,7 @@
     //[self.view.superview addConstraint:searchBarConstraint];
     
     // Automatically activate the UISearchBar
-    [self.searchDisplayController setActive:YES animated:NO];
+    //[self.searchDisplayController setActive:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -57,13 +59,8 @@
     
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
-    [self.searchBar becomeFirstResponder];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    //[self.searchBar becomeFirstResponder];
+    [self.navigationController addLongButtonTouchGesture];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -72,12 +69,12 @@
     [[FAActivityDispatch sharedInstance] unregister:self.searchBar];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (NSUInteger)supportedInterfaceOrientations
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+        return UIInterfaceOrientationMaskAllButUpsideDown;
     } else {
-        return YES;
+        return UIInterfaceOrientationMaskAll;
     }
 }
 
@@ -149,13 +146,13 @@
     //[detailViewController view];
     
     if (_searchScope == FATraktContentTypeMovies) {
-        FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
+        FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
         [detailViewController loadContent:movie];
     } else if (_searchScope == FATraktContentTypeShows) {
-        FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
+        FATraktShow *show = [self.searchData.shows objectAtIndex:(NSUInteger)indexPath.row];
         [detailViewController loadContent:show];
     } else if (_searchScope == FATraktContentTypeEpisodes) {
-        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
+        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
         [detailViewController loadContent:episode];
     }
     
@@ -176,14 +173,14 @@
         cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     if (_searchScope == FATraktContentTypeMovies) {
-        FATraktMovie *movie = [self.searchData.movies objectAtIndex:indexPath.row];
+        FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
         [cell displayContent:movie];
     } else if (_searchScope == FATraktContentTypeShows) {
         // TODO: Crashbug here
-        FATraktShow *show = [self.searchData.shows objectAtIndex:indexPath.row];
+        FATraktShow *show = [self.searchData.shows objectAtIndex:(NSUInteger)indexPath.row];
         [cell displayContent:show];
     } else if (_searchScope == FATraktContentTypeEpisodes) {
-        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:indexPath.row];
+        FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
         [cell displayContent:episode];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -204,11 +201,11 @@
 {
     _resultsTableView = tableView;
     if (_searchScope == FATraktContentTypeMovies) {
-        return self.searchData.movies.count;
+        return (NSInteger)self.searchData.movies.count;
     } else if (_searchScope == FATraktContentTypeShows) {
-        return self.searchData.shows.count;
+        return (NSInteger)self.searchData.shows.count;
     } else if (_searchScope == FATraktContentTypeEpisodes) {
-        return self.searchData.episodes.count;
+        return (NSInteger)self.searchData.episodes.count;
     } else {
         return 0;
     }

@@ -99,6 +99,7 @@
 		F3E2209316EA8A48008C3AFA /* fanart-summary.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */; };
 		F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209516EA9671008C3AFA /* FAContentPrefsView.m */; };
 		F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */; };
+		F3E394CC1798C3440040C2AE /* UINavigationController+LongButtonTouch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E394CB1798C3440040C2AE /* UINavigationController+LongButtonTouch.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
@@ -265,6 +266,8 @@
 		F3E2209516EA9671008C3AFA /* FAContentPrefsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAContentPrefsView.m; path = Elements/FAContentPrefsView.m; sourceTree = "<group>"; };
 		F3E2209716EAA3EA008C3AFA /* FAScrollViewWithTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAScrollViewWithTopView.h; path = Elements/FAScrollViewWithTopView.h; sourceTree = "<group>"; };
 		F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAScrollViewWithTopView.m; path = Elements/FAScrollViewWithTopView.m; sourceTree = "<group>"; };
+		F3E394CA1798C3440040C2AE /* UINavigationController+LongButtonTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+LongButtonTouch.h"; path = "Categories/UINavigationController+LongButtonTouch.h"; sourceTree = "<group>"; };
+		F3E394CB1798C3440040C2AE /* UINavigationController+LongButtonTouch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+LongButtonTouch.m"; path = "Categories/UINavigationController+LongButtonTouch.m"; sourceTree = "<group>"; };
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FALogLevels.h; path = Util/FALogLevels.h; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktListItem.h; path = API/DataTypes/FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktListItem.m; path = API/DataTypes/FATraktListItem.m; sourceTree = "<group>"; };
@@ -445,6 +448,8 @@
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				F3E394CA1798C3440040C2AE /* UINavigationController+LongButtonTouch.h */,
+				F3E394CB1798C3440040C2AE /* UINavigationController+LongButtonTouch.m */,
 				F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */,
 				F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */,
 				B6FB0DBA161DEF2C00043207 /* NSString+URLEncode.h */,
@@ -870,6 +875,7 @@
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */,
+				F3E394CC1798C3440040C2AE /* UINavigationController+LongButtonTouch.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
@@ -1032,15 +1038,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1049,13 +1062,23 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND = YES;
+				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

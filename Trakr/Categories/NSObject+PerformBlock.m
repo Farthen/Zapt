@@ -29,7 +29,7 @@
 }
 
 - (void)performBlock:(void(^)(void))block repeatCount:(NSUInteger)repeatCount timeInteval:(NSTimeInterval)timeInterval {
-    for (NSInteger repetition = 0; repetition < repeatCount; repetition++)
+    for (NSUInteger repetition = 0; repetition < repeatCount; repetition++)
         [self performBlock:block afterDelay:(repetition*timeInterval)];
 }
 

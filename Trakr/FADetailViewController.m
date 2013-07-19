@@ -44,7 +44,6 @@
     UIImage *_coverImage;
     CGFloat _imageHeight;
     BOOL _imageLoaded;
-    BOOL _imageLoading;
     BOOL _imageDisplayed;
     BOOL _willDisplayImage;
     BOOL _displayImageWhenFinishedShowing;
@@ -88,14 +87,14 @@
 {
     [super viewDidLoad];
     _showing = NO;
-        
+    
     // Add constraint for minimal size of scroll view content
     /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
     [self.scrollView addConstraint:_contentViewSizeConstraint];
     [self.contentView updateConstraintsIfNeeded];*/
     
-    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
-    self.navigationItem.rightBarButtonItem = btnAction;
+    /*UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Episodes", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
+    self.navigationItem.rightBarButtonItem = btnAction;*/
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
     if (_loadContent) {
@@ -119,7 +118,7 @@
     [self.contentView updateConstraintsIfNeeded];
     [self.scrollView layoutSubviews];
     
-    if (_imageLoaded) {
+    if (_imageLoaded && !_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
     }
     
@@ -202,7 +201,7 @@
     if (_willAppear && !_showing) {
         _displayImageWhenFinishedShowing = YES;
         return;
-    } else if (_willAppear && _showing) {
+    } else if (_willAppear && _showing && !_imageDisplayed) {
         animated = YES;
     } else {
         animated = NO;
@@ -239,7 +238,7 @@
         self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.intrinsicContentSize.height;
         
         CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
-        CGFloat totalDuration = 1;
+        CGFloat totalDuration = 0.3;
         CGFloat firstDuration = timeFactor * totalDuration;
         CGFloat secondDuration = totalDuration - firstDuration;
         
@@ -273,6 +272,7 @@
                 _imageLoaded = NO;
             }];
         } else {
+            _imageLoaded = YES;
             [self displayImage];
         }
     }
@@ -445,6 +445,7 @@
 
 - (void)loadValueForWatchableBaseItem:(FATraktWatchableBaseItem *)item
 {
+    
     [self setRuntime:item.runtime];
 }
 
@@ -472,6 +473,7 @@
     _networkLabel = nil;
     
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
+    self.actionLabel.text = NSLocalizedString(@"You have already watched this %@ times.", nil);
     
     [self loadValuesForMovie:movie];
     
@@ -516,7 +518,7 @@
     [self setNetwork:episode.show.network];
     [self setRuntime:episode.show.runtime];
     [self setSeasonNum:episode.season andEpisodeNum:episode.episode];
-    FATraktSeason *season = episode.show.seasons[episode.season.intValue];
+    //FATraktSeason *season = episode.show.seasons[episode.season.unsignedIntValue];
     [self.view layoutSubviews];
 }
 
@@ -608,7 +610,7 @@
             }];
         }
     } else if (sender == _prefsView.loveSegmentedControl) {
-        NSUInteger selectedSegment = _prefsView.loveSegmentedControl.selectedSegmentIndex;
+        NSInteger selectedSegment = _prefsView.loveSegmentedControl.selectedSegmentIndex;
         DDLogViewController(@"Selected Rating segment: %i", selectedSegment);
         NSString *newRating = FATraktRatingNone;
         if (selectedSegment == 0) {

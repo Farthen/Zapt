@@ -57,13 +57,6 @@
     delegate.authViewShowing = NO;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if (textField == self.passwordTextField && _passwordFieldContainsHash) {
@@ -114,9 +107,9 @@
     }];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (NSUInteger)supportedInterfaceOrientations
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

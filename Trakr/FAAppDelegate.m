@@ -25,6 +25,7 @@
     UIAlertView *_overCapacityAlert;
     UIAlertView *_invalidCredentialsAlert;
     BOOL _authViewShowing;
+    UIWindow *_authWindow;
 }
 
 @end
@@ -60,13 +61,14 @@
     
     _authViewShowing = NO;
     
+    _authWindow = [[UIWindow alloc] init];
+    
     // Let a thread load the cache from disk to improve launch time for a few fractions of a second ;)
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
         [FATraktCache sharedInstance];
     });
     
     DDLogInfo(@"%@ Version %@", name, version);
-        
     return YES;
 }
 
@@ -102,8 +104,11 @@
         UIStoryboard *storyboard = self.window.rootViewController.storyboard;
         UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
         DDLogViewController(@"Presenting View Controller %@", authController);
+        //_authWindow.rootViewController = authController;
         authController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:authController animated:animated completion:^{
+        //[_authWindow makeKeyAndVisible];
+        UINavigationController *navigationController = (UINavigationController *)UIApplication.sharedApplication.keyWindow.rootViewController;
+        [navigationController.visibleViewController presentViewController:authController animated:animated completion:^{
             _authViewShowing = NO;
         }];
     }

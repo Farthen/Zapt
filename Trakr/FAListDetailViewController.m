@@ -61,7 +61,7 @@
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
     if (_reloadWhenShowing) {
-        for (int i = 0; i < _displayedList.items.count; i++) {
+        for (unsigned int i = 0; i < _displayedList.items.count; i++) {
             FATraktListItem *item = [_displayedList.items objectAtIndex:i];
             BOOL contentInList = NO;
             if (_isWatchlist) {
@@ -74,7 +74,7 @@
                 [self.tableView beginUpdates];
                 [newList removeObjectAtIndex:i];
                 _displayedList.items = newList;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:i inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)i inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
                 [self.tableView endUpdates];
             }
         }
@@ -88,13 +88,15 @@
     if (_isLibrary) {
         self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collection", nil)];
         self.searchBar.showsScopeBar = YES;
-        [self.searchBar sizeToFit];
+        //[self.searchBar sizeToFit];
         self.searchBar.tintColor = nil;
         [self.searchBar setNeedsDisplay];
         self.tableView.tableHeaderView = self.searchBar;
     } else {
         self.searchBar.showsScopeBar = NO;
     }
+    
+    [self.searchBar invalidateIntrinsicContentSize];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -116,7 +118,7 @@
     
     FATraktList *loadedList;
     if (list.isLibrary) {
-        loadedList = [_loadedLibrary objectAtIndex:list.libraryType];
+        loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)list.libraryType];
         if ([loadedList isMemberOfClass:[NSNull class]]) {
             loadedList = nil;
         }
@@ -125,7 +127,7 @@
     }
     
     if (loadedList.items.count == list.items.count) {
-        for (int i = 0; i < loadedList.items.count; i++) {
+        for (unsigned int i = 0; i < loadedList.items.count; i++) {
             if (((FATraktListItem *)loadedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
                 reloadData = YES;
             }
@@ -136,7 +138,7 @@
     
     if (reloadData) {
         if (list.isLibrary) {
-            [_loadedLibrary replaceObjectAtIndex:list.libraryType withObject:list];
+            [_loadedLibrary replaceObjectAtIndex:(NSUInteger)list.libraryType withObject:list];
             if (_displayedLibraryType == list.libraryType) {
                 _displayedList = loadedList;
                 [self.tableView reloadData];
@@ -191,14 +193,14 @@
     {
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
         [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-        [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:indexPath.row] content] callback:^(void) {
+        [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:(NSUInteger)indexPath.row] content] callback:^(void) {
             [hud showProgressHUDSuccess];
             [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
             NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
             
             // Animate the deletion from the table.
             [self.tableView beginUpdates];
-            [newList removeObjectAtIndex:indexPath.row];
+            [newList removeObjectAtIndex:(NSUInteger)indexPath.row];
             _displayedList.items = newList;
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
@@ -216,7 +218,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _displayedList.items.count;
+    return (NSInteger)_displayedList.items.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -228,7 +230,7 @@
         cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     
-    FATraktListItem *item = [_displayedList.items objectAtIndex:indexPath.item];
+    FATraktListItem *item = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.item];
     [cell displayContent:item.content];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
@@ -240,7 +242,7 @@
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
-    FATraktListItem *element = [_displayedList.items objectAtIndex:indexPath.row];
+    FATraktListItem *element = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.row];
     [detailViewController loadContent:element.content];
     
     [self.navigationController pushViewController:detailViewController animated:YES];
@@ -250,16 +252,17 @@
 - (void)filterContentForSearchBar:(UISearchBar *)searchBar
 {
     NSString *searchText = searchBar.text;
+    
     FATraktList *loadedList = _loadedList;
     if (_isLibrary) {
         FATraktLibraryType libraryType = searchBar.selectedScopeButtonIndex;
-        loadedList = [_loadedLibrary objectAtIndex:libraryType];
+        loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)libraryType];
     }
     
     FATraktList *displayedList = [loadedList copy];
     NSMutableArray *items = [[NSMutableArray alloc] init];
-    if (searchText) {
-        for (int i = 0; i < loadedList.items.count; i++) {
+    if (searchText && ![searchText isEqualToString:@""]) {
+        for (unsigned int i = 0; i < loadedList.items.count; i++) {
             FATraktListItem *listItem = loadedList.items[i];
             FATraktContent *content = listItem.content;
             BOOL add = NO;

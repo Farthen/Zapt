@@ -34,7 +34,7 @@
 		
 		if (completion != nil)
 		{
-			completion(NO);
+			completion(YES);
 		}
 	}
 }

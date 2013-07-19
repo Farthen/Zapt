@@ -12,4 +12,6 @@
 
 @property (retain) IBOutlet UITableView *tableView;
 
+- (IBAction)actionDoneButton:(id)sender;
+
 @end

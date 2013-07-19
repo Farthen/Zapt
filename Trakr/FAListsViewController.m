@@ -62,7 +62,7 @@
 {
     [super viewWillAppear:animated];
     // Unselect the selected row if any
-    NSIndexPath*    selection = [self.tableView indexPathForSelectedRow];
+    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }

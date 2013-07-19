@@ -201,7 +201,7 @@
         _backView = [[UIView alloc] initWithFrame:backView.frame];
         [self.topViewContentView insertSubview:_backView atIndex:0];
     } else {
-        for (int i = 0; i < _backView.subviews.count; i++) {
+        for (unsigned int i = 0; i < _backView.subviews.count; i++) {
             [[_backView.subviews objectAtIndex:i] removeFromSuperview];
         }
     }
@@ -353,7 +353,7 @@
         if (_backView) {
             topViewAnimationStyle = FAScrollViewWithTopViewAnimationStyleNone;
             CGFloat backViewX, backViewY, backViewWidth, backViewHeight;
-            CGFloat bwOffset = self.contentOffset.y;
+            //CGFloat bwOffset = self.contentOffset.y;
             backViewWidth = viewWidth;
             backViewX = 0;
             backViewY = 0;
