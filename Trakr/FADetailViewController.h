@@ -13,6 +13,7 @@
 @class FATitleLabel;
 @class FATraktContent;
 @class FAScrollViewWithTopView;
+@class FAProgressView;
 
 @interface FADetailViewController : UIViewController <UIActionSheetDelegate>
 
@@ -31,8 +32,10 @@
 @property (retain) IBOutlet UIView *detailBackgroundView;
 @property (retain) IBOutlet UIView *titleBackgroundView;
 @property (retain) IBOutlet UIView *scrollViewBackgroundView;
+@property (retain) IBOutlet FAProgressView *progressView;
 
 @property (retain) IBOutlet FATitleLabel *titleLabel;
+@property IBOutlet UILabel *progressLabel;
 @property (retain) IBOutlet UILabel *detailLabel1;
 @property (retain) IBOutlet UILabel *detailLabel2;
 @property (retain) IBOutlet UILabel *detailLabel3;

@@ -10,6 +10,8 @@
 #import "FATraktWatchableBaseItem.h"
 #import "FACacheableItem.h"
 
+@class FATraktShowProgress;
+
 @interface FATraktShow : FATraktWatchableBaseItem <FACacheableItem>
 
 @property (retain) NSString *title;
@@ -28,10 +30,12 @@
 @property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
 @property (retain) NSArray *seasons;
+@property (retain) FATraktShowProgress *progress;
 
 // This is present when getting a show from an episodes watchlist
 @property (retain) NSArray *episodes;
 
-- (NSString *)cacheKeyWithDetailLevel:(FATraktDetailLevel)detailLevel;
+// Total count of all episodes
+@property (readonly) NSUInteger episodeCount;
 
 @end

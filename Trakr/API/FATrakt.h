@@ -21,6 +21,7 @@
 #import "FATraktList.h"
 #import "FATraktListItem.h"
 #import "FATraktSearchResult.h"
+#import "FATraktShowProgress.h"
 
 @class LRRestyResponse;
 
@@ -66,6 +67,7 @@ extern NSString *const kFAKeychainKeyCredentials;
 - (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
 - (void)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
+- (void)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block;
 
 - (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
 - (void)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;

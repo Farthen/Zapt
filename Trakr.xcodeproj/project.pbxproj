@@ -36,6 +36,8 @@
 		B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */; };
 		B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBE161DF2C100043207 /* FASearchData.m */; };
 		C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D0B6AA985E4CD4B698AA53 /* libPods.a */; };
+		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
+		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
 		F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323CF97177E12AE007378CA /* FAHomeViewController.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
@@ -164,6 +166,10 @@
 		B6FB0DBD161DF2C100043207 /* FASearchData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchData.h; sourceTree = "<group>"; };
 		B6FB0DBE161DF2C100043207 /* FASearchData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchData.m; sourceTree = "<group>"; };
 		E6D0B6AA985E4CD4B698AA53 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F30E52BD1799076A006C5091 /* FATraktShowProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktShowProgress.h; path = API/DataTypes/FATraktShowProgress.h; sourceTree = "<group>"; };
+		F30E52BE1799076A006C5091 /* FATraktShowProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktShowProgress.m; path = API/DataTypes/FATraktShowProgress.m; sourceTree = "<group>"; };
+		F30E52C01799216E006C5091 /* FAProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressView.h; path = Elements/FAProgressView.h; sourceTree = "<group>"; };
+		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressView.m; path = Elements/FAProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
 		F323CF96177E12AE007378CA /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
@@ -651,6 +657,8 @@
 				F3EE743D16DA916300FF2C9F /* FATraktListItem.m */,
 				F3DC466216FC93350022BE12 /* FATraktSearchResult.h */,
 				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
+				F30E52BD1799076A006C5091 /* FATraktShowProgress.h */,
+				F30E52BE1799076A006C5091 /* FATraktShowProgress.m */,
 			);
 			name = "Data Types";
 			sourceTree = "<group>";
@@ -679,6 +687,8 @@
 				F38BD69B16B770E300267137 /* FATitleLabel.m */,
 				F3938E5616F4740300A19FD1 /* FASegmentedControl.h */,
 				F3938E5716F4740300A19FD1 /* FASegmentedControl.m */,
+				F30E52C01799216E006C5091 /* FAProgressView.h */,
+				F30E52C11799216E006C5091 /* FAProgressView.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
@@ -866,6 +876,7 @@
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
 				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
+				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 				F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */,
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
@@ -911,6 +922,7 @@
 				F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
+				F30E52C21799216E006C5091 /* FAProgressView.m in Sources */,
 				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

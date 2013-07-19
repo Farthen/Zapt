@@ -502,7 +502,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         DDLogError(@"Trying to fetch information about show without tbdb_id");
     }
     
-    NSString *cacheKey = [show cacheKeyWithDetailLevel:detailLevel];
+    NSString *cacheKey = [show cacheKey];
     FATraktShow *cachedShow = [_cache.shows objectForKey:cacheKey];
     if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
         if (detailLevel == FATraktDetailLevelExtended) {
@@ -546,7 +546,45 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
+- (void)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))block
+{
+    DDLogController(@"Getting progress data");
+    // title can be tvdb-id or slug
+    NSString *parameters = [NSString stringWithFormat:@"%@/%@", self.apiUser, title];
+    NSString *url = [self urlForAPI:@"user/progress/watched.json" withParameters:parameters];
+    
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
+    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *show in data) {
+                FATraktShowProgress *progress = [[FATraktShowProgress alloc] initWithJSONDict:show];
+                [shows addObject:progress];
+            }
+            block(shows);
+        }
+    }];
+}
+
+- (void)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block
+{
+    DDLogController(@"Getting progress for show: %@", show.title);
+    [self loadProgressDataWithTitle:show.tvdb_id callback:^(NSArray *data){
+        FATraktShowProgress *progress = data[0];
+        progress.show = show;
+        show.progress = progress;
+        block(progress);
+    }];
+}
+
+- (void)progressForAllShowsCallback:(void (^)(NSArray *result))block
+{
+    DDLogController(@"Getting progress for all shows");
+    [self loadProgressDataWithTitle:@"" callback:block];
+}
+
+- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))block
 {
     DDLogController(@"Searching for episodes!");
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];

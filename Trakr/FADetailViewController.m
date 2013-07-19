@@ -25,6 +25,7 @@
 
 #import "FAProgressHUD.h"
 #import "FAContentPrefsView.h"
+#import "FAProgressView.h"
 
 #import "FATrakt.h"
 
@@ -238,7 +239,7 @@
         self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.intrinsicContentSize.height;
         
         CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
-        CGFloat totalDuration = 0.3;
+        CGFloat totalDuration = 0.5;
         CGFloat firstDuration = timeFactor * totalDuration;
         CGFloat secondDuration = totalDuration - firstDuration;
         
@@ -402,6 +403,19 @@
     _airTimeLabel.attributedText = title;
 }
 
+- (void)setProgress:(FATraktShowProgress *)progress
+{
+    if (progress) {
+        self.episodeCountVerticalSpaceConstraint.constant = 0;
+        self.progressLabel.text = [NSString stringWithFormat:@"You have watched %i out of %i episodes", progress.completed.unsignedIntegerValue, progress.left.unsignedIntegerValue + progress.completed.unsignedIntegerValue];
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.contentView layoutSubviews];
+        }];
+        CGFloat percentage = (CGFloat)progress.percentage.unsignedIntegerValue / 100;
+        self.progressView.progress = percentage;
+    }
+}
+
 - (void)loadValueForContent:(FATraktContent *)item
 {
     [self setUpPrefs];
@@ -490,6 +504,7 @@
     [self setNetwork:show.network];
     [self setReleaseDate:show.first_aired withCaption:NSLocalizedString(@"First Aired", nil)];
     [self setAirDay:show.air_day andTime:show.air_time];
+    [self setProgress:show.progress];
     
     [self.view layoutSubviews];
     [self.view updateConstraintsIfNeeded];
@@ -506,6 +521,9 @@
     
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
+        [self loadValuesForShow:show];
+    }];
+    [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress){
         [self loadValuesForShow:show];
     }];
     [self loadValuesForShow:show];
@@ -536,7 +554,6 @@
     }];
     [self loadValuesForEpisode:episode];
 }
-
 
 - (void)loadContent:(FATraktContent *)content
 {

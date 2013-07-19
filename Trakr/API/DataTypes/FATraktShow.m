@@ -41,13 +41,7 @@
 
 - (NSString *)cacheKey
 {
-    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@&detailLevel=%i", self.tvdb_id, self.title, self.year, self.detailLevel];
-    return key;
-}
-
-- (NSString *)cacheKeyWithDetailLevel:(FATraktDetailLevel)detailLevel
-{
-    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@&detailLevel=%i", self.tvdb_id, self.title, self.year, detailLevel];
+    NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
     return key;
 }
 
@@ -55,6 +49,15 @@
 {
     FATraktCache *cache = [FATraktCache sharedInstance];
     [cache.shows setObject:self forKey:self.cacheKey];
+}
+
+- (NSUInteger)episodeCount
+{
+    NSUInteger count = 0;
+    for (FATraktSeason *season in self.seasons) {
+        count += season.episodes.count;
+    }
+    return count;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key

@@ -141,7 +141,7 @@
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-s7-Rp5">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IsI-s7-Rp5" customClass="FAProgressView">
                                                         <rect key="frame" x="0.0" y="23" width="320" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <subviews>
@@ -157,7 +157,6 @@
                                                         <constraints>
                                                             <constraint firstItem="q4q-rf-rOU" firstAttribute="leading" secondItem="IsI-s7-Rp5" secondAttribute="leading" constant="10" id="2CG-5k-wd0"/>
                                                             <constraint firstAttribute="bottom" secondItem="q4q-rf-rOU" secondAttribute="bottom" constant="8" id="ENr-ns-baV"/>
-                                                            <constraint firstAttribute="height" constant="30" id="ToO-ll-4fM"/>
                                                             <constraint firstItem="q4q-rf-rOU" firstAttribute="top" secondItem="IsI-s7-Rp5" secondAttribute="top" constant="8" id="eH2-J0-Xsh"/>
                                                         </constraints>
                                                     </view>
@@ -250,14 +249,15 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="actionButton" destination="c3r-ax-WqC" id="GjS-dd-wNa"/>
-                        <outlet property="contentView" destination="hey-SP-rFB" id="cic-PX-q9L"/>
+                        <outlet property="contentView" destination="UAS-cc-fHB" id="Igp-Xv-y0F"/>
                         <outlet property="coverImageView" destination="TYS-Mq-YhC" id="q22-3E-eUL"/>
                         <outlet property="detailLabel1" destination="P8n-xw-QBS" id="hId-lP-O8N"/>
-                        <outlet property="episodeCountVericalSpaceConstraint" destination="Xax-BD-XRB" id="dCV-ta-Uob"/>
                         <outlet property="episodeCountVerticalSpaceConstraint" destination="Xax-BD-XRB" id="NI3-e9-WvQ"/>
                         <outlet property="imageViewToBottomViewLayoutConstraint" destination="sey-Rh-r86" id="tKJ-uY-Ju0"/>
                         <outlet property="imageViewToTopLayoutConstraint" destination="40b-nQ-tuk" id="4CE-3B-BoQ"/>
                         <outlet property="overviewLabel" destination="Xni-Xr-Kat" id="vSf-tU-gba"/>
+                        <outlet property="progressLabel" destination="q4q-rf-rOU" id="W4e-BZ-tF7"/>
+                        <outlet property="progressView" destination="IsI-s7-Rp5" id="49a-wa-klS"/>
                         <outlet property="scrollView" destination="y1k-dg-fqs" id="yAL-7z-qAe"/>
                         <outlet property="titleLabel" destination="ili-nX-qrv" id="Yo6-uL-JAy"/>
                     </connections>
