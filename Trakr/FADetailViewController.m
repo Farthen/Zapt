@@ -310,7 +310,7 @@
             [directorString appendFormat:NSLocalizedString(@", %@", nil), people.name];
         }
     }
-    NSAttributedString *directorString_ = [[NSAttributedString alloc] initWithString:directorString];
+    NSAttributedString *directorString_;//= [[NSAttributedString alloc] initWithString:directorString];
     NSMutableAttributedString *text = [[NSMutableAttributedString alloc] initWithString:directorString];
     if ([directorString isEqualToString:@""]) {
         directorString_ = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"unknown", nil) attributes:@{NSFontAttributeName: [UIFont italicSystemFontOfSize:14]}];
@@ -407,7 +407,7 @@
 {
     if (progress) {
         self.episodeCountVerticalSpaceConstraint.constant = 0;
-        self.progressLabel.text = [NSString stringWithFormat:@"You have watched %i out of %i episodes", progress.completed.unsignedIntegerValue, progress.left.unsignedIntegerValue + progress.completed.unsignedIntegerValue];
+        self.progressLabel.text = [NSString stringWithFormat:@"Watched %i / %i episodes", progress.completed.unsignedIntegerValue, progress.left.unsignedIntegerValue + progress.completed.unsignedIntegerValue];
         [UIView animateWithDuration:0.3 animations:^{
             [self.contentView layoutSubviews];
         }];

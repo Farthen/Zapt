@@ -12,9 +12,9 @@
 @interface FATraktShowProgress : FATraktDatatype
 
 @property (retain) FATraktShow *show;
-@property (assign) NSNumber *percentage;
-@property (assign) NSNumber *aired;
-@property (assign) NSNumber *completed;
-@property (assign) NSNumber *left;
+@property (retain) NSNumber *percentage;
+@property (retain) NSNumber *aired;
+@property (retain) NSNumber *completed;
+@property (retain) NSNumber *left;
 
 @end

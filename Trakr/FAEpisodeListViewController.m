@@ -204,11 +204,11 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         NSArray *episodeArray = _filteredSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        season = episode.show.seasons[(NSUInteger)episode.season.intValue];
+        //season = episode.show.seasons[(NSUInteger)episode.season.intValue];
     } else if (_filterWatched) {
         NSArray *episodeArray = _filteredWatchedSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        season = episode.show.seasons[episode.season.unsignedIntValue];
+        //season = episode.show.seasons[episode.season.unsignedIntValue];
     } else {
         season = _displayedShow.seasons[(NSUInteger)indexPath.section];
         episode = season.episodes[(NSUInteger)indexPath.row];
