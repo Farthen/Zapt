@@ -43,6 +43,8 @@
 		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
 		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
+		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
+		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
 		F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323CF97177E12AE007378CA /* FAHomeViewController.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
@@ -184,6 +186,10 @@
 		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressView.m; path = Elements/FAProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
+		F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+RecursiveSubviews.h"; path = "Categories/UIView+RecursiveSubviews.h"; sourceTree = "<group>"; };
+		F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+RecursiveSubviews.m"; path = "Categories/UIView+RecursiveSubviews.m"; sourceTree = "<group>"; };
+		F31D68ED179DD353003408BF /* NSObject+ClassName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+ClassName.h"; path = "Categories/NSObject+ClassName.h"; sourceTree = "<group>"; };
+		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+ClassName.m"; path = "Categories/NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FARefreshControlWithActivity.h; path = Elements/FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FARefreshControlWithActivity.m; path = Elements/FARefreshControlWithActivity.m; sourceTree = "<group>"; };
 		F323CF96177E12AE007378CA /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
@@ -477,6 +483,8 @@
 			children = (
 				F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */,
 				F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */,
+				F31D68ED179DD353003408BF /* NSObject+ClassName.h */,
+				F31D68EE179DD353003408BF /* NSObject+ClassName.m */,
 				B6FB0DBA161DEF2C00043207 /* NSString+URLEncode.h */,
 				B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */,
 				F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */,
@@ -487,6 +495,8 @@
 				F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */,
 				F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */,
 				F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */,
+				F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */,
+				F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -899,9 +909,11 @@
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
+				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
 				B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */,
+				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
 				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,

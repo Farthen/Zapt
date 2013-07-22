@@ -23,6 +23,7 @@
 #import "FATraktSearchResult.h"
 #import "FATraktShowProgress.h"
 
+@class LRRestyRequest;
 @class LRRestyResponse;
 
 extern NSString *const FATraktRatingNone;
@@ -60,25 +61,25 @@ extern NSString *const kFAKeychainKeyCredentials;
 #pragma mark API
 - (void)verifyCredentials:(void (^)(BOOL valid))block;
 
-- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
+- (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
 
-- (void)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
+- (LRRestyRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
+- (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block;
 
-- (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
-- (void)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
-- (void)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block;
+- (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block;
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block;
+- (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block;
 
-- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
-- (void)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
+- (LRRestyRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block;
+- (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block;
 
-- (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block;
-- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
-- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+- (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block;
+- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+- (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 
-- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
-- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block;
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block;
 
-- (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+- (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 @end

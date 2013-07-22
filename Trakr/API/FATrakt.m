@@ -160,9 +160,14 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [delegate handleInvalidCredentials];
             return NO;
         } else if (response.status == 0) {
-            DDLogWarn(@"Network Connection Problems!");
-            [delegate handleNetworkNotAvailable];
-            return NO;
+            if (response.originalRequest.connectionError) {
+                DDLogWarn(@"Network Connection Problems!");
+                [delegate handleNetworkNotAvailable];
+                return NO;
+            } else {
+                // The request was canceled on purpose
+                return NO;
+            }
         } else if(response.status == 503) {
             DDLogWarn(@"Trakt is over capacity");
             [delegate handleOverCapacity];
@@ -316,7 +321,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error
 {
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
@@ -349,11 +354,11 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     if ([_cache.images objectForKey:imageURL]) {
         block([_cache.images objectForKey:imageURL]);
-        return;
+        return nil;
     }
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:imageURL withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             if (response.responseData.length == 0) {
                 if (error) {
@@ -392,7 +397,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
+- (LRRestyRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
 {
     DDLogController(@"Searching for movies!");
     NSString *url = [self urlForAPI:@"search/movies.json" withParameters:[query URLEncodedString]];
@@ -406,7 +411,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     [_activity startActivityNamed:FATraktActivityNotificationSearch];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
             NSArray *data = [[response asString] objectFromJSONString];
@@ -426,7 +431,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
+- (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block
 {
     DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
     if (!movie.imdb_id) {
@@ -443,7 +448,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *url = [self urlForAPI:@"movie/summary.json" withParameters:movie.imdb_id];
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [movie mapObjectsInDict:data];
@@ -457,7 +462,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
+- (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block
 {
     DDLogController(@"Searching for shows!");
     NSString *url = [self urlForAPI:@"search/shows.json" withParameters:[query URLEncodedString]];
@@ -471,7 +476,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     [_activity startActivityNamed:FATraktActivityNotificationSearch];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
             NSArray *data = [[response asString] objectFromJSONString];
@@ -491,12 +496,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block
 {
     return [self detailsForShow:show detailLevel:FATraktDetailLevelDefault callback:block];
 }
 
-- (void)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block
 {
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     if (!show.tvdb_id) {
@@ -512,7 +517,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 // TODO: actually do this when episode data has changed (new episodes!)
                 //detailLevel = FATraktDetailLevelDefault;
                 block(cachedShow);
-                return;
+                return nil;
             }
         } else {
             block(cachedShow);
@@ -528,7 +533,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [show mapObjectsInDict:data];
@@ -547,7 +552,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))block
+- (LRRestyRequest *)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))block
 {
     DDLogController(@"Getting progress data");
     // title can be tvdb-id or slug
@@ -555,7 +560,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *url = [self urlForAPI:@"user/progress/watched.json" withParameters:parameters];
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSArray *data = [[response asString] objectFromJSONString];
             NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
@@ -570,10 +575,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block
+- (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block
 {
     DDLogController(@"Getting progress for show: %@", show.title);
-    [self loadProgressDataWithTitle:show.tvdb_id callback:^(NSArray *data){
+    return [self loadProgressDataWithTitle:show.tvdb_id callback:^(NSArray *data){
         FATraktShowProgress *progress = data[0];
         progress.show = show;
         show.progress = progress;
@@ -581,13 +586,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)progressForAllShowsCallback:(void (^)(NSArray *result))block
+- (LRRestyRequest *)progressForAllShowsCallback:(void (^)(NSArray *result))block
 {
     DDLogController(@"Getting progress for all shows");
-    [self loadProgressDataWithTitle:@"" callback:block];
+    return [self loadProgressDataWithTitle:@"" callback:block];
 }
 
-- (void)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))block
+- (LRRestyRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))block
 {
     DDLogController(@"Searching for episodes!");
     NSString *url = [self urlForAPI:@"search/episodes.json" withParameters:[query URLEncodedString]];
@@ -601,7 +606,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     [_activity startActivityNamed:FATraktActivityNotificationSearch];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             //NSLog(@"%@", [response asString]);
             NSArray *data = [[response asString] objectFromJSONString];
@@ -624,7 +629,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
+- (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     if (!episode.show.tvdb_id) {
@@ -641,7 +646,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *url = [self urlForAPI:@"show/episode/summary.json" withParameters:[NSString stringWithFormat:@"%@/%@/%@", episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue]];
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             [episode mapObjectsInSummaryDict:data];
@@ -655,7 +660,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))block
+- (LRRestyRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))block
 {
     FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
     if (cachedList) {
@@ -669,7 +674,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *typeName = [FATrakt nameForContentType:type];
     
     [_activity startActivityNamed:FATraktActivityNotificationLists];
-    [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
@@ -703,7 +708,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block
+- (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block
 {
     // type can either be shows, episodes or movies
     NSString *watchlistName = [FATrakt nameForContentType:contentType withPlural:YES];
@@ -715,10 +720,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     list.url = url;
     list.contentType = contentType;
     
-    [self loadDataForList:list callback:block];
+    return [self loadDataForList:list callback:block];
 }
 
-- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block
 {
     // type can either be shows, episodes or movies
     NSString *libraryName = [FATrakt nameForContentType:contentType withPlural:YES];
@@ -739,26 +744,26 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     list.contentType = contentType;
     list.libraryType = libraryType;
     
-    [self loadDataForList:list callback:block];
+    return [self loadDataForList:list callback:block];
 }
 
-- (void)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
 {
     // TODO: Check if I really need the extended information
-    [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:block];
+    return [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:block];
 }
 
-- (void)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    [self addToWatchlist:content add:YES callback:block onError:error];
+    return [self addToWatchlist:content add:YES callback:block onError:error];
 }
 
-- (void)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    [self addToWatchlist:content add:NO callback:block onError:error];
+    return [self addToWatchlist:content add:NO callback:block onError:error];
 }
 
-- (void)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
     NSString *watchlistName = [FATrakt watchlistNameForContentType:content.contentType];
     NSString *url;
@@ -773,7 +778,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             block();
         } else {
@@ -786,18 +791,18 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (void)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    
+    return nil;
 }
 
-- (void)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    
+    return nil;
 }
 
 
-- (void)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+- (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
@@ -812,7 +817,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
     [_activity startActivityNamed:FATraktActivityNotificationDefault];
-    [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             block();
         } else {

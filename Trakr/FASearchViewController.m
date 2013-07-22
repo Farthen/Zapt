@@ -18,11 +18,13 @@
 #import "FANavigationController.h"
 
 #import "FAAppDelegate.h"
+#import <LRResty/LRResty.h>
 
 @interface FASearchViewController () {
     FASearchData *_searchData;
     FATraktContentType _searchScope;
     UITableView *_resultsTableView;
+    NSMutableArray *_searchRequests;
 }
 
 @end
@@ -34,6 +36,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     self.searchData = [[FASearchData alloc] init];
+    _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
     
     self.searchBar.translucent = YES;
     [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
@@ -71,6 +74,7 @@
 {
     [super viewDidDisappear:animated];
     [[FAActivityDispatch sharedInstance] unregister:self.searchBar];
+    [self cancelAllSearchRequests];
 }
 
 - (NSUInteger)supportedInterfaceOrientations
@@ -88,6 +92,14 @@
     [self.searchBar invalidateIntrinsicContentSize];
 }
 
+- (void)cancelAllSearchRequests
+{
+    for (LRRestyRequest *request in _searchRequests) {
+        [request cancelImmediately];
+    }
+    [_searchRequests removeAllObjects];
+}
+
 - (void)searchForString:(NSString *)searchString
 {
     DDLogViewController(@"Searching for string: %@", searchString);
@@ -95,21 +107,26 @@
     self.searchData = searchData;
     
     [_resultsTableView reloadData];
+    [self cancelAllSearchRequests];
     
-    [[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
+    [_searchRequests addObject:[[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
         searchData.movies = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }];
-    [[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
+    }]];
+    [_searchRequests addObject:[[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
         searchData.shows = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }];
-    [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
+    }]];
+    [_searchRequests addObject:[[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
         searchData.episodes = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }];
+    }]];
 }
 
+- (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView
+{
+    [self cancelAllSearchRequests];
+}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchScope
 {
