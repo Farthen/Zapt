@@ -43,6 +43,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
 }
 
 - (void)viewDidLoad
