@@ -10,11 +10,13 @@
 @class FASearchData;
 @class FATableViewLoadingView;
 @class FASearchBarWithActivity;
+@class FANavigationController;
 
 @interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (retain) FASearchData *searchData;
 @property (retain) IBOutlet FASearchBarWithActivity *searchBar;
+//@property FANavigationController *navigationController;
 
 - (IBAction)actionDoneButton:(id)sender;
 

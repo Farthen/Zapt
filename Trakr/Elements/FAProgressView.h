@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FATraktContent;
 
 @interface FAProgressView : UIView
 
 @property CGFloat progress;
+
+- (void)setNextUpContent:(FATraktContent *)nextUpContent;
 
 @end

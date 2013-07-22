@@ -7,6 +7,9 @@
 //
 
 #import "FAProgressView.h"
+#import "FATraktContent.h"
+#import "FASearchResultTableViewCell.h"
+#import "UIView+FrameAdditions.h"
 
 @implementation FAProgressView
 @synthesize progress = _progress;
@@ -20,13 +23,17 @@
     return self;
 }
 
+- (CGFloat)progressBarHeight
+{
+    return 18;
+}
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    CGRect coloredRect = rect;
+    CGRect coloredRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, self.progressBarHeight);
     coloredRect.size.width *= _progress;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
@@ -40,6 +47,10 @@
 {
     _progress = progress;
     [self setNeedsDisplay];
+}
+
+- (void)setNextUpContent:(FATraktContent *)nextUpContent
+{
 }
 
 - (CGFloat)progress

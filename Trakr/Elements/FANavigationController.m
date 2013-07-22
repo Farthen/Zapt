@@ -1,18 +1,45 @@
 //
-//  UINavigationController+LongButtonTouch.m
+//  FANavigationController.m
 //  Trakr
 //
-//  Created by Finn Wilke on 19.07.13.
+//  Created by Finn Wilke on 22.07.13.
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "UINavigationController+LongButtonTouch.h"
+#import "FANavigationController.h"
 
 @protocol FANavigationControllerLongButtonTouchDelegate <UINavigationControllerDelegate>
 - (BOOL)navigationController:(UINavigationController *)navigationController shouldPopToRootViewControllerAfterLongButtonTouchForViewController:(UIViewController *)viewController;
 @end
 
-@implementation UINavigationController (LongButtonTouch)
+@interface FANavigationController () {
+    UILongPressGestureRecognizer *_longPressGesture;
+}
+
+@end
+
+@implementation FANavigationController
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+	// Do any additional setup after loading the view.
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 // stolen from http://stackoverflow.com/a/10005594/1084385
 - (void)longPress:(UILongPressGestureRecognizer *)sender
@@ -57,10 +84,23 @@
 {
     if (NSClassFromString(@"UILongPressGestureRecognizer"))
     {
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
-        longPress.minimumPressDuration = 0.7;
-        [self.navigationBar addGestureRecognizer:longPress];
+        _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+        _longPressGesture.minimumPressDuration = 0.7;
+        [self.navigationBar addGestureRecognizer:_longPressGesture];
     }
+}
+
+- (void)removeLongButtonTouchGesture
+{
+    if (_longPressGesture) {
+        [self.navigationBar removeGestureRecognizer:_longPressGesture];
+        _longPressGesture = nil;
+    }
+}
+
+- (void)dealloc
+{
+    [self removeLongButtonTouchGesture];
 }
 
 @end

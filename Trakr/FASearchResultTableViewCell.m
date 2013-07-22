@@ -41,7 +41,7 @@
         NSString *tagline = movie.tagline;
         self.detailTextLabel.text = tagline;
     } else if ([content isKindOfClass:[FATraktShow class]]) {
-        // TODO: Crashbug here
+        // TODO: Crashbug here?
         FATraktShow *show = (FATraktShow *)content;
         self.textLabel.text = show.title;
         
@@ -72,7 +72,6 @@
         } else {
             self.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"", nil)];
         }
-
     } else {
         DDLogError(@"Tried to display a datatype in FASearchResultTableViewCell that is not possible to be displayed!");
     }

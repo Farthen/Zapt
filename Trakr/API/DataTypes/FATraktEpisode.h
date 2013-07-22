@@ -25,7 +25,4 @@
 @property (retain) NSString *url;
 @property (assign) BOOL watched;
 
-// watchlist API calls "episode" "number"
-@property (retain) NSNumber *number;
-
 @end

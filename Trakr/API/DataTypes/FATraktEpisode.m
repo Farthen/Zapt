@@ -49,13 +49,13 @@
     return [NSString stringWithFormat:@"<FATraktEpisode %p S%02iE%02i: \"%@\" Show: \"%@\">", self, self.season.intValue, self.episode.intValue, self.title, self.show.title];
 }
 
-- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
+- (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"number"]) {
-        // Stupid watchlist API calls this "number" instead of "episode"
-        [self mapObject:object ofType:propertyType toPropertyWithKey:@"episode"];
+    if ([key isEqualToString:@"number"] || [key isEqualToString:@"num"]) {
+        // Stupid watchlist API calls this "number" instead of "episode", the progress api calls this "num"
+        [self mapObject:object toPropertyWithKey:@"episode"];
     } else {
-        [super mapObject:object ofType:propertyType toPropertyWithKey:key];
+        [super mapObject:object toPropertyWithKey:key];
     }
 }
 

@@ -14,13 +14,17 @@
 @class FATraktContent;
 @class FAScrollViewWithTopView;
 @class FAProgressView;
+@class FANextUpViewController;
 
 @interface FADetailViewController : UIViewController <UIActionSheetDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
-- (IBAction)actionDoneButton:(id)sender;
 - (IBAction)actionItem:(id)sender;
+
+// This will be set by the nextUpViewController when it is inserted as sub view controller
+@property FANextUpViewController *nextUpViewController;
+@property IBOutlet NSLayoutConstraint *nextUpHeightConstraint;
 
 @property (retain) IBOutlet UIBarButtonItem *actionButton;
 
@@ -29,27 +33,13 @@
 @property (retain) IBOutlet UIView *contentView;
 
 @property (retain) IBOutlet UIImageView *coverImageView;
-@property (retain) IBOutlet UIView *detailBackgroundView;
-@property (retain) IBOutlet UIView *titleBackgroundView;
-@property (retain) IBOutlet UIView *scrollViewBackgroundView;
-@property (retain) IBOutlet FAProgressView *progressView;
 
 @property (retain) IBOutlet FATitleLabel *titleLabel;
-@property IBOutlet UILabel *progressLabel;
-@property (retain) IBOutlet UILabel *detailLabel1;
-@property (retain) IBOutlet UILabel *detailLabel2;
-@property (retain) IBOutlet UILabel *detailLabel3;
-@property (retain) IBOutlet UILabel *detailLabel4;
 
 @property (retain) IBOutlet UILabel *overviewLabel;
-@property (retain) IBOutlet UILabel *actionLabel;
-
-
 
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
 @property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
-
-@property (retain) IBOutlet NSLayoutConstraint *episodeCountVerticalSpaceConstraint;
 
 @end

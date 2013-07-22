@@ -70,8 +70,8 @@
     const char *attributeString = property_getAttributes(property);
     
     char *attribute;
-    char buffer[1 + strlen(attributeString)];
-    strcpy(buffer, attributeString);
+    char buffer[1 + strnlen(attributeString, 100)];
+    strlcpy(buffer, attributeString, sizeof(buffer));
     char *state = buffer;
     while ((attribute = strsep(&state, ",")) != NULL) {
         const char firstChar = attribute[0];

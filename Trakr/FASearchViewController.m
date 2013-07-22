@@ -15,7 +15,7 @@
 #import "UIView+Animations.h"
 
 #import "FADetailViewController.h"
-#import "UINavigationController+LongButtonTouch.h"
+#import "FANavigationController.h"
 
 #import "FAAppDelegate.h"
 
@@ -60,7 +60,11 @@
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
     //[self.searchBar becomeFirstResponder];
-    [self.navigationController addLongButtonTouchGesture];
+    
+    if ([self.navigationController isKindOfClass:[FANavigationController class]]) {
+        FANavigationController *navigationController = (FANavigationController *)self.navigationController;
+        [navigationController addLongButtonTouchGesture];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
