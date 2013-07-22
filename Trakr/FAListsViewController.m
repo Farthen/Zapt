@@ -12,7 +12,6 @@
 #import "FASearchViewController.h"
 #import "FAListDetailViewController.h"
 #import "FARefreshControlWithActivity.h"
-#import "FAActivityDispatch.h"
 
 @interface FAListsViewController () {
     NSUInteger _refreshCount;
@@ -40,12 +39,13 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
-    self.refreshControlWithActivity = [[FARefreshControlWithActivity alloc] init];
-    [self.refreshControlWithActivity addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
-    
-    // Add the refresh control to the activity dispatch to get notified of changes for lists
-    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationLists observer:self.refreshControlWithActivity];
-    
+    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     // Load all the list information to get the count
     if ([FATraktCache sharedInstance].lists.objectCount == 0) {
         [self refreshData];
@@ -75,24 +75,32 @@
 - (void)refreshData
 {
     if (_refreshCount == 0) {
+        [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeShows callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeEpisodes callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
         
+        [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
         }];
     }
 }
@@ -100,7 +108,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    // Unselect the selected row if any
+    
+    // Deselect the selected row if any
     NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];

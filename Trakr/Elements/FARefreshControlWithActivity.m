@@ -44,7 +44,7 @@
 - (void)setStartCount:(NSInteger)startCount {
     _startCount = startCount;
     if (_startCount > 0) {
-        if (self.refreshing) {
+        if (!self.refreshing) {
             [self beginRefreshing];
         }
     } else {
