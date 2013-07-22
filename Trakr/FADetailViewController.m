@@ -30,6 +30,9 @@
 
 #import "FATrakt.h"
 
+#undef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_VIEWCONTROLLER
+
 @interface FADetailViewController () {
     BOOL _showing;
     BOOL _willAppear;
@@ -230,19 +233,6 @@
         _willDisplayImage = YES;
         _showing = YES;
         
-        self.coverImageView.image = _coverImage;
-        
-        CGFloat topSpaceHeight = [self.scrollView convertPoint:CGPointMake(0, 0) toView:nil].y;
-        if (!self.coverImageViewHeightConstraint) {
-            self.coverImageViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
-            [self.coverImageView addConstraint:self.coverImageViewHeightConstraint];
-        } else {
-            self.coverImageViewHeightConstraint.constant = self.coverImageView.intrinsicContentSize.height;
-            [self.coverImageView setNeedsUpdateConstraints];
-        }
-        self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height - topSpaceHeight;
-        [self.scrollView layoutIfNeeded];
-        
         CGFloat firstOffset = -(self.imageViewToTopLayoutConstraint.constant + self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight);
         CGFloat newImageViewToTopLayoutConstraint = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight;
         CGFloat secondOffset = - self.imageViewToTopLayoutConstraint.constant;
@@ -253,6 +243,19 @@
         CGFloat secondDuration = totalDuration - firstDuration;
         
         [UIView animateSynchronizedIf:animated duration:firstDuration delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
+            self.coverImageView.image = _coverImage;
+            
+            CGFloat topSpaceHeight = [self.scrollView convertPoint:CGPointMake(0, 0) toView:nil].y;
+            if (!self.coverImageViewHeightConstraint) {
+                self.coverImageViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
+                [self.coverImageView addConstraint:self.coverImageViewHeightConstraint];
+            } else {
+                self.coverImageViewHeightConstraint.constant = self.coverImageView.intrinsicContentSize.height;
+                [self.coverImageView setNeedsUpdateConstraints];
+            }
+            self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height - topSpaceHeight;
+            [self.scrollView layoutIfNeeded];
+            
             self.imageViewToTopLayoutConstraint.constant = newImageViewToTopLayoutConstraint;
             self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.intrinsicContentSize.height;
             self.view.userInteractionEnabled = NO;
@@ -385,6 +388,7 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
+    DDLogViewController(@"Displaying show %@", show.description);
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self loadValuesForShow:show];

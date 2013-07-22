@@ -17,14 +17,16 @@
     self = [super initWithJSONDict:dict];
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
-        FATraktShow *cachedShow = [[FATraktCache sharedInstance].shows objectForKey:self.cacheKey];
+        FATraktShow *cachedShow = [self.backingCache objectForKey:self.cacheKey];
         if (cachedShow) {
             // cache hit!
-            // update the cached show with new values
-            [cachedShow mapObjectsInDict:dict];
+            // merge the two
+            [cachedShow mergeWithObject:self];
+            //[cachedShow mapObjectsInDict:dict];
             // return the cached show
             self = cachedShow;
         }
+        [self commitToCache];
     }
     return self;
 }
@@ -45,10 +47,9 @@
     return key;
 }
 
-- (void)commitToCache
+- (FACache *)backingCache
 {
-    FATraktCache *cache = [FATraktCache sharedInstance];
-    [cache.shows setObject:self forKey:self.cacheKey];
+    return FATraktCache.sharedInstance.shows;
 }
 
 - (NSUInteger)episodeCount

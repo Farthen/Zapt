@@ -10,13 +10,14 @@
 #import "FATraktCache.h"
 
 @implementation FATraktMovie
+@synthesize shouldBeCached;
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
     self = [super initWithJSONDict:dict];
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
-        FATraktMovie *cachedMovie = [[FATraktCache sharedInstance].movies objectForKey:self.cacheKey];
+        FATraktMovie *cachedMovie = [self.backingCache objectForKey:self.cacheKey];
         if (cachedMovie) {
             // cache hit!
             // update the cached movie with new values
@@ -24,6 +25,7 @@
             // return the cached movie
             self = cachedMovie;
         }
+        [self commitToCache];
     }
     return self;
 }
@@ -43,10 +45,9 @@
     return [NSString stringWithFormat:@"FATraktMovie&imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
 }
 
-- (void)commitToCache
+- (FACache *)backingCache
 {
-    FATraktCache *cache = [FATraktCache sharedInstance];
-    [cache.movies setObject:self forKey:self.cacheKey];
+    return FATraktCache.sharedInstance.movies;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(id)key

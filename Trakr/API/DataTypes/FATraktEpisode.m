@@ -27,7 +27,7 @@
     if (self) {
         self.show = show;
         
-        FATraktEpisode *cachedEpisode = [[FATraktCache sharedInstance].episodes objectForKey:self.cacheKey];
+        FATraktEpisode *cachedEpisode = [self.backingCache objectForKey:self.cacheKey];
         if (cachedEpisode) {
             // cache hit!
             // update the cached episode with new values
@@ -35,8 +35,25 @@
             // return the cached episode
             self = cachedEpisode;
         }
+        [self commitToCache];
+        [self.show commitToCache];
     }
     return self;
+}
+
+- (id)initWithSummaryDict:(NSDictionary *)dict
+{
+    self = [self initWithJSONDict:[dict objectForKey:@"episode"]];
+    if (self) {
+        self.show = [[FATraktShow alloc] initWithJSONDict:[dict objectForKey:@"show"]];
+    }
+    return self;
+}
+
+- (void)mapObjectsInSummaryDict:(NSDictionary *)dict
+{
+    [self mapObjectsInDict:[dict objectForKey:@"episode"]];
+    [self.show mapObjectsInDict:[dict objectForKey:@"show"]];
 }
 
 - (FATraktContentType)contentType
@@ -75,10 +92,9 @@
     return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.season.stringValue, self.episode.stringValue];
 }
 
-- (void)commitToCache
+- (FACache *)backingCache
 {
-    FATraktCache *cache = [FATraktCache sharedInstance];
-    [cache.episodes setObject:self forKey:self.cacheKey];
+    return FATraktCache.sharedInstance.episodes;
 }
 
 @end

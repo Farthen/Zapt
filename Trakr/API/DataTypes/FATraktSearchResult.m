@@ -21,15 +21,14 @@
     return self;
 }
 
+- (FACache *)backingCache
+{
+    return FATraktCache.sharedInstance.searches;
+}
+
 - (NSString *)cacheKey
 {
     return [NSString stringWithFormat:@"FATraktSearchResult&type=%i&query=%@", self.contentType, self.query];
-}
-
-- (void)commitToCache
-{
-    FATraktCache *cache = [FATraktCache sharedInstance];
-    [cache.searches setObject:self forKey:self.cacheKey];
 }
 
 @end

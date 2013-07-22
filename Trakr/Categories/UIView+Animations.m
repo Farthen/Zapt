@@ -12,7 +12,6 @@
 @property (copy) void (^animations)(void);
 @property (copy) void (^completion)(BOOL);
 
-@property BOOL isRunning;
 @property FAAnimation *next;
 @end
 

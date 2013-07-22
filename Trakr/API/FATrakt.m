@@ -30,7 +30,7 @@
 #import "FAActivityDispatch.h"
 
 #undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_CONTROLLER
+#define LOG_LEVEL LOG_LEVEL_WARN
 
 NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
@@ -563,6 +563,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 [shows addObject:progress];
             }
             block(shows);
+            
+            [_activity finishActivityNamed:FATraktActivityNotificationDefault];
         }
     }];
 }
@@ -641,7 +643,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
-            [episode mapObjectsInDict:data];
+            [episode mapObjectsInSummaryDict:data];
             
             episode.detailLevel = FATraktDetailLevelDefault;
             [episode commitToCache];

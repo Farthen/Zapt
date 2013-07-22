@@ -11,11 +11,12 @@
 #import "FAProgressView.h"
 #import "FATrakt.h"
 #import "UIView+FrameAdditions.h"
+#import "FANextUpTableViewCell.h"
 
 @interface FANextUpViewController () {
     BOOL _displaysProgress;
     BOOL _displaysProgressAndNextUp;
-}
+    FATraktContent *_nextUpContent;}
 
 @end
 
@@ -39,6 +40,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    // Unselect the selected row if any
+    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
+    if (selection) {
+        [self.tableView deselectRowAtIndexPath:selection animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,6 +79,34 @@
             self.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
         }
     }
+    _nextUpContent = content;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 57;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FANextUpTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"nextUpCell"];
+    self.seasonLabel = cell.seasonLabel;
+    self.episodeNameLabel = cell.nameLabel;
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
+    
+    [detailViewController loadContent:_nextUpContent];
+    [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
 - (CGFloat)intrinsicHeight

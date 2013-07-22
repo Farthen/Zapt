@@ -10,7 +10,7 @@
 #import "FACacheableItem.h"
 #import "FATraktContent.h"
 
-@interface FATraktList : FATraktDatatype <FACacheableItem>
+@interface FATraktList : FATraktCachedDatatype
 
 + (FATraktList *)cachedListForWatchlistWithContentType:(FATraktContentType)contentType;
 + (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType;

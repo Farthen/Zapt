@@ -7,6 +7,7 @@
 //
 
 #import "FATraktDatatype.h"
+#import "FATraktCachedDatatype.h"
 #import "FACacheableItem.h"
 @class FATraktImageList;
 
@@ -31,7 +32,7 @@ typedef enum {
 } FATraktDetailLevel;
 
 // This is the superclass of movies, shows and episodes.
-@interface FATraktContent : FATraktDatatype
+@interface FATraktContent : FATraktCachedDatatype
 
 @property (readonly) FATraktContentType contentType;
 

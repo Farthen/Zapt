@@ -11,12 +11,13 @@
 @class FATraktContent;
 @class FATraktShowProgress;
 
-@interface FANextUpViewController : UIViewController
+@interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property IBOutlet FAProgressView *progressView;
 @property IBOutlet UILabel *progressLabel;
 @property IBOutlet UILabel *episodeNameLabel;
 @property IBOutlet UILabel *seasonLabel;
+@property IBOutlet UITableView *tableView;
 
 - (void)displayProgress:(FATraktShowProgress *)progress;
 - (void)displayNextUp:(FATraktContent *)content;

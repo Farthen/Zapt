@@ -23,6 +23,24 @@
     return self;
 }
 
+- (void)finishedMappingObjects
+{
+    // See if we can find a cached equivalent now and merge them if appropriate
+    FATraktContent *cachedContent = [self.backingCache objectForKey:self.cacheKey];
+    if (cachedContent) {
+        if (cachedContent.detailLevel > self.detailLevel) {
+            [cachedContent mergeWithObject:self];
+            // we don't want to cache this item anymore
+            self.shouldBeCached = NO;
+            [self removeFromCache];
+        } else {
+            [self mergeWithObject:cachedContent];
+            [cachedContent removeFromCache];
+        }
+    }
+    [self commitToCache];
+}
+
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"images"] && propertyType.objcClass == [FATraktImageList class] && [object isKindOfClass:[NSDictionary class]]) {

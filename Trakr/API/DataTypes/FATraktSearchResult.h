@@ -9,7 +9,7 @@
 #import "FATraktDatatype.h"
 #import "FATraktContent.h"
 
-@interface FATraktSearchResult : FATraktDatatype <FACacheableItem>
+@interface FATraktSearchResult : FATraktCachedDatatype <FACacheableItem>
 
 - (id)initWithQuery:(NSString *)query contentType:(FATraktContentType)contentType;
 

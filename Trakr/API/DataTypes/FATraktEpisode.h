@@ -11,9 +11,11 @@
 
 @class FATraktShow;
 
-@interface FATraktEpisode : FATraktContent <FACacheableItem>
+@interface FATraktEpisode : FATraktContent
 
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
+- (id)initWithSummaryDict:(NSDictionary *)dict;
+- (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
 
 @property (retain) FATraktShow *show;
 

@@ -13,7 +13,6 @@
 #define LOG_LEVEL LOG_LEVEL_CONTROLLER
 
 @interface FATraktDatatype ()
-- (void)finishedMappingObjects;
 
 @end
 
@@ -85,9 +84,11 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
-    self = [self init];
-    if (self) {
-        [self mapObjectsInDict:dict];
+    if (dict) {
+        self = [self init];
+        if (self) {
+            [self mapObjectsInDict:dict];
+        }
     }
     return self;
 }
@@ -146,6 +147,11 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         NSTimeInterval timeInterval = [number doubleValue];
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         [self setValue:date forKey:key];
+    } else if (propertyType.objcClass == [NSString class] && [object isKindOfClass:[NSNumber class]]) {
+        // If it is a number but the property need a string, just convert
+        NSNumber *number = (NSNumber *)object;
+        NSString *string = [number stringValue];
+        [self setValue:string forKey:key];
     } else if ([propertyType typeIsEqualToEncode:@encode(BOOL)]) {
         // If BOOL, set BOOL
         [self setValue:object forKey:key];
@@ -162,7 +168,37 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         return;
     }
     
+    if ([key isEqualToString:@"progress"]) {
+        DDLogError(@"test");
+    }
+    
     [self mapObject:object ofType:propertyInfo toPropertyWithKey:key];
+}
+
+- (void)mergeWithObject:(FATraktDatatype *)object
+{
+    // Merges the values from "object" into the reciever. Only merges objc-classes.
+    if (self == object) {
+        return;
+    } else if (![object isKindOfClass:[self class]]) {
+        DDLogError(@"Can't merge object of type %@ into object of type %@", NSStringFromClass([object class]), NSStringFromClass([self class]));
+        return;
+    }
+    NSDictionary *propertyInfos = self.class.propertyInfo;
+    for (NSString *key in propertyInfos) {
+        FAPropertyInfo *info = propertyInfos[key];
+        BOOL merge = NO;
+        if (info.isObjcClass && [self valueForKey:key] != nil) {
+                merge = YES;
+        }
+        if (merge) {
+            if (info.isReadonly == NO) {
+                if ([object valueForKey:key]) {
+                    [self setValue:[object valueForKey:key] forKey:key];
+                }
+            }
+        }
+    }
 }
 
 @end

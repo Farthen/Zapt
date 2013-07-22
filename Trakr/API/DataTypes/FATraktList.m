@@ -53,10 +53,9 @@
     return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%i&isWatchlist=%i&isLibrary=%i&libraryType=%i", self.name, self.contentType, self.isWatchlist, self.isLibrary, self.libraryType];
 }
 
-- (void)commitToCache
+- (FACache *)backingCache
 {
-    FATraktCache *cache = [FATraktCache sharedInstance];
-    [cache.lists setObject:self forKey:self.cacheKey];
+    return FATraktCache.sharedInstance.lists;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
