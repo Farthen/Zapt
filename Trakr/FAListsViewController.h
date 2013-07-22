@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FARefreshControlWithActivity;
 
-@interface FAListsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface FAListsViewController : UITableViewController// <UITableViewDataSource, UITableViewDelegate>
 
-@property (retain) IBOutlet UITableView *tableView;
+@property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;
 
 @end

@@ -43,6 +43,7 @@
 		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
 		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
+		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
 		F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323CF97177E12AE007378CA /* FAHomeViewController.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
@@ -183,6 +184,8 @@
 		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressView.m; path = Elements/FAProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
+		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FARefreshControlWithActivity.h; path = Elements/FARefreshControlWithActivity.h; sourceTree = "<group>"; };
+		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FARefreshControlWithActivity.m; path = Elements/FARefreshControlWithActivity.m; sourceTree = "<group>"; };
 		F323CF96177E12AE007378CA /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
 		F323CF97177E12AE007378CA /* FAHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHomeViewController.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyUtil.h; path = Util/FAPropertyUtil.h; sourceTree = "<group>"; };
@@ -555,6 +558,8 @@
 				F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */,
 				F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */,
 				F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */,
+				F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */,
+				F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */,
 				F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */,
 				F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */,
 				F3B74B2916E6D83500230C43 /* FAProgressHUD.h */,
@@ -892,6 +897,7 @@
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
+				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,

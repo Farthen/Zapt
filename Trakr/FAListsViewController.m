@@ -11,14 +11,20 @@
 #import "FAListsViewController.h"
 #import "FASearchViewController.h"
 #import "FAListDetailViewController.h"
+#import "FARefreshControlWithActivity.h"
+#import "FAActivityDispatch.h"
 
-@interface FAListsViewController ()
+@interface FAListsViewController () {
+    NSUInteger _refreshCount;
+}
 
 @end
 
 @implementation FAListsViewController {
     FATraktList *_watchlist;
 }
+
+@dynamic refreshControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -33,9 +39,42 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    // Add a UIRefreshControl (pull to refresh)
+    self.refreshControlWithActivity = [[FARefreshControlWithActivity alloc] init];
+    [self.refreshControlWithActivity addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
+    
+    // Add the refresh control to the activity dispatch to get notified of changes for lists
+    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationLists observer:self.refreshControlWithActivity];
     
     // Load all the list information to get the count
     if ([FATraktCache sharedInstance].lists.objectCount == 0) {
+        [self refreshData];
+    }
+}
+
+- (void)setRefreshControlWithActivity:(FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    self.refreshControl = refreshControlWithActivity;
+}
+
+- (FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    if ([self.refreshControl isKindOfClass:[FARefreshControlWithActivity class]]) {
+        return (FARefreshControlWithActivity *)self.refreshControl;
+    } else {
+        return nil;
+    }
+}
+
+- (void)refreshControlValueChanged
+{
+    if (self.refreshControl.refreshing) {
+        [self refreshData];
+    }
+}
+- (void)refreshData
+{
+    if (_refreshCount == 0) {
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }];

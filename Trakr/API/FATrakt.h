@@ -31,6 +31,7 @@ extern NSString *const FATraktRatingHate;
 
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
+extern NSString *const FATraktActivityNotificationLists;
 
 @interface FATrakt : NSObject {
     NSString *_traktBaseURL;

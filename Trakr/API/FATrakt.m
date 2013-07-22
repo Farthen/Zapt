@@ -41,6 +41,7 @@ NSString *const FATraktRatingHate = @"hate";
 
 NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
 NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";
+NSString *const FATraktActivityNotificationLists = @"FATraktActivityNotificationLists";
 NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificationDefault";
 
 @implementation FATrakt {
@@ -667,7 +668,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktContentType type = list.contentType;
     NSString *typeName = [FATrakt nameForContentType:type];
     
-    [_activity startActivityNamed:FATraktActivityNotificationDefault];
+    [_activity startActivityNamed:FATraktActivityNotificationLists];
     [[LRResty client] get:[url copy] withBlock:^(LRRestyResponse *response) {
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
@@ -698,7 +699,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             block(list);
         }
         
-        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
+        [_activity finishActivityNamed:FATraktActivityNotificationLists];
     }];
 }
 
