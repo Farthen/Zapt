@@ -21,7 +21,7 @@
     return self;
 }
 
-- (FACache *)backingCache
++ (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.searches;
 }

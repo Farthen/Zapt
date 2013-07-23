@@ -17,7 +17,7 @@
     self = [super initWithJSONDict:dict];
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
-        FATraktShow *cachedShow = [self.backingCache objectForKey:self.cacheKey];
+        FATraktShow *cachedShow = [self.class.backingCache objectForKey:self.cacheKey];
         if (cachedShow) {
             // cache hit!
             // merge the two
@@ -52,7 +52,7 @@
     return key;
 }
 
-- (FACache *)backingCache
++ (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.shows;
 }

@@ -14,6 +14,7 @@
 
 + (FATraktList *)cachedListForWatchlistWithContentType:(FATraktContentType)contentType;
 + (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType;
++ (NSArray *)cachedCustomLists;
 
 @property (retain) NSString *name;
 @property (retain) NSString *slug;
@@ -26,6 +27,7 @@
 
 @property (assign) BOOL isWatchlist;
 @property (assign) BOOL isLibrary;
+@property (assign) BOOL isCustom;
 
 @property (assign) FATraktLibraryType libraryType;
 @property (assign) FATraktContentType contentType;

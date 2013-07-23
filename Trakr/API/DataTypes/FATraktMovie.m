@@ -17,7 +17,7 @@
     self = [super initWithJSONDict:dict];
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
-        FATraktMovie *cachedMovie = [self.backingCache objectForKey:self.cacheKey];
+        FATraktMovie *cachedMovie = [self.class.backingCache objectForKey:self.cacheKey];
         if (cachedMovie) {
             // cache hit!
             // update the cached movie with new values
@@ -50,7 +50,7 @@
     return [NSString stringWithFormat:@"FATraktMovie&imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
 }
 
-- (FACache *)backingCache
++ (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.movies;
 }

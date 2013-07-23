@@ -23,7 +23,7 @@
 - (void)finishedMappingObjects
 {
     // See if we can find a cached equivalent now and merge them if appropriate
-    FATraktCachedDatatype *cachedDatatype = [self.backingCache objectForKey:self.cacheKey];
+    FATraktCachedDatatype *cachedDatatype = [self.class.backingCache objectForKey:self.cacheKey];
     if (cachedDatatype) {
         [self mergeWithObject:cachedDatatype];
         cachedDatatype.shouldBeCached = NO;
@@ -34,7 +34,7 @@
 
 - (FATraktCachedDatatype *)cachedVersion
 {
-    FATraktCachedDatatype *cachedVersion = [self.backingCache objectForKey:self.cacheKey];
+    FATraktCachedDatatype *cachedVersion = [self.class.backingCache objectForKey:self.cacheKey];
     if (cachedVersion) {
         return cachedVersion;
     } else {
@@ -44,7 +44,7 @@
 
 - (void)removeFromCache
 {
-    [self.backingCache removeObjectForKey:self.cacheKey];
+    [self.class.backingCache removeObjectForKey:self.cacheKey];
 }
 
 - (NSString *)cacheKey
@@ -54,7 +54,7 @@
     return nil;
 }
 
-- (FACache *)backingCache
++ (FACache *)backingCache
 {
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
@@ -65,13 +65,13 @@
 {
     if (self.shouldBeCached) {
         // Check if such an object is already in the cache, merge them
-        FATraktCachedDatatype *cachedObject = [self.backingCache objectForKey:self.cacheKey];
+        FATraktCachedDatatype *cachedObject = [self.class.backingCache objectForKey:self.cacheKey];
         if (cachedObject) {
             [self mergeWithObject:cachedObject];
             cachedObject.shouldBeCached = NO;
             [cachedObject removeFromCache];
         }
-        [self.backingCache setObject:self forKey:self.cacheKey];
+        [self.class.backingCache setObject:self forKey:self.cacheKey];
     } else {
         [self removeFromCache];
     }

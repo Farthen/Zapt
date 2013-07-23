@@ -22,6 +22,7 @@ static NSString *codingFileName = @"Cache";
 @synthesize episodes = _episodes;
 @synthesize images = _images;
 @synthesize lists = _lists;
+@synthesize searches = _searches;
 
 - (id)init
 {

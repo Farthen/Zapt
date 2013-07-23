@@ -27,7 +27,7 @@
     if (self) {
         self.show = show;
         
-        FATraktEpisode *cachedEpisode = [self.backingCache objectForKey:self.cacheKey];
+        FATraktEpisode *cachedEpisode = [self.class.backingCache objectForKey:self.cacheKey];
         if (cachedEpisode) {
             // cache hit!
             // update the cached episode with new values
@@ -97,7 +97,7 @@
     return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.season.stringValue, self.episode.stringValue];
 }
 
-- (FACache *)backingCache
++ (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.episodes;
 }

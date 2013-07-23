@@ -708,6 +708,52 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
+- (LRRestyRequest *)allCustomListsCallback:(void (^)(NSArray *))block
+{
+    // Load the cached versions first
+    NSArray *cachedCustomLists = FATraktList.cachedCustomLists;
+    if (cachedCustomLists.count > 0) {
+        block(cachedCustomLists);
+    }
+    
+    NSString *url = [self urlForAPI:@"user/lists.json" withParameters:self.apiUser];
+    [_activity startActivityNamed:FATraktActivityNotificationLists];
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *listData in data) {
+                FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
+                [lists addObject:list];
+                [list commitToCache];
+            }
+            block(lists);
+        }
+        [_activity finishActivityNamed:FATraktActivityNotificationLists];
+    }];
+}
+
+- (LRRestyRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))block;
+{
+    // Load the cached list first
+    FATraktList *cachedList = [FATraktList.backingCache objectForKey:list.cacheKey];
+    if (cachedList) {
+        block(cachedList);
+    }
+    
+    NSString *url = [self urlForAPI:@"user/list.json" withParameters:[NSString stringWithFormat:@"%@/%@", self.apiUser, list.slug]];
+    [_activity startActivityNamed:FATraktActivityNotificationLists];
+    return [[LRResty client] get:url withBlock:^(LRRestyResponse *response){
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
+            [list commitToCache];
+            block(list);
+        }
+        [_activity finishActivityNamed:FATraktActivityNotificationLists];
+    }];
+}
+
 - (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block
 {
     // type can either be shows, episodes or movies
@@ -800,7 +846,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     return nil;
 }
-
 
 - (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {

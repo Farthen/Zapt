@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FATrakt.h"
+@class FARefreshControlWithActivity;
 
 @interface FAListDetailViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 
@@ -21,6 +22,7 @@ typedef enum {
 - (void)loadLibraryOfType:(FATraktContentType)type;
 
 @property (retain) IBOutlet UISegmentedControl *segmentedControl;
+@property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;
 //@property (retain) IBOutlet UITableView *tableView;
 @property (retain) IBOutlet UISearchBar *searchBar;
 

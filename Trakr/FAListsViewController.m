@@ -13,17 +13,15 @@
 #import "FAListDetailViewController.h"
 #import "FARefreshControlWithActivity.h"
 
-@interface FAListsViewController () {
-    NSUInteger _refreshCount;
-}
+@interface FAListsViewController ()
 
 @end
 
 @implementation FAListsViewController {
     FATraktList *_watchlist;
+    NSUInteger _refreshCount;
+    NSMutableArray *_customLists;
 }
-
-@dynamic refreshControl;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,9 +70,10 @@
         [self refreshData];
     }
 }
+
 - (void)refreshData
 {
-    if (_refreshCount == 0) {
+    if (self.refreshControlWithActivity.startCount == 0) {
         [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -89,7 +88,7 @@
             [self.refreshControlWithActivity finishActivity];
         }];
         
-        [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
+        [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             [self.refreshControlWithActivity finishActivity];
@@ -98,8 +97,23 @@
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             [self.refreshControlWithActivity finishActivity];
         }];
-        [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
+        // There is no such thing as an episode library
+        /*[[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+            [self.refreshControlWithActivity finishActivity];
+        }];*/
+        
+        [self.refreshControlWithActivity startActivity];
+        [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists){
+            _customLists = [lists mutableCopy];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
+            for (FATraktList *list in [_customLists copy]) {
+                [[FATrakt sharedInstance] detailsForCustomList:list callback:^(FATraktList *newList){
+                    unsigned int index = [_customLists indexOfObject:list];
+                    [_customLists replaceObjectAtIndex:index withObject:newList];
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)index inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
+                }];
+            }
             [self.refreshControlWithActivity finishActivity];
         }];
     }
@@ -146,7 +160,7 @@
     } else if(section == 1) {
         return 2;
     } else if(section == 2) {
-        return 0;
+        return (NSInteger)_customLists.count;
     }
     return 0;
 }
@@ -166,8 +180,14 @@
     FATraktList *cachedList;
     if (indexPath.section == 0) {
         cachedList = [FATraktList cachedListForWatchlistWithContentType:indexPath.row];
-    } else {
+    } else if (indexPath.section == 1) {
         cachedList = [FATraktList cachedListForLibraryWithContentType:indexPath.row libraryType:FATraktLibraryTypeAll];
+    } else if (indexPath.section == 2) {
+        if (!_customLists) {
+            _customLists = [FATraktList cachedCustomLists];
+        }
+        cachedList = [_customLists objectAtIndex:(NSUInteger)indexPath.row];
+        cell.textLabel.text = cachedList.name;
     }
     if (cachedList.items) {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%i", cachedList.items.count];

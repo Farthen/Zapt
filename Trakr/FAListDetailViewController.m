@@ -15,6 +15,7 @@
 #import "FADetailViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "FASearchResultTableViewCell.h"
+#import "FARefreshControlWithActivity.h"
 
 @interface FAListDetailViewController ()
 
@@ -48,6 +49,27 @@
     [super awakeFromNib];
 }
 
+- (void)setRefreshControlWithActivity:(FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    self.refreshControl = refreshControlWithActivity;
+}
+
+- (FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    if ([self.refreshControl isKindOfClass:[FARefreshControlWithActivity class]]) {
+        return (FARefreshControlWithActivity *)self.refreshControl;
+    } else {
+        return nil;
+    }
+}
+
+- (void)refreshControlValueChanged
+{
+    if (self.refreshControl.refreshing) {
+        [self refreshData];
+    }
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -55,6 +77,9 @@
     self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];
     self.tableView.tableHeaderView = self.searchBar;
     _shouldBeginEditingSearchText = YES;
+    
+    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -147,7 +172,6 @@
     }
     
     if (reloadData) {
-        NSLog(@"Reloading data");
         _loadedList = list;
         if (list.isLibrary) {
             // This is replacing the libraries at the positions/NSNull with the real objects
@@ -163,6 +187,33 @@
     }
 }
 
+- (void)refreshData
+{
+    if (self.refreshControlWithActivity.startCount == 0) {
+        if (_isLibrary) {
+            [self.refreshControlWithActivity startActivityWithCount:3];
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
+                [self checkReloadDataForList:list];
+                [self.refreshControlWithActivity finishActivity];
+            }];
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
+                [self checkReloadDataForList:list];
+                [self.refreshControlWithActivity finishActivity];
+            }];
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
+                [self checkReloadDataForList:list];
+                [self.refreshControlWithActivity finishActivity];
+            }];
+        } else if (_isWatchlist) {
+            [self.refreshControlWithActivity startActivity];
+            [[FATrakt sharedInstance] watchlistForType:_contentType callback:^(FATraktList *list) {
+                [self checkReloadDataForList:list];
+                [self.refreshControlWithActivity finishActivity];
+            }];
+        }
+    }
+}
+
 - (void)loadWatchlistOfType:(FATraktContentType)type
 {
     _isWatchlist = YES;
@@ -170,9 +221,7 @@
     _reloadWhenShowing = NO;
     _contentType = type;
     self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
-    [[FATrakt sharedInstance] watchlistForType:type callback:^(FATraktList *list) {
-        [self checkReloadDataForList:list];
-    }];
+    [self refreshData];
 }
 
 - (void)loadLibraryOfType:(FATraktContentType)type
@@ -187,15 +236,7 @@
     }
     
     self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
-    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
-        [self checkReloadDataForList:list];
-    }];
-    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
-        [self checkReloadDataForList:list];
-    }];
-    [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
-        [self checkReloadDataForList:list];
-    }];
+    [self refreshData];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

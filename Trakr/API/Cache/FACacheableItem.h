@@ -14,9 +14,9 @@
 @required
 // the key of the item to be used for the cache
 @property (readonly) NSString *cacheKey;
-@property (readonly) FACache *backingCache;
 @property BOOL shouldBeCached;
 
++ (FACache *)backingCache;
 - (void)commitToCache;
 - (void)removeFromCache;
 
