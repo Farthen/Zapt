@@ -60,7 +60,6 @@
             _startCount = 0;
         }
     }
-
 }
 
 - (void)startActivity
@@ -83,7 +82,10 @@
     return _startCount;
 }
 
-- (void)setStartCount:(NSInteger)startCount {    
+- (void)setStartCount:(NSInteger)startCount {
+    if (startCount < 0) {
+        startCount = 0;
+    }
     NSInteger difference = startCount - _startCount;
     [FAStatusBarSpinnerController sharedInstance].startCount += difference;
     _startCount = startCount;

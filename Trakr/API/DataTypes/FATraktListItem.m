@@ -31,6 +31,20 @@
     return nil;
 }
 
+- (void)setContent:(FATraktContent *)content
+{
+    if ([content isKindOfClass:[FATraktMovie class]]) {
+        self.movie = (FATraktMovie *)content;
+        self.type = @"movie";
+    } else if ([content isKindOfClass:[FATraktShow class]]) {
+        self.show = (FATraktShow *)content;
+        self.type = @"show";
+    } else if ([content isKindOfClass:[FATraktEpisode class]]) {
+        self.episode = (FATraktEpisode *)content;
+        self.type = @"episode";
+    }
+}
+
 - (void)setItem:(id)object
 {
     NSString *key = self.type;

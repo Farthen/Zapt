@@ -39,12 +39,13 @@
     _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
     
     self.searchBar.translucent = YES;
-    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
+    
     // Add constraint to correctly position the UISearchBar
     //NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
     //[self.view.superview addConstraint:searchBarConstraint];
@@ -107,7 +108,7 @@
     self.searchData = searchData;
     
     [_resultsTableView reloadData];
-    [self cancelAllSearchRequests];
+    //[self cancelAllSearchRequests];
     
     [_searchRequests addObject:[[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
         searchData.movies = result.results;

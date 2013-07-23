@@ -41,6 +41,17 @@
     [self commitToCache];
 }
 
+- (FATraktContent *)cachedVersion
+{
+    FATraktContent *cachedVersion = [self.backingCache objectForKey:self.cacheKey];
+    if (cachedVersion && cachedVersion.detailLevel >= self.detailLevel) {
+        [cachedVersion mergeWithObject:self];
+        return cachedVersion;
+    } else {
+        return self;
+    }
+}
+
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"images"] && propertyType.objcClass == [FATraktImageList class] && [object isKindOfClass:[NSDictionary class]]) {

@@ -48,6 +48,9 @@
 }
 
 - (void)setStartCount:(NSInteger)startCount {
+    if (startCount < 0) {
+        startCount = 0;
+    }
     _startCount = startCount;
     if (_startCount > 0) {
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

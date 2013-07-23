@@ -188,8 +188,12 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *info = propertyInfos[key];
         BOOL merge = NO;
-        if (info.isObjcClass && [self valueForKey:key] != nil) {
+        if (info.isObjcClass) {
+            if ([self valueForKey:key] != nil) {
                 merge = YES;
+            } else if ([self isKindOfClass:[NSString class]] && [((NSString *)self) isEqualToString:@""]) {
+                merge = YES;
+            }
         }
         if (merge) {
             if (info.isReadonly == NO) {

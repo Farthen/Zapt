@@ -105,7 +105,7 @@
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
-    [detailViewController loadContent:_nextUpContent];
+    [detailViewController loadContent:[_nextUpContent cachedVersion]];
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 

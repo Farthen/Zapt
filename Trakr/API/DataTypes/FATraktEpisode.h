@@ -16,6 +16,7 @@
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 - (id)initWithSummaryDict:(NSDictionary *)dict;
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
+- (FATraktEpisode *)cachedVersion;
 
 @property (retain) FATraktShow *show;
 
@@ -26,5 +27,7 @@
 @property (retain) NSDate *first_aired;
 @property (retain) NSString *url;
 @property (assign) BOOL watched;
+
+
 
 @end

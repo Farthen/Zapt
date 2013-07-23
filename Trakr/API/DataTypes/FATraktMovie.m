@@ -30,6 +30,11 @@
     return self;
 }
 
+- (FATraktMovie *)cachedVersion
+{
+    return (FATraktMovie *)[super cachedVersion];
+}
+
 - (FATraktContentType)contentType
 {
     return FATraktContentTypeMovies;

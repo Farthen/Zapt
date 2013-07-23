@@ -28,6 +28,8 @@
     BOOL _isWatchlist;
     BOOL _isLibrary;
     BOOL _reloadWhenShowing;
+    BOOL _shouldBeginEditingSearchText;
+    
     FATraktContentType _contentType;
     FATraktLibraryType _libraryType;
 }
@@ -50,7 +52,9 @@
 {
     [super viewDidLoad];
 	// Set the row height before loading the tableView for a more smooth experience
-    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];    
+    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];
+    self.tableView.tableHeaderView = self.searchBar;
+    _shouldBeginEditingSearchText = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -89,9 +93,13 @@
     if (_isLibrary) {
         self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collection", nil)];
         self.searchBar.showsScopeBar = YES;
-        //[self.searchBar sizeToFit];
+        self.tableView.tableHeaderView = self.searchBar;
+        [self.searchBar sizeToFit];
         self.searchBar.tintColor = nil;
         [self.searchBar setNeedsDisplay];
+        [self.searchBar invalidateIntrinsicContentSize];
+        [self.searchBar layoutIfNeeded];
+        [self.tableView layoutIfNeeded];
         self.tableView.tableHeaderView = self.searchBar;
     } else {
         self.searchBar.showsScopeBar = NO;
@@ -104,7 +112,7 @@
 {
     [super viewDidDisappear:animated];
     _reloadWhenShowing = YES;
-    [self.searchDisplayController setActive:NO animated:NO];
+    //[self.searchDisplayController setActive:NO animated:NO];
 }
 
 - (void)didReceiveMemoryWarning
@@ -129,8 +137,9 @@
     
     if (loadedList.items.count == list.items.count) {
         for (unsigned int i = 0; i < loadedList.items.count; i++) {
-            if (((FATraktListItem *)loadedList.items[i]).content != ((FATraktListItem *)list.items[i]).content) {
+            if (((FATraktListItem *)loadedList.items[i]).content != [((FATraktListItem *)list.items[i]).content cachedVersion]) {
                 reloadData = YES;
+                break;
             }
         }
     } else {
@@ -138,17 +147,19 @@
     }
     
     if (reloadData) {
+        NSLog(@"Reloading data");
+        _loadedList = list;
         if (list.isLibrary) {
+            // This is replacing the libraries at the positions/NSNull with the real objects
             [_loadedLibrary replaceObjectAtIndex:(NSUInteger)list.libraryType withObject:list];
             if (_displayedLibraryType == list.libraryType) {
-                _displayedList = loadedList;
-                [self.tableView reloadData];
+                _displayedList = _loadedList;
             }
         } else {
             _loadedList = list;
             _displayedList = _loadedList;
-            [self.tableView reloadData];
         }
+        [self.tableView reloadData];
     }
 }
 
@@ -174,7 +185,7 @@
     if (!_loadedLibrary) {
         _loadedLibrary = [[NSMutableArray alloc] initWithArray:@[[NSNull null], [NSNull null], [NSNull null]]];
     }
-        
+    
     self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
     [[FATrakt sharedInstance] libraryForContentType:type libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
         [self checkReloadDataForList:list];
@@ -219,6 +230,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if ([_displayedList isKindOfClass:[NSNull class]]) {
+        return 0;
+    }
     return (NSInteger)_displayedList.items.count;
 }
 
@@ -232,7 +246,7 @@
     }
     
     FATraktListItem *item = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.item];
-    [cell displayContent:item.content];
+    [cell displayContent:[item.content cachedVersion]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
@@ -249,6 +263,12 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self.searchBar resignFirstResponder];
+}
+
 #pragma mark Search
 - (void)filterContentForSearchBar:(UISearchBar *)searchBar
 {
@@ -258,6 +278,7 @@
     if (_isLibrary) {
         FATraktLibraryType libraryType = searchBar.selectedScopeButtonIndex;
         loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)libraryType];
+        _displayedLibraryType = libraryType;
     }
     
     FATraktList *displayedList = [loadedList copy];
@@ -297,7 +318,7 @@
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     [searchBar setShowsCancelButton:YES animated:YES];
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    //[self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -317,8 +338,23 @@
     [searchBar resignFirstResponder];
 }
 
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    if (!_shouldBeginEditingSearchText) {
+        _shouldBeginEditingSearchText = YES;
+        return NO;
+    }
+    return YES;
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    // http://stackoverflow.com/questions/1092246/uisearchbar-clearbutton-forces-the-keyboard-to-appear/3852509#3852509
+    if(![searchBar isFirstResponder]) {
+        // user tapped the 'clear' button
+        _shouldBeginEditingSearchText = NO;
+    }
+    // do whatever I want to happen when the user clears the search...
     [self filterContentForSearchBar:searchBar];
 }
 

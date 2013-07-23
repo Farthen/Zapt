@@ -35,6 +35,8 @@
 @property (retain) IBOutlet UIImageView *coverImageView;
 
 @property (retain) IBOutlet FATitleLabel *titleLabel;
+@property IBOutlet UILabel *detailLabel;
+@property IBOutlet NSLayoutConstraint *detailViewHeightConstraint;
 
 @property (retain) IBOutlet UILabel *overviewLabel;
 

@@ -49,4 +49,7 @@ typedef enum {
 @property (retain) NSNumber *rating_advanced;
 
 @property (assign) FATraktDetailLevel detailLevel;
+
+- (FATraktContent *)cachedVersion;
+
 @end

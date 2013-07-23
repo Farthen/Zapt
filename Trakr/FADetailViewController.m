@@ -87,7 +87,9 @@
     [super viewDidLoad];
     _showing = NO;
     _animatesLayoutChanges = NO;
+    
     self.nextUpHeightConstraint.constant = 0;
+    self.detailViewHeightConstraint.constant = 0;
     
     // Add constraint for minimal size of scroll view content
     /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
@@ -99,6 +101,7 @@
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
     if (_loadContent) {
+        _currentContent = [_currentContent cachedVersion];
         if (_contentType == FATraktContentTypeMovies) {
             self.navigationItem.title = NSLocalizedString(@"Movie", nil);
             [self displayMovie:(FATraktMovie *)_currentContent];
@@ -318,6 +321,26 @@
     }
 }
 
+- (void)setEpisodeDetail:(FATraktEpisode *)episode
+{
+    if (episode.show || (episode.episode && episode.season)) {
+        NSString *displayString;
+        if (episode.show && episode.episode && episode.season) {
+            displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.episode.unsignedIntegerValue, episode.season.unsignedIntegerValue];
+        }
+        self.detailLabel.text = displayString;
+        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
+            if (self.detailViewHeightConstraint) {
+                [self.detailLabel.superview removeConstraint:self.detailViewHeightConstraint];
+                self.detailViewHeightConstraint = nil;
+            }
+            [self.detailLabel.superview invalidateIntrinsicContentSize];
+        } animations:^{
+            [self.view layoutIfNeeded];
+        } completion:nil];
+    }
+}
+
 - (void)loadValueForContent:(FATraktContent *)item
 {
     [self setUpPrefs];
@@ -402,6 +425,7 @@
 - (void)loadValuesForEpisode:(FATraktEpisode *)episode
 {
     [self loadValueForContent:episode];
+    [self setEpisodeDetail:episode];
     //FATraktSeason *season = episode.show.seasons[episode.season.unsignedIntValue];
     [self.view layoutIfNeeded];
 }
@@ -422,11 +446,11 @@
     
     if (_willAppear) {
         if (content.contentType == FATraktContentTypeMovies) {
-            return [self displayMovie:(FATraktMovie *)content];
+            return [self displayMovie:[((FATraktMovie *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeShows) {
-            return [self displayShow:(FATraktShow *)content];
+            return [self displayShow:[((FATraktShow *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeEpisodes) {
-            return [self displayEpisode:(FATraktEpisode *)content];
+            return [self displayEpisode:[((FATraktEpisode *)content) cachedVersion]];
         }
     } else {
         _loadContent = YES;

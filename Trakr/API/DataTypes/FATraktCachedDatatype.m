@@ -32,6 +32,16 @@
     }
 }
 
+- (FATraktCachedDatatype *)cachedVersion
+{
+    FATraktCachedDatatype *cachedVersion = [self.backingCache objectForKey:self.cacheKey];
+    if (cachedVersion) {
+        return cachedVersion;
+    } else {
+        return self;
+    }
+}
+
 - (void)removeFromCache
 {
     [self.backingCache removeObjectForKey:self.cacheKey];
@@ -55,8 +65,11 @@
 {
     if (self.shouldBeCached) {
         // Check if such an object is already in the cache, merge them
-        if ([self.backingCache objectForKey:self.cacheKey]) {
-            [self mergeWithObject:[self.backingCache objectForKey:self.cacheKey]];
+        FATraktCachedDatatype *cachedObject = [self.backingCache objectForKey:self.cacheKey];
+        if (cachedObject) {
+            [self mergeWithObject:cachedObject];
+            cachedObject.shouldBeCached = NO;
+            [cachedObject removeFromCache];
         }
         [self.backingCache setObject:self forKey:self.cacheKey];
     } else {

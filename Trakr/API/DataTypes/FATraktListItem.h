@@ -16,7 +16,7 @@
 @interface FATraktListItem : FATraktDatatype
 
 @property (retain) NSString *type;
-@property (readonly) FATraktContent *content;
+@property FATraktContent *content;
 @property (retain) FATraktMovie *movie;
 @property (retain) FATraktShow *show;
 @property (retain) FATraktEpisode *episode;
