@@ -175,6 +175,11 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     [self mapObject:object ofType:propertyInfo toPropertyWithKey:key];
 }
 
+- (BOOL)shouldMergeObjectForKey:(NSString *)key
+{
+    return YES;
+}
+
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merges the values from "object" into the reciever. Only merges objc-classes.
@@ -195,7 +200,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
                 merge = YES;
             }
         }
-        if (merge) {
+        
+        if (merge && [self shouldMergeObjectForKey:key]) {
             if (info.isReadonly == NO) {
                 if ([object valueForKey:key]) {
                     [self setValue:[object valueForKey:key] forKey:key];

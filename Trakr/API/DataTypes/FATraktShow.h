@@ -14,8 +14,6 @@
 
 @interface FATraktShow : FATraktWatchableBaseItem <FACacheableItem>
 
-- (FATraktShow *)cachedVersion;
-
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;
 @property (retain) NSString *url;

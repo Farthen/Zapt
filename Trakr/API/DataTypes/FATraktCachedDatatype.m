@@ -32,19 +32,22 @@
     }
 }
 
-- (FATraktCachedDatatype *)cachedVersion
+- (instancetype)cachedVersion
 {
     FATraktCachedDatatype *cachedVersion = [self.class.backingCache objectForKey:self.cacheKey];
     if (cachedVersion) {
         return cachedVersion;
     } else {
+        [self commitToCache];
         return self;
     }
 }
 
 - (void)removeFromCache
 {
-    [self.class.backingCache removeObjectForKey:self.cacheKey];
+    if ([self.class.backingCache objectForKey:self.cacheKey] == self) {
+        [self.class.backingCache removeObjectForKey:self.cacheKey];
+    }
 }
 
 - (NSString *)cacheKey
@@ -59,6 +62,14 @@
     [NSException raise:NSInternalInconsistencyException
                 format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
     return nil;
+}
+
+- (BOOL)shouldMergeObjectForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"shouldBeCached"]) {
+        return NO;
+    }
+    return [super shouldMergeObjectForKey:key];
 }
 
 - (void)commitToCache

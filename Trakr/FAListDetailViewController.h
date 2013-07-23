@@ -20,6 +20,7 @@ typedef enum {
 
 - (void)loadWatchlistOfType:(FATraktContentType)type;
 - (void)loadLibraryOfType:(FATraktContentType)type;
+- (void)loadCustomList:(FATraktList *)list;
 
 @property (retain) IBOutlet UISegmentedControl *segmentedControl;
 @property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;

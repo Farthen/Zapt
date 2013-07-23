@@ -16,7 +16,6 @@
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 - (id)initWithSummaryDict:(NSDictionary *)dict;
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
-- (FATraktEpisode *)cachedVersion;
 
 @property (retain) FATraktShow *show;
 

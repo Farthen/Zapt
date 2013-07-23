@@ -15,6 +15,7 @@
 #import "NSString+URLEncode.h"
 #import "NSString+StringByAppendingSuffixToFilename.h"
 #import "NSObject+PerformBlock.h"
+#import "NSArray+Sorting.h"
 
 #import "FAAppDelegate.h"
 
@@ -724,9 +725,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *listData in data) {
                 FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
+                list.isCustom = YES;
+                list.detailLevel = FATraktDetailLevelMinimal;
                 [lists addObject:list];
                 [list commitToCache];
             }
+            lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
             block(lists);
         }
         [_activity finishActivityNamed:FATraktActivityNotificationLists];
@@ -747,6 +751,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         if ([self handleResponse:response]) {
             NSDictionary *data = [[response asString] objectFromJSONString];
             FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
+            list.isCustom = YES;
+            list.detailLevel = FATraktDetailLevelDefault;
             [list commitToCache];
             block(list);
         }

@@ -28,6 +28,7 @@
     NSMutableArray *_loadedLibrary;
     BOOL _isWatchlist;
     BOOL _isLibrary;
+    BOOL _isCustom;
     BOOL _reloadWhenShowing;
     BOOL _shouldBeginEditingSearchText;
     
@@ -97,6 +98,8 @@
             if (_isWatchlist) {
                 contentInList = item.content.in_watchlist;
             } else if (_isLibrary) {
+                contentInList = YES;
+            } else if (_isCustom) {
                 contentInList = YES;
             }
             if (!contentInList) {
@@ -210,6 +213,12 @@
                 [self checkReloadDataForList:list];
                 [self.refreshControlWithActivity finishActivity];
             }];
+        } else if (_isCustom) {
+            [self.refreshControlWithActivity startActivity];
+            [[FATrakt sharedInstance] detailsForCustomList:_loadedList callback:^(FATraktList *list) {
+                [self checkReloadDataForList:list];
+                [self.refreshControlWithActivity finishActivity];
+            }];
         }
     }
 }
@@ -218,6 +227,7 @@
 {
     _isWatchlist = YES;
     _isLibrary = NO;
+    _isCustom = NO;
     _reloadWhenShowing = NO;
     _contentType = type;
     self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
@@ -228,6 +238,7 @@
 {
     _isWatchlist = NO;
     _isLibrary = YES;
+    _isCustom = NO;
     _reloadWhenShowing = NO;
     _contentType = type;
     _displayedLibraryType = FATraktLibraryTypeAll;
@@ -236,6 +247,19 @@
     }
     
     self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
+    [self refreshData];
+}
+
+- (void)loadCustomList:(FATraktList *)list
+{
+    _isWatchlist = NO;
+    _isLibrary = NO;
+    _isCustom = YES;
+    _reloadWhenShowing = NO;
+    _contentType = FATraktContentTypeNone;
+    _loadedList = list;
+    _displayedList = list;
+    self.title = list.name;
     [self refreshData];
 }
 

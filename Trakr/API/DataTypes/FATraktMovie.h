@@ -15,8 +15,6 @@
 
 @interface FATraktMovie : FATraktWatchableBaseItem <FACacheableItem>
 
-- (FATraktMovie *)cachedVersion;
-
 @property (retain) NSDate *released;
 @property (retain) NSString *rt_id;
 @property (retain) NSString *trailer;

@@ -76,11 +76,6 @@
     }
 }
 
-- (FATraktEpisode *)cachedVersion
-{
-    return (FATraktEpisode *)[super cachedVersion];
-}
-
 - (NSString *)cacheKey
 {
     NSString *showKey;

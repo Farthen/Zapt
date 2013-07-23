@@ -41,7 +41,7 @@
     [self commitToCache];
 }
 
-- (FATraktContent *)cachedVersion
+- (instancetype)cachedVersion
 {
     FATraktContent *cachedVersion = [self.class.backingCache objectForKey:self.cacheKey];
     if (cachedVersion && cachedVersion.detailLevel >= self.detailLevel) {

@@ -20,7 +20,7 @@
 @implementation FAListsViewController {
     FATraktList *_watchlist;
     NSUInteger _refreshCount;
-    NSMutableArray *_customLists;
+    NSArray *_customLists;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -105,15 +105,8 @@
         
         [self.refreshControlWithActivity startActivity];
         [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists){
-            _customLists = [lists mutableCopy];
+            _customLists = lists;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-            for (FATraktList *list in [_customLists copy]) {
-                [[FATrakt sharedInstance] detailsForCustomList:list callback:^(FATraktList *newList){
-                    unsigned int index = [_customLists indexOfObject:list];
-                    [_customLists replaceObjectAtIndex:index withObject:newList];
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)index inSection:2]] withRowAnimation:UITableViewRowAnimationNone];
-                }];
-            }
             [self.refreshControlWithActivity finishActivity];
         }];
     }
@@ -160,6 +153,9 @@
     } else if(section == 1) {
         return 2;
     } else if(section == 2) {
+        if (!_customLists) {
+            _customLists = [FATraktList cachedCustomLists];
+        }
         return (NSInteger)_customLists.count;
     }
     return 0;
@@ -183,10 +179,7 @@
     } else if (indexPath.section == 1) {
         cachedList = [FATraktList cachedListForLibraryWithContentType:indexPath.row libraryType:FATraktLibraryTypeAll];
     } else if (indexPath.section == 2) {
-        if (!_customLists) {
-            _customLists = [FATraktList cachedCustomLists];
-        }
-        cachedList = [_customLists objectAtIndex:(NSUInteger)indexPath.row];
+        cachedList = (FATraktList *)[_customLists objectAtIndex:(NSUInteger)indexPath.row];
         cell.textLabel.text = cachedList.name;
     }
     if (cachedList.items) {
@@ -200,13 +193,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 || indexPath.section == 1) {
+    if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
         UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
         FAListDetailViewController *listDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"listdetail"];
         if (indexPath.section == 0) {
-            [listDetailViewController loadWatchlistOfType:indexPath.item];
+            [listDetailViewController loadWatchlistOfType:indexPath.row];
         } else if (indexPath.section == 1) {
-            [listDetailViewController loadLibraryOfType:indexPath.item];
+            [listDetailViewController loadLibraryOfType:indexPath.row];
+        } else if (indexPath.section == 2) {
+            [listDetailViewController loadCustomList:[_customLists objectAtIndex:(NSUInteger)indexPath.row]];
         }
         
         [self.navigationController pushViewController:listDetailViewController animated:YES];        

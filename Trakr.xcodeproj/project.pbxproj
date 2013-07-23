@@ -74,6 +74,7 @@
 		F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7016EDDE350062E885 /* badge-hate@2x.png */; };
 		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
 		F3636B7816F03D050062E885 /* FACache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7716F03D050062E885 /* FACache.m */; };
+		F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -238,6 +239,8 @@
 		F3636B7616F03D050062E885 /* FACache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FACache.h; path = Util/FACache.h; sourceTree = "<group>"; };
 		F3636B7716F03D050062E885 /* FACache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FACache.m; path = Util/FACache.m; sourceTree = "<group>"; };
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = Util/Misc.h; sourceTree = "<group>"; };
+		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Sorting.h"; path = "Categories/NSArray+Sorting.h"; sourceTree = "<group>"; };
+		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Sorting.m"; path = "Categories/NSArray+Sorting.m"; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktList.h; path = API/DataTypes/FATraktList.h; sourceTree = "<group>"; };
@@ -489,6 +492,8 @@
 				B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */,
 				F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */,
 				F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */,
+				F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */,
+				F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */,
 				F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */,
 				F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */,
 				F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */,
@@ -930,6 +935,7 @@
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
+				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
 				F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */,

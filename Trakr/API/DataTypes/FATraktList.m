@@ -10,6 +10,7 @@
 #import "FATraktListItem.h"
 #import "FATraktCache.h"
 #import "FATraktContent.h"
+#import "NSArray+Sorting.h"
 
 @implementation FATraktList
 
@@ -19,8 +20,46 @@
     if (self) {
         self.contentType = FATraktContentTypeNone;
         self.libraryType = FATraktLibraryTypeNone;
+        self.detailLevel = FATraktDetailLevelMinimal;
     }
     return self;
+}
+
+- (id)initWithJSONDict:(NSDictionary *)dict
+{
+    self = [super initWithJSONDict:dict];
+    if (self) {
+        self.detailLevel = FATraktDetailLevelMinimal;
+        FATraktList *cachedList = [self.class.backingCache objectForKey:self.cacheKey];
+        if (cachedList && cachedList.detailLevel > self.detailLevel) {
+            // cache hit!
+            // merge the two
+            [cachedList mergeWithObject:self];
+            //[cachedShow mapObjectsInDict:dict];
+            // return the cached show
+            self = cachedList;
+        }
+        [self commitToCache];
+    }
+    return self;
+}
+
+- (void)finishedMappingObjects
+{
+    // FIXME Things disappear. why?
+    // See if we can find a cached equivalent now and merge them if appropriate
+    FATraktList *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
+    if (cachedContent && cachedContent != self) {
+        if (cachedContent.detailLevel > self.detailLevel) {
+            [cachedContent mergeWithObject:self];
+            // we don't want to cache this item anymore
+            self.shouldBeCached = NO;
+        } else {
+            [self mergeWithObject:cachedContent];
+            [cachedContent removeFromCache];
+        }
+    }
+    [self commitToCache];
 }
 
 - (NSString *)description
@@ -62,13 +101,7 @@
             [customLists addObject:list];
         }
     }
-    
-    NSSortDescriptor *sortDescriptor;
-    sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-    NSArray *sortedArray;
-    sortedArray = [customLists sortedArrayUsingDescriptors:sortDescriptors];
-    return sortedArray;
+    return [customLists sortedArrayUsingKey:@"name" ascending:YES];
 }
 
 + (FACache *)backingCache

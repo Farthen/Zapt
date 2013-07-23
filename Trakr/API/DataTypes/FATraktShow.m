@@ -31,11 +31,6 @@
     return self;
 }
 
-- (FATraktShow *)cachedVersion
-{
-    return (FATraktShow *)[super cachedVersion];
-}
-
 - (FATraktContentType)contentType
 {
     return FATraktContentTypeShows;

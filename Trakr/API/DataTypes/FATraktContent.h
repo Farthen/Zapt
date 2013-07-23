@@ -50,6 +50,6 @@ typedef enum {
 
 @property (assign) FATraktDetailLevel detailLevel;
 
-- (FATraktContent *)cachedVersion;
+- (instancetype)cachedVersion;
 
 @end

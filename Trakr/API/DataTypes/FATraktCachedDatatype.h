@@ -12,6 +12,6 @@
 @interface FATraktCachedDatatype : FATraktDatatype <FACacheableItem>
 
 @property BOOL shouldBeCached;
-- (FATraktCachedDatatype *)cachedVersion;
+- (instancetype)cachedVersion;
 
 @end

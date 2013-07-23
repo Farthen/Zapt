@@ -21,6 +21,7 @@
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key;
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key;
 
+- (BOOL)shouldMergeObjectForKey:(NSString *)key;
 - (void)mergeWithObject:(FATraktDatatype *)object;
 
 @end

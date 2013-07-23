@@ -95,7 +95,7 @@ static NSString *codingFileName = @"Cache";
     }
     
     // Don't cache more than 20 lists
-    _lists.countLimit = 20;
+    _lists.countLimit = 200;
     _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_searches) {
