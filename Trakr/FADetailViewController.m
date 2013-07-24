@@ -10,18 +10,16 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreText/CoreText.h>
 
-#import "FADetailImageViewController.h"
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
+#import "FAEpisodeListViewController.h"
+
 #import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
 #import "FATitleLabel.h"
 #import "FAScrollViewWithTopView.h"
-
-#import "FASearchViewController.h"
-#import "FAEpisodeListViewController.h"
 
 #import "FAProgressHUD.h"
 #import "FAContentPrefsView.h"
@@ -90,6 +88,7 @@
     
     self.nextUpHeightConstraint.constant = 0;
     self.detailViewHeightConstraint.constant = 0;
+    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
     
     // Add constraint for minimal size of scroll view content
     /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
@@ -173,6 +172,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    // If we disabled this, we will enable it again now
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+
     //[self.scrollView hideBackView:NO];
     
     // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
@@ -232,12 +235,12 @@
 - (void)doDisplayImageAnimated:(BOOL)animated
 {
     if (!_willDisplayImage) {
-        _imageDisplayed = NO;
+        /*_imageDisplayed = NO;
         _willDisplayImage = YES;
         _showing = YES;
         
         CGFloat firstOffset = -(self.imageViewToTopLayoutConstraint.constant + self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight);
-        CGFloat newImageViewToTopLayoutConstraint = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight;
+        CGFloat newImageViewToTopLayoutConstraint = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.intrinsicContentSize.height;
         CGFloat secondOffset = - self.imageViewToTopLayoutConstraint.constant;
         
         CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
@@ -273,7 +276,8 @@
             self.view.userInteractionEnabled = YES;
             _imageDisplayed = YES;
             _willDisplayImage = NO;
-        }];
+        }];*/
+         self.coverImageView.image = _coverImage;
     }
 }
 
@@ -300,6 +304,11 @@
 {
     self.titleLabel.text = title;
     [self.titleLabel invalidateIntrinsicContentSize];
+    
+    CGSize pushoverIndicatorSize = self.pushoverView.indicatorSize;
+    pushoverIndicatorSize.height = self.pushoverView.frameHeight;
+    pushoverIndicatorSize.height -= self.titleLabel.intrinsicContentSize.height;
+    self.pushoverView.indicatorSize = pushoverIndicatorSize;
 }
 
 - (void)setOverview:(NSString *)overview
@@ -484,6 +493,45 @@
     }
 }
 
+#pragma mark FAPushoverViewDelegate
+- (void)pushoverView:(FAPushoverView *)pushoverView willShowContentView:(BOOL)animated
+{
+    self.imageViewToBottomViewLayoutConstraint.constant = 0;
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
+}
+
+- (void)pushoverViewDidShowContentView:(FAPushoverView *)pushoverView
+{
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    self.imageViewToBottomViewLayoutConstraint.constant = 0;
+}
+
+- (void)pushoverView:(FAPushoverView *)pushoverView willHideContentView:(BOOL)animated
+{
+    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    if (animated) {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self.view layoutIfNeeded];
+        }];
+    }
+}
+
+- (void)pushoverViewDidHideContentView:(FAPushoverView *)pushoverView
+{
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+}
+
+- (void)pushoverView:(FAPushoverView *)pushoverView isAtFractionForHeightAnimation:(CGFloat)fraction
+{
+    CGFloat offset = (1 - fraction) * self.titleLabel.intrinsicContentSize.height;
+    self.imageViewToBottomViewLayoutConstraint.constant = - offset;
+    [self.view setNeedsLayout];
+}
 
 #pragma mark UIActionSheet
 - (void)prefsViewAction:(id)sender

@@ -46,7 +46,7 @@
     [super viewDidAppear:animated];
     // Load all the list information to get the count
     if ([FATraktCache sharedInstance].lists.objectCount == 0) {
-        [self refreshData];
+        [self refreshDataAnimated:NO];
     }
 }
 
@@ -67,35 +67,35 @@
 - (void)refreshControlValueChanged
 {
     if (self.refreshControl.refreshing) {
-        [self refreshData];
+        [self refreshDataAnimated:YES];
     }
 }
 
-- (void)refreshData
+- (void)refreshDataAnimated:(BOOL)animated
 {
     if (self.refreshControlWithActivity.startCount == 0) {
-        [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
+        if (animated) [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeShows callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeEpisodes callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
         
-        [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
+        if (animated) [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
         // There is no such thing as an episode library
         /*[[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
@@ -103,11 +103,11 @@
             [self.refreshControlWithActivity finishActivity];
         }];*/
         
-        [self.refreshControlWithActivity startActivity];
+        if (animated) [self.refreshControlWithActivity startActivity];
         [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists){
             _customLists = lists;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-            [self.refreshControlWithActivity finishActivity];
+            if (animated) [self.refreshControlWithActivity finishActivity];
         }];
     }
 }

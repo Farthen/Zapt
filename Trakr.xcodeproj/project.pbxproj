@@ -10,7 +10,6 @@
 		B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = B613A87015FD6FEB005D88CA /* FAAuthViewController.h */; };
 		B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
 		B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
-		B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EAB2A15FD762800DB2663 /* FATabBarController.m */; };
 		B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */; };
 		B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */; };
 		B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = B64C8F3D16238B0600A7C784 /* FATraktMovie.m */; };
@@ -46,7 +45,6 @@
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
-		F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F323CF97177E12AE007378CA /* FAHomeViewController.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
@@ -75,6 +73,8 @@
 		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
 		F3636B7816F03D050062E885 /* FACache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7716F03D050062E885 /* FACache.m */; };
 		F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
+		F36F43C2179F4F8400E5A3FE /* FAPushoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43C1179F4F8400E5A3FE /* FAPushoverView.m */; };
+		F36F43C5179F514400E5A3FE /* FAIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43C4179F514400E5A3FE /* FAIndicatorView.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -88,7 +88,6 @@
 		F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5716F4740300A19FD1 /* FASegmentedControl.m */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
-		F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
 		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
 		F3B74B2F16E6E23A00230C43 /* X-Mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */; };
@@ -135,8 +134,6 @@
 /* Begin PBXFileReference section */
 		B613A87015FD6FEB005D88CA /* FAAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAAuthViewController.h; sourceTree = "<group>"; };
 		B613A87115FD6FEB005D88CA /* FAAuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FAAuthViewController.m; sourceTree = "<group>"; };
-		B63EAB2915FD762800DB2663 /* FATabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATabBarController.h; sourceTree = "<group>"; };
-		B63EAB2A15FD762800DB2663 /* FATabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATabBarController.m; sourceTree = "<group>"; };
 		B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEditableTableViewCell.h; sourceTree = "<group>"; };
 		B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEditableTableViewCell.m; sourceTree = "<group>"; };
@@ -193,8 +190,6 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+ClassName.m"; path = "Categories/NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FARefreshControlWithActivity.h; path = Elements/FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FARefreshControlWithActivity.m; path = Elements/FARefreshControlWithActivity.m; sourceTree = "<group>"; };
-		F323CF96177E12AE007378CA /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
-		F323CF97177E12AE007378CA /* FAHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHomeViewController.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPropertyUtil.h; path = Util/FAPropertyUtil.h; sourceTree = "<group>"; };
 		F3309658162743D7000BD107 /* FAPropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPropertyUtil.m; path = Util/FAPropertyUtil.m; sourceTree = "<group>"; };
 		F330965D162816DE000BD107 /* FATraktPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktPeople.h; path = API/DataTypes/FATraktPeople.h; sourceTree = "<group>"; };
@@ -241,6 +236,10 @@
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Misc.h; path = Util/Misc.h; sourceTree = "<group>"; };
 		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Sorting.h"; path = "Categories/NSArray+Sorting.h"; sourceTree = "<group>"; };
 		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Sorting.m"; path = "Categories/NSArray+Sorting.m"; sourceTree = "<group>"; };
+		F36F43C0179F4F8400E5A3FE /* FAPushoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAPushoverView.h; path = Elements/FAPushoverView.h; sourceTree = "<group>"; };
+		F36F43C1179F4F8400E5A3FE /* FAPushoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAPushoverView.m; path = Elements/FAPushoverView.m; sourceTree = "<group>"; };
+		F36F43C3179F514400E5A3FE /* FAIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAIndicatorView.h; path = Elements/FAIndicatorView.h; sourceTree = "<group>"; };
+		F36F43C4179F514400E5A3FE /* FAIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAIndicatorView.m; path = Elements/FAIndicatorView.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+SizeToFitSubviews.h"; path = "Categories/UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+SizeToFitSubviews.m"; path = "Categories/UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktList.h; path = API/DataTypes/FATraktList.h; sourceTree = "<group>"; };
@@ -262,8 +261,6 @@
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
 		F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAActivityDispatch.h; path = Elements/FAActivityDispatch.h; sourceTree = "<group>"; };
 		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAActivityDispatch.m; path = Elements/FAActivityDispatch.m; sourceTree = "<group>"; };
-		F3B12D0116EAD2E200735BF3 /* FADetailImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailImageViewController.h; sourceTree = "<group>"; };
-		F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailImageViewController.m; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressHUD.h; path = Elements/FAProgressHUD.h; sourceTree = "<group>"; };
 		F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressHUD.m; path = Elements/FAProgressHUD.m; sourceTree = "<group>"; };
 		F3B74B2C16E6E23A00230C43 /* X-Mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "X-Mark.png"; path = "Resources/X-Mark.png"; sourceTree = "<group>"; };
@@ -600,14 +597,8 @@
 			isa = PBXGroup;
 			children = (
 				F30CAFC3179CD19D002E7D3C /* Containers */,
-				F323CF96177E12AE007378CA /* FAHomeViewController.h */,
-				F323CF97177E12AE007378CA /* FAHomeViewController.m */,
-				B63EAB2915FD762800DB2663 /* FATabBarController.h */,
-				B63EAB2A15FD762800DB2663 /* FATabBarController.m */,
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
-				F3B12D0116EAD2E200735BF3 /* FADetailImageViewController.h */,
-				F3B12D0216EAD2E200735BF3 /* FADetailImageViewController.m */,
 				F3C84B6E1628DCC5006CBFEF /* Search Tab */,
 				F357FA7116A8B61C00420EC4 /* Lists Tab */,
 				F357FA7016A8B60800420EC4 /* Settings Tab */,
@@ -732,6 +723,10 @@
 				F30E52C11799216E006C5091 /* FAProgressView.m */,
 				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
 				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
+				F36F43C0179F4F8400E5A3FE /* FAPushoverView.h */,
+				F36F43C1179F4F8400E5A3FE /* FAPushoverView.m */,
+				F36F43C3179F514400E5A3FE /* FAIndicatorView.h */,
+				F36F43C4179F514400E5A3FE /* FAIndicatorView.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
@@ -917,7 +912,6 @@
 				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
-				B63EAB2B15FD762800DB2663 /* FATabBarController.m in Sources */,
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
@@ -933,7 +927,7 @@
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
-				F323CF98177E12AE007378CA /* FAHomeViewController.m in Sources */,
+				F36F43C2179F4F8400E5A3FE /* FAPushoverView.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
@@ -953,6 +947,7 @@
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
+				F36F43C5179F514400E5A3FE /* FAIndicatorView.m in Sources */,
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
@@ -961,7 +956,6 @@
 				F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */,
 				F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
-				F3B12D0316EAD2E200735BF3 /* FADetailImageViewController.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
 				F3529E7E17917E280094F65E /* FAFanartImageView.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,

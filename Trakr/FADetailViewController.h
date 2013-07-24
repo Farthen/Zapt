@@ -7,16 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class FATraktMovie;
-@class FATraktShow;
-@class FATraktEpisode;
+#import "FAPushoverView.h"
 @class FATitleLabel;
 @class FATraktContent;
 @class FAScrollViewWithTopView;
-@class FAProgressView;
 @class FANextUpViewController;
 
-@interface FADetailViewController : UIViewController <UIActionSheetDelegate>
+@interface FADetailViewController : UIViewController <UIActionSheetDelegate, FAPushoverViewDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
@@ -43,5 +40,7 @@
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
 @property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
+
+@property IBOutlet FAPushoverView *pushoverView;
 
 @end

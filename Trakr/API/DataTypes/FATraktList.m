@@ -46,7 +46,6 @@
 
 - (void)finishedMappingObjects
 {
-    // FIXME Things disappear. why?
     // See if we can find a cached equivalent now and merge them if appropriate
     FATraktList *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
     if (cachedContent && cachedContent != self) {

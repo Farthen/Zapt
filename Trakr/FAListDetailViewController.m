@@ -67,7 +67,7 @@
 - (void)refreshControlValueChanged
 {
     if (self.refreshControl.refreshing) {
-        [self refreshData];
+        [self refreshDataAnimated:YES];
     }
 }
 
@@ -190,34 +190,34 @@
     }
 }
 
-- (void)refreshData
+- (void)refreshDataAnimated:(BOOL)animated
 {
     if (self.refreshControlWithActivity.startCount == 0) {
         if (_isLibrary) {
-            [self.refreshControlWithActivity startActivityWithCount:3];
+            if (animated) [self.refreshControlWithActivity startActivityWithCount:3];
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
-                [self.refreshControlWithActivity finishActivity];
+                if (animated) [self.refreshControlWithActivity finishActivity];
             }];
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
-                [self.refreshControlWithActivity finishActivity];
+                if (animated) [self.refreshControlWithActivity finishActivity];
             }];
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
-                [self.refreshControlWithActivity finishActivity];
+                if (animated) [self.refreshControlWithActivity finishActivity];
             }];
         } else if (_isWatchlist) {
-            [self.refreshControlWithActivity startActivity];
+            if (animated) [self.refreshControlWithActivity startActivity];
             [[FATrakt sharedInstance] watchlistForType:_contentType callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                [self.refreshControlWithActivity finishActivity];
+                if (animated) [self.refreshControlWithActivity finishActivity];
             }];
         } else if (_isCustom) {
-            [self.refreshControlWithActivity startActivity];
+            if (animated) [self.refreshControlWithActivity startActivity];
             [[FATrakt sharedInstance] detailsForCustomList:_loadedList callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                [self.refreshControlWithActivity finishActivity];
+                if (animated) [self.refreshControlWithActivity finishActivity];
             }];
         }
     }
@@ -231,7 +231,7 @@
     _reloadWhenShowing = NO;
     _contentType = type;
     self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
-    [self refreshData];
+    [self refreshDataAnimated:NO];
 }
 
 - (void)loadLibraryOfType:(FATraktContentType)type
@@ -247,7 +247,7 @@
     }
     
     self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
-    [self refreshData];
+    [self refreshDataAnimated:NO];
 }
 
 - (void)loadCustomList:(FATraktList *)list
@@ -260,7 +260,7 @@
     _loadedList = list;
     _displayedList = list;
     self.title = list.name;
-    [self refreshData];
+    [self refreshDataAnimated:NO];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath

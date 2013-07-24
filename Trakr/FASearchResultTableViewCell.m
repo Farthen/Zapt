@@ -45,7 +45,10 @@
         FATraktShow *show = (FATraktShow *)content;
         self.textLabel.text = show.title;
         
-        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
+        NSDateComponents *components;
+        if (show.first_aired) {
+            components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
+        }
         NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
         NSString *detailString;
         if (![genres isEqualToString:@""] && show.first_aired) {

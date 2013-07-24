@@ -31,21 +31,22 @@
 
 - (CGFloat)insetY
 {
-    return 2;
+    return 0;
 }
 
 - (CGRect)textRectForBounds:(CGRect)bounds {
     bounds.origin.x += [self insetX];
     bounds.size.width -= 2 * [self insetX];
-    //bounds.origin.y = [self insetY];
+    bounds.origin.y = [self insetY];
+    bounds.size.height -= 2 * [self insetY];
     return bounds;
 }
 
 - (CGSize)intrinsicContentSize
 {
     CGSize intrinsicContentSize = super.intrinsicContentSize;
-    //intrinsicContentSize.width += [self insetX] * 2;
-    //intrinsicContentSize.height += [self insetY] * 2;
+    intrinsicContentSize.width += [self insetX] * 2;
+    intrinsicContentSize.height += [self insetY] * 2;
     return intrinsicContentSize;
 }
 
