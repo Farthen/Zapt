@@ -139,6 +139,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZAd-un-LZw" userLabel="Blur View" customClass="FAMaskingView">
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                            </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-by-4MK" userLabel="Container View">
                                                 <rect key="frame" x="0.0" y="180" width="320" height="157"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -217,7 +222,7 @@
                                                     <constraint firstAttribute="height" constant="180" id="tjt-yL-bQV"/>
                                                 </constraints>
                                                 <connections>
-                                                    <outlet property="delegate" destination="pJW-2g-U2f" id="kCu-Rd-BR3"/>
+                                                    <outlet property="delegate" destination="pJW-2g-U2f" id="xoL-p0-nde"/>
                                                 </connections>
                                             </view>
                                         </subviews>
@@ -226,17 +231,21 @@
                                             <constraint firstItem="vuk-FF-vHd" firstAttribute="height" secondItem="JQX-YT-3d0" secondAttribute="height" id="17h-r0-Z59"/>
                                             <constraint firstItem="Bq5-by-4MK" firstAttribute="top" secondItem="TYS-Mq-YhC" secondAttribute="bottom" id="2EF-ge-yRd"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="top" secondItem="y1k-dg-fqs" secondAttribute="top" id="40b-nQ-tuk"/>
+                                            <constraint firstItem="ZAd-un-LZw" firstAttribute="leading" secondItem="TYS-Mq-YhC" secondAttribute="leading" id="4kv-h0-SJB"/>
                                             <constraint firstItem="JQX-YT-3d0" firstAttribute="leading" secondItem="y1k-dg-fqs" secondAttribute="leading" id="6N4-Mm-eaG"/>
+                                            <constraint firstItem="ZAd-un-LZw" firstAttribute="trailing" secondItem="TYS-Mq-YhC" secondAttribute="trailing" id="8FU-dL-aN8"/>
                                             <constraint firstAttribute="bottom" secondItem="Bq5-by-4MK" secondAttribute="bottom" constant="20" symbolic="YES" id="8aS-Qb-Eom"/>
                                             <constraint firstItem="LLK-df-OPu" firstAttribute="leading" secondItem="y1k-dg-fqs" secondAttribute="leading" id="9Ea-gS-Z7W"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="bottom" secondItem="05e-eQ-KAr" secondAttribute="bottom" id="Ce1-f3-7wK"/>
                                             <constraint firstAttribute="trailing" secondItem="JQX-YT-3d0" secondAttribute="trailing" id="Hct-BG-aJo"/>
                                             <constraint firstAttribute="trailing" secondItem="LLK-df-OPu" secondAttribute="trailing" id="Kap-qT-5dO"/>
                                             <constraint firstItem="Bq5-by-4MK" firstAttribute="trailing" secondItem="y1k-dg-fqs" secondAttribute="trailing" id="S9W-3l-fng"/>
+                                            <constraint firstItem="ZAd-un-LZw" firstAttribute="bottom" secondItem="TYS-Mq-YhC" secondAttribute="bottom" id="UUG-e1-TZZ"/>
                                             <constraint firstItem="vuk-FF-vHd" firstAttribute="top" secondItem="JQX-YT-3d0" secondAttribute="top" id="X47-Ua-MkZ"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="height" secondItem="LLK-df-OPu" secondAttribute="height" id="fFy-eS-3YU"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="trailing" secondItem="y1k-dg-fqs" secondAttribute="trailing" id="fyr-WY-rlP"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="leading" secondItem="05e-eQ-KAr" secondAttribute="leading" id="gQI-PU-3GL"/>
+                                            <constraint firstItem="ZAd-un-LZw" firstAttribute="top" secondItem="TYS-Mq-YhC" secondAttribute="top" id="hor-9w-vgb"/>
                                             <constraint firstAttribute="width" secondItem="TYS-Mq-YhC" secondAttribute="width" id="iqD-Qr-yfh"/>
                                             <constraint firstItem="TYS-Mq-YhC" firstAttribute="leading" secondItem="y1k-dg-fqs" secondAttribute="leading" id="mvl-B9-ZpE"/>
                                             <constraint firstItem="Bq5-by-4MK" firstAttribute="leading" secondItem="y1k-dg-fqs" secondAttribute="leading" id="pGp-fj-5BA"/>
@@ -281,6 +290,7 @@
                         <outlet property="detailViewHeightConstraint" destination="UlE-Ks-PaG" id="GaW-ic-4d2"/>
                         <outlet property="imageViewToBottomViewLayoutConstraint" destination="2EF-ge-yRd" id="OgG-3G-AKZ"/>
                         <outlet property="imageViewToTopLayoutConstraint" destination="40b-nQ-tuk" id="4CE-3B-BoQ"/>
+                        <outlet property="maskingView" destination="ZAd-un-LZw" id="J4L-lL-T8f"/>
                         <outlet property="nextUpHeightConstraint" destination="aU7-fd-Sht" id="Mow-cF-eIK"/>
                         <outlet property="overviewLabel" destination="plf-L1-jrs" id="6e7-u7-ABC"/>
                         <outlet property="pushoverView" destination="LLK-df-OPu" id="4YQ-D2-2X1"/>

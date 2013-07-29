@@ -13,6 +13,8 @@
 #import "FASearchViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "FAEpisodeListViewController.h"
+#import "FANextUpViewController.h"
+#import "FAPushoverViewAnimationController.h"
 
 #import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
@@ -20,11 +22,13 @@
 #import "UIView+Animations.h"
 #import "FATitleLabel.h"
 #import "FAScrollViewWithTopView.h"
+#import "UIImage+ImageEffects.h"
 
 #import "FAProgressHUD.h"
 #import "FAContentPrefsView.h"
 #import "FAProgressView.h"
-#import "FANextUpViewController.h"
+#import "FAOverlayView.h"
+#import "FAMaskingView.h"
 
 #import "FATrakt.h"
 
@@ -47,6 +51,8 @@
     BOOL _animatesLayoutChanges;
     
     UIImage *_coverImage;
+    UIImage *_blurredCoverImage;
+    
     CGFloat _imageHeight;
     BOOL _imageLoaded;
     BOOL _imageDisplayed;
@@ -60,6 +66,8 @@
     FAContentPrefsView *_prefsView;
     
     NSMutableArray *_photos;
+    
+    FAPushoverViewAnimationController *_pushoverViewAnimationController;
 }
 
 @end
@@ -277,7 +285,50 @@
             _imageDisplayed = YES;
             _willDisplayImage = NO;
         }];*/
-         self.coverImageView.image = _coverImage;
+        /*
+        if (_coverImage) {
+            _blurredCoverImage = [_coverImage applyLightEffect];
+            self.blurOverlayView.overlayImage = _blurredCoverImage;
+            self.blurOverlayView.intersectingViews = @[self.pushoverView.backgroundView, self.titleLabel];
+            [self.blurOverlayView setNeedsDisplay];
+        }*/
+        
+        if (!_imageDisplayed) {
+            [self.maskingView addMaskLayer:self.pushoverView.backgroundView.layer];
+            [self.maskingView addMaskLayer:self.titleLabel.layer];
+            [self.maskingView setNeedsDisplay];
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                // Scale the image first to screen dimensions
+                
+                CGSize newSize = self.coverImageView.frame.size;
+                UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+                [_coverImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+                UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+                UIColor *tintColor = [UIColor colorWithWhite:0.1 alpha:0.83];
+                UIImage *blurredImage = [scaledImage applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (animated) {
+                        _willDisplayImage = YES;
+                        [self.maskingView setMaskedImage:blurredImage];
+                        [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                            self.coverImageView.image = scaledImage;
+                            _willDisplayImage = NO;
+                            _imageDisplayed = YES;
+                        } completion:nil];
+                    } else {
+                        self.coverImageView.image = scaledImage;
+                        _imageDisplayed = YES;
+                    }
+                });
+            });
+            
+            
+            //_pushoverViewAnimationController = [[FAPushoverViewAnimationController alloc] init];
+        }
+        
     }
 }
 
@@ -497,9 +548,11 @@
 - (void)pushoverView:(FAPushoverView *)pushoverView willShowContentView:(BOOL)animated
 {
     self.imageViewToBottomViewLayoutConstraint.constant = 0;
+    [self.maskingView updateContinuouslyFor:0.3];
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
             [self.view layoutIfNeeded];
+            [self.maskingView update];
         }];
     }
 }
@@ -508,11 +561,15 @@
 {
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.imageViewToBottomViewLayoutConstraint.constant = 0;
+    [self.blurOverlayView setNeedsDisplay];
+    [self.maskingView setNeedsDisplay];
+    [self.maskingView stopUpdatingContinuously];
 }
 
 - (void)pushoverView:(FAPushoverView *)pushoverView willHideContentView:(BOOL)animated
 {
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    [self.maskingView updateContinuouslyFor:0.3];
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
             [self.view layoutIfNeeded];
@@ -524,13 +581,21 @@
 {
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    [self.blurOverlayView setNeedsDisplay];
+    [self.maskingView setNeedsDisplay];
+    [self.maskingView stopUpdatingContinuously];
 }
 
 - (void)pushoverView:(FAPushoverView *)pushoverView isAtFractionForHeightAnimation:(CGFloat)fraction
 {
     CGFloat offset = (1 - fraction) * self.titleLabel.intrinsicContentSize.height;
     self.imageViewToBottomViewLayoutConstraint.constant = - offset;
-    [self.view setNeedsLayout];
+    
+    [self.view setNeedsDisplay];
+    [self.view layoutIfNeeded];
+    //[self.blurOverlayView setNeedsDisplay];
+    [self.maskingView setNeedsDisplay];
+    [self.maskingView update];
 }
 
 #pragma mark UIActionSheet

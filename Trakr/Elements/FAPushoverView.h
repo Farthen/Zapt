@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAOverlayView.h"
 
-@interface FAPushoverView : UIView
+@interface FAPushoverView : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic) CGSize indicatorSize;
 @property (nonatomic) UIView *contentView;
+@property (readonly) UIView *backgroundView;
+
+- (CGRect)backgroundViewFrameForState:(BOOL)active;
 
 @end
 

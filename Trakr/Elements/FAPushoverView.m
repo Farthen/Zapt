@@ -8,6 +8,7 @@
 
 #import "FAPushoverView.h"
 #import "FAIndicatorView.h"
+#import "FAMaskingView.h"
 
 #import "UIView+FrameAdditions.h"
 
@@ -22,13 +23,12 @@
     UIView *_backgroundView;
     
     UITapGestureRecognizer *_tapGestureRecognizer;
-    UISwipeGestureRecognizer *_swipeGestureRecognizer;
     UIPanGestureRecognizer *_panGestureRecognizer;
     
     CGPoint _panOrigin;
     BOOL _isPanning;
     CGFloat _lastdX;
-    
+        
     id <FAPushoverViewDelegate> _delegate;
 }
 
@@ -48,7 +48,9 @@
 {
     self.indicatorSize = CGSizeMake(40, 0);
     _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
-    _backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    //_backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
+    _backgroundView.backgroundColor = [UIColor clearColor];
+
     _backgroundView.frame = [self backgroundViewFrame];
     [self addSubview:_backgroundView];
 }
@@ -58,9 +60,8 @@
     if ([self.delegate respondsToSelector:@selector(pushoverView:willHideContentView:)]) {
         [self.delegate pushoverView:self willHideContentView:animated];
     }
-    _swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     _isActive = NO;
-    CGFloat duration = 0.3f;
+    CGFloat duration = animated ? 0.3f: 0;
     [UIView transitionWithView:_indicatorView duration:duration options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         [_indicatorView flip:NO];
     } completion:nil];
@@ -81,13 +82,13 @@
     if ([self.delegate respondsToSelector:@selector(pushoverView:willShowContentView:)]) {
         [self.delegate pushoverView:self willShowContentView:animated];
     }
-    _swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     _isActive = YES;
-    CGFloat duration = 0.3f;
+    CGFloat duration = animated ? 0.3f: 0;
+    
     [UIView transitionWithView:_indicatorView duration:duration options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
         [_indicatorView flip:YES];
     } completion:nil];
-    [UIView animateWithDuration:duration animations:^{
+    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
         self.contentView.frame = [self contentViewFrame];
         _backgroundView.frame = [self backgroundViewFrame];
     } completion:^(BOOL finished){
@@ -117,6 +118,7 @@
             //float dY = newCoord.y - _panOrigin.y;
             
             if (recognizer.state == UIGestureRecognizerStateEnded) {
+                _isPanning = NO;
                 CGPoint velocity = [_panGestureRecognizer velocityInView:self];
                 if (velocity.x < -10) {
                     [self showContentView:YES];
@@ -126,18 +128,22 @@
                     [self hideContentView:YES];
                 }
             } else {
+                //[CATransaction begin];
+                
                 // Move the background view by the dX
                 CGRect backgroundFrame = [self backgroundViewFrame];
                 CGFloat fullWidth = [self backgroundViewFrameForState:NO].origin.x - self.bounds.origin.x;
-                CGFloat reducedHeight = [self backgroundViewFrameForState:NO].size.height;
+                //CGFloat reducedHeight = [self backgroundViewFrameForState:NO].size.height;
                 CGFloat fraction = MAX(0, 1 - ((backgroundFrame.origin.x + dX) / fullWidth));
                 fraction = MIN(fraction, 1);
                 _backgroundView.frameX = MAX(0, backgroundFrame.origin.x + dX);
-                _backgroundView.frameHeight = reducedHeight + (fraction * (self.boundsHeight - reducedHeight));
+                //_backgroundView.frameHeight = reducedHeight + (fraction * (self.boundsHeight - reducedHeight));
                 
                 if ([self.delegate respondsToSelector:@selector(pushoverView:isAtFractionForHeightAnimation:)]) {
                     [self.delegate pushoverView:self isAtFractionForHeightAnimation:fraction];
                 }
+                
+                //[CATransaction commit];
             }
         }
     } else {
@@ -151,19 +157,27 @@
     }
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer  shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    if (CGRectContainsPoint(self.indicatorFrame, [gestureRecognizer locationInView:_backgroundView])) {
+        return NO;
+    }
+    if (_isPanning) {
+        return NO;
+    }
+    return YES;
+}
+
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
     if (newSuperview) {
         _tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(evaluateGesture:)];
         [self addGestureRecognizer:_tapGestureRecognizer];
-        _swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(evaluateGesture:)];
-        [self addGestureRecognizer:_swipeGestureRecognizer];
-        _swipeGestureRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
         _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(evaluateGesture:)];
+        _panGestureRecognizer.delegate = self;
         [self addGestureRecognizer:_panGestureRecognizer];
     } else {
         _tapGestureRecognizer = nil;
-        _swipeGestureRecognizer = nil;
         _panGestureRecognizer = nil;
     }
 }
@@ -189,6 +203,11 @@
     return frame;
 }
 
+- (UIView *)backgroundView
+{
+    return _backgroundView;
+}
+
 - (CGRect)backgroundViewFrame
 {
     return [self backgroundViewFrameForState:_isActive];
@@ -200,7 +219,7 @@
     frame.size = self.bounds.size;
     if (!active) {
         frame.origin.x = frame.origin.x + (self.bounds.size.width - self.indicatorSize.width);
-        frame.size.height = _indicatorSize.height;
+        //frame.size.height = _indicatorSize.height;
         return frame;
     } else {
         frame.origin = self.bounds.origin;

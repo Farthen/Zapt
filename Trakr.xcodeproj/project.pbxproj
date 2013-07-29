@@ -87,6 +87,10 @@
 		F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5116F46DC300A19FD1 /* love@2x.png */; };
 		F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5716F4740300A19FD1 /* FASegmentedControl.m */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
+		F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */; };
+		F3A47BA3179FD83B0022B251 /* FAOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A47BA2179FD83B0022B251 /* FAOverlayView.m */; };
+		F3A47BA617A0A0D50022B251 /* FAMaskingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A47BA517A0A0D50022B251 /* FAMaskingView.m */; };
+		F3A47BA917A0F14A0022B251 /* FAPushoverViewAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A47BA817A0F14A0022B251 /* FAPushoverViewAnimationController.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
 		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
@@ -259,6 +263,14 @@
 		F3938E5716F4740300A19FD1 /* FASegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASegmentedControl.m; path = Elements/FASegmentedControl.m; sourceTree = "<group>"; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		F3A47BA1179FD83A0022B251 /* FAOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAOverlayView.h; path = Elements/FAOverlayView.h; sourceTree = "<group>"; };
+		F3A47BA2179FD83B0022B251 /* FAOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAOverlayView.m; path = Elements/FAOverlayView.m; sourceTree = "<group>"; };
+		F3A47BA417A0A0D50022B251 /* FAMaskingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAMaskingView.h; path = Elements/FAMaskingView.h; sourceTree = "<group>"; };
+		F3A47BA517A0A0D50022B251 /* FAMaskingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAMaskingView.m; path = Elements/FAMaskingView.m; sourceTree = "<group>"; };
+		F3A47BA717A0F14A0022B251 /* FAPushoverViewAnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPushoverViewAnimationController.h; sourceTree = "<group>"; };
+		F3A47BA817A0F14A0022B251 /* FAPushoverViewAnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPushoverViewAnimationController.m; sourceTree = "<group>"; };
 		F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAActivityDispatch.h; path = Elements/FAActivityDispatch.h; sourceTree = "<group>"; };
 		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAActivityDispatch.m; path = Elements/FAActivityDispatch.m; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAProgressHUD.h; path = Elements/FAProgressHUD.h; sourceTree = "<group>"; };
@@ -385,7 +397,7 @@
 				F3C84B701628DCFD006CBFEF /* General */,
 				F3C84B6F1628DCDA006CBFEF /* Storyboards */,
 				F3C84B6A1628DC56006CBFEF /* View Controllers */,
-				F3F9E31C1628DBC70077CBAA /* Interface Elements */,
+				F3F9E31C1628DBC70077CBAA /* Views */,
 				F3C84B671628DC0B006CBFEF /* Categories */,
 				F3C84B711628DD12006CBFEF /* Util */,
 				B667530515F12FBE00A8D76D /* Supporting Files */,
@@ -481,6 +493,8 @@
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */,
+				F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */,
 				F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */,
 				F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */,
 				F31D68ED179DD353003408BF /* NSObject+ClassName.h */,
@@ -599,6 +613,8 @@
 				F30CAFC3179CD19D002E7D3C /* Containers */,
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
+				F3A47BA717A0F14A0022B251 /* FAPushoverViewAnimationController.h */,
+				F3A47BA817A0F14A0022B251 /* FAPushoverViewAnimationController.m */,
 				F3C84B6E1628DCC5006CBFEF /* Search Tab */,
 				F357FA7116A8B61C00420EC4 /* Lists Tab */,
 				F357FA7016A8B60800420EC4 /* Settings Tab */,
@@ -704,7 +720,7 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		F3F9E31C1628DBC70077CBAA /* Interface Elements */ = {
+		F3F9E31C1628DBC70077CBAA /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F3529E7C17917E280094F65E /* FAFanartImageView.h */,
@@ -727,10 +743,14 @@
 				F36F43C1179F4F8400E5A3FE /* FAPushoverView.m */,
 				F36F43C3179F514400E5A3FE /* FAIndicatorView.h */,
 				F36F43C4179F514400E5A3FE /* FAIndicatorView.m */,
+				F3A47BA1179FD83A0022B251 /* FAOverlayView.h */,
+				F3A47BA2179FD83B0022B251 /* FAOverlayView.m */,
+				F3A47BA417A0A0D50022B251 /* FAMaskingView.h */,
+				F3A47BA517A0A0D50022B251 /* FAMaskingView.m */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 			);
-			name = "Interface Elements";
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -905,7 +925,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
+				F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */,
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
+				F3A47BA617A0A0D50022B251 /* FAMaskingView.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
@@ -955,8 +977,10 @@
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */,
 				F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */,
+				F3A47BA3179FD83B0022B251 /* FAOverlayView.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
+				F3A47BA917A0F14A0022B251 /* FAPushoverViewAnimationController.m in Sources */,
 				F3529E7E17917E280094F65E /* FAFanartImageView.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
 				F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */,
@@ -1099,12 +1123,9 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				GCC_VERSION = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
@@ -1123,13 +1144,10 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
-				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";

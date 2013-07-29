@@ -12,6 +12,8 @@
 @class FATraktContent;
 @class FAScrollViewWithTopView;
 @class FANextUpViewController;
+@class FAOverlayView;
+@class FAMaskingView;
 
 @interface FADetailViewController : UIViewController <UIActionSheetDelegate, FAPushoverViewDelegate>
 
@@ -42,5 +44,8 @@
 @property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
 
 @property IBOutlet FAPushoverView *pushoverView;
+
+@property IBOutlet FAOverlayView *blurOverlayView;
+@property IBOutlet FAMaskingView *maskingView;
 
 @end
