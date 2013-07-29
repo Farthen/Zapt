@@ -11,6 +11,14 @@
 
 @interface FAPushoverView : UIView <UIGestureRecognizerDelegate>
 
+typedef enum {
+    FAPushoverViewIndicatorLocationLeft = 0,
+    FAPushoverViewIndicatorLocationTop = 1,
+    FAPushoverViewIndicatorLocationRight = 2,
+    FAPushoverViewIndicatorLocationBottom = 3,
+} FAPushoverViewIndicatorLocation;
+
+@property (nonatomic) FAPushoverViewIndicatorLocation indicatorLocation;
 @property (nonatomic) CGSize indicatorSize;
 @property (nonatomic) UIView *contentView;
 @property (readonly) UIView *backgroundView;

@@ -356,10 +356,10 @@
     self.titleLabel.text = title;
     [self.titleLabel invalidateIntrinsicContentSize];
     
-    CGSize pushoverIndicatorSize = self.pushoverView.indicatorSize;
-    pushoverIndicatorSize.height = self.pushoverView.frameHeight;
-    pushoverIndicatorSize.height -= self.titleLabel.intrinsicContentSize.height;
-    self.pushoverView.indicatorSize = pushoverIndicatorSize;
+    //CGSize pushoverIndicatorSize = self.pushoverView.indicatorSize;
+    //pushoverIndicatorSize.height = self.pushoverView.frameHeight;
+    //pushoverIndicatorSize.height -= self.titleLabel.intrinsicContentSize.height;
+    //self.pushoverView.indicatorSize = pushoverIndicatorSize;
 }
 
 - (void)setOverview:(NSString *)overview

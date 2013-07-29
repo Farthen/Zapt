@@ -39,14 +39,16 @@
         // Initialization code
         _isActive = NO;
         [self awakeFromNib];
-        self.indicatorSize = CGSizeMake(40, frame.size.height);
+        //self.indicatorSize = CGSizeMake(40, frame.size.height);
     }
     return self;
 }
 
 - (void)awakeFromNib
 {
+    //self.indicatorSize = CGSizeMake(0, 40);
     self.indicatorSize = CGSizeMake(40, 0);
+    self.indicatorLocation = FAPushoverViewIndicatorLocationRight;
     _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
     //_backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
     _backgroundView.backgroundColor = [UIColor clearColor];
@@ -115,29 +117,52 @@
         if (_isPanning) {
             CGPoint newCoord = [recognizer locationInView:self];
             float dX = newCoord.x - _panOrigin.x;
-            //float dY = newCoord.y - _panOrigin.y;
+            float dY = newCoord.y - _panOrigin.y;
             
             if (recognizer.state == UIGestureRecognizerStateEnded) {
                 _isPanning = NO;
                 CGPoint velocity = [_panGestureRecognizer velocityInView:self];
-                if (velocity.x < -10) {
+                CGFloat velocityTowardsActive = 0;
+                if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+                    velocityTowardsActive = - velocity.x;
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+                    velocityTowardsActive = velocity.x;
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+                    velocityTowardsActive = velocity.y;
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+                    velocityTowardsActive = - velocity.y;
+                }
+                if (velocityTowardsActive > 10) {
                     [self showContentView:YES];
-                } else if(_isActive && velocity.x < 0) {
+                } else if(_isActive && velocityTowardsActive > 0) {
                     [self showContentView:YES];
                 } else {
                     [self hideContentView:YES];
                 }
             } else {
-                //[CATransaction begin];
-                
-                // Move the background view by the dX
+                // Move the background view by the dX / dY respectively
                 CGRect backgroundFrame = [self backgroundViewFrame];
-                CGFloat fullWidth = [self backgroundViewFrameForState:NO].origin.x - self.bounds.origin.x;
+                CGFloat fullWidth = self.bounds.size.width - self.indicatorSize.width;
+                CGFloat fullHeight = self.bounds.size.height - self.indicatorSize.height;
+                CGFloat fraction = 0;
+                
+                if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+                    fraction = 1 - ((backgroundFrame.origin.x + dX) / fullWidth);
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+                    fraction = 1 - ((backgroundFrame.origin.y + dY) / fullHeight);
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+                    fraction = (backgroundFrame.origin.x + backgroundFrame.size.width - self.indicatorSize.width + dX) / fullWidth;
+                } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+                    fraction = (backgroundFrame.origin.y + backgroundFrame.size.height - self.indicatorSize.height + dY) / fullHeight;
+                }
+                
+                fraction = MIN(MAX(0, fraction), 1);
+                
                 //CGFloat reducedHeight = [self backgroundViewFrameForState:NO].size.height;
-                CGFloat fraction = MAX(0, 1 - ((backgroundFrame.origin.x + dX) / fullWidth));
-                fraction = MIN(fraction, 1);
-                _backgroundView.frameX = MAX(0, backgroundFrame.origin.x + dX);
+                //_backgroundView.frameX = MAX(0, backgroundFrame.origin.x + dX);
                 //_backgroundView.frameHeight = reducedHeight + (fraction * (self.boundsHeight - reducedHeight));
+                
+                _backgroundView.frame = [self backgroundViewFrameForPercentage:fraction];
                 
                 if ([self.delegate respondsToSelector:@selector(pushoverView:isAtFractionForHeightAnimation:)]) {
                     [self.delegate pushoverView:self isAtFractionForHeightAnimation:fraction];
@@ -198,8 +223,20 @@
 - (CGRect)contentViewFrame
 {
     CGRect frame = _backgroundView.bounds;
-    frame.size.width -= self.indicatorSize.width;
-    frame.origin.x = _backgroundView.bounds.origin.x + self.indicatorSize.width;
+    
+    if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+        frame.size.width -= self.indicatorSize.width;
+        frame.origin.x = _backgroundView.bounds.origin.x + self.indicatorSize.width;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+        frame.size.width -= self.indicatorSize.width;
+        frame.origin.x = _backgroundView.bounds.origin.x;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+        frame.size.height -= self.indicatorSize.height;
+        frame.origin.y = _backgroundView.bounds.origin.y;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+        frame.size.height -= self.indicatorSize.height;
+        frame.origin.y = _backgroundView.bounds.origin.y + self.indicatorSize.height;
+    }
     return frame;
 }
 
@@ -216,22 +253,55 @@
 - (CGRect)backgroundViewFrameForState:(BOOL)active
 {
     CGRect frame = self.bounds;
-    frame.size = self.bounds.size;
     if (!active) {
-        frame.origin.x = frame.origin.x + (self.bounds.size.width - self.indicatorSize.width);
-        //frame.size.height = _indicatorSize.height;
-        return frame;
-    } else {
-        frame.origin = self.bounds.origin;
+        // Check where the offset background view should go
+        if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+            frame.origin.x = frame.origin.x + frame.size.width - self.indicatorSize.width;
+        } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+            frame.origin.x = frame.origin.x + self.indicatorSize.width - frame.size.width;
+        } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+            frame.origin.y = frame.origin.y + self.indicatorSize.height - frame.size.height;
+        } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+            frame.origin.y = frame.origin.y + frame.size.height - self.indicatorSize.height;
+        }
         return frame;
     }
+    return frame;
 }
+
+- (CGRect)backgroundViewFrameForPercentage:(CGFloat)percentage
+{
+    CGRect hiddenFrame = [self backgroundViewFrameForState:NO];
+    CGRect showingFrame = [self backgroundViewFrameForState:YES];
+    CGRect backgroundViewFrame = hiddenFrame;
+    
+    // Interpolate between those two depending on orientation
+    if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+        backgroundViewFrame.origin.x = (1 - percentage) * (hiddenFrame.origin.x - showingFrame.origin.x) + showingFrame.origin.x;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+        backgroundViewFrame.origin.x = (1 - percentage) * (hiddenFrame.origin.x - showingFrame.origin.x) + showingFrame.origin.x;//percentage * (showingFrame.origin.x - hiddenFrame.origin.x) + hiddenFrame.origin.x;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+        backgroundViewFrame.origin.y = (1 - percentage) * (hiddenFrame.origin.y - showingFrame.origin.y) + showingFrame.origin.y;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+        backgroundViewFrame.origin.y = (1 - percentage) * (hiddenFrame.origin.y - showingFrame.origin.y) + showingFrame.origin.y;
+    }
+    return backgroundViewFrame;
+}
+
 
 - (CGRect)indicatorFrame
 {
     CGRect frame;
-    frame.origin = _backgroundView.bounds.origin;
     frame.size = self.indicatorSize;
+    if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight || self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+        frame.origin = _backgroundView.bounds.origin;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+        frame.origin = _backgroundView.bounds.origin;
+        frame.origin.x += _backgroundView.bounds.size.width - frame.size.width;
+    } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+        frame.origin = _backgroundView.bounds.origin;
+        frame.origin.y += _backgroundView.bounds.size.height - frame.size.height;
+    }
     return frame;
 }
 
@@ -255,6 +325,11 @@
     if (self.indicatorSize.height == 0) {
         CGSize indicatorSize = self.indicatorSize;
         indicatorSize.height = rect.size.height;
+        self.indicatorSize = indicatorSize;
+    }
+    if (self.indicatorSize.width == 0)  {
+        CGSize indicatorSize = self.indicatorSize;
+        indicatorSize.width = rect.size.width;
         self.indicatorSize = indicatorSize;
     }
     // Drawing code
