@@ -13,7 +13,7 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-static const NSInteger codingVersionNumber = 0;
+static const NSInteger codingVersionNumber = 1;
 static NSString *codingFileName = @"Cache";
 
 @implementation FATraktCache
@@ -82,12 +82,12 @@ static NSString *codingFileName = @"Cache";
     _episodes.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_images) {
-        _images = [[FACache alloc] initWithName:@"images"];
+        _images = [[FABigDataCache alloc] initWithName:@"images"];
     }
     
     // Don't cache more than 100 images
-    _images.countLimit = 5;
-    _images.totalCostLimit = FACacheCostMebibytes(20);
+    _images.countLimit = 20;
+    _images.totalCostLimit = FACacheCostMebibytes(100);
     _images.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_lists) {

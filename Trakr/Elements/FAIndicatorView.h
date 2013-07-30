@@ -10,6 +10,15 @@
 
 @interface FAIndicatorView : UIView
 
+typedef enum {
+    FAIndicatorViewArrowDirectionLeft = 0,
+    FAIndicatorViewArrowDirectionUp = 1,
+    FAIndicatorViewArrowDirectionRight = 2,
+    FAIndicatorViewArrowDirectionDown = 3,
+} FAIndicatorViewArrowDirection;
+
+
+@property (nonatomic, assign) FAIndicatorViewArrowDirection arrowDirection;
 - (void)flip:(BOOL)doFlip;
 
 @end

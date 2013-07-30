@@ -46,12 +46,12 @@
 
 - (void)awakeFromNib
 {
-    //self.indicatorSize = CGSizeMake(0, 40);
-    self.indicatorSize = CGSizeMake(40, 0);
-    self.indicatorLocation = FAPushoverViewIndicatorLocationRight;
+    self.indicatorSize = CGSizeMake(0,40);
+    //self.indicatorSize = CGSizeMake(40, 0);
+    self.indicatorLocation = FAPushoverViewIndicatorLocationBottom;
     _backgroundView = [[UIView alloc] initWithFrame:self.bounds];
     //_backgroundView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-    _backgroundView.backgroundColor = [UIColor clearColor];
+    _backgroundView.backgroundColor = [UIColor blackColor];
 
     _backgroundView.frame = [self backgroundViewFrame];
     [self addSubview:_backgroundView];
@@ -339,6 +339,15 @@
             // Set its frame to the specified rect and add it to the subview
             CGRect frame = self.indicatorFrame;
             _indicatorView = [[FAIndicatorView alloc] initWithFrame:frame];
+            if (self.indicatorLocation == FAPushoverViewIndicatorLocationRight) {
+                _indicatorView.arrowDirection = FAIndicatorViewArrowDirectionLeft;
+            } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationLeft) {
+                _indicatorView.arrowDirection = FAIndicatorViewArrowDirectionRight;
+            } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationTop) {
+                _indicatorView.arrowDirection = FAIndicatorViewArrowDirectionDown;
+            } else if (self.indicatorLocation == FAPushoverViewIndicatorLocationBottom) {
+                _indicatorView.arrowDirection = FAIndicatorViewArrowDirectionUp;
+            }
             [_backgroundView addSubview:_indicatorView];
         }
     }

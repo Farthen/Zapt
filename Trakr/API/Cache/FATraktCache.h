@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FACache.h"
+#import "FABigDataCache.h"
 
 @interface FATraktCache : NSObject <NSCoding>
 
@@ -20,7 +21,7 @@
 @property (readonly) FACache *movies;
 @property (readonly) FACache *episodes;
 @property (readonly) FACache *shows;
-@property (readonly) FACache *images;
+@property (readonly) FABigDataCache *images;
 @property (readonly) FACache *lists;
 @property (readonly) FACache *searches;
 

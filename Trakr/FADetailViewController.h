@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FAPushoverView.h"
+#import "FASemiModalEnabledViewController.h"
 @class FATitleLabel;
 @class FATraktContent;
 @class FAScrollViewWithTopView;
@@ -15,7 +16,7 @@
 @class FAOverlayView;
 @class FAMaskingView;
 
-@interface FADetailViewController : UIViewController <UIActionSheetDelegate, FAPushoverViewDelegate>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAPushoverViewDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 

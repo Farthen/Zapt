@@ -21,9 +21,7 @@
 
 - (void)awakeFromNib
 {
-    //self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
-    self.backgroundColor = [UIColor clearColor];
-    return;
+    self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7];
 }
 
 - (CGFloat)insetX

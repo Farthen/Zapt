@@ -15,6 +15,7 @@
 #import "FAEpisodeListViewController.h"
 #import "FANextUpViewController.h"
 #import "FAPushoverViewAnimationController.h"
+#import "FAContentBookmarkViewController.h"
 
 #import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
@@ -294,7 +295,7 @@
         }*/
         
         if (!_imageDisplayed) {
-            [self.maskingView addMaskLayer:self.pushoverView.backgroundView.layer];
+            //[self.maskingView addMaskLayer:self.pushoverView.backgroundView.layer];
             [self.maskingView addMaskLayer:self.titleLabel.layer];
             [self.maskingView setNeedsDisplay];
             
@@ -324,7 +325,6 @@
                     }
                 });
             });
-            
             
             //_pushoverViewAnimationController = [[FAPushoverViewAnimationController alloc] init];
         }
@@ -547,7 +547,7 @@
 #pragma mark FAPushoverViewDelegate
 - (void)pushoverView:(FAPushoverView *)pushoverView willShowContentView:(BOOL)animated
 {
-    self.imageViewToBottomViewLayoutConstraint.constant = 0;
+    //self.imageViewToBottomViewLayoutConstraint.constant = 0;
     [self.maskingView updateContinuouslyFor:0.3];
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -560,7 +560,7 @@
 - (void)pushoverViewDidShowContentView:(FAPushoverView *)pushoverView
 {
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    self.imageViewToBottomViewLayoutConstraint.constant = 0;
+    //self.imageViewToBottomViewLayoutConstraint.constant = 0;
     [self.blurOverlayView setNeedsDisplay];
     [self.maskingView setNeedsDisplay];
     [self.maskingView stopUpdatingContinuously];
@@ -568,7 +568,7 @@
 
 - (void)pushoverView:(FAPushoverView *)pushoverView willHideContentView:(BOOL)animated
 {
-    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    //self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
     [self.maskingView updateContinuouslyFor:0.3];
     if (animated) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -580,7 +580,7 @@
 - (void)pushoverViewDidHideContentView:(FAPushoverView *)pushoverView
 {
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    //self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
     [self.blurOverlayView setNeedsDisplay];
     [self.maskingView setNeedsDisplay];
     [self.maskingView stopUpdatingContinuously];
@@ -588,12 +588,12 @@
 
 - (void)pushoverView:(FAPushoverView *)pushoverView isAtFractionForHeightAnimation:(CGFloat)fraction
 {
-    CGFloat offset = (1 - fraction) * self.titleLabel.intrinsicContentSize.height;
+    /*CGFloat offset = (1 - fraction) * self.titleLabel.intrinsicContentSize.height;
     self.imageViewToBottomViewLayoutConstraint.constant = - offset;
     
     [self.view setNeedsDisplay];
     [self.view layoutIfNeeded];
-    //[self.blurOverlayView setNeedsDisplay];
+    //[self.blurOverlayView setNeedsDisplay];*/
     [self.maskingView setNeedsDisplay];
     [self.maskingView update];
 }
@@ -676,6 +676,14 @@
             }];
         }
     }
+}
+
+#pragma mark Toolbar
+- (IBAction)pushedBookmarkButton:(id)sender
+{
+    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    FAContentBookmarkViewController *bookmarkViewController = [storyboard instantiateViewControllerWithIdentifier:@"contentBookmark"];
+    [self presentSemiModalViewController:bookmarkViewController animated:YES completion:nil];
 }
 
 #pragma mark misc
