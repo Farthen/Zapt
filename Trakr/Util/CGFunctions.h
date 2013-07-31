@@ -14,5 +14,7 @@ CGPoint CGPointAdd(CGPoint a, CGPoint b);
 CGPoint CGPointSubtract(CGPoint a, CGPoint b);
 CGSize CGSizeAdd(CGSize a, CGSize b);
 CGSize CGSizeSubtract(CGSize a, CGSize b);
+CGPoint CGRectCenter(CGRect rect);
+CGRect CGRectCenteredToPoint(CGSize size, CGPoint center);
 
 #endif

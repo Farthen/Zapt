@@ -40,3 +40,20 @@ CGSize CGSizeSubtract(CGSize a, CGSize b)
     newSize.height = a.height - b.height;
     return newSize;
 }
+
+CGPoint CGRectCenter(CGRect rect)
+{
+    CGPoint center;
+    center.x = rect.origin.x + (rect.size.width / 2);
+    center.y = rect.origin.y + (rect.size.height / 2);
+    return center;
+}
+
+CGRect CGRectCenteredToPoint(CGSize size, CGPoint center)
+{
+    CGRect rect;
+    rect.size = size;
+    rect.origin.x = center.x - (size.width / 2);
+    rect.origin.y = center.y - (size.height / 2);
+    return rect;
+}

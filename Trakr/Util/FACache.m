@@ -8,12 +8,9 @@
 #import "FACache.h"
 
 #undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_MODEL
+#define LOG_LEVEL LOG_LEVEL_ERROR
 
-@implementation FACache {
-    NSMutableDictionary *_cachedItems;
-    id <NSCacheDelegate> _realDelegate;
-}
+@implementation FACache
 
 - (id)init
 {
@@ -42,11 +39,12 @@
 {
     self = [self init];
     if (self) {
-        _cachedItems = [aDecoder decodeObjectForKey:@"cachedItems"];
-        for (id key in _cachedItems) {
-            FACachedItem *item = [_cachedItems objectForKey:key];
+        NSMutableDictionary *cachedItems = [aDecoder decodeObjectForKey:@"cachedItems"];
+        for (id key in cachedItems) {
+            FACachedItem *item = [cachedItems objectForKey:key];
             [super setObject:item forKey:key cost:item.cost];
         }
+        _cachedItems = cachedItems;
         _realDelegate = [aDecoder decodeObjectForKey:@"realDelegate"];
         self.defaultExpirationTime = [aDecoder decodeDoubleForKey:@"defaultExpirationTime"];
         self.name = [aDecoder decodeObjectForKey:@"name"];
@@ -104,6 +102,11 @@
     return item.object;
 }
 
+- (void)backingCacheSetObject:(id)obj forKey:(id)key cost:(NSUInteger)cost
+{
+    [super setObject:obj forKey:key cost:cost];
+}
+
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost expirationTime:(NSTimeInterval)expirationTime
 {
     if (obj == nil) {
@@ -113,7 +116,7 @@
     item.expirationTime = expirationTime;
     item.cost = cost;
     
-    [super setObject:item forKey:key cost:cost];
+    [self backingCacheSetObject:item forKey:key cost:cost];
     [_cachedItems setObject:item forKey:key];
     
     DDLogModel(@"Adding object %@ with key: %@ to cache: \"%@\", new object count: %i", [obj description], key, self.name, self.objectCount);
@@ -140,7 +143,7 @@
     [self removeExpirationDataForKey:key];
     [_cachedItems removeObjectForKey:key];
     
-    DDLogModel(@"Purging object %@ from cache: \"%@\", new object count: %i", [[obj object] description], self.name, self.objectCount);
+    DDLogModel(@"Purging object %@ for key: %@ from cache: \"%@\", new object count: %i", [[obj object] description], key, self.name, self.objectCount);
 }
 
 - (void)purgeObject:(id)obj
@@ -212,9 +215,22 @@
     return totalCost;
 }
 
-- (NSArray *)contentKeys
+- (NSArray *)allKeys
 {
     return _cachedItems.allKeys;
+}
+
+- (NSArray *)allObjects
+{
+    NSArray *allKeys = self.allKeys;
+    NSMutableArray *allObjects = [[NSMutableArray alloc] initWithCapacity:allKeys.count];
+    for (id key in allKeys) {
+        id object = [self objectForKey:key];
+        if (object) {
+            [allObjects addObject:object];
+        }
+    }
+    return allObjects.copy;
 }
 
 - (NSUInteger)objectCount
@@ -236,11 +252,6 @@
 {
     [_realDelegate cache:cache willEvictObject:obj];
     [self purgeObject:obj];
-}
-
-- (NSArray *)allKeys
-{
-    return [_cachedItems allKeys];
 }
 
 - (id)oldestObjectInCache
@@ -267,14 +278,7 @@
 
 @end
 
-@implementation FACachedItem {
-    FACache *_cache;
-    id _key;
-    id _object;
-    NSDate *_expirationDate;
-    NSTimer *_expirationTimer;
-    NSTimeInterval _expirationTime;
-}
+@implementation FACachedItem
 
 - (id)initWithCache:(FACache *)cache key:(id)key object:(id)object
 {

@@ -7,7 +7,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FACache : NSCache <NSCacheDelegate, NSCoding>
+@interface FACache : NSCache <NSCacheDelegate, NSCoding> {
+    NSMutableDictionary *_cachedItems;
+    id <NSCacheDelegate> _realDelegate;
+}
 
 // This NSCache subclass implements am expiration timer. You can set an expiration time for all objects.
 // After that time elapsed the object is automatically removed from the cache.
@@ -21,6 +24,8 @@
 - (void)setObject:(id)obj forKey:(id)key expirationTime:(NSTimeInterval)expirationTime;
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost expirationTime:(NSTimeInterval)expirationTime;
 
+- (void)backingCacheSetObject:(id)obj forKey:(id)key cost:(NSUInteger)cost;
+
 // The total count of all objects in the cache
 @property (readonly) NSUInteger objectCount;
 
@@ -31,7 +36,10 @@
 @property (readonly) NSUInteger totalCost;
 
 // Array with all the keys of the objects in the cache
-@property (readonly) NSArray *contentKeys;
+@property (readonly) NSArray *allKeys;
+
+// Array with all objects in the cache
+@property (readonly) NSArray *allObjects;
 
 // Expiration time that is automatically assumed if none is given
 // Set to 0 to have no default expiration time
@@ -51,9 +59,17 @@
 
 // Returns the oldest object in the cache
 - (id)oldestObjectInCache;
+
 @end
 
-@interface FACachedItem : NSObject <NSCoding>
+@interface FACachedItem : NSObject <NSCoding>  {
+    FACache *_cache;
+    id _key;
+    id _object;
+    NSDate *_expirationDate;
+    NSTimer *_expirationTimer;
+    NSTimeInterval _expirationTime;
+}
 
 - (id)initWithCache:(FACache *)cache key:(id)key object:(id)object;
 
