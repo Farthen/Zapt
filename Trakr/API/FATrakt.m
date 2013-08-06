@@ -36,10 +36,6 @@
 NSString *const kFAKeychainKeyCredentials = @"TraktCredentials";
 NSString *const kFADefaultsKeyTraktUsername = @"TraktUsername";
 
-NSString *const FATraktRatingNone = nil;
-NSString *const FATraktRatingLove = @"love";
-NSString *const FATraktRatingHate = @"hate";
-
 NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
 NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";
 NSString *const FATraktActivityNotificationLists = @"FATraktActivityNotificationLists";
@@ -253,6 +249,24 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return nil;
 }
 
++ (NSString *)interfaceNameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized
+{
+    NSString *name;
+    if (rating == FATraktRatingUndefined) {
+        name = NSLocalizedString(@"not rated", nil);
+    } else if (rating == FATraktRatingHate) {
+        name = NSLocalizedString(@"hate", nil);
+    } else if (rating == FATraktRatingLove) {
+        name = NSLocalizedString(@"love", nil);
+    } else {
+        name = [NSString stringWithFormat:@"%i", rating];
+    }
+    if (capitalized) {
+        name = [name capitalizedString];
+    }
+    return name;
+}
+
 #pragma mark - API
 
 - (NSString *)urlForAPI:(NSString *)api
@@ -271,7 +285,14 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return encodedString;
 }
 
-- (BOOL)postDateAddAuthToDict:(NSMutableDictionary *)dict
+- (NSMutableDictionary *)postDataAuthDict
+{
+    NSMutableDictionary *authDict = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [self postDataAddAuthToDict:authDict];
+    return authDict;
+}
+
+- (BOOL)postDataAddAuthToDict:(NSMutableDictionary *)dict
 {
     if (![self usernameAndPasswordSaved]) {
         return NO;
@@ -295,17 +316,17 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
-    [self postDateAddAuthToDict:mutableDict];
+    [self postDataAddAuthToDict:mutableDict];
     return mutableDict;
 }
 
-- (void)verifyCredentials:(void (^)(BOOL valid))block
+- (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))block
 {
     DDLogController(@"Account test!");
     NSDictionary *data = @{ @"username" : _apiUser, @"password" : _apiPasswordHash };
     
     [_activity startActivityNamed:FATraktActivityNotificationCheckAuth];
-    [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
+    return [[LRResty client] post:[self urlForAPI:@"account/test"] payload:data withBlock:^(LRRestyResponse *response) {
         if (![self handleResponse:response]) {
             block(NO);
         } else {
@@ -316,6 +337,27 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             } else {
                 block(NO);
             }
+        }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationCheckAuth];
+    }];
+}
+
+- (LRRestyRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))block
+{
+    FATraktAccountSettings *cachedSettings = [[[FATraktAccountSettings alloc] init] cachedVersion];
+    if (cachedSettings) {
+        block(cachedSettings);
+    }
+    NSString *url = [self urlForAPI:@"account/settings"];
+    [_activity startActivityNamed:FATraktActivityNotificationCheckAuth];
+    return [[LRResty client] post:url payload:[self postDataAuthDict] withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            FATraktAccountSettings *accountSettings = [[FATraktAccountSettings alloc] initWithJSONDict:data];
+            [cachedSettings removeFromCache];
+            [accountSettings commitToCache];
+            block(accountSettings);
         }
         
         [_activity finishActivityNamed:FATraktActivityNotificationCheckAuth];

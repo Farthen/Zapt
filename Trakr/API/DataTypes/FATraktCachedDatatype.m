@@ -28,6 +28,7 @@
         [self mergeWithObject:cachedDatatype];
         cachedDatatype.shouldBeCached = NO;
         [cachedDatatype removeFromCache];
+        self.shouldBeCached = YES;
         [self commitToCache];
     }
 }
@@ -47,6 +48,7 @@
 {
     if ([self.class.backingCache objectForKey:self.cacheKey] == self) {
         [self.class.backingCache removeObjectForKey:self.cacheKey];
+        self.shouldBeCached = NO;
     }
 }
 

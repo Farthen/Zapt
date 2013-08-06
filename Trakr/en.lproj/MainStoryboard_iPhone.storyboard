@@ -513,7 +513,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="XzX-JA-LVI" style="IBUITableViewCellStyleDefault" id="DFl-fa-D7a">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="XzX-JA-LVI" detailTextLabel="UgZ-My-o7e" style="IBUITableViewCellStyleValue1" id="DFl-fa-D7a">
                                         <rect key="frame" x="0.0" y="123" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DFl-fa-D7a" id="Teo-nZ-QNF">
@@ -521,10 +521,17 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Custom Lists" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XzX-JA-LVI">
-                                                    <rect key="frame" x="15" y="0.0" width="270" height="43"/>
+                                                    <rect key="frame" x="15" y="11" width="101" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UgZ-My-o7e">
+                                                    <rect key="frame" x="241" y="11" width="44" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -566,6 +573,12 @@
                             <outlet property="delegate" destination="E4M-Qj-pH9" id="txg-2R-Hsj"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="customListsDetailLabel" destination="UgZ-My-o7e" id="PG3-t5-ZM2"/>
+                        <outlet property="libraryLabel" destination="uMV-8j-OCP" id="Zf5-r7-YSd"/>
+                        <outlet property="ratingDetailLabel" destination="sY2-Ye-Z88" id="YfV-S5-PgP"/>
+                        <outlet property="watchlistLabel" destination="VeE-65-jTn" id="VVX-RU-5qz"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L01-R8-efK" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationItem title="Bookmarks" id="Zma-KU-54D"/>

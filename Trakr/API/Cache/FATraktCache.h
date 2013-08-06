@@ -18,6 +18,7 @@
 - (BOOL)reloadFromDisk;
 
 
+@property (readonly) FACache *misc;
 @property (readonly) FACache *movies;
 @property (readonly) FACache *episodes;
 @property (readonly) FACache *shows;

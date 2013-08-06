@@ -42,6 +42,8 @@
 		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
 		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
+		F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
+		F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E517B0844600307CC3 /* FATraktViewingSettings.m */; };
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
@@ -191,6 +193,10 @@
 		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAProgressView.m; path = Elements/FAProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktSeason.h; path = API/DataTypes/FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktSeason.m; path = API/DataTypes/FATraktSeason.m; sourceTree = "<group>"; };
+		F31551E117B081B200307CC3 /* FATraktAccountSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktAccountSettings.h; path = API/DataTypes/FATraktAccountSettings.h; sourceTree = "<group>"; };
+		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktAccountSettings.m; path = API/DataTypes/FATraktAccountSettings.m; sourceTree = "<group>"; };
+		F31551E417B0844600307CC3 /* FATraktViewingSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktViewingSettings.h; path = API/DataTypes/FATraktViewingSettings.h; sourceTree = "<group>"; };
+		F31551E517B0844600307CC3 /* FATraktViewingSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktViewingSettings.m; path = API/DataTypes/FATraktViewingSettings.m; sourceTree = "<group>"; };
 		F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+RecursiveSubviews.h"; path = "Categories/UIView+RecursiveSubviews.h"; sourceTree = "<group>"; };
 		F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+RecursiveSubviews.m"; path = "Categories/UIView+RecursiveSubviews.m"; sourceTree = "<group>"; };
 		F31D68ED179DD353003408BF /* NSObject+ClassName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+ClassName.h"; path = "Categories/NSObject+ClassName.h"; sourceTree = "<group>"; };
@@ -722,6 +728,10 @@
 				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
 				F30E52BD1799076A006C5091 /* FATraktShowProgress.h */,
 				F30E52BE1799076A006C5091 /* FATraktShowProgress.m */,
+				F31551E117B081B200307CC3 /* FATraktAccountSettings.h */,
+				F31551E217B081B200307CC3 /* FATraktAccountSettings.m */,
+				F31551E417B0844600307CC3 /* FATraktViewingSettings.h */,
+				F31551E517B0844600307CC3 /* FATraktViewingSettings.m */,
 			);
 			name = "Data Types";
 			sourceTree = "<group>";
@@ -952,6 +962,7 @@
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
+				F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */,
 				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
@@ -961,6 +972,7 @@
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
 				F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */,
 				F330965F162816DE000BD107 /* FATraktPeople.m in Sources */,
+				F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */,
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,

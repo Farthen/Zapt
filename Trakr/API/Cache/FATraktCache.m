@@ -17,6 +17,7 @@ static const NSInteger codingVersionNumber = 1;
 static NSString *codingFileName = @"Cache";
 
 @implementation FATraktCache
+@synthesize misc = _misc;
 @synthesize movies = _movies;
 @synthesize shows = _shows;
 @synthesize episodes = _episodes;
@@ -39,6 +40,7 @@ static NSString *codingFileName = @"Cache";
     if ([aDecoder decodeIntegerForKey:@"codingVersionNumber"] == codingVersionNumber) {
         self = [super init];
         if (self) {
+            _misc = [aDecoder decodeObjectForKey:@"_misc"];
             _movies = [aDecoder decodeObjectForKey:@"movies"];
             _shows = [aDecoder decodeObjectForKey:@"shows"];
             _episodes = [aDecoder decodeObjectForKey:@"episodes"];
@@ -57,6 +59,13 @@ static NSString *codingFileName = @"Cache";
 
 - (void)setupCaches
 {
+    if (!_misc) {
+        _misc = [[FACache alloc] initWithName:@"misc"];
+    }
+    
+    _misc.countLimit = 20;
+    _misc.defaultExpirationTime = NSTimeIntervalOneWeek;
+    
     if (!_movies) {
         _movies = [[FACache alloc] initWithName:@"movies"];
     }
@@ -109,6 +118,7 @@ static NSString *codingFileName = @"Cache";
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [aCoder encodeObject:_misc forKey:@"misc"];
     [aCoder encodeObject:_movies forKey:@"movies"];
     [aCoder encodeObject:_shows forKey:@"shows"];
     [aCoder encodeObject:_episodes forKey:@"episodes"];
@@ -121,6 +131,7 @@ static NSString *codingFileName = @"Cache";
 - (BOOL)reloadFromDisk
 {
     FATraktCache *newCache = [FATraktCache cacheFromDisk];
+    _misc = newCache.misc;
     _movies = newCache.movies;
     _shows = newCache.shows;
     _episodes = newCache.episodes;
@@ -170,6 +181,7 @@ static NSString *codingFileName = @"Cache";
 
 - (void)clearCaches
 {
+    [self.misc removeAllObjects];
     [self.movies removeAllObjects];
     [self.shows removeAllObjects];
     [self.episodes removeAllObjects];

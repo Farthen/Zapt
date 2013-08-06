@@ -19,6 +19,8 @@
     self = [super init];
     if (self) {
         self.detailLevel = FATraktDetailLevelDefault;
+        self.rating = FATraktRatingUndefined;
+        self.rating_advanced = FATraktRatingUndefined;
     }
     return self;
 }
@@ -57,6 +59,20 @@
     if ([key isEqualToString:@"images"] && propertyType.objcClass == [FATraktImageList class] && [object isKindOfClass:[NSDictionary class]]) {
         FATraktImageList *imageList = [[FATraktImageList alloc] initWithJSONDict:(NSDictionary *)object];
         [self setValue:imageList forKey:key];
+    } else if ([key isEqualToString:@"rating"]) {
+        if ([object isKindOfClass:[NSString class]]) {
+            if ([object isEqualToString:@"love"]) {
+                self.rating = FATraktRatingLove;
+            } else if ([object isEqualToString:@"hate"]) {
+                self.rating = FATraktRatingHate;
+            }
+        }
+    } else if ([key isEqualToString:@"rating_advanced"]) {
+        if ([object isKindOfClass:[NSNumber class]]) {
+            if ([object integerValue] > 0 && [object integerValue] <= 10) {
+                self.rating_advanced = [object integerValue];
+            }
+        }
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }

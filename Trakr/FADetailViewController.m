@@ -599,7 +599,7 @@
 }
 
 #pragma mark UIActionSheet
-- (void)prefsViewAction:(id)sender
+/*- (void)prefsViewAction:(id)sender
 {
     FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
     hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
@@ -651,7 +651,7 @@
             [_prefsView displayContent:_currentContent];
         }];
     }
-}
+}*/
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -683,6 +683,7 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
     FAContentBookmarkViewController *bookmarkViewController = [storyboard instantiateViewControllerWithIdentifier:@"contentBookmark"];
+    [bookmarkViewController displayContent:_currentContent];
     [self presentSemiModalViewController:bookmarkViewController animated:YES completion:nil];
 }
 

@@ -22,13 +22,11 @@
 #import "FATraktListItem.h"
 #import "FATraktSearchResult.h"
 #import "FATraktShowProgress.h"
+#import "FATraktAccountSettings.h"
+#import "FATraktViewingSettings.h"
 
 @class LRRestyRequest;
 @class LRRestyResponse;
-
-extern NSString *const FATraktRatingNone;
-extern NSString *const FATraktRatingLove;
-extern NSString *const FATraktRatingHate;
 
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
@@ -55,11 +53,13 @@ extern NSString *const FATraktActivityNotificationLists;
 + (NSString *)nameForContentType:(FATraktContentType)type;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural;
 + (NSString *)interfaceNameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
++ (NSString *)interfaceNameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized;
 
 extern NSString *const kFAKeychainKeyCredentials;
 
 #pragma mark API
-- (void)verifyCredentials:(void (^)(BOOL valid))block;
+- (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))block;
+- (LRRestyRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))block;
 
 - (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(LRRestyResponse *response))error;
 
