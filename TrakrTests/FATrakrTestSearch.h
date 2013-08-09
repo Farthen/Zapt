@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface FATrakrTestSearch : SenTestCase
+@interface FATrakrTestSearch : XCTestCase
 
 @end

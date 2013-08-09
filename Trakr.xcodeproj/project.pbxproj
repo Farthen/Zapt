@@ -25,7 +25,6 @@
 		B667531C15F12FBE00A8D76D /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667531B15F12FBE00A8D76D /* first@2x.png */; };
 		B667532115F12FBE00A8D76D /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532015F12FBE00A8D76D /* second.png */; };
 		B667532315F12FBE00A8D76D /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532215F12FBE00A8D76D /* second@2x.png */; };
-		B667532B15F12FBE00A8D76D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667532A15F12FBE00A8D76D /* SenTestingKit.framework */; };
 		B667532C15F12FBE00A8D76D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66752FE15F12FBE00A8D76D /* UIKit.framework */; };
 		B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
 		B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667533315F12FBE00A8D76D /* InfoPlist.strings */; };
@@ -89,6 +88,7 @@
 		F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5116F46DC300A19FD1 /* love@2x.png */; };
 		F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5716F4740300A19FD1 /* FASegmentedControl.m */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
+		F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3978A1617B50A2A001E5807 /* libPods.a */; };
 		F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */; };
 		F3A443F317A752FE00210EE9 /* FASemiModalEnabledViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */; };
 		F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */; };
@@ -165,8 +165,7 @@
 		B667531B15F12FBE00A8D76D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		B667532015F12FBE00A8D76D /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		B667532215F12FBE00A8D76D /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
-		B667532915F12FBE00A8D76D /* TrakrTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrakrTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B667532A15F12FBE00A8D76D /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		B667532915F12FBE00A8D76D /* TrakrTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrakrTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B667533215F12FBE00A8D76D /* TrakrTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TrakrTests-Info.plist"; sourceTree = "<group>"; };
 		B667533415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B667533615F12FBE00A8D76D /* TrakrTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrakrTests.h; sourceTree = "<group>"; };
@@ -272,6 +271,7 @@
 		F3938E5716F4740300A19FD1 /* FASegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASegmentedControl.m; path = Elements/FASegmentedControl.m; sourceTree = "<group>"; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
+		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAContentBookmarkViewController.h; sourceTree = "<group>"; };
 		F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentBookmarkViewController.m; sourceTree = "<group>"; };
 		F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASemiModalEnabledViewController.h; sourceTree = "<group>"; };
@@ -362,7 +362,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B667532B15F12FBE00A8D76D /* SenTestingKit.framework in Frameworks */,
+				F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */,
 				B667532C15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
 				B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */,
 			);
@@ -387,7 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				B66752FA15F12FBE00A8D76D /* Trakr.app */,
-				B667532915F12FBE00A8D76D /* TrakrTests.octest */,
+				B667532915F12FBE00A8D76D /* TrakrTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -395,11 +395,11 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3978A1617B50A2A001E5807 /* libPods.a */,
 				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
 				B667530015F12FBE00A8D76D /* Foundation.framework */,
 				B667530215F12FBE00A8D76D /* CoreGraphics.framework */,
-				B667532A15F12FBE00A8D76D /* SenTestingKit.framework */,
 				E6D0B6AA985E4CD4B698AA53 /* libPods.a */,
 			);
 			name = Frameworks;
@@ -808,6 +808,7 @@
 				B667532515F12FBE00A8D76D /* Frameworks */,
 				B667532615F12FBE00A8D76D /* Resources */,
 				B667532715F12FBE00A8D76D /* ShellScript */,
+				F3978A1817B50A94001E5807 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -816,8 +817,8 @@
 			);
 			name = TrakrTests;
 			productName = TrakrTests;
-			productReference = B667532915F12FBE00A8D76D /* TrakrTests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productReference = B667532915F12FBE00A8D76D /* TrakrTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -941,6 +942,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /usr/bin/ruby;
 			shellScript = "# An API keys script written by Patrick Gibson (@patr1ck) and Christopher Bowns (@cbowns)\n# This script sets API keys in your app's Info.plist from an .api_keys file you keep in your home directory (~/.api_keys)\n# This allows you to not check API keys into your source control system,\n# or for different developers to use different keys without needing to patch their working copies.\n\n# Installation directions:\n=begin\n1. Create a Run Script build phase in your Xcode project before Compile Sources\n2. Copy and paste this whole script in.\n3. Create or modify your .api_keys file to hold your API keys\n4. Modify the keys hash below to reference your .api_keys names from step 3\n5. Add placeholder keys to your app's Info.plist for the script to sub into.\n6. Add appropriate code to your app to pull from your Info.plist (see below)\n7. Build your app!\n=end\n\n# Your .api_keys should be in this format: (we recommend changing APPNAME to, well, your app name)\n=begin\nPARSE_APPNAME_PROD_APP_ID=foo\nPARSE_APPNAME_PROD_CLIENT_KEY=bar\nTESTFLIGHT_APPNAME=PartyApp\n=end\n\n# You can move your .api_keys file:\napi_keys_file=\"/Users/#{ENV['USER']}/Dropbox/Sync/misc/api_keys.txt\"\n\n# Declare your app-specific keys' names here, like so:\n# '.api_keys_key' => 'Info.plist_key'\nkeys = {\n    'TRAKT_API_KEY' => 'TraktAPIKey',\n}\n\n# A reminder: you need to add keys to your Info.plist so this script can put these values somewhere.\n# In XML, it should look something like:\n=begin\n<key>ParseProdClientKey</key>\n<string>?merp?</string>\n<key>TestFlightKey</key>\n<string>?hmm?</string>\n=end\n\n# Once this script is done running, it should look like:\n=begin\n<key>ParseProdClientKey</key>\n<string>bar</string>\n<key>TestFlightKey</key>\n<string>PartyApp</string>\n=end\n\n# Using these values in code looks something like:\n=begin\n[Parse setApplicationId:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevAppID\"]\nclientKey:[[NSBundle mainBundle] objectForInfoDictionaryKey:@\"ParseDevClientKey\"]];\nor\nNSString *testFlightName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@\"TestFlightKey\"];\n=end\n\n# And now, it's time to do some work.\n\n\n# Fail if not run from Xcode\nraise \"Must be run from Xcode\" unless ENV['XCODE_VERSION_ACTUAL']\n\ninfo_plist = \"#{ENV['BUILT_PRODUCTS_DIR']}/#{ENV['INFOPLIST_PATH']}\"\n\n# When building for the device, the plist is already converted to binary, so change it back.\n`plutil -convert xml1 #{info_plist}`\n\n# Load our keys from $HOME/.api_keys\napi_keys = IO.readlines(api_keys_file).join\napi_keys.lines.each do |line|\n# puts \"line is #{line}\"\nif line.to_s.strip.length != 0 # Skip nil or empty or whitespace lines\nkey, value = line.split(\"=\")\nputs \"Loading #{key} = #{value}\"\nENV[key] = value.strip!\nend\nend\n\n# Open Info.plist and set the appropriate value to the revision hash\nlines = IO.readlines(info_plist).join\nkeys.each do |apikey, infokey|\nlines.gsub! /(<key>#{infokey}<\\/key>\\n\\t<string>).*?(<\\/string>)/, \"\\\\1#{ENV[apikey]}\\\\2\"\nend\n\n# Overwrite the original Info.plist file with our updated version\nFile.open(info_plist, 'w') {|f| f.puts lines}\n\n# Convert back to binary1 if we're building for the device\nif ENV['EFFECTIVE_PLATFORM_NAME'] == \"-iphonesimulator\" then\n`plutil -convert xml1 #{info_plist}`\nelse\n`plutil -convert binary1 #{info_plist}`\nend\n\n# Report to the user\nputs \"Updated the API Keys\"\n";
+		};
+		F3978A1817B50A94001E5807 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1191,16 +1205,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Trakr.app/Trakr";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
 				INFOPLIST_FILE = "TrakrTests/TrakrTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = "";
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/CocoaLumberjack\" \"${PODS_ROOT}/BuildHeaders/JSONKit\" \"${PODS_ROOT}/BuildHeaders/LRResty\" \"${PODS_ROOT}/BuildHeaders/MBProgressHUD\" \"${PODS_ROOT}/BuildHeaders/NSData+Base64\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/CocoaLumberjack\" \"${PODS_ROOT}/Headers/JSONKit\" \"${PODS_ROOT}/Headers/LRResty\" \"${PODS_ROOT}/Headers/MBProgressHUD\" \"${PODS_ROOT}/Headers/NSData+Base64\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -1208,16 +1225,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Trakr.app/Trakr";
-				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
 				INFOPLIST_FILE = "TrakrTests/TrakrTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LIBRARY_SEARCH_PATHS = "";
+				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/CocoaLumberjack\" \"${PODS_ROOT}/BuildHeaders/JSONKit\" \"${PODS_ROOT}/BuildHeaders/LRResty\" \"${PODS_ROOT}/BuildHeaders/MBProgressHUD\" \"${PODS_ROOT}/BuildHeaders/NSData+Base64\"";
+				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
+				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/CocoaLumberjack\" \"${PODS_ROOT}/Headers/JSONKit\" \"${PODS_ROOT}/Headers/LRResty\" \"${PODS_ROOT}/Headers/MBProgressHUD\" \"${PODS_ROOT}/Headers/NSData+Base64\"";
+				PODS_ROOT = "${SRCROOT}/Pods";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
