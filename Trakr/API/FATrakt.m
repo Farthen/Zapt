@@ -302,15 +302,23 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return YES;
 }
 
-- (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content
+- (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content multiple:(BOOL)multiple
 {
     NSDictionary *dict;
     if (content.contentType == FATraktContentTypeMovies) {
         FATraktMovie *movie = (FATraktMovie *)content;
-        dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+        if (multiple) {
+            dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+        } else {
+            dict = @{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
+        }
     } else if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
-        dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+        if (multiple) {
+            dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+        } else {
+            dict = @{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
+        }
     } else if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
         dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
@@ -622,9 +630,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Getting progress for show: %@", show.title);
     return [self loadProgressDataWithTitle:show.tvdb_id callback:^(NSArray *data){
-        FATraktShowProgress *progress = data[0];
-        progress.show = show;
-        show.progress = progress;
+        FATraktShowProgress *progress = nil;
+        if (data.count >= 1) {
+            progress = data[0];
+            progress.show = show;
+            show.progress = progress;
+        }
         block(progress);
     }];
 }
@@ -867,7 +878,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         url = [self urlForAPI:[NSString stringWithFormat:@"%@/unwatchlist", watchlistName]];
     }
     
-    NSDictionary *dict = [self postDataContentTypeDictForContent:content];
+    NSDictionary *dict = [self postDataContentTypeDictForContent:content multiple:YES];
     
     NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -887,12 +898,39 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    return nil;
+    return [self addToLibrary:content add:YES callback:block onError:error];
+}
+
+- (LRRestyRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
+{
+    return [self addToLibrary:content add:NO callback:block onError:error];
 }
 
 - (LRRestyRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
 {
-    return nil;
+    NSString *libraryName = [FATrakt watchlistNameForContentType:content.contentType];
+    NSString *url;
+    if (add) {
+        url = [self urlForAPI:[NSString stringWithFormat:@"%@/library", libraryName]];
+    } else {
+        url = [self urlForAPI:[NSString stringWithFormat:@"%@/unlibrary", libraryName]];
+    }
+    
+    NSDictionary *dict = [self postDataContentTypeDictForContent:content multiple:NO];
+    NSData *data = [[dict JSONString] dataUsingEncoding:NSUTF8StringEncoding];
+    
+    [_activity startActivityNamed:FATraktActivityNotificationDefault];
+    return [[LRResty client] post:url payload:data withBlock:^(LRRestyResponse *response) {
+        if ([self handleResponse:response]) {
+            block();
+        } else {
+            if (error) {
+                error(response);
+            }
+        }
+        
+        [_activity finishActivityNamed:FATraktActivityNotificationDefault];
+    }];
 }
 
 - (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error
@@ -900,7 +938,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES];
     NSString *url = [self urlForAPI:[NSString stringWithFormat:@"rate/%@", contentType]];
     
-    NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content];
+    NSMutableDictionary *dict = [self postDataContentTypeDictForContent:content multiple:YES];
     if (love == nil) {
         [dict addEntriesFromDictionary:@{@"love": @"unrate"}];
     } else {

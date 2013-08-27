@@ -374,7 +374,6 @@
 		B66752EF15F12FBE00A8D76D = {
 			isa = PBXGroup;
 			children = (
-				F390191A16513819006C8E5B /* Security.framework */,
 				B667530415F12FBE00A8D76D /* Trakr */,
 				B667533015F12FBE00A8D76D /* TrakrTests */,
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
@@ -395,6 +394,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F390191A16513819006C8E5B /* Security.framework */,
 				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
 				B667530015F12FBE00A8D76D /* Foundation.framework */,
@@ -828,6 +828,11 @@
 				CLASSPREFIX = FA;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Finn Wilke";
+				TargetAttributes = {
+					B66752F915F12FBE00A8D76D = {
+						DevelopmentTeam = R6693WW55J;
+					};
+				};
 			};
 			buildConfigurationList = B66752F415F12FBE00A8D76D /* Build configuration list for PBXProject "Trakr" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1153,6 +1158,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				GCC_VERSION = "";
@@ -1161,6 +1168,7 @@
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1174,6 +1182,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1183,6 +1193,7 @@
 				INFOPLIST_FILE = "Trakr/Trakr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

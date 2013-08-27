@@ -10,6 +10,7 @@
 #import "FASemiModalEnabledViewController.h"
 #import "FATraktContent.h"
 #import "FATrakt.h"
+#import "FAProgressHUD.h"
 
 @interface FAContentBookmarkViewController ()
 
@@ -17,6 +18,7 @@
 
 @implementation FAContentBookmarkViewController {
     FATraktAccountSettings *_accountSettings;
+    FATraktContent *_currentContent;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -65,9 +67,9 @@
     }
     
     if (content.in_collection) {
-        self.libraryLabel.text = NSLocalizedString(@"Remove from collection", nil);
+        self.libraryLabel.text = NSLocalizedString(@"Remove from library", nil);
     } else {
-        self.libraryLabel.text = NSLocalizedString(@"Add to collection", nil);
+        self.libraryLabel.text = NSLocalizedString(@"Add to library", nil);
     }
     
     int count = [FATraktList cachedCustomLists].count;
@@ -86,6 +88,7 @@
 
 - (void)displayContent:(FATraktContent *)content
 {
+    _currentContent = content;
     [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
         _accountSettings = settings;
         [self loadContent:content];
@@ -100,9 +103,62 @@
     // Dispose of any resources that can be recreated.
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 0;
+}
+
+#pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
+        if (indexPath.row == 0) {
+            // Watchlist add/remove button
+            if (_currentContent.in_watchlist) {
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
+                [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
+                    [hud showProgressHUDSuccess];
+                    _currentContent.in_watchlist = NO;
+                    [self loadContent:_currentContent];
+                } onError:^(LRRestyResponse *response) {
+                    [hud showProgressHUDFailed];
+                }];
+            } else {
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
+                [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
+                    [hud showProgressHUDSuccess];
+                    _currentContent.in_watchlist = YES;
+                    [self loadContent:_currentContent];
+                } onError:^(LRRestyResponse *response) {
+                    [hud showProgressHUDFailed];
+                }];
+            }
+        } else if (indexPath.row == 1) {
+            // Library add/remove button
+            if (_currentContent.in_collection) {
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from library", nil)];
+                [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
+                    [hud showProgressHUDSuccess];
+                    _currentContent.in_collection = NO;
+                    [self loadContent:_currentContent];
+                } onError:^(LRRestyResponse *response) {
+                    [hud showProgressHUDFailed];
+                }];
+            } else {
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to library", nil)];
+                [[FATrakt sharedInstance] addToLibrary:_currentContent callback:^(void) {
+                    [hud showProgressHUDSuccess];
+                    _currentContent.in_collection = YES;
+                    [self loadContent:_currentContent];
+                } onError:^(LRRestyResponse *response) {
+                    [hud showProgressHUDFailed];
+                }];
+            }
+        }
+    }
 }
 
 @end

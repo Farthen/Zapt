@@ -184,6 +184,7 @@
     
     // If we disabled this, we will enable it again now
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    self.scrollView.userInteractionEnabled = YES;
 
     //[self.scrollView hideBackView:NO];
     
@@ -231,7 +232,7 @@
 - (void)setNextUpViewWithContent:(FATraktContent *)content
 {
     if (content) {
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
+        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
             [self.nextUpViewController displayNextUp:content];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.intrinsicHeight;
         } animations:^{
@@ -371,13 +372,15 @@
 - (void)setProgress:(FATraktShowProgress *)progress
 {
     if (progress) {
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
+        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
             [self.nextUpViewController displayProgress:progress];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.intrinsicHeight;
         } animations:^{
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
-        } completion:nil];
+        } completion:^(BOOL finished){
+            [self setNextUpViewWithContent:progress.next_episode];
+        }];
     }
 }
 
@@ -463,7 +466,6 @@
 {
     [self loadValueForContent:show];
     [self setProgress:show.progress];
-    [self setNextUpViewWithContent:show.progress.next_episode];
     
     [self.view layoutIfNeeded];
     [self.view updateConstraintsIfNeeded];

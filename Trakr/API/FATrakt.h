@@ -78,6 +78,9 @@ extern NSString *const kFAKeychainKeyCredentials;
 - (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 - (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
 
+- (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+- (LRRestyRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(LRRestyResponse *response))error;
+
 - (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block;
 - (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block;
 
