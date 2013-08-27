@@ -24,12 +24,12 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
     return instance;
 }
 
-- (NSString *)startNotificationNameForName:(NSString *)notificationName
+- (NSString *)notificationNameForStartActivity:(NSString *)notificationName
 {
     return [notificationName stringByAppendingString:@"DidStart"];
 }
 
-- (NSString *)finishNotificationNameForName:(NSString *)notificationName
+- (NSString *)notificationNameForFinishActivity:(NSString *)notificationName
 {
     return [notificationName stringByAppendingString:@"DidFinish"];
 }
@@ -46,10 +46,10 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 
 - (void)registerForActivityName:(NSString *)name observer:(id <FAUIElementWithActivity>)observer
 {
-    NSString *didStartName = [self startNotificationNameForName:name];
+    NSString *didStartName = [self notificationNameForStartActivity:name];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(startActivity) name:didStartName object:nil];
     
-    NSString *didFinishName = [self finishNotificationNameForName:name];
+    NSString *didFinishName = [self notificationNameForFinishActivity:name];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(finishActivity) name:didFinishName object:nil];
     
     NSString *stopAllName = [self stopAllNotificationNameForName:name];
@@ -70,10 +70,10 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 {
     if (name) {
         DDLogController(@"Starting activity named: %@", name);
-        NSString *startName = [self startNotificationNameForName:name];
+        NSString *startName = [self notificationNameForStartActivity:name];
         [[NSNotificationCenter defaultCenter] postNotificationName:startName object:self];
         
-        NSString *startNameAll = [self startNotificationNameForName:FAActivityDispatchNotificationAll];
+        NSString *startNameAll = [self notificationNameForStartActivity:FAActivityDispatchNotificationAll];
         [[NSNotificationCenter defaultCenter] postNotificationName:startNameAll object:self];
     }
 }
@@ -90,10 +90,10 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 {
     DDLogController(@"Stopping activity named: %@", name);
     if (name) {
-        NSString *finishName = [self finishNotificationNameForName:name];
+        NSString *finishName = [self notificationNameForFinishActivity:name];
         [[NSNotificationCenter defaultCenter] postNotificationName:finishName object:self];
         
-        NSString *finishNameAll = [self finishNotificationNameForName:FAActivityDispatchNotificationAll];
+        NSString *finishNameAll = [self notificationNameForFinishActivity:FAActivityDispatchNotificationAll];
         [[NSNotificationCenter defaultCenter] postNotificationName:finishNameAll object:self];
     }
 }
