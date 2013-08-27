@@ -1,23 +1,22 @@
-
 PODS:
-- CocoaLumberjack (1.6)
-- JSONKit (1.5pre)
-- LRResty (0.11.0):
-  - NSData+Base64 (~> 1.0)
-- MBProgressHUD (0.5)
-- NSData+Base64 (1.0.0)
+  - CocoaLumberjack (1.6.2)
+  - JSONKit (1.5pre)
+  - LRResty (0.11.0):
+    - NSData+Base64 (~> 1.0)
+  - MBProgressHUD (0.7)
+  - NSData+Base64 (1.0.0)
 
 DEPENDENCIES:
-- CocoaLumberjack
-- JSONKit (~> 1.5pre)
-- LRResty (~> 0.11.0)
-- MBProgressHUD
+  - CocoaLumberjack
+  - JSONKit (~> 1.5pre)
+  - LRResty (~> 0.11.0)
+  - MBProgressHUD
 
 SPEC CHECKSUMS:
-  CocoaLumberjack: 0f2fa7090a23f13261072d882e017c688300efbe
-  JSONKit: 3d4708953ea7ae399a49777372d8b060a43ddd27
-  LRResty: 8a51275030ac5bfc6c44775d64a16dc0f9267b8e
-  MBProgressHUD: b23ee11c42253d6d804e8e0bfabdc334e8b2571f
-  NSData+Base64: 8b910cb8a64f45daec6fb15936c36a9a911c57ca
+  CocoaLumberjack: d73e1e317ced14ab930797dda6c17156ff17aaa1
+  JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
+  LRResty: 5e4c1b91bc5f878d64e965facd5cc9320b9ed3e2
+  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  NSData+Base64: 36c4e5b6479259c1a68866ccd2a8dd385c9744f7
 
-COCOAPODS: 0.16.1
+COCOAPODS: 0.23.0

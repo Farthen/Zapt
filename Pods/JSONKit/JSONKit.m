@@ -2592,12 +2592,8 @@ static int jk_encode_add_atom_to_buffer(JKEncodeState *encodeState, void *object
   //     
   // XXX XXX XXX XXX
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-objc-pointer-introspection"
-  BOOL workAroundMacOSXABIBreakingBug = (JK_EXPECT_F(((NSUInteger)object) & 0x1)) ? YES : NO;
-#pragma clang diagnostic pop
-
-  if(workAroundMacOSXABIBreakingBug) { goto slowClassLookup; }
+  BOOL workAroundMacOSXABIBreakingBug = NO;
+  if(JK_EXPECT_F(((NSUInteger)object) & 0x1)) { workAroundMacOSXABIBreakingBug = YES; goto slowClassLookup; }
 
        if(JK_EXPECT_T(object->isa == encodeState->fastClassLookup.stringClass))     { isClass = JKClassString;     }
   else if(JK_EXPECT_T(object->isa == encodeState->fastClassLookup.numberClass))     { isClass = JKClassNumber;     }
@@ -3060,3 +3056,4 @@ errorExit:
 @end
 
 #endif // __BLOCKS__
+

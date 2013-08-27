@@ -296,7 +296,7 @@ char *NewBase64Encode(
 //
 - (NSString *)base64EncodedString
 {
-	size_t outputLength = 0;
+	size_t outputLength;
 	char *outputBuffer =
 		NewBase64Encode([self bytes], [self length], true, &outputLength);
 	
@@ -313,11 +313,16 @@ char *NewBase64Encode(
 // added by Hiroshi Hashiguchi
 - (NSString *)base64EncodedStringWithSeparateLines:(BOOL)separateLines
 {
-	size_t outputLength = 0;
+	size_t outputLength;
 	char *outputBuffer =
     NewBase64Encode([self bytes], [self length], separateLines, &outputLength);
 	
-	NSString *result = [[[NSString alloc] initWithBytes:outputBuffer length:outputLength encoding:NSASCIIStringEncoding] autorelease];
+	NSString *result =
+    [[[NSString alloc]
+      initWithBytes:outputBuffer
+      length:outputLength
+      encoding:NSASCIIStringEncoding]
+     autorelease];
 	free(outputBuffer);
 	return result;
 }

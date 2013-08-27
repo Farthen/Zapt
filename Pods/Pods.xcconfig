@@ -1,7 +1,4 @@
-ALWAYS_SEARCH_USER_PATHS = YES
-HEADER_SEARCH_PATHS = ${PODS_HEADERS_SEARCH_PATHS}
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/JSONKit" "${PODS_ROOT}/Headers/LRResty" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/NSData+Base64"
 OTHER_LDFLAGS = -ObjC -framework CoreGraphics
-PODS_BUILD_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/BuildHeaders" "${PODS_ROOT}/BuildHeaders/CocoaLumberjack" "${PODS_ROOT}/BuildHeaders/JSONKit" "${PODS_ROOT}/BuildHeaders/LRResty" "${PODS_ROOT}/BuildHeaders/MBProgressHUD" "${PODS_ROOT}/BuildHeaders/NSData+Base64"
-PODS_HEADERS_SEARCH_PATHS = ${PODS_PUBLIC_HEADERS_SEARCH_PATHS}
-PODS_PUBLIC_HEADERS_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/JSONKit" "${PODS_ROOT}/Headers/LRResty" "${PODS_ROOT}/Headers/MBProgressHUD" "${PODS_ROOT}/Headers/NSData+Base64"
 PODS_ROOT = ${SRCROOT}/Pods
