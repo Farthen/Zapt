@@ -204,9 +204,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         
         if (merge && [self shouldMergeObjectForKey:key]) {
             if (info.isReadonly == NO) {
-                if (![self valueForKey:key] && [object valueForKey:key]) {
-                    [self setValue:[object valueForKey:key] forKey:key];
-                }
+                [self setValue:[object valueForKey:key] forKey:key];
             }
         }
     }
