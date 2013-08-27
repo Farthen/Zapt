@@ -1,6 +1,6 @@
 //
 //  NSArray+Sorting.h
-//  Trakr
+//  Zapr
 //
 //  Created by Finn Wilke on 23.07.13.
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.

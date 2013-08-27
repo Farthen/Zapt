@@ -1,6 +1,6 @@
 //
 //  FAUIElementWithActivity.h
-//  Trakr
+//  Zapr
 //
 //  Created by Finn Wilke on 13.10.12.
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
