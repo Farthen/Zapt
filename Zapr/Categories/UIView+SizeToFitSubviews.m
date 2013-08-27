@@ -1,6 +1,6 @@
 //
 //  UIView+SizeToFitSubviews.m
-//  Trakr
+//  Zapr
 //
 //  Created by Finn Wilke on 18.12.12.
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.

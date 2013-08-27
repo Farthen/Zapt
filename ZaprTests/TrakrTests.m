@@ -1,14 +1,14 @@
 //
-//  TrakrTests.m
-//  TrakrTests
+//  ZaprTests.m
+//  ZaprTests
 //
 //  Created by Finn Wilke on 31.08.12.
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import "TrakrTests.h"
+#import "ZaprTests.h"
 
-@implementation TrakrTests
+@implementation ZaprTests
 
 - (void)setUp
 {

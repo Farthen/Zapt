@@ -1,6 +1,6 @@
 //
 //  FAEditableTableViewCell.m
-//  Trakr
+//  Zapr
 //
 //  Created by Finn Wilke on 10.09.12.
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
