@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface TrakrTests : SenTestCase
+@interface TrakrTests : XCTestCase
 
 @end
