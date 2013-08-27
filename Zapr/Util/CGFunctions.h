@@ -5,8 +5,8 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#ifndef Trakr_CGFunctions_h
-#define Trakr_CGFunctions_h
+#ifndef Zapr_CGFunctions_h
+#define Zapr_CGFunctions_h
 
 #include <CoreGraphics/CoreGraphics.h>
 

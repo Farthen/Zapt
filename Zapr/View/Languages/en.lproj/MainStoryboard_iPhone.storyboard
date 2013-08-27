@@ -641,6 +641,7 @@
         <!--Next Up View Controller-->
         <scene sceneID="adP-XN-KQs">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v95-6W-qXs" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="Qv3-Ro-3n4" customClass="FANextUpViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="niF-XF-NZV"/>
@@ -650,15 +651,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMh-O4-5Fv">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nMh-O4-5Fv">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAProgressView">
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAProgressView">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Watched x out of y episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-qe-4bt">
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Watched x out of y episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-qe-4bt">
                                                 <rect key="frame" x="8" y="1" width="159" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
@@ -667,19 +668,11 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="top" secondItem="dJi-25-Ao5" secondAttribute="top" constant="1" id="Ar5-wk-ezm"/>
-                                            <constraint firstAttribute="height" constant="18" id="CSq-ky-mh4"/>
-                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="leading" secondItem="dJi-25-Ao5" secondAttribute="leading" constant="8" id="aD9-hU-D4X"/>
-                                        </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-dW-WiO">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-dW-WiO">
                                         <rect key="frame" x="0.0" y="18" width="320" height="57"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="57" id="I4G-sj-BVq"/>
-                                        </constraints>
                                         <color key="sectionIndexTrackingBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="nextUpCell" rowHeight="57" id="GJB-Fl-3jQ" customClass="FANextUpTableViewCell">
@@ -735,23 +728,9 @@
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="jgY-dW-WiO" firstAttribute="leading" secondItem="nMh-O4-5Fv" secondAttribute="leading" id="PZb-Bk-Spy"/>
-                                    <constraint firstItem="jgY-dW-WiO" firstAttribute="top" secondItem="dJi-25-Ao5" secondAttribute="bottom" id="Tnu-QN-g0K"/>
-                                    <constraint firstItem="dJi-25-Ao5" firstAttribute="top" secondItem="nMh-O4-5Fv" secondAttribute="top" id="i8u-iS-X4d"/>
-                                    <constraint firstItem="jgY-dW-WiO" firstAttribute="trailing" secondItem="nMh-O4-5Fv" secondAttribute="trailing" id="l1e-Pa-x6u"/>
-                                    <constraint firstItem="dJi-25-Ao5" firstAttribute="leading" secondItem="nMh-O4-5Fv" secondAttribute="leading" id="uCM-xK-Bet"/>
-                                    <constraint firstItem="dJi-25-Ao5" firstAttribute="trailing" secondItem="nMh-O4-5Fv" secondAttribute="trailing" id="v45-G5-e3z"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="top" secondItem="O0q-07-3xv" secondAttribute="top" id="MrP-iA-9QD"/>
-                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="leading" secondItem="O0q-07-3xv" secondAttribute="leading" id="Yuq-ah-NVI"/>
-                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="trailing" secondItem="O0q-07-3xv" secondAttribute="trailing" id="f0V-jD-fh7"/>
-                            <constraint firstAttribute="bottom" secondItem="nMh-O4-5Fv" secondAttribute="bottom" id="uOv-Kd-73x"/>
-                        </constraints>
                     </view>
                     <toolbarItems/>
                     <connections>
@@ -760,7 +739,6 @@
                         <outlet property="tableView" destination="jgY-dW-WiO" id="TE0-bc-grd"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="v95-6W-qXs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1848" y="-592"/>
         </scene>

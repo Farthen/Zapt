@@ -1,13 +1,13 @@
 //
 //  FALogLevels.h
-//  Trakr
+//  Zapr
 //
 //  Created by Finn Wilke on 15.03.13.
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#ifndef Trakr_FALogLevels_h
-#define Trakr_FALogLevels_h
+#ifndef Zapr_FALogLevels_h
+#define Zapr_FALogLevels_h
 
 #undef LOG_FLAG_ERROR
 #undef LOG_FLAG_WARN
