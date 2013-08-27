@@ -89,8 +89,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         if (self) {
             [self mapObjectsInDict:dict];
         }
+        return self;
+    } else {
+        return nil;
     }
-    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -152,8 +154,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         NSNumber *number = (NSNumber *)object;
         NSString *string = [number stringValue];
         [self setValue:string forKey:key];
-    } else if ([propertyType typeIsEqualToEncode:@encode(BOOL)]) {
-        // If BOOL, set BOOL
+    } else {
+        // This gets called for things like NSNumber setting to NSInteger property or NSNumber to BOOL
         [self setValue:object forKey:key];
     }
 }
@@ -183,6 +185,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merges the values from "object" into the reciever. Only merges objc-classes.
+    // Merge strategy: Merge in everything that is not nil in object
     if (self == object) {
         return;
     } else if (![object isKindOfClass:[self class]]) {
@@ -194,18 +197,14 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         FAPropertyInfo *info = propertyInfos[key];
         BOOL merge = NO;
         if (info.isObjcClass) {
-            if ([self valueForKey:key] != nil) {
-                merge = YES;
-            } else if ([self isKindOfClass:[NSString class]] && [((NSString *)self) isEqualToString:@""]) {
+            if ([object valueForKey:key]) {
                 merge = YES;
             }
         }
         
         if (merge && [self shouldMergeObjectForKey:key]) {
             if (info.isReadonly == NO) {
-                if ([object valueForKey:key]) {
-                    [self setValue:[object valueForKey:key] forKey:key];
-                }
+                [self setValue:[object valueForKey:key] forKey:key];
             }
         }
     }

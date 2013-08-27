@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B667532815F12FBE00A8D76D"
-               BuildableName = "TrakrTests.octest"
+               BuildableName = "TrakrTests.xctest"
                BlueprintName = "TrakrTests"
                ReferencedContainer = "container:Trakr.xcodeproj">
             </BuildableReference>

@@ -24,9 +24,5 @@
     [super tearDown];
 }
 
-- (void)testExample
-{
-    XCTFail(@"Unit tests are not implemented yet in TrakrTests");
-}
 
 @end

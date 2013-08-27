@@ -117,6 +117,7 @@
 		F3E2209316EA8A48008C3AFA /* fanart-summary.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */; };
 		F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209516EA9671008C3AFA /* FAContentPrefsView.m */; };
 		F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */; };
+		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
@@ -271,7 +272,7 @@
 		F3938E5716F4740300A19FD1 /* FASegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASegmentedControl.m; path = Elements/FASegmentedControl.m; sourceTree = "<group>"; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Animations.h"; path = "Categories/UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Animations.m"; path = "Categories/UIView+Animations.m"; sourceTree = "<group>"; };
-		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAContentBookmarkViewController.h; sourceTree = "<group>"; };
 		F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentBookmarkViewController.m; sourceTree = "<group>"; };
 		F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASemiModalEnabledViewController.h; sourceTree = "<group>"; };
@@ -319,6 +320,7 @@
 		F3E2209516EA9671008C3AFA /* FAContentPrefsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAContentPrefsView.m; path = Elements/FAContentPrefsView.m; sourceTree = "<group>"; };
 		F3E2209716EAA3EA008C3AFA /* FAScrollViewWithTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAScrollViewWithTopView.h; path = Elements/FAScrollViewWithTopView.h; sourceTree = "<group>"; };
 		F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAScrollViewWithTopView.m; path = Elements/FAScrollViewWithTopView.m; sourceTree = "<group>"; };
+		F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktDatatypeTest.m; sourceTree = "<group>"; };
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FALogLevels.h; path = Util/FALogLevels.h; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FATraktListItem.h; path = API/DataTypes/FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FATraktListItem.m; path = API/DataTypes/FATraktListItem.m; sourceTree = "<group>"; };
@@ -374,7 +376,6 @@
 		B66752EF15F12FBE00A8D76D = {
 			isa = PBXGroup;
 			children = (
-				F390191A16513819006C8E5B /* Security.framework */,
 				B667530415F12FBE00A8D76D /* Trakr */,
 				B667533015F12FBE00A8D76D /* TrakrTests */,
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
@@ -396,6 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				F3978A1617B50A2A001E5807 /* libPods.a */,
+				F390191A16513819006C8E5B /* Security.framework */,
 				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
 				B667530015F12FBE00A8D76D /* Foundation.framework */,
@@ -436,6 +438,7 @@
 		B667533015F12FBE00A8D76D /* TrakrTests */ = {
 			isa = PBXGroup;
 			children = (
+				F3E37B8817CA635B005C37F5 /* API */,
 				F3F9E30916282D320077CBAA /* UI */,
 				B667533615F12FBE00A8D76D /* TrakrTests.h */,
 				B667533715F12FBE00A8D76D /* TrakrTests.m */,
@@ -693,6 +696,14 @@
 				F3EA6CDC16F2D74A0036029F /* FALogLevels.h */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		F3E37B8817CA635B005C37F5 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */,
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 		F3F8C5FC1627297800D6BD4C /* Data Types */ = {
@@ -1045,6 +1056,7 @@
 			files = (
 				B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */,
 				F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */,
+				F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
