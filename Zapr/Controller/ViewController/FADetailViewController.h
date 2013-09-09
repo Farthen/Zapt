@@ -21,6 +21,7 @@
 - (void)loadContent:(FATraktContent *)content;
 
 - (IBAction)actionItem:(id)sender;
+- (IBAction)actionDetailLabel:(id)sender;
 
 // This will be set by the nextUpViewController when it is inserted as sub view controller
 @property FANextUpViewController *nextUpViewController;

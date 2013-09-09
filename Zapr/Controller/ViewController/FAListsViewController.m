@@ -78,25 +78,25 @@
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeShows callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeEpisodes callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
         
         if (animated) [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
         // There is no such thing as an episode library
         /*[[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeEpisodes libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
@@ -108,7 +108,7 @@
             _customLists = lists;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
             if (animated) [self.refreshControlWithActivity finishActivity];
-        }];
+        } onError:nil];
     }
 }
 

@@ -22,7 +22,7 @@
 @interface FAAppDelegate () {
     UIAlertView *_timeoutAlert;
     UIAlertView *_networkNotAvailableAlert;
-    UIAlertView *_overCapacityAlert;
+    UIAlertView *_serviceUnavailableAlert;
     UIAlertView *_invalidCredentialsAlert;
     BOOL _authViewShowing;
     UIWindow *_authWindow;
@@ -42,7 +42,7 @@
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
-    _overCapacityAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+    _serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _authViewShowing = NO;
     
     FALogFormatter *logFormatter = [[FALogFormatter alloc] init];
@@ -72,27 +72,27 @@
     return YES;
 }
 
+- (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response
+{
+    if (response.responseType == FATraktConnectionResponseTypeTimeout) {
+    } else if (response.responseType == FATraktConnectionResponseTypeServiceUnavailable) {
+        [_serviceUnavailableAlert show];
+    } else if (response.responseType == FATraktConnectionResponseTypeNetworkUnavailable) {
+        [_networkNotAvailableAlert show];
+    } else if (response.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
+        [self handleInvalidCredentials];
+    }
+}
+
 - (void)handleTimeout
 {
     [_timeoutAlert show];
 }
 
-- (void)handleNetworkNotAvailable
-{
-    [_networkNotAvailableAlert show];
-}
-
-- (void)handleOverCapacity
-{
-    [_overCapacityAlert show];
-}
-
 - (void)handleInvalidCredentials
 {
-    if (![[FATrakt sharedInstance] usernameAndPasswordSaved]) {
-        [self performLoginAnimated:YES];
-    } else {
-        [self performLoginAnimated:YES];
+    [self performLoginAnimated:YES];
+    if ([[FATraktConnection sharedInstance] usernameAndPasswordSaved]) {
         [_invalidCredentialsAlert show];
     }
 }

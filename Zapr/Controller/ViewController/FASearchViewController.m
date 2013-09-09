@@ -113,15 +113,15 @@
     [_searchRequests addObject:[[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
         searchData.movies = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }]];
+    } onError:nil]];
     [_searchRequests addObject:[[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
         searchData.shows = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }]];
+    } onError:nil]];
     [_searchRequests addObject:[[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
         searchData.episodes = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    }]];
+    } onError:nil]];
 }
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView

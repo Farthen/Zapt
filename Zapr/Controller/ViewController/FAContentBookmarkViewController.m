@@ -8,6 +8,7 @@
 
 #import "FAContentBookmarkViewController.h"
 #import "FASemiModalEnabledViewController.h"
+#import "FACustomListsMembershipViewController.h"
 #import "FATraktContent.h"
 #import "FATrakt.h"
 #import "FAProgressHUD.h"
@@ -92,7 +93,7 @@
     [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
         _accountSettings = settings;
         [self loadContent:content];
-    }];
+    } onError:nil];
     
     [self loadContent:content];
 }
@@ -121,42 +122,44 @@
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
                 [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
-                    _currentContent.in_watchlist = NO;
-                    [self loadContent:_currentContent];
-                } onError:^(LRRestyResponse *response) {
+                } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             } else {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
                 [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
-                    _currentContent.in_watchlist = YES;
-                    [self loadContent:_currentContent];
-                } onError:^(LRRestyResponse *response) {
+                } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             }
+            
+            [(FASemiModalEnabledViewController *)self.parentViewController dismissSemiModalViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 1) {
             // Library add/remove button
             if (_currentContent.in_collection) {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from library", nil)];
                 [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
-                    _currentContent.in_collection = NO;
-                    [self loadContent:_currentContent];
-                } onError:^(LRRestyResponse *response) {
+                } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             } else {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to library", nil)];
                 [[FATrakt sharedInstance] addToLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
-                    _currentContent.in_collection = YES;
-                    [self loadContent:_currentContent];
-                } onError:^(LRRestyResponse *response) {
+                } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             }
+            
+            [(FASemiModalEnabledViewController *)self.parentViewController dismissSemiModalViewControllerAnimated:YES completion:nil];
+        } else if (indexPath.row == 2) {
+            // Custom Lists Button
+            UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+            FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
+            [(FASemiModalEnabledViewController *)self.parentViewController displayContainerNavigationItem];
+            [self.parentViewController.navigationController pushViewController:customListsMembershipViewController animated:YES];
         }
     }
 }

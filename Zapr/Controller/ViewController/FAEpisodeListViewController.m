@@ -94,7 +94,7 @@
 {
     [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
         [self populateEpisodeListForShow:show];
-    }];
+    } onError:nil];
 }
 
 - (IBAction)actionDoneButton:(id)sender

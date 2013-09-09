@@ -30,6 +30,27 @@
     return self;
 }
 
+- (void)displaySemiModalViewControllerNavigationItem
+{
+    // If we have a navigation bar we want to add dismiss options
+    if (self.navigationController) {
+        _oldTitle = self.navigationItem.title;
+        [self.navigationItem setTitle:_presentedSemiModalViewController.title];
+        _defaultRightBarButtonItems = self.navigationItem.rightBarButtonItems;
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(semiModalDismissButtonTouched:)] animated:YES];
+        [self.navigationItem setHidesBackButton:YES animated:YES];
+    }
+}
+
+- (void)displayContainerNavigationItem
+{
+    if (self.navigationController) {
+        self.navigationItem.title = _oldTitle;
+        [self.navigationItem setRightBarButtonItems:_defaultRightBarButtonItems animated:YES];
+        [self.navigationItem setHidesBackButton:NO animated:YES];
+    }
+}
+
 - (void)semiModalDismissGestureFired:(UITapGestureRecognizer *)recognizer
 {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
@@ -77,14 +98,7 @@
     [self.view addSubview:viewControllerToPresent.view];
     [viewControllerToPresent didMoveToParentViewController:self];
     
-    // If we have a navigation bar we want to add dismiss options
-    if (self.navigationController) {
-        _oldTitle = self.navigationItem.title;
-        [self.navigationItem setTitle:viewControllerToPresent.title];
-        _defaultRightBarButtonItems = self.navigationItem.rightBarButtonItems;
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(semiModalDismissButtonTouched:)] animated:YES];
-        [self.navigationItem setHidesBackButton:YES animated:YES];
-    }
+    [self displaySemiModalViewControllerNavigationItem];
     
     // Animate it up
     [UIView animateIf:animated duration:0.3 animations:^{
@@ -101,11 +115,7 @@
 {
     if (_presentedSemiModalViewController) {
         [_presentedSemiModalViewController willMoveToParentViewController:nil];
-        if (self.navigationController) {
-            //self.navigationItem.title = _oldTitle;
-            [self.navigationItem setRightBarButtonItems:_defaultRightBarButtonItems animated:YES];
-            [self.navigationItem setHidesBackButton:NO animated:YES];
-        }
+        [self displayContainerNavigationItem];
         [UIView animateIf:animated duration:0.3 animations:^{
             // Set the frame to be below the current view
             self.navigationItem.title = _oldTitle;
@@ -151,6 +161,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self dismissSemiModalViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning

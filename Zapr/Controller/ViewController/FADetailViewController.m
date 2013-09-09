@@ -68,6 +68,8 @@
     
     NSMutableArray *_photos;
     
+    UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
+    
     FAPushoverViewAnimationController *_pushoverViewAnimationController;
 }
 
@@ -99,13 +101,6 @@
     self.detailViewHeightConstraint.constant = 0;
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
     
-    // Add constraint for minimal size of scroll view content
-    /*_contentViewSizeConstraint = [NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:self.scrollView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0];
-    [self.scrollView addConstraint:_contentViewSizeConstraint];
-    [self.contentView updateConstraintsIfNeeded];*/
-    
-    /*UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Episodes", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
-    self.navigationItem.rightBarButtonItem = btnAction;*/
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
     if (_loadContent) {
@@ -132,6 +127,11 @@
     
     if (_imageLoaded && !_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
+    }
+    
+    if (!_detailLabelTapGestureRecognizer) {
+        _detailLabelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDetailLabel:)];
+        [self.detailLabel addGestureRecognizer:_detailLabelTapGestureRecognizer];
     }
     
     _willAppear = YES;
@@ -174,7 +174,6 @@
 {
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [self.coverImageView invalidateIntrinsicContentSize];
-    //[self.coverImageView updateConstraints];
     [self.view layoutIfNeeded];
     [self viewDidLayoutSubviews];
 }
@@ -185,12 +184,6 @@
     // If we disabled this, we will enable it again now
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     self.scrollView.userInteractionEnabled = YES;
-
-    //[self.scrollView hideBackView:NO];
-    
-    // fix stupid bug http://stackoverflow.com/questions/12580434/uiscrollview-autolayout-issue
-    //_showing = NO;
-    //self.scrollView.contentOffset = CGPointZero;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -199,20 +192,6 @@
     [self.view layoutIfNeeded];
     [self viewDidLayoutSubviews];
 }
-
-- (void)setUpPrefs
-{
-    /*if (!self.scrollView.backView) {
-        _prefsView = [[FAContentPrefsView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.width, 200)];
-        
-        self.scrollView.backView = _prefsView;
-        self.scrollView.backViewContainer.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"outlets"]];
-    }
-    [_prefsView displayContent:_currentContent];
-    [_prefsView.watchlistAddButton addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventTouchUpInside];
-    [_prefsView.loveSegmentedControl addTarget:self action:@selector(prefsViewAction:) forControlEvents:UIControlEventValueChanged];*/
-}
-
 
 - (void)displayImage
 {
@@ -245,56 +224,6 @@
 - (void)doDisplayImageAnimated:(BOOL)animated
 {
     if (!_willDisplayImage) {
-        /*_imageDisplayed = NO;
-        _willDisplayImage = YES;
-        _showing = YES;
-        
-        CGFloat firstOffset = -(self.imageViewToTopLayoutConstraint.constant + self.coverImageView.intrinsicContentSize.height + self.titleLabel.frameHeight);
-        CGFloat newImageViewToTopLayoutConstraint = - self.coverImageView.intrinsicContentSize.height + self.titleLabel.intrinsicContentSize.height;
-        CGFloat secondOffset = - self.imageViewToTopLayoutConstraint.constant;
-        
-        CGFloat timeFactor = firstOffset / (firstOffset + secondOffset);
-        CGFloat totalDuration = 0.5;
-        CGFloat firstDuration = timeFactor * totalDuration;
-        CGFloat secondDuration = totalDuration - firstDuration;
-        
-        [UIView animateSynchronizedIf:animated duration:firstDuration delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
-            self.coverImageView.image = _coverImage;
-            
-            CGFloat topSpaceHeight = [self.scrollView convertPoint:CGPointMake(0, 0) toView:nil].y;
-            if (!self.coverImageViewHeightConstraint) {
-                self.coverImageViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.coverImageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.coverImageView.intrinsicContentSize.height];
-                [self.coverImageView addConstraint:self.coverImageViewHeightConstraint];
-            } else {
-                self.coverImageViewHeightConstraint.constant = self.coverImageView.intrinsicContentSize.height;
-                [self.coverImageView setNeedsUpdateConstraints];
-            }
-            self.imageViewToTopLayoutConstraint.constant = - self.coverImageView.intrinsicContentSize.height - topSpaceHeight;
-            [self.scrollView layoutIfNeeded];
-            
-            self.imageViewToTopLayoutConstraint.constant = newImageViewToTopLayoutConstraint;
-            self.imageViewToBottomViewLayoutConstraint.constant = - self.titleLabel.intrinsicContentSize.height;
-            self.view.userInteractionEnabled = NO;
-        } animations:^{
-            [self.scrollView layoutIfNeeded];
-        } completion:nil];
-        [UIView animateSynchronizedIf:animated duration:secondDuration delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
-            self.imageViewToTopLayoutConstraint.constant = 0;
-        } animations:^{
-            [self.scrollView layoutIfNeeded];
-        } completion:^(BOOL finished){
-            self.view.userInteractionEnabled = YES;
-            _imageDisplayed = YES;
-            _willDisplayImage = NO;
-        }];*/
-        /*
-        if (_coverImage) {
-            _blurredCoverImage = [_coverImage applyLightEffect];
-            self.blurOverlayView.overlayImage = _blurredCoverImage;
-            self.blurOverlayView.intersectingViews = @[self.pushoverView.backgroundView, self.titleLabel];
-            [self.blurOverlayView setNeedsDisplay];
-        }*/
-        
         if (!_imageDisplayed) {
             //[self.maskingView addMaskLayer:self.pushoverView.backgroundView.layer];
             [self.maskingView addMaskLayer:self.titleLabel.layer];
@@ -341,7 +270,7 @@
                 _imageLoaded = YES;
                 _coverImage = image;
                 [self displayImage];
-            } onError:^(LRRestyResponse *response) {
+            } onError:^(FATraktConnectionResponse *connectionError) {
                 DDLogViewController(@"Not displaying image of item %@ because an error occured", _currentContent);
                 _imageLoaded = NO;
             }];
@@ -356,11 +285,6 @@
 {
     self.titleLabel.text = title;
     [self.titleLabel invalidateIntrinsicContentSize];
-    
-    //CGSize pushoverIndicatorSize = self.pushoverView.indicatorSize;
-    //pushoverIndicatorSize.height = self.pushoverView.frameHeight;
-    //pushoverIndicatorSize.height -= self.titleLabel.intrinsicContentSize.height;
-    //self.pushoverView.indicatorSize = pushoverIndicatorSize;
 }
 
 - (void)setOverview:(NSString *)overview
@@ -406,7 +330,6 @@
 
 - (void)loadValueForContent:(FATraktContent *)item
 {
-    [self setUpPrefs];
     self.title = item.title;
     [self setOverview:item.overview];
     if (_contentType != FATraktContentTypeEpisodes) {
@@ -420,29 +343,6 @@
         }
     }
     [self.overviewLabel sizeToFit];
-    
-    /*if (!_ratingsView) {
-        _ratingsViewImageLove = [UIImage imageNamed:@"badge-love"];
-        _ratingsViewImageHate = [UIImage imageNamed:@"badge-hate"];
-        _ratingsView = [[UIImageView alloc] initWithImage:_ratingsViewImageLove];
-        CGFloat imageWidth = 26;
-        CGFloat imageHeight = 25.5;
-        CGFloat x = self.scrollViewBackgroundView.frame.size.width - imageWidth;
-        CGRect imageFrame = CGRectMake(x, 0, imageWidth, imageHeight);
-        _ratingsView.frame = imageFrame;
-        [self.scrollViewBackgroundView addSubview:_ratingsView];
-        //self.scrollView.hoverView = self.scrollViewBackgroundView;
-    }
-    
-    if ([item.rating isEqualToString:FATraktRatingLove]) {
-        _ratingsView.image = _ratingsViewImageLove;
-        _ratingsView.hidden = NO;
-    } else if ([item.rating isEqualToString:FATraktRatingHate]) {
-        _ratingsView.image = _ratingsViewImageHate;
-        _ratingsView.hidden = NO;
-    } else {
-        _ratingsView.hidden = YES;
-    }*/
 }
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
@@ -459,7 +359,7 @@
     [[FATrakt sharedInstance] detailsForMovie:movie callback:^(FATraktMovie *movie) {
         [self loadValuesForMovie:movie];
         _currentContent = movie;
-    }];
+    } onError:nil];
 }
 
 - (void)loadValuesForShow:(FATraktShow *)show
@@ -477,10 +377,10 @@
     self.actionButton.title = NSLocalizedString(@"Episodes", nil);
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self loadValuesForShow:show];
-    }];
+    } onError:nil];
     [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress){
         [self loadValuesForShow:show];
-    }];
+    } onError:nil];
     [self loadValuesForShow:show];
 }
 
@@ -497,7 +397,7 @@
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
     [[FATrakt sharedInstance] detailsForEpisode:episode callback:^(FATraktEpisode *episode) {
         [self loadValuesForEpisode:episode];
-    }];
+    } onError:nil];
     [self loadValuesForEpisode:episode];
 }
 
@@ -546,137 +446,13 @@
     }
 }
 
-#pragma mark FAPushoverViewDelegate
-- (void)pushoverView:(FAPushoverView *)pushoverView willShowContentView:(BOOL)animated
+- (IBAction)actionDetailLabel:(UITapGestureRecognizer *)recognizer
 {
-    //self.imageViewToBottomViewLayoutConstraint.constant = 0;
-    [self.maskingView updateContinuouslyFor:0.3];
-    if (animated) {
-        [UIView animateWithDuration:0.3 animations:^{
-            [self.view layoutIfNeeded];
-            [self.maskingView update];
-        }];
-    }
-}
-
-- (void)pushoverViewDidShowContentView:(FAPushoverView *)pushoverView
-{
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    //self.imageViewToBottomViewLayoutConstraint.constant = 0;
-    [self.blurOverlayView setNeedsDisplay];
-    [self.maskingView setNeedsDisplay];
-    [self.maskingView stopUpdatingContinuously];
-}
-
-- (void)pushoverView:(FAPushoverView *)pushoverView willHideContentView:(BOOL)animated
-{
-    //self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
-    [self.maskingView updateContinuouslyFor:0.3];
-    if (animated) {
-        [UIView animateWithDuration:0.3 animations:^{
-            [self.view layoutIfNeeded];
-        }];
-    }
-}
-
-- (void)pushoverViewDidHideContentView:(FAPushoverView *)pushoverView
-{
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    //self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
-    [self.blurOverlayView setNeedsDisplay];
-    [self.maskingView setNeedsDisplay];
-    [self.maskingView stopUpdatingContinuously];
-}
-
-- (void)pushoverView:(FAPushoverView *)pushoverView isAtFractionForHeightAnimation:(CGFloat)fraction
-{
-    /*CGFloat offset = (1 - fraction) * self.titleLabel.intrinsicContentSize.height;
-    self.imageViewToBottomViewLayoutConstraint.constant = - offset;
-    
-    [self.view setNeedsDisplay];
-    [self.view layoutIfNeeded];
-    //[self.blurOverlayView setNeedsDisplay];*/
-    [self.maskingView setNeedsDisplay];
-    [self.maskingView update];
-}
-
-#pragma mark UIActionSheet
-/*- (void)prefsViewAction:(id)sender
-{
-    FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-    hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
-    if (sender == _prefsView.watchlistAddButton) {
-        if (_currentContent.in_watchlist) {
-            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-            [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
-                [hud showProgressHUDSuccess];
-                _currentContent.in_watchlist = NO;
-                [self setUpPrefs];
-            } onError:^(LRRestyResponse *response) {
-                [hud showProgressHUDFailed];
-            }];
-        } else {
-            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
-            [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
-                [hud showProgressHUDSuccess];
-                _currentContent.in_watchlist = YES;
-                [self setUpPrefs];
-            } onError:^(LRRestyResponse *response) {
-                [hud showProgressHUDFailed];
-            }];
-        }
-    } else if (sender == _prefsView.loveSegmentedControl) {
-        NSInteger selectedSegment = _prefsView.loveSegmentedControl.selectedSegmentIndex;
-        DDLogViewController(@"Selected Rating segment: %i", selectedSegment);
-        NSString *newRating = FATraktRatingNone;
-        if (selectedSegment == 0) {
-            if (![_currentContent.rating isEqualToString:FATraktRatingLove]) {
-                newRating = FATraktRatingLove;
-            } else {
-                newRating = FATraktRatingNone;
-            }
-        } else if (selectedSegment == 1) {
-            if (![_currentContent.rating isEqualToString:FATraktRatingHate]) {
-                newRating = FATraktRatingHate;
-            } else {
-                newRating = FATraktRatingNone;
-            }
-        }
-        [hud showProgressHUDSpinnerWithText:@"Rating"];
-        [[FATrakt sharedInstance] rate:_currentContent love:newRating callback:^{
-            _currentContent.rating = newRating;
-            [hud showProgressHUDSuccess];
-            [self loadContent:_currentContent];
-            [_prefsView displayContent:_currentContent];
-        } onError:^(LRRestyResponse *response){
-            [hud showProgressHUDFailed];
-            [_prefsView displayContent:_currentContent];
-        }];
-    }
-}*/
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        hud.disabledUIElements = @[self.tabBarController.tabBar, self.view];
-        if (_currentContent.in_watchlist) {
-            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-            [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
-                [hud showProgressHUDSuccess];
-                _currentContent.in_watchlist = NO;
-            } onError:^(LRRestyResponse *response) {
-                [hud showProgressHUDFailed];
-            }];
-        } else if (!_currentContent.in_watchlist) {
-            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
-            [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
-                [hud showProgressHUDSuccess];
-                _currentContent.in_watchlist = YES;
-            } onError:^(LRRestyResponse *response) {
-                [hud showProgressHUDFailed];
-            }];
-        }
+    if (_currentContent.contentType == FATraktContentTypeEpisodes) {
+        // Bring the user to the show
+        FADetailViewController *showViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+        [showViewController displayShow:(FATraktShow *)_currentContent];
+        [self.navigationController presentViewController:showViewController animated:YES completion:nil];
     }
 }
 

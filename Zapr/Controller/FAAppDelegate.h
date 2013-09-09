@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATraktConnectionResponse.h"
 
 @interface FAAppDelegate : UIResponder <UIApplicationDelegate>
 
@@ -14,9 +15,8 @@
 @property BOOL authViewShowing;
 
 - (void)performLoginAnimated:(BOOL)animated;
-- (void)handleNetworkNotAvailable;
-- (void)handleOverCapacity;
-- (void)handleInvalidCredentials;
+- (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response;
 - (void)handleTimeout;
+- (void)handleInvalidCredentials;
 
 @end

@@ -198,27 +198,27 @@
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
                 if (animated) [self.refreshControlWithActivity finishActivity];
-            }];
+            } onError:nil];
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
                 if (animated) [self.refreshControlWithActivity finishActivity];
-            }];
+            } onError:nil];
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
                 [self checkReloadDataForList:list];
                 if (animated) [self.refreshControlWithActivity finishActivity];
-            }];
+            } onError:nil];
         } else if (_isWatchlist) {
             if (animated) [self.refreshControlWithActivity startActivity];
             [[FATrakt sharedInstance] watchlistForType:_contentType callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
                 if (animated) [self.refreshControlWithActivity finishActivity];
-            }];
+            } onError:nil];
         } else if (_isCustom) {
             if (animated) [self.refreshControlWithActivity startActivity];
             [[FATrakt sharedInstance] detailsForCustomList:_loadedList callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
                 if (animated) [self.refreshControlWithActivity finishActivity];
-            }];
+            } onError:nil];
         }
     }
 }
@@ -282,7 +282,7 @@
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
             
-        } onError:^(LRRestyResponse *response) {
+        } onError:^(FATraktConnectionResponse *connectionError) {
             [hud showProgressHUDFailed];
         }];
     }

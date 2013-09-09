@@ -59,7 +59,7 @@
 - (void)reloadState
 {
     BOOL oldLoggedIn = _loggedIn;
-    _loggedIn = [[FATrakt sharedInstance] usernameAndPasswordSaved];
+    _loggedIn = [[FATraktConnection sharedInstance] usernameAndPasswordSaved];
     if (oldLoggedIn == YES && _loggedIn == NO) {
         [self.tableView beginUpdates];
         [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:1 inSection:0], [NSIndexPath indexPathForItem:1 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
@@ -119,7 +119,8 @@
                 cell.textLabel.text = NSLocalizedString(@"User", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                NSString *username = [[FATrakt sharedInstance] storedUsername];
+                [[FATraktConnection sharedInstance] loadUsernameAndPassword];
+                NSString *username = [FATraktConnection sharedInstance].apiUser;
                 cell.detailTextLabel.text = username;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             } else if (indexPath.row == 1) {
@@ -200,7 +201,7 @@
         }
     } else if (indexPath.section == 1 && indexPath.row == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        [[FATrakt sharedInstance] setUsername:nil andPasswordHash:nil];
+        [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
         [self reloadState];
     }
 }

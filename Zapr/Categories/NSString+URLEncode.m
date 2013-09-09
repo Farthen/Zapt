@@ -10,7 +10,7 @@
 
 @implementation NSString (URLEncode)
 
-- (NSString *) URLEncodedString {
+- (NSString *)URLEncodedString {
     NSMutableString * output = [NSMutableString string];
     const unsigned char * source = (const unsigned char *)[self UTF8String];
     unsigned long sourceLen = strlen((const char *)source);

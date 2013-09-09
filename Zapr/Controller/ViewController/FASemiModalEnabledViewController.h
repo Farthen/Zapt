@@ -14,4 +14,7 @@
 - (void)dismissSemiModalViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)updateSizeForPresentedSemiModalViewControllerAnimated:(BOOL)animated;
 
+- (void)displaySemiModalViewControllerNavigationItem;
+- (void)displayContainerNavigationItem;
+
 @end

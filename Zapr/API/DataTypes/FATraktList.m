@@ -102,12 +102,13 @@
     }
     return [customLists sortedArrayUsingKey:@"name" ascending:YES];
 }
-/*
+
+
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merging lists is inappropriate
     return;
-}*/
+}
 
 + (FACache *)backingCache
 {

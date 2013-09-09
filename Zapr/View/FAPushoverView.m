@@ -38,6 +38,7 @@
     if (self) {
         // Initialization code
         _isActive = NO;
+        _indicatorSize = CGSizeZero;
         [self awakeFromNib];
         //self.indicatorSize = CGSizeMake(40, frame.size.height);
     }

@@ -82,18 +82,18 @@
 
 - (void)loginButtonPressed
 {
-    DDLogTiny(@"Button pressed");
+    DDLogTiny(@"Login Button pressed");
     self.usernameTextField.userInteractionEnabled = NO;
     self.passwordTextField.userInteractionEnabled = NO;
     [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationCheckAuth observer:self.loginButtonCell];
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
     if (_passwordFieldContainsHash) {
-        passwordHash = [[FATrakt sharedInstance] apiPasswordHash];
+        passwordHash = [FATraktConnection sharedInstance].apiPasswordHash;
     } else {
-        passwordHash = [FATrakt passwordHashForPassword:self.passwordTextField.text];
+        passwordHash = [FATraktConnection passwordHashForPassword:self.passwordTextField.text];
     }
-    [[FATrakt sharedInstance] setUsername:username andPasswordHash:passwordHash];
+    [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         self.usernameTextField.userInteractionEnabled = YES;
         self.passwordTextField.userInteractionEnabled = YES;
@@ -158,7 +158,7 @@
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
-            NSString *username = [[FATrakt sharedInstance] apiUser];
+            NSString *username = [[FATraktConnection sharedInstance] apiUser];
             if (username) {
                 cell.textField.text = username;
             }
@@ -170,7 +170,7 @@
             cell.textField.secureTextEntry = YES;
             cell.textField.returnKeyType = UIReturnKeyDone;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-            if ([[FATrakt sharedInstance] usernameAndPasswordSaved]) {
+            if ([[FATraktConnection sharedInstance] usernameAndPasswordSaved]) {
                 cell.textField.text = @"*****";
                 _passwordFieldContainsHash = YES;
             } else {
