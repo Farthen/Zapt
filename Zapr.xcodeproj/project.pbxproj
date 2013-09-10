@@ -129,7 +129,7 @@
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
 		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
 		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
-		F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */; };
+		F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */; };
 		F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */; };
 		F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30F162831C30077CBAA /* FATraktShow.m */; };
 		F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
@@ -355,8 +355,8 @@
 		F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktWatchableBaseItem.m; sourceTree = "<group>"; };
 		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
 		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
-		F3F8C5F9162705F500D6BD4C /* FASearchResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchResultTableViewCell.h; sourceTree = "<group>"; };
-		F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchResultTableViewCell.m; sourceTree = "<group>"; };
+		F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAContentTableViewCell.h; sourceTree = "<group>"; };
+		F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentTableViewCell.m; sourceTree = "<group>"; };
 		F3F9E30B16282D490077CBAA /* FATrakrTestSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATrakrTestSearch.h; sourceTree = "<group>"; };
 		F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATrakrTestSearch.m; sourceTree = "<group>"; };
 		F3F9E30E162831C20077CBAA /* FATraktShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShow.h; sourceTree = "<group>"; };
@@ -658,8 +658,8 @@
 			children = (
 				B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */,
 				B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */,
-				F3F8C5F9162705F500D6BD4C /* FASearchResultTableViewCell.h */,
-				F3F8C5FA162705F500D6BD4C /* FASearchResultTableViewCell.m */,
+				F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */,
+				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
 				F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */,
 				F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */,
 			);
@@ -1088,7 +1088,7 @@
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 				F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */,
-				F3F8C5FB162705F500D6BD4C /* FASearchResultTableViewCell.m in Sources */,
+				F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */,
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
 				F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */,
 				F330965F162816DE000BD107 /* FATraktPeople.m in Sources */,

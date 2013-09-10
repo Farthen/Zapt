@@ -14,7 +14,7 @@
 #import "FASearchViewController.h"
 #import "FADetailViewController.h"
 #import "FAStatusBarSpinnerController.h"
-#import "FASearchResultTableViewCell.h"
+#import "FAContentTableViewCell.h"
 #import "FARefreshControlWithActivity.h"
 
 @interface FAListDetailViewController ()
@@ -75,7 +75,7 @@
 {
     [super viewDidLoad];
 	// Set the row height before loading the tableView for a more smooth experience
-    self.tableView.rowHeight = [FASearchResultTableViewCell cellHeight];
+    self.tableView.rowHeight = [FAContentTableViewCell cellHeight];
     self.tableView.tableHeaderView = self.searchBar;
     _shouldBeginEditingSearchText = YES;
     
@@ -290,7 +290,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [FASearchResultTableViewCell cellHeight];
+    return [FAContentTableViewCell cellHeight];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -305,9 +305,9 @@
 {
     // Reuse cells
     static NSString *id = @"FASearchResultTableViewCell";
-    FASearchResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
     if (!cell) {
-        cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
+        cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     
     FATraktListItem *item = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.item];

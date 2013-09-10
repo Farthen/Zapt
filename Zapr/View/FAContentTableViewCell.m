@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import "FASearchResultTableViewCell.h"
+#import "FAContentTableViewCell.h"
 #import "FATrakt.h"
 
-@implementation FASearchResultTableViewCell {
+@implementation FAContentTableViewCell {
     BOOL _addedConstraints;
 }
 

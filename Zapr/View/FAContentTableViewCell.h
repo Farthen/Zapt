@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FATrakt.h"
 
-@interface FASearchResultTableViewCell : UITableViewCell
+@interface FAContentTableViewCell : UITableViewCell
 
 + (CGFloat)cellHeight;
 

@@ -10,7 +10,7 @@
 #import "FATrakt.h"
 #import "FASearchData.h"
 #import "FASearchBarWithActivity.h"
-#import "FASearchResultTableViewCell.h"
+#import "FAContentTableViewCell.h"
 #import "FAActivityDispatch.h"
 #import "UIView+Animations.h"
 
@@ -183,16 +183,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [FASearchResultTableViewCell cellHeight];
+    return [FAContentTableViewCell cellHeight];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Reuse cells
     static NSString *id = @"FASearchResultTableViewCell";
-    FASearchResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
     if (!cell) {
-        cell = [[FASearchResultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
+        cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];

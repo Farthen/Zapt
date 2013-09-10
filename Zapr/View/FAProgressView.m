@@ -8,7 +8,7 @@
 
 #import "FAProgressView.h"
 #import "FATraktContent.h"
-#import "FASearchResultTableViewCell.h"
+#import "FAContentTableViewCell.h"
 #import "UIView+FrameAdditions.h"
 
 @implementation FAProgressView
