@@ -9,7 +9,9 @@
 #import "FASearchResultTableViewCell.h"
 #import "FATrakt.h"
 
-@implementation FASearchResultTableViewCell
+@implementation FASearchResultTableViewCell {
+    BOOL _addedConstraints;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -86,15 +88,11 @@
     
     CGFloat widthMargin = 9;
     
-    self.textLabel.frame = CGRectMake(widthMargin, 5, self.contentView.frame.size.width - 2*widthMargin, 21);
-    self.textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.detailTextLabel.frame = CGRectMake(widthMargin, 48, self.contentView.frame.size.width - 2*widthMargin, 15);
-    self.detailTextLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
     self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.textColor = [UIColor blackColor];
     
     UIFont *auxiliaryFont = [UIFont systemFontOfSize:14];
+    
     UIColor *auxiliaryTextColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
     self.detailTextLabel.font = auxiliaryFont;
     self.detailTextLabel.textColor = auxiliaryTextColor;
@@ -106,13 +104,37 @@
         [self.contentView addSubview:self.leftAuxiliaryTextLabel];
     }
     
-    self.leftAuxiliaryTextLabel.frame = CGRectMake(widthMargin, 30, self.contentView.frame.size.width - 2*widthMargin, 15);
-    self.leftAuxiliaryTextLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.leftAuxiliaryTextLabel.font = auxiliaryFont;
     self.leftAuxiliaryTextLabel.textColor = auxiliaryTextColor;
     self.leftAuxiliaryTextLabel.highlightedTextColor = [UIColor whiteColor];
     self.detailTextLabel.textAlignment = NSTextAlignmentLeft;
     self.leftAuxiliaryTextLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    if (!_addedConstraints) {
+        // Create constraints for the title label:
+        self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+        [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:5]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeft multiplier:1 constant:widthMargin]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+        
+        // auxiliary label
+        self.leftAuxiliaryTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.textLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:2]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.textLabel attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.textLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        
+        // Detail label
+        self.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:2]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+        
+        _addedConstraints = YES;
+    }
+    
+    [self.contentView setNeedsLayout];
 }
 
 + (CGFloat)cellHeight
