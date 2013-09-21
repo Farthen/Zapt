@@ -17,7 +17,7 @@ struct Color {
     uint8_t blue;
     uint8_t alpha;
 } __attribute__ ((packed));
-typedef struct Color color;
+typedef struct Color Color;
 
 // This is the same size as color. We are doing fun stuff here :)
 struct ColorValue {
@@ -62,11 +62,11 @@ ColorValueCollection colorArrayFromImage(UIImage *image)
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
     
     NSUInteger pixelCount = height * width;
-    NSUInteger bytesPerPixel = sizeof(color);
+    NSUInteger bytesPerPixel = sizeof(Color);
     NSUInteger bitsPerColorComponent = 8;
     NSUInteger bytesPerRow = bytesPerPixel * width;
     
-    color *colorData = calloc(pixelCount, bytesPerPixel);
+    Color *colorData = calloc(pixelCount, bytesPerPixel);
     CGContextRef context = CGBitmapContextCreate(colorData, width, height, bitsPerColorComponent, bytesPerRow, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
     CGColorSpaceRelease(colorSpace);
     
@@ -207,13 +207,22 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
     return clusters;
 }
 
+CGFloat colorLuminance(UIColor *color)
+{
+    CGFloat red;
+    CGFloat green;
+    CGFloat blue;
+    CGFloat alpha;
+    [color getRed:&red green:&green blue:&blue alpha:&alpha];
+    
+    CGFloat luminance = 0.299*red + 0.587*green + 0.114*blue;
+    return luminance;
+}
+
 // Returns an NSArray of UIColors
 + (NSArray *)dominantColorsOfImage:(UIImage *)image sampleCount:(NSUInteger)count
 {
-    NSDate *begin = [NSDate date];
     ColorValueCollection currentColorValueCollection = colorArrayFromImage(image);
-    
-    NSUInteger pixelCount = currentColorValueCollection.count;
     
     ColorCluster *clusters = colorClusters(&currentColorValueCollection, count, 1);
     
@@ -232,12 +241,24 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
         [colorArray addObject:colorObj];
     }
     
+    [colorArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        UIColor *color1 = obj1;
+        UIColor *color2 = obj2;
+        
+        // http://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+        CGFloat luminance1 = colorLuminance(color1);
+        CGFloat luminance2 = colorLuminance(color2);
+        if (luminance1 < luminance2) {
+            return NSOrderedAscending;
+        } else if (luminance1 > luminance2) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }];
+    
     // Now free the clusters too
     free(clusters);
-    
-    NSDate *end = [NSDate date];
-    
-    NSLog(@"Analyzing an image with %i pixels took %f seconds", pixelCount, [end timeIntervalSinceDate:begin]);
     
     return colorArray;
 }
