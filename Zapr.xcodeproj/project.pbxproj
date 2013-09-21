@@ -25,8 +25,7 @@
 		B667532315F12FBE00A8D76D /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B667532215F12FBE00A8D76D /* second@2x.png */; };
 		B667532C15F12FBE00A8D76D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B66752FE15F12FBE00A8D76D /* UIKit.framework */; };
 		B667532D15F12FBE00A8D76D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B667530015F12FBE00A8D76D /* Foundation.framework */; };
-		B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B667533315F12FBE00A8D76D /* InfoPlist.strings */; };
-		B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B667533715F12FBE00A8D76D /* TrakrTests.m */; };
+		B667533815F12FBE00A8D76D /* ZaprTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B667533715F12FBE00A8D76D /* ZaprTests.m */; };
 		B667534715F1319500A8D76D /* FATrakt.m in Sources */ = {isa = PBXBuildFile; fileRef = B667534615F1319500A8D76D /* FATrakt.m */; };
 		B6FB0DB8161DCA0000043207 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */; };
 		B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */; };
@@ -44,6 +43,7 @@
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
+		F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
@@ -71,6 +71,8 @@
 		F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6916A899DD00420EC4 /* Checkmark.png */; };
 		F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */; };
 		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
+		F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35A174917E175D8004B5F44 /* FARatingsViewController.m */; };
+		F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */; };
 		F3636B6E16EDDAAA0062E885 /* --mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B6C16EDDAAA0062E885 /* --mark.png */; };
 		F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B6D16EDDAAA0062E885 /* --mark@2x.png */; };
 		F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7016EDDE350062E885 /* badge-hate@2x.png */; };
@@ -130,7 +132,7 @@
 		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
 		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 		F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */; };
-		F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */; };
+		F3F9E30D16282D490077CBAA /* FAZaprTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FAZaprTestSearch.m */; };
 		F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30F162831C30077CBAA /* FATraktShow.m */; };
 		F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
 		F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */; };
@@ -170,11 +172,8 @@
 		B667531B15F12FBE00A8D76D /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
 		B667532015F12FBE00A8D76D /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
 		B667532215F12FBE00A8D76D /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
-		B667532915F12FBE00A8D76D /* ZaprTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZaprTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B667533215F12FBE00A8D76D /* ZaprTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ZaprTests-Info.plist"; sourceTree = "<group>"; };
-		B667533415F12FBE00A8D76D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B667533615F12FBE00A8D76D /* TrakrTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrakrTests.h; sourceTree = "<group>"; };
-		B667533715F12FBE00A8D76D /* TrakrTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TrakrTests.m; sourceTree = "<group>"; };
+		B667532915F12FBE00A8D76D /* Zapr Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Zapr Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B667533715F12FBE00A8D76D /* ZaprTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZaprTests.m; sourceTree = "<group>"; };
 		B667534515F1319500A8D76D /* FATrakt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATrakt.h; sourceTree = "<group>"; };
 		B667534615F1319500A8D76D /* FATrakt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATrakt.m; sourceTree = "<group>"; };
 		B6FB0DB7161DCA0000043207 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -207,6 +206,7 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARefreshControlWithActivity.m; sourceTree = "<group>"; };
+		F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATestDominantColorsAnalyzer.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPropertyUtil.h; sourceTree = "<group>"; };
 		F3309658162743D7000BD107 /* FAPropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPropertyUtil.m; sourceTree = "<group>"; };
 		F330965D162816DE000BD107 /* FATraktPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktPeople.h; sourceTree = "<group>"; };
@@ -254,6 +254,10 @@
 		F357FA6B16A89A4800420EC4 /* Checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checkmark@2x.png"; sourceTree = "<group>"; };
 		F357FA6D16A8B60100420EC4 /* FAListsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListsViewController.h; sourceTree = "<group>"; };
 		F357FA6E16A8B60100420EC4 /* FAListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListsViewController.m; sourceTree = "<group>"; };
+		F35A174817E175D8004B5F44 /* FARatingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARatingsViewController.h; sourceTree = "<group>"; };
+		F35A174917E175D8004B5F44 /* FARatingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARatingsViewController.m; sourceTree = "<group>"; };
+		F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADominantColorsAnalyzer.h; sourceTree = "<group>"; };
+		F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADominantColorsAnalyzer.m; sourceTree = "<group>"; };
 		F3636B6C16EDDAAA0062E885 /* --mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "--mark.png"; sourceTree = "<group>"; };
 		F3636B6D16EDDAAA0062E885 /* --mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "--mark@2x.png"; sourceTree = "<group>"; };
 		F3636B7016EDDE350062E885 /* badge-hate@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-hate@2x.png"; sourceTree = "<group>"; };
@@ -323,7 +327,6 @@
 		F3CBA90B17CD035200BAC568 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3CBA91117CD035200BAC568 /* Zapr Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapr Tests-Info.plist"; sourceTree = "<group>"; };
 		F3CBA91317CD035200BAC568 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F3CBA91517CD035200BAC568 /* Zapr_Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Zapr_Tests.m; sourceTree = "<group>"; };
 		F3CBA91717CD035200BAC568 /* Zapr Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zapr Tests-Prefix.pch"; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -357,8 +360,7 @@
 		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
 		F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAContentTableViewCell.h; sourceTree = "<group>"; };
 		F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentTableViewCell.m; sourceTree = "<group>"; };
-		F3F9E30B16282D490077CBAA /* FATrakrTestSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATrakrTestSearch.h; sourceTree = "<group>"; };
-		F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATrakrTestSearch.m; sourceTree = "<group>"; };
+		F3F9E30C16282D490077CBAA /* FAZaprTestSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAZaprTestSearch.m; sourceTree = "<group>"; };
 		F3F9E30E162831C20077CBAA /* FATraktShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShow.h; sourceTree = "<group>"; };
 		F3F9E30F162831C30077CBAA /* FATraktShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktShow.m; sourceTree = "<group>"; };
 		F3F9E311162838610077CBAA /* FATraktEpisode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktEpisode.h; sourceTree = "<group>"; };
@@ -400,7 +402,6 @@
 			isa = PBXGroup;
 			children = (
 				B667530415F12FBE00A8D76D /* Zapr */,
-				B667533015F12FBE00A8D76D /* ZaprTests */,
 				F3CBA90F17CD035200BAC568 /* Zapr Tests */,
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
 				B66752FB15F12FBE00A8D76D /* Products */,
@@ -412,7 +413,7 @@
 			isa = PBXGroup;
 			children = (
 				B66752FA15F12FBE00A8D76D /* Zapr.app */,
-				B667532915F12FBE00A8D76D /* ZaprTests.xctest */,
+				B667532915F12FBE00A8D76D /* Zapr Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -460,27 +461,6 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		B667533015F12FBE00A8D76D /* ZaprTests */ = {
-			isa = PBXGroup;
-			children = (
-				F3E37B8817CA635B005C37F5 /* API */,
-				F3F9E30916282D320077CBAA /* Controller */,
-				B667533615F12FBE00A8D76D /* TrakrTests.h */,
-				B667533715F12FBE00A8D76D /* TrakrTests.m */,
-				B667533115F12FBE00A8D76D /* Supporting Files */,
-			);
-			path = ZaprTests;
-			sourceTree = "<group>";
-		};
-		B667533115F12FBE00A8D76D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B667533215F12FBE00A8D76D /* ZaprTests-Info.plist */,
-				B667533315F12FBE00A8D76D /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		B667534115F12FEB00A8D76D /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -507,6 +487,14 @@
 			name = Containers;
 			sourceTree = "<group>";
 		};
+		F32FAB7717EE04E00081B19E /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
 		F34D986C17DC20970033FBD7 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -516,6 +504,8 @@
 				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
 				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipViewController.h */,
 				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipViewController.m */,
+				F35A174817E175D8004B5F44 /* FARatingsViewController.h */,
+				F35A174917E175D8004B5F44 /* FARatingsViewController.m */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -538,6 +528,15 @@
 				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 			);
 			name = "Lists Tab";
+			sourceTree = "<group>";
+		};
+		F35A174B17E2158C004B5F44 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */,
+				F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */,
+			);
+			name = Misc;
 			sourceTree = "<group>";
 		};
 		F3B74B3016E6EF3900230C43 /* Cache */ = {
@@ -695,6 +694,7 @@
 			isa = PBXGroup;
 			children = (
 				F3C84B6A1628DC56006CBFEF /* View Controller */,
+				F35A174B17E2158C004B5F44 /* Misc */,
 				B667530D15F12FBE00A8D76D /* FAAppDelegate.h */,
 				B667530E15F12FBE00A8D76D /* FAAppDelegate.m */,
 				F3A47BA717A0F14A0022B251 /* FAPushoverViewAnimationController.h */,
@@ -735,7 +735,9 @@
 		F3CBA90F17CD035200BAC568 /* Zapr Tests */ = {
 			isa = PBXGroup;
 			children = (
-				F3CBA91517CD035200BAC568 /* Zapr_Tests.m */,
+				F3E37B8817CA635B005C37F5 /* API */,
+				F3F9E30916282D320077CBAA /* Controller */,
+				B667533715F12FBE00A8D76D /* ZaprTests.m */,
 				F3CBA91017CD035200BAC568 /* Supporting Files */,
 			);
 			path = "Zapr Tests";
@@ -835,8 +837,8 @@
 		F3F9E30916282D320077CBAA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F3F9E30B16282D490077CBAA /* FATrakrTestSearch.h */,
-				F3F9E30C16282D490077CBAA /* FATrakrTestSearch.m */,
+				F32FAB7717EE04E00081B19E /* Misc */,
+				F3F9E30C16282D490077CBAA /* FAZaprTestSearch.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -913,7 +915,7 @@
 			);
 			name = ZaprTests;
 			productName = TrakrTests;
-			productReference = B667532915F12FBE00A8D76D /* ZaprTests.xctest */;
+			productReference = B667532915F12FBE00A8D76D /* Zapr Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -1001,7 +1003,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B667533515F12FBE00A8D76D /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1092,6 +1093,7 @@
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
 				F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */,
 				F330965F162816DE000BD107 /* FATraktPeople.m in Sources */,
+				F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */,
 				F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */,
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
@@ -1145,6 +1147,7 @@
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F30E52C21799216E006C5091 /* FAProgressView.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
+				F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */,
 				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1153,8 +1156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B667533815F12FBE00A8D76D /* TrakrTests.m in Sources */,
-				F3F9E30D16282D490077CBAA /* FATrakrTestSearch.m in Sources */,
+				B667533815F12FBE00A8D76D /* ZaprTests.m in Sources */,
+				F3F9E30D16282D490077CBAA /* FAZaprTestSearch.m in Sources */,
+				F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */,
 				F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1177,14 +1181,6 @@
 			);
 			name = InfoPlist.strings;
 			path = ../View/Languages;
-			sourceTree = "<group>";
-		};
-		B667533315F12FBE00A8D76D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B667533415F12FBE00A8D76D /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		F3CBA91217CD035200BAC568 /* InfoPlist.strings */ = {
@@ -1297,7 +1293,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Finn Wilke (AJU663URRJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
@@ -1332,7 +1328,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Finn Wilke (AJU663URRJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
@@ -1363,16 +1359,16 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Zapr.app/Zapr";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				GCC_PREFIX_HEADER = "Zapr Tests/Zapr Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
-				INFOPLIST_FILE = "TrakrTests/ZaprTests-Info.plist";
+				INFOPLIST_FILE = "Zapr Tests/Zapr Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/CocoaLumberjack\" \"${PODS_ROOT}/BuildHeaders/JSONKit\" \"${PODS_ROOT}/BuildHeaders/LRResty\" \"${PODS_ROOT}/BuildHeaders/MBProgressHUD\" \"${PODS_ROOT}/BuildHeaders/NSData+Base64\"";
 				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
 				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/CocoaLumberjack\" \"${PODS_ROOT}/Headers/JSONKit\" \"${PODS_ROOT}/Headers/LRResty\" \"${PODS_ROOT}/Headers/MBProgressHUD\" \"${PODS_ROOT}/Headers/NSData+Base64\"";
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = ZaprTests;
+				PRODUCT_NAME = "Zapr Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -1383,16 +1379,16 @@
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Zapr.app/Zapr";
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Trakr/Trakr-Prefix.pch";
+				GCC_PREFIX_HEADER = "Zapr Tests/Zapr Tests-Prefix.pch";
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
-				INFOPLIST_FILE = "TrakrTests/ZaprTests-Info.plist";
+				INFOPLIST_FILE = "Zapr Tests/Zapr Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = "";
 				PODS_BUILD_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/BuildHeaders\" \"${PODS_ROOT}/BuildHeaders/CocoaLumberjack\" \"${PODS_ROOT}/BuildHeaders/JSONKit\" \"${PODS_ROOT}/BuildHeaders/LRResty\" \"${PODS_ROOT}/BuildHeaders/MBProgressHUD\" \"${PODS_ROOT}/BuildHeaders/NSData+Base64\"";
 				PODS_HEADERS_SEARCH_PATHS = "${PODS_PUBLIC_HEADERS_SEARCH_PATHS}";
 				PODS_PUBLIC_HEADERS_SEARCH_PATHS = "\"${PODS_ROOT}/Headers\" \"${PODS_ROOT}/Headers/CocoaLumberjack\" \"${PODS_ROOT}/Headers/JSONKit\" \"${PODS_ROOT}/Headers/LRResty\" \"${PODS_ROOT}/Headers/MBProgressHUD\" \"${PODS_ROOT}/Headers/NSData+Base64\"";
 				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = ZaprTests;
+				PRODUCT_NAME = "Zapr Tests";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;

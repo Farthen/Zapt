@@ -9,6 +9,8 @@
 #import "FAContentBookmarkViewController.h"
 #import "FASemiModalEnabledViewController.h"
 #import "FACustomListsMembershipViewController.h"
+#import "FADetailViewController.h"
+#import "FARatingsViewController.h"
 #import "FATraktContent.h"
 #import "FATrakt.h"
 #import "FAProgressHUD.h"
@@ -160,6 +162,14 @@
             FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
             [(FASemiModalEnabledViewController *)self.parentViewController displayContainerNavigationItem];
             [self.parentViewController.navigationController pushViewController:customListsMembershipViewController animated:YES];
+        } else if (indexPath.row == 3) {
+            // Ratings Button
+            // index n-1 is the presented viewController, n-2 is the one before
+            FADetailViewController *detailViewController = self.parentViewController;
+            
+            // fixme pass over the image in a correct manner
+            FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithBackgroundImage:detailViewController.coverImageView.image];
+            [self presentViewController:ratingsViewController animated:YES completion:nil];
         }
     }
 }

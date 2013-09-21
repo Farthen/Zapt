@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F3CBA90917CD035200BAC568"
-               BuildableName = "Zapr Tests.xctest"
-               BlueprintName = "Zapr Tests"
+               BlueprintIdentifier = "B667532815F12FBE00A8D76D"
+               BuildableName = "ZaprTests.xctest"
+               BlueprintName = "ZaprTests"
                ReferencedContainer = "container:Zapr.xcodeproj">
             </BuildableReference>
          </TestableReference>

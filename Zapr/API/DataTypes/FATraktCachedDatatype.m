@@ -7,6 +7,7 @@
 //
 
 #import "FATraktCachedDatatype.h"
+#import "Misc.h"
 
 @implementation FATraktCachedDatatype
 @synthesize shouldBeCached;
@@ -53,16 +54,12 @@
 }
 
 - (NSString *)cacheKey
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+{ FA_MUST_OVERRIDE_IN_SUBCLASS
     return nil;
 }
 
 + (FACache *)backingCache
-{
-    [NSException raise:NSInternalInconsistencyException
-                format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+{ FA_MUST_OVERRIDE_IN_SUBCLASS
     return nil;
 }
 

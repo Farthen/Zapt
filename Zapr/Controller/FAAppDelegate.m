@@ -16,6 +16,8 @@
 #import <DDTTYLogger.h>
 #import <DDFileLogger.h>
 
+#import "FADominantColorsAnalyzer.h"
+
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
