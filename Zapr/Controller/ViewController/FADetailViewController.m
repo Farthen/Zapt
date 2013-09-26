@@ -17,14 +17,16 @@
 #import "FAPushoverViewAnimationController.h"
 #import "FAContentBookmarkViewController.h"
 
+#import "FATraktActivityItemSource.h"
+
 #import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
-#import "FATitleLabel.h"
-#import "FAScrollViewWithTopView.h"
 #import "UIImage+ImageEffects.h"
 
+#import "FAScrollViewWithTopView.h"
+#import "FATitleLabel.h"
 #import "FAProgressHUD.h"
 #import "FAContentPrefsView.h"
 #import "FAProgressView.h"
@@ -454,6 +456,14 @@
     FAContentBookmarkViewController *bookmarkViewController = [storyboard instantiateViewControllerWithIdentifier:@"contentBookmark"];
     [bookmarkViewController displayContent:_currentContent];
     [self presentSemiModalViewController:bookmarkViewController animated:YES completion:nil];
+}
+
+- (IBAction)pushedShareButton:(id)sender
+{
+    NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo, ];
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 #pragma mark misc

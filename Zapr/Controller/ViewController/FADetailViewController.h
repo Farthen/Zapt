@@ -23,6 +23,9 @@
 - (IBAction)actionItem:(id)sender;
 - (IBAction)actionDetailLabel:(id)sender;
 
+- (IBAction)pushedBookmarkButton:(id)sender;
+- (IBAction)pushedShareButton:(id)sender;
+
 // This will be set by the nextUpViewController when it is inserted as sub view controller
 @property FANextUpViewController *nextUpViewController;
 @property IBOutlet NSLayoutConstraint *nextUpHeightConstraint;
