@@ -10,6 +10,8 @@
 
 #import "FADominantColorsAnalyzer.h"
 #import <ctype.h>
+#import "UIImage+Resize.h"
+#import <CoreGraphics/CoreGraphics.h>
 
 struct Color {
     uint8_t red;
@@ -55,6 +57,11 @@ typedef struct ClusterCalculationValues ClusterCalculationValues;
 // Remember to free ->values after usage!
 ColorValueCollection colorArrayFromImage(UIImage *image)
 {
+    // Make the image smaller if needed
+    if (image.size.width * image.size.height > 102400) {
+        image = [image resizedImageWithContentMode:UIViewContentModeScaleAspectFit bounds:CGSizeMake(320, 320) interpolationQuality:kCGInterpolationLow];
+    }
+    
     // First get the image into your data buffer
     CGImageRef imageRef = [image CGImage];
     NSUInteger width = CGImageGetWidth(imageRef);
@@ -207,23 +214,10 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
     return clusters;
 }
 
-CGFloat colorLuminance(UIColor *color)
-{
-    CGFloat red;
-    CGFloat green;
-    CGFloat blue;
-    CGFloat alpha;
-    [color getRed:&red green:&green blue:&blue alpha:&alpha];
-    
-    CGFloat luminance = 0.299*red + 0.587*green + 0.114*blue;
-    return luminance;
-}
-
 // Returns an NSArray of UIColors
 + (NSArray *)dominantColorsOfImage:(UIImage *)image sampleCount:(NSUInteger)count
 {
     ColorValueCollection currentColorValueCollection = colorArrayFromImage(image);
-    
     ColorCluster *clusters = colorClusters(&currentColorValueCollection, count, 1);
     
     // We don't need the colorValues anymore
@@ -240,23 +234,7 @@ CGFloat colorLuminance(UIColor *color)
         UIColor *colorObj = [UIColor colorWithRed:red green:green blue:blue alpha:1];
         [colorArray addObject:colorObj];
     }
-    
-    [colorArray sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        UIColor *color1 = obj1;
-        UIColor *color2 = obj2;
         
-        // http://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
-        CGFloat luminance1 = colorLuminance(color1);
-        CGFloat luminance2 = colorLuminance(color2);
-        if (luminance1 < luminance2) {
-            return NSOrderedAscending;
-        } else if (luminance1 > luminance2) {
-            return NSOrderedDescending;
-        } else {
-            return NSOrderedSame;
-        }
-    }];
-    
     // Now free the clusters too
     free(clusters);
     

@@ -94,7 +94,7 @@
     _currentContent = content;
     [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
         _accountSettings = settings;
-        [self loadContent:content];
+        [self loadContent:[content cachedVersion]];
     } onError:nil];
     
     [self loadContent:content];
@@ -162,15 +162,12 @@
             FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
             [(FASemiModalEnabledViewController *)self.parentViewController displayContainerNavigationItem];
             [self.parentViewController.navigationController pushViewController:customListsMembershipViewController animated:YES];
-        } else if (indexPath.row == 3) {
-            // Ratings Button
-            // index n-1 is the presented viewController, n-2 is the one before
-            FADetailViewController *detailViewController = self.parentViewController;
-            
-            // fixme pass over the image in a correct manner
-            FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithBackgroundImage:detailViewController.coverImageView.image];
+        } else if (indexPath.row == 3) {            
+            FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:_currentContent];
             [self presentViewController:ratingsViewController animated:YES completion:nil];
         }
+    } else if (indexPath.section == 1) {
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

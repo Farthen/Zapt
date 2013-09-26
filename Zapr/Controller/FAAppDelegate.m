@@ -70,6 +70,8 @@
         [FATraktCache sharedInstance];
     });
     
+    self.window.tintColor = [UIColor purpleColor];
+    
     DDLogInfo(@"%@ Version %@", name, version);
     return YES;
 }
