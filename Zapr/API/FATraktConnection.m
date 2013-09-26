@@ -77,7 +77,9 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         // Needs to be authenticated
         FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
         response.responseType = FATraktConnectionResponseTypeInvalidCredentials;
-        error(response);
+        if (error) {
+            error(response);
+        }
         return NO;
     }
     return YES;
@@ -169,18 +171,19 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
 - (NSMutableDictionary *)postDataAuthDict
 {
     NSMutableDictionary *authDict = [[NSMutableDictionary alloc] initWithCapacity:2];
-    [self postDataAddAuthToDict:authDict];
+    [self postDataDictAddingAuthToDict:authDict];
     return authDict;
 }
 
-- (BOOL)postDataAddAuthToDict:(NSMutableDictionary *)dict
+- (NSDictionary *)postDataDictAddingAuthToDict:(NSDictionary *)dict
 {
     if (![self usernameAndPasswordSaved]) {
-        return NO;
+        return nil;
     }
     NSDictionary *authDict = @{@"username:": _apiUser, @"password": _apiPasswordHash};
-    [dict addEntriesFromDictionary:authDict];
-    return YES;
+    NSMutableDictionary *mutableDict = [dict mutableCopy];
+    [mutableDict addEntriesFromDictionary:authDict];
+    return mutableDict;
 }
 
 - (void)handleResponse:(LRRestyResponse *)response onSuccess:(LRRestyResponseBlock)success onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -216,6 +219,19 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     // Convert the payload to an NSData object
     NSData *payloadData = [[payload JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
+    // Is the url set?
+    if (![urlString hasPrefix:@"http"]) {
+        // The url is not set and/or does not contain http.
+        // bail out
+        
+        if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithResponse:nil];
+            response.responseType = FATraktConnectionResponseTypeUnknown;
+            error(response);
+            return nil;
+        }
+    }
+    
     // Then we do the HTTP POST request
     DDLogController(@"HTTP POST %@", urlString);
     LRRestyRequest *request = [[LRResty client] post:urlString payload:payloadData withBlock:^(LRRestyResponse *response) {
@@ -247,8 +263,7 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         if (!payload) {
             payload = [[NSMutableDictionary alloc] init];
         }
-        payload = [payload mutableCopy];
-        [self postDataAddAuthToDict:[payload mutableCopy]];
+        payload = [self postDataDictAddingAuthToDict:payload];
     }
     
     return [self postURL:urlString payload:payload withActivityName:activityName onSuccess:success onError:error];
@@ -271,6 +286,20 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
 {
     // First we start the activity
     [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
+    
+    
+    // Is the url set?
+    if (![urlString hasPrefix:@"http"]) {
+        // The url is not set and/or does not contain http.
+        // bail out
+        
+        if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithResponse:nil];
+            response.responseType = FATraktConnectionResponseTypeUnknown;
+            error(response);
+            return nil;
+        }
+    }
     
     // Do the HTTP GET request
     DDLogController(@"HTTP GET %@", urlString);
