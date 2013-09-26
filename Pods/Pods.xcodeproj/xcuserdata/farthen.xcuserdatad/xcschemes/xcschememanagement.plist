@@ -34,6 +34,11 @@
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
+		<key>Pods-TUSafariActivity.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>10</integer>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -48,6 +53,11 @@
 			<true/>
 		</dict>
 		<key>00C10CE171EE46AD96073C1B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>111AE23F927D401A85101E0C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -83,6 +93,16 @@
 			<true/>
 		</dict>
 		<key>348DF13891E04CB88F44B29E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3D9EB8F64AC94C9984FD9EC6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>430AF9AC5F49417AB981534A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -138,6 +158,11 @@
 			<true/>
 		</dict>
 		<key>676B9B1A08C64F74B794FC5C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6FFE9269D6EF48E98D382255</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -212,6 +237,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>954471EA4D7246788C056772</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9804D6495123452A803C2778</key>
 		<dict>
 			<key>primary</key>
@@ -247,6 +277,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>AC9525B5D6124853A10B638F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>AEB77FA8C4BD4AEE81887EEC</key>
 		<dict>
 			<key>primary</key>
@@ -268,6 +303,11 @@
 			<true/>
 		</dict>
 		<key>C0F5B19E8B464574880469C0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C1CE2AEE82BF4C6995D7EC07</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -333,6 +373,11 @@
 			<true/>
 		</dict>
 		<key>EBB1D18954ED4857A3282CED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EC86CF477A1449C4A5A4E0D8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

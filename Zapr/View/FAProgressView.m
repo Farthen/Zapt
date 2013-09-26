@@ -25,7 +25,7 @@
 
 - (CGFloat)progressBarHeight
 {
-    return 18;
+    return self.bounds.size.height;
 }
 
 // Only override drawRect: if you perform custom drawing.

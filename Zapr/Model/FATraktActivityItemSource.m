@@ -35,7 +35,13 @@
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
 {
-    return [[self.type alloc] init];
+    if (self.type == [NSString class]) {
+        return @"";
+    } else if (self.type == [NSURL class]) {
+        return [NSURL URLWithString:@"http://trakt.tv/"];
+    }
+    
+    return nil;
 }
 
 - (NSString *)activityViewController:(UIActivityViewController *)activityViewController subjectForActivityType:(NSString *)activityType
@@ -75,11 +81,7 @@
                                                                 ", nil) , itemTypeString, itemURL, itemName];
         }
     } else if (self.type == [NSURL class]) {
-        if (activityType == UIActivityTypeCopyToPasteboard ||
-                 activityType == UIActivityTypeAddToReadingList ||
-                 activityType == UIActivityTypeAirDrop) {
-            return itemURL;
-        }
+        return [NSURL URLWithString:itemURL];
     }
     
     return nil;

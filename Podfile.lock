@@ -6,6 +6,7 @@ PODS:
     - NSData+Base64 (~> 1.0)
   - MBProgressHUD (0.8)
   - NSData+Base64 (1.0.0)
+  - TUSafariActivity (1.0.0)
 
 DEPENDENCIES:
   - CocoaLumberjack
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - JSONKit (~> 1.5pre)
   - LRResty (~> 0.11.0)
   - MBProgressHUD
+  - TUSafariActivity
 
 SPEC CHECKSUMS:
   CocoaLumberjack: d73e1e317ced14ab930797dda6c17156ff17aaa1
@@ -21,5 +23,6 @@ SPEC CHECKSUMS:
   LRResty: 5e4c1b91bc5f878d64e965facd5cc9320b9ed3e2
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   NSData+Base64: 36c4e5b6479259c1a68866ccd2a8dd385c9744f7
+  TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
 
 COCOAPODS: 0.24.0

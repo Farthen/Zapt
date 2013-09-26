@@ -19,9 +19,9 @@
 @property IBOutlet UILabel *seasonLabel;
 @property IBOutlet UITableView *tableView;
 
+@property IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
+
 - (void)displayProgress:(FATraktShowProgress *)progress;
 - (void)displayNextUp:(FATraktContent *)content;
-
-- (CGFloat)intrinsicHeight;
 
 @end

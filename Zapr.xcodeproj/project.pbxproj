@@ -135,6 +135,7 @@
 		F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209516EA9671008C3AFA /* FAContentPrefsView.m */; };
 		F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */; };
 		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
+		F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
@@ -375,6 +376,8 @@
 		F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAScrollViewWithTopView.m; sourceTree = "<group>"; };
 		F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktDatatypeTest.m; sourceTree = "<group>"; };
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FALogLevels.h; sourceTree = "<group>"; };
+		F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveUpdateConstraints.h"; sourceTree = "<group>"; };
+		F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecursiveUpdateConstraints.m"; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktListItem.m; sourceTree = "<group>"; };
 		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBar.h; sourceTree = "<group>"; };
@@ -626,6 +629,8 @@
 				F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */,
 				F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */,
 				F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */,
+				F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */,
+				F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1196,6 +1201,7 @@
 				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3E2209616EA9671008C3AFA /* FAContentPrefsView.m in Sources */,
+				F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */,
 				F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */,
 				F3A47BA3179FD83B0022B251 /* FAOverlayView.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,

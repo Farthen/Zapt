@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--Auth View Controller-->
@@ -694,16 +694,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nMh-O4-5Fv">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMh-O4-5Fv">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAProgressView">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="18"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAProgressView">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Watched x out of y episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-qe-4bt">
-                                                <rect key="frame" x="8" y="1" width="159" height="15"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="Watched x out of y episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-qe-4bt">
+                                                <rect key="frame" x="8" y="2" width="304" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -711,22 +711,30 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="top" secondItem="dJi-25-Ao5" secondAttribute="top" constant="2" id="1lb-Qk-poa"/>
+                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="leading" secondItem="dJi-25-Ao5" secondAttribute="leading" constant="8" id="PQ2-hw-eFO"/>
+                                            <constraint firstAttribute="bottom" secondItem="bmU-qe-4bt" secondAttribute="bottom" constant="2" id="bO1-lQ-X3v"/>
+                                        </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-dW-WiO">
-                                        <rect key="frame" x="0.0" y="18" width="320" height="57"/>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-dW-WiO">
+                                        <rect key="frame" x="0.0" y="19" width="320" height="57"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="57" id="dsz-hL-HGr"/>
+                                        </constraints>
                                         <color key="sectionIndexTrackingBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <prototypes>
-                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="nextUpCell" rowHeight="57" id="GJB-Fl-3jQ" customClass="FANextUpTableViewCell">
-                                                <rect key="frame" x="0.0" y="22" width="320" height="57"/>
+                                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="nextUpCell" id="GJB-Fl-3jQ" customClass="FANextUpTableViewCell">
+                                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GJB-Fl-3jQ" id="HTI-jW-4Qf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="56"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkN-oM-Zlt">
-                                                            <rect key="frame" x="8" y="31" width="31" height="15"/>
+                                                            <rect key="frame" x="8" y="30" width="31" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -749,7 +757,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="trailing" secondItem="Fx0-Rg-qsu" secondAttribute="trailing" constant="5" id="1Cx-df-GPy"/>
-                                                        <constraint firstItem="pkN-oM-Zlt" firstAttribute="top" secondItem="1R8-9j-lPh" secondAttribute="bottom" constant="5" id="Dde-Qq-hDY"/>
+                                                        <constraint firstItem="pkN-oM-Zlt" firstAttribute="top" secondItem="1R8-9j-lPh" secondAttribute="bottom" constant="4" id="Dde-Qq-hDY"/>
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="leading" secondItem="HTI-jW-4Qf" secondAttribute="leading" constant="8" id="E8f-ld-P0r"/>
                                                         <constraint firstItem="pkN-oM-Zlt" firstAttribute="leading" secondItem="HTI-jW-4Qf" secondAttribute="leading" constant="8" id="LLG-21-iwa"/>
                                                         <constraint firstItem="Fx0-Rg-qsu" firstAttribute="baseline" secondItem="1R8-9j-lPh" secondAttribute="baseline" id="TTS-Yw-a0A"/>
@@ -759,6 +767,7 @@
                                                 </tableViewCellContentView>
                                                 <connections>
                                                     <outlet property="nameLabel" destination="Fx0-Rg-qsu" id="S6U-Ub-F2q"/>
+                                                    <outlet property="nextUpLabel" destination="1R8-9j-lPh" id="Snz-UY-rLN"/>
                                                     <outlet property="seasonLabel" destination="pkN-oM-Zlt" id="Hk5-PE-xQn"/>
                                                 </connections>
                                             </tableViewCell>
@@ -771,15 +780,32 @@
                                     </tableView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="jgY-dW-WiO" firstAttribute="leading" secondItem="nMh-O4-5Fv" secondAttribute="leading" id="6pl-Go-BLT"/>
+                                    <constraint firstAttribute="bottom" secondItem="jgY-dW-WiO" secondAttribute="bottom" id="INt-7P-Mcv"/>
+                                    <constraint firstItem="dJi-25-Ao5" firstAttribute="leading" secondItem="nMh-O4-5Fv" secondAttribute="leading" id="SRk-7G-JBa"/>
+                                    <constraint firstItem="dJi-25-Ao5" firstAttribute="top" secondItem="nMh-O4-5Fv" secondAttribute="top" id="o30-i3-AbH"/>
+                                    <constraint firstAttribute="trailing" secondItem="dJi-25-Ao5" secondAttribute="trailing" id="wwn-ee-5lm"/>
+                                    <constraint firstItem="jgY-dW-WiO" firstAttribute="top" secondItem="dJi-25-Ao5" secondAttribute="bottom" id="x0C-JV-uaK"/>
+                                    <constraint firstAttribute="trailing" secondItem="jgY-dW-WiO" secondAttribute="trailing" id="zFu-np-drW"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="top" secondItem="O0q-07-3xv" secondAttribute="top" id="6tz-uJ-hvq"/>
+                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="leading" secondItem="O0q-07-3xv" secondAttribute="leading" id="tv4-RO-Jd9"/>
+                            <constraint firstAttribute="trailing" secondItem="nMh-O4-5Fv" secondAttribute="trailing" id="yDK-YS-k8a"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="progressLabel" destination="bmU-qe-4bt" id="Gex-xM-Rb1"/>
                         <outlet property="progressView" destination="dJi-25-Ao5" id="p86-YO-Vfg"/>
                         <outlet property="tableView" destination="jgY-dW-WiO" id="TE0-bc-grd"/>
+                        <outlet property="tableViewHeightConstraint" destination="dsz-hL-HGr" id="kB7-sx-w5O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="v95-6W-qXs" userLabel="First Responder" sceneMemberID="firstResponder"/>

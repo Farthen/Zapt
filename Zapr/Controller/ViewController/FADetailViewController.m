@@ -18,6 +18,7 @@
 #import "FAContentBookmarkViewController.h"
 
 #import "FATraktActivityItemSource.h"
+#import <TUSafariActivity/TUSafariActivity.h>
 
 #import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
@@ -96,12 +97,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
+    
     _showing = NO;
     _animatesLayoutChanges = NO;
     
     self.nextUpHeightConstraint.constant = 0;
     self.detailViewHeightConstraint.constant = 0;
-    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
     
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
     
@@ -156,12 +159,25 @@
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
+    
+    // Update the container view controller for the nextUp view
+    self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
+    
+    [super viewWillLayoutSubviews];
     [self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];
     if (_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
     }
+    
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    [self.titleLabel setNeedsLayout];
+    self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
+    
+    self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    [self.detailLabel setNeedsLayout];
+    self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 }
 
 - (void)viewDidLayoutSubviews
@@ -195,6 +211,16 @@
     [self viewDidLayoutSubviews];
 }
 
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification
+{
+    // This is called when dynamic type settings are changed
+    [self.view invalidateIntrinsicContentSize];
+    [self.view setNeedsUpdateConstraints];
+    [self.view setNeedsLayout];
+    [self.titleLabel setNeedsLayout];
+    [self.detailLabel setNeedsLayout];
+}
+
 - (void)displayImage
 {
     // decide if displaying it animated or not
@@ -215,7 +241,7 @@
     if (content) {
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
             [self.nextUpViewController displayNextUp:content];
-            self.nextUpHeightConstraint.constant = self.nextUpViewController.intrinsicHeight;
+            self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
@@ -300,7 +326,7 @@
     if (progress) {
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
             [self.nextUpViewController displayProgress:progress];
-            self.nextUpHeightConstraint.constant = self.nextUpViewController.intrinsicHeight;
+            self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
@@ -461,8 +487,11 @@
 - (IBAction)pushedShareButton:(id)sender
 {
     NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
-    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo, ];
+    
+    TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
+    
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo];
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
@@ -487,6 +516,7 @@
 - (void)dealloc
 {
     self.scrollView.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

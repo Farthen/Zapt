@@ -39,6 +39,7 @@
     _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
     
     self.searchBar.translucent = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,6 +92,11 @@
 {
     [super willRotateToInterfaceOrientation:interfaceOrientation duration:duration];
     [self.searchBar invalidateIntrinsicContentSize];
+}
+
+- (void)preferredContentSizeChanged:(NSNotification *)notification
+{
+    [_resultsTableView reloadData];
 }
 
 - (void)cancelAllSearchRequests
@@ -251,6 +257,7 @@
 - (void)dealloc
 {
     self.searchDisplayController.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

@@ -12,6 +12,7 @@
 #import "FATrakt.h"
 #import "UIView+FrameAdditions.h"
 #import "FANextUpTableViewCell.h"
+#import "UIView+RecursiveUpdateConstraints.h"
 
 @interface FANextUpViewController () {
     BOOL _displaysProgress;
@@ -35,6 +36,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -61,6 +68,28 @@
     }
 }
 
+- (void)preferredContentSizeChanged:(NSNotification *)aNotification
+{
+    // This is called when dynamic type settings are changed
+    [self.view recursiveSetNeedsUpdateConstraints];
+    [self.view recursiveSetNeedsLayout];
+    [self.view recursiveLayoutIfNeeded];
+    [self.tableView reloadData];
+}
+
+- (void)viewWillLayoutSubviews
+{
+    self.progressLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    
+    CGFloat height = 0;
+    if (_displaysProgressAndNextUp) {
+        height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    }
+    self.tableViewHeightConstraint.constant = height;
+    [self.view recursiveSetNeedsUpdateConstraints];
+    [self.view recursiveLayoutIfNeeded];
+}
+
 - (void)displayProgress:(FATraktShowProgress *)progress
 {
     _displaysProgress = YES;
@@ -80,11 +109,13 @@
         }
     }
     _nextUpContent = content;
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 57;
+    return [FANextUpTableViewCell cellHeight];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -97,6 +128,8 @@
     FANextUpTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"nextUpCell"];
     self.seasonLabel = cell.seasonLabel;
     self.episodeNameLabel = cell.nameLabel;
+    cell.frameHeight = [FANextUpTableViewCell cellHeight];
+    [cell layoutIfNeeded];
     return cell;
 }
 
@@ -109,7 +142,17 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-- (CGFloat)intrinsicHeight
+- (CGSize)preferredContentSize
+{
+    if (_displaysProgress) {
+        CGSize size = [self.view.subviews[0] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        return size;
+    }
+    
+    return CGSizeZero;
+}
+
+/*- (CGFloat)intrinsicHeight
 {
     CGFloat height = 0;
     if (_displaysProgressAndNextUp) {
@@ -118,6 +161,11 @@
         height = 18;
     }
     return height;
+}*/
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

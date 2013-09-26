@@ -1,6 +1,7 @@
-platform :ios
+platform :ios, '7.0'
 pod 'JSONKit', '~> 1.5pre'
 pod 'LRResty', '~> 0.11.0'
 pod 'MBProgressHUD'
 pod 'CocoaLumberjack'
 pod 'GPUImage'
+pod 'TUSafariActivity'

@@ -8,12 +8,12 @@ install_resource()
 {
   case $1 in
     *.storyboard)
-      echo "ibtool --errors --warnings --notices --output-format human-readable-text --compile ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .storyboard`.storyboardc ${PODS_ROOT}/$1 --sdk ${SDKROOT}"
-      ibtool --errors --warnings --notices --output-format human-readable-text --compile "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .storyboard`.storyboardc" "${PODS_ROOT}/$1" --sdk "${SDKROOT}"
+      echo "ibtool --reference-external-strings-file --errors --warnings --notices --output-format human-readable-text --compile ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .storyboard`.storyboardc ${PODS_ROOT}/$1 --sdk ${SDKROOT}"
+      ibtool --reference-external-strings-file --errors --warnings --notices --output-format human-readable-text --compile "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .storyboard`.storyboardc" "${PODS_ROOT}/$1" --sdk "${SDKROOT}"
       ;;
     *.xib)
-        echo "ibtool --errors --warnings --notices --output-format human-readable-text --compile ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .xib`.nib ${PODS_ROOT}/$1 --sdk ${SDKROOT}"
-      ibtool --errors --warnings --notices --output-format human-readable-text --compile "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .xib`.nib" "${PODS_ROOT}/$1" --sdk "${SDKROOT}"
+        echo "ibtool --reference-external-strings-file --errors --warnings --notices --output-format human-readable-text --compile ${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .xib`.nib ${PODS_ROOT}/$1 --sdk ${SDKROOT}"
+      ibtool --reference-external-strings-file --errors --warnings --notices --output-format human-readable-text --compile "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/`basename \"$1\" .xib`.nib" "${PODS_ROOT}/$1" --sdk "${SDKROOT}"
       ;;
     *.framework)
       echo "mkdir -p ${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}"
@@ -39,6 +39,29 @@ install_resource()
       ;;
   esac
 }
+install_resource "TUSafariActivity/TUSafariActivity/Safari.png"
+install_resource "TUSafariActivity/TUSafariActivity/Safari@2x.png"
+install_resource "TUSafariActivity/TUSafariActivity/Safari@2x~ipad.png"
+install_resource "TUSafariActivity/TUSafariActivity/Safari~ipad.png"
+install_resource "TUSafariActivity/TUSafariActivity/cs.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/de.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/en.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/es.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/eu.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/fi.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/fr.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/it.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/ja.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/ko.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/nl.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/no.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/pl.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/pt.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/ru.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/sk.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/sv.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/vi.lproj"
+install_resource "TUSafariActivity/TUSafariActivity/zh_CN.lproj"
 
 rsync -avr --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 rm -f "$RESOURCES_TO_COPY"

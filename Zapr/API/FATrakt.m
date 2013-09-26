@@ -266,7 +266,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (LRRestyRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    NSLog(@"Loading last activity");
     return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         NSDictionary *data = [[response asString] objectFromJSONString];
         FATraktLastActivity *lastActivity = [[FATraktLastActivity alloc] initWithJSONDict:data];

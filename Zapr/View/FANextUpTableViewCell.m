@@ -26,4 +26,44 @@
     // Configure the view for the selected state
 }
 
+- (void)layoutSubviews
+{
+    self.nextUpLabel.font = self.class.nameFont;
+    self.nameLabel.font = self.class.nameFont;
+    self.seasonLabel.font = self.class.seasonFont;
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+}
+
+- (void)prepareForReuse
+{
+    self.accessoryType = UITableViewCellAccessoryNone;
+}
+
++ (UIFont *)nameFont
+{
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+}
+
++ (UIFont *)seasonFont
+{
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+}
+
++ (CGFloat)cellHeight
+{
+    // More yolo swag fun fun fun
+    CGSize nameSize = [@"Title" sizeWithAttributes:@{NSFontAttributeName: self.nameFont}];
+    CGSize seasonSize = [@"Detail" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    
+    // Now calculate this crap
+    CGFloat height = 0;
+    
+    height += 5;
+    height += nameSize.height;
+    height += 5;
+    height += seasonSize.height;
+    height += 8;
+    return ceil(height);
+}
+
 @end

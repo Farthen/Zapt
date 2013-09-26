@@ -10,7 +10,10 @@
 
 @interface FANextUpTableViewCell : UITableViewCell
 
+@property IBOutlet UILabel *nextUpLabel;
 @property IBOutlet UILabel *nameLabel;
 @property IBOutlet UILabel *seasonLabel;
+
++ (CGFloat)cellHeight;
 
 @end
