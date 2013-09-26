@@ -43,7 +43,14 @@
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
+		F32645C417F0D48F001D4F74 /* FARatingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C317F0D48F001D4F74 /* FARatingsView.m */; };
+		F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C617F0E436001D4F74 /* FAColorSorting.m */; };
+		F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CA17F0F9A4001D4F74 /* UIImage+Alpha.m */; };
+		F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */; };
+		F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */; };
+		F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */; };
 		F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */; };
+		F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
 		F330965F162816DE000BD107 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
 		F330966216281728000BD107 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
@@ -206,7 +213,21 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARefreshControlWithActivity.m; sourceTree = "<group>"; };
+		F32645C217F0D48F001D4F74 /* FARatingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARatingsView.h; sourceTree = "<group>"; };
+		F32645C317F0D48F001D4F74 /* FARatingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARatingsView.m; sourceTree = "<group>"; };
+		F32645C517F0E436001D4F74 /* FAColorSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAColorSorting.h; sourceTree = "<group>"; };
+		F32645C617F0E436001D4F74 /* FAColorSorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAColorSorting.m; sourceTree = "<group>"; };
+		F32645C917F0F9A4001D4F74 /* UIImage+Alpha.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Alpha.h"; sourceTree = "<group>"; };
+		F32645CA17F0F9A4001D4F74 /* UIImage+Alpha.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Alpha.m"; sourceTree = "<group>"; };
+		F32645CB17F0F9A4001D4F74 /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		F32645CD17F0F9A4001D4F74 /* UIImage+RoundedCorner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RoundedCorner.h"; sourceTree = "<group>"; };
+		F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
+		F32645D217F1032B001D4F74 /* UIColor+InvertedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+InvertedColor.h"; sourceTree = "<group>"; };
+		F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+InvertedColor.m"; sourceTree = "<group>"; };
 		F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATestDominantColorsAnalyzer.m; sourceTree = "<group>"; };
+		F32FAB7A17EE333C0081B19E /* FAColorCompositing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAColorCompositing.h; sourceTree = "<group>"; };
+		F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAColorCompositing.m; sourceTree = "<group>"; };
 		F3309657162743D7000BD107 /* FAPropertyUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPropertyUtil.h; sourceTree = "<group>"; };
 		F3309658162743D7000BD107 /* FAPropertyUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPropertyUtil.m; sourceTree = "<group>"; };
 		F330965D162816DE000BD107 /* FATraktPeople.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktPeople.h; sourceTree = "<group>"; };
@@ -487,6 +508,19 @@
 			name = Containers;
 			sourceTree = "<group>";
 		};
+		F32645C817F0F9A4001D4F74 /* UIImage */ = {
+			isa = PBXGroup;
+			children = (
+				F32645C917F0F9A4001D4F74 /* UIImage+Alpha.h */,
+				F32645CA17F0F9A4001D4F74 /* UIImage+Alpha.m */,
+				F32645CB17F0F9A4001D4F74 /* UIImage+Resize.h */,
+				F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */,
+				F32645CD17F0F9A4001D4F74 /* UIImage+RoundedCorner.h */,
+				F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */,
+			);
+			path = UIImage;
+			sourceTree = "<group>";
+		};
 		F32FAB7717EE04E00081B19E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,6 +569,10 @@
 			children = (
 				F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */,
 				F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */,
+				F32FAB7A17EE333C0081B19E /* FAColorCompositing.h */,
+				F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */,
+				F32645C517F0E436001D4F74 /* FAColorSorting.h */,
+				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -552,8 +590,11 @@
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				F32645C817F0F9A4001D4F74 /* UIImage */,
 				F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */,
 				F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */,
+				F32645D217F1032B001D4F74 /* UIColor+InvertedColor.h */,
+				F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */,
 				F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */,
 				F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */,
 				F31D68ED179DD353003408BF /* NSObject+ClassName.h */,
@@ -848,6 +889,8 @@
 			children = (
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
+				F32645C217F0D48F001D4F74 /* FARatingsView.h */,
+				F32645C317F0D48F001D4F74 /* FARatingsView.m */,
 				F3529E7C17917E280094F65E /* FAFanartImageView.h */,
 				F3529E7D17917E280094F65E /* FAFanartImageView.m */,
 				F3E2209716EAA3EA008C3AFA /* FAScrollViewWithTopView.h */,
@@ -1095,14 +1138,17 @@
 				F330965F162816DE000BD107 /* FATraktPeople.m in Sources */,
 				F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */,
 				F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */,
+				F32645C417F0D48F001D4F74 /* FARatingsView.m in Sources */,
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F36F43C2179F4F8400E5A3FE /* FAPushoverView.m in Sources */,
+				F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
+				F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */,
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
 				F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */,
 				F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */,
@@ -1115,6 +1161,7 @@
 				F3A443F317A752FE00210EE9 /* FASemiModalEnabledViewController.m in Sources */,
 				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
 				F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */,
+				F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 				F30CAFBF179CC9B1002E7D3C /* FANavigationController.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
@@ -1141,12 +1188,15 @@
 				F3B1F36717A85A7C00800B61 /* FABigDataCache.m in Sources */,
 				F3636B7816F03D050062E885 /* FACache.m in Sources */,
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
+				F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
 				F3938E5816F4740300A19FD1 /* FASegmentedControl.m in Sources */,
+				F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F30E52C21799216E006C5091 /* FAProgressView.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
+				F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */,
 				F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */,
 				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,
 			);
@@ -1298,6 +1348,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
 				GCC_VERSION = "";
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1334,6 +1385,7 @@
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -1360,6 +1412,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr Tests/Zapr Tests-Prefix.pch";
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
 				INFOPLIST_FILE = "Zapr Tests/Zapr Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
@@ -1380,6 +1433,7 @@
 				FRAMEWORK_SEARCH_PATHS = "$(SDKROOT)/Developer/Library/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr Tests/Zapr Tests-Prefix.pch";
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				HEADER_SEARCH_PATHS = "${PODS_HEADERS_SEARCH_PATHS}/**";
 				INFOPLIST_FILE = "Zapr Tests/Zapr Tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
