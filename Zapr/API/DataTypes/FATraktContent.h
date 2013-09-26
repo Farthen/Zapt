@@ -53,6 +53,7 @@ typedef enum {
 @property (retain) NSString *overview;
 
 @property (retain) FATraktImageList *images;
+@property (readonly) NSString *widescreenImageURL;
 @property (retain) NSString *ratings;
 
 @property (assign) BOOL in_watchlist;

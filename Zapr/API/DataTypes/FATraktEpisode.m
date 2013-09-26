@@ -9,6 +9,7 @@
 #import "FATraktEpisode.h"
 #import "FATraktShow.h"
 #import "FATraktCache.h"
+#import "FATraktImageList.h"
 
 @implementation FATraktEpisode
 
@@ -95,6 +96,15 @@
 + (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.episodes;
+}
+
+- (NSString *)widescreenImageURL
+{
+    if (self.images.screen) {
+        return self.images.screen;
+    } else {
+        return self.show.images.fanart;
+    }
 }
 
 @end
