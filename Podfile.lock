@@ -1,22 +1,25 @@
 PODS:
   - CocoaLumberjack (1.6.2)
+  - GPUImage (0.1.0)
   - JSONKit (1.5pre)
   - LRResty (0.11.0):
     - NSData+Base64 (~> 1.0)
-  - MBProgressHUD (0.7)
+  - MBProgressHUD (0.8)
   - NSData+Base64 (1.0.0)
 
 DEPENDENCIES:
   - CocoaLumberjack
+  - GPUImage
   - JSONKit (~> 1.5pre)
   - LRResty (~> 0.11.0)
   - MBProgressHUD
 
 SPEC CHECKSUMS:
   CocoaLumberjack: d73e1e317ced14ab930797dda6c17156ff17aaa1
+  GPUImage: 5b902c1df2afe0ac30a8e3e7379f9c0bb25c7c85
   JSONKit: 409734ab3407fce90ef7eaa95d7168f38d9a6601
   LRResty: 5e4c1b91bc5f878d64e965facd5cc9320b9ed3e2
-  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   NSData+Base64: 36c4e5b6479259c1a68866ccd2a8dd385c9744f7
 
-COCOAPODS: 0.23.0
+COCOAPODS: 0.24.0
