@@ -1,44 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4504" systemVersion="13A569" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3734.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="0l2-oA-UJo">
-            <objects>
-                <viewController id="Nv3-pk-gAo" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gYk-1c-2Xd"/>
-                        <viewControllerLayoutGuide type="bottom" id="9Vg-gG-FXt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="WSk-C3-G2y">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6j-OD-q9M">
-                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items>
-                                    <barButtonItem title="Search" id="5ee-np-Bjc"/>
-                                    <barButtonItem title="Lists" id="JE8-GP-UAO"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="c4B-g2-lpf"/>
-                                    <barButtonItem title="Settings" id="IEQ-81-Gbn"/>
-                                </items>
-                            </toolbar>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="T6j-OD-q9M" firstAttribute="trailing" secondItem="WSk-C3-G2y" secondAttribute="trailing" id="24w-7O-b8Y"/>
-                            <constraint firstItem="T6j-OD-q9M" firstAttribute="bottom" secondItem="WSk-C3-G2y" secondAttribute="bottom" id="9Ot-Cd-hti"/>
-                            <constraint firstItem="T6j-OD-q9M" firstAttribute="leading" secondItem="WSk-C3-G2y" secondAttribute="leading" id="LyI-dS-Hf2"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0sz-mk-60Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="73" y="310"/>
-        </scene>
         <!--Auth View Controller-->
         <scene sceneID="CGM-cw-zy6">
             <objects>
@@ -818,7 +783,6 @@
             <point key="canvasLocation" x="2031" y="-669"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.93413185590000003" green="0.15525812350000001" blue="0.16175203390000001" alpha="1" colorSpace="calibratedRGB"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

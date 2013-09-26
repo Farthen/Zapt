@@ -7,11 +7,13 @@
 //
 
 #import "FARatingsViewController.h"
-#import "UIImage+ImageEffects.h"
-#import "FADominantColorsAnalyzer.h"
+#import "FARatingsView.h"
+#import "FATrakt.h"
 
 @interface FARatingsViewController ()
-@property UIImage *backgroundImage;
+@property FATraktContent *currentContent;
+@property FARatingsView *ratingsView;
+@property FATraktAccountSettings *accountSettings;
 @end
 
 @implementation FARatingsViewController
@@ -21,30 +23,55 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        self.backgroundImage = nil;
+        self.ratingsView = [[FARatingsView alloc] initWithFrame:self.view.bounds];
+        [self.view addSubview:self.ratingsView];
+        self.ratingsView.delegate = self;
     }
     return self;
 }
 
-- (instancetype)initWithBackgroundImageColorsFromImage:(UIImage *)image
+- (instancetype)initWithContent:(FATraktContent *)content
 {
     self = [super init];
     if (self) {
+        self.currentContent = content;
         
+        [[FATrakt sharedInstance] loadImageFromURL:content.widescreenImageURL withWidth:self.view.bounds.size.width callback:^(UIImage *image) {
+            [self.ratingsView setColorsWithImage:image];
+        } onError:^(FATraktConnectionResponse *connectionError) {
+            [self.ratingsView setColorsWithImage:nil];
+        }];
+        [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
+            self.accountSettings = settings;
+            FATraktRatingsMode mode = self.accountSettings.viewing.ratings_mode;
+            if (mode == FATraktRatingsModeSimple) {
+                [self.ratingsView setSimpleRating:YES];
+            } else {
+                [self.ratingsView setSimpleRating:NO];
+            }
+            [self.ratingsView setRating:content.rating];
+        } onError:nil];
     }
     return self;
 }
 
-- (instancetype)initWithBackgroundImage:(UIImage *)backgroundImage
+- (void)ratingsViewDoneButtonPressed:(id)sender
 {
-    self = [super init];
-    if (self) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.view.backgroundColor = [FADominantColorsAnalyzer dominantColorsOfImage:backgroundImage sampleCount:3][0];
-            [self show];
-        });
+    FATraktRating rating = self.ratingsView.rating;
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    if (self.accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
+        [[FATrakt sharedInstance] rate:self.currentContent simple:YES rating:rating callback:^{} onError:nil];
+    } else {
+        [[FATrakt sharedInstance] rate:self.currentContent simple:NO rating:rating callback:^{} onError:nil];
     }
-    return self;
+    
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (UIModalTransitionStyle)modalTransitionStyle
@@ -61,11 +88,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];    
-}
-
-- (void)show
-{
-    self.view.layer.contents = (__bridge id)(self.backgroundImage.CGImage);
 }
 
 - (void)didReceiveMemoryWarning

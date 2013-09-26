@@ -37,9 +37,9 @@
     coloredRect.size.width *= _progress;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGColorRef yellow = [[UIColor colorWithRed:0.5 green:0.0 blue:0.5 alpha:1] CGColor];
+    CGColorRef tintColor = self.tintColor.CGColor;
     
-    CGContextSetFillColorWithColor(context, yellow);
+    CGContextSetFillColorWithColor(context, tintColor);
     CGContextFillRect(context, coloredRect);
 }
 

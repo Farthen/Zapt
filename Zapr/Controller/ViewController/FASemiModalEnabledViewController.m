@@ -136,6 +136,11 @@
     }
 }
 
+- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+{
+    [self dismissSemiModalViewControllerAnimated:flag completion:completion];
+}
+
 - (void)updateSizeForPresentedSemiModalViewControllerAnimated:(BOOL)animated
 {
     CGRect frame = _presentedSemiModalViewController.view.frame;

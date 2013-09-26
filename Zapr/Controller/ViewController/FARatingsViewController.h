@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FARatingsView.h"
 
-@interface FARatingsViewController : UIViewController
-- (instancetype)initWithBackgroundImage:(UIImage *)backgroundImage;
+@interface FARatingsViewController : UIViewController <FARatingsViewDelegate>
+- (instancetype)initWithContent:(FATraktContent *)content;
+
 @end

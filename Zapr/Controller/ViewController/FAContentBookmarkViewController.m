@@ -45,7 +45,7 @@
     // Calculate height
     [self.tableView layoutIfNeeded];
     CGSize size = self.tableView.contentSize;
-    // UGLY HACK
+    // FIXME: UGLY HACK
     size.height -= 66; // This is the automatically applied headers and footers - we don't want them
     return size;
 }
