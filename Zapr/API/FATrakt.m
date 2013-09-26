@@ -110,33 +110,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return name;
 }
 
-
-+ (NSString *)interfaceNameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
-{
-    NSString *name;
-    if (!plural) {
-        if (type == FATraktContentTypeMovies) {
-            name = NSLocalizedString(@"movie", nil);
-        } else if (type == FATraktContentTypeShows) {
-            name = NSLocalizedString(@"show", nil);
-        } else if (type == FATraktContentTypeEpisodes) {
-            name = NSLocalizedString(@"episode", nil);
-        }
-    } else {
-        if (type == FATraktContentTypeMovies) {
-            name = NSLocalizedString(@"movies", nil);
-        } else if (type == FATraktContentTypeShows) {
-            name = NSLocalizedString(@"shows", nil);
-        } else if (type == FATraktContentTypeEpisodes) {
-            name = NSLocalizedString(@"episodes", nil);
-        }
-    }
-    if (capitalized) {
-        name = [name capitalizedString];
-    }
-    return name;
-}
-
 + (NSString *)watchlistNameForContentType:(FATraktContentType)type
 {
     if (type == FATraktContentTypeMovies) {
@@ -147,24 +120,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return @"show/episode";
     }
     return nil;
-}
-
-+ (NSString *)interfaceNameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized
-{
-    NSString *name;
-    if (rating == FATraktRatingUndefined) {
-        name = NSLocalizedString(@"not rated", nil);
-    } else if (rating == FATraktRatingHate) {
-        name = NSLocalizedString(@"hate", nil);
-    } else if (rating == FATraktRatingLove) {
-        name = NSLocalizedString(@"love", nil);
-    } else {
-        name = [NSString stringWithFormat:@"%i", rating];
-    }
-    if (capitalized) {
-        name = [name capitalizedString];
-    }
-    return name;
 }
 
 // call this with movie.rating for example

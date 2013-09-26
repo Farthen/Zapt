@@ -40,8 +40,6 @@ extern NSString *const FATraktActivityNotificationLists;
 + (FATrakt *)sharedInstance;
 + (NSString *)nameForContentType:(FATraktContentType)type;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural;
-+ (NSString *)interfaceNameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
-+ (NSString *)interfaceNameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized;
 
 #pragma mark API
 - (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))block;

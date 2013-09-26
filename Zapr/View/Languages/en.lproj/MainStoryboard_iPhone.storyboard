@@ -217,7 +217,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ZM3-fR-8k9"/>
-                                    <barButtonItem style="plain" systemItem="action" id="icF-tg-DIN"/>
+                                    <barButtonItem style="plain" systemItem="action" id="icF-tg-DIN">
+                                        <connections>
+                                            <action selector="pushedShareButton:" destination="pJW-2g-U2f" id="BTW-5s-TF3"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                         </subviews>

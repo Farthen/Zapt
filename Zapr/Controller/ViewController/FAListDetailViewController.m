@@ -10,6 +10,7 @@
 
 #import "FAProgressHUD.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FATrakt.h"
 #import "FASearchViewController.h"
 #import "FADetailViewController.h"
@@ -230,7 +231,7 @@
     _isCustom = NO;
     _reloadWhenShowing = NO;
     _contentType = type;
-    self.title = [NSString stringWithFormat:@"%@ Watchlist", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
+    self.title = [NSString stringWithFormat:@"%@ Watchlist", [FAInterfaceStringProvider nameForContentType:type withPlural:YES capitalized:YES]];
     [self refreshDataAnimated:NO];
 }
 
@@ -246,7 +247,7 @@
         _loadedLibrary = [[NSMutableArray alloc] initWithArray:@[[NSNull null], [NSNull null], [NSNull null]]];
     }
     
-    self.title = [NSString stringWithFormat:@"%@ Library", [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES]];
+    self.title = [NSString stringWithFormat:@"%@ Library", [FAInterfaceStringProvider nameForContentType:type withPlural:YES capitalized:YES]];
     [self refreshDataAnimated:NO];
 }
 

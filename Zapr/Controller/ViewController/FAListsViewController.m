@@ -8,6 +8,7 @@
 
 #import "FATrakt.h"
 #import "FATraktCache.h"
+#import "FAInterfaceStringProvider.h"
 #import "FAListsViewController.h"
 #import "FASearchViewController.h"
 #import "FAListDetailViewController.h"
@@ -171,7 +172,7 @@
     }
     if (indexPath.section == 0 || indexPath.section == 1) {
         FATraktContentType type = (FATraktContentType)indexPath.item;
-        cell.textLabel.text = [FATrakt interfaceNameForContentType:type withPlural:YES capitalized:YES];
+        cell.textLabel.text = [FAInterfaceStringProvider nameForContentType:type withPlural:YES capitalized:YES];
     }
     FATraktList *cachedList;
     if (indexPath.section == 0) {

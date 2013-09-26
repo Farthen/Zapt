@@ -14,6 +14,7 @@
 #import "FATraktContent.h"
 #import "FATrakt.h"
 #import "FAProgressHUD.h"
+#import "FAInterfaceStringProvider.h"
 
 @interface FAContentBookmarkViewController ()
 
@@ -80,12 +81,12 @@
     
     if (_accountSettings) {
         if (_accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
-            self.ratingDetailLabel.text = [FATrakt interfaceNameForRating:content.rating capitalized:YES];
+            self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
         } else {
             self.ratingDetailLabel.text = [NSString stringWithFormat:@"%i", content.rating_advanced];
         }
     } else {
-        self.ratingDetailLabel.text = [FATrakt interfaceNameForRating:content.rating capitalized:YES];
+        self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
     }
 }
 

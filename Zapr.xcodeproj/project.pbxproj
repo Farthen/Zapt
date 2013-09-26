@@ -38,6 +38,8 @@
 		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
 		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
+		F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */; };
+		F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
 		F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
 		F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E517B0844600307CC3 /* FATraktViewingSettings.m */; };
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
@@ -203,6 +205,10 @@
 		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSeason.m; sourceTree = "<group>"; };
+		F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktActivityItemSource.h; sourceTree = "<group>"; };
+		F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktActivityItemSource.m; sourceTree = "<group>"; };
+		F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAInterfaceStringProvider.h; sourceTree = "<group>"; };
+		F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAInterfaceStringProvider.m; sourceTree = "<group>"; };
 		F31551E117B081B200307CC3 /* FATraktAccountSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktAccountSettings.h; sourceTree = "<group>"; };
 		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktAccountSettings.m; sourceTree = "<group>"; };
 		F31551E417B0844600307CC3 /* FATraktViewingSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktViewingSettings.h; sourceTree = "<group>"; };
@@ -485,14 +491,9 @@
 		B667534115F12FEB00A8D76D /* API */ = {
 			isa = PBXGroup;
 			children = (
-				F3B74B3016E6EF3900230C43 /* Cache */,
-				F3F8C5FC1627297800D6BD4C /* Data Types */,
+				F311206017F3C66400FAC263 /* Connection */,
 				B667534515F1319500A8D76D /* FATrakt.h */,
 				B667534615F1319500A8D76D /* FATrakt.m */,
-				F34D986317DB1C510033FBD7 /* FATraktConnection.h */,
-				F34D986417DB1C510033FBD7 /* FATraktConnection.m */,
-				F34D986617DB222C0033FBD7 /* FATraktConnectionResponse.h */,
-				F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -506,6 +507,17 @@
 				F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */,
 			);
 			name = Containers;
+			sourceTree = "<group>";
+		};
+		F311206017F3C66400FAC263 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				F34D986317DB1C510033FBD7 /* FATraktConnection.h */,
+				F34D986417DB1C510033FBD7 /* FATraktConnection.m */,
+				F34D986617DB222C0033FBD7 /* FATraktConnectionResponse.h */,
+				F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */,
+			);
+			name = Connection;
 			sourceTree = "<group>";
 		};
 		F32645C817F0F9A4001D4F74 /* UIImage */ = {
@@ -584,7 +596,8 @@
 				F3B74B3216E6EF5400230C43 /* FATraktCache.m */,
 				F3B74B3416E6F06C00230C43 /* FACacheableItem.h */,
 			);
-			path = Cache;
+			name = Cache;
+			path = ../API/Cache;
 			sourceTree = "<group>";
 		};
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
@@ -797,8 +810,14 @@
 		F3D80E3D17CCF51C00343C9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F3B74B3016E6EF3900230C43 /* Cache */,
+				F3F8C5FC1627297800D6BD4C /* Trakt */,
 				B6FB0DBD161DF2C100043207 /* FASearchData.h */,
 				B6FB0DBE161DF2C100043207 /* FASearchData.m */,
+				F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */,
+				F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */,
+				F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */,
+				F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -831,7 +850,7 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		F3F8C5FC1627297800D6BD4C /* Data Types */ = {
+		F3F8C5FC1627297800D6BD4C /* Trakt */ = {
 			isa = PBXGroup;
 			children = (
 				F3328C24162740C500FB65B8 /* FATraktDatatype.h */,
@@ -871,8 +890,8 @@
 				F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */,
 				F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */,
 			);
-			name = "Data Types";
-			path = DataTypes;
+			name = Trakt;
+			path = ../API/DataTypes;
 			sourceTree = "<group>";
 		};
 		F3F9E30916282D320077CBAA /* Controller */ = {
@@ -1122,6 +1141,7 @@
 				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
+				F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */,
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
@@ -1160,6 +1180,7 @@
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 				F3A443F317A752FE00210EE9 /* FASemiModalEnabledViewController.m in Sources */,
 				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
+				F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */,
 				F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */,
 				F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
