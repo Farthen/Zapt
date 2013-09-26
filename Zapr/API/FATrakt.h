@@ -73,5 +73,5 @@ extern NSString *const FATraktActivityNotificationLists;
 - (LRRestyRequest *)allCustomListsCallback:(void (^)(NSArray *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (LRRestyRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-- (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 @end

@@ -267,7 +267,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 }
 
 - (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
+{    
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
         DDLogController(@"Loading image of type poster");
@@ -778,19 +778,36 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)rate:(FATraktContent *)content love:(NSString *)love callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:YES];
+    NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO];
     NSString *api = [NSString stringWithFormat:@"rate/%@", contentType];
     
-    NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES];
-    if (love == nil) {
-        [payload addEntriesFromDictionary:@{@"love": @"unrate"}];
+    NSString *ratingString = nil;
+    
+    if (simple) {
+        if (rating == FATraktRatingLove) {
+            ratingString = @"love";
+        } else if (rating == FATraktRatingHate) {
+            ratingString = @"hate";
+        } else {
+            ratingString = @"unrate";
+        }
     } else {
-        [payload addEntriesFromDictionary:@{@"love": love}];
+        ratingString = [NSString stringWithFormat:@"%i", rating];
     }
     
+    NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO];
+    
+    [payload addEntriesFromDictionary:@{@"rating": ratingString}];
+    
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+        if (simple) {
+            content.rating = rating;
+        } else {
+            content.rating_advanced = rating;
+        }
+        [content commitToCache];
         callback();
     } onError:error];
 }
