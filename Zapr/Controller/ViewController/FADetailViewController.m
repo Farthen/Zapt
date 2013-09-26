@@ -332,16 +332,7 @@
 {
     self.title = item.title;
     [self setOverview:item.overview];
-    if (_contentType != FATraktContentTypeEpisodes) {
-        [self setPosterToURL:_currentContent.images.fanart];
-    } else {
-        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-        if (episode.images.screen) {
-            [self setPosterToURL:episode.images.screen];
-        } else {
-            [self setPosterToURL:episode.show.images.fanart];
-        }
-    }
+    [self setPosterToURL:item.widescreenImageURL];
     [self.overviewLabel sizeToFit];
 }
 
