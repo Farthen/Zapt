@@ -21,6 +21,17 @@
     return self;
 }
 
+- (BOOL)isEqual:(id)object
+{
+    if ([object respondsToSelector:@selector(cacheKey)]) {
+        if ([object cacheKey] == [self cacheKey]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)finishedMappingObjects
 {
     // See if we can find a cached equivalent now and merge them if appropriate
