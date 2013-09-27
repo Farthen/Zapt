@@ -388,7 +388,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     NSMutableArray *parameters = [NSMutableArray arrayWithArray:@[show.tvdb_id]];
     if (detailLevel == FATraktDetailLevelExtended) {
-        [parameters addObject:@"/extended"];
+        [parameters addObject:@"extended"];
     }
     
     return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
