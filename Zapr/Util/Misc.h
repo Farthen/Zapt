@@ -48,4 +48,10 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
+#ifdef DEBUG
+#define FA_MUST_OVERRIDE_IN_SUBCLASS [NSException raise:NSInternalInconsistencyException format:@"You must override %@ in a subclass", NSStringFromSelector(_cmd)];
+#else
+#define FA_MUST_OVERRIDE_IN_SUBCLASS NSLog(@"[ERROR] %@ should have been overridden in a subclass but it wasn't! Not bailing out but this will probably fail silently", NSStringFromSelector(_cmd));
+#endif
+
 #endif
