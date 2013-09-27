@@ -136,6 +136,9 @@
 		F3E2209916EAA3EA008C3AFA /* FAScrollViewWithTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2209816EAA3EA008C3AFA /* FAScrollViewWithTopView.m */; };
 		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
 		F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */; };
+		F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */; };
+		F3EE213317F4FA2400A0118E /* UIView+ImageScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */; };
+		F3EE213617F4FF5E00A0118E /* UIImage+imageWithColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213517F4FF5E00A0118E /* UIImage+imageWithColor.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
@@ -323,8 +326,8 @@
 		F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentBookmarkViewController.m; sourceTree = "<group>"; };
 		F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASemiModalEnabledViewController.h; sourceTree = "<group>"; };
 		F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASemiModalEnabledViewController.m; sourceTree = "<group>"; };
-		F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Zapr/Categories/UIImage+ImageEffects.h"; sourceTree = SOURCE_ROOT; };
+		F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Zapr/Categories/UIImage+ImageEffects.m"; sourceTree = SOURCE_ROOT; };
 		F3A47BA1179FD83A0022B251 /* FAOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAOverlayView.h; sourceTree = "<group>"; };
 		F3A47BA2179FD83B0022B251 /* FAOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAOverlayView.m; sourceTree = "<group>"; };
 		F3A47BA417A0A0D50022B251 /* FAMaskingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAMaskingView.h; sourceTree = "<group>"; };
@@ -378,6 +381,12 @@
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FALogLevels.h; sourceTree = "<group>"; };
 		F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveUpdateConstraints.h"; sourceTree = "<group>"; };
 		F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecursiveUpdateConstraints.m"; sourceTree = "<group>"; };
+		F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUnreadItemIndicatorView.h; sourceTree = "<group>"; };
+		F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAUnreadItemIndicatorView.m; sourceTree = "<group>"; };
+		F3EE213117F4FA2400A0118E /* UIView+ImageScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ImageScreenshot.h"; sourceTree = "<group>"; };
+		F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ImageScreenshot.m"; sourceTree = "<group>"; };
+		F3EE213417F4FF5E00A0118E /* UIImage+imageWithColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+imageWithColor.h"; sourceTree = "<group>"; };
+		F3EE213517F4FF5E00A0118E /* UIImage+imageWithColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+imageWithColor.m"; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktListItem.m; sourceTree = "<group>"; };
 		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBar.h; sourceTree = "<group>"; };
@@ -532,6 +541,10 @@
 				F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */,
 				F32645CD17F0F9A4001D4F74 /* UIImage+RoundedCorner.h */,
 				F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */,
+				F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */,
+				F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */,
+				F3EE213417F4FF5E00A0118E /* UIImage+imageWithColor.h */,
+				F3EE213517F4FF5E00A0118E /* UIImage+imageWithColor.m */,
 			);
 			path = UIImage;
 			sourceTree = "<group>";
@@ -607,8 +620,6 @@
 			isa = PBXGroup;
 			children = (
 				F32645C817F0F9A4001D4F74 /* UIImage */,
-				F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */,
-				F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */,
 				F32645D217F1032B001D4F74 /* UIColor+InvertedColor.h */,
 				F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */,
 				F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */,
@@ -631,6 +642,8 @@
 				F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */,
 				F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */,
 				F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */,
+				F3EE213117F4FA2400A0118E /* UIView+ImageScreenshot.h */,
+				F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -939,6 +952,8 @@
 				F3A47BA2179FD83B0022B251 /* FAOverlayView.m */,
 				F3A47BA417A0A0D50022B251 /* FAMaskingView.h */,
 				F3A47BA517A0A0D50022B251 /* FAMaskingView.m */,
+				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
+				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1172,6 +1187,7 @@
 				F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */,
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
+				F3EE213317F4FA2400A0118E /* UIView+ImageScreenshot.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
 				F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */,
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
@@ -1179,6 +1195,7 @@
 				F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */,
 				F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */,
 				F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */,
+				F3EE213617F4FF5E00A0118E /* UIImage+imageWithColor.m in Sources */,
 				F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */,
 				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,
 				F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */,
@@ -1189,6 +1206,7 @@
 				F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */,
 				F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
+				F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */,
 				F30CAFBF179CC9B1002E7D3C /* FANavigationController.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,

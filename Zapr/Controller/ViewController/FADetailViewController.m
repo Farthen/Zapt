@@ -71,9 +71,7 @@
     
     NSMutableArray *_photos;
     
-    UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
-    
-    FAPushoverViewAnimationController *_pushoverViewAnimationController;
+    UITapGestureRecognizer *_detailLabelTapGestureRecognizer;    
 }
 
 @end
