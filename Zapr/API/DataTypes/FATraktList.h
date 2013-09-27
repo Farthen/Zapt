@@ -16,6 +16,8 @@
 + (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType;
 + (NSArray *)cachedCustomLists;
 
+- (BOOL)containsContent:(FATraktContent *)content;
+
 @property (retain) NSString *name;
 @property (retain) NSString *slug;
 @property (retain) NSString *url;

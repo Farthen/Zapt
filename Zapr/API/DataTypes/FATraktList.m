@@ -44,6 +44,18 @@
     return self;
 }
 
+- (BOOL)containsContent:(FATraktContent *)content
+{
+    for (FATraktListItem *listItem in self.items) {
+        FATraktContent *content = listItem.content;
+        if ([content isEqual:content]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)finishedMappingObjects
 {
     // See if we can find a cached equivalent now and merge them if appropriate
