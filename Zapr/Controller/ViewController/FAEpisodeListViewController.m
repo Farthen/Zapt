@@ -12,6 +12,11 @@
 #import "FAStatusBarSpinnerController.h"
 #import "FADetailViewController.h"
 
+#import "UIView+ImageScreenshot.h"
+#import "UIImage+imageWithColor.h"
+
+#import "FAUnreadItemIndicatorView.h"
+
 @implementation FAEpisodeListViewController {
     FATraktShow *_displayedShow;
     NSMutableArray *_filteredWatchedSeasons;
@@ -149,11 +154,11 @@
         return nil;
     }
 
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *cellIdentifier = @"episodeTableViewCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
     }
     
     FATraktSeason *season;
@@ -174,6 +179,19 @@
     cell.textLabel.text = episode.title;
     cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.season.intValue, episode.episode.intValue];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
+    
+    if (episode.watched) {
+        cell.imageView.image = [UIImage imageWithColor:[UIColor clearColor] size:imageSize];
+    } else {
+        static UIImage *image;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            image = [[[FAUnreadItemIndicatorView alloc] initWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)] imageScreenshot];
+        });
+        cell.imageView.image = image;
+    }
     return cell;
 }
 

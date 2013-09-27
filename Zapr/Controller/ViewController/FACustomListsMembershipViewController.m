@@ -9,7 +9,7 @@
 #import "FACustomListsMembershipViewController.h"
 
 @interface FACustomListsMembershipViewController ()
-
+@property NSArray *customLists;
 @end
 
 @implementation FACustomListsMembershipViewController
@@ -33,6 +33,11 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
 }
 
 @end
