@@ -8,7 +8,7 @@
 
 #import "FAContentBookmarkViewController.h"
 #import "FASemiModalEnabledViewController.h"
-#import "FACustomListsMembershipTableViewController.h"
+#import "FACustomListsMembershipViewController.h"
 #import "FADetailViewController.h"
 #import "FARatingsViewController.h"
 #import "FATraktContent.h"
@@ -157,7 +157,7 @@
         } else if (indexPath.row == 2) {
             // Custom Lists Button
             UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
-            FACustomListsMembershipTableViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
+            FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
             FASemiModalEnabledViewController *parentViewController = (FASemiModalEnabledViewController *)self.parentViewController;
             [parentViewController displayContainerNavigationItem];
             [parentViewController dismissSemiModalViewControllerAnimated:YES completion:^{
