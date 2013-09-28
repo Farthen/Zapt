@@ -7,7 +7,6 @@
 //
 
 #import "FAContentBookmarkViewController.h"
-#import "FASemiModalEnabledViewController.h"
 #import "FACustomListsMembershipViewController.h"
 #import "FADetailViewController.h"
 #import "FARatingsViewController.h"
@@ -39,6 +38,7 @@
     // Make the tableView begin at the very top
     self.tableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.tableView.contentInset = UIEdgeInsetsMake(-36, 0, -30, 0);
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (CGSize)preferredContentSize
@@ -53,7 +53,7 @@
 
 - (NSString *)title
 {
-    return @"Bookmarks";
+    return @"Actions";
 }
 
 - (void)viewDidLoad
@@ -134,7 +134,7 @@
                 }];
             }
             
-            [(FASemiModalEnabledViewController *)self.parentViewController dismissSemiModalViewControllerAnimated:YES completion:nil];
+            [self dismissViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 1) {
             // Library add/remove button
             if (_currentContent.in_collection) {

@@ -15,6 +15,7 @@
     UIView *_semiModalViewControllerMask;
     NSString *_oldTitle;
     NSArray *_defaultRightBarButtonItems;
+    UIViewController *_semiModalParentViewController;
 }
 
 @end
@@ -51,6 +52,14 @@
     }
 }
 
+- (BOOL)presentationStyleDesaturateNavigationBar
+{
+    if (self.navigationController) {
+        return YES;
+    }
+    return NO;
+}
+
 - (void)semiModalDismissGestureFired:(UITapGestureRecognizer *)recognizer
 {
     if (recognizer.state == UIGestureRecognizerStateEnded) {
@@ -63,28 +72,47 @@
     [self dismissSemiModalViewControllerAnimated:YES completion:nil];
 }
 
+- (UIViewController *)childViewControllerForStatusBarStyle
+{
+    if (_presentedSemiModalViewController) {
+        return _presentedSemiModalViewController;
+    }
+    
+    return self;
+}
+
 - (void)presentSemiModalViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion
 {
     // See: http://developer.apple.com/library/ios/#featuredarticles/ViewControllerPGforiPhoneOS/CreatingCustomContainerViewControllers/CreatingCustomContainerViewControllers.html
-    [self addChildViewController:viewControllerToPresent];
     _presentedSemiModalViewController = viewControllerToPresent;
     
+    _semiModalParentViewController = self;
+    
+    BOOL desaturateNavigationBar = [self presentationStyleDesaturateNavigationBar];
+    
+    if (desaturateNavigationBar) {
+        _semiModalParentViewController = self.navigationController;
+    }
+    
+    
+    [_semiModalParentViewController addChildViewController:viewControllerToPresent];
+    
     // Create a mask view with semi-black background
-    _semiModalViewControllerMask = [[UIView alloc] initWithFrame:self.view.bounds];
-    _semiModalViewControllerMask.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    _semiModalViewControllerMask = [[UIView alloc] initWithFrame:_semiModalParentViewController.view.bounds];
+    _semiModalViewControllerMask.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
     _semiModalViewControllerMask.alpha = 0.0;
-    [self.view addSubview:_semiModalViewControllerMask];
+    [_semiModalParentViewController.view addSubview:_semiModalViewControllerMask];
     
     // Add a dismiss gesture
     UITapGestureRecognizer *dismissGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(semiModalDismissGestureFired:)];
     [_semiModalViewControllerMask addGestureRecognizer:dismissGestureRecognizer];
     
     // Set the frame to be below the current view
-    CGPoint position = CGPointMake(self.view.bounds.origin.x, self.view.bounds.origin.y + self.view.bounds.size.height);
+    CGPoint position = CGPointMake(_semiModalParentViewController.view.bounds.origin.x, _semiModalParentViewController.view.bounds.origin.y + _semiModalParentViewController.view.bounds.size.height);
     CGRect viewControllerFrame;
     viewControllerFrame.origin = position;
     viewControllerFrame.size = viewControllerToPresent.view.intrinsicContentSize;
-    viewControllerFrame.size.width = self.view.bounds.size.width;
+    viewControllerFrame.size.width = _semiModalParentViewController.view.bounds.size.width;
     viewControllerToPresent.view.frame = viewControllerFrame;
     if (viewControllerFrame.size.height <= 0) {
         [self updateSizeForPresentedSemiModalViewControllerAnimated:NO];
@@ -95,10 +123,15 @@
     finalViewControllerFrame.origin.y = finalViewControllerFrame.origin.y - finalViewControllerFrame.size.height;
     
     // Add it to the view
-    [self.view addSubview:viewControllerToPresent.view];
+    [_semiModalParentViewController.view addSubview:viewControllerToPresent.view];
     [viewControllerToPresent didMoveToParentViewController:self];
     
-    [self displaySemiModalViewControllerNavigationItem];
+    if (desaturateNavigationBar) {
+        self.navigationController.navigationBar.userInteractionEnabled = NO;
+        self.navigationController.navigationBar.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
+    } else {
+        [self displaySemiModalViewControllerNavigationItem];
+    }
     
     // Animate it up
     [UIView animateIf:animated duration:0.3 animations:^{
@@ -115,10 +148,21 @@
 {
     if (_presentedSemiModalViewController) {
         [_presentedSemiModalViewController willMoveToParentViewController:nil];
-        [self displayContainerNavigationItem];
+        
+        if ([self presentationStyleDesaturateNavigationBar]) {
+            self.navigationController.navigationBar.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
+            self.navigationController.navigationBar.userInteractionEnabled = YES;
+            [UIApplication sharedApplication].statusBarStyle = self.preferredStatusBarStyle;
+        } else {
+            [self displayContainerNavigationItem];
+        }
+        
         [UIView animateIf:animated duration:0.3 animations:^{
             // Set the frame to be below the current view
-            self.navigationItem.title = _oldTitle;
+            
+            if (![self presentationStyleDesaturateNavigationBar]) {
+                self.navigationItem.title = _oldTitle;
+            }
             CGPoint position = CGPointMake(self.view.bounds.origin.x, self.view.bounds.origin.y + self.view.bounds.size.height);
             CGRect viewControllerFrame = _presentedSemiModalViewController.view.frame;
             viewControllerFrame.origin = position;
@@ -130,6 +174,7 @@
             [_semiModalViewControllerMask removeFromSuperview];
             _semiModalViewControllerMask = nil;
             if (completion) {
+                _presentedSemiModalViewController = nil;
                 completion();
             }
         }];
