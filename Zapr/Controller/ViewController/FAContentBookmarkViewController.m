@@ -161,8 +161,8 @@
             FASemiModalEnabledViewController *parentViewController = (FASemiModalEnabledViewController *)self.parentViewController;
             [parentViewController displayContainerNavigationItem];
             [parentViewController dismissSemiModalViewControllerAnimated:YES completion:^{
-                [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];
                 [customListsMembershipViewController loadContent:_currentContent];
+                [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];
             }];
         } else if (indexPath.row == 3) {
             FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:_currentContent];
