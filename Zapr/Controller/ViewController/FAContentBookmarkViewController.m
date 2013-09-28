@@ -16,7 +16,7 @@
 #import "FAInterfaceStringProvider.h"
 
 @interface FAContentBookmarkViewController ()
-
+@property BOOL displaysSeenButton;
 @end
 
 @implementation FAContentBookmarkViewController {
@@ -64,19 +64,17 @@
 
 - (void)loadContent:(FATraktContent *)content
 {
-    if (content.in_watchlist) {
-        self.watchlistLabel.text = NSLocalizedString(@"Remove from Watchlist", nil);
-    } else {
-        self.watchlistLabel.text = NSLocalizedString(@"Add to Watchlist", nil);
+    self.displaysSeenButton = YES;
+    if (content.contentType == FATraktContentTypeShows) {
+        FATraktShow *show = (FATraktShow *)content;
+        if (show.progress.left.unsignedIntegerValue == 0) {
+            self.displaysSeenButton = NO;
+        }
     }
     
-    if (content.in_collection) {
-        self.libraryLabel.text = NSLocalizedString(@"Remove from collection", nil);
-    } else {
-        self.libraryLabel.text = NSLocalizedString(@"Add to collection", nil);
-    }
+    [self.tableView reloadData];
     
-    if (_accountSettings) {
+    /*if (_accountSettings) {
         if (_accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
             self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
         } else {
@@ -84,7 +82,7 @@
         }
     } else {
         self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
-    }
+    }*/
 }
 
 - (void)displayContent:(FATraktContent *)content
@@ -111,9 +109,113 @@
 
 #pragma mark UITableViewDelegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if (self.displaysSeenButton) {
+        return 3;
+    } else {
+        return 2;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSUInteger offset = 0;
+    if (!self.displaysSeenButton) {
+        offset = 1;
+    }
+    
+    section = section + offset;
+    if (section == 0) {
+        return 1;
+    } else if (section == 1) {
+        return 3;
+    } else if (section == 2) {
+        return 1;
+    }
+    
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"contentBookmark";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    NSUInteger offset = 0;
+    if (!self.displaysSeenButton) {
+        offset = 1;
+    }
+    
+    if (indexPath.section + offset == 0) {
+        if (_currentContent.contentType == FATraktContentTypeShows) {
+            cell.textLabel.text = NSLocalizedString(@"+ Seen everything", nil);
+        } else {
+            if (_currentContent.isWatched) {
+                cell.textLabel.text = NSLocalizedString(@"- Seen", nil);
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"+ Seen", nil);
+            }
+        }
+    } else if (indexPath.section + offset == 1) {
+        if (indexPath.row == 0) {
+            if (_currentContent.in_watchlist) {
+                cell.textLabel.text = NSLocalizedString(@"Remove from Watchlist", nil);
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"Add to Watchlist", nil);
+            }
+        } else if (indexPath.row == 1) {
+            if (_currentContent.in_collection) {
+                cell.textLabel.text = NSLocalizedString(@"Remove from Collection", nil);
+            } else {
+                cell.textLabel.text = NSLocalizedString(@"Add to Collection", nil);
+            }
+        } else if (indexPath.row == 2) {
+            cell.textLabel.text = NSLocalizedString(@"Custom Lists", nil);
+        }
+    } else if (indexPath.section + offset == 2) {
+        cell.textLabel.text = NSLocalizedString(@"Cancel", nil);
+        cell.textLabel.tintColor = self.view.tintColor;
+    }
+    
+    return cell;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
+    NSUInteger offset = 0;
+    if (!self.displaysSeenButton) {
+        offset = 1;
+    }
+    
+    if (indexPath.section + offset == 0) {
+        // Seen button
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
+        if (indexPath.row == 0) {
+            if (_currentContent.isWatched) {
+                [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:NSLocalizedString(@"Unwatching the %@ for you", nil), [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:NO longVersion:NO]]];
+                [[FATrakt sharedInstance] setContent:_currentContent seenStatus:NO callback:^{
+                    [hud showProgressHUDSuccess];
+                } onError:^(FATraktConnectionResponse *connectionError) {
+                    [hud showProgressHUDFailed];
+                }];
+            } else {
+                [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:NSLocalizedString(@"Watching the %@ for you", nil), [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:NO longVersion:NO]]];
+                [[FATrakt sharedInstance] setContent:_currentContent seenStatus:YES callback:^{
+                    [hud showProgressHUDSuccess];
+                } onError:^(FATraktConnectionResponse *connectionError) {
+                    [hud showProgressHUDFailed];
+                }];
+            }
+            
+            [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+        }
+        
+    } else if (indexPath.section + offset == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
         if (indexPath.row == 0) {
@@ -134,12 +236,12 @@
                 }];
             }
             
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 1) {
             // Library add/remove button
             if (_currentContent.in_collection) {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from collection", nil)];
-                [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
+                [[FATrakt sharedInstance] removeFromLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
@@ -153,14 +255,13 @@
                 }];
             }
             
-            [(FASemiModalEnabledViewController *)self.parentViewController dismissSemiModalViewControllerAnimated:YES completion:nil];
+            [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 2) {
             // Custom Lists Button
             UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
             FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
-            FASemiModalEnabledViewController *parentViewController = (FASemiModalEnabledViewController *)self.parentViewController;
-            [parentViewController displayContainerNavigationItem];
-            [parentViewController dismissSemiModalViewControllerAnimated:YES completion:^{
+            UIViewController *parentViewController = self.parentViewController;
+            [parentViewController dismissViewControllerAnimated:YES completion:^{
                 [customListsMembershipViewController loadContent:_currentContent];
                 [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];
             }];
@@ -168,7 +269,7 @@
             FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:_currentContent];
             [self presentViewController:ratingsViewController animated:YES completion:nil];
         }
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.section + offset == 2) {
         [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
