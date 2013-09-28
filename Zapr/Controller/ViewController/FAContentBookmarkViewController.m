@@ -8,7 +8,7 @@
 
 #import "FAContentBookmarkViewController.h"
 #import "FASemiModalEnabledViewController.h"
-#import "FACustomListsMembershipViewController.h"
+#import "FACustomListsMembershipTableViewController.h"
 #import "FADetailViewController.h"
 #import "FARatingsViewController.h"
 #import "FATraktContent.h"
@@ -75,9 +75,6 @@
     } else {
         self.libraryLabel.text = NSLocalizedString(@"Add to library", nil);
     }
-    
-    int count = [FATraktList cachedCustomLists].count;
-    self.customListsDetailLabel.text = [NSString stringWithFormat:@"%i", count];
     
     if (_accountSettings) {
         if (_accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
@@ -160,10 +157,14 @@
         } else if (indexPath.row == 2) {
             // Custom Lists Button
             UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
-            FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
-            [(FASemiModalEnabledViewController *)self.parentViewController displayContainerNavigationItem];
-            [self.parentViewController.navigationController pushViewController:customListsMembershipViewController animated:YES];
-        } else if (indexPath.row == 3) {            
+            FACustomListsMembershipTableViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
+            FASemiModalEnabledViewController *parentViewController = (FASemiModalEnabledViewController *)self.parentViewController;
+            [parentViewController displayContainerNavigationItem];
+            [parentViewController dismissSemiModalViewControllerAnimated:YES completion:^{
+                [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];
+                [customListsMembershipViewController loadContent:_currentContent];
+            }];
+        } else if (indexPath.row == 3) {
             FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:_currentContent];
             [self presentViewController:ratingsViewController animated:YES completion:nil];
         }

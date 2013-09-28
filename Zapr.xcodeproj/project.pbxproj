@@ -65,7 +65,7 @@
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
 		F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
-		F34D986217DAF53A0033FBD7 /* FACustomListsMembershipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986117DAF53A0033FBD7 /* FACustomListsMembershipViewController.m */; };
+		F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */; };
 		F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986417DB1C510033FBD7 /* FATraktConnection.m */; };
 		F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */; };
 		F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986A17DC20890033FBD7 /* FAHomeViewController.m */; };
@@ -139,6 +139,7 @@
 		F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */; };
 		F3EE213317F4FA2400A0118E /* UIView+ImageScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */; };
 		F3EE213617F4FF5E00A0118E /* UIImage+imageWithColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213517F4FF5E00A0118E /* UIImage+imageWithColor.m */; };
+		F3EE213917F6765800A0118E /* FACustomListsMembershipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
@@ -258,8 +259,8 @@
 		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFunctions.m; sourceTree = "<group>"; };
 		F33CC36316F093D200B7D443 /* FAPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPropertyInfo.h; sourceTree = "<group>"; };
 		F33CC36416F093D200B7D443 /* FAPropertyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPropertyInfo.m; sourceTree = "<group>"; };
-		F34D986017DAF53A0033FBD7 /* FACustomListsMembershipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACustomListsMembershipViewController.h; sourceTree = "<group>"; };
-		F34D986117DAF53A0033FBD7 /* FACustomListsMembershipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACustomListsMembershipViewController.m; sourceTree = "<group>"; };
+		F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACustomListsMembershipTableViewController.h; sourceTree = "<group>"; };
+		F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACustomListsMembershipTableViewController.m; sourceTree = "<group>"; };
 		F34D986317DB1C510033FBD7 /* FATraktConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktConnection.h; sourceTree = "<group>"; };
 		F34D986417DB1C510033FBD7 /* FATraktConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktConnection.m; sourceTree = "<group>"; };
 		F34D986617DB222C0033FBD7 /* FATraktConnectionResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktConnectionResponse.h; sourceTree = "<group>"; };
@@ -387,6 +388,8 @@
 		F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ImageScreenshot.m"; sourceTree = "<group>"; };
 		F3EE213417F4FF5E00A0118E /* UIImage+imageWithColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+imageWithColor.h"; sourceTree = "<group>"; };
 		F3EE213517F4FF5E00A0118E /* UIImage+imageWithColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+imageWithColor.m"; sourceTree = "<group>"; };
+		F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACustomListsMembershipViewController.h; sourceTree = "<group>"; };
+		F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACustomListsMembershipViewController.m; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktListItem.m; sourceTree = "<group>"; };
 		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBar.h; sourceTree = "<group>"; };
@@ -564,8 +567,10 @@
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
 				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
 				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
-				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipViewController.h */,
-				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipViewController.m */,
+				F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */,
+				F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */,
+				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */,
+				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */,
 				F35A174817E175D8004B5F44 /* FARatingsViewController.h */,
 				F35A174917E175D8004B5F44 /* FARatingsViewController.m */,
 			);
@@ -1227,8 +1232,9 @@
 				F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */,
 				F3A47BA917A0F14A0022B251 /* FAPushoverViewAnimationController.m in Sources */,
 				F3529E7E17917E280094F65E /* FAFanartImageView.m in Sources */,
-				F34D986217DAF53A0033FBD7 /* FACustomListsMembershipViewController.m in Sources */,
+				F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
+				F3EE213917F6765800A0118E /* FACustomListsMembershipViewController.m in Sources */,
 				F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */,
 				F3B1F36717A85A7C00800B61 /* FABigDataCache.m in Sources */,
 				F3636B7816F03D050062E885 /* FACache.m in Sources */,

@@ -2,14 +2,15 @@
 //  FACustomListsMembershipViewController.m
 //  Zapr
 //
-//  Created by Finn Wilke on 07.09.13.
+//  Created by Finn Wilke on 28.09.13.
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
 #import "FACustomListsMembershipViewController.h"
+#import "FACustomListsMembershipTableViewController.h"
 
 @interface FACustomListsMembershipViewController ()
-@property NSArray *customLists;
+
 @end
 
 @implementation FACustomListsMembershipViewController
@@ -35,9 +36,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)loadContent:(FATraktContent *)content
 {
-    
+    FACustomListsMembershipTableViewController *tableViewController = (FACustomListsMembershipTableViewController *)self.topViewController;
+    [tableViewController loadContent:content];
 }
 
 @end

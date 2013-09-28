@@ -465,16 +465,31 @@
             <point key="canvasLocation" x="1572" y="277"/>
         </scene>
         <!--Custom Lists Membership View Controller-->
+        <scene sceneID="b1I-z1-Kow">
+            <objects>
+                <navigationController storyboardIdentifier="customListsMembership" definesPresentationContext="YES" id="7zy-kM-RHQ" customClass="FACustomListsMembershipViewController" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LGM-Mb-Ine">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y0I-Rd-gUQ" kind="relationship" relationship="rootViewController" id="DK6-8J-CJr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7by-xk-HRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2406" y="277"/>
+        </scene>
+        <!--Custom Lists Membership Table View Controller - Lists-->
         <scene sceneID="ZWX-Ot-enY">
             <objects>
-                <tableViewController storyboardIdentifier="customListsMembership" id="Y0I-Rd-gUQ" customClass="FACustomListsMembershipViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="customListsMembershipTableView" id="Y0I-Rd-gUQ" customClass="FACustomListsMembershipTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="qRM-vY-6oq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FACustomListTableViewCell" id="lS0-MR-Cuv">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="116" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lS0-MR-Cuv" id="LYp-zw-1Yy">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -487,12 +502,17 @@
                             <outlet property="delegate" destination="Y0I-Rd-gUQ" id="R0Q-97-6Rv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="0ko-6K-FoW"/>
+                    <navigationItem key="navigationItem" title="Lists" prompt="Select the lists you want this to be in" id="cvh-PR-GGx">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="DmN-bD-ebz">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="Y0I-Rd-gUQ" id="Tvq-Bl-M6d"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hbr-4l-jRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <navigationItem title="Add to Lists" id="yP4-KJ-Wjy"/>
             </objects>
-            <point key="canvasLocation" x="2445" y="277"/>
+            <point key="canvasLocation" x="2814" y="277"/>
         </scene>
         <!--Content Bookmark View Controller-->
         <scene sceneID="Ikz-1n-bcF">
@@ -539,11 +559,11 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="XzX-JA-LVI" detailTextLabel="UgZ-My-o7e" style="IBUITableViewCellStyleValue1" id="DFl-fa-D7a">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="XzX-JA-LVI" detailTextLabel="UgZ-My-o7e" style="IBUITableViewCellStyleValue1" id="DFl-fa-D7a">
                                         <rect key="frame" x="0.0" y="123" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DFl-fa-D7a" id="Teo-nZ-QNF">
-                                            <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Custom Lists" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XzX-JA-LVI">
@@ -554,7 +574,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UgZ-My-o7e">
-                                                    <rect key="frame" x="241" y="11" width="44" height="21"/>
+                                                    <rect key="frame" x="261" y="11" width="44" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.50196078431372548" green="0.50196078431372548" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
