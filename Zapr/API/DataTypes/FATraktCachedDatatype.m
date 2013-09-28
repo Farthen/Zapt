@@ -24,7 +24,7 @@
 - (BOOL)isEqual:(id)object
 {
     if ([object respondsToSelector:@selector(cacheKey)]) {
-        if ([object cacheKey] == [self cacheKey]) {
+        if ([[object cacheKey] isEqualToString:[self cacheKey]]) {
             return YES;
         }
     }
