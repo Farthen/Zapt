@@ -314,17 +314,17 @@ char *NewBase64Encode(
 - (NSString *)base64EncodedStringWithSeparateLines:(BOOL)separateLines
 {
 	size_t outputLength;
-	char *outputBuffer =
-    NewBase64Encode([self bytes], [self length], separateLines, &outputLength);
-	
-	NSString *result =
-    [[[NSString alloc]
-      initWithBytes:outputBuffer
-      length:outputLength
-      encoding:NSASCIIStringEncoding]
-     autorelease];
-	free(outputBuffer);
-	return result;
+	char *outputBuffer = NewBase64Encode([self bytes], [self length], separateLines, &outputLength);
+	if (outputBuffer) {
+        NSString *result =
+        [[[NSString alloc]
+          initWithBytes:outputBuffer
+          length:outputLength
+          encoding:NSASCIIStringEncoding]
+         autorelease];
+        free(outputBuffer);
+        return result;
+    }
 }
 
 
