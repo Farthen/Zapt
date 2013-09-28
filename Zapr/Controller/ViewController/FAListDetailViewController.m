@@ -125,7 +125,7 @@
     }
     
     if (_isLibrary) {
-        self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collected", nil)];
+        self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Collected", nil), NSLocalizedString(@"Watched", nil)];
         self.searchBar.showsScopeBar = YES;
         self.tableView.tableHeaderView = self.searchBar;
         [self.searchBar sizeToFit];
@@ -272,25 +272,28 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If row is deleted, remove it from the list.
+    // FIXME this should work for library as well
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-        [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:(NSUInteger)indexPath.row] content] callback:^(void) {
-            [hud showProgressHUDSuccess];
-            [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
-            NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
-            
-            // Animate the deletion from the table.
-            [self.tableView beginUpdates];
-            [newList removeObjectAtIndex:(NSUInteger)indexPath.row];
-            _displayedList.items = newList;
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView endUpdates];
-            
-        } onError:^(FATraktConnectionResponse *connectionError) {
-            [hud showProgressHUDFailed];
-        }];
+        if (_isWatchlist) {
+            FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
+            [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:(NSUInteger)indexPath.row] content] callback:^(void) {
+                [hud showProgressHUDSuccess];
+                [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
+                NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+                
+                // Animate the deletion from the table.
+                [self.tableView beginUpdates];
+                [newList removeObjectAtIndex:(NSUInteger)indexPath.row];
+                _displayedList.items = newList;
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
+                
+            } onError:^(FATraktConnectionResponse *connectionError) {
+                [hud showProgressHUDFailed];
+            }];
+        }
     }
 }
 
