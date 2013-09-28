@@ -736,7 +736,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         api = [NSString stringWithFormat:@"%@/unlibrary", libraryName];
     }
     
-    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+    NSDictionary *payload;
+    if (content.contentType == FATraktContentTypeMovies || content.contentType == FATraktContentTypeEpisodes) {
+        payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    } else {
+        payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    }
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         content.in_collection = add;
@@ -809,6 +814,58 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         }
         [content commitToCache];
         callback();
+    } onError:error];
+}
+
+- (LRRestyRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *api;
+    NSDictionary *postData;
+    if (content.contentType == FATraktContentTypeMovies) {
+        if (seen) {
+            api = @"movie/seen";
+        } else {
+            api = @"movie/unseen";
+        }
+        
+        postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    } else if (content.contentType == FATraktContentTypeShows) {
+        if (seen) {
+            api = @"show/seen";
+            postData = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+        } else {
+            // There is no show/unseen API
+            FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
+            response.responseType = FATraktConnectionResponseTypeUnknown;
+            error(response);
+        }
+    } else if (content.contentType == FATraktContentTypeEpisodes) {
+        if (seen) {
+            api = @"show/episode/seen";
+        } else {
+            api = @"show/episode/unseen";
+        }
+        
+        postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    }
+    
+    return [[FATraktConnection sharedInstance] postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+        if (content.contentType == FATraktContentTypeMovies) {
+            FATraktMovie *movie = (FATraktMovie *)content;
+            movie.watched = seen;
+        } else if (content.contentType == FATraktContentTypeEpisodes) {
+            FATraktEpisode *episode = (FATraktEpisode *)content;
+            episode.watched = seen;
+        } else if (content.contentType == FATraktContentTypeShows) {
+            FATraktShow *show = (FATraktShow *)content;
+            if (!show.progress) {
+                show.progress = [[FATraktShowProgress alloc] init];
+            } else {
+                show.progress.left = 0;
+                show.progress.completed = show.progress.aired;
+                show.progress.percentage = @100;
+            }
+        }
     } onError:error];
 }
 
