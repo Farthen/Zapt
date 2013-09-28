@@ -518,8 +518,7 @@
 			children = (
 				F30CAFC0179CD194002E7D3C /* FANextUpViewController.h */,
 				F30CAFC1179CD194002E7D3C /* FANextUpViewController.m */,
-				F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */,
-				F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */,
+				F3EE213F17F684A200A0118E /* Bookmark */,
 			);
 			name = Containers;
 			sourceTree = "<group>";
@@ -565,14 +564,7 @@
 			children = (
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
-				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
-				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
-				F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */,
-				F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */,
-				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */,
-				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */,
-				F35A174817E175D8004B5F44 /* FARatingsViewController.h */,
-				F35A174917E175D8004B5F44 /* FARatingsViewController.m */,
+				F30CAFC3179CD19D002E7D3C /* Containers */,
 			);
 			name = Detail;
 			sourceTree = "<group>";
@@ -706,6 +698,7 @@
 		F3C84B6A1628DC56006CBFEF /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F3EE214217F684DA00A0118E /* Generic */,
 				F3C84B6D1628DCB1006CBFEF /* Main Interface */,
 				F3C84B691628DC48006CBFEF /* Connection */,
 			);
@@ -747,7 +740,6 @@
 			children = (
 				F34D986917DC20890033FBD7 /* FAHomeViewController.h */,
 				F34D986A17DC20890033FBD7 /* FAHomeViewController.m */,
-				F30CAFC3179CD19D002E7D3C /* Containers */,
 				F34D986C17DC20970033FBD7 /* Detail */,
 				F3C84B6E1628DCC5006CBFEF /* Search Tab */,
 				F357FA7116A8B61C00420EC4 /* Lists Tab */,
@@ -871,6 +863,46 @@
 				F3D80E3E17CCF7A500343C9F /* Data Types */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		F3EE213D17F6847C00A0118E /* Custom Lists */ = {
+			isa = PBXGroup;
+			children = (
+				F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */,
+				F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */,
+				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */,
+				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */,
+			);
+			name = "Custom Lists";
+			sourceTree = "<group>";
+		};
+		F3EE213F17F684A200A0118E /* Bookmark */ = {
+			isa = PBXGroup;
+			children = (
+				F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */,
+				F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */,
+				F3EE213D17F6847C00A0118E /* Custom Lists */,
+				F3EE214117F684B500A0118E /* Rating */,
+			);
+			name = Bookmark;
+			sourceTree = "<group>";
+		};
+		F3EE214117F684B500A0118E /* Rating */ = {
+			isa = PBXGroup;
+			children = (
+				F35A174817E175D8004B5F44 /* FARatingsViewController.h */,
+				F35A174917E175D8004B5F44 /* FARatingsViewController.m */,
+			);
+			name = Rating;
+			sourceTree = "<group>";
+		};
+		F3EE214217F684DA00A0118E /* Generic */ = {
+			isa = PBXGroup;
+			children = (
+				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
+				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
+			);
+			name = Generic;
 			sourceTree = "<group>";
 		};
 		F3F8C5FC1627297800D6BD4C /* Trakt */ = {
