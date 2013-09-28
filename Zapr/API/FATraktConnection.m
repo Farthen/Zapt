@@ -199,6 +199,8 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         // We cancelled this request. We don't need to do anything anymore
     } else if (connectionResponse.responseType & FATraktConnectionResponseTypeAnyError) {
         // Check if we handle errors. If we don't, let the application delegate handle it
+        DDLogController(@"HTTP RESPONSE Error %i", connectionResponse.response.status);
+        
         if (error) {
             error(connectionResponse);
         } else {
@@ -227,6 +229,9 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         if (error) {
             FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithResponse:nil];
             response.responseType = FATraktConnectionResponseTypeUnknown;
+            
+            DDLogController(@"Payload was: %@", payload);
+            
             error(response);
             return nil;
         }
