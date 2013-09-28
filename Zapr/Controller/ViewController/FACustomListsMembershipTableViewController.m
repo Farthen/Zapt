@@ -10,6 +10,8 @@
 #import "FACustomListsMembershipViewController.h"
 #import "FATrakt.h"
 
+#import "FAInterfaceStringProvider.h"
+
 @interface FACustomListsMembershipTableViewController ()
 @property NSMutableArray *customLists;
 @property FATraktContent *content;
@@ -46,6 +48,9 @@
 {
     self.content = content;
     [self refreshDataAnimated:NO];
+    
+    NSString *contentTypeName = [FAInterfaceStringProvider nameForContentType:content.contentType withPlural:NO capitalized:NO];
+    self.navigationItem.prompt = [NSString stringWithFormat:NSLocalizedString(@"Select the lists you want this %@ to be in", nil), contentTypeName];
 }
 
 - (void)refreshDataAnimated:(BOOL)animated
