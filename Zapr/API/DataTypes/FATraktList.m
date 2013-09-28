@@ -12,6 +12,10 @@
 #import "FATraktContent.h"
 #import "NSArray+Sorting.h"
 
+@interface FATraktList ()
+
+@end
+
 @implementation FATraktList
 
 - (id)init
@@ -29,6 +33,7 @@
 {
     self = [super initWithJSONDict:dict];
     if (self) {
+        self.contentType = FATraktContentTypeNone;
         self.detailLevel = FATraktDetailLevelMinimal;
         FATraktList *cachedList = [self.class.backingCache objectForKey:self.cacheKey];
         if (cachedList && cachedList.detailLevel > self.detailLevel) {
@@ -47,13 +52,36 @@
 - (BOOL)containsContent:(FATraktContent *)content
 {
     for (FATraktListItem *listItem in self.items) {
-        FATraktContent *content = listItem.content;
-        if ([content isEqual:content]) {
+        FATraktContent *listContent = listItem.content;
+        if ([listContent isEqual:content]) {
             return YES;
         }
     }
     
     return NO;
+}
+
+- (void)addContent:(FATraktContent *)content
+{
+    FATraktListItem *listItem = [[FATraktListItem alloc] init];
+    listItem.content = content;
+    
+    if (!self.items) {
+        self.items = [[NSMutableArray alloc] init];
+    }
+    [self.items addObject:listItem];
+}
+
+- (void)removeContent:(FATraktContent *)content
+{
+    NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    for (NSUInteger i = 0; i < self.items.count; i++) {
+        FATraktListItem *listItem = [self.items objectAtIndex:i];
+        if ([listItem.content isEqual:content]) {
+            [indexes addIndex:i];
+        }
+    }
+    [self.items removeObjectsAtIndexes:indexes];
 }
 
 - (void)finishedMappingObjects
@@ -115,7 +143,6 @@
     return [customLists sortedArrayUsingKey:@"name" ascending:YES];
 }
 
-
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merging lists is inappropriate
@@ -135,7 +162,7 @@
             FATraktListItem *item = [[FATraktListItem alloc] initWithJSONDict:itemDict];
             [itemArray addObject:item];
         }
-        [self setValue:[NSArray arrayWithArray:itemArray] forKey:key];
+        [self setValue:itemArray forKey:key];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }

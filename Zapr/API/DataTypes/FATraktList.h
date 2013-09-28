@@ -17,6 +17,8 @@
 + (NSArray *)cachedCustomLists;
 
 - (BOOL)containsContent:(FATraktContent *)content;
+- (void)addContent:(FATraktContent *)content;
+- (void)removeContent:(FATraktContent *)content;
 
 @property (retain) NSString *name;
 @property (retain) NSString *slug;
@@ -25,7 +27,7 @@
 @property (retain) NSString *privacy;
 @property (assign) BOOL show_numbers;
 @property (assign) BOOL allow_shouts;
-@property (retain) NSArray *items;
+@property (retain) NSMutableArray *items;
 
 @property (assign) BOOL isWatchlist;
 @property (assign) BOOL isLibrary;
