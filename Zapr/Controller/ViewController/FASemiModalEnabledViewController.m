@@ -72,15 +72,6 @@
     [self dismissSemiModalViewControllerAnimated:YES completion:nil];
 }
 
-- (UIViewController *)childViewControllerForStatusBarStyle
-{
-    if (_presentedSemiModalViewController) {
-        return _presentedSemiModalViewController;
-    }
-    
-    return self;
-}
-
 - (void)presentSemiModalViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion
 {
     // See: http://developer.apple.com/library/ios/#featuredarticles/ViewControllerPGforiPhoneOS/CreatingCustomContainerViewControllers/CreatingCustomContainerViewControllers.html
@@ -90,9 +81,9 @@
     
     BOOL desaturateNavigationBar = [self presentationStyleDesaturateNavigationBar];
     
-    if (desaturateNavigationBar) {
+    /*if (desaturateNavigationBar) {
         _semiModalParentViewController = self.navigationController;
-    }
+    }*/
     
     
     [_semiModalParentViewController addChildViewController:viewControllerToPresent];
@@ -132,7 +123,7 @@
     } else {
         [self displaySemiModalViewControllerNavigationItem];
     }
-    
+        
     // Animate it up
     [UIView animateIf:animated duration:0.3 animations:^{
         viewControllerToPresent.view.frame = finalViewControllerFrame;
