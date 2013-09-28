@@ -19,7 +19,7 @@
 @property (retain) NSString *rt_id;
 @property (retain) NSString *trailer;
 @property (retain) NSString *tagline;
-@property (retain) NSNumber *watched;
+@property BOOL watched;
 @property (retain) NSNumber *plays;
 
 @end
