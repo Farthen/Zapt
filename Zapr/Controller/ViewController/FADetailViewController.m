@@ -15,6 +15,8 @@
 #import "FATraktActivityItemSource.h"
 #import <TUSafariActivity/TUSafariActivity.h>
 
+#import "FAInterfaceStringProvider.h"
+
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
@@ -91,14 +93,13 @@
     
     if (_loadContent) {
         _currentContent = [_currentContent cachedVersion];
+        self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
+        
         if (_currentContent.contentType == FATraktContentTypeMovies) {
-            self.navigationItem.title = NSLocalizedString(@"Movie", nil);
             [self displayMovie:(FATraktMovie *)_currentContent];
         } else if (_currentContent.contentType == FATraktContentTypeShows) {
-            self.navigationItem.title = NSLocalizedString(@"Show", nil);
             [self displayShow:(FATraktShow *)_currentContent];
         } else if (_currentContent.contentType == FATraktContentTypeEpisodes) {
-            self.navigationItem.title = NSLocalizedString(@"Episode", nil);
             [self displayEpisode:(FATraktEpisode *)_currentContent];
         }
     }
@@ -326,7 +327,7 @@
     }
 }
 
-- (void)loadValueForContent:(FATraktContent *)item
+- (void)loadValuesForContent:(FATraktContent *)item
 {
     self.title = item.title;
     [self setOverview:item.overview];
@@ -336,7 +337,7 @@
 
 - (void)loadValuesForMovie:(FATraktMovie *)movie
 {
-    [self loadValueForContent:movie];
+    [self loadValuesForContent:movie];
 }
 
 - (void)displayMovie:(FATraktMovie *)movie
@@ -353,7 +354,7 @@
 
 - (void)loadValuesForShow:(FATraktShow *)show
 {
-    [self loadValueForContent:show];
+    [self loadValuesForContent:show];
     [self setProgress:show.progress];
     
     [self.view layoutIfNeeded];
@@ -375,7 +376,7 @@
 
 - (void)loadValuesForEpisode:(FATraktEpisode *)episode
 {
-    [self loadValueForContent:episode];
+    [self loadValuesForContent:episode];
     [self setEpisodeDetail:episode];
     //FATraktSeason *season = episode.show.seasons[episode.season.unsignedIntValue];
     [self.view layoutIfNeeded];
