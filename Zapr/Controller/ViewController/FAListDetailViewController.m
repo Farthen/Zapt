@@ -125,7 +125,7 @@
     }
     
     if (_isLibrary) {
-        self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collection", nil)];
+        self.searchBar.scopeButtonTitles = @[NSLocalizedString(@"All", nil), NSLocalizedString(@"Watched", nil), NSLocalizedString(@"Collected", nil)];
         self.searchBar.showsScopeBar = YES;
         self.tableView.tableHeaderView = self.searchBar;
         [self.searchBar sizeToFit];
