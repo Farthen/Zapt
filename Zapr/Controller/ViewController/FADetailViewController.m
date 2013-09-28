@@ -96,11 +96,11 @@
         self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
         
         if (_currentContent.contentType == FATraktContentTypeMovies) {
-            [self displayMovie:(FATraktMovie *)_currentContent];
+            [self loadMovieData:(FATraktMovie *)_currentContent];
         } else if (_currentContent.contentType == FATraktContentTypeShows) {
-            [self displayShow:(FATraktShow *)_currentContent];
+            [self loadShowData:(FATraktShow *)_currentContent];
         } else if (_currentContent.contentType == FATraktContentTypeEpisodes) {
-            [self displayEpisode:(FATraktEpisode *)_currentContent];
+            [self loadEpisodeData:(FATraktEpisode *)_currentContent];
         }
     }
 }
@@ -281,18 +281,18 @@
     }
 }
 
-- (void)setTitle:(NSString *)title
+- (void)displayTitle:(NSString *)title
 {
     self.titleLabel.text = title;
     [self.titleLabel invalidateIntrinsicContentSize];
 }
 
-- (void)setOverview:(NSString *)overview
+- (void)displayOverview:(NSString *)overview
 {
     self.overviewLabel.text = overview;
 }
 
-- (void)setProgress:(FATraktShowProgress *)progress
+- (void)displayProgress:(FATraktShowProgress *)progress
 {
     if (progress) {
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
@@ -307,8 +307,57 @@
     }
 }
 
-- (void)setEpisodeDetail:(FATraktEpisode *)episode
+- (void)displayGenericContentData:(FATraktContent *)item
 {
+    [self displayTitle:item.title];
+    [self displayOverview:item.overview];
+    [self setPosterToURL:item.widescreenImageURL];
+    [self.overviewLabel sizeToFit];
+}
+
+- (void)displayMovie:(FATraktMovie *)movie
+{
+    [self displayGenericContentData:movie];
+}
+
+- (void)loadMovieData:(FATraktMovie *)movie
+{
+    self.actionButton.title = NSLocalizedString(@"Check In", nil);
+    
+    [self displayMovie:movie];
+    
+    [[FATrakt sharedInstance] detailsForMovie:movie callback:^(FATraktMovie *movie) {
+        [self displayMovie:movie];
+        _currentContent = movie;
+    } onError:nil];
+}
+
+- (void)displayShow:(FATraktShow *)show
+{
+    [self displayGenericContentData:show];
+    [self displayProgress:show.progress];
+    
+    [self.view layoutIfNeeded];
+    [self.view updateConstraintsIfNeeded];
+}
+
+- (void)loadShowData:(FATraktShow *)show
+{
+    DDLogViewController(@"Displaying show %@", show.description);
+    self.actionButton.title = NSLocalizedString(@"Episodes", nil);
+    [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
+        [self displayShow:show];
+    } onError:nil];
+    [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress){
+        [self displayShow:show];
+    } onError:nil];
+    [self displayShow:show];
+}
+
+- (void)displayEpisode:(FATraktEpisode *)episode
+{
+    [self displayGenericContentData:episode];
+    
     if (episode.show || (episode.episode && episode.season)) {
         NSString *displayString;
         if (episode.show && episode.episode && episode.season) {
@@ -325,70 +374,17 @@
             [self.view layoutIfNeeded];
         } completion:nil];
     }
-}
-
-- (void)loadValuesForContent:(FATraktContent *)item
-{
-    self.title = item.title;
-    [self setOverview:item.overview];
-    [self setPosterToURL:item.widescreenImageURL];
-    [self.overviewLabel sizeToFit];
-}
-
-- (void)loadValuesForMovie:(FATraktMovie *)movie
-{
-    [self loadValuesForContent:movie];
-}
-
-- (void)displayMovie:(FATraktMovie *)movie
-{
-    self.actionButton.title = NSLocalizedString(@"Check In", nil);
-    
-    [self loadValuesForMovie:movie];
-    
-    [[FATrakt sharedInstance] detailsForMovie:movie callback:^(FATraktMovie *movie) {
-        [self loadValuesForMovie:movie];
-        _currentContent = movie;
-    } onError:nil];
-}
-
-- (void)loadValuesForShow:(FATraktShow *)show
-{
-    [self loadValuesForContent:show];
-    [self setProgress:show.progress];
     
     [self.view layoutIfNeeded];
-    [self.view updateConstraintsIfNeeded];
 }
 
-- (void)displayShow:(FATraktShow *)show
-{
-    DDLogViewController(@"Displaying show %@", show.description);
-    self.actionButton.title = NSLocalizedString(@"Episodes", nil);
-    [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
-        [self loadValuesForShow:show];
-    } onError:nil];
-    [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress){
-        [self loadValuesForShow:show];
-    } onError:nil];
-    [self loadValuesForShow:show];
-}
-
-- (void)loadValuesForEpisode:(FATraktEpisode *)episode
-{
-    [self loadValuesForContent:episode];
-    [self setEpisodeDetail:episode];
-    //FATraktSeason *season = episode.show.seasons[episode.season.unsignedIntValue];
-    [self.view layoutIfNeeded];
-}
-
-- (void)displayEpisode:(FATraktEpisode *)episode
+- (void)loadEpisodeData:(FATraktEpisode *)episode
 {
     self.actionButton.title = NSLocalizedString(@"Check In", nil);
     [[FATrakt sharedInstance] detailsForEpisode:episode callback:^(FATraktEpisode *episode) {
-        [self loadValuesForEpisode:episode];
+        [self displayEpisode:episode];
     } onError:nil];
-    [self loadValuesForEpisode:episode];
+    [self displayEpisode:episode];
 }
 
 - (void)loadContent:(FATraktContent *)content
@@ -397,11 +393,11 @@
     
     if (_willAppear) {
         if (content.contentType == FATraktContentTypeMovies) {
-            return [self displayMovie:[((FATraktMovie *)content) cachedVersion]];
+            return [self loadMovieData:[((FATraktMovie *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeShows) {
-            return [self displayShow:[((FATraktShow *)content) cachedVersion]];
+            return [self loadShowData:[((FATraktShow *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeEpisodes) {
-            return [self displayEpisode:[((FATraktEpisode *)content) cachedVersion]];
+            return [self loadEpisodeData:[((FATraktEpisode *)content) cachedVersion]];
         }
     } else {
         _loadContent = YES;
@@ -440,7 +436,7 @@
     if (_currentContent.contentType == FATraktContentTypeEpisodes) {
         // Bring the user to the show
         FADetailViewController *showViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-        [showViewController displayShow:(FATraktShow *)_currentContent];
+        [showViewController loadShowData:(FATraktShow *)_currentContent];
         [self.navigationController presentViewController:showViewController animated:YES completion:nil];
     }
 }
