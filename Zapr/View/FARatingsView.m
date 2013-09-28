@@ -222,7 +222,7 @@
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchLocation = [touch locationInView:self.ratingControl];
     
-    // We seperate the view in 10 distinct areas.
+    // We separate the view in 10 distinct areas.
     // The navigationbar is not part of this area
     
     CGRect touchArea = self.ratingControl.bounds;
