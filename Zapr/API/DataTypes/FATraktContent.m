@@ -8,6 +8,10 @@
 
 #import "FATraktContent.h"
 #import "FATraktImageList.h"
+#import "FATraktMovie.h"
+#import "FATraktShow.h"
+#import "FATraktEpisode.h"
+#import "FATraktShowProgress.h"
 
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_MODEL
@@ -57,6 +61,19 @@
 - (NSString *)widescreenImageURL
 {
     return self.images.fanart;
+}
+
+- (BOOL)isWatched
+{
+    if ([self isKindOfClass:[FATraktMovie class]]) {
+        return ((FATraktMovie *)self).watched;
+    } else if ([self isKindOfClass:[FATraktShow class]]) {
+        return ((FATraktShow *)self).progress.left == 0;
+    } else if ([self isKindOfClass:[FATraktEpisode class]]) {
+        return ((FATraktEpisode *)self).watched;
+    }
+    
+    return NO;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
