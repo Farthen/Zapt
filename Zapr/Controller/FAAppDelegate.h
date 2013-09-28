@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "FATraktConnectionResponse.h"
 
+@protocol FAViewControllerPreferredContentSizeChanged <NSObject>
+- (void)preferredContentSizeChanged;
+@end
+
 @interface FAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

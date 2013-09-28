@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAAppDelegate.h"
 #import "FATrakt.h"
 @class FARefreshControlWithActivity;
 
-@interface FAListDetailViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface FAListDetailViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FAViewControllerPreferredContentSizeChanged>
 
 typedef enum {
     FAWatchlistTypeMovies = 0,

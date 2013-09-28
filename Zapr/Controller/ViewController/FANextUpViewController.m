@@ -42,8 +42,6 @@
     
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 }
 
@@ -71,7 +69,7 @@
     }
 }
 
-- (void)preferredContentSizeChanged:(NSNotification *)aNotification
+- (void)preferredContentSizeChanged
 {
     // This is called when dynamic type settings are changed
     [self.view recursiveSetNeedsUpdateConstraints];
@@ -165,10 +163,5 @@
     }
     return height;
 }*/
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 @end

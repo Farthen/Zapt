@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAAppDelegate.h"
 @class FAProgressView;
 @class FATraktContent;
 @class FATraktShowProgress;
 
-@interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, FAViewControllerPreferredContentSizeChanged>
 
 @property IBOutlet FAProgressView *progressView;
 @property IBOutlet UILabel *progressLabel;

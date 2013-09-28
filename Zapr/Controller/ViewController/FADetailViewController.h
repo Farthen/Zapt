@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "FASemiModalEnabledViewController.h"
+#import "FAAppDelegate.h"
+
 @class FATitleLabel;
 @class FATraktContent;
 @class FANextUpViewController;
 
-@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged>
 
 - (void)loadContent:(FATraktContent *)content;
 

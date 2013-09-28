@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAAppDelegate.h"
 @class FASearchData;
 @class FATableViewLoadingView;
 @class FASearchBarWithActivity;
 @class FANavigationController;
 
-@interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, FAViewControllerPreferredContentSizeChanged>
 
 @property (retain) FASearchData *searchData;
 @property (retain) IBOutlet FASearchBarWithActivity *searchBar;

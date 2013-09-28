@@ -72,7 +72,7 @@
     }
 }
 
-- (void)preferredContentSizeChanged:(NSNotification *)notification
+- (void)preferredContentSizeChanged
 {
     [self.tableView reloadData];
 }
@@ -87,8 +87,6 @@
     
     self.refreshControl = [[FARefreshControlWithActivity alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -434,13 +432,6 @@
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope
 {
     [self filterContentForSearchBar:searchBar];
-}
-
-- (void)dealloc
-{
-    //self.searchBar.delegate = nil;
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end

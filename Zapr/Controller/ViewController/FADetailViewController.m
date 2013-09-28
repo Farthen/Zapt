@@ -71,7 +71,6 @@
 {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
     if (!_activityViewController) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
@@ -192,7 +191,7 @@
     [self viewDidLayoutSubviews];
 }
 
-- (void)preferredContentSizeChanged:(NSNotification *)aNotification
+- (void)preferredContentSizeChanged
 {
     // This is called when dynamic type settings are changed
     [self.view invalidateIntrinsicContentSize];
@@ -476,7 +475,6 @@
 - (void)dealloc
 {
     self.scrollView.delegate = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
