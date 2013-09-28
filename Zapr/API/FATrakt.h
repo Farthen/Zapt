@@ -43,43 +43,43 @@ extern NSString *const FATraktActivityNotificationLists;
 
 #pragma mark - API
 #pragma mark account
-- (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))block;
-- (LRRestyRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))callback;
+- (LRRestyRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark images
-- (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark movies
-- (LRRestyRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark shows
-- (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark episodes
-- (LRRestyRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark watchlists
-- (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark libraries
-- (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark custom lists
 - (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (LRRestyRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)allCustomListsCallback:(void (^)(NSArray *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (LRRestyRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))block onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark content actions
 - (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
