@@ -43,7 +43,8 @@
     BOOL _willDisplayImage;
     BOOL _displayImageWhenFinishedShowing;
     
-    UITapGestureRecognizer *_detailLabelTapGestureRecognizer;    
+    UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
+    UIActivityViewController *_activityViewController;
 }
 
 @end
@@ -69,6 +70,16 @@
     [super viewDidLoad];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
+    if (!_activityViewController) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
+            
+            TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
+            
+            _activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+            _activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo];
+        });
+    }
     
     _showing = NO;
     _animatesLayoutChanges = NO;
@@ -444,13 +455,7 @@
 
 - (IBAction)pushedShareButton:(id)sender
 {
-    NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
-    
-    TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
-    
-    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
-    activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+    [self presentViewController:_activityViewController animated:YES completion:nil];
 }
 
 #pragma mark misc
