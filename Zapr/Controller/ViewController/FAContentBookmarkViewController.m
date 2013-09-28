@@ -71,9 +71,9 @@
     }
     
     if (content.in_collection) {
-        self.libraryLabel.text = NSLocalizedString(@"Remove from library", nil);
+        self.libraryLabel.text = NSLocalizedString(@"Remove from collection", nil);
     } else {
-        self.libraryLabel.text = NSLocalizedString(@"Add to library", nil);
+        self.libraryLabel.text = NSLocalizedString(@"Add to collection", nil);
     }
     
     if (_accountSettings) {
@@ -138,14 +138,14 @@
         } else if (indexPath.row == 1) {
             // Library add/remove button
             if (_currentContent.in_collection) {
-                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from library", nil)];
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from collection", nil)];
                 [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             } else {
-                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to library", nil)];
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to collection", nil)];
                 [[FATrakt sharedInstance] addToLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
                 } onError:^(FATraktConnectionResponse *connectionError) {
