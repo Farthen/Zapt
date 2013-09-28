@@ -163,25 +163,36 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 #pragma mark - API
 
-- (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content multiple:(BOOL)multiple
+- (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content multiple:(BOOL)multiple containsType:(BOOL)containsType
 {
     NSDictionary *dict;
     if (content.contentType == FATraktContentTypeMovies) {
         FATraktMovie *movie = (FATraktMovie *)content;
-        if (multiple) {
-            dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+        if (containsType) {
+            dict = @{@"type": @"movie", @"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
         } else {
-            dict = @{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
+            if (multiple) {
+                dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+            } else {
+                dict = @{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
+            }
         }
     } else if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
-        if (multiple) {
-            dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+        if (containsType) {
+            dict = @{@"type": @"show", @"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
         } else {
-            dict = @{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
+            if (multiple) {
+                dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+            } else {
+                dict = @{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
+            }
         }
     } else if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
+        if (containsType) {
+            dict = @{@"type": @"episode", @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"season": episode.season, @"episode": episode.episode};
+        }
         dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
@@ -696,7 +707,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         api = [NSString stringWithFormat:@"%@/unwatchlist", watchlistName];
     }
     
-    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES];
+    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         content.in_watchlist = add;
@@ -724,12 +735,46 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         api = [NSString stringWithFormat:@"%@/unlibrary", libraryName];
     }
     
-    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO];
+    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         content.in_collection = add;
         callback();
     } onError:error];
+}
+
+- (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSArray *items = @[[self postDataContentTypeDictForContent:content multiple:NO containsType:YES]];
+    NSString *api;
+    if (add) {
+        api = @"lists/items/add";
+    } else {
+        api = @"lists/items/delete";
+    }
+    
+    NSString *slug = list.slug;
+    NSDictionary *payload = @{@"slug": slug, @"items": items};
+    return [[FATraktConnection sharedInstance] postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
+        if (add) {
+            [list addContent:content];
+        } else {
+            [list removeContent:content];
+        }
+        
+        [list commitToCache];
+        callback();
+    } onError:error];
+}
+
+- (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addContent:content toCustomList:list add:YES callback:callback onError:error];
+}
+
+- (LRRestyRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addContent:content toCustomList:list add:NO callback:callback onError:error];
 }
 
 - (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -751,7 +796,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         ratingString = [NSString stringWithFormat:@"%i", rating];
     }
     
-    NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO];
+    NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
     
     [payload addEntriesFromDictionary:@{@"rating": ratingString}];
     
