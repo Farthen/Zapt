@@ -192,8 +192,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         FATraktEpisode *episode = (FATraktEpisode *)content;
         if (containsType) {
             dict = @{@"type": @"episode", @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"season": episode.season, @"episode": episode.episode};
+        } else {
+            dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
         }
-        dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
     return mutableDict;
