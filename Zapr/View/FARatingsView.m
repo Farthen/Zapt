@@ -118,7 +118,7 @@
             self.likeButton.backgroundColor = self.dominantColors[0];
             self.hateButton.backgroundColor = buttonColor;
         } else if (self.rating == FATraktRatingHate) {
-            self.hateButton.backgroundColor = self.dominantColors[9];
+            self.hateButton.backgroundColor = self.dominantColors[0];
             self.likeButton.backgroundColor = buttonColor;
         } else {
             self.likeButton.backgroundColor = buttonColor;
