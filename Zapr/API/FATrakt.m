@@ -866,6 +866,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 show.progress.percentage = @100;
             }
         }
+        
+        callback();
     } onError:error];
 }
 
