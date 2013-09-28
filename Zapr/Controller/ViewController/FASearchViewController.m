@@ -7,18 +7,16 @@
 //
 
 #import "FASearchViewController.h"
+#import "FADetailViewController.h"
+#import "FANavigationController.h"
 #import "FATrakt.h"
+#import "FAActivityDispatch.h"
+
 #import "FASearchData.h"
 #import "FASearchBarWithActivity.h"
 #import "FAContentTableViewCell.h"
-#import "FAActivityDispatch.h"
+
 #import "UIView+Animations.h"
-
-#import "FADetailViewController.h"
-#import "FANavigationController.h"
-
-#import "FAAppDelegate.h"
-#import <LRResty/LRResty.h>
 
 @interface FASearchViewController () {
     FASearchData *_searchData;

@@ -7,16 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FAPushoverView.h"
 #import "FASemiModalEnabledViewController.h"
 @class FATitleLabel;
 @class FATraktContent;
-@class FAScrollViewWithTopView;
 @class FANextUpViewController;
-@class FAOverlayView;
-@class FAMaskingView;
 
-@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAPushoverViewDelegate>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
@@ -47,10 +43,5 @@
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToTopLayoutConstraint;
 @property (retain) IBOutlet NSLayoutConstraint *imageViewToBottomViewLayoutConstraint;
 @property (retain) NSLayoutConstraint *coverImageViewHeightConstraint;
-
-@property IBOutlet FAPushoverView *pushoverView;
-
-@property IBOutlet FAOverlayView *blurOverlayView;
-@property IBOutlet FAMaskingView *maskingView;
 
 @end

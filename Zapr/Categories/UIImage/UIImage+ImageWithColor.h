@@ -1,5 +1,5 @@
 //
-//  UIImage+imageWithColor.h
+//  UIImage+ImageWithColor.h
 //  Zapr
 //
 //  Created by Finn Wilke on 27.09.13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (imageWithColor)
+@interface UIImage (ImageWithColor)
 
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 

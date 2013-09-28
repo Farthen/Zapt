@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "UIImage+imageWithColor.h"
+#import "UIImage+ImageWithColor.h"
 
-@implementation UIImage (imageWithColor)
+@implementation UIImage (ImageWithColor)
 
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size
 {

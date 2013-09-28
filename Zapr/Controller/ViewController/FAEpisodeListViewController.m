@@ -7,15 +7,14 @@
 //
 
 #import "FAEpisodeListViewController.h"
-
-#import "FATrakt.h"
-#import "FAStatusBarSpinnerController.h"
 #import "FADetailViewController.h"
-
-#import "UIView+ImageScreenshot.h"
-#import "UIImage+imageWithColor.h"
+#import "FAStatusBarSpinnerController.h"
+#import "FATrakt.h"
 
 #import "FAUnreadItemIndicatorView.h"
+
+#import "UIView+ImageScreenshot.h"
+#import "UIImage+ImageWithColor.h"
 
 @implementation FAEpisodeListViewController {
     FATraktShow *_displayedShow;

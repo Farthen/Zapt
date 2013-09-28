@@ -6,12 +6,14 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "FATrakt.h"
-#import "FATraktCache.h"
-#import "FAInterfaceStringProvider.h"
 #import "FAListsViewController.h"
-#import "FASearchViewController.h"
 #import "FAListDetailViewController.h"
+#import "FASearchViewController.h"
+#import "FATraktCache.h"
+#import "FATrakt.h"
+
+#import "FAInterfaceStringProvider.h"
+
 #import "FARefreshControlWithActivity.h"
 
 @interface FAListsViewController ()

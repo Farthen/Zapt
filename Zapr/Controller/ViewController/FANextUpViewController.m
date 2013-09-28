@@ -8,8 +8,11 @@
 
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
+
 #import "FAProgressView.h"
+
 #import "FATrakt.h"
+
 #import "UIView+FrameAdditions.h"
 #import "FANextUpTableViewCell.h"
 #import "UIView+RecursiveUpdateConstraints.h"

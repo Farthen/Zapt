@@ -7,32 +7,20 @@
 //
 
 #import "FADetailViewController.h"
-#import <QuartzCore/QuartzCore.h>
-#import <CoreText/CoreText.h>
 
-#import "FASearchViewController.h"
-#import "FAStatusBarSpinnerController.h"
 #import "FAEpisodeListViewController.h"
 #import "FANextUpViewController.h"
-#import "FAPushoverViewAnimationController.h"
 #import "FAContentBookmarkViewController.h"
 
 #import "FATraktActivityItemSource.h"
 #import <TUSafariActivity/TUSafariActivity.h>
 
-#import "UIView+SizeToFitSubviews.h"
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
-#import "UIImage+ImageEffects.h"
 
-#import "FAScrollViewWithTopView.h"
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
-#import "FAContentPrefsView.h"
-#import "FAProgressView.h"
-#import "FAOverlayView.h"
-#import "FAMaskingView.h"
 
 #import "FATrakt.h"
 
@@ -43,33 +31,17 @@
     BOOL _showing;
     BOOL _willAppear;
     
-    UIViewController *_imageViewController;
-    UIViewController *_prefsViewController;
-        
-    NSLayoutConstraint *_contentViewSizeConstraint;
-    
-    FATraktContentType _contentType;
     FATraktContent *_currentContent;
     BOOL _loadContent;
     
     BOOL _animatesLayoutChanges;
     
     UIImage *_coverImage;
-    UIImage *_blurredCoverImage;
     
-    CGFloat _imageHeight;
     BOOL _imageLoaded;
     BOOL _imageDisplayed;
     BOOL _willDisplayImage;
     BOOL _displayImageWhenFinishedShowing;
-    
-    UIImageView *_ratingsView;
-    UIImage *_ratingsViewImageLove;
-    UIImage *_ratingsViewImageHate;
-    
-    FAContentPrefsView *_prefsView;
-    
-    NSMutableArray *_photos;
     
     UITapGestureRecognizer *_detailLabelTapGestureRecognizer;    
 }
@@ -108,13 +80,13 @@
     
     if (_loadContent) {
         _currentContent = [_currentContent cachedVersion];
-        if (_contentType == FATraktContentTypeMovies) {
+        if (_currentContent.contentType == FATraktContentTypeMovies) {
             self.navigationItem.title = NSLocalizedString(@"Movie", nil);
             [self displayMovie:(FATraktMovie *)_currentContent];
-        } else if (_contentType == FATraktContentTypeShows) {
+        } else if (_currentContent.contentType == FATraktContentTypeShows) {
             self.navigationItem.title = NSLocalizedString(@"Show", nil);
             [self displayShow:(FATraktShow *)_currentContent];
-        } else if (_contentType == FATraktContentTypeEpisodes) {
+        } else if (_currentContent.contentType == FATraktContentTypeEpisodes) {
             self.navigationItem.title = NSLocalizedString(@"Episode", nil);
             [self displayEpisode:(FATraktEpisode *)_currentContent];
         }
@@ -182,7 +154,6 @@
 {
     [super viewDidLayoutSubviews];
     [self updateViewConstraints];
-    [self.contentView resizeHeightToFitSubviewsWithMinimumSize:0];
     self.scrollView.contentSize = self.contentView.frame.size;
 }
 
@@ -251,10 +222,6 @@
 {
     if (!_willDisplayImage) {
         if (!_imageDisplayed) {
-            //[self.maskingView addMaskLayer:self.pushoverView.backgroundView.layer];
-            [self.maskingView addMaskLayer:self.titleLabel.layer];
-            [self.maskingView setNeedsDisplay];
-            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 // Scale the image first to screen dimensions
                 
@@ -264,12 +231,9 @@
                 UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 
-                UIColor *tintColor = [UIColor colorWithWhite:0.1 alpha:0.83];
-                UIImage *blurredImage = [scaledImage applyBlurWithRadius:10 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (animated) {
                         _willDisplayImage = YES;
-                        [self.maskingView setMaskedImage:blurredImage];
                         [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
                             self.coverImageView.image = scaledImage;
                             _willDisplayImage = NO;
@@ -281,8 +245,6 @@
                     }
                 });
             });
-            
-            //_pushoverViewAnimationController = [[FAPushoverViewAnimationController alloc] init];
         }
         
     }
@@ -316,7 +278,6 @@
 - (void)setOverview:(NSString *)overview
 {
     self.overviewLabel.text = overview;
-    //self.overviewLabel.text = @"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, At accusam aliquyam diam diam dolore dolores duo eirmod eos erat, et nonumy sed tempor et et invidunt justo labore Stet clita ea et gubergren, kasd magna no rebum. sanctus sea sed takimata ut vero voluptua. est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.";
 }
 
 - (void)setProgress:(FATraktShowProgress *)progress
@@ -421,7 +382,6 @@
 - (void)loadContent:(FATraktContent *)content
 {
     _currentContent = content;
-    _contentType = content.contentType;
     
     if (_willAppear) {
         if (content.contentType == FATraktContentTypeMovies) {
@@ -446,7 +406,7 @@
 {
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
 
-    if (_contentType == FATraktContentTypeMovies || _contentType == FATraktContentTypeEpisodes) {
+    if (_currentContent.contentType == FATraktContentTypeMovies || _currentContent.contentType == FATraktContentTypeEpisodes) {
         // do checkin
         UIBarButtonItem *button = sender;
         button.enabled = NO;
