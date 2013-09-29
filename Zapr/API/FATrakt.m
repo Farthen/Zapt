@@ -806,15 +806,23 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     [payload addEntriesFromDictionary:@{@"rating": ratingString}];
     
+    FATraktRating oldRating = content.rating;
+    
+    if (simple) {
+        content.rating = rating;
+    } else {
+        content.rating_advanced = rating;
+    }
+    [content commitToCache];
+    
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        if (simple) {
-            content.rating = rating;
-        } else {
-            content.rating_advanced = rating;
-        }
-        [content commitToCache];
         callback();
-    } onError:error];
+    } onError:^(FATraktConnectionResponse *connectionError) {
+        content.rating = oldRating;
+        if (error) {
+            error(connectionError);
+        }
+    }];
 }
 
 - (LRRestyRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
