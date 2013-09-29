@@ -42,7 +42,9 @@
 {
     // Override point for customization after application launch.
     // TestFlight SDK
+#ifndef DEBUG
     [TestFlight takeOff:@"3ac925de-67dd-43f0-9e1a-602e269ab57b"];
+#endif
     
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
