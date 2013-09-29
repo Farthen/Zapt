@@ -12,6 +12,8 @@
 #import "FATraktCache.h"
 #import "FALogFormatter.h"
 
+#import "TestFlight.h"
+
 #import <DDASLLogger.h>
 #import <DDTTYLogger.h>
 #import <DDFileLogger.h>
@@ -39,6 +41,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    // TestFlight SDK
+    [TestFlight takeOff:@"3ac925de-67dd-43f0-9e1a-602e269ab57b"];
+    
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];

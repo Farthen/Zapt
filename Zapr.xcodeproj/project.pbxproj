@@ -40,6 +40,8 @@
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
 		F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */; };
 		F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
+		F31446E817F8D2DD005B164D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; };
+		F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446EA17F8D34F005B164D /* libz.dylib */; };
 		F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
 		F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E517B0844600307CC3 /* FATraktViewingSettings.m */; };
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
@@ -205,6 +207,11 @@
 		F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktActivityItemSource.m; sourceTree = "<group>"; };
 		F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAInterfaceStringProvider.h; sourceTree = "<group>"; };
 		F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAInterfaceStringProvider.m; sourceTree = "<group>"; };
+		F31446E417F8D2DD005B164D /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTestFlight.a; path = Zapr/Support/TestFlight/libTestFlight.a; sourceTree = "<group>"; };
+		F31446E517F8D2DD005B164D /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestFlight.h; path = Zapr/Support/TestFlight/TestFlight.h; sourceTree = "<group>"; };
+		F31446E617F8D2DD005B164D /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "Zapr/Support/TestFlight/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		F31446E717F8D2DD005B164D /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "Zapr/Support/TestFlight/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		F31446EA17F8D34F005B164D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F31551E117B081B200307CC3 /* FATraktAccountSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktAccountSettings.h; sourceTree = "<group>"; };
 		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktAccountSettings.m; sourceTree = "<group>"; };
 		F31551E417B0844600307CC3 /* FATraktViewingSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktViewingSettings.h; sourceTree = "<group>"; };
@@ -391,7 +398,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
+				F31446E817F8D2DD005B164D /* libTestFlight.a in Frameworks */,
 				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
 				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
@@ -436,6 +445,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F31446EA17F8D34F005B164D /* libz.dylib */,
 				F390191A16513819006C8E5B /* Security.framework */,
 				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
@@ -505,6 +515,18 @@
 				F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */,
 			);
 			name = Connection;
+			sourceTree = "<group>";
+		};
+		F31446E917F8D2E5005B164D /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				F31446E417F8D2DD005B164D /* libTestFlight.a */,
+				F31446E517F8D2DD005B164D /* TestFlight.h */,
+				F31446E617F8D2DD005B164D /* TestFlight+AsyncLogging.h */,
+				F31446E717F8D2DD005B164D /* TestFlight+ManualSessions.h */,
+			);
+			name = TestFlight;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		F32645C817F0F9A4001D4F74 /* UIImage */ = {
@@ -775,6 +797,7 @@
 		F3CBA91017CD035200BAC568 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F31446E917F8D2E5005B164D /* TestFlight */,
 				F3CBA91117CD035200BAC568 /* Zapr Tests-Info.plist */,
 				F3CBA91217CD035200BAC568 /* InfoPlist.strings */,
 				F3CBA91717CD035200BAC568 /* Zapr Tests-Prefix.pch */,
@@ -1380,7 +1403,7 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Finn Wilke (AJU663URRJ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
@@ -1400,6 +1423,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Zapr/Support/Zapr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/farthen/Code/iOS/Zapr/Zapr/Support/TestFlight,
+				);
 				PRODUCT_NAME = Zapr;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1417,8 +1444,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Finn Wilke (AJU663URRJ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Finn Wilke";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1438,6 +1465,10 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Zapr/Support/Zapr-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/farthen/Code/iOS/Zapr/Zapr/Support/TestFlight,
+				);
 				PRODUCT_NAME = Zapr;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
