@@ -13,6 +13,6 @@
 
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized longVersion:(BOOL)longVersion;
-+ (NSString *)nameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized;
++ (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized;
 
 @end

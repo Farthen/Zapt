@@ -12,6 +12,7 @@
 #import "FADominantColorsAnalyzer.h"
 #import "FAColorCompositing.h"
 #import "FAColorSorting.h"
+#import "FAInterfaceStringProvider.h"
 
 #import "UIColor+InvertedColor.h"
 
@@ -41,18 +42,16 @@
     if (self) {
         // Initialization code
         self.simpleRating = YES;
-        self.ratingNames = @[@"Not rated",
-                             @"Weak sauce :(",
-                             @"Terrible",
-                             @"Bad",
-                             @"Poor",
-                             @"Meh",
-                             @"Fair",
-                             @"Good",
-                             @"Great",
-                             @"Superb",
-                             @"Totally ninja!"];
-        [self setColorsWithImage:nil];
+        self.dominantColors = @[[UIColor colorWithRed:1.0 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.9 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.8 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.7 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.6 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.5 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.4 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.3 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.2 green:0 blue:0 alpha:1],
+                                [UIColor colorWithRed:0.1 green:0 blue:0 alpha:1]];
     }
     return self;
 }
@@ -185,7 +184,7 @@
             self.ratingLabel.text = [NSString stringWithFormat:@"%i", self.rating];
             self.ratingLabel.textColor = [self.backgroundColor colorWithHighContrast];
             self.ratingDescriptionLabel.hidden = NO;
-            self.ratingDescriptionLabel.text = [self.ratingNames objectAtIndex:self.rating];
+            self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRating:self.rating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
             self.ratingDescriptionLabel.textColor = [self.backgroundColor colorWithHighContrast];
         }
         
@@ -280,33 +279,6 @@
 - (void)setColorsWithImage:(UIImage *)sourceImage
 {
     [self layoutSubviews];
-    if (sourceImage) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSArray *colorArray = [FADominantColorsAnalyzer dominantColorsOfImage:sourceImage sampleCount:10];
-            // Find 10 colors, pick the brightest
-            colorArray = [FAColorSorting sortedColorsByLuminanceFromArray:colorArray ascending:NO];
-            
-            UIColor *brightestColor = colorArray.firstObject;
-            NSMutableArray *colors = [NSMutableArray array];
-            for (NSInteger i = 10; i >= 0; i--) {
-                CGFloat factor = (CGFloat)i / 10;
-                [colors addObject:[FAColorCompositing colorByMultiplyingSaturationOfColor:brightestColor withFactor:factor]];
-            }
-            
-            self.dominantColors = colors;
-        });
-    } else {
-        self.dominantColors = @[[UIColor colorWithRed:1.0 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.9 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.8 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.7 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.6 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.5 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.4 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.3 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.2 green:0 blue:0 alpha:1],
-                                [UIColor colorWithRed:0.1 green:0 blue:0 alpha:1]];
-    }
 }
 
 /*

@@ -10,6 +10,22 @@
 
 @implementation FAInterfaceStringProvider
 
+static NSArray *_ratingNames;
++ (void)initialize
+{
+    _ratingNames = @[NSLocalizedString(@"Not rated", nil),
+                    NSLocalizedString(@"Weak sauce :(", nil),
+                    NSLocalizedString(@"Terrible", nil),
+                    NSLocalizedString(@"Bad", nil),
+                    NSLocalizedString(@"Poor", nil),
+                    NSLocalizedString(@"Meh", nil),
+                    NSLocalizedString(@"Fair", nil),
+                    NSLocalizedString(@"Good", nil),
+                    NSLocalizedString(@"Great", nil),
+                    NSLocalizedString(@"Superb", nil),
+                    NSLocalizedString(@"Totally ninja!", nil)];
+}
+
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
 {
     return [self nameForContentType:type withPlural:plural capitalized:capitalized longVersion:NO];
@@ -70,20 +86,24 @@
     return name;
 }
 
-+ (NSString *)nameForRating:(FATraktRating)rating capitalized:(BOOL)capitalized
++ (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized
 {
     NSString *name;
-    if (rating == FATraktRatingUndefined) {
-        name = NSLocalizedString(@"not rated", nil);
-    } else if (rating == FATraktRatingHate) {
-        name = NSLocalizedString(@"hate", nil);
-    } else if (rating == FATraktRatingLove) {
-        name = NSLocalizedString(@"love", nil);
+    if (ratingsMode == FATraktRatingsModeSimple) {
+        if (rating == FATraktRatingUndefined) {
+            name = NSLocalizedString(@"not rated", nil);
+        } else if (rating == FATraktRatingHate) {
+            name = NSLocalizedString(@"hate", nil);
+        } else if (rating == FATraktRatingLove) {
+            name = NSLocalizedString(@"love", nil);
+        } else {
+            name = [NSString stringWithFormat:@"%i", rating];
+        }
+        if (capitalized) {
+            name = [name capitalizedString];
+        }
     } else {
-        name = [NSString stringWithFormat:@"%i", rating];
-    }
-    if (capitalized) {
-        name = [name capitalizedString];
+        name = [_ratingNames objectAtIndex:rating];
     }
     return name;
 }
