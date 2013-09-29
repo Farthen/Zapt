@@ -31,8 +31,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    /*UIBarButtonItem *btnAction = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Watched", nil) style:UIBarButtonItemStyleDone target:self action:@selector(actionDoneButton:)];
-    self.navigationItem.rightBarButtonItem = btnAction;*/
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self populateEpisodeListForShow:_displayedShow];
 }
 
 - (void)viewDidAppear:(BOOL)animated

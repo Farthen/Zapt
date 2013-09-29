@@ -102,7 +102,7 @@
 }
 
 - (void)displayNextUp:(FATraktContent *)content
-{    
+{
     _displaysProgressAndNextUp = YES;
     self.episodeNameLabel.text = content.title;
     if (content.contentType == FATraktContentTypeEpisodes) {
@@ -112,6 +112,13 @@
         }
     }
     _nextUpContent = content;
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
+}
+
+- (void)hideNextUp
+{
+    _displaysProgressAndNextUp = NO;
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 }

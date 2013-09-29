@@ -21,6 +21,7 @@
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
+#import "UIView+RecursiveUpdateConstraints.h"
 
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
@@ -38,6 +39,7 @@
     FATraktAccountSettings *_accountSettings;
     
     BOOL _loadContent;
+    BOOL _alreadyBeenShowed;
     
     BOOL _animatesLayoutChanges;
     
@@ -134,7 +136,10 @@
 {
     [super viewDidAppear:animated];
     
-    [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
+    if (_alreadyBeenShowed) {
+        [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
+        [self loadContent:_currentContent];
+    }
     
     _showing = YES;
     if (_displayImageWhenFinishedShowing) {
@@ -143,6 +148,7 @@
     }
     [self.contentView layoutIfNeeded];
     [self.scrollView layoutIfNeeded];
+    _alreadyBeenShowed = YES;
 }
 
 - (void)viewWillLayoutSubviews
@@ -234,6 +240,14 @@
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
         } completion:nil];
+    } else {
+        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
+            [self.nextUpViewController hideNextUp];
+            [self.contentView recursiveSetNeedsUpdateConstraints];
+        } animations:^{
+            [self.contentView layoutIfNeeded];
+            [self.scrollView layoutIfNeeded];
+        } completion:nil];
     }
 }
 
@@ -309,8 +323,10 @@
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
         } completion:^(BOOL finished){
-            if (progress.percentage.unsignedIntegerValue != 100) {
+            if (progress.percentage.unsignedIntegerValue != 100 && ![progress.next_episode.title isEqualToString:@"TBA"]) {
                 [self setNextUpViewWithContent:progress.next_episode];
+            } else {
+                [self setNextUpViewWithContent:nil];
             }
         }];
     }

@@ -24,5 +24,6 @@
 
 - (void)displayProgress:(FATraktShowProgress *)progress;
 - (void)displayNextUp:(FATraktContent *)content;
+- (void)hideNextUp;
 
 @end
