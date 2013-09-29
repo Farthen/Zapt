@@ -323,6 +323,10 @@
 		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityDispatch.m; sourceTree = "<group>"; };
 		F3B1F36517A85A7C00800B61 /* FABigDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FABigDataCache.h; sourceTree = "<group>"; };
 		F3B1F36617A85A7C00800B61 /* FABigDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FABigDataCache.m; sourceTree = "<group>"; };
+		F3B33BAA17F8D5040090BA21 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		F3B33BAB17F8D5040090BA21 /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
+		F3B33BAC17F8D5040090BA21 /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
+		F3B33BAD17F8D5040090BA21 /* TestFlight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAProgressHUD.h; sourceTree = "<group>"; };
 		F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAProgressHUD.m; sourceTree = "<group>"; };
 		F3B74B2C16E6E23A00230C43 /* X-Mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X-Mark.png"; sourceTree = "<group>"; };
@@ -445,6 +449,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3B33BA917F8D5040090BA21 /* TestFlight */,
 				F31446EA17F8D34F005B164D /* libz.dylib */,
 				F390191A16513819006C8E5B /* Security.framework */,
 				B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */,
@@ -595,6 +600,18 @@
 				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
 			);
 			name = Misc;
+			sourceTree = "<group>";
+		};
+		F3B33BA917F8D5040090BA21 /* TestFlight */ = {
+			isa = PBXGroup;
+			children = (
+				F3B33BAA17F8D5040090BA21 /* libTestFlight.a */,
+				F3B33BAB17F8D5040090BA21 /* TestFlight+AsyncLogging.h */,
+				F3B33BAC17F8D5040090BA21 /* TestFlight+ManualSessions.h */,
+				F3B33BAD17F8D5040090BA21 /* TestFlight.h */,
+			);
+			name = TestFlight;
+			path = Zapr/Support/TestFlight;
 			sourceTree = "<group>";
 		};
 		F3B74B3016E6EF3900230C43 /* Cache */ = {
