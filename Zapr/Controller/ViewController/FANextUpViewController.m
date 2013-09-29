@@ -20,6 +20,7 @@
 @interface FANextUpViewController () {
     BOOL _displaysProgress;
     BOOL _displaysProgressAndNextUp;
+    FATraktShowProgress *_progress;
     FATraktContent *_nextUpContent;}
 
 @end
@@ -94,13 +95,14 @@
 - (void)displayProgress:(FATraktShowProgress *)progress
 {
     _displaysProgress = YES;
+    _progress = progress;
     CGFloat percentage = (CGFloat)progress.percentage.unsignedIntegerValue / 100;
     self.progressView.progress = percentage;
     self.progressLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i episodes", nil), progress.completed.unsignedIntegerValue, progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue];
 }
 
 - (void)displayNextUp:(FATraktContent *)content
-{
+{    
     _displaysProgressAndNextUp = YES;
     self.episodeNameLabel.text = content.title;
     if (content.contentType == FATraktContentTypeEpisodes) {
@@ -152,16 +154,5 @@
     
     return CGSizeZero;
 }
-
-/*- (CGFloat)intrinsicHeight
-{
-    CGFloat height = 0;
-    if (_displaysProgressAndNextUp) {
-        height = 75;
-    } else if (_displaysProgress) {
-        height = 18;
-    }
-    return height;
-}*/
 
 @end

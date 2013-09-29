@@ -309,7 +309,9 @@
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
         } completion:^(BOOL finished){
-            [self setNextUpViewWithContent:progress.next_episode];
+            if (progress.percentage.unsignedIntegerValue != 100) {
+                [self setNextUpViewWithContent:progress.next_episode];
+            }
         }];
     }
 }
