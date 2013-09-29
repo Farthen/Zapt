@@ -217,7 +217,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hZ0-YJ-RcD"/>
-                                    <barButtonItem title="Not rated" id="cMZ-ZN-H3P"/>
+                                    <barButtonItem title="Not rated" id="cMZ-ZN-H3P">
+                                        <connections>
+                                            <action selector="actionRatingsButton:" destination="pJW-2g-U2f" id="qdX-7b-j5z"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ZM3-fR-8k9"/>
                                     <barButtonItem style="plain" systemItem="action" id="icF-tg-DIN">
                                         <connections>
@@ -257,6 +261,7 @@
                         <outlet property="imageViewToTopLayoutConstraint" destination="40b-nQ-tuk" id="4CE-3B-BoQ"/>
                         <outlet property="nextUpHeightConstraint" destination="aU7-fd-Sht" id="Mow-cF-eIK"/>
                         <outlet property="overviewLabel" destination="plf-L1-jrs" id="6e7-u7-ABC"/>
+                        <outlet property="ratingsButton" destination="cMZ-ZN-H3P" id="jSh-25-gVJ"/>
                         <outlet property="scrollView" destination="y1k-dg-fqs" id="yAL-7z-qAe"/>
                         <outlet property="titleLabel" destination="vuk-FF-vHd" id="CKR-Xw-pWG"/>
                     </connections>

@@ -46,10 +46,11 @@
             FATraktRatingsMode mode = self.accountSettings.viewing.ratings_mode;
             if (mode == FATraktRatingsModeSimple) {
                 [self.ratingsView setSimpleRating:YES];
+                [self.ratingsView setRating:content.rating];
             } else {
                 [self.ratingsView setSimpleRating:NO];
+                [self.ratingsView setRating:content.rating_advanced];
             }
-            [self.ratingsView setRating:content.rating];
         } onError:nil];
     }
     return self;

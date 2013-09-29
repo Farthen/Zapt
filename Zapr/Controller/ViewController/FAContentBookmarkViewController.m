@@ -265,9 +265,6 @@
                 [customListsMembershipViewController loadContent:_currentContent];
                 [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];
             }];
-        } else if (indexPath.row == 3) {
-            FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:_currentContent];
-            [self presentViewController:ratingsViewController animated:YES completion:nil];
         }
     } else if (indexPath.section + offset == 2) {
         [self.parentViewController dismissViewControllerAnimated:YES completion:nil];

@@ -11,6 +11,7 @@
 #import "FAEpisodeListViewController.h"
 #import "FANextUpViewController.h"
 #import "FAContentBookmarkViewController.h"
+#import "FARatingsViewController.h"
 
 #import "FATraktActivityItemSource.h"
 #import <TUSafariActivity/TUSafariActivity.h>
@@ -34,6 +35,8 @@
     BOOL _willAppear;
     
     FATraktContent *_currentContent;
+    FATraktAccountSettings *_accountSettings;
+    
     BOOL _loadContent;
     
     BOOL _animatesLayoutChanges;
@@ -89,10 +92,13 @@
     self.detailViewHeightConstraint.constant = 0;
     
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
+    self.ratingsButton.title = @"";
     
     if (_loadContent) {
         _currentContent = [_currentContent cachedVersion];
         self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
+        
+        [self loadContentData:_currentContent];
         
         if (_currentContent.contentType == FATraktContentTypeMovies) {
             [self loadMovieData:(FATraktMovie *)_currentContent];
@@ -127,7 +133,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    DDLogViewController(@"view content size: %f x %f", self.view.frame.size.width, self.view.frame.size.height);
+    
+    [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
+    
     _showing = YES;
     if (_displayImageWhenFinishedShowing) {
         [self doDisplayImageAnimated:YES];
@@ -306,8 +314,30 @@
     }
 }
 
+- (void)displayRatingForContent:(FATraktContent *)content ratingsMode:(FATraktRatingsMode)ratingMode
+{
+    if (content) {
+        if (content.rating != FATraktRatingUndefined) {
+            NSString *ratingString;
+            if (ratingMode == FATraktRatingsModeAdvanced) {
+                ratingString = [FAInterfaceStringProvider nameForRating:content.rating_advanced ratingsMode:ratingMode capitalized:YES];
+            } else {
+                ratingString = [FAInterfaceStringProvider nameForRating:content.rating ratingsMode:ratingMode capitalized:YES];
+            }
+            self.ratingsButton.title = [NSString stringWithFormat:@"Rating: %@", ratingString];
+        } else {
+            self.ratingsButton.title = [NSString stringWithFormat:NSLocalizedString(@"Rating: Not rated", nil)];
+        }
+    } else {
+        self.ratingsButton.title = nil;
+    }
+}
+
 - (void)displayGenericContentData:(FATraktContent *)item
 {
+    if (_accountSettings) {
+        [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
+    }
     [self displayTitle:item.title];
     [self displayOverview:item.overview];
     [self setPosterToURL:item.widescreenImageURL];
@@ -317,6 +347,21 @@
 - (void)displayMovie:(FATraktMovie *)movie
 {
     [self displayGenericContentData:movie];
+}
+
+- (void)displayAccountSettings:(FATraktAccountSettings *)settings
+{
+    if (_currentContent.rating) {
+        [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
+    }
+}
+
+- (void)loadContentData:(FATraktContent *)content
+{
+    [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
+        _accountSettings = settings;
+        [self displayAccountSettings:(FATraktAccountSettings *)settings];
+    } onError:nil];
 }
 
 - (void)loadMovieData:(FATraktMovie *)movie
@@ -389,14 +434,15 @@
 - (void)loadContent:(FATraktContent *)content
 {
     _currentContent = content;
+    [self loadContentData:content];
     
     if (_willAppear) {
         if (content.contentType == FATraktContentTypeMovies) {
-            return [self loadMovieData:[((FATraktMovie *)content) cachedVersion]];
+            [self loadMovieData:[((FATraktMovie *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeShows) {
-            return [self loadShowData:[((FATraktShow *)content) cachedVersion]];
+            [self loadShowData:[((FATraktShow *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeEpisodes) {
-            return [self loadEpisodeData:[((FATraktEpisode *)content) cachedVersion]];
+            [self loadEpisodeData:[((FATraktEpisode *)content) cachedVersion]];
         }
     } else {
         _loadContent = YES;
@@ -452,6 +498,12 @@
 - (IBAction)pushedShareButton:(id)sender
 {
     [self presentViewController:_activityViewController animated:YES completion:nil];
+}
+
+- (IBAction)actionRatingsButton:(id)sender
+{
+    FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:[_currentContent cachedVersion]];
+    [self presentViewController:ratingsViewController animated:YES completion:nil];
 }
 
 #pragma mark misc

@@ -29,6 +29,7 @@
 @property IBOutlet NSLayoutConstraint *nextUpHeightConstraint;
 
 @property (retain) IBOutlet UIBarButtonItem *actionButton;
+@property (retain) IBOutlet UIBarButtonItem *ratingsButton;
 
 //@property (retain) IBOutlet FAScrollViewWithTopView *scrollView;
 @property (retain) IBOutlet UIScrollView *scrollView;
