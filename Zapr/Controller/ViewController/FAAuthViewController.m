@@ -18,6 +18,7 @@
     BOOL _passwordFieldContainsHash;
     UITableView *_tableView;
     BOOL _showsInvalidPrompt;
+    BOOL _checkingAuth;
 }
 
 @end
@@ -86,18 +87,25 @@
     DDLogTiny(@"Login Button pressed");
     self.usernameTextField.userInteractionEnabled = NO;
     self.passwordTextField.userInteractionEnabled = NO;
-    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationCheckAuth observer:self.loginButtonCell];
+    
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
+    
     if (_passwordFieldContainsHash) {
         passwordHash = [FATraktConnection sharedInstance].apiPasswordHash;
     } else {
         passwordHash = [FATraktConnection passwordHashForPassword:self.passwordTextField.text];
     }
+    
+    _checkingAuth = YES;
+    
     [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+        _checkingAuth = NO;
+        
         self.usernameTextField.userInteractionEnabled = YES;
         self.passwordTextField.userInteractionEnabled = YES;
+        
         if (valid) {
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
@@ -120,7 +128,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 1 && indexPath.row == 0 && !_checkingAuth) {
         [self loginButtonPressed];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -180,10 +188,18 @@
         }
         return cell;
     } else {
+        if (self.loginButtonCell) {
+            [[FAActivityDispatch sharedInstance] unregister:self.loginButtonCell];
+        }
+        
         FATableViewCellWithActivity *cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        self.loginButtonCell = cell;
+        
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        
+        self.loginButtonCell = cell;
+        [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationCheckAuth observer:self.loginButtonCell];
+        
         return cell;
     }
 }
