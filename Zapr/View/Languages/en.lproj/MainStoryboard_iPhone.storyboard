@@ -353,7 +353,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Zapr" id="3yd-MX-MGX">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="5zo-u5-pDp">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="5zo-u5-pDp">
                             <connections>
                                 <segue destination="yTk-Qq-ql7" kind="modal" id="p9F-CJ-MgM"/>
                             </connections>
