@@ -334,8 +334,10 @@
 
 - (void)displayRatingForContent:(FATraktContent *)content ratingsMode:(FATraktRatingsMode)ratingMode
 {
-    if (content) {
+    if (content && [FATraktConnection sharedInstance].usernameAndPasswordValid) {
         if (content.rating != FATraktRatingUndefined) {
+            self.ratingsButton.enabled = YES;
+            
             NSString *ratingString;
             if (ratingMode == FATraktRatingsModeAdvanced) {
                 ratingString = [FAInterfaceStringProvider nameForRating:content.rating_advanced ratingsMode:ratingMode capitalized:YES];
@@ -348,6 +350,7 @@
         }
     } else {
         self.ratingsButton.title = nil;
+        self.ratingsButton.enabled = NO;
     }
 }
 

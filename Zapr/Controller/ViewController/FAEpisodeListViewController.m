@@ -185,7 +185,7 @@
     
     CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
     
-    if (episode.watched) {
+    if (episode.watched || ![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
         cell.imageView.image = [UIImage imageWithColor:[UIColor clearColor] size:imageSize];
     } else {
         static UIImage *image;
