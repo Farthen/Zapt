@@ -128,6 +128,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     for (NSString *key in dict) {
         [self mapObject:[dict objectForKey:key] toPropertyWithKey:key];
     }
+    
     [self finishedMappingObjects];
 }
 
@@ -170,8 +171,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         return;
     }
     
-    if ([key isEqualToString:@"progress"]) {
-        DDLogError(@"test");
+    if (object == [NSNull null]) {
+        object = nil;
     }
     
     [self mapObject:object ofType:propertyInfo toPropertyWithKey:key];
