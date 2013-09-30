@@ -794,7 +794,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     if (content.contentType == FATraktContentTypeMovies || content.contentType == FATraktContentTypeEpisodes) {
         payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     } else {
-        payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+        payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
     }
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
