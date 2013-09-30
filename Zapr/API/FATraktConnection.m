@@ -247,7 +247,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     NSData *payloadData = [[payload JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
     // Is the url set?
-    if (![urlString hasPrefix:@"http"]) {
+    if (![NSURL URLWithString:urlString] || ![urlString hasPrefix:@"http"]) {
         // The url is not set and/or does not contain http.
         // bail out
         
@@ -325,7 +325,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     // Is the url set?
-    if (![urlString hasPrefix:@"http"]) {
+    if (![NSURL URLWithString:urlString] || ![urlString hasPrefix:@"http"]) {
         // The url is not set and/or does not contain http.
         // bail out
         
@@ -333,8 +333,8 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithResponse:nil];
             response.responseType = FATraktConnectionResponseTypeUnknown;
             error(response);
-            return nil;
         }
+        return nil;
     }
     
     // Start the activity
