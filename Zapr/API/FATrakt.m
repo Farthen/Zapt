@@ -208,11 +208,14 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSDictionary *data = [[response asString] objectFromJSONString];
         NSString *statusResponse = [data objectForKey:@"status"];
         if ([statusResponse isEqualToString:@"success"]) {
+            self.connection.usernameAndPasswordValid = YES;
             callback(YES);
         } else {
+            self.connection.usernameAndPasswordValid = NO;
             callback(NO);
         }
     } onError:^(FATraktConnectionResponse *connectionResponse) {
+        self.connection.usernameAndPasswordValid = NO;
         callback(NO);
     }];
 }
@@ -423,7 +426,22 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     // title can be tvdb-id or slug
     DDLogController(@"Getting progress data");
     
-    return [self.connection getAPI:@"user/progress/watched.json" withParameters:@[self.connection.apiUser, title] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    NSString *username = self.connection.apiUser;
+    if (!username) {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        return nil;
+    }
+    
+    if (!title) {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        return nil;
+    }
+    
+    return [self.connection getAPI:@"user/progress/watched.json" withParameters:@[username, title] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         NSArray *data = [[response asString] objectFromJSONString];
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *show in data) {
@@ -577,7 +595,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 }
             } onError:^(FATraktConnectionResponse *response) {
                 // WELP get me outta here!
-                error(response);
+                if (error) {
+                    error(response);
+                }
             }];
             return nil;
         }
