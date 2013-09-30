@@ -20,6 +20,7 @@
 
 NSString *const FATraktConnectionKeychainKeyCredentials = @"TraktCredentials";
 NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
+NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATraktUsernameAndPasswordValidityChangedNotification";
 
 @interface FATraktConnection ()
 @property NSString *apiKey;
@@ -28,7 +29,9 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
 @property NSString *traktBaseURL;
 @end
 
-@implementation FATraktConnection
+@implementation FATraktConnection {
+    BOOL _usernameAndPasswordValid;
+}
 
 + (instancetype)sharedInstance
 {
@@ -44,9 +47,14 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     if (self) {
         self.apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
         [self loadUsernameAndPassword];
+        if (self.usernameAndPasswordSaved) {
+            _usernameAndPasswordValid = YES;
+        }
+        
         [[LRResty client] setGlobalTimeout:60 handleWithBlock:^(LRRestyRequest *request) {
             [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
         }];
+        
         self.traktBaseURL = @"http://api.trakt.tv";
     }
     return self;
@@ -95,6 +103,19 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     }
 }
 
+- (BOOL)usernameAndPasswordValid
+{
+    return self.usernameAndPasswordSaved && _usernameAndPasswordValid;
+}
+
+- (void)setUsernameAndPasswordValid:(BOOL)usernameAndPasswordValid
+{
+    if (_usernameAndPasswordValid != usernameAndPasswordValid) {
+        _usernameAndPasswordValid = usernameAndPasswordValid;
+        [[NSNotificationCenter defaultCenter] postNotificationName:FATraktUsernameAndPasswordValidityChangedNotification object:self];
+    }
+}
+
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -117,10 +138,12 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         } else {
             // Password is unset, remove it from the database
             [SFHFKeychainUtils deleteItemForUsername:username andServiceName:FATraktConnectionKeychainKeyCredentials error:nil];
+            self.usernameAndPasswordValid = NO;
         }
     } else {
         // Username is unset, remove it from the defaults
         [defaults removeObjectForKey:FATraktConnectionDefaultsKeyTraktUsername];
+        self.usernameAndPasswordValid = NO;
     }
 }
 
@@ -180,6 +203,7 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     if (![self usernameAndPasswordSaved]) {
         return nil;
     }
+    
     NSDictionary *authDict = @{@"username:": _apiUser, @"password": _apiPasswordHash};
     NSMutableDictionary *mutableDict = [dict mutableCopy];
     [mutableDict addEntriesFromDictionary:authDict];
@@ -201,6 +225,10 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         // Check if we handle errors. If we don't, let the application delegate handle it
         DDLogController(@"HTTP RESPONSE Error %i", connectionResponse.response.status);
         
+        if (connectionResponse.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
+            self.usernameAndPasswordValid = NO;
+        }
+        
         if (error) {
             error(connectionResponse);
         } else {
@@ -215,9 +243,6 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
                   onSuccess:(void (^)(LRRestyResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    // First we start the activity
-    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
-    
     // Convert the payload to an NSData object
     NSData *payloadData = [[payload JSONString] dataUsingEncoding:NSUTF8StringEncoding];
     
@@ -237,14 +262,17 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         }
     }
     
+    // Start the activity
+    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
+    
     // Then we do the HTTP POST request
     DDLogController(@"HTTP POST %@", urlString);
     LRRestyRequest *request = [[LRResty client] post:urlString payload:payloadData withBlock:^(LRRestyResponse *response) {
-        // Handle the response
-        [self handleResponse:response onSuccess:success onError:error];
-        
         // Finish the activity
         [[FAActivityDispatch sharedInstance] finishActivityNamed:activityName];
+
+        // Handle the response
+        [self handleResponse:response onSuccess:success onError:error];
     }];
     
     // Return the request for convenience
@@ -265,10 +293,17 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     
     // If this is an authenticated call we need to add auth data
     if (authenticated) {
-        if (!payload) {
-            payload = [[NSMutableDictionary alloc] init];
+        if (!self.usernameAndPasswordValid) {
+            if (error) {
+                error([FATraktConnectionResponse invalidCredentialsResponse]);
+            }
+            return nil;
+        } else {
+            if (!payload) {
+                payload = [[NSMutableDictionary alloc] init];
+            }
+            payload = [self postDataDictAddingAuthToDict:payload];
         }
-        payload = [self postDataDictAddingAuthToDict:payload];
     }
     
     return [self postURL:urlString payload:payload withActivityName:activityName onSuccess:success onError:error];
@@ -289,10 +324,6 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    // First we start the activity
-    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
-    
-    
     // Is the url set?
     if (![urlString hasPrefix:@"http"]) {
         // The url is not set and/or does not contain http.
@@ -306,14 +337,17 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
         }
     }
     
+    // Start the activity
+    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
+    
     // Do the HTTP GET request
     DDLogController(@"HTTP GET %@", urlString);
     LRRestyRequest *request = [[LRResty client] get:urlString withBlock:^(LRRestyResponse *response) {
-        // Handle the response
-        [self handleResponse:response onSuccess:success onError:error];
-        
         // Finish the activity
         [[FAActivityDispatch sharedInstance] finishActivityNamed:activityName];
+        
+        // Handle the response
+        [self handleResponse:response onSuccess:success onError:error];
     }];
     
     // Return the request for convenience
@@ -330,6 +364,23 @@ NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
     NSString *urlString = [self urlForAPI:api withParameters:parameters];
     
     return [self getURL:urlString withActivityName:activityName onSuccess:success onError:error];
+}
+
+- (LRRestyRequest *)getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+       forceAuthentication:(BOOL)forceAuthentication
+          withActivityName:(NSString *)activityName
+                 onSuccess:(void (^)(LRRestyResponse *))success
+                   onError:(void (^)(FATraktConnectionResponse *))error
+{
+    if (forceAuthentication && !self.usernameAndPasswordValid) {
+        if (error) {
+            error([FATraktConnectionResponse invalidCredentialsResponse]);
+        }
+        return nil;
+    }
+    
+    return [self getAPI:api withParameters:parameters withActivityName:activityName onSuccess:success onError:error];
 }
 
 - (LRRestyRequest *)getAPI:(NSString *)api

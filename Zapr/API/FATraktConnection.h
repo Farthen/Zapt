@@ -10,6 +10,8 @@
 #import <LRResty/LRResty.h>
 @class FATraktConnectionResponse;
 
+extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
+
 @interface FATraktConnection : NSObject
 
 + (instancetype)sharedInstance;
@@ -49,6 +51,13 @@
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (LRRestyRequest *)getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+       forceAuthentication:(BOOL)forceAuthentication
+          withActivityName:(NSString *)activityName
+                 onSuccess:(void (^)(LRRestyResponse *))success
+                   onError:(void (^)(FATraktConnectionResponse *))error;
+
+- (LRRestyRequest *)getAPI:(NSString *)api
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
@@ -58,6 +67,7 @@
 + (NSString *)passwordHashForPassword:(NSString *)password;
 - (void)loadUsernameAndPassword;
 - (BOOL)usernameAndPasswordSaved;
+@property BOOL usernameAndPasswordValid;
 - (BOOL)usernameSetOrDieAndError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash;
 @property (readonly) NSString *apiUser;
