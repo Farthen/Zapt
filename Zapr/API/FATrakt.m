@@ -822,7 +822,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     NSString *slug = list.slug;
     NSDictionary *payload = @{@"slug": slug, @"items": items};
-    return [[FATraktConnection sharedInstance] postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
         if (add) {
             [list addContent:content];
         } else {
@@ -918,7 +918,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     }
     
-    return [[FATraktConnection sharedInstance] postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         if (content.contentType == FATraktContentTypeMovies) {
             FATraktMovie *movie = (FATraktMovie *)content;
             movie.watched = seen;
