@@ -16,7 +16,7 @@
 // After that time elapsed the object is automatically removed from the cache.
 // This automatically takes care of any background activity and resets all its timers when resuming.
 
-// It also implements NSCoding so it can be written to disk easily
+// It also implements NSCoding so it can be written to disk easily and it is thread-safe
 
 - (id)initWithName:(NSString *)name;
 
@@ -60,6 +60,9 @@
 // Returns the oldest object in the cache
 - (id)oldestObjectInCache;
 
+// The lock that is aquired by all methods that need it
+@property NSRecursiveLock *lock;
+
 @end
 
 @interface FACachedItem : NSObject <NSCoding>  {
@@ -70,6 +73,8 @@
     NSTimer *_expirationTimer;
     NSTimeInterval _expirationTime;
 }
+
+@property NSRecursiveLock *lock;
 
 - (id)initWithCache:(FACache *)cache key:(id)key object:(id)object;
 

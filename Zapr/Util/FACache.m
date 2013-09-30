@@ -22,6 +22,9 @@
         [notificationCenter addObserver:self selector:@selector(reloadAllTimers) name:UIApplicationDidBecomeActiveNotification object:nil];
         
         [super setDelegate:self];
+        
+        self.lock = [[NSRecursiveLock alloc] init];
+        self.lock.name = @"FACacheLock";
     }
     return self;
 }
@@ -56,10 +59,14 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [self.lock lock];
+    
     [aCoder encodeObject:_cachedItems forKey:@"cachedItems"];
     [aCoder encodeObject:_realDelegate forKey:@"realDelegate"];
     [aCoder encodeDouble:self.defaultExpirationTime forKey:@"defaultExpirationTime"];
     [aCoder encodeObject:self.name forKey:@"name"];
+    
+    [self.lock unlock];
 }
 
 - (NSString *)description
@@ -71,40 +78,52 @@
 
 - (void)removeExpirationDataForKey:(id)key
 {
+    [self.lock lock];
     FACachedItem *item = [_cachedItems objectForKey:key];
     [item removeExpirationData];
+    [self.lock unlock];
 }
 
 - (void)setExpirationTime:(NSTimeInterval)expirationTime forKey:(id)key
 {
+    [self.lock lock];
     FACachedItem *item = [_cachedItems objectForKey:key];
     [item setExpirationTime:expirationTime];
+    [self.lock unlock];
 }
 
 - (void)checkExpirationDateForKey:(id)key
 {
+    [self.lock lock];
     FACachedItem *item = [_cachedItems objectForKey:key];
     if ([item objectHasExpired]) {
         [self removeObjectForKey:key];
     }
+    [self.lock unlock];
 }
 
 - (void)timerElapsedForKey:(id)key
 {
+    [self.lock lock];
     [self checkExpirationDateForKey:key];
+    [self.lock unlock];
 }
 
 - (id)objectForKey:(id)key
 {
+    [self.lock lock];
     [self checkExpirationDateForKey:key];
     
     FACachedItem *item = [super objectForKey:key];
+    [self.lock unlock];
     return item.object;
 }
 
 - (void)backingCacheSetObject:(id)obj forKey:(id)key cost:(NSUInteger)cost
 {
+    [self.lock lock];
     [super setObject:obj forKey:key cost:cost];
+    [self.lock unlock];
 }
 
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost expirationTime:(NSTimeInterval)expirationTime
@@ -112,12 +131,15 @@
     if (obj == nil) {
         return;
     }
+    
     FACachedItem *item = [[FACachedItem alloc] initWithCache:self key:key object:obj];
     item.expirationTime = expirationTime;
     item.cost = cost;
     
+    [self.lock lock];
     [self backingCacheSetObject:item forKey:key cost:cost];
     [_cachedItems setObject:item forKey:key];
+    [self.lock unlock];
     
     DDLogModel(@"Adding object %@ with key: %@ to cache: \"%@\", new object count: %i", [obj description], key, self.name, self.objectCount);
 }
@@ -139,9 +161,11 @@
 
 - (void)purgeObjectForKey:(id)key
 {
+    [self.lock lock];
     FACachedItem *obj = [_cachedItems objectForKey:key];
     [self removeExpirationDataForKey:key];
     [_cachedItems removeObjectForKey:key];
+    [self.lock unlock];
     
     DDLogModel(@"Purging object %@ for key: %@ from cache: \"%@\", new object count: %i", [[obj object] description], key, self.name, self.objectCount);
 }
@@ -155,73 +179,97 @@
 
 - (void)removeObjectForKey:(id)key
 {
+    [self.lock lock];
     [super removeObjectForKey:key];
     [self purgeObjectForKey:key];
+    [self.lock unlock];
 }
 
 - (void)removeAllObjects
 {
+    [self.lock lock];
     [super removeAllObjects];
     
     [_cachedItems removeAllObjects];
+    [self.lock unlock];
 }
 
 - (void)evictAllExpiredObjects
 {
+    [self.lock lock];
     for (id key in _cachedItems)
     {
         [self checkExpirationDateForKey:key];
     }
+    [self.lock unlock];
 }
 
 - (void)removeAllTimers
 {
+    [self.lock lock];
     for (id key in _cachedItems) {
         FACachedItem *item = [_cachedItems objectForKey:key];
         [item removeTimer];
     }
+    [self.lock unlock];
 }
 
 - (void)reloadAllTimers
 {
-    @synchronized(self){
-                  [self removeAllTimers];
-                  NSDictionary *items = [_cachedItems copy];
-                  for (id key in items) {
-                      FACachedItem *item = [_cachedItems objectForKey:key];
-                      if ([item objectHasExpired])
-                      {
-                          [self removeObjectForKey:key];
-                      } else {
-                          [item setTimer];
-                      }
-                  }
-    };
-
+    [self removeAllTimers];
+    
+    [self.lock lock];
+    NSDictionary *items = [_cachedItems copy];
+    for (id key in items) {
+        FACachedItem *item = [_cachedItems objectForKey:key];
+        if ([item objectHasExpired])
+        {
+            [self removeObjectForKey:key];
+        } else {
+            [item setTimer];
+        }
+    }
+    [self.lock unlock];
 }
 
 - (NSArray *)indexes
 {
-    return _cachedItems.allKeys;
+    [self.lock lock];
+    NSArray *indexes = _cachedItems.allKeys;
+    [self.lock unlock];
+    
+    return indexes;
 }
 
 - (NSUInteger)totalCost
 {
     NSUInteger totalCost = 0;
+    
+    [self.lock lock];
+    
     for (id key in _cachedItems) {
         FACachedItem *item = [_cachedItems objectForKey:key];
         totalCost += item.cost;
     }
+    
+    [self.lock unlock];
+    
     return totalCost;
 }
 
 - (NSArray *)allKeys
 {
-    return _cachedItems.allKeys;
+    [self.lock lock];
+    NSArray *allKeys = _cachedItems.allKeys;
+    [self.lock unlock];
+    
+    return allKeys;
 }
 
 - (NSArray *)allObjects
 {
+    [self.lock lock];
+    
     NSArray *allKeys = self.allKeys;
     NSMutableArray *allObjects = [[NSMutableArray alloc] initWithCapacity:allKeys.count];
     for (id key in allKeys) {
@@ -230,12 +278,21 @@
             [allObjects addObject:object];
         }
     }
-    return allObjects.copy;
+    
+    allObjects = [allObjects copy];
+    
+    [self.lock unlock];
+    
+    return allObjects;
 }
 
 - (NSUInteger)objectCount
 {
-    return _cachedItems.count;
+    [self.lock lock];
+    NSUInteger count = _cachedItems.count;
+    [self.lock unlock];
+    
+    return count;
 }
 
 - (id<NSCacheDelegate>)delegate
@@ -257,6 +314,9 @@
 - (id)oldestObjectInCache
 {
     FACachedItem *oldest = nil;
+    
+    [self.lock lock];
+    
     for (id key in _cachedItems) {
         FACachedItem *item = [_cachedItems objectForKey:key];
         if (!oldest) {
@@ -266,14 +326,23 @@
             oldest = item;
         }
     }
+    
+    [self.lock unlock];
+    
     DDLogModel(@"Oldest item in cache:%@, date:%@", oldest, oldest.dateAdded);
     return oldest.object;
 }
 
 - (void)dealloc
 {
+    [self.lock lock];
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     [notificationCenter removeObserver:self];
+    
+    NSRecursiveLock *lock = self.lock;
+    self.lock = nil;
+    
+    [lock unlock];
 }
 
 @end
@@ -288,6 +357,9 @@
         _cache = cache;
         _key = key;
         _object = object;
+        
+        self.lock = [[NSRecursiveLock alloc] init];
+        self.lock.name = @"FACachedItem";
     }
     return self;
 }
@@ -312,6 +384,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    [self.lock lock];
+    
     [aCoder encodeObject:_cache forKey:@"cache"];
     [aCoder encodeObject:_key forKey:@"key"];
     [aCoder encodeInteger:(NSInteger)self.cost forKey:@"cost"];
@@ -319,6 +393,8 @@
     [aCoder encodeObject:_expirationDate forKey:@"expirationDate"];
     [aCoder encodeDouble:_expirationTime forKey:@"expirationTime"];
     [aCoder encodeObject:_dateAdded forKey:@"dateAdded"];
+    
+    [self.lock unlock];
 }
 
 - (NSString *)description

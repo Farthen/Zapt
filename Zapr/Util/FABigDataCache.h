@@ -8,7 +8,9 @@
 
 #import "FACache.h"
 
-// this is a persistant cache that loads objects directly from a backing store
+// This is a persistant cache that loads objects directly from a backing store
+// Like FACache, this is thread-safe
+
 @interface FABigDataCache : FACache
 
 @property (readonly) NSString *filePath;
