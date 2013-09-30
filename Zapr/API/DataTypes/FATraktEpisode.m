@@ -62,6 +62,18 @@
     return FATraktContentTypeEpisodes;
 }
 
+- (NSString *)urlIdentifier
+{
+    NSString *showIdentifier = self.show.urlIdentifier;
+    if (showIdentifier) {
+        if (self.season && self.episode) {
+            return [NSString stringWithFormat:@"%@/%@/%@", showIdentifier, self.season, self.episode];
+        }
+    }
+    
+    return nil;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktEpisode %p S%02iE%02i: \"%@\" Show: \"%@\">", self, self.season.intValue, self.episode.intValue, self.title, self.show.title];

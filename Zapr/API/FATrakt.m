@@ -324,9 +324,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
-    if (!movie.imdb_id) {
-        DDLogError(@"Trying to fetch information about movie without imdb_id");
-    }
     
     FATraktMovie *cachedMovie = [_cache.movies objectForKey:movie.cacheKey];
     if (cachedMovie && cachedMovie.detailLevel >= FATraktDetailLevelDefault) {
@@ -335,14 +332,23 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         // This will call callback twice. Make sure it can handle this.
     }
     
-    return [self.connection getAPI:@"movie/summary.json" withParameters:@[movie.imdb_id] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
-        [movie mapObjectsInDict:data];
-        
-        movie.detailLevel = FATraktDetailLevelDefault;
-        [movie commitToCache];
-        callback(movie);
-    } onError:error];
+    NSString *identifier = movie.urlIdentifier;
+    
+    if (identifier) {
+        return [self.connection getAPI:@"movie/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [movie mapObjectsInDict:data];
+            
+            movie.detailLevel = FATraktDetailLevelDefault;
+            [movie commitToCache];
+            callback(movie);
+        } onError:error];
+    } else {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        return nil;
+    }
 }
 
 - (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -378,9 +384,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
-    if (!show.tvdb_id) {
-        DDLogError(@"Trying to fetch information about show without tbdb_id");
-    }
     
     NSString *cacheKey = [show cacheKey];
     FATraktShow *cachedShow = [_cache.shows objectForKey:cacheKey];
@@ -401,24 +404,34 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         show = cachedShow;
     }
     
-    NSMutableArray *parameters = [NSMutableArray arrayWithArray:@[show.tvdb_id]];
-    if (detailLevel == FATraktDetailLevelExtended) {
-        [parameters addObject:@"extended"];
-    }
+    NSString *identifier = [show urlIdentifier];
     
-    return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
-        [show mapObjectsInDict:data];
-        
+    if (identifier) {
+        NSMutableArray *parameters = [NSMutableArray arrayWithArray:@[identifier]];
         if (detailLevel == FATraktDetailLevelExtended) {
-            show.detailLevel = FATraktDetailLevelExtended;
-        } else {
-            show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelDefault);
+            [parameters addObject:@"extended"];
         }
         
-        [show commitToCache];
-        callback(show);
-    } onError:error];
+        return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [show mapObjectsInDict:data];
+            
+            if (detailLevel == FATraktDetailLevelExtended) {
+                show.detailLevel = FATraktDetailLevelExtended;
+            } else {
+                show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelDefault);
+            }
+            
+            [show commitToCache];
+            callback(show);
+        } onError:error];
+    } else {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        
+        return nil;
+    }
 }
 
 - (LRRestyRequest *)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -431,6 +444,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         if (error) {
             error([FATraktConnectionResponse invalidRequestResponse]);
         }
+        
         return nil;
     }
     
@@ -455,7 +469,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Getting progress for show: %@", show.title);
-    return [self loadProgressDataWithTitle:show.tvdb_id callback:^(NSArray *data){
+    return [self loadProgressDataWithTitle:[show urlIdentifier] callback:^(NSArray *data){
         FATraktShowProgress *progress = nil;
         if (data.count >= 1) {
             progress = data[0];
@@ -503,9 +517,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
-    if (!episode.show.tvdb_id) {
-        DDLogController(@"Trying to fetch information about show without tvdb_id");
-    }
     
     FATraktEpisode *cachedEpisode = [_cache.episodes objectForKey:episode.cacheKey];
     if (cachedEpisode && cachedEpisode.detailLevel >= FATraktDetailLevelDefault) {
@@ -514,14 +525,25 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         // This will call callback twice. Make sure it can handle this.
     }
     
-    return [self.connection getAPI:@"show/episode/summary.json" withParameters:@[episode.show.tvdb_id, episode.season.stringValue, episode.episode.stringValue] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
-        [episode mapObjectsInSummaryDict:data];
+    NSString *identifier = episode.urlIdentifier;
+    
+    if (identifier) {
+        return [self.connection getAPI:@"show/episode/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+            NSDictionary *data = [[response asString] objectFromJSONString];
+            [episode mapObjectsInSummaryDict:data];
+            
+            episode.detailLevel = FATraktDetailLevelDefault;
+            [episode commitToCache];
+            callback(episode);
+        } onError:error];
+    } else {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
         
-        episode.detailLevel = FATraktDetailLevelDefault;
-        [episode commitToCache];
-        callback(episode);
-    } onError:error];
+        return nil;
+    }
+    
 }
 
 - (LRRestyRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error

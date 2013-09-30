@@ -36,6 +36,17 @@
     return FATraktContentTypeShows;
 }
 
+- (NSString *)urlIdentifier
+{
+    if (self.tvdb_id) {
+        return self.imdb_id;
+    } else if (self.slug) {
+        return self.slug;
+    }
+    
+    return nil;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow %p with title: %@>", self, self.title];

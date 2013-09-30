@@ -56,6 +56,8 @@ typedef enum {
 @property (readonly) NSString *widescreenImageURL;
 @property (retain) NSString *ratings;
 
+@property (readonly) NSString *slug;
+@property (readonly) NSString *urlIdentifier;
 @property (readonly) BOOL isWatched;
 @property (assign) BOOL in_watchlist;
 @property (assign) BOOL in_collection;

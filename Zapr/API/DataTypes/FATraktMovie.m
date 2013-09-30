@@ -35,6 +35,19 @@
     return FATraktContentTypeMovies;
 }
 
+- (NSString *)urlIdentifier
+{
+    if (self.imdb_id) {
+        return self.imdb_id;
+    } else if (self.tmdb_id) {
+        return self.tmdb_id;
+    } else if (self.slug) {
+        return self.slug;
+    }
+    
+    return nil;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktMovie %p with title: \"%@\">", self, self.title];

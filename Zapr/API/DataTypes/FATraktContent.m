@@ -12,6 +12,7 @@
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
 #import "FATraktShowProgress.h"
+#import "Misc.h"
 
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_MODEL
@@ -74,6 +75,16 @@
     }
     
     return NO;
+}
+
+- (NSString *)slug
+{
+    return self.url.lastPathComponent;
+}
+
+- (NSString *)urlIdentifier
+{ FA_MUST_OVERRIDE_IN_SUBCLASS
+    return nil;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
