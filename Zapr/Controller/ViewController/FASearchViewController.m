@@ -19,6 +19,8 @@
 
 #import "UIView+Animations.h"
 
+static CGPoint _scrollPositions[3];
+
 @interface FASearchViewController () {
     FASearchData *_searchData;
     FATraktContentType _searchScope;
@@ -36,8 +38,12 @@
 	// Do any additional setup after loading the view, typically from a nib.
     self.searchData = [[FASearchData alloc] init];
     _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
-    
+        
     self.searchBar.translucent = YES;
+    
+    _scrollPositions[0] = CGPointMake(0, 0);
+    _scrollPositions[1] = _scrollPositions[0];
+    _scrollPositions[2] = _scrollPositions[0];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationControllerPoppedToRootViewControllerNotification:) name:FANavigationControllerDidPopToRootViewControllerNotification object:nil];
 }
@@ -172,10 +178,15 @@
 {
     if (_searchScope == searchScope) {
         return NO;
-    } else {
+    } else if (searchScope >= 0 && searchScope <= 2) {
+        _scrollPositions[_searchScope] = controller.searchResultsTableView.contentOffset;
         _searchScope = searchScope;
+        [controller.searchResultsTableView setContentOffset:_scrollPositions[searchScope] animated:NO];
+        [controller.searchResultsTableView flashScrollIndicators];
         return YES;
     }
+    
+    return NO;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
