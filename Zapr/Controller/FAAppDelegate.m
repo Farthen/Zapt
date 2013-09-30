@@ -33,6 +33,8 @@
     UIAlertView *_needsLoginAlertView;
     BOOL _authViewShowing;
     UIWindow *_authWindow;
+    
+    NSDate *_lastNetworkErrorDate;
 }
 
 @end
@@ -51,10 +53,12 @@
     
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
-    _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
-    _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
-    _serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+    _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
+    _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+    _serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _needsLoginAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not logged in", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Log In", nil), nil];
+    
+    _lastNetworkErrorDate = [NSDate distantPast];
     
     _authViewShowing = NO;
     
@@ -101,17 +105,30 @@
 {
     if (response.responseType == FATraktConnectionResponseTypeTimeout) {
     } else if (response.responseType == FATraktConnectionResponseTypeServiceUnavailable) {
-        [_serviceUnavailableAlert show];
+        [self showNetworkAlertViewIfNeeded:_serviceUnavailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeNetworkUnavailable) {
-        [_networkNotAvailableAlert show];
+        [self showNetworkAlertViewIfNeeded:_networkNotAvailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
         [self handleInvalidCredentials];
     }
 }
 
+- (void)showNetworkAlertViewIfNeeded:(UIAlertView *)alertView
+{
+    @synchronized(self) {
+        NSDate *now = [NSDate date];
+        if ([now timeIntervalSinceDate:_lastNetworkErrorDate] > 30) {
+            if (!alertView.visible && !_timeoutAlert.visible && !_networkNotAvailableAlert.visible && !_serviceUnavailableAlert.visible) {
+                // It has been 30 seconds after the last alert has been dismissed and none is being shown right now
+                [alertView show];
+            }
+        }
+    }
+}
+
 - (void)handleTimeout
 {
-    [_timeoutAlert show];
+    [self showNetworkAlertViewIfNeeded:_timeoutAlert];
 }
 
 - (void)showNeedsLoginAlertWithActionName:(NSString *)actionName
@@ -222,6 +239,16 @@
         if (buttonIndex == 1) {
             [self performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
         }
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (alertView == _timeoutAlert ||
+        alertView == _networkNotAvailableAlert ||
+        alertView == _serviceUnavailableAlert) {
+        // update the last dismissed date
+        _lastNetworkErrorDate = [NSDate date];
     }
 }
 
