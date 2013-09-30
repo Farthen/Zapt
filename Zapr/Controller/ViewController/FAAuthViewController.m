@@ -63,6 +63,11 @@
     delegate.authViewShowing = NO;
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    self.showsInvalidPrompt = NO;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if (textField == self.passwordTextField && _passwordFieldContainsHash) {
@@ -116,7 +121,7 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         } else {
             [self.usernameTableViewCell.textField becomeFirstResponder];
-            [self showsInvalidPrompt];
+            self.showsInvalidPrompt = YES;
             [_invalidCredentialsAlert show];
         }
     }];

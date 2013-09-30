@@ -197,7 +197,7 @@
         } else {
             UIApplication *app = [UIApplication sharedApplication];
             FAAppDelegate *delegate = (FAAppDelegate *)app.delegate;
-            [delegate handleInvalidCredentials];
+            [delegate performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
         }
     } else if (indexPath.section == 1 && indexPath.row == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
