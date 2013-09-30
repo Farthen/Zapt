@@ -188,6 +188,7 @@ static NSString *codingFileName = @"Cache";
     [self.images removeAllObjects];
     [self.lists removeAllObjects];
     [self.searches removeAllObjects];
+    [self saveToDisk];
 }
 
 + (FATraktCache *)sharedInstance
