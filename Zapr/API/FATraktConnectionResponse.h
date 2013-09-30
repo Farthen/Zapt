@@ -18,13 +18,20 @@ typedef enum {
     FATraktConnectionResponseTypeTimeout = 4,
     FATraktConnectionResponseTypeNoData = 5,
     FATraktConnectionResponseTypeCancelled = 6,
+    FATraktConnectionResponseTypeInvalidRequest = 7,
     
-    FATraktConnectionResponseTypeAnyError = FATraktConnectionResponseTypeInvalidCredentials | FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable | FATraktConnectionResponseTypeTimeout
+    FATraktConnectionResponseTypeAnyError = FATraktConnectionResponseTypeInvalidCredentials | FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable | FATraktConnectionResponseTypeTimeout | FATraktConnectionResponseTypeNoData | FATraktConnectionResponseTypeInvalidRequest
 } FATraktConnectionResponseType;
 
 @interface FATraktConnectionResponse : NSObject
 
+- (instancetype)initWithResponseType:(FATraktConnectionResponseType)responseType;
+
 + (instancetype)connectionResponseWithResponse:(LRRestyResponse *)response;
+
+// Guaranteed to be unique
++ (instancetype)invalidRequestResponse;
++ (instancetype)invalidCredentialsResponse;
 
 @property (readonly) LRRestyResponse *response;
 @property FATraktConnectionResponseType responseType;

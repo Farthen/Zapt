@@ -14,6 +14,15 @@
 
 @implementation FATraktConnectionResponse
 
+- (instancetype)initWithResponseType:(FATraktConnectionResponseType)responseType
+{
+    self = [super init];
+    if (self) {
+        self.responseType = responseType;
+    }
+    return  self;
+}
+
 + (instancetype)connectionResponseWithResponse:(LRRestyResponse *)response
 {
     FATraktConnectionResponse *connectionResponse = [[FATraktConnectionResponse alloc] init];
@@ -39,6 +48,26 @@
         }
     }
     return connectionResponse;
+}
+
++ (instancetype)invalidRequestResponse
+{
+    static dispatch_once_t once;
+    static FATraktConnectionResponse *instance;
+    dispatch_once(&once, ^ {
+        instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidRequest];
+    });
+    return instance;
+}
+
++ (instancetype)invalidCredentialsResponse
+{
+    static dispatch_once_t once;
+    static FATraktConnectionResponse *instance;
+    dispatch_once(&once, ^ {
+        instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidCredentials];
+    });
+    return instance;
 }
 
 @end
