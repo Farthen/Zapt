@@ -13,6 +13,8 @@
 
 #import "FAUnreadItemIndicatorView.h"
 
+#import "NSObject+PerformBlock.h"
+
 #import "UIView+ImageScreenshot.h"
 #import "UIImage+ImageWithColor.h"
 
@@ -96,6 +98,11 @@
     }
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _displayedShow.seasons.count)] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
+
+    CGPoint offset = CGPointZero;
+    offset.y -= self.tableView.contentInset.top;
+    
+    [self.tableView setContentOffset:offset animated:YES];
 }
 
 - (void)showEpisodeListForShow:(FATraktShow *)show
