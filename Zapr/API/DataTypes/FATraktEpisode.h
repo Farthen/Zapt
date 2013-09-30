@@ -27,6 +27,4 @@
 @property (retain) NSString *url;
 @property (assign) BOOL watched;
 
-
-
 @end
