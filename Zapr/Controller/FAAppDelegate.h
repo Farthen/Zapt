@@ -13,12 +13,13 @@
 - (void)preferredContentSizeChanged;
 @end
 
-@interface FAAppDelegate : UIResponder <UIApplicationDelegate>
+@interface FAAppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property BOOL authViewShowing;
 @property UIColor *tintColor;
 
+- (void)showNeedsLoginAlertWithActionName:(NSString *)actionName;
 - (void)performLoginAnimated:(BOOL)animated;
 - (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response;
 - (void)handleTimeout;

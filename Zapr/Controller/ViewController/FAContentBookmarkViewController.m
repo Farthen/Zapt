@@ -191,6 +191,13 @@
         offset = 1;
     }
     
+    if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
+        FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
+        [delegate showNeedsLoginAlertWithActionName:NSLocalizedString(@"do any content action", nil)];
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    
     if (indexPath.section + offset == 0) {
         // Seen button
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -29,6 +29,7 @@
     UIAlertView *_networkNotAvailableAlert;
     UIAlertView *_serviceUnavailableAlert;
     UIAlertView *_invalidCredentialsAlert;
+    UIAlertView *_needsLoginAlertView;
     BOOL _authViewShowing;
     UIWindow *_authWindow;
 }
@@ -53,6 +54,8 @@
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
     _serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+    _needsLoginAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not logged in", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Log In", nil), nil];
+    
     _authViewShowing = NO;
     
     FALogFormatter *logFormatter = [[FALogFormatter alloc] init];
@@ -111,6 +114,16 @@
     [_timeoutAlert show];
 }
 
+- (void)showNeedsLoginAlertWithActionName:(NSString *)actionName
+{
+    if (!actionName) {
+        actionName = NSLocalizedString(@"use this feature", nil);
+    }
+    
+    _needsLoginAlertView.message = [NSString stringWithFormat:NSLocalizedString(@"To %@ you need to log in to your Trakt account", nil), actionName];
+    [_needsLoginAlertView show];
+}
+
 - (void)handleInvalidCredentials
 {
     [self performLoginAnimated:YES];
@@ -130,7 +143,7 @@
         authController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         //[_authWindow makeKeyAndVisible];
         UIViewController *topViewcontroller = [self topViewController];
-        if (topViewcontroller) {
+        if (topViewcontroller.isViewLoaded && topViewcontroller.view.window) {
             [topViewcontroller presentViewController:authController animated:animated completion:^{
                 _authViewShowing = NO;
             }];
@@ -180,7 +193,7 @@
 }
 
 - (UIViewController*)topViewController {
-    return [self topViewControllerWithRootViewController:[UIApplication sharedApplication].keyWindow.rootViewController];
+    return [self topViewControllerWithRootViewController:[self.window rootViewController]];
 }
 
 // http://stackoverflow.com/a/17578272/1084385
@@ -202,6 +215,16 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView == _needsLoginAlertView) {
+        if (buttonIndex == 1) {
+            [self performLoginAnimated:YES];
+        }
+    }
 }
 
 @end

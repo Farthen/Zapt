@@ -485,9 +485,15 @@
         UIBarButtonItem *button = sender;
         button.enabled = NO;
         
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-        [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
-        [hud hideProgressHUD];
+        if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
+            FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [delegate showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
+        } else {
+            FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
+            [hud hideProgressHUD];
+        }
+        
         button.enabled = YES;
     } else {
         // show list of episodes
