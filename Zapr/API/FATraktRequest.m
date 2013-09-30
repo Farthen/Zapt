@@ -11,6 +11,7 @@
 
 @interface FATraktRequest ()
 @property NSString *activityName;
+@property BOOL cancelled;
 @end
 
 @implementation FATraktRequest
@@ -28,6 +29,7 @@
 - (void)cancelImmediately
 {
     [self.restyRequest cancelImmediately];
+    self.cancelled = YES;
     [self finishActivity];
 }
 
@@ -39,6 +41,23 @@
 - (void)finishActivity
 {
     [[FAActivityDispatch sharedInstance] finishActivityNamed:self.activityName];
+}
+
+- (FATraktRequestState)requestState
+{
+    if (self.cancelled) {
+        return FATraktRequestStateCancelled;
+    }
+    
+    if (self.restyRequest.isExecuting) {
+        return FATraktRequestStateExecuting;
+    }
+    
+    if (self.restyRequest.isFinished) {
+        return FATraktRequestStateFinished;
+    }
+    
+    return FATraktRequestStateUnknown;
 }
 
 @end

@@ -107,10 +107,29 @@
 
 - (void)cancelAllSearchRequests
 {
-    for (FATraktRequest *request in _searchRequests) {
-        [request cancelImmediately];
+    @synchronized(self) {
+        for (FATraktRequest *request in _searchRequests) {
+            [request cancelImmediately];
+        }
+        [_searchRequests removeAllObjects];
     }
-    [_searchRequests removeAllObjects];
+}
+
+- (void)removeFinishedRequestsFromRequestArray
+{
+    // NSMutableArray isn't thread safe
+    @synchronized(self) {
+        NSMutableIndexSet *removalSet = [NSMutableIndexSet indexSet];
+        
+        for (NSUInteger i = 0; i < _searchRequests.count; i++) {
+            FATraktRequest *request = _searchRequests[i];
+            if (request.requestState & FATraktRequestStateFinished) {
+                [removalSet addIndex:i];
+            }
+        }
+        
+        [_searchRequests removeObjectsAtIndexes:removalSet];
+    }
 }
 
 - (void)searchForString:(NSString *)searchString
@@ -120,20 +139,28 @@
     self.searchData = searchData;
     
     [_resultsTableView reloadData];
-    //[self cancelAllSearchRequests];
     
-    [_searchRequests addObject:[[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
+    FATraktRequest *requestMovies = [[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
         searchData.movies = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    } onError:nil]];
-    [_searchRequests addObject:[[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
+    } onError:nil];
+    FATraktRequest *requestShows = [[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
         searchData.shows = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    } onError:nil]];
-    [_searchRequests addObject:[[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
+    } onError:nil];
+    FATraktRequest *requestEpisodes = [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
         searchData.episodes = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
-    } onError:nil]];
+    } onError:nil];
+    
+    [self removeFinishedRequestsFromRequestArray];
+    
+    // NSMutableArray isn't thread safe
+    @synchronized(self) {
+        [_searchRequests addObject:requestMovies];
+        [_searchRequests addObject:requestShows];
+        [_searchRequests addObject:requestEpisodes];
+    }
 }
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView

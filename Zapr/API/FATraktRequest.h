@@ -9,6 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <LRResty/LRResty.h>
 
+typedef enum {
+    FATraktRequestStateExecuting = (1 << 0),
+    
+    FATraktRequestStateFinished = (1 << 1),
+    FATraktRequestStateCancelled = (1 << 2),
+    
+    FATraktRequestStateStopped = FATraktRequestStateFinished | FATraktRequestStateCancelled,
+    
+    FATraktRequestStateUnknown = (1 << 3),
+} FATraktRequestState;
+
 @interface FATraktRequest : NSObject
 
 + (instancetype)requestWithActivityName:(NSString *)activityName;
@@ -19,5 +30,6 @@
 
 @property LRRestyRequest *restyRequest;
 @property (readonly) NSString *activityName;
+@property (readonly) FATraktRequestState requestState;
 
 @end
