@@ -10,15 +10,15 @@
 #import <LRResty/LRResty.h>
 
 typedef enum {
-    FATraktConnectionResponseTypeUnknown = -2,
-    FATraktConnectionResponseTypeSuccess = -1,
-    FATraktConnectionResponseTypeInvalidCredentials = 1,
-    FATraktConnectionResponseTypeNetworkUnavailable = 2,
-    FATraktConnectionResponseTypeServiceUnavailable = 3,
-    FATraktConnectionResponseTypeTimeout = 4,
-    FATraktConnectionResponseTypeNoData = 5,
-    FATraktConnectionResponseTypeCancelled = 6,
-    FATraktConnectionResponseTypeInvalidRequest = 7,
+    FATraktConnectionResponseTypeUnknown = (1 << -2),
+    FATraktConnectionResponseTypeSuccess = (1 << -1),
+    FATraktConnectionResponseTypeInvalidCredentials = (1 << 1),
+    FATraktConnectionResponseTypeNetworkUnavailable = (1 << 2),
+    FATraktConnectionResponseTypeServiceUnavailable = (1 << 3),
+    FATraktConnectionResponseTypeTimeout = (1 << 4),
+    FATraktConnectionResponseTypeNoData = (1 << 5),
+    FATraktConnectionResponseTypeCancelled = (1 << 6),
+    FATraktConnectionResponseTypeInvalidRequest = (1 << 7),
     
     FATraktConnectionResponseTypeAnyError = FATraktConnectionResponseTypeInvalidCredentials | FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable | FATraktConnectionResponseTypeTimeout | FATraktConnectionResponseTypeNoData | FATraktConnectionResponseTypeInvalidRequest
 } FATraktConnectionResponseType;
