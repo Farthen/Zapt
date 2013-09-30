@@ -174,7 +174,6 @@
 {
     [super viewDidLayoutSubviews];
     [self updateViewConstraints];
-    self.scrollView.contentSize = self.contentView.frame.size;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
