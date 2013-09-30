@@ -19,6 +19,8 @@
     UITableView *_tableView;
     BOOL _showsInvalidPrompt;
     BOOL _checkingAuth;
+    
+    UIAlertView *_invalidCredentialsAlert;
 }
 
 @end
@@ -38,6 +40,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
     
     [self setNavigationItem];
 }
@@ -112,6 +116,8 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         } else {
             [self.usernameTableViewCell.textField becomeFirstResponder];
+            [self showsInvalidPrompt];
+            [_invalidCredentialsAlert show];
         }
     }];
 }
