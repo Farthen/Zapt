@@ -13,7 +13,7 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-static const NSInteger codingVersionNumber = 1;
+static const NSInteger codingVersionNumber = 2;
 static NSString *codingFileName = @"Cache";
 
 @implementation FATraktCache

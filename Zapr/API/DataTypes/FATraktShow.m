@@ -97,17 +97,19 @@
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"seasons"] && propertyType.objcClass == [NSArray class] && [object isKindOfClass:[NSArray class]]) {
-        NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-        for (NSDictionary *seasonDict in (NSArray *)object) {
-            FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];
-            [seasonArray addObject:season];
+    if ([key isEqualToString:@"seasons"]) {
+        if (propertyType.objcClass == [NSArray class] && [object isKindOfClass:[NSArray class]]) {
+            NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
+            for (NSDictionary *seasonDict in (NSArray *)object) {
+                FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];
+                [seasonArray addObject:season];
+            }
+            NSSortDescriptor *sortDescriptor;
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"season" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+            [seasonArray sortUsingDescriptors:sortDescriptors];
+            [self setValue:[NSArray arrayWithArray:seasonArray] forKey:key];
         }
-        NSSortDescriptor *sortDescriptor;
-        sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"season" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-        [seasonArray sortUsingDescriptors:sortDescriptors];
-        [self setValue:[NSArray arrayWithArray:seasonArray] forKey:key];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
