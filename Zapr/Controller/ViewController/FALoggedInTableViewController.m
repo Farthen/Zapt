@@ -15,6 +15,7 @@
 
 @interface FALoggedInTableViewController ()
 @property FANeedsLoginTableViewDelegate *needsLoginTableViewDataSource;
+@property UITableView *needsLoginTableView;
 @property BOOL wasScrollEnabled;
 @property BOOL showingNeedsLoginTableView;
 @end
@@ -123,14 +124,21 @@
 
 - (void)showNeedsLoginTableViewAnimated:(BOOL)animated
 {
-    self.wasScrollEnabled = self.tableView.scrollEnabled;
-    self.tableView.scrollEnabled = NO;
+    if (!self.needsLoginTableView) {
+        self.needsLoginTableView = [[UITableView alloc] init];
+    }
+    
+    self.needsLoginTableView.frame = self.tableView.frame;
+    [self.tableView.superview addSubview:self.needsLoginTableView];
+    
+    self.needsLoginTableView.scrollEnabled = NO;
+    
     if (!self.needsLoginTableViewDataSource) {
         self.needsLoginTableViewDataSource = [[FANeedsLoginTableViewDelegate alloc] init];
     }
     
-    self.tableView.dataSource = self.needsLoginTableViewDataSource;
-    self.tableView.delegate = self.needsLoginTableViewDataSource;
+    self.needsLoginTableView.dataSource = self.needsLoginTableViewDataSource;
+    self.needsLoginTableView.delegate = self.needsLoginTableViewDataSource;
     
     if (self.refreshControl) {
         [self.refreshControl endRefreshing];
@@ -138,16 +146,13 @@
     
     self.showingNeedsLoginTableView = YES;
     
-    [self.tableView reloadData];
+    [self.needsLoginTableView reloadData];
 }
 
 - (void)hideNeedsLoginTableViewAnimated:(BOOL)animated
 {
     if (self.showingNeedsLoginTableView) {
-        self.tableView.dataSource = self;
-        self.tableView.delegate = self;
-        self.tableView.scrollEnabled = self.wasScrollEnabled;
-        self.tableView.userInteractionEnabled = YES;
+        [self.needsLoginTableView removeFromSuperview];
         [self.tableView reloadData];
         
         self.showingNeedsLoginTableView = NO;
