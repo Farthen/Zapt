@@ -9,6 +9,7 @@
 #import "FAAppDelegate.h"
 #import "FATrakt.h"
 #import "FAConnectingViewController.h"
+#import "FAAuthViewController.h"
 #import "FATraktCache.h"
 #import "FALogFormatter.h"
 
@@ -80,7 +81,14 @@
     // Dynamic Type Setting
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
     
-    self.window.tintColor = [UIColor purpleColor];
+    self.tintColor = [UIColor purpleColor];
+    self.window.tintColor = self.tintColor;
+    
+    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+        if (!valid) {
+            [self handleInvalidCredentials];
+        }
+    }];
     
     DDLogInfo(@"%@ Version %@", name, version);
     return YES;
@@ -119,12 +127,16 @@
         UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
         DDLogViewController(@"Presenting View Controller %@", authController);
         //_authWindow.rootViewController = authController;
-        authController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+        authController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         //[_authWindow makeKeyAndVisible];
-        UINavigationController *navigationController = (UINavigationController *)UIApplication.sharedApplication.keyWindow.rootViewController;
-        [navigationController.visibleViewController presentViewController:authController animated:animated completion:^{
+        UIViewController *topViewcontroller = [self topViewController];
+        if (topViewcontroller) {
+            [topViewcontroller presentViewController:authController animated:animated completion:^{
+                _authViewShowing = NO;
+            }];
+        } else {
             _authViewShowing = NO;
-        }];
+        }
     }
 }
 

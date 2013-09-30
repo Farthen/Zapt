@@ -17,6 +17,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property BOOL authViewShowing;
+@property UIColor *tintColor;
 
 - (void)performLoginAnimated:(BOOL)animated;
 - (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response;
