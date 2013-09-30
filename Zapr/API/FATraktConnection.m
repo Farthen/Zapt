@@ -237,7 +237,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     }
 }
 
-- (LRRestyRequest *)postURL:(NSString *)urlString
+- (FATraktRequest *)postURL:(NSString *)urlString
                     payload:(NSDictionary *)payload
            withActivityName:(NSString *)activityName
                   onSuccess:(void (^)(LRRestyResponse *response))success
@@ -262,24 +262,26 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         }
     }
     
-    // Start the activity
-    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
+    FATraktRequest *traktRequest = [FATraktRequest requestWithActivityName:activityName];
+    [traktRequest startActivity];
     
     // Then we do the HTTP POST request
     DDLogController(@"HTTP POST %@", urlString);
-    LRRestyRequest *request = [[LRResty client] post:urlString payload:payloadData withBlock:^(LRRestyResponse *response) {
+    LRRestyRequest *restyRequest = [[LRResty client] post:urlString payload:payloadData withBlock:^(LRRestyResponse *response) {
         // Finish the activity
-        [[FAActivityDispatch sharedInstance] finishActivityNamed:activityName];
+        [traktRequest finishActivity];
 
         // Handle the response
         [self handleResponse:response onSuccess:success onError:error];
     }];
     
-    // Return the request for convenience
-    return request;
+    traktRequest.restyRequest = restyRequest;
+    
+    // Return the request
+    return traktRequest;
 }
 
-- (LRRestyRequest *)postAPI:(NSString *)api
+- (FATraktRequest *)postAPI:(NSString *)api
              withParameters:(NSArray *)parameters
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
@@ -309,7 +311,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     return [self postURL:urlString payload:payload withActivityName:activityName onSuccess:success onError:error];
 }
 
-- (LRRestyRequest *)postAPI:(NSString *)api
+- (FATraktRequest *)postAPI:(NSString *)api
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
            withActivityName:(NSString *)activityName
@@ -319,7 +321,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     return [self postAPI:api withParameters:nil payload:payload authenticated:authenticated withActivityName:activityName onSuccess:success onError:error];
 }
 
-- (LRRestyRequest *)getURL:(NSString *)urlString
+- (FATraktRequest *)getURL:(NSString *)urlString
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -338,23 +340,26 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     }
     
     // Start the activity
-    [[FAActivityDispatch sharedInstance] startActivityNamed:activityName];
+    FATraktRequest *traktRequest = [FATraktRequest requestWithActivityName:activityName];
+    [traktRequest startActivity];
     
     // Do the HTTP GET request
     DDLogController(@"HTTP GET %@", urlString);
-    LRRestyRequest *request = [[LRResty client] get:urlString withBlock:^(LRRestyResponse *response) {
+    LRRestyRequest *restyRequest = [[LRResty client] get:urlString withBlock:^(LRRestyResponse *response) {
         // Finish the activity
-        [[FAActivityDispatch sharedInstance] finishActivityNamed:activityName];
+        [traktRequest finishActivity];
         
         // Handle the response
         [self handleResponse:response onSuccess:success onError:error];
     }];
     
-    // Return the request for convenience
-    return request;
+    traktRequest.restyRequest = restyRequest;
+    
+    // Return the request
+    return traktRequest;
 }
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
        withActivityName:(NSString *)activityName
               onSuccess:(__strong LRRestyResponseBlock)success
@@ -366,7 +371,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     return [self getURL:urlString withActivityName:activityName onSuccess:success onError:error];
 }
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
        forceAuthentication:(BOOL)forceAuthentication
           withActivityName:(NSString *)activityName
@@ -383,7 +388,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     return [self getAPI:api withParameters:parameters withActivityName:activityName onSuccess:success onError:error];
 }
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *))success
                    onError:(void (^)(FATraktConnectionResponse *))error

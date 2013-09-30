@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LRResty/LRResty.h>
+#import "FATraktRequest.h"
 @class FATraktConnectionResponse;
 
 extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
@@ -17,13 +18,13 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
 + (instancetype)sharedInstance;
 
 // Main POST method
-- (LRRestyRequest *)postURL:(NSString *)urlString
+- (FATraktRequest *)postURL:(NSString *)urlString
                     payload:(NSDictionary *)payload
            withActivityName:(NSString *)activityName
                   onSuccess:(void (^)(LRRestyResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-- (LRRestyRequest *)postAPI:(NSString *)api
+- (FATraktRequest *)postAPI:(NSString *)api
              withParameters:(NSArray *)parameters
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
@@ -31,7 +32,7 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
                   onSuccess:(void (^)(LRRestyResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-- (LRRestyRequest *)postAPI:(NSString *)api
+- (FATraktRequest *)postAPI:(NSString *)api
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
            withActivityName:(NSString *)activityName
@@ -39,25 +40,25 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 // Main GET method
-- (LRRestyRequest *)getURL:(NSString *)urlString
+- (FATraktRequest *)getURL:(NSString *)urlString
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
        forceAuthentication:(BOOL)forceAuthentication
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *))success
                    onError:(void (^)(FATraktConnectionResponse *))error;
 
-- (LRRestyRequest *)getAPI:(NSString *)api
+- (FATraktRequest *)getAPI:(NSString *)api
           withActivityName:(NSString *)activityName
                  onSuccess:(void (^)(LRRestyResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;

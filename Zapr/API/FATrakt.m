@@ -8,7 +8,6 @@
 
 #import "FATrakt.h"
 #import <JSONKit.h>
-#import <LRResty.h>
 #import <Security/Security.h>
 
 #import "NSString+URLEncode.h"
@@ -219,7 +218,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return mutableDict;
 }
 
-- (LRRestyRequest *)verifyCredentials:(void (^)(BOOL valid))callback
+- (FATraktRequest *)verifyCredentials:(void (^)(BOOL valid))callback
 {
     DDLogController(@"Account test!");
     
@@ -239,7 +238,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (LRRestyRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     FATraktAccountSettings *cachedSettings = [[[FATraktAccountSettings alloc] init] cachedVersion];
     if (cachedSettings) {
@@ -255,7 +254,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {    
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
@@ -298,7 +297,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         NSDictionary *data = [[response asString] objectFromJSONString];
@@ -315,7 +314,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (LRRestyRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Searching for movies!");
     
@@ -340,7 +339,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
     
@@ -370,7 +369,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (LRRestyRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult* result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Searching for shows!");
     
@@ -395,12 +394,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self detailsForShow:show detailLevel:FATraktDetailLevelDefault callback:callback onError:error];
 }
 
-- (LRRestyRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     
@@ -453,7 +452,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (LRRestyRequest *)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     // title can be tvdb-id or slug
     DDLogController(@"Getting progress data");
@@ -485,7 +484,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Getting progress for show: %@", show.title);
     return [self loadProgressDataWithTitle:[show urlIdentifier] callback:^(NSArray *data){
@@ -499,13 +498,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)progressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)progressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Getting progress for all shows");
     return [self loadProgressDataWithTitle:@"" callback:callback onError:error];
 }
 
-- (LRRestyRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Searching for episodes!");
     
@@ -533,7 +532,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     
@@ -565,7 +564,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
 }
 
-- (LRRestyRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *key = nil;
     NSString *contentTypeName = [FATrakt nameForContentType:list.contentType];
@@ -575,7 +574,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         key = [NSString stringWithFormat:@"%@.collection", contentTypeName];
     }
     
-    LRRestyRequest *(^actualRequest)(void) = ^LRRestyRequest *{
+    FATraktRequest *(^actualRequest)(void) = ^FATraktRequest *{
         FATraktContentType type = list.contentType;
         NSString *typeName = [FATrakt nameForContentType:type];
         
@@ -647,7 +646,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return actualRequest();
 }
 
-- (LRRestyRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (![self.connection usernameSetOrDieAndError:error]) {
         return nil;
@@ -674,7 +673,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (![self.connection usernameSetOrDieAndError:error]) {
         return nil;
@@ -696,7 +695,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (![self.connection usernameSetOrDieAndError:error]) {
         return nil;
@@ -715,7 +714,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self loadDataForList:list callback:callback onError:error];
 }
 
-- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (![self.connection usernameSetOrDieAndError:error]) {
         return nil;
@@ -743,23 +742,23 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self loadDataForList:list callback:callback onError:error];
 }
 
-- (LRRestyRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     // TODO: Check if I really need the extended information
     return [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:callback onError:error];
 }
 
-- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addToWatchlist:content add:YES callback:callback onError:error];
 }
 
-- (LRRestyRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addToWatchlist:content add:NO callback:callback onError:error];
 }
 
-- (LRRestyRequest *)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *watchlistName = [FATrakt watchlistNameForContentType:content.contentType];
     NSString *api;
@@ -777,17 +776,17 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addToLibrary:content add:YES callback:callback onError:error];
 }
 
-- (LRRestyRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addToLibrary:content add:NO callback:callback onError:error];
 }
 
-- (LRRestyRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *libraryName = [FATrakt watchlistNameForContentType:content.contentType];
     NSString *api;
@@ -810,7 +809,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSArray *items = @[[self postDataContentTypeDictForContent:content multiple:NO containsType:YES]];
     NSString *api;
@@ -834,17 +833,17 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addContent:content toCustomList:list add:YES callback:callback onError:error];
 }
 
-- (LRRestyRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self addContent:content toCustomList:list add:NO callback:callback onError:error];
 }
 
-- (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO];
     NSString *api = [NSString stringWithFormat:@"rate/%@", contentType];
@@ -886,7 +885,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (LRRestyRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *api;
     NSDictionary *postData;
@@ -940,7 +939,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (LRRestyRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckinResponse *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckinResponse *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (content.contentType == FATraktContentTypeMovies ||
         content.contentType == FATraktContentTypeEpisodes) {

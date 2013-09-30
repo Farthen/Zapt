@@ -107,7 +107,7 @@
 
 - (void)cancelAllSearchRequests
 {
-    for (LRRestyRequest *request in _searchRequests) {
+    for (FATraktRequest *request in _searchRequests) {
         [request cancelImmediately];
     }
     [_searchRequests removeAllObjects];
