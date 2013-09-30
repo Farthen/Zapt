@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const FANavigationControllerDidPopToRootViewControllerNotification;
+
+@protocol FANavigationControllerLongButtonTouchDelegate <UINavigationControllerDelegate>
+@optional
+- (BOOL)navigationController:(UINavigationController *)navigationController shouldPopToRootViewControllerAfterLongButtonTouchForViewController:(UIViewController *)viewController;
+- (void)navigationController:(UINavigationController *)navigationController didPopToRootViewControllerAfterLongButtonTouchForViewController:(UIViewController *)viewController;
+@end
+
 @interface FANavigationController : UINavigationController
 
 - (void)addLongButtonTouchGesture;

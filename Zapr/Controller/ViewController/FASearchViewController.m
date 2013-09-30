@@ -11,6 +11,7 @@
 #import "FANavigationController.h"
 #import "FATrakt.h"
 #import "FAActivityDispatch.h"
+#import "FANavigationController.h"
 
 #import "FASearchData.h"
 #import "FASearchBarWithActivity.h"
@@ -37,6 +38,8 @@
     _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
     
     self.searchBar.translucent = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationControllerPoppedToRootViewControllerNotification:) name:FANavigationControllerDidPopToRootViewControllerNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -94,6 +97,12 @@
 - (void)preferredContentSizeChanged
 {
     [_resultsTableView reloadData];
+}
+
+- (void)navigationControllerPoppedToRootViewControllerNotification:(NSNotification *)notification
+{
+    [self cancelAllSearchRequests];
+    [self.searchDisplayController setActive:NO animated:NO];
 }
 
 - (void)cancelAllSearchRequests
@@ -254,6 +263,7 @@
 - (void)dealloc
 {
     self.searchDisplayController.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 

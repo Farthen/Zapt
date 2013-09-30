@@ -8,15 +8,13 @@
 
 #import "FANavigationController.h"
 
-@protocol FANavigationControllerLongButtonTouchDelegate <UINavigationControllerDelegate>
-- (BOOL)navigationController:(UINavigationController *)navigationController shouldPopToRootViewControllerAfterLongButtonTouchForViewController:(UIViewController *)viewController;
-@end
-
 @interface FANavigationController () {
     UILongPressGestureRecognizer *_longPressGesture;
 }
 
 @end
+
+NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @"FATraktActivityNotificationSearch";
 
 @implementation FANavigationController
 
@@ -67,14 +65,23 @@
             BOOL pop = YES;
             
             // Check if the delegate wants to have a say in this
+            id <FANavigationControllerLongButtonTouchDelegate> __weak delegate = (id <FANavigationControllerLongButtonTouchDelegate>)self.delegate;
+            UIViewController *lastViewController = self.viewControllers.lastObject;
+            
             if ([self.delegate conformsToProtocol:@protocol(FANavigationControllerLongButtonTouchDelegate)]) {
-                id <FANavigationControllerLongButtonTouchDelegate> __weak delegate = (id <FANavigationControllerLongButtonTouchDelegate>)self.delegate;
                 if ([delegate respondsToSelector:@selector(navigationController:shouldPopToRootViewControllerAfterLongButtonTouchForViewController:)]) {
-                    pop = [delegate navigationController:self shouldPopToRootViewControllerAfterLongButtonTouchForViewController:self.viewControllers.lastObject];
+                    pop = [delegate navigationController:self shouldPopToRootViewControllerAfterLongButtonTouchForViewController:lastViewController];
                 }
             }
+            
             if (pop) {
                 [self popToRootViewControllerAnimated:YES];
+                
+                if ([delegate respondsToSelector:@selector(navigationController:didPopToRootViewControllerAfterLongButtonTouchForViewController:)]) {
+                    [delegate navigationController:self didPopToRootViewControllerAfterLongButtonTouchForViewController:lastViewController];
+                }
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:FANavigationControllerDidPopToRootViewControllerNotification object:self];
             }
         }
     }
