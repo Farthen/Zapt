@@ -16,9 +16,9 @@
 @property FAEditableTableViewCell *passwordTableViewCell;
 @property UITextField *usernameTextField;
 @property UITextField *passwordTextField;
-@property IBOutlet UILabel *introLabel;
-@property IBOutlet UILabel *invalidLabel;
+@property BOOL showsInvalidPrompt;
 @property FATableViewCellWithActivity *loginButtonCell;
+
 @property IBOutlet UITableView *tableView;
 
 - (void)loginButtonPressed;

@@ -79,7 +79,7 @@
 {
     if (indexPath.row == 4) {
         FAAppDelegate *appDelegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate performLoginAnimated:YES];
+        [appDelegate performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
     }
 }
 

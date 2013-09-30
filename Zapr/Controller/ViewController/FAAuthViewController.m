@@ -17,6 +17,7 @@
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
     UITableView *_tableView;
+    BOOL _showsInvalidPrompt;
 }
 
 @end
@@ -36,13 +37,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    [self setNavigationItem];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.introLabel.hidden = NO;
-    self.invalidLabel.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -191,6 +192,29 @@
 {
     [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)showsInvalidPrompt
+{
+    return _showsInvalidPrompt;
+}
+
+- (void)setNavigationItem
+{
+    if (self.showsInvalidPrompt) {
+        self.navigationItem.prompt = NSLocalizedString(@"You credentials are invalid! Please log in again.", nil);
+    } else {
+        self.navigationItem.prompt = nil;
+    }
+}
+
+- (void)setShowsInvalidPrompt:(BOOL)showsInvalidPrompt
+{
+    _showsInvalidPrompt = showsInvalidPrompt;
+    if (self.navigationController) {
+        // viewDidLoad already called, navigation bar available
+        [self setNavigationItem];
+    }
 }
 
 - (void)dealloc

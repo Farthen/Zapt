@@ -13,6 +13,8 @@
 #import "FATraktCache.h"
 #import "FALogFormatter.h"
 
+#import "UIViewController+PresentInsideNavigationController.h"
+
 #import "TestFlight.h"
 
 #import <DDASLLogger.h>
@@ -28,7 +30,6 @@
     UIAlertView *_timeoutAlert;
     UIAlertView *_networkNotAvailableAlert;
     UIAlertView *_serviceUnavailableAlert;
-    UIAlertView *_invalidCredentialsAlert;
     UIAlertView *_needsLoginAlertView;
     BOOL _authViewShowing;
     UIWindow *_authWindow;
@@ -52,7 +53,6 @@
     
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
     _networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
-    _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
     _serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
     _needsLoginAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not logged in", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Log In", nil), nil];
     
@@ -126,25 +126,23 @@
 
 - (void)handleInvalidCredentials
 {
-    [self performLoginAnimated:YES];
-    if ([[FATraktConnection sharedInstance] usernameAndPasswordSaved]) {
-        [_invalidCredentialsAlert show];
-    }
+    [self performLoginAnimated:YES showInvalidCredentialsPrompt:YES];
 }
 
-- (void)performLoginAnimated:(BOOL)animated
+- (void)performLoginAnimated:(BOOL)animated showInvalidCredentialsPrompt:(BOOL)showInvalidCredentialsPrompt
 {
     if (!_authViewShowing) {
         _authViewShowing = YES;
         UIStoryboard *storyboard = self.window.rootViewController.storyboard;
-        UIViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
-        DDLogViewController(@"Presenting View Controller %@", authController);
-        //_authWindow.rootViewController = authController;
+        FAAuthViewController *authController = [storyboard instantiateViewControllerWithIdentifier:@"auth"];
+        DDLogViewController(@"Presenting View Controller %@", authController);        
         authController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-        //[_authWindow makeKeyAndVisible];
+        authController.showsInvalidPrompt = showInvalidCredentialsPrompt;
+
+        [self.window makeKeyAndVisible];
         UIViewController *topViewcontroller = [self topViewController];
         if (topViewcontroller.isViewLoaded && topViewcontroller.view.window) {
-            [topViewcontroller presentViewController:authController animated:animated completion:^{
+            [topViewcontroller presentViewControllerInsideNavigationController:authController animated:animated completion:^{
                 _authViewShowing = NO;
             }];
         } else {
@@ -222,7 +220,7 @@
 {
     if (alertView == _needsLoginAlertView) {
         if (buttonIndex == 1) {
-            [self performLoginAnimated:YES];
+            [self performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
         }
     }
 }
