@@ -37,6 +37,8 @@
     NSDate *_lastNetworkErrorDate;
 }
 
+@property NSDate *compilationDate;
+
 @end
 
 @implementation FAAppDelegate
@@ -50,7 +52,7 @@
 #ifndef DEBUG
     [TestFlight takeOff:@"3ac925de-67dd-43f0-9e1a-602e269ab57b"];
 #endif
-    
+        
     [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
     
     _timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
@@ -120,6 +122,7 @@
         if ([now timeIntervalSinceDate:_lastNetworkErrorDate] > 30) {
             if (!alertView.visible && !_timeoutAlert.visible && !_networkNotAvailableAlert.visible && !_serviceUnavailableAlert.visible) {
                 // It has been 30 seconds after the last alert has been dismissed and none is being shown right now
+                // This is just because nobody wants bazillion alert boxes stacked on top of each other
                 [alertView show];
             }
         }

@@ -17,6 +17,7 @@
 #import "NSArray+Sorting.h"
 
 #import "FAAppDelegate.h"
+#import "FAZapr.h"
 
 #import "FATraktCache.h"
 
@@ -36,6 +37,7 @@
 NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
 NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";
 NSString *const FATraktActivityNotificationLists = @"FATraktActivityNotificationLists";
+NSString *const FATraktActivityNotificationCheckin = @"FATraktActivityNotificationCheckin";
 NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificationDefault";
 
 @interface FATrakt ()
@@ -204,8 +206,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [postDictInfo addEntriesFromDictionary:showPostDictInfo];
             dict = postDictInfo;
         } else {
-            [showPostDictInfo addEntriesFromDictionary:@{@"episodes": postDictInfo}];
-            dict = showPostDictInfo;
+            if (multiple) {
+                [showPostDictInfo addEntriesFromDictionary:@{@"episodes": postDictInfo}];
+                dict = showPostDictInfo;
+            } else {
+                [showPostDictInfo addEntriesFromDictionary:postDictInfo];
+                dict = showPostDictInfo;
+            }
         }
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
@@ -931,6 +938,44 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         callback();
     } onError:error];
+}
+
+- (LRRestyRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckinResponse *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (content.contentType == FATraktContentTypeMovies ||
+        content.contentType == FATraktContentTypeEpisodes) {
+        
+        NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+        [payload setObject:[FAZapr versionNumberString] forKey:@"app_version"];
+        [payload setObject:[FAZapr buildString] forKey:@"app_date"];
+        
+        NSString *api;
+        if (content.contentType == FATraktContentTypeMovies) {
+            api = @"movie/checkin";
+        } else {
+            api = @"show/checkin";
+        }
+        
+        return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
+            NSDictionary *responseDict = [[response asString] objectFromJSONString];
+            if (responseDict) {
+                FATraktCheckinResponse *checkinResponse = [[FATraktCheckinResponse alloc] initWithJSONDict:responseDict];
+                checkinResponse.content = content;
+                callback(checkinResponse);
+            } else {
+                if (error) {
+                    error([FATraktConnectionResponse connectionResponseWithResponse:response]);
+                }
+            }
+        } onError:error];
+        
+    } else {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        
+        return nil;
+    }
 }
 
 

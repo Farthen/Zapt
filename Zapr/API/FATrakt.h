@@ -27,6 +27,7 @@
 #import "FATraktAccountSettings.h"
 #import "FATraktViewingSettings.h"
 #import "FATraktLastActivity.h"
+#import "FATraktCheckinResponse.h"
 
 @class LRRestyRequest;
 @class LRRestyResponse;
@@ -34,6 +35,7 @@
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
 extern NSString *const FATraktActivityNotificationLists;
+extern NSString *const FATraktActivityNotificationCheckin;
 
 @interface FATrakt : NSObject
 
@@ -84,4 +86,5 @@ extern NSString *const FATraktActivityNotificationLists;
 #pragma mark content actions
 - (LRRestyRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (LRRestyRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (LRRestyRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckinResponse *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 @end

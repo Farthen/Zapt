@@ -481,20 +481,29 @@
     UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
 
     if (_currentContent.contentType == FATraktContentTypeMovies || _currentContent.contentType == FATraktContentTypeEpisodes) {
-        // do checkin
-        UIBarButtonItem *button = sender;
-        button.enabled = NO;
-        
         if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
             FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
             [delegate showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
         } else {
             FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
-            [hud hideProgressHUD];
+            
+            UIAlertView *checkinSuccessAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"You are totally checked in now! Have fun watching!", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Great!", nil) otherButtonTitles:nil];
+            UIAlertView *checkinErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Problem checkin in", nil) message:NSLocalizedString(@"There was a problem checkin in. You can try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Retry", nil), nil];
+            
+            [[FATrakt sharedInstance] checkIn:_currentContent callback:^(FATraktCheckinResponse *response) {
+                if ([response.status isEqualToString:@"success"]) {
+                    [checkinSuccessAlert show];
+                } else {
+                    [checkinErrorAlert show];
+                }
+                [hud hideProgressHUD];
+            } onError:^(FATraktConnectionResponse *connectionError) {
+                [checkinErrorAlert show];
+                [hud hideProgressHUD];
+            }];
         }
         
-        button.enabled = YES;
     } else {
         // show list of episodes
         FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
@@ -510,6 +519,14 @@
         FADetailViewController *showViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
         [showViewController loadContent:[(FATraktEpisode *)_currentContent show]];
         [self.navigationController pushViewController:showViewController animated:YES];
+    }
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        [self actionItem:self];
     }
 }
 

@@ -19,6 +19,7 @@
 @property BOOL authViewShowing;
 @property UIColor *tintColor;
 
+
 - (void)showNeedsLoginAlertWithActionName:(NSString *)actionName;
 - (void)performLoginAnimated:(BOOL)animated showInvalidCredentialsPrompt:(BOOL)showInvalidCredentialsPrompt;
 - (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response;
