@@ -33,7 +33,6 @@
 
 - (void)startActivity
 {
-    _userInteractionsEnabledState = self.userInteractionEnabled;
     self.userInteractionEnabled = NO;
     self.textLabel.hidden = YES;
     self.activityIndicatorView.hidden = NO;
@@ -45,7 +44,7 @@
     [self.activityIndicatorView stopAnimating];
     self.activityIndicatorView.hidden = YES;
     self.textLabel.hidden = NO;
-    self.userInteractionEnabled = _userInteractionsEnabledState;
+    self.userInteractionEnabled = YES;
 }
 
 @end
