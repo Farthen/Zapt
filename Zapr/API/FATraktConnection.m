@@ -213,7 +213,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 - (void)handleResponse:(LRRestyResponse *)response onSuccess:(LRRestyResponseBlock)success onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     FATraktConnectionResponse *connectionResponse = [FATraktConnectionResponse connectionResponseWithResponse:response];
-    FAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if (connectionResponse.responseType == FATraktConnectionResponseTypeSuccess) {
         if (success) {

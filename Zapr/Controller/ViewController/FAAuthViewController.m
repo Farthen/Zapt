@@ -53,7 +53,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    FAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
     delegate.authViewShowing = NO;
 }
 
