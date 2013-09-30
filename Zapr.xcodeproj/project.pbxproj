@@ -73,6 +73,7 @@
 		F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986A17DC20890033FBD7 /* FAHomeViewController.m */; };
 		F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */; };
 		F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F34FB71B17F8D68C0031549F /* libTestFlight.a */; };
+		F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */; };
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
@@ -272,6 +273,8 @@
 		F34FB71C17F8D68C0031549F /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		F34FB71D17F8D68C0031549F /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		F34FB71E17F8D68C0031549F /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALoggedInTableViewController.h; sourceTree = "<group>"; };
+		F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALoggedInTableViewController.m; sourceTree = "<group>"; };
 		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
 		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktImageList.h; sourceTree = "<group>"; };
@@ -592,7 +595,7 @@
 			name = "Settings Tab";
 			sourceTree = "<group>";
 		};
-		F357FA7116A8B61C00420EC4 /* Lists Tab */ = {
+		F357FA7116A8B61C00420EC4 /* Lists */ = {
 			isa = PBXGroup;
 			children = (
 				F357FA6D16A8B60100420EC4 /* FAListsViewController.h */,
@@ -600,7 +603,7 @@
 				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
 				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 			);
-			name = "Lists Tab";
+			name = Lists;
 			sourceTree = "<group>";
 		};
 		F35A174B17E2158C004B5F44 /* Misc */ = {
@@ -752,14 +755,14 @@
 				F34D986917DC20890033FBD7 /* FAHomeViewController.h */,
 				F34D986A17DC20890033FBD7 /* FAHomeViewController.m */,
 				F34D986C17DC20970033FBD7 /* Detail */,
-				F3C84B6E1628DCC5006CBFEF /* Search Tab */,
-				F357FA7116A8B61C00420EC4 /* Lists Tab */,
+				F3C84B6E1628DCC5006CBFEF /* Search */,
+				F357FA7116A8B61C00420EC4 /* Lists */,
 				F357FA7016A8B60800420EC4 /* Settings Tab */,
 			);
 			name = "Main Interface";
 			sourceTree = "<group>";
 		};
-		F3C84B6E1628DCC5006CBFEF /* Search Tab */ = {
+		F3C84B6E1628DCC5006CBFEF /* Search */ = {
 			isa = PBXGroup;
 			children = (
 				B667531615F12FBE00A8D76D /* FASearchViewController.h */,
@@ -767,7 +770,7 @@
 				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
 				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 			);
-			name = "Search Tab";
+			name = Search;
 			sourceTree = "<group>";
 		};
 		F3C84B701628DCFD006CBFEF /* Controller */ = {
@@ -911,6 +914,8 @@
 			children = (
 				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
 				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
+				F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */,
+				F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */,
 			);
 			name = Generic;
 			sourceTree = "<group>";
@@ -1220,6 +1225,7 @@
 				F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
+				F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */,
 				F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */,
 				F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */,
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,

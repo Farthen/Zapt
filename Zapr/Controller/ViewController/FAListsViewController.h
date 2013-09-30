@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 @class FARefreshControlWithActivity;
+#import "FALoggedInTableViewController.h"
 
-@interface FAListsViewController : UITableViewController// <UITableViewDataSource, UITableViewDelegate>
+@interface FAListsViewController : FALoggedInTableViewController
 
 @property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;
 
