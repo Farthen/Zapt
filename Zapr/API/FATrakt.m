@@ -168,32 +168,44 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSDictionary *dict;
     if (content.contentType == FATraktContentTypeMovies) {
         FATraktMovie *movie = (FATraktMovie *)content;
+        NSMutableDictionary *postDictInfo = [movie.postDictInfo mutableCopy];
+        
         if (containsType) {
-            dict = @{@"type": @"movie", @"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
+            [postDictInfo addEntriesFromDictionary:@{@"type": @"movie"}];
+            dict = postDictInfo;
         } else {
             if (multiple) {
-                dict = @{@"movies": @[@{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year}]};
+                dict = @{@"movies": @[postDictInfo]};
             } else {
-                dict = @{@"imdb_id": movie.imdb_id, @"title": content.title, @"year": movie.year};
+                dict = postDictInfo;
             }
         }
     } else if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
+        NSMutableDictionary *postDictInfo = [show.postDictInfo mutableCopy];
+
         if (containsType) {
-            dict = @{@"type": @"show", @"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
+            [postDictInfo addEntriesFromDictionary:@{@"type": @"show"}];
+            dict = postDictInfo;
         } else {
             if (multiple) {
-                dict = @{@"shows": @[@{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year}]};
+                dict = @{@"shows": @[postDictInfo]};
             } else {
-                dict = @{@"tvdb_id": show.tvdb_id, @"title": content.title, @"year": show.year};
+                dict = postDictInfo;
             }
         }
     } else if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
+        NSMutableDictionary *postDictInfo = [episode.postDictInfo mutableCopy];
+        NSMutableDictionary *showPostDictInfo = [episode.show.postDictInfo mutableCopy];
+        
         if (containsType) {
-            dict = @{@"type": @"episode", @"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"season": episode.season, @"episode": episode.episode};
+            [postDictInfo addEntriesFromDictionary:@{@"type": @"episode"}];
+            [postDictInfo addEntriesFromDictionary:showPostDictInfo];
+            dict = postDictInfo;
         } else {
-            dict = @{@"imdb_id": episode.show.imdb_id, @"tvdb_id": episode.show.tvdb_id, @"title": content.title, @"year": episode.show.year, @"episodes": @[@{@"season": episode.season, @"episode": episode.episode}]};
+            [showPostDictInfo addEntriesFromDictionary:@{@"episodes": postDictInfo}];
+            dict = showPostDictInfo;
         }
     }
     NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dict];
@@ -204,7 +216,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Account test!");
     
-    return [self.connection postAPI:@"account/test" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(LRRestyResponse *response){
+    return [self.connection postAPI:@"account/test" payload:nil authenticated:NO withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(LRRestyResponse *response){
         NSDictionary *data = [[response asString] objectFromJSONString];
         NSString *statusResponse = [data objectForKey:@"status"];
         if ([statusResponse isEqualToString:@"success"]) {

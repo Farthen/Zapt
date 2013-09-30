@@ -87,6 +87,11 @@
     return nil;
 }
 
+- (NSDictionary *)postDictInfo
+{ FA_MUST_OVERRIDE_IN_SUBCLASS
+    return nil;
+}
+
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"images"] && propertyType.objcClass == [FATraktImageList class] && [object isKindOfClass:[NSDictionary class]]) {

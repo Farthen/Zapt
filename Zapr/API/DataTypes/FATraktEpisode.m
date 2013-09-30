@@ -74,6 +74,21 @@
     return nil;
 }
 
+- (NSDictionary *)postDictInfo
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    if (self.episode) {
+        [dict setObject:self.episode forKey:@"episode"];
+    }
+    
+    if (self.season) {
+        [dict setObject:self.season forKey:@"season"];
+    }
+    
+    return dict;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktEpisode %p S%02iE%02i: \"%@\" Show: \"%@\">", self, self.season.intValue, self.episode.intValue, self.title, self.show.title];

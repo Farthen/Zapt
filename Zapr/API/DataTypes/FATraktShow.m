@@ -47,6 +47,29 @@
     return nil;
 }
 
+- (NSDictionary *)postDictInfo
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    if (self.imdb_id) {
+        [dict setObject:self.imdb_id forKey:@"imdb_id"];
+    }
+    
+    if (self.tvdb_id) {
+        [dict setObject:self.tvdb_id forKey:@"tvdb_id"];
+    }
+    
+    if (self.title) {
+        [dict setObject:self.title forKey:@"title"];
+    }
+    
+    if (self.year) {
+        [dict setObject:self.year forKey:@"year"];
+    }
+    
+    return dict;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow %p with title: %@>", self, self.title];
