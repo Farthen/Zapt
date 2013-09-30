@@ -123,11 +123,6 @@
         [self doDisplayImageAnimated:NO];
     }
     
-    if (!_detailLabelTapGestureRecognizer) {
-        _detailLabelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDetailLabel:)];
-        [self.detailLabel addGestureRecognizer:_detailLabelTapGestureRecognizer];
-    }
-    
     _willAppear = YES;
     _animatesLayoutChanges = YES;
 }
@@ -435,7 +430,14 @@
             [self.detailLabel.superview invalidateIntrinsicContentSize];
         } animations:^{
             [self.view layoutIfNeeded];
-        } completion:nil];
+        } completion:^(BOOL completed){
+            if (completed) {
+                if (!_detailLabelTapGestureRecognizer) {
+                    _detailLabelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDetailLabel:)];
+                    [self.detailLabel.superview addGestureRecognizer:_detailLabelTapGestureRecognizer];
+                }
+            }
+        }];
     }
     
     [self.view layoutIfNeeded];
@@ -495,13 +497,13 @@
     }
 }
 
-- (IBAction)actionDetailLabel:(UITapGestureRecognizer *)recognizer
+- (void)actionDetailLabel:(UIGestureRecognizer *)recognizer
 {
     if (_currentContent.contentType == FATraktContentTypeEpisodes) {
         // Bring the user to the show
         FADetailViewController *showViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-        [showViewController loadShowData:(FATraktShow *)_currentContent];
-        [self.navigationController presentViewController:showViewController animated:YES completion:nil];
+        [showViewController loadContent:[(FATraktEpisode *)_currentContent show]];
+        [self.navigationController pushViewController:showViewController animated:YES];
     }
 }
 
