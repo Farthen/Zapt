@@ -32,7 +32,13 @@
                                     <constraint firstAttribute="height" constant="64" id="NDH-8G-csG"/>
                                 </constraints>
                                 <items>
-                                    <navigationItem title="Login" id="Kb2-9r-bgA"/>
+                                    <navigationItem title="Login" id="Kb2-9r-bgA">
+                                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="08O-lt-d1s">
+                                            <connections>
+                                                <action selector="actionCancelButton:" destination="gg8-zH-TK9" id="uQn-iA-jOT"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                         </subviews>
@@ -361,7 +367,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Zapr" id="3yd-MX-MGX">
-                        <barButtonItem key="rightBarButtonItem" title="Settings" id="5zo-u5-pDp">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="5zo-u5-pDp">
                             <connections>
                                 <segue destination="yTk-Qq-ql7" kind="modal" id="p9F-CJ-MgM"/>
                             </connections>
@@ -575,7 +581,7 @@
             </objects>
             <point key="canvasLocation" x="941" y="-1085"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings View Controller - Settings-->
         <scene sceneID="vhH-3t-Ok6">
             <objects>
                 <viewController id="28J-3Q-f74" customClass="FASettingsViewController" sceneMemberID="viewController">
@@ -599,7 +605,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Z8T-5R-xGC">
+                    <navigationItem key="navigationItem" title="Settings" id="Z8T-5R-xGC">
                         <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="z3X-aB-6jl">
                             <connections>
                                 <action selector="actionDoneButton:" destination="28J-3Q-f74" id="ZYz-Wx-rPB"/>

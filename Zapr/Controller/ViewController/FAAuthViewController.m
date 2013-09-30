@@ -187,6 +187,12 @@
     }
 }
 
+- (IBAction)actionCancelButton:(id)sender
+{
+    [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)dealloc
 {
     [[FAActivityDispatch sharedInstance] unregister:self.loginButtonCell];
