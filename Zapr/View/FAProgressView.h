@@ -13,6 +13,4 @@
 
 @property CGFloat progress;
 
-- (void)setNextUpContent:(FATraktContent *)nextUpContent;
-
 @end

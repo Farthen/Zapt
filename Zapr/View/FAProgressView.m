@@ -11,6 +11,10 @@
 #import "FAContentTableViewCell.h"
 #import "UIView+FrameAdditions.h"
 
+@interface FAProgressView ()
+@property (readonly) CGFloat progressBarHeight;
+@end
+
 @implementation FAProgressView
 @synthesize progress = _progress;
 
@@ -21,11 +25,6 @@
         // Initialization code
     }
     return self;
-}
-
-- (CGFloat)progressBarHeight
-{
-    return self.bounds.size.height;
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -43,14 +42,15 @@
     CGContextFillRect(context, coloredRect);
 }
 
+- (CGFloat)progressBarHeight
+{
+    return self.bounds.size.height;
+}
+
 - (void)setProgress:(CGFloat)progress
 {
     _progress = progress;
     [self setNeedsDisplay];
-}
-
-- (void)setNextUpContent:(FATraktContent *)nextUpContent
-{
 }
 
 - (CGFloat)progress
