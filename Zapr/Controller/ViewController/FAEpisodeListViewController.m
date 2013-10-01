@@ -13,8 +13,6 @@
 
 #import "FAUnreadItemIndicatorView.h"
 
-#import "NSObject+PerformBlock.h"
-
 #import "UIView+ImageScreenshot.h"
 #import "UIImage+ImageWithColor.h"
 
