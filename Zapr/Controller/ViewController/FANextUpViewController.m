@@ -15,13 +15,16 @@
 
 #import "UIView+FrameAdditions.h"
 #import "FANextUpTableViewCell.h"
-#import "UIView+RecursiveUpdateConstraints.h"
+#import "UIView+RecursiveLayout.h"
 
 @interface FANextUpViewController () {
     BOOL _displaysProgress;
     BOOL _displaysProgressAndNextUp;
     FATraktShowProgress *_progress;
-    FATraktContent *_nextUpContent;}
+    FATraktContent *_nextUpContent;
+}
+
+@property FANextUpTableViewCell *cell;
 
 @end
 
@@ -76,13 +79,12 @@
     [self.view recursiveSetNeedsUpdateConstraints];
     [self.view recursiveSetNeedsLayout];
     [self.view recursiveLayoutIfNeeded];
+    
     [self.tableView reloadData];
 }
 
 - (void)viewWillLayoutSubviews
 {
-    self.progressLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-    
     CGFloat height = 0;
     if (_displaysProgressAndNextUp) {
         height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
@@ -98,17 +100,17 @@
     _progress = progress;
     CGFloat percentage = (CGFloat)progress.percentage.unsignedIntegerValue / 100;
     self.progressView.progress = percentage;
-    self.progressLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i episodes", nil), progress.completed.unsignedIntegerValue, progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue];
+    self.progressView.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i episodes", nil), progress.completed.unsignedIntegerValue, progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue];
 }
 
 - (void)displayNextUp:(FATraktContent *)content
 {
     _displaysProgressAndNextUp = YES;
-    self.episodeNameLabel.text = content.title;
+    self.cell.nameLabel.text = content.title;
     if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
         if (episode.season && episode.episode) {
-            self.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+            self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
         }
     }
     _nextUpContent = content;
@@ -135,12 +137,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FANextUpTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"nextUpCell"];
-    self.seasonLabel = cell.seasonLabel;
-    self.episodeNameLabel = cell.nameLabel;
-    cell.frameHeight = [FANextUpTableViewCell cellHeight];
-    [cell layoutIfNeeded];
-    return cell;
+    static NSString *cellIdentifier = @"nextUpCell";
+    self.cell = [tableView dequeueReusableCellWithIdentifier:@"nextUpCell"];
+    if (!self.cell) {
+        self.cell = [[FANextUpTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    self.cell.frameHeight = [FANextUpTableViewCell cellHeight];
+    [self.cell layoutIfNeeded];
+    
+    return self.cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

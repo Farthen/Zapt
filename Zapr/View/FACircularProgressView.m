@@ -100,8 +100,6 @@
     
     [self.tintColor set];
     [circlePath stroke];
-    
-    //UIGraphicsPopContext();
 }
 
 

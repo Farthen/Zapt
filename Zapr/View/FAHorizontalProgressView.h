@@ -13,4 +13,6 @@
 
 @interface FAHorizontalProgressView : UIView <FAProgressView>
 
+@property UILabel *textLabel;
+
 @end

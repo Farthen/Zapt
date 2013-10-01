@@ -138,7 +138,7 @@
 		F3E2209116EA7B14008C3AFA /* badge-love.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2209016EA7B14008C3AFA /* badge-love.png */; };
 		F3E2209316EA8A48008C3AFA /* fanart-summary.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */; };
 		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
-		F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */; };
+		F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveLayout.m */; };
 		F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */; };
 		F3EE213317F4FA2400A0118E /* UIView+ImageScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */; };
 		F3EE213617F4FF5E00A0118E /* UIImage+ImageWithColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213517F4FF5E00A0118E /* UIImage+ImageWithColor.m */; };
@@ -393,8 +393,8 @@
 		F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "fanart-summary.jpg"; sourceTree = "<group>"; };
 		F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktDatatypeTest.m; sourceTree = "<group>"; };
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FALogLevels.h; sourceTree = "<group>"; };
-		F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveUpdateConstraints.h"; sourceTree = "<group>"; };
-		F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecursiveUpdateConstraints.m"; sourceTree = "<group>"; };
+		F3EE212817F3F3F100A0118E /* UIView+RecursiveLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveLayout.h"; sourceTree = "<group>"; };
+		F3EE212917F3F3F100A0118E /* UIView+RecursiveLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecursiveLayout.m"; sourceTree = "<group>"; };
 		F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUnreadItemIndicatorView.h; sourceTree = "<group>"; };
 		F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAUnreadItemIndicatorView.m; sourceTree = "<group>"; };
 		F3EE213117F4FA2400A0118E /* UIView+ImageScreenshot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ImageScreenshot.h"; sourceTree = "<group>"; };
@@ -978,8 +978,8 @@
 				F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */,
 				F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */,
 				F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */,
-				F3EE212817F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.h */,
-				F3EE212917F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m */,
+				F3EE212817F3F3F100A0118E /* UIView+RecursiveLayout.h */,
+				F3EE212917F3F3F100A0118E /* UIView+RecursiveLayout.m */,
 				F3EE213117F4FA2400A0118E /* UIView+ImageScreenshot.h */,
 				F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */,
 			);
@@ -1326,7 +1326,7 @@
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
 				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
-				F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */,
+				F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
 				F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,

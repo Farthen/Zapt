@@ -578,7 +578,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FACustomListTableViewCell" id="lS0-MR-Cuv">
-                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="116" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="lS0-MR-Cuv" id="LYp-zw-1Yy">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -712,24 +712,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAHorizontalProgressView">
+                                    <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="19" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAHorizontalProgressView">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="Watched x out of y episodes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bmU-qe-4bt">
-                                                <rect key="frame" x="8" y="2" width="304" height="15"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="top" secondItem="dJi-25-Ao5" secondAttribute="top" constant="2" id="1lb-Qk-poa"/>
-                                            <constraint firstItem="bmU-qe-4bt" firstAttribute="leading" secondItem="dJi-25-Ao5" secondAttribute="leading" constant="8" id="PQ2-hw-eFO"/>
-                                            <constraint firstAttribute="bottom" secondItem="bmU-qe-4bt" secondAttribute="bottom" constant="2" id="bO1-lQ-X3v"/>
-                                        </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="jgY-dW-WiO">
                                         <rect key="frame" x="0.0" y="19" width="320" height="57"/>
@@ -816,7 +802,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="progressLabel" destination="bmU-qe-4bt" id="Gex-xM-Rb1"/>
                         <outlet property="progressView" destination="dJi-25-Ao5" id="p86-YO-Vfg"/>
                         <outlet property="tableView" destination="jgY-dW-WiO" id="TE0-bc-grd"/>
                         <outlet property="tableViewHeightConstraint" destination="dsz-hL-HGr" id="kB7-sx-w5O"/>

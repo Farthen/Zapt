@@ -1,5 +1,5 @@
 //
-//  UIView+RecursiveUpdateConstraints.h
+//  UIView+RecursiveLayout.h
 //  Zapr
 //
 //  Created by Finn Wilke on 26.09.13.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (RecursiveUpdate)
+@interface UIView (RecursiveLayout)
 
 - (void)recursiveSetNeedsUpdateConstraints;
 - (void)recursiveSetNeedsLayout;

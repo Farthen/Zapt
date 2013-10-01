@@ -1,12 +1,12 @@
 //
-//  UIView+RecursiveUpdateConstraints.m
+//  UIView+RecursiveLayout.h
 //  Zapr
 //
 //  Created by Finn Wilke on 26.09.13.
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "UIView+RecursiveUpdateConstraints.h"
+#import "UIView+RecursiveLayout.h"
 
 @implementation UIView (RecursiveUpdate)
 
@@ -14,6 +14,7 @@
 - (void)recursiveSetNeedsUpdateConstraints
 {
     [self setNeedsUpdateConstraints];
+    
     for (id view in self.subviews) {
         if ([view respondsToSelector:@selector(recursiveSetNeedsUpdateConstraints)]) {
             [view recursiveSetNeedsUpdateConstraints];
@@ -26,11 +27,12 @@
 - (void)recursiveSetNeedsLayout
 {
     [self setNeedsLayout];
+    
     for (id view in self.subviews) {
         if ([view respondsToSelector:@selector(recursiveSetNeedsLayout)]) {
-            [view recursiveSetNeedsUpdateConstraints];
+            [view recursiveSetNeedsLayout];
         } else if ([view respondsToSelector:@selector(setNeedsLayout)]) {
-            [view setNeedsUpdateConstraints];
+            [view setNeedsLayout];
         }
     }
 }
@@ -38,11 +40,12 @@
 - (void)recursiveLayoutIfNeeded
 {
     [self layoutIfNeeded];
+    
     for (id view in self.subviews) {
         if ([view respondsToSelector:@selector(recursiveLayoutIfNeeded)]) {
-            [view recursiveSetNeedsUpdateConstraints];
+            [view recursiveLayoutIfNeeded];
         } else if ([view respondsToSelector:@selector(layoutIfNeeded)]) {
-            [view setNeedsUpdateConstraints];
+            [view layoutIfNeeded];
         }
     }
 }

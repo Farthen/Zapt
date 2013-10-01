@@ -21,7 +21,7 @@
 #import "UIView+FrameAdditions.h"
 #import "NSObject+PerformBlock.h"
 #import "UIView+Animations.h"
-#import "UIView+RecursiveUpdateConstraints.h"
+#import "UIView+RecursiveLayout.h"
 
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
@@ -207,6 +207,8 @@
     [self.view setNeedsLayout];
     [self.titleLabel setNeedsLayout];
     [self.detailLabel setNeedsLayout];
+    
+    [self.nextUpViewController preferredContentSizeChanged];
 }
 
 - (void)displayImage
