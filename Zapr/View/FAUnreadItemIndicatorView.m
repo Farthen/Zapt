@@ -24,6 +24,8 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    rect = self.bounds;
+    
     CGRect circleRect;
     CGFloat size = MIN(rect.size.height, rect.size.width);
     
