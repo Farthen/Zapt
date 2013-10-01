@@ -117,6 +117,9 @@
 		F3B9C93F17F96914004264E6 /* FAZapr.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C93E17F96914004264E6 /* FAZapr.m */; };
 		F3B9C94217F96F6A004264E6 /* FATraktCheckinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94117F96F6A004264E6 /* FATraktCheckinResponse.m */; };
 		F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94417FA10C0004264E6 /* FATraktRequest.m */; };
+		F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */; };
+		F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94A17FA6470004264E6 /* RNTimer.m */; };
+		F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */; };
 		F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */; };
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
@@ -353,6 +356,12 @@
 		F3B9C94117F96F6A004264E6 /* FATraktCheckinResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinResponse.m; sourceTree = "<group>"; };
 		F3B9C94317FA10C0004264E6 /* FATraktRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktRequest.h; sourceTree = "<group>"; };
 		F3B9C94417FA10C0004264E6 /* FATraktRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktRequest.m; sourceTree = "<group>"; };
+		F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACheckinViewController.h; sourceTree = "<group>"; };
+		F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACheckinViewController.m; sourceTree = "<group>"; };
+		F3B9C94917FA6470004264E6 /* RNTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNTimer.h; sourceTree = "<group>"; };
+		F3B9C94A17FA6470004264E6 /* RNTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNTimer.m; sourceTree = "<group>"; };
+		F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularProgressView.h; sourceTree = "<group>"; };
+		F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACircularProgressView.m; sourceTree = "<group>"; };
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewCellWithActivity.h; sourceTree = "<group>"; };
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewCellWithActivity.m; sourceTree = "<group>"; };
@@ -587,6 +596,8 @@
 			children = (
 				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
+				F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */,
+				F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */,
 				F30CAFC3179CD19D002E7D3C /* Containers */,
 			);
 			name = Detail;
@@ -830,6 +841,8 @@
 				F3CAC39216F2C53600CCEE37 /* FALogFormatter.h */,
 				F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */,
 				F3EA6CDC16F2D74A0036029F /* FALogLevels.h */,
+				F3B9C94917FA6470004264E6 /* RNTimer.h */,
+				F3B9C94A17FA6470004264E6 /* RNTimer.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -1034,6 +1047,8 @@
 				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
 				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
 				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
+				F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */,
+				F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1251,6 +1266,7 @@
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
 				F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
+				F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 				F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */,
 				F3B9C94217F96F6A004264E6 /* FATraktCheckinResponse.m in Sources */,
@@ -1302,6 +1318,7 @@
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3EE212A17F3F3F100A0118E /* UIView+RecursiveUpdateConstraints.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
+				F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
 				F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */,
 				F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */,
@@ -1318,6 +1335,7 @@
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F30E52C21799216E006C5091 /* FAProgressView.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
+				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
 				F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */,
 				F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */,
