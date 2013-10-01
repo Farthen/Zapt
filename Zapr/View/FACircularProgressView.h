@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAProgressView.h"
 
-@interface FACircularProgressView : UIView
+@interface FACircularProgressView : UIView <FAProgressView>
 
-@property CGFloat progress;
 @property UIEdgeInsets contentInset;
 @property CGFloat circleThickness;
-@property (readonly) UILabel *label;
+@property UILabel *textLabel;
 
 @end

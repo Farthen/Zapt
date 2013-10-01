@@ -712,7 +712,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAProgressView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dJi-25-Ao5" customClass="FAHorizontalProgressView">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="19"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>

@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "FAProgressView.h"
+#import "FAHorizontalProgressView.h"
 #import "FATraktContent.h"
 #import "FAContentTableViewCell.h"
 #import "UIView+FrameAdditions.h"
 
-@interface FAProgressView ()
+@interface FAHorizontalProgressView ()
 @property (readonly) CGFloat progressBarHeight;
 @end
 
-@implementation FAProgressView
+@implementation FAHorizontalProgressView
 @synthesize progress = _progress;
 
 - (id)initWithFrame:(CGRect)frame

@@ -29,7 +29,7 @@
 	// Do any additional setup after loading the view.
     
     self.progressView.progress = self.progress;
-    self.progressView.label.text = @"Time remaining:\n30 seconds";
+    self.progressView.textLabel.text = @"Time remaining:\n30 seconds";
 }
 
 - (void)viewDidAppear:(BOOL)animated

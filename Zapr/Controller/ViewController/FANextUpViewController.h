@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "FAAppDelegate.h"
-@class FAProgressView;
+@class FAHorizontalProgressView;
 @class FATraktContent;
 @class FATraktShowProgress;
 
 @interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, FAViewControllerPreferredContentSizeChanged>
 
-@property IBOutlet FAProgressView *progressView;
+@property IBOutlet FAHorizontalProgressView *progressView;
 @property IBOutlet UILabel *progressLabel;
 @property IBOutlet UILabel *episodeNameLabel;
 @property IBOutlet UILabel *seasonLabel;

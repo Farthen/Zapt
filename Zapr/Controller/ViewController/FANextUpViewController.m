@@ -9,7 +9,7 @@
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
 
-#import "FAProgressView.h"
+#import "FAHorizontalProgressView.h"
 
 #import "FATrakt.h"
 

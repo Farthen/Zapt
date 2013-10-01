@@ -36,7 +36,7 @@
 		F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */; };
 		F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */; };
 		F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
-		F30E52C21799216E006C5091 /* FAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAProgressView.m */; };
+		F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAHorizontalProgressView.m */; };
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
 		F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */; };
 		F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
@@ -209,8 +209,8 @@
 		F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCachedDatatype.m; sourceTree = "<group>"; };
 		F30E52BD1799076A006C5091 /* FATraktShowProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShowProgress.h; sourceTree = "<group>"; };
 		F30E52BE1799076A006C5091 /* FATraktShowProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktShowProgress.m; sourceTree = "<group>"; };
-		F30E52C01799216E006C5091 /* FAProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAProgressView.h; sourceTree = "<group>"; };
-		F30E52C11799216E006C5091 /* FAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAProgressView.m; sourceTree = "<group>"; };
+		F30E52C01799216E006C5091 /* FAHorizontalProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHorizontalProgressView.h; sourceTree = "<group>"; };
+		F30E52C11799216E006C5091 /* FAHorizontalProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHorizontalProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSeason.h; sourceTree = "<group>"; };
 		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSeason.m; sourceTree = "<group>"; };
 		F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktActivityItemSource.h; sourceTree = "<group>"; };
@@ -362,6 +362,7 @@
 		F3B9C94A17FA6470004264E6 /* RNTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNTimer.m; sourceTree = "<group>"; };
 		F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularProgressView.h; sourceTree = "<group>"; };
 		F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACircularProgressView.m; sourceTree = "<group>"; };
+		F3C7921217FB6F5F00C9CDC0 /* FAProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAProgressView.h; sourceTree = "<group>"; };
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewCellWithActivity.h; sourceTree = "<group>"; };
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewCellWithActivity.m; sourceTree = "<group>"; };
@@ -664,6 +665,18 @@
 			);
 			name = Cache;
 			path = ../API/Cache;
+			sourceTree = "<group>";
+		};
+		F3C7921117FB6F1C00C9CDC0 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				F3C7921217FB6F5F00C9CDC0 /* FAProgressView.h */,
+				F30E52C01799216E006C5091 /* FAHorizontalProgressView.h */,
+				F30E52C11799216E006C5091 /* FAHorizontalProgressView.m */,
+				F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */,
+				F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */,
+			);
+			name = Progress;
 			sourceTree = "<group>";
 		};
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
@@ -1033,22 +1046,19 @@
 			children = (
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
+				F3C7921117FB6F1C00C9CDC0 /* Progress */,
 				F32645C217F0D48F001D4F74 /* FARatingsView.h */,
 				F32645C317F0D48F001D4F74 /* FARatingsView.m */,
 				F3F35E80169B655600A925B4 /* FASearchBar.h */,
 				F3F35E81169B655600A925B4 /* FASearchBar.m */,
 				F38BD69A16B770E300267137 /* FATitleLabel.h */,
 				F38BD69B16B770E300267137 /* FATitleLabel.m */,
-				F30E52C01799216E006C5091 /* FAProgressView.h */,
-				F30E52C11799216E006C5091 /* FAProgressView.m */,
 				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
 				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
 				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
 				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
 				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
 				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
-				F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */,
-				F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1333,7 +1343,7 @@
 				F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
-				F30E52C21799216E006C5091 /* FAProgressView.m in Sources */,
+				F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
