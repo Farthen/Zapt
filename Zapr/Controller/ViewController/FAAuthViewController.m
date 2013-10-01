@@ -13,6 +13,7 @@
 #import "FATableViewCellWithActivity.h"
 #import "FAAppDelegate.h"
 #import "FAActivityDispatch.h"
+#import "UIView+FrameAdditions.h"
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -20,7 +21,7 @@
     BOOL _showsInvalidPrompt;
     BOOL _checkingAuth;
     
-    UIAlertView *_invalidCredentialsAlert;
+    BOOL _isSmallScreen;
 }
 
 @end
@@ -41,9 +42,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    _invalidCredentialsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid Login", nil) message:NSLocalizedString(@"Invalid Trakt username and/or password", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Change", nil) otherButtonTitles: nil];
-    
     [self setNavigationItem];
+    
+    CGFloat height = [[UIScreen mainScreen] bounds].size.height;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone &&
+        height < 568) {
+        _isSmallScreen = YES;
+    } else {
+        _isSmallScreen = NO;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -108,21 +116,26 @@
     
     _checkingAuth = YES;
     
+    [self.loginButtonCell startActivity];
+    
     [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
         _checkingAuth = NO;
+        [self.loginButtonCell finishActivity];
         
         self.usernameTextField.userInteractionEnabled = YES;
         self.passwordTextField.userInteractionEnabled = YES;
         
         if (valid) {
+            
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
             [self dismissViewControllerAnimated:YES completion:nil];
         } else {
+            
             [self.usernameTableViewCell.textField becomeFirstResponder];
             self.showsInvalidPrompt = YES;
-            [_invalidCredentialsAlert show];
+            [self.loginButtonCell shakeTextLabelCompletion:nil];
         }
     }];
 }
@@ -156,6 +169,28 @@
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 30;
+    }
+    
+    if (_isSmallScreen) {
+        return 4;
+    }
+    
+    return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (_isSmallScreen) {
+        return 0.01;
+    }
+    
+    return 0;
+}
+
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
@@ -173,7 +208,7 @@
             self.usernameTextField = cell.textField;
             self.usernameTableViewCell = cell;
             cell.textField.placeholder = NSLocalizedString(@"Username", nil);
-            cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
+            cell.textField.keyboardType = UIKeyboardTypeDefault;
             cell.textField.returnKeyType = UIReturnKeyNext;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
@@ -188,7 +223,7 @@
             cell.textField.placeholder = NSLocalizedString(@"Password", nil);
             cell.textField.keyboardType = UIKeyboardTypeDefault;
             cell.textField.secureTextEntry = YES;
-            cell.textField.returnKeyType = UIReturnKeyDone;
+            cell.textField.returnKeyType = UIReturnKeySend;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             if ([[FATraktConnection sharedInstance] usernameAndPasswordSaved]) {
                 cell.textField.text = @"*****";
@@ -199,9 +234,6 @@
         }
         return cell;
     } else {
-        if (self.loginButtonCell) {
-            [[FAActivityDispatch sharedInstance] unregister:self.loginButtonCell];
-        }
         
         FATableViewCellWithActivity *cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         
@@ -209,7 +241,6 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         
         self.loginButtonCell = cell;
-        [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationCheckAuth observer:self.loginButtonCell];
         
         return cell;
     }

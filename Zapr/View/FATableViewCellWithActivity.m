@@ -8,6 +8,7 @@
 
 #import "FATableViewCellWithActivity.h"
 #import "FAStatusBarSpinnerController.h"
+#import "UIView+Animations.h"
 
 @implementation FATableViewCellWithActivity {
     BOOL _userInteractionsEnabledState;
@@ -45,6 +46,31 @@
     self.activityIndicatorView.hidden = YES;
     self.textLabel.hidden = NO;
     self.userInteractionEnabled = YES;
+}
+
+- (void)shakeTextLabelCompletion:(void (^)(void))completion
+{
+    CGPoint centerPosition = self.textLabel.center;
+    CGPoint leftPosition = CGPointMake(centerPosition.x - 10, centerPosition.y);
+    CGPoint rightPosition = CGPointMake(centerPosition.x + 10, centerPosition.y);
+    
+    [UIView animateSynchronizedIf:YES duration:0.05 setUp:nil animations:^{
+        self.textLabel.center = leftPosition;
+    } completion:nil];
+    [UIView animateSynchronizedIf:YES duration:0.05 setUp:nil animations:^{
+        self.textLabel.center = rightPosition;
+    } completion:nil];
+    [UIView animateSynchronizedIf:YES duration:0.05 setUp:nil animations:^{
+        self.textLabel.center = leftPosition;
+    } completion:nil];
+    [UIView animateSynchronizedIf:YES duration:0.05 setUp:nil animations:^{
+        self.textLabel.center = centerPosition;
+    } completion:^(BOOL finished) {
+        if (completion) {
+            completion();
+        }
+    }];
+
 }
 
 @end

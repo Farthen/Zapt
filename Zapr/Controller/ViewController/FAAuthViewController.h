@@ -10,7 +10,7 @@
 @class FAEditableTableViewCell;
 @class FATableViewCellWithActivity;
 
-@interface FAAuthViewController : UIViewController  <UITextFieldDelegate, UITableViewDataSource>
+@interface FAAuthViewController : UIViewController  <UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property FAEditableTableViewCell *usernameTableViewCell;
 @property FAEditableTableViewCell *passwordTableViewCell;

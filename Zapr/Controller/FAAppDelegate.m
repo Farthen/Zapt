@@ -12,6 +12,7 @@
 #import "FAAuthViewController.h"
 #import "FATraktCache.h"
 #import "FALogFormatter.h"
+#import "RNTimer.h"
 
 #import "UIViewController+PresentInsideNavigationController.h"
 
@@ -33,6 +34,8 @@
     UIAlertView *_needsLoginAlertView;
     BOOL _authViewShowing;
     UIWindow *_authWindow;
+    
+    RNTimer *_loginTimer;
     
     NSDate *_lastNetworkErrorDate;
 }
@@ -161,13 +164,18 @@
 
         [self.window makeKeyAndVisible];
         UIViewController *topViewcontroller = [self topViewController];
-        if (topViewcontroller.isViewLoaded && topViewcontroller.view.window) {
-            [topViewcontroller presentViewControllerInsideNavigationController:authController animated:animated completion:^{
-                _authViewShowing = NO;
-            }];
-        } else {
-            _authViewShowing = NO;
-        }
+        
+        _loginTimer = [RNTimer repeatingTimerWithTimeInterval:0.05 block:^{
+            if (topViewcontroller.isViewLoaded &&
+                topViewcontroller.view.window &&
+                topViewcontroller.view.superview) {
+                [_loginTimer invalidate];
+                _loginTimer = nil;
+                [topViewcontroller presentViewControllerInsideNavigationController:authController animated:animated completion:^{
+                    _authViewShowing = NO;
+                }];
+            }
+        }];
     }
 }
 

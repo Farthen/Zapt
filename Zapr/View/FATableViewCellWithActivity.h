@@ -11,4 +11,6 @@
 
 @interface FATableViewCellWithActivity : UITableViewCell <FAUIElementWithActivity>
 
+- (void)shakeTextLabelCompletion:(void (^)(void))completion;
+
 @end
