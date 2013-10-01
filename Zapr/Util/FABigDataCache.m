@@ -263,4 +263,10 @@
     [self.lock unlock];
 }
 
+- (void)dealloc
+{
+    // We are leaving and nobody can stop us!
+    [self endAllContentAccess];
+}
+
 @end
