@@ -14,4 +14,8 @@
 @property NSDate *end;
 @property NSTimeInterval active_for;
 
+@property (readonly) CGFloat progress;
+@property (readonly) NSTimeInterval remaining;
+@property (readonly) BOOL isOver;
+
 @end

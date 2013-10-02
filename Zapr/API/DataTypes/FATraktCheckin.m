@@ -10,4 +10,19 @@
 
 @implementation FATraktCheckin
 
+- (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
+{
+    if ([key isEqualToString:@"status"]) {
+        if ([object isEqualToString:@"success"]) {
+            self.status = FATraktStatusSuccess;
+        } else if ([key isEqualToString:@"failure"]) {
+            self.status = FATraktStatusFailed;
+        } else {
+            self.status = FATraktStatusUnkown;
+        }
+    } else {
+        [super mapObject:object ofType:propertyType toPropertyWithKey:key];
+    }
+}
+
 @end

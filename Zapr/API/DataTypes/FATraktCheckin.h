@@ -7,12 +7,15 @@
 //
 
 #import "FATraktDatatype.h"
-#import "FATraktContent.h"
-#import "FATraktCheckinTimestamps.h"
+
+@class FATraktContent;
+@class FATraktCheckinTimestamps;
+@class FATraktMovie;
+@class FATraktShow;
 
 @interface FATraktCheckin : FATraktDatatype
 
-@property NSString *status;
+@property FATraktStatus status;
 @property NSString *error;
 @property NSNumber *wait;
 
@@ -25,5 +28,7 @@
 @property BOOL path;
 
 @property FATraktCheckinTimestamps *timestamps;
+@property FATraktMovie *movie;
+@property FATraktShow *show;
 
 @end

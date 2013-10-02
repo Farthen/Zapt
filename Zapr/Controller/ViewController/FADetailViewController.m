@@ -493,7 +493,7 @@
             UIAlertView *checkinErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Problem checkin in", nil) message:NSLocalizedString(@"There was a problem checkin in. You can try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Retry", nil), nil];
             
             [[FATrakt sharedInstance] checkIn:_currentContent callback:^(FATraktCheckin *response) {
-                if ([response.status isEqualToString:@"success"]) {
+                if (response.status == FATraktStatusSuccess) {
                     [checkinSuccessAlert show];
                 } else {
                     [checkinErrorAlert show];

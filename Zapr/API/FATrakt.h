@@ -30,6 +30,7 @@
 #import "FATraktViewingSettings.h"
 #import "FATraktLastActivity.h"
 #import "FATraktCheckin.h"
+#import "FATraktCheckinTimestamps.h"
 
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
