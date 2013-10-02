@@ -211,7 +211,7 @@ static CGPoint _scrollPositions[3];
 {
     [self.searchBar resignFirstResponder];
     
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     //[detailViewController view];
     

@@ -237,7 +237,7 @@
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     [detailViewController loadContent:episode];
     [self.navigationController pushViewController:detailViewController animated:YES];

@@ -148,7 +148,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
     [detailViewController loadContent:[_nextUpContent cachedVersion]];

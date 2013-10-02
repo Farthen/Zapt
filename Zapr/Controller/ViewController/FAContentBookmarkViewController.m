@@ -266,9 +266,11 @@
             [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 2) {
             // Custom Lists Button
-            UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+            UIStoryboard *storyboard = self.storyboard;
             FACustomListsMembershipViewController *customListsMembershipViewController = [storyboard instantiateViewControllerWithIdentifier:@"customListsMembership"];
+            
             UIViewController *parentViewController = self.parentViewController;
+            
             [parentViewController dismissViewControllerAnimated:YES completion:^{
                 [customListsMembershipViewController loadContent:_currentContent];
                 [parentViewController presentViewController:customListsMembershipViewController animated:YES completion:nil];

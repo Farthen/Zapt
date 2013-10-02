@@ -328,7 +328,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // FIXME: Crashbug
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
     FATraktListItem *element = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.row];

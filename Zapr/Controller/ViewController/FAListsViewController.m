@@ -197,7 +197,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 || indexPath.section == 1 || indexPath.section == 2) {
-        UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+        UIStoryboard *storyboard = self.storyboard;
         FAListDetailViewController *listDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"listdetail"];
         if (indexPath.section == 0) {
             [listDetailViewController loadWatchlistOfType:indexPath.row];

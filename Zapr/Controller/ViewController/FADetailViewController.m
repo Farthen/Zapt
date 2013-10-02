@@ -476,7 +476,7 @@
 
 - (IBAction)actionItem:(id)sender
 {
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
 
     if (_currentContent.contentType == FATraktContentTypeMovies || _currentContent.contentType == FATraktContentTypeEpisodes) {
         if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
@@ -530,7 +530,7 @@
 #pragma mark Toolbar
 - (IBAction)pushedBookmarkButton:(id)sender
 {
-    UIStoryboard *storyboard = self.view.window.rootViewController.storyboard;
+    UIStoryboard *storyboard = self.storyboard;
     FAContentBookmarkViewController *bookmarkViewController = [storyboard instantiateViewControllerWithIdentifier:@"contentBookmark"];
     [bookmarkViewController displayContent:_currentContent];
     [self presentSemiModalViewController:bookmarkViewController animated:YES completion:nil];
