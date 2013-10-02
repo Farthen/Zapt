@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FACircularProgressView.h"
+#import "FATraktCheckin.h"
+#import "FAHorizontalProgressView.h"
 
 @interface FACheckinViewController : UIViewController
 
-@property IBOutlet FACircularProgressView *progressView;
+@property IBOutlet FAHorizontalProgressView *progressView;
 
-- (void)loadProgress:(CGFloat)progress;
+- (void)loadContent:(FATraktContent *)content;
+- (void)loadCheckin:(FATraktCheckin *)checkin;
 
 @end

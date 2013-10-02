@@ -74,6 +74,7 @@
 		F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */; };
 		F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F34FB71B17F8D68C0031549F /* libTestFlight.a */; };
 		F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */; };
+		F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F41E17FBBD8200A03E6A /* FAReloadControl.m */; };
 		F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */; };
 		F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
 		F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
@@ -285,6 +286,8 @@
 		F34FB71E17F8D68C0031549F /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALoggedInTableViewController.h; sourceTree = "<group>"; };
 		F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALoggedInTableViewController.m; sourceTree = "<group>"; };
+		F353F41D17FBBD8200A03E6A /* FAReloadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAReloadControl.h; sourceTree = "<group>"; };
+		F353F41E17FBBD8200A03E6A /* FAReloadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAReloadControl.m; sourceTree = "<group>"; };
 		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
 		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktImageList.h; sourceTree = "<group>"; };
@@ -1067,6 +1070,8 @@
 				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
 				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
 				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
+				F353F41D17FBBD8200A03E6A /* FAReloadControl.h */,
+				F353F41E17FBBD8200A03E6A /* FAReloadControl.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1330,6 +1335,7 @@
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
+				F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */,
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
