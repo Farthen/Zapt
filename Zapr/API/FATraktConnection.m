@@ -8,10 +8,11 @@
 
 #import "FATraktConnection.h"
 #import "FAActivityDispatch.h"
-#import "FAAppDelegate.h"
 #import "FATraktConnectionResponse.h"
 #import "SFHFKeychainUtils.h"
 #import <JSONKit/JSONKit.h>
+
+#import "FAGlobalEventHandler.h"
 
 #import <CommonCrypto/CommonDigest.h>
 
@@ -52,7 +53,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         }
         
         [[LRResty client] setGlobalTimeout:60 handleWithBlock:^(LRRestyRequest *request) {
-            [(FAAppDelegate *)[[UIApplication sharedApplication] delegate] handleTimeout];
+            [[FAGlobalEventHandler handler] handleTimeout];
         }];
         
         self.traktBaseURL = @"http://api.trakt.tv";
@@ -213,7 +214,6 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 - (void)handleResponse:(LRRestyResponse *)response onSuccess:(LRRestyResponseBlock)success onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     FATraktConnectionResponse *connectionResponse = [FATraktConnectionResponse connectionResponseWithResponse:response];
-    FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if (connectionResponse.responseType == FATraktConnectionResponseTypeSuccess) {
         if (success) {
@@ -232,7 +232,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         if (error) {
             error(connectionResponse);
         } else {
-            [delegate handleConnectionErrorResponse:connectionResponse];
+            [[FAGlobalEventHandler handler] handleConnectionErrorResponse:connectionResponse];
         }
     }
 }

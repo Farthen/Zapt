@@ -8,7 +8,7 @@
 
 #import "FASettingsViewController.h"
 #import "FATrakt.h"
-#import "FAAppDelegate.h"
+#import "FAGlobalEventHandler.h"
 
 #import "FAProgressHUD.h"
 #import "FATableViewCellWithActivity.h"
@@ -193,17 +193,18 @@
     if (indexPath.section == 1 && indexPath.row == 0) {
         if (_loggedIn) {
             [self checkAuthButtonPressed];
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
         } else {
-            UIApplication *app = [UIApplication sharedApplication];
-            FAAppDelegate *delegate = (FAAppDelegate *)app.delegate;
-            [delegate performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
+            [[FAGlobalEventHandler handler] performLoginAnimated:YES showInvalidCredentialsPrompt:NO completion:^{
+                [self reloadState];
+            }];
         }
     } else if (indexPath.section == 1 && indexPath.row == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
         [self reloadState];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)checkAuthButtonPressed

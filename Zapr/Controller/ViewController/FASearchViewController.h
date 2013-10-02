@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FAAppDelegate.h"
+#import "FAViewControllerPreferredContentSizeChanged.h"
 @class FASearchData;
 @class FATableViewLoadingView;
 @class FASearchBarWithActivity;

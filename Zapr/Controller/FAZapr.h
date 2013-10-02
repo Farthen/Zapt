@@ -12,6 +12,8 @@
 
 //+ (NSString *)licenseString;
 
++ (NSString *)applicationName;
+
 + (NSString *)versionNumberString;
 + (NSString *)buildString;
 + (NSString *)versionNumberDescription;

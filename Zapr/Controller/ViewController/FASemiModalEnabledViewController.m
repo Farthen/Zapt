@@ -7,8 +7,6 @@
 //
 
 #import "FASemiModalEnabledViewController.h"
-#import "UIView+FrameAdditions.h"
-#import "UIView+Animations.h"
 
 @interface FASemiModalEnabledViewController () {
     UIViewController *_presentedSemiModalViewController;

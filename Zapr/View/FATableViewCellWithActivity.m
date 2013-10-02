@@ -8,7 +8,6 @@
 
 #import "FATableViewCellWithActivity.h"
 #import "FAStatusBarSpinnerController.h"
-#import "UIView+Animations.h"
 
 @implementation FATableViewCellWithActivity {
     BOOL _userInteractionsEnabledState;

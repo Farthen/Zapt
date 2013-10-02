@@ -13,9 +13,6 @@
 
 #import "FAUnreadItemIndicatorView.h"
 
-#import "UIView+ImageScreenshot.h"
-#import "UIImage+ImageWithColor.h"
-
 @implementation FAEpisodeListViewController {
     FATraktShow *_displayedShow;
     NSMutableArray *_filteredWatchedSeasons;

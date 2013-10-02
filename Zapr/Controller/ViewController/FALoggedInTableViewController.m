@@ -7,7 +7,8 @@
 //
 
 #import "FALoggedInTableViewController.h"
-#import "FAAppDelegate.h"
+#import "FAGlobalEventHandler.h"
+#import "FAGlobalSettings.h"
 #import "FATraktConnection.h"
 
 @interface FANeedsLoginTableViewDelegate : NSObject <UITableViewDataSource, UITableViewDelegate>
@@ -45,7 +46,6 @@
     
     // Configure the cell...
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    FAAppDelegate *appDelegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
     
     if (indexPath.row == 0 || indexPath.row == 3) {
         cell.textLabel.text = nil;
@@ -59,7 +59,7 @@
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     } else {
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
-        cell.textLabel.textColor = appDelegate.tintColor;
+        cell.textLabel.textColor = [FAGlobalSettings sharedInstance].tintColor;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
@@ -79,8 +79,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 4) {
-        FAAppDelegate *appDelegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
+        [[FAGlobalEventHandler handler] performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
     }
 }
 

@@ -17,8 +17,6 @@
 #import "FASearchBarWithActivity.h"
 #import "FAContentTableViewCell.h"
 
-#import "UIView+Animations.h"
-
 static CGPoint _scrollPositions[3];
 
 @interface FASearchViewController () {

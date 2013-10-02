@@ -15,6 +15,8 @@
 #import "FAProgressHUD.h"
 #import "FAInterfaceStringProvider.h"
 
+#import "FAGlobalEventHandler.h"
+
 @interface FAContentBookmarkViewController ()
 @property BOOL displaysSeenButton;
 @end
@@ -192,8 +194,7 @@
     }
     
     if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
-        FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
-        [delegate showNeedsLoginAlertWithActionName:NSLocalizedString(@"do any content action", nil)];
+        [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"do any content action", nil)];
         [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         return;
     }

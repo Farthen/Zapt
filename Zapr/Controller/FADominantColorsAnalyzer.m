@@ -10,7 +10,6 @@
 
 #import "FADominantColorsAnalyzer.h"
 #import <ctype.h>
-#import "UIImage+Resize.h"
 #import <CoreGraphics/CoreGraphics.h>
 
 struct Color {

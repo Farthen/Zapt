@@ -11,5 +11,6 @@
 @interface UIViewController (PresentInsideNavigationController)
 
 - (void)presentViewControllerInsideNavigationController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion;
+- (UINavigationController *)wrapInsideNavigationController;
 
 @end

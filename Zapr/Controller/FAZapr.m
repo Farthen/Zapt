@@ -10,9 +10,14 @@
 
 @implementation FAZapr
 
++ (NSString *)applicationName
+{
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
+}
+
 + (NSString *)versionNumberString
 {
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
 }
 
 + (NSString *)buildString

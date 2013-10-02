@@ -10,11 +10,6 @@
 #import <JSONKit.h>
 #import <Security/Security.h>
 
-#import "NSString+URLEncode.h"
-#import "NSString+StringByAppendingSuffixToFilename.h"
-#import "NSObject+PerformBlock.h"
-#import "NSArray+Sorting.h"
-
 #import "FAAppDelegate.h"
 #import "FAZapr.h"
 

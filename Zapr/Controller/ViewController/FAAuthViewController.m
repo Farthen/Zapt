@@ -7,13 +7,14 @@
 //
 
 #import "FAAuthViewController.h"
+#import "FAAuthWindow.h"
+
 #import "FATrakt.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FAEditableTableViewCell.h"
 #import "FATableViewCellWithActivity.h"
-#import "FAAppDelegate.h"
+#import "FAGlobalEventHandler.h"
 #import "FAActivityDispatch.h"
-#import "UIView+FrameAdditions.h"
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -67,8 +68,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
-    delegate.authViewShowing = NO;
+    [FAGlobalEventHandler handler].authViewShowing = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -130,9 +130,8 @@
             
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self dismiss];
         } else {
-            
             [self.usernameTableViewCell.textField becomeFirstResponder];
             self.showsInvalidPrompt = YES;
             [self.loginButtonCell shakeTextLabelCompletion:nil];
@@ -246,10 +245,17 @@
     }
 }
 
+- (void)dismiss
+{
+    [self.authWindow hideAnimated:YES];
+    self.usernameTextField.userInteractionEnabled = NO;
+    self.passwordTextField.userInteractionEnabled = NO;
+}
+
 - (IBAction)actionCancelButton:(id)sender
 {
     [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismiss];
 }
 
 - (BOOL)showsInvalidPrompt

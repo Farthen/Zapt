@@ -18,13 +18,10 @@
 
 #import "FAInterfaceStringProvider.h"
 
-#import "UIView+FrameAdditions.h"
-#import "NSObject+PerformBlock.h"
-#import "UIView+Animations.h"
-#import "UIView+RecursiveLayout.h"
-
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
+
+#import "FAGlobalEventHandler.h"
 
 #import "FATrakt.h"
 
@@ -483,8 +480,7 @@
 
     if (_currentContent.contentType == FATraktContentTypeMovies || _currentContent.contentType == FATraktContentTypeEpisodes) {
         if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
-            FAAppDelegate *delegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [delegate showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
+            [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
         } else {
             FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];

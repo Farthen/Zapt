@@ -14,8 +14,6 @@
 #import "FAColorSorting.h"
 #import "FAInterfaceStringProvider.h"
 
-#import "UIColor+InvertedColor.h"
-
 #import "FATraktContent.h"
 
 @interface FARatingsView ()

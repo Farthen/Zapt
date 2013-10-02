@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FAAuthWindow;
 @class FAEditableTableViewCell;
 @class FATableViewCellWithActivity;
 
@@ -20,6 +21,7 @@
 @property FATableViewCellWithActivity *loginButtonCell;
 
 @property IBOutlet UITableView *tableView;
+@property FAAuthWindow *authWindow;
 
 - (void)loginButtonPressed;
 @end

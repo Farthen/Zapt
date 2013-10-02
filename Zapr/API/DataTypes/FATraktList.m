@@ -10,7 +10,6 @@
 #import "FATraktListItem.h"
 #import "FATraktCache.h"
 #import "FATraktContent.h"
-#import "NSArray+Sorting.h"
 
 @interface FATraktList ()
 

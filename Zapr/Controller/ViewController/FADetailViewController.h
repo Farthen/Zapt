@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAViewControllerPreferredContentSizeChanged.h"
 #import "FASemiModalEnabledViewController.h"
 #import "FAAppDelegate.h"
 

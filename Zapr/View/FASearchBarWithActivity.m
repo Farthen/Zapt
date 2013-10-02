@@ -9,8 +9,6 @@
 #import "FASearchBarWithActivity.h"
 #import "FAStatusBarSpinnerController.h"
 #import "Misc.h"
-#import "UIView+RecursiveSubviews.h"
-#import "UIView+FrameAdditions.h"
 
 @implementation FASearchBarWithActivity {
     NSInteger _startCount;

@@ -9,7 +9,6 @@
 #import "FAHorizontalProgressView.h"
 #import "FATraktContent.h"
 #import "FAContentTableViewCell.h"
-#import "UIView+FrameAdditions.h"
 
 @interface FAHorizontalProgressView ()
 @property (readonly) CGFloat progressBarHeight;

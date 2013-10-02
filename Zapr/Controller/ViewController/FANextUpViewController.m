@@ -13,9 +13,7 @@
 
 #import "FATrakt.h"
 
-#import "UIView+FrameAdditions.h"
 #import "FANextUpTableViewCell.h"
-#import "UIView+RecursiveLayout.h"
 
 @interface FANextUpViewController () {
     BOOL _displaysProgress;

@@ -16,4 +16,10 @@
     [self presentViewController:navigationController animated:flag completion:completion];
 }
 
+- (UINavigationController *)wrapInsideNavigationController
+{
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
+    return navigationController;
+}
+
 @end
