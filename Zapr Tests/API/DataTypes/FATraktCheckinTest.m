@@ -8,6 +8,10 @@
 
 #import <XCTest/XCTest.h>
 #import "FATraktCheckin.h"
+#import "FATraktMovie.h"
+#import "FATraktCheckinTimestamps.h"
+#import "FATraktShow.h"
+
 #import <JSONKit/JSONKit.h>
 
 @interface FATraktCheckinTest : XCTestCase
@@ -35,6 +39,12 @@
     \"imdb_id\": \"tt0372784\",\
     \"tmdb_id\": 808\
     },\
+    \"show\": {\
+        \"title\": \"The Walking Dead\",\
+        \"year\": 2010,\
+        \"imdb_id\": \"tt1520211\",\
+        \"tvdb_id\": 153021\
+    },\
     \"facebook\": true,\
     \"twitter\": false,\
     \"tumblr\": false,\
@@ -52,15 +62,18 @@
 {
     FATraktCheckin *checkin = [[FATraktCheckin alloc] initWithJSONDict:[self.dictString objectFromJSONString]];
     XCTAssertNotNil(checkin, @"checkin is nil");
-    XCTAssertEqual([FATraktCheckin class], [checkin class], @"Doesn't return FATraktCheckin");
+    XCTAssertTrue([checkin isKindOfClass:[FATraktCheckin class]], @"Doesn't return FATraktCheckin");
     
-    XCTAssertEqual([FATraktCheckinTimestamps class], [checkin.timestamps class], @"Timestamps not the right class");
+    XCTAssertTrue([checkin.timestamps isKindOfClass:[FATraktCheckinTimestamps class]], @"Timestamps not the right class");
     XCTAssertTrue([checkin.timestamps.start isKindOfClass:[NSDate class]], @"Timestamp not date");
     XCTAssertTrue([checkin.timestamps.end isKindOfClass:[NSDate class]], @"Timestamp not date");
     XCTAssertEqualWithAccuracy(checkin.timestamps.active_for, 8460, 0.001, @"Not equal!");
     
-    XCTAssertEqualObjects(checkin.status, @"success");
+    XCTAssertEqual(checkin.status, FATraktStatusSuccess);
     XCTAssertEqualObjects(checkin.message, @"checked in to Batman Begins (2005)");
+    
+    XCTAssertTrue([checkin.movie isKindOfClass:[FATraktMovie class]], @"movie not movie");
+    XCTAssertTrue([checkin.show isKindOfClass:[FATraktShow class]], @"show not show");
 }
 
 @end
