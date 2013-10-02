@@ -139,27 +139,42 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         if ([object isKindOfClass:[NSString class]]) {
             // If string, set string
             object = [object stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
             if ([object isEqualToString:@""]) {
                 // If string empty, set to nil
                 object = nil;
             }
         }
+        
         [self setValue:object forKey:key];
+        
     } else if (propertyType.objcClass == [NSDate class] && [object isKindOfClass:[NSNumber class]]) {
         // If NSDate, set date
+        
         NSNumber *number = (NSNumber *)object;
-        NSTimeInterval timeInterval = [number doubleValue];
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
+        NSTimeInterval pacificUnixTime = [number doubleValue];
+        
+        // Set to PST (pacific time zone, gmt-8)
+        NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithName:@"America/Los_Angeles"];
+        
+        NSInteger destinationGMTOffset = [sourceTimeZone secondsFromGMT];
+        NSTimeInterval unixTime = pacificUnixTime - destinationGMTOffset;
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSince1970:unixTime];
+        
         [self setValue:date forKey:key];
+        
     } else if (propertyType.objcClass == [NSString class] && [object isKindOfClass:[NSNumber class]]) {
-        // If it is a number but the property need a string, just convert
+        // If it is a number but the property needs a string, just convert
         NSNumber *number = (NSNumber *)object;
         NSString *string = [number stringValue];
         [self setValue:string forKey:key];
+        
     } else if ([propertyType.objcClass isSubclassOfClass:[FATraktDatatype class]]) {
         // This is another FATraktDatatype
         id datatype = [[propertyType.objcClass alloc] initWithJSONDict:object];
         [self setValue:datatype forKey:key];
+        
     } else {
         // This gets called for things like NSNumber setting to NSInteger property or NSNumber to BOOL
         [self setValue:object forKey:key];
