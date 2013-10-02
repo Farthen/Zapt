@@ -8,8 +8,9 @@
 
 #import "FATraktDatatype.h"
 #import "FATraktContent.h"
+#import "FATraktCheckinTimestamps.h"
 
-@interface FATraktCheckinResponse : FATraktDatatype
+@interface FATraktCheckin : FATraktDatatype
 
 @property NSString *status;
 @property NSString *error;
@@ -22,5 +23,7 @@
 @property BOOL twitter;
 @property BOOL tumblr;
 @property BOOL path;
+
+@property FATraktCheckinTimestamps *timestamps;
 
 @end

@@ -939,7 +939,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckinResponse *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckin *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (content.contentType == FATraktContentTypeMovies ||
         content.contentType == FATraktContentTypeEpisodes) {
@@ -958,7 +958,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
             NSDictionary *responseDict = [[response asString] objectFromJSONString];
             if (responseDict) {
-                FATraktCheckinResponse *checkinResponse = [[FATraktCheckinResponse alloc] initWithJSONDict:responseDict];
+                FATraktCheckin *checkinResponse = [[FATraktCheckin alloc] initWithJSONDict:responseDict];
                 checkinResponse.content = content;
                 callback(checkinResponse);
             } else {

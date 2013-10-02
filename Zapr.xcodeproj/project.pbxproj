@@ -115,7 +115,7 @@
 		F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B3216E6EF5400230C43 /* FATraktCache.m */; };
 		F3B9C93C17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C93B17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m */; };
 		F3B9C93F17F96914004264E6 /* FAZapr.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C93E17F96914004264E6 /* FAZapr.m */; };
-		F3B9C94217F96F6A004264E6 /* FATraktCheckinResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94117F96F6A004264E6 /* FATraktCheckinResponse.m */; };
+		F3B9C94217F96F6A004264E6 /* FATraktCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */; };
 		F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94417FA10C0004264E6 /* FATraktRequest.m */; };
 		F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */; };
 		F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94A17FA6470004264E6 /* RNTimer.m */; };
@@ -154,6 +154,8 @@
 		F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
 		F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */; };
 		F3F9E3181628CE600077CBAA /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F9E3171628CE600077CBAA /* Default@2x.png */; };
+		F3FA8E4117FB9C970062F236 /* FATraktCheckinTimestamps.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */; };
+		F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -352,8 +354,8 @@
 		F3B9C93B17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PresentInsideNavigationController.m"; sourceTree = "<group>"; };
 		F3B9C93D17F96914004264E6 /* FAZapr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAZapr.h; sourceTree = "<group>"; };
 		F3B9C93E17F96914004264E6 /* FAZapr.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAZapr.m; sourceTree = "<group>"; };
-		F3B9C94017F96F6A004264E6 /* FATraktCheckinResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinResponse.h; sourceTree = "<group>"; };
-		F3B9C94117F96F6A004264E6 /* FATraktCheckinResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinResponse.m; sourceTree = "<group>"; };
+		F3B9C94017F96F6A004264E6 /* FATraktCheckin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckin.h; sourceTree = "<group>"; };
+		F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckin.m; sourceTree = "<group>"; };
 		F3B9C94317FA10C0004264E6 /* FATraktRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktRequest.h; sourceTree = "<group>"; };
 		F3B9C94417FA10C0004264E6 /* FATraktRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktRequest.m; sourceTree = "<group>"; };
 		F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACheckinViewController.h; sourceTree = "<group>"; };
@@ -423,6 +425,9 @@
 		F3F9E3141628C9700077CBAA /* FAConnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAConnectingViewController.h; sourceTree = "<group>"; };
 		F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAConnectingViewController.m; sourceTree = "<group>"; };
 		F3F9E3171628CE600077CBAA /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinTimestamps.h; sourceTree = "<group>"; };
+		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
+		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
 		F49B2E03388B47F18675407D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -901,6 +906,7 @@
 			isa = PBXGroup;
 			children = (
 				F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */,
+				F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */,
 			);
 			name = "Data Types";
 			path = DataTypes;
@@ -1025,8 +1031,10 @@
 				F31551E517B0844600307CC3 /* FATraktViewingSettings.m */,
 				F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */,
 				F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */,
-				F3B9C94017F96F6A004264E6 /* FATraktCheckinResponse.h */,
-				F3B9C94117F96F6A004264E6 /* FATraktCheckinResponse.m */,
+				F3B9C94017F96F6A004264E6 /* FATraktCheckin.h */,
+				F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */,
+				F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */,
+				F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */,
 			);
 			name = Trakt;
 			path = ../API/DataTypes;
@@ -1279,7 +1287,7 @@
 				F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 				F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */,
-				F3B9C94217F96F6A004264E6 /* FATraktCheckinResponse.m in Sources */,
+				F3B9C94217F96F6A004264E6 /* FATraktCheckin.m in Sources */,
 				F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */,
 				F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */,
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
@@ -1288,6 +1296,7 @@
 				F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */,
 				F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */,
 				F32645C417F0D48F001D4F74 /* FARatingsView.m in Sources */,
+				F3FA8E4117FB9C970062F236 /* FATraktCheckinTimestamps.m in Sources */,
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
@@ -1361,6 +1370,7 @@
 				F3F9E30D16282D490077CBAA /* FAZaprTestSearch.m in Sources */,
 				F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */,
 				F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */,
+				F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

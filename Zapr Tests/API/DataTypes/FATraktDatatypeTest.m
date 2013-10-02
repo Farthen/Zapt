@@ -59,7 +59,7 @@
     XCTAssertNil(datatype, @"Datatype is not nil after nil dict");
     
     FATraktDatatypePrototype *datatypePrototype = [[FATraktDatatypePrototype alloc] initWithJSONDict:self.testDictionary];
-    XCTAssertEqual(datatypePrototype.testPropertyNull, [NSNull null], @"datatype does not accept NSNull object");
+    XCTAssertNotEqual(datatypePrototype.testPropertyNull, [NSNull null], @"datatype does accept NSNull object");
     XCTAssertEqual(datatypePrototype.testPropertyBool, self.testBool.boolValue, @"datatype does not accept BOOL correctly");
     XCTAssertEqual(datatypePrototype.testPropertyString, self.testString, @"datatype does not accept NSStrings correctly");
     XCTAssertEqual(datatypePrototype.testPropertyNumber, self.testNumber, @"datatype does not accept NSNumber correctly");
@@ -70,7 +70,7 @@
 {
     FATraktDatatypePrototype *datatypePrototype = [[FATraktDatatypePrototype alloc] init];
     [datatypePrototype mapObject:[NSNull null] toPropertyWithKey:@"testPropertyNull"];
-    XCTAssertEqual(datatypePrototype.testPropertyNull, [NSNull null], @"datatype does not accept NSNull objects");
+    XCTAssertNotEqual(datatypePrototype.testPropertyNull, [NSNull null], @"datatype does accept NSNull objects");
 }
 
 - (void)testMergeWithObject

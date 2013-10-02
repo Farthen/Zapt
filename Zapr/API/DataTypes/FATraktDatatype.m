@@ -8,6 +8,7 @@
 
 #import "FATraktDatatype.h"
 #import "FAPropertyUtil.h"
+#import <JSONKit/JSONKit.h>
 
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_WARN
@@ -155,6 +156,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         NSNumber *number = (NSNumber *)object;
         NSString *string = [number stringValue];
         [self setValue:string forKey:key];
+    } else if ([propertyType.objcClass isSubclassOfClass:[FATraktDatatype class]]) {
+        // This is another FATraktDatatype
+        id datatype = [[propertyType.objcClass alloc] initWithJSONDict:object];
+        [self setValue:datatype forKey:key];
     } else {
         // This gets called for things like NSNumber setting to NSInteger property or NSNumber to BOOL
         [self setValue:object forKey:key];
@@ -193,6 +198,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         DDLogError(@"Can't merge object of type %@ into object of type %@", NSStringFromClass([object class]), NSStringFromClass([self class]));
         return;
     }
+    
     NSDictionary *propertyInfos = self.class.propertyInfo;
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *info = propertyInfos[key];

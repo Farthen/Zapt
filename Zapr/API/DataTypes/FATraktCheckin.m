@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import "FATraktCheckinResponse.h"
+#import "FATraktCheckin.h"
 
-@implementation FATraktCheckinResponse
+@implementation FATraktCheckin
 
 @end
