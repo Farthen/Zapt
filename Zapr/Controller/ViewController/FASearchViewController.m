@@ -39,9 +39,9 @@ static CGPoint _scrollPositions[3];
         
     self.searchBar.translucent = YES;
     
-    _scrollPositions[0] = CGPointMake(0, 0);
-    _scrollPositions[1] = _scrollPositions[0];
-    _scrollPositions[2] = _scrollPositions[0];
+    _scrollPositions[0] = CGPointZero;
+    _scrollPositions[1] = CGPointZero;
+    _scrollPositions[2] = CGPointZero;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationControllerPoppedToRootViewControllerNotification:) name:FANavigationControllerDidPopToRootViewControllerNotification object:nil];
 }
