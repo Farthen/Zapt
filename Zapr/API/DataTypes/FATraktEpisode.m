@@ -10,6 +10,7 @@
 #import "FATraktShow.h"
 #import "FATraktCache.h"
 #import "FATraktImageList.h"
+#import "FATraktSeason.h"
 
 @implementation FATraktEpisode
 
@@ -17,7 +18,7 @@
 {
     self = [super initWithJSONDict:dict];
     if (self) {
-        self.detailLevel = FATraktDetailLevelMinimal;
+        self.detailLevel = FATraktDetailLevelDefault;
     }
     return self;
 }
@@ -55,6 +56,19 @@
 {
     [self mapObjectsInDict:[dict objectForKey:@"episode"]];
     [self.show mapObjectsInDict:[dict objectForKey:@"show"]];
+}
+
+- (FATraktEpisode *)nextEpisode
+{
+    FATraktSeason *thisSeason = [self.show seasonWithID:self.season.unsignedIntegerValue];
+    FATraktEpisode *nextEpisode = [thisSeason episodeWithID:self.episode.unsignedIntegerValue + 1];
+    
+    if (!nextEpisode) {
+        FATraktSeason *nextSeason = [self.show seasonWithID:self.season.unsignedIntegerValue + 1];
+        nextEpisode = [nextSeason episodeWithID:1];
+    }
+    
+    return nextEpisode;
 }
 
 - (FATraktContentType)contentType

@@ -17,6 +17,8 @@
 - (id)initWithSummaryDict:(NSDictionary *)dict;
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
 
+@property (readonly) FATraktEpisode *nextEpisode;
+
 @property (retain) FATraktShow *show;
 
 @property (retain) NSNumber *season;

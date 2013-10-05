@@ -499,6 +499,28 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self loadProgressDataWithTitle:@"" callback:callback onError:error];
 }
 
+- (FATraktRequest *)seasonInfoForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *api = @"show/seasons.json";
+    NSString *info = [show urlIdentifier];
+    if (info) {
+        return [self.connection getAPI:api withParameters:@[info] forceAuthentication:NO withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+            NSArray *data = [[response asString] objectFromJSONString];
+            NSMutableArray *seasons = [[NSMutableArray alloc] initWithCapacity:data.count];
+            for (NSDictionary *seasonDict in data) {
+                FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:show];
+                [seasons addObject:season];
+            }
+            
+            show.seasons = seasons;
+            [show commitToCache];
+            callback(show);
+        } onError:error];
+    }
+    
+    return nil;
+}
+
 - (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Searching for episodes!");
@@ -545,7 +567,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSDictionary *data = [[response asString] objectFromJSONString];
             [episode mapObjectsInSummaryDict:data];
             
-            episode.detailLevel = FATraktDetailLevelDefault;
+            episode.detailLevel = FATraktDetailLevelExtended;
             [episode commitToCache];
             callback(episode);
         } onError:error];

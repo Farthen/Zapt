@@ -19,14 +19,16 @@
     BOOL _displaysProgress;
     BOOL _displaysProgressAndNextUp;
     FATraktShowProgress *_progress;
-    FATraktContent *_nextUpContent;
+    FATraktEpisode *_nextUpEpisode;
 }
 
 @property FANextUpTableViewCell *cell;
 
 @end
 
-@implementation FANextUpViewController
+@implementation FANextUpViewController {
+    BOOL _dismissesModalOnDisplay;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,6 +47,7 @@
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.separatorInset = UIEdgeInsetsZero;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -65,9 +68,8 @@
 
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
-    if ([parent isKindOfClass:[FADetailViewController class]]) {
-        FADetailViewController *detailViewController = (FADetailViewController *)parent;
-        detailViewController.nextUpViewController = self;
+    if ([parent respondsToSelector:@selector(setNextUpViewController:)]) {
+        [(id)parent setNextUpViewController:self];
     }
 }
 
@@ -101,17 +103,18 @@
     self.progressView.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i episodes", nil), progress.completed.unsignedIntegerValue, progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue];
 }
 
-- (void)displayNextUp:(FATraktContent *)content
+- (void)displayNextUp:(FATraktEpisode *)episode
 {
-    _displaysProgressAndNextUp = YES;
-    self.cell.nameLabel.text = content.title;
-    if (content.contentType == FATraktContentTypeEpisodes) {
-        FATraktEpisode *episode = (FATraktEpisode *)content;
-        if (episode.season && episode.episode) {
-            self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
-        }
+    if (episode.season && episode.episode && episode.detailLevel > FATraktDetailLevelMinimal) {
+        _displaysProgressAndNextUp = YES;
+        _nextUpEpisode = episode;
+    } else {
+        [[FATrakt sharedInstance] detailsForEpisode:episode callback:^(FATraktEpisode *episode) {
+            [self displayNextUp:episode];
+        } onError:nil];
     }
-    _nextUpContent = content;
+    
+    [self.tableView reloadData];
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 }
@@ -125,6 +128,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (_nextUpEpisode.title) {
+        FANextUpTableViewCell *cell = (FANextUpTableViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return [FANextUpTableViewCell cellHeightForTitle:_nextUpEpisode.title cell:cell];
+    }
+    
     return [FANextUpTableViewCell cellHeight];
 }
 
@@ -141,7 +149,22 @@
         self.cell = [[FANextUpTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     self.cell.frameHeight = [FANextUpTableViewCell cellHeight];
-    [self.cell layoutIfNeeded];
+    
+    if (_nextUpEpisode) {
+        FATraktEpisode *episode = _nextUpEpisode;
+        self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+        self.cell.nameLabel.text = episode.title;
+    }
+    
+    if (self.nextUpText) {
+        self.cell.nextUpLabel.text = self.nextUpText;
+    }
+    
+    if (self.dismissesModalToDisplay) {
+        self.cell.accessoryType = UITableViewCellAccessoryNone;
+    } else {
+        self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
     
     return self.cell;
 }
@@ -151,8 +174,22 @@
     UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
-    [detailViewController loadContent:[_nextUpContent cachedVersion]];
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [detailViewController loadContent:[_nextUpEpisode cachedVersion]];
+    
+    if (self.dismissesModalToDisplay) {
+        UIViewController *presentingViewController = self.parentViewController.presentingViewController;
+        
+        if ([presentingViewController isKindOfClass:[UINavigationController class]]) {
+            UINavigationController *nc = (UINavigationController *)presentingViewController;
+            [nc pushViewController:detailViewController animated:NO];
+        } else {
+            [presentingViewController presentViewController:detailViewController animated:YES completion:nil];
+        }
+        
+        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:detailViewController animated:YES];
+    }
 }
 
 - (CGSize)preferredContentSize
@@ -163,6 +200,17 @@
     }
     
     return CGSizeZero;
+}
+
+- (void)setDismissesModalToDisplay:(BOOL)dismissesModalToDisplay
+{
+    _dismissesModalOnDisplay = YES;
+    [self.tableView reloadData];
+}
+
+- (BOOL)dismissesModalToDisplay
+{
+    return _dismissesModalOnDisplay;
 }
 
 @end

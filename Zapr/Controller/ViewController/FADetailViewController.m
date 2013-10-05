@@ -12,6 +12,7 @@
 #import "FANextUpViewController.h"
 #import "FAContentBookmarkViewController.h"
 #import "FARatingsViewController.h"
+#import "FACheckinViewController.h"
 
 #import "FATraktActivityItemSource.h"
 #import <TUSafariActivity/TUSafariActivity.h>
@@ -223,11 +224,11 @@
     [self doDisplayImageAnimated:animated];
 }
 
-- (void)setNextUpViewWithContent:(FATraktContent *)content
+- (void)setNextUpViewWithEpisode:(FATraktEpisode *)episode
 {
-    if (content) {
+    if (episode) {
+        [self.nextUpViewController displayNextUp:episode];
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
-            [self.nextUpViewController displayNextUp:content];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.contentView layoutIfNeeded];
@@ -317,9 +318,9 @@
             [self.scrollView layoutIfNeeded];
         } completion:^(BOOL finished){
             if (progress.percentage.unsignedIntegerValue != 100 && ![progress.next_episode.title isEqualToString:@"TBA"]) {
-                [self setNextUpViewWithContent:progress.next_episode];
+                [self setNextUpViewWithEpisode:progress.next_episode];
             } else {
-                [self setNextUpViewWithContent:nil];
+                [self setNextUpViewWithEpisode:nil];
             }
         }];
     }
@@ -482,7 +483,11 @@
         if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
             [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
         } else {
-            FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+            FACheckinViewController *checkinViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"checkin"];
+            [checkinViewController loadContent:_currentContent];
+            [self presentViewControllerInsideNavigationController:checkinViewController animated:YES completion:nil];
+            
+            /*FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
             
             UIAlertView *checkinSuccessAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"You are totally checked in now! Have fun watching!", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Great!", nil) otherButtonTitles:nil];
@@ -498,7 +503,7 @@
             } onError:^(FATraktConnectionResponse *connectionError) {
                 [checkinErrorAlert show];
                 [hud hideProgressHUD];
-            }];
+            }];*/
         }
         
     } else {

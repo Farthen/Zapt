@@ -13,8 +13,12 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-static const NSInteger codingVersionNumber = 2;
+static const NSInteger codingVersionNumber = 4;
 static NSString *codingFileName = @"Cache";
+
+@interface FATraktCache ()
+@property NSLock *lock;
+@end
 
 @implementation FATraktCache
 @synthesize misc = _misc;
@@ -29,6 +33,7 @@ static NSString *codingFileName = @"Cache";
 {
     self = [super init];
     if (self) {
+        self.lock = [[NSLock alloc] init];
         [self setupCaches];
     }
     return self;
@@ -47,6 +52,7 @@ static NSString *codingFileName = @"Cache";
             _images = [aDecoder decodeObjectForKey:@"images"];
             _lists = [aDecoder decodeObjectForKey:@"lists"];
             _searches = [aDecoder decodeObjectForKey:@"searches"];
+            self.lock = [[NSLock alloc] init];
             [self setupCaches];
         }
     } else {
@@ -130,6 +136,7 @@ static NSString *codingFileName = @"Cache";
 
 - (BOOL)reloadFromDisk
 {
+    [self.lock lock];
     FATraktCache *newCache = [FATraktCache cacheFromDisk];
     _misc = newCache.misc;
     _movies = newCache.movies;
@@ -139,6 +146,8 @@ static NSString *codingFileName = @"Cache";
     _lists = newCache.lists;
     _searches = newCache.searches;
     [self setupCaches];
+    
+    [self.lock unlock];
     return !!newCache;
 }
 
@@ -162,7 +171,6 @@ static NSString *codingFileName = @"Cache";
 {
     FATraktCache *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[FATraktCache filePath]];
     DDLogInfo(@"Loading cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
-    [cache.images oldestObjectInCache];
     return cache;
 }
 
@@ -173,9 +181,12 @@ static NSString *codingFileName = @"Cache";
 
 - (BOOL)saveToDisk
 {
+    [self.lock lock];
     BOOL worked = [NSKeyedArchiver archiveRootObject:self toFile:[FATraktCache filePath]];
     
     DDLogInfo(@"Saving cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
+    
+    [self.lock unlock];
     return worked;
 }
 

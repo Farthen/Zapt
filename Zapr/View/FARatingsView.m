@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import <GPUImage/GPUImage.h>
-
 #import "FARatingsView.h"
 #import "FADominantColorsAnalyzer.h"
 #import "FAColorCompositing.h"

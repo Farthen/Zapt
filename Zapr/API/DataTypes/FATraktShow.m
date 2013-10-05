@@ -70,6 +70,17 @@
     return dict;
 }
 
+- (FATraktSeason *)seasonWithID:(NSUInteger)seasonID
+{
+    for (FATraktSeason *season in self.seasons) {
+        if (season.season.unsignedIntegerValue == seasonID) {
+            return season;
+        }
+    }
+    
+    return nil;
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow %p with title: %@>", self, self.title];

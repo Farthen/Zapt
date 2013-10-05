@@ -15,5 +15,6 @@
 @property IBOutlet UILabel *seasonLabel;
 
 + (CGFloat)cellHeight;
++ (CGFloat)cellHeightForTitle:(NSString *)title cell:(FANextUpTableViewCell *)cell;
 
 @end

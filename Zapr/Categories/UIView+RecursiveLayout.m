@@ -40,14 +40,14 @@
 - (void)recursiveLayoutIfNeeded
 {
     [self layoutIfNeeded];
-    
+    /*
     for (id view in self.subviews) {
         if ([view respondsToSelector:@selector(recursiveLayoutIfNeeded)]) {
             [view recursiveLayoutIfNeeded];
         } else if ([view respondsToSelector:@selector(layoutIfNeeded)]) {
             [view layoutIfNeeded];
         }
-    }
+    }*/
 }
 
 @end

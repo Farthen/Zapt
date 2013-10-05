@@ -42,6 +42,7 @@
 		F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
 		F31446E817F8D2DD005B164D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; };
 		F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446EA17F8D34F005B164D /* libz.dylib */; };
+		F3146E1017FF703E00F3BFC7 /* FACache+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = F3146E0F17FF703E00F3BFC7 /* FACache+Private.m */; };
 		F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */; };
 		F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3152DC017FBFDE20039AF30 /* FAAuthWindow.m */; };
 		F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
@@ -69,6 +70,8 @@
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
 		F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
+		F347356417FF55AE00116A59 /* FADebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356317FF55AE00116A59 /* FADebugController.m */; };
+		F347356717FF569C00116A59 /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356617FF569C00116A59 /* UIView+Debug.m */; };
 		F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */; };
 		F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986417DB1C510033FBD7 /* FATraktConnection.m */; };
 		F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */; };
@@ -231,6 +234,8 @@
 		F31446E617F8D2DD005B164D /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "Zapr/Support/TestFlight/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		F31446E717F8D2DD005B164D /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "Zapr/Support/TestFlight/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		F31446EA17F8D34F005B164D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		F3146E0E17FF703E00F3BFC7 /* FACache+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FACache+Private.h"; sourceTree = "<group>"; };
+		F3146E0F17FF703E00F3BFC7 /* FACache+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FACache+Private.m"; sourceTree = "<group>"; };
 		F3152DBC17FBF9300039AF30 /* UIWindow+MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+MainWindow.h"; sourceTree = "<group>"; };
 		F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+MainWindow.m"; sourceTree = "<group>"; };
 		F3152DBF17FBFDE20039AF30 /* FAAuthWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAuthWindow.h; sourceTree = "<group>"; };
@@ -280,6 +285,10 @@
 		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFunctions.m; sourceTree = "<group>"; };
 		F33CC36316F093D200B7D443 /* FAPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPropertyInfo.h; sourceTree = "<group>"; };
 		F33CC36416F093D200B7D443 /* FAPropertyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPropertyInfo.m; sourceTree = "<group>"; };
+		F347356217FF55AE00116A59 /* FADebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADebugController.h; sourceTree = "<group>"; };
+		F347356317FF55AE00116A59 /* FADebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADebugController.m; sourceTree = "<group>"; };
+		F347356517FF569C00116A59 /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
+		F347356617FF569C00116A59 /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
 		F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACustomListsMembershipTableViewController.h; sourceTree = "<group>"; };
 		F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACustomListsMembershipTableViewController.m; sourceTree = "<group>"; };
 		F34D986317DB1C510033FBD7 /* FATraktConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktConnection.h; sourceTree = "<group>"; };
@@ -753,6 +762,8 @@
 				F3A8BFD017FBED2800188453 /* FAGlobalSettings.m */,
 				F3B9C93D17F96914004264E6 /* FAZapr.h */,
 				F3B9C93E17F96914004264E6 /* FAZapr.m */,
+				F347356217FF55AE00116A59 /* FADebugController.h */,
+				F347356317FF55AE00116A59 /* FADebugController.m */,
 				F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */,
 				F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */,
 			);
@@ -945,6 +956,8 @@
 				F33631DA16ED85A5004FC205 /* UIFunctions.h */,
 				F33631DB16ED85A5004FC205 /* UIFunctions.m */,
 				F3636B7916F05B890062E885 /* Misc.h */,
+				F3146E0E17FF703E00F3BFC7 /* FACache+Private.h */,
+				F3146E0F17FF703E00F3BFC7 /* FACache+Private.m */,
 				F3636B7616F03D050062E885 /* FACache.h */,
 				F3636B7716F03D050062E885 /* FACache.m */,
 				F3B1F36517A85A7C00800B61 /* FABigDataCache.h */,
@@ -1069,6 +1082,8 @@
 		F3EE214317F689DA00A0118E /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				F347356517FF569C00116A59 /* UIView+Debug.h */,
+				F347356617FF569C00116A59 /* UIView+Debug.m */,
 				F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */,
 				F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */,
 				F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */,
@@ -1371,11 +1386,13 @@
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
 				F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */,
+				F347356717FF569C00116A59 /* UIView+Debug.m in Sources */,
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				F3A5BD0217F91C7A00138F3D /* FAAdaptiveNavigationBar.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
 				F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */,
+				F3146E1017FF703E00F3BFC7 /* FACache+Private.m in Sources */,
 				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
 				F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */,
@@ -1458,6 +1475,7 @@
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
+				F347356417FF55AE00116A59 /* FADebugController.m in Sources */,
 				F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */,
 				F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */,
 				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,

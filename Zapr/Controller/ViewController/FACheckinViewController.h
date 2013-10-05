@@ -7,12 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FANextUpViewController.h"
+#import "FAViewControllerPreferredContentSizeChanged.h"
+
 #import "FATraktCheckin.h"
 #import "FAHorizontalProgressView.h"
 
-@interface FACheckinViewController : UIViewController
+@interface FACheckinViewController : UIViewController <FAViewControllerPreferredContentSizeChanged>
 
 @property IBOutlet FAHorizontalProgressView *progressView;
+@property IBOutlet UILabel *messageLabel;
+@property IBOutlet UILabel *contentNameLabel;
+
+@property FANextUpViewController *nextUpViewController;
+
+@property IBOutlet NSLayoutConstraint *nextUpHeightConstraint;
 
 - (void)loadContent:(FATraktContent *)content;
 - (void)loadCheckin:(FATraktCheckin *)checkin;

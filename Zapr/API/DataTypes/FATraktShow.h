@@ -10,6 +10,7 @@
 #import "FATraktWatchableBaseItem.h"
 #import "FACacheableItem.h"
 
+@class FATraktSeason;
 @class FATraktShowProgress;
 
 @interface FATraktShow : FATraktWatchableBaseItem <FACacheableItem>
@@ -37,5 +38,7 @@
 
 // Total count of all episodes
 @property (readonly) NSUInteger episodeCount;
+
+- (FATraktSeason *)seasonWithID:(NSUInteger)seasonID;
 
 @end

@@ -9,18 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "FAViewControllerPreferredContentSizeChanged.h"
 @class FAHorizontalProgressView;
-@class FATraktContent;
+@class FATraktEpisode;
 @class FATraktShowProgress;
 
 @interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, FAViewControllerPreferredContentSizeChanged>
 
 @property IBOutlet FAHorizontalProgressView *progressView;
 @property IBOutlet UITableView *tableView;
+@property NSString *nextUpText;
 
 @property IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 
+@property BOOL dismissesModalToDisplay;
+
 - (void)displayProgress:(FATraktShowProgress *)progress;
-- (void)displayNextUp:(FATraktContent *)content;
+- (void)displayNextUp:(FATraktEpisode *)content;
 - (void)hideNextUp;
 
 @end

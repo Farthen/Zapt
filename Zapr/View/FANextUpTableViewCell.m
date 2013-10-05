@@ -28,15 +28,17 @@
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
+    
     self.nextUpLabel.font = self.class.nameFont;
     self.nameLabel.font = self.class.nameFont;
-    self.seasonLabel.font = self.class.seasonFont;
-    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.seasonLabel.font = self.class.seasonFont;    
 }
 
 - (void)prepareForReuse
 {
     self.accessoryType = UITableViewCellAccessoryNone;
+    [self.contentView setNeedsUpdateConstraints];
 }
 
 + (UIFont *)nameFont
@@ -49,21 +51,60 @@
     return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 }
 
++ (CGFloat)cellHeightForTitle:(NSString *)title cell:(FANextUpTableViewCell *)cell
+{
+    CGFloat nameConstraint = cell.nameLabel.frame.size.width;
+    CGSize nameSizeConstraint = CGSizeMake(nameConstraint, CGFLOAT_MAX);
+    
+    NSStringDrawingContext *context = [[NSStringDrawingContext alloc] init];
+    context.minimumScaleFactor = 1.0;
+    
+    CGRect nameRect = [title boundingRectWithSize:nameSizeConstraint
+                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                        attributes:@{NSFontAttributeName: self.nameFont}
+                                           context:context];
+    
+    CGSize seasonSize = [@"S01E01" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    
+    CGFloat rightHeight = 0;
+    rightHeight += 5;
+    rightHeight += ceilf(nameRect.size.height);
+    rightHeight += 8;
+    
+    CGFloat leftHeight = 0;
+    leftHeight += 5;
+    leftHeight += ceilf(nextUpSize.height);
+    leftHeight += 2;
+    leftHeight += ceilf(seasonSize.height);
+    leftHeight += 8;
+    
+    CGFloat height = MAX(leftHeight, rightHeight);
+    return height;
+}
+
 + (CGFloat)cellHeight
 {
     // More yolo swag fun fun fun
     CGSize nameSize = [@"Title" sizeWithAttributes:@{NSFontAttributeName: self.nameFont}];
-    CGSize seasonSize = [@"Detail" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    CGSize seasonSize = [@"S01E01" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
     
     // Now calculate this crap
-    CGFloat height = 0;
+    CGFloat rightHeight = 0;
+    rightHeight += 5;
+    rightHeight += ceilf(nameSize.height);
+    rightHeight += 8;
     
-    height += 5;
-    height += nameSize.height;
-    height += 5;
-    height += seasonSize.height;
-    height += 8;
-    return ceil(height);
+    CGFloat leftHeight = 0;
+    leftHeight += 5;
+    leftHeight += ceilf(nextUpSize.height);
+    leftHeight += 2;
+    leftHeight += ceilf(seasonSize.height);
+    leftHeight += 8;
+    
+    CGFloat height = MAX(leftHeight, rightHeight);
+    return height;
 }
 
 @end

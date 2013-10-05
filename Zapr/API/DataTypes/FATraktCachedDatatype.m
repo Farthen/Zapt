@@ -58,8 +58,8 @@
 
 - (void)removeFromCache
 {
-    if ([self.class.backingCache objectForKey:self.cacheKey] == self) {
-        [self.class.backingCache removeObjectForKey:self.cacheKey];
+    if ([self.class.backingCache cachedItemForKey:self.cacheKey] == self) {
+        [self.class.backingCache removeCachedItemForKey:self.cacheKey];
         self.shouldBeCached = NO;
     }
 }

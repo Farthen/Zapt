@@ -145,7 +145,6 @@
     
     self.leftAuxiliaryTextLabel.font = auxiliaryFont;
     self.leftAuxiliaryTextLabel.textColor = auxiliaryTextColor;
-    self.leftAuxiliaryTextLabel.highlightedTextColor = [UIColor whiteColor];
     self.leftAuxiliaryTextLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.leftAuxiliaryTextLabel.adjustsFontSizeToFitWidth = NO;
     self.leftAuxiliaryTextLabel.numberOfLines = 1;

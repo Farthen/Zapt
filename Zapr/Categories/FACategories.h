@@ -14,6 +14,7 @@
 #import "UIView+RecursiveSubviews.h"
 #import "UIView+RecursiveLayout.h"
 #import "UIView+ImageScreenshot.h"
+#import "UIView+Debug.h"
 
 // UIImage
 #import "UIImage+Alpha.h"
