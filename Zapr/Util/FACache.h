@@ -7,10 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FACache : NSCache <NSCacheDelegate, NSCoding> {
-    NSMutableDictionary *_cachedItems;
-    id <NSCacheDelegate> _realDelegate;
-}
+@interface FACache : NSObject <NSCoding>
 
 // This NSCache subclass implements am expiration timer. You can set an expiration time for all objects.
 // After that time elapsed the object is automatically removed from the cache.
@@ -19,12 +16,20 @@
 // It also implements NSCoding so it can be written to disk easily and it is thread-safe
 
 - (id)initWithName:(NSString *)name;
+@property NSString *name;
 
 // Set object with expiration time. When the time has elapsed the object is automatically removed from the cache
+- (void)removeObjectForKey:(id)key;
+- (void)setObject:(id)obj forKey:(id)key;
+- (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost;
 - (void)setObject:(id)obj forKey:(id)key expirationTime:(NSTimeInterval)expirationTime;
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost expirationTime:(NSTimeInterval)expirationTime;
 
-- (void)backingCacheSetObject:(id)obj forKey:(id)key cost:(NSUInteger)cost;
+// The count limit of the cache
+@property NSUInteger countLimit;
+
+// The cost limit of the cache
+@property NSUInteger totalCostLimit;
 
 // The total count of all objects in the cache
 @property (readonly) NSUInteger objectCount;
@@ -57,41 +62,10 @@
 // Triggered when the timer has fired for the object with key
 - (void)timerElapsedForKey:(id)key;
 
-// Returns the oldest object in the cache
-- (id)oldestObjectInCache;
-
 // The lock that is aquired by all methods that need it
 @property NSRecursiveLock *lock;
 
 @end
 
-@interface FACachedItem : NSObject <NSCoding>  {
-    FACache *_cache;
-    id _key;
-    id _object;
-    NSDate *_expirationDate;
-    NSTimer *_expirationTimer;
-    NSTimeInterval _expirationTime;
-}
+#import "FACache+Private.h"
 
-@property NSRecursiveLock *lock;
-
-- (id)initWithCache:(FACache *)cache key:(id)key object:(id)object;
-
-@property (readonly) id cacheKey;
-
-// The date when the item was added to the cache
-@property (readonly) NSDate *dateAdded;
-@property (assign) NSTimeInterval expirationTime;
-
-@property (assign) NSUInteger cost;
-
-@property (readonly) id object;
-
-- (void)setTimer;
-- (void)removeTimer;
-- (void)removeExpirationData;
-- (BOOL)objectHasExpired;
-
-
-@end

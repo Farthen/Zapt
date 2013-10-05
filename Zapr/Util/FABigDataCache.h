@@ -16,13 +16,3 @@
 @property (readonly) NSString *filePath;
 
 @end
-
-@interface FABigDataCachedItem : FACachedItem <NSDiscardableContent>
-
-@property (assign) BOOL dirty;
-@property (readonly) NSInteger accessCount;
-
-- (void)commitToPersistentStorage;
-- (void)purgeFromPersistentStorage;
-
-@end
