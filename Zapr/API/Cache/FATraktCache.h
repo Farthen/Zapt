@@ -10,13 +10,10 @@
 #import "FACache.h"
 #import "FABigDataCache.h"
 
-@interface FATraktCache : NSObject <NSCoding>
+@interface FATraktCache : NSObject <FACacheDelegate, NSCoding>
 
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
-- (BOOL)saveToDisk;
-- (BOOL)reloadFromDisk;
-
 
 @property (readonly) FACache *misc;
 @property (readonly) FACache *movies;

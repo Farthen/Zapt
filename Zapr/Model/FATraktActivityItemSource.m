@@ -62,12 +62,12 @@
     
     if (self.type == [NSString class]) {
         if (activityType == UIActivityTypePostToTwitter) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@ #%@ #Zapr", nil) , itemName, itemURL, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@ #Zapr", nil) , itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypePostToTencentWeibo) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@ #%@# #Zapr#", nil) , itemName, itemURL, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@# #Zapr#", nil) , itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypeMessage ||
                    activityType == UIActivityTypePostToFacebook) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@", nil) , itemName, itemURL, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@", nil) , itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypeMail) {
             // FIXME URL
             return [NSString stringWithFormat:NSLocalizedString(@"\

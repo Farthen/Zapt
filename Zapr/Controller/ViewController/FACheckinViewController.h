@@ -12,12 +12,16 @@
 
 #import "FATraktCheckin.h"
 #import "FAHorizontalProgressView.h"
+#import "FAReloadControl.h"
+#import "FASimpleControl.h"
 
-@interface FACheckinViewController : UIViewController <FAViewControllerPreferredContentSizeChanged>
+@interface FACheckinViewController : UIViewController <FAViewControllerPreferredContentSizeChanged, UIAlertViewDelegate>
 
 @property IBOutlet FAHorizontalProgressView *progressView;
+@property IBOutlet FAReloadControl *reloadControl;
 @property IBOutlet UILabel *messageLabel;
 @property IBOutlet UILabel *contentNameLabel;
+@property IBOutlet FASimpleControl *statusControl;
 
 @property FANextUpViewController *nextUpViewController;
 
@@ -25,5 +29,8 @@
 
 - (void)loadContent:(FATraktContent *)content;
 - (void)loadCheckin:(FATraktCheckin *)checkin;
+- (void)performCheckinForContent:(FATraktContent *)content;
+
+- (IBAction)actionStatusControl:(id)sender;
 
 @end

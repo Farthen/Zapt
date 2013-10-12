@@ -10,6 +10,17 @@
 #import "FATrakt.h"
 #import "RNTimer.h"
 
+typedef enum {
+    FACheckinViewStateSuccess,
+    FACheckinViewStateFailed,
+    FACheckinViewStateFailedCancel,
+    FACheckinViewStatePerformingCheckin,
+    FACheckinViewStateCancellingOldCheckin,
+    FACheckinViewStateCancellingCheckin,
+    FACheckinViewStateCancelled,
+    FACheckinViewStateNone,
+} FACheckinViewState;
+
 @interface FACheckinViewController ()
 @property CGFloat progress;
 
@@ -17,9 +28,18 @@
 @property FATraktContent *content;
 
 @property RNTimer *timer;
+
+@property BOOL performingCheckin;
+
+@property UIAlertView *checkinInProgressAlert;
+@property UIAlertView *shouldCancelCheckinAlert;
+
+@property FACheckinViewState checkinViewState;
 @end
 
-@implementation FACheckinViewController
+@implementation FACheckinViewController {
+    FACheckinViewState _checkinViewState;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -40,8 +60,27 @@
     
     self.nextUpViewController.nextUpText = NSLocalizedString(@"Next:", nil);
     
+    self.checkinInProgressAlert = [[UIAlertView alloc]
+                                   initWithTitle:NSLocalizedString(@"Checkin failed", nil)
+                                         message:NSLocalizedString(@"Another checkin is already in progress. Do you want to cancel it?", nil)
+                                        delegate:self
+                               cancelButtonTitle:NSLocalizedString(@"Cancel Checkin", nil)
+                               otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
+    self.shouldCancelCheckinAlert = [[UIAlertView alloc]
+                                     initWithTitle:NSLocalizedString(@"Cancel Checkin?", nil)
+                                           message:NSLocalizedString(@"Do you want to cancel this checkin?", nil)
+                                          delegate:self
+                                 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                 otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
+    
     [self reloadTimeRemaining];
     [self loadContent:self.content];
+    
+    if (!self.content) {
+        self.checkinViewState = FACheckinViewStateNone;
+    }
+    
+    self.reloadControl.userInteractionEnabled = NO;
 }
 
 - (void)preferredContentSizeChanged
@@ -52,7 +91,8 @@
 
 - (void)viewWillLayoutSubviews
 {
-    self.progressView.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.progressView.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    [self.progressView setNeedsLayout];
     
     self.contentNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
     self.messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -97,7 +137,8 @@
 
 - (void)reloadTimeRemaining
 {
-    if (self.checkin) {
+    if (self.checkin && self.checkin.status == FATraktStatusSuccess) {
+        
         self.progressView.progress = self.checkin.timestamps.progress;
         
         NSTimeInterval remaining = self.checkin.timestamps.remaining;
@@ -151,24 +192,136 @@
     [self.view setNeedsLayout];
 }
 
+- (void)setCheckinViewState:(FACheckinViewState)state
+{
+    _checkinViewState = state;
+    
+    self.statusControl.userInteractionEnabled = NO;
+    
+    if (state == FACheckinViewStatePerformingCheckin) {
+        self.messageLabel.text = NSLocalizedString(@"Performing Checkin.\nPlease wait…", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+    } else if (state == FACheckinViewStateCancellingCheckin) {
+        self.messageLabel.text = NSLocalizedString(@"Cancelling checkin.\nPlease wait…", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+    } else if (state == FACheckinViewStateCancellingOldCheckin) {
+        self.messageLabel.text = NSLocalizedString(@"Cancelling old checkin.\nPlease wait…", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+    } else if (state == FACheckinViewStateSuccess) {
+        self.statusControl.userInteractionEnabled = YES;
+        self.messageLabel.text = NSLocalizedString(@"Checkin successful!", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateFinished;
+    } else if (state == FACheckinViewStateFailed) {
+        self.statusControl.userInteractionEnabled = YES;
+        self.messageLabel.text = NSLocalizedString(@"An error occured checking in.\nYou can try again.", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateError;
+    } else if (state == FACheckinViewStateCancelled) {
+        self.messageLabel.text = NSLocalizedString(@"Cancelled checkin.", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateFinished;
+    } else if (state == FACheckinViewStateFailedCancel) {
+        self.statusControl.userInteractionEnabled = YES;
+        self.messageLabel.text = NSLocalizedString(@"Failed to cancel checkin.", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateError;
+    } else {
+        self.messageLabel.text = NSLocalizedString(@" ", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+    }
+}
+
+- (FACheckinViewState)checkinViewState
+{
+    return _checkinViewState;
+}
+
 - (void)loadCheckin:(FATraktCheckin *)checkin
 {
     self.checkin = checkin;
     
-    if (checkin.movie) {
-        [self loadContent:checkin.movie];
-    } else if (checkin.show) {
-        [self loadContent:checkin.show];
+    [self loadContent:checkin.content];
+    [self updateContinuously];
+    
+    if (checkin && checkin.status == FATraktStatusFailed) {
+        [self.checkinInProgressAlert show];
     }
     
-    if (checkin.status == FATraktStatusSuccess) {
-        [self reloadTimeRemaining];
+    if (self.performingCheckin) {
+        self.checkinViewState = FACheckinViewStatePerformingCheckin;
+    } else if (checkin && checkin.status == FATraktStatusSuccess) {
+        self.checkinViewState = FACheckinViewStateSuccess;
+    } else {
+        self.checkinViewState = FACheckinViewStateFailed;
+    }
+}
+
+- (void)performCheckinForContent:(FATraktContent *)content
+{
+    if (!self.performingCheckin) {
+        self.performingCheckin = YES;
+        self.checkinViewState = FACheckinViewStatePerformingCheckin;
+        
+        [self loadContent:content];
+        [[FATrakt sharedInstance] checkIn:content callback:^(FATraktCheckin *response) {
+            self.performingCheckin = NO;
+            [self loadCheckin:response];
+        } onError:^(FATraktConnectionResponse *connectionError) {
+            self.performingCheckin = NO;
+            [self loadCheckin:nil];
+        }];
+    }
+}
+
+- (IBAction)actionStatusControl:(id)sender
+{
+    if (self.checkinViewState == FACheckinViewStateFailed) {
+        [self performCheckinForContent:self.content];
+    } else if (self.checkinViewState == FACheckinViewStateSuccess) {
+        [self.shouldCancelCheckinAlert show];
+    } else if (self.checkinViewState == FACheckinViewStateFailedCancel) {
+        [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+            if (status == FATraktStatusSuccess) {
+                [self performCheckinForContent:self.content];
+            } else {
+                self.checkinViewState = FACheckinViewStateFailed;
+            }
+        }];
     }
 }
 
 - (IBAction)actionDoneButton:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView == self.checkinInProgressAlert) {
+        if (buttonIndex == 0) {
+            // Cancel the other checkin and check into the new one
+            self.checkinViewState = FACheckinViewStateCancellingOldCheckin;
+            
+            [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+                if (status == FATraktStatusSuccess) {
+                    [self performCheckinForContent:self.content];
+                } else {
+                    self.checkinViewState = FACheckinViewStateFailed;
+                }
+            }];
+        }
+    } else if (alertView == self.shouldCancelCheckinAlert) {
+        if (buttonIndex == 0) {
+            // Cancel this checkin
+            self.checkinViewState = FACheckinViewStateCancellingCheckin;
+            
+            [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+                if (status == FATraktStatusSuccess) {
+                    self.checkinViewState = FACheckinViewStateCancelled;
+                } else {
+                    self.checkinViewState = FACheckinViewStateFailedCancel;
+                }
+            }];
+        }
+    }
 }
 
 @end

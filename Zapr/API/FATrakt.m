@@ -250,7 +250,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 }
 
 - (FATraktRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{    
+{
     NSString *suffix;
     if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
         DDLogController(@"Loading image of type poster");
@@ -958,8 +958,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckin *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    if (content.contentType == FATraktContentTypeMovies ||
-        content.contentType == FATraktContentTypeEpisodes) {
+    if (content && (content.contentType == FATraktContentTypeMovies ||
+                    content.contentType == FATraktContentTypeEpisodes)) {
         
         NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
         [payload setObject:[FAZapr versionNumberString] forKey:@"app_version"];
@@ -992,6 +992,23 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         return nil;
     }
+}
+
+- (FATraktRequest *)cancelCheckInCallback:(void (^)(FATraktStatus))callback
+{
+    return [self.connection postAPI:@"show/cancelcheckin" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
+        NSDictionary *responseDict = [[response asString] objectFromJSONString];
+        NSString *status = [responseDict objectForKey:@"status"];
+        FATraktStatus traktStatus = FATraktStatusFailed;
+        
+        if (status &&[status isEqualToString:@"success"]) {
+            traktStatus = FATraktStatusSuccess;
+        }
+        
+        callback(traktStatus);
+    } onError:^(FATraktConnectionResponse *connectionError) {
+        callback(FATraktStatusFailed);
+    }];
 }
 
 

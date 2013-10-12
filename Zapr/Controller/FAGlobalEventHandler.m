@@ -88,11 +88,6 @@
         }
     }];
     
-    // Let a thread load the cache from disk to improve launch time for a few fractions of a second ;)
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void){
-        [[FATraktCache sharedInstance] reloadFromDisk];
-    });
-    
     /*
     [self performBlock:^{
         UIStoryboard *storyboard = [UIStoryboard mainStoryboard];

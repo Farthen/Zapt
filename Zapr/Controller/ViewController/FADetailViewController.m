@@ -484,26 +484,8 @@
             [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
         } else {
             FACheckinViewController *checkinViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"checkin"];
-            [checkinViewController loadContent:_currentContent];
+            [checkinViewController performCheckinForContent:_currentContent];
             [self presentViewControllerInsideNavigationController:checkinViewController animated:YES completion:nil];
-            
-            /*FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
-            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Checking In…", nil)];
-            
-            UIAlertView *checkinSuccessAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Success", nil) message:NSLocalizedString(@"You are totally checked in now! Have fun watching!", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Great!", nil) otherButtonTitles:nil];
-            UIAlertView *checkinErrorAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Problem checkin in", nil) message:NSLocalizedString(@"There was a problem checkin in. You can try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Retry", nil), nil];
-            
-            [[FATrakt sharedInstance] checkIn:_currentContent callback:^(FATraktCheckin *response) {
-                if (response.status == FATraktStatusSuccess) {
-                    [checkinSuccessAlert show];
-                } else {
-                    [checkinErrorAlert show];
-                }
-                [hud hideProgressHUD];
-            } onError:^(FATraktConnectionResponse *connectionError) {
-                [checkinErrorAlert show];
-                [hud hideProgressHUD];
-            }];*/
         }
         
     } else {

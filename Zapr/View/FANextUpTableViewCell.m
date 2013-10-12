@@ -43,12 +43,12 @@
 
 + (UIFont *)nameFont
 {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
 }
 
 + (UIFont *)seasonFont
 {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
 }
 
 + (CGFloat)cellHeightForTitle:(NSString *)title cell:(FANextUpTableViewCell *)cell

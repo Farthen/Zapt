@@ -28,7 +28,7 @@
 @property BOOL path;
 
 @property FATraktCheckinTimestamps *timestamps;
-@property FATraktMovie *movie;
-@property FATraktShow *show;
+//@property FATraktMovie *movie;
+//@property FATraktShow *show;
 
 @end

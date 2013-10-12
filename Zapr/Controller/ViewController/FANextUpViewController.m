@@ -76,9 +76,14 @@
 - (void)preferredContentSizeChanged
 {
     // This is called when dynamic type settings are changed
-    [self.view recursiveSetNeedsUpdateConstraints];
+    /*[self.view recursiveSetNeedsUpdateConstraints];
     [self.view recursiveSetNeedsLayout];
-    [self.view recursiveLayoutIfNeeded];
+    [self.view recursiveLayoutIfNeeded];*/
+    
+    [self.view setNeedsUpdateConstraints];
+    [self.progressView setNeedsLayout];
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
     
     [self.tableView reloadData];
 }

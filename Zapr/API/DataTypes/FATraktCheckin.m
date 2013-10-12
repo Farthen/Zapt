@@ -7,6 +7,8 @@
 //
 
 #import "FATraktCheckin.h"
+#import "FATraktMovie.h"
+#import "FATraktShow.h"
 
 @implementation FATraktCheckin
 
@@ -15,7 +17,7 @@
     if ([key isEqualToString:@"status"]) {
         if ([object isEqualToString:@"success"]) {
             self.status = FATraktStatusSuccess;
-        } else if ([key isEqualToString:@"failure"]) {
+        } else if ([object isEqualToString:@"failure"]) {
             self.status = FATraktStatusFailed;
         } else {
             self.status = FATraktStatusUnkown;

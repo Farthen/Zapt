@@ -41,10 +41,10 @@
     self.textLabel = [[UILabel alloc] initWithFrame:textLabelFrame];
     self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.textLabel.textColor = [UIColor whiteColor];
-    //self.textLabel.numberOfLines = 1;
-    self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     
     [self addSubview:self.textLabel];
+    
+    [self setNeedsLayout];
 }
 
 - (void)updateConstraints
@@ -66,6 +66,8 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
+    self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     
     [self.textLabel invalidateIntrinsicContentSize];
     [self invalidateIntrinsicContentSize];

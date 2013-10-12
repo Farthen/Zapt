@@ -152,13 +152,14 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         // If NSDate, set date
         
         NSNumber *number = (NSNumber *)object;
-        NSTimeInterval pacificUnixTime = [number doubleValue];
+        /*NSTimeInterval pacificUnixTime = [number doubleValue];
         
         // Set to PST (pacific time zone, gmt-8)
         NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithName:@"America/Los_Angeles"];
         
         NSInteger destinationGMTOffset = [sourceTimeZone secondsFromGMT];
-        NSTimeInterval unixTime = pacificUnixTime - destinationGMTOffset;
+        NSTimeInterval unixTime = pacificUnixTime - destinationGMTOffset;*/
+        NSTimeInterval unixTime = [number doubleValue];
         
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:unixTime];
         

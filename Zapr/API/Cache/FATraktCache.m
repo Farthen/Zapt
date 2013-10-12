@@ -13,9 +13,6 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-static const NSInteger codingVersionNumber = 4;
-static NSString *codingFileName = @"Cache";
-
 @interface FATraktCache ()
 @property NSLock *lock;
 @end
@@ -41,39 +38,35 @@ static NSString *codingFileName = @"Cache";
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    // Check version number. This allows me to invalidate the whole cache just by incrementing the number.
-    if ([aDecoder decodeIntegerForKey:@"codingVersionNumber"] == codingVersionNumber) {
-        self = [super init];
-        if (self) {
-            _misc = [aDecoder decodeObjectForKey:@"_misc"];
-            _movies = [aDecoder decodeObjectForKey:@"movies"];
-            _shows = [aDecoder decodeObjectForKey:@"shows"];
-            _episodes = [aDecoder decodeObjectForKey:@"episodes"];
-            _images = [aDecoder decodeObjectForKey:@"images"];
-            _lists = [aDecoder decodeObjectForKey:@"lists"];
-            _searches = [aDecoder decodeObjectForKey:@"searches"];
-            self.lock = [[NSLock alloc] init];
-            [self setupCaches];
-        }
-    } else {
-        [FATraktCache removeCacheFile];
-        self = [self init];
-        DDLogWarn(@"Cache version number has changed. Rebuilding cache…");
+    self = [super init];
+    if (self) {
+        _misc = [aDecoder decodeObjectForKey:@"_misc"];
+        _movies = [aDecoder decodeObjectForKey:@"movies"];
+        _shows = [aDecoder decodeObjectForKey:@"shows"];
+        _episodes = [aDecoder decodeObjectForKey:@"episodes"];
+        _images = [aDecoder decodeObjectForKey:@"images"];
+        _lists = [aDecoder decodeObjectForKey:@"lists"];
+        _searches = [aDecoder decodeObjectForKey:@"searches"];
+        self.lock = [[NSLock alloc] init];
+        [self setupCaches];
     }
+
     return self;
 }
 
 - (void)setupCaches
 {
     if (!_misc) {
-        _misc = [[FACache alloc] initWithName:@"misc"];
+        _misc = [[FACache alloc] initWithName:@"misc" loadFromDisk:YES];
+        _misc.delegate = self;
     }
     
     _misc.countLimit = 20;
     _misc.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_movies) {
-        _movies = [[FACache alloc] initWithName:@"movies"];
+        _movies = [[FACache alloc] initWithName:@"movies" loadFromDisk:YES];
+        _movies.delegate = self;
     }
     
     // Don't cache more than 50 movies
@@ -81,7 +74,8 @@ static NSString *codingFileName = @"Cache";
     _movies.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_shows) {
-        _shows = [[FACache alloc] initWithName:@"shows"];
+        _shows = [[FACache alloc] initWithName:@"shows" loadFromDisk:YES];
+        _shows.delegate = self;
     }
     
     // Don't cache more than 50 shows
@@ -89,7 +83,8 @@ static NSString *codingFileName = @"Cache";
     _shows.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_episodes) {
-        _episodes = [[FACache alloc] initWithName:@"episodes"];
+        _episodes = [[FACache alloc] initWithName:@"episodes" loadFromDisk:YES];
+        _episodes.delegate = self;
     }
     
     // Don't cache more than 500 episodes
@@ -97,7 +92,8 @@ static NSString *codingFileName = @"Cache";
     _episodes.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_images) {
-        _images = [[FABigDataCache alloc] initWithName:@"images"];
+        _images = [[FABigDataCache alloc] initWithName:@"images" loadFromDisk:YES];
+        _images.delegate = self;
     }
     
     // Don't cache more than 100 images
@@ -106,7 +102,8 @@ static NSString *codingFileName = @"Cache";
     _images.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_lists) {
-        _lists = [[FACache alloc] initWithName:@"lists"];
+        _lists = [[FACache alloc] initWithName:@"lists" loadFromDisk:YES];
+        _lists.delegate = self;
     }
     
     // Don't cache more than 20 lists
@@ -114,7 +111,8 @@ static NSString *codingFileName = @"Cache";
     _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_searches) {
-        _searches = [[FACache alloc] initWithName:@"searches"];
+        _searches = [[FACache alloc] initWithName:@"searches" loadFromDisk:YES];
+        _searches.delegate = self;
     }
     
     // Don't cache more than 100 search results
@@ -131,63 +129,6 @@ static NSString *codingFileName = @"Cache";
     [aCoder encodeObject:_images forKey:@"images"];
     [aCoder encodeObject:_lists forKey:@"lists"];
     [aCoder encodeObject:_searches forKey:@"searches"];
-    [aCoder encodeInteger:codingVersionNumber forKey:@"codingVersionNumber"];
-}
-
-- (BOOL)reloadFromDisk
-{
-    [self.lock lock];
-    FATraktCache *newCache = [FATraktCache cacheFromDisk];
-    _misc = newCache.misc;
-    _movies = newCache.movies;
-    _shows = newCache.shows;
-    _episodes = newCache.episodes;
-    _images = newCache.images;
-    _lists = newCache.lists;
-    _searches = newCache.searches;
-    [self setupCaches];
-    
-    [self.lock unlock];
-    return !!newCache;
-}
-
-+ (NSString *)filePath
-{
-    NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *myPath = [myPathList  objectAtIndex:0];
-    
-    return [myPath stringByAppendingPathComponent:codingFileName];
-}
-
-+ (long long)fileSize
-{
-    NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[FATraktCache filePath] error:nil];
-    
-    NSNumber *fileSizeNumber = [fileAttributes objectForKey:NSFileSize];
-    return [fileSizeNumber longLongValue];
-}
-
-+ (id)cacheFromDisk
-{
-    FATraktCache *cache = [NSKeyedUnarchiver unarchiveObjectWithFile:[FATraktCache filePath]];
-    DDLogInfo(@"Loading cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
-    return cache;
-}
-
-+ (BOOL)removeCacheFile
-{
-    return [[NSFileManager defaultManager] removeItemAtPath:[FATraktCache filePath] error:nil];
-}
-
-- (BOOL)saveToDisk
-{
-    [self.lock lock];
-    BOOL worked = [NSKeyedArchiver archiveRootObject:self toFile:[FATraktCache filePath]];
-    
-    DDLogInfo(@"Saving cache. File size: %.3fMB", ((double)[FATraktCache fileSize] / 1024 / 1024));
-    
-    [self.lock unlock];
-    return worked;
 }
 
 - (void)clearCaches
@@ -199,7 +140,6 @@ static NSString *codingFileName = @"Cache";
     [self.images removeAllObjects];
     [self.lists removeAllObjects];
     [self.searches removeAllObjects];
-    [self saveToDisk];
 }
 
 + (FATraktCache *)sharedInstance
@@ -207,10 +147,7 @@ static NSString *codingFileName = @"Cache";
     static dispatch_once_t once;
     static FATraktCache *traktCache;
     dispatch_once(&once, ^ {
-        traktCache = [FATraktCache cacheFromDisk];
-        if (!traktCache) {
-            traktCache = [[FATraktCache alloc] init];
-        }
+        traktCache = [[FATraktCache alloc] init];
     });
     return traktCache;
 }

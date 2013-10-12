@@ -103,6 +103,15 @@
     [self setNeedsDisplay];
 }
 
+- (BOOL)isEnabled
+{
+    if (self.reloadControlState == FAReloadControlStateError) {
+        return [super isEnabled];
+    }
+    
+    return NO;
+}
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
     if (event.type == UIEventTypeTouches) {
