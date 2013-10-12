@@ -42,6 +42,8 @@
     // Add a UIRefreshControl (pull to refresh)
     self.refreshControl = [[FARefreshControlWithActivity alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
+    
+    self.needsLoginContentName = NSLocalizedString(@"lists", nil);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -51,6 +53,8 @@
     if ([FATraktCache sharedInstance].lists.objectCount == 0) {
         [self refreshDataAnimated:NO];
     }
+    
+    [super displayNeedsLoginTableViewIfNeeded];
 }
 
 - (void)setRefreshControlWithActivity:(FARefreshControlWithActivity *)refreshControlWithActivity

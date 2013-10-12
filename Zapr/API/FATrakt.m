@@ -227,10 +227,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             self.connection.usernameAndPasswordValid = NO;
             callback(NO);
         }
-    } onError:^(FATraktConnectionResponse *connectionResponse) {
-        self.connection.usernameAndPasswordValid = NO;
-        callback(NO);
-    }];
+    } onError:nil];
 }
 
 - (FATraktRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error

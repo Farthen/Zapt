@@ -1657,7 +1657,8 @@
 					/Users/farthen/Code/iOS/Zapr/Zapr/Support/TestFlight,
 				);
 				PRODUCT_NAME = Zapr;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "46B58944-447B-4416-81BC-098C0FC97C03";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1674,7 +1675,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Finn Wilke";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapr/Support/Zapr-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1699,7 +1700,8 @@
 					/Users/farthen/Code/iOS/Zapr/Zapr/Support/TestFlight,
 				);
 				PRODUCT_NAME = Zapr;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "46B58944-447B-4416-81BC-098C0FC97C03";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

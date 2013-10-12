@@ -266,7 +266,7 @@
 - (void)setNavigationItem
 {
     if (self.showsInvalidPrompt) {
-        self.navigationItem.prompt = NSLocalizedString(@"You credentials are invalid! Please log in again.", nil);
+        self.navigationItem.prompt = NSLocalizedString(@"Your credentials are invalid! Please log in again.", nil);
     } else {
         self.navigationItem.prompt = nil;
     }

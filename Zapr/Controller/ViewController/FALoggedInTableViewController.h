@@ -10,7 +10,10 @@
 
 @interface FALoggedInTableViewController : UITableViewController
 
+@property NSString *needsLoginContentName;
+
 - (void)showNeedsLoginTableViewAnimated:(BOOL)animated;
 - (void)hideNeedsLoginTableViewAnimated:(BOOL)animated;
+- (void)displayNeedsLoginTableViewIfNeeded;
 
 @end

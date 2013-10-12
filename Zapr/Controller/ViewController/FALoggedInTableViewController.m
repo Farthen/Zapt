@@ -12,6 +12,7 @@
 #import "FATraktConnection.h"
 
 @interface FANeedsLoginTableViewDelegate : NSObject <UITableViewDataSource, UITableViewDelegate>
+@property NSString *contentName;
 @end
 
 @interface FALoggedInTableViewController ()
@@ -54,7 +55,11 @@
         cell.textLabel.textColor = [UIColor grayColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     } else if (indexPath.row == 2) {
-        cell.textLabel.text = NSLocalizedString(@"to view this", nil);
+        if (!self.contentName) {
+            cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"to view this", nil), self.contentName];
+        } else {
+            cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"to view %@", nil), self.contentName];
+        }
         cell.textLabel.textColor = [UIColor grayColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     } else {
@@ -81,6 +86,8 @@
     if (indexPath.row == 4) {
         [[FAGlobalEventHandler handler] performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end
@@ -107,12 +114,7 @@
 
 - (void)connectionUsernameAndPasswordValidityChangedNotification:(NSNotification *)notification
 {
-    BOOL usernameAndPasswordValid = [[FATraktConnection sharedInstance] usernameAndPasswordValid];
-    if (usernameAndPasswordValid) {
-        [self hideNeedsLoginTableViewAnimated:YES];
-    } else {
-        [self showNeedsLoginTableViewAnimated:YES];
-    }
+    [self displayNeedsLoginTableViewIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,6 +138,8 @@
         self.needsLoginTableViewDataSource = [[FANeedsLoginTableViewDelegate alloc] init];
     }
     
+    self.needsLoginTableViewDataSource.contentName = self.needsLoginContentName;
+    
     self.needsLoginTableView.dataSource = self.needsLoginTableViewDataSource;
     self.needsLoginTableView.delegate = self.needsLoginTableViewDataSource;
     
@@ -155,6 +159,16 @@
         [self.tableView reloadData];
         
         self.showingNeedsLoginTableView = NO;
+    }
+}
+
+- (void)displayNeedsLoginTableViewIfNeeded
+{
+    BOOL usernameAndPasswordValid = [[FATraktConnection sharedInstance] usernameAndPasswordValid];
+    if (usernameAndPasswordValid) {
+        [self hideNeedsLoginTableViewAnimated:YES];
+    } else {
+        [self showNeedsLoginTableViewAnimated:YES];
     }
 }
 

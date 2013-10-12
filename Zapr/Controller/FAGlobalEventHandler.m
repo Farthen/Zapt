@@ -44,7 +44,7 @@
         self.serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
         self.needsLoginAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Not logged in", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Log In", nil), nil];
         
-        self.lastNetworkErrorDate = [NSDate distantFuture];
+        self.lastNetworkErrorDate = [NSDate distantPast];
         
         // Dynamic Type Setting
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferredContentSizeChanged:) name:UIContentSizeCategoryDidChangeNotification object:nil];
@@ -82,47 +82,13 @@
 {
     [self setUpLogging];
     
-    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
-        if (!valid) {
-            [[FAGlobalEventHandler handler] handleInvalidCredentials];
-        }
-    }];
-    
-    /*
-    [self performBlock:^{
-        UIStoryboard *storyboard = [UIStoryboard mainStoryboard];
-        FACheckinViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"checkin"];
-        FATraktCheckin *checkin = [[FATraktCheckin alloc] initWithJSONDict:[@"{\
-                                                                            \"status\": \"success\",\
-                                                                            \"message\": \"checked in to Batman Begins (2005)\",\
-                                                                            \"timestamps\": {\
-                                                                            \"start\": 1380680820,\
-                                                                            \"end\": 1380681000,\
-                                                                            \"active_for\": 8460\
-                                                                            },\
-                                                                            \"movie\": {\
-                                                                            \"title\": \"Batman Begins\",\
-                                                                            \"year\": 2005,\
-                                                                            \"imdb_id\": \"tt0372784\",\
-                                                                            \"tmdb_id\": 808\
-                                                                            },\
-                                                                            \"show\": {\
-                                                                            \"title\": \"The Walking Dead\",\
-                                                                            \"year\": 2010,\
-                                                                            \"imdb_id\": \"tt1520211\",\
-                                                                            \"tvdb_id\": 153021\
-                                                                            },\
-                                                                            \"facebook\": true,\
-                                                                            \"twitter\": false,\
-                                                                            \"tumblr\": false,\
-                                                                            \"path\": false\
-                                                                            }" objectFromJSONString]];
-        
-        [viewController loadCheckin:checkin];
-        
-        
-        [[UIViewController topViewController] presentViewControllerInsideNavigationController:viewController animated:YES completion:nil];
-    } afterDelay:0.1];*/
+    if ([FATraktConnection sharedInstance].usernameAndPasswordSaved) {
+        [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+            if (!valid) {
+                [[FAGlobalEventHandler handler] handleInvalidCredentials];
+            }
+        }];
+    }
 }
 
 - (void)handleApplicationResume
@@ -160,9 +126,9 @@
 {
     @synchronized(self) {
         NSDate *now = [NSDate date];
-        if ([now timeIntervalSinceDate:_lastNetworkErrorDate] > 30) {
+        if ([now timeIntervalSinceDate:_lastNetworkErrorDate] > 5) {
             if (!alertView.visible && !_timeoutAlert.visible && !_networkNotAvailableAlert.visible && !_serviceUnavailableAlert.visible) {
-                // It has been 30 seconds after the last alert has been dismissed and none is being shown right now
+                // It has been 5 seconds after the last alert has been dismissed and none is being shown right now
                 // This is just because nobody wants bazillion alert boxes stacked on top of each other
                 [alertView show];
             }

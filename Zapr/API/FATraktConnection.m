@@ -49,7 +49,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         self.apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
         [self loadUsernameAndPassword];
         if (self.usernameAndPasswordSaved) {
-            _usernameAndPasswordValid = YES;
+            self.usernameAndPasswordValid = YES;
+        } else {
+            self.usernameAndPasswordValid = NO;
         }
         
         [[LRResty client] setGlobalTimeout:60 handleWithBlock:^(LRRestyRequest *request) {
