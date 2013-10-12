@@ -35,29 +35,24 @@
 		4754F52668A14D7FBFEF21A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24A1495AA2364932961CA780 /* Foundation.framework */; };
 		49C97F918E8140369F80E71F /* LRRestyResourceDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2526004CCB5542A082382297 /* LRRestyResourceDelegate.h */; };
 		4AA3C1F405C74560B7EEA550 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D583ACDFC2C46808DEB6E4D /* DDLog.m */; settings = {COMPILER_FLAGS = "-fobjc-arc -DOS_OBJECT_USE_OBJC=0"; }; };
-		4E66D211B568468EBF87A3EA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24A1495AA2364932961CA780 /* Foundation.framework */; };
 		5060F4A7219F4B18862B3B0F /* LRRestyRequest+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7A297702B593417BB05DCECD /* LRRestyRequest+Internal.h */; };
 		50E08970F33A4AFBBF3B939C /* LRRestyClient+PUT.h in Headers */ = {isa = PBXBuildFile; fileRef = 120E2FF55773486FBBFE92DE /* LRRestyClient+PUT.h */; };
 		52E67E7391824CC08C21FA28 /* LRRestyClient+POST.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A70F8934D04E17966F33D7 /* LRRestyClient+POST.m */; };
 		547A1BB3E4C84EB383386989 /* LRRestyRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FEF22EF3CB0460DB57298D1 /* LRRestyRequest.m */; };
 		56756E1594C44FE19D5CD74D /* LRRestyClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 0934931FE8AE4C318AD90C02 /* LRRestyClient.h */; };
 		575EAA02E2A84CA8BF159D4B /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA59D85886249288D3F7610 /* DDTTYLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc -DOS_OBJECT_USE_OBJC=0"; }; };
-		58F67A37E87844F4B06F58FC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47EE05EF68994C9285821FF9 /* QuartzCore.framework */; };
 		5D8E4652D37744E38A251690 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24A1495AA2364932961CA780 /* Foundation.framework */; };
 		5DA8D70A15A444DF8E1B8D75 /* LRRestyClient+PUT.m in Sources */ = {isa = PBXBuildFile; fileRef = EB9A7A9818234CE389DD2B69 /* LRRestyClient+PUT.m */; };
 		6035A1A2AE7C4DC4BAD52359 /* LRRestyClientResponseDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = A2C999822A82495A9C4710A3 /* LRRestyClientResponseDelegate.h */; };
 		66F3AB6B801F43AA9B26BA2E /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C6072BFD28A4FE589F6A5AE /* DDAbstractDatabaseLogger.h */; };
 		6702467AE4C6436DAE4B04A3 /* Pods-CocoaLumberjack-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 48F7516D4D424F2F9C42A0C0 /* Pods-CocoaLumberjack-dummy.m */; };
-		68A55E2DD2564C59BF2AF12B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9961D2794BB2488CAC7805DF /* CoreVideo.framework */; };
 		6A0723A8485245BFB5FECAA2 /* LRRestyResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B0645B3D7BA457989D19638 /* LRRestyResponse.m */; };
 		6B42B1CB3BD84C2682E8AFE4 /* LRRestyClient+GET.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CD579F870B44A1A93DC2B9C /* LRRestyClient+GET.h */; };
 		6C1B397ADAB5428FB1FBECB6 /* libPods-TUSafariActivity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88D12BA598C044778CA05A86 /* libPods-TUSafariActivity.a */; };
 		6DF96E8E2DED4B4D8D0F7550 /* LRRestyClientProxyDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A65A5FAEEB3A40DBA39E6C98 /* LRRestyClientProxyDelegate.m */; };
-		6ECD42ED72AE4BFFA16DB7B7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074E1F5EB0E1493F817E872E /* OpenGLES.framework */; };
 		6F0997C5D3DC4F299DCD63BB /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 686DA906CD3841909412E0BC /* TUSafariActivity.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		72F8FF0595914671A2E588AF /* NSString+QueryString.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D2DE3C685FC49258800A900 /* NSString+QueryString.h */; };
 		79B11FC50DF3484A95066CA7 /* LRRestyClientProxyDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 7AFE7D69573741798DCBED96 /* LRRestyClientProxyDelegate.h */; };
-		7B33A2791C66454EB1C71ED5 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 637EB1A5A2D34400AECDD354 /* AVFoundation.framework */; };
 		7EF6A3CDD5B24FCC99A42125 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 432181F29F82474E9230FA37 /* DDFileLogger.m */; settings = {COMPILER_FLAGS = "-fobjc-arc -DOS_OBJECT_USE_OBJC=0"; }; };
 		8667FE440D7A404C941B48B1 /* libPods-LRResty.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 79D2A3DCDA284E598496176E /* libPods-LRResty.a */; };
 		866FE085A2394481AED866AF /* LRRestyResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 33342E08AC46448B8F891981 /* LRRestyResource.m */; };
@@ -81,7 +76,6 @@
 		B55AE89F18174EEBA136690E /* LRURLRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FF5B92CD684B8BA1EEF26F /* LRURLRequestOperation.h */; };
 		B59AB4E53BC6492086730D7C /* LRRestyClient+DELETE.m in Sources */ = {isa = PBXBuildFile; fileRef = AFF30437639548FF8E7932E8 /* LRRestyClient+DELETE.m */; };
 		B5D148B3FE9F4EBF8C150FDD /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 85E59D4AE76F4EC59A90B3BD /* MBProgressHUD.m */; settings = {COMPILER_FLAGS = "-fobjc-arc -DOS_OBJECT_USE_OBJC=0"; }; };
-		BC2B42C93B404A48B3EB6206 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A7F4913FB54DB3991B916E /* CoreMedia.framework */; };
 		C202817C989744BCB78640B4 /* LRRestyRequestPayload.h in Headers */ = {isa = PBXBuildFile; fileRef = F36A12C692FD480F93535BE3 /* LRRestyRequestPayload.h */; };
 		C29383BD211E4A0893504750 /* LRSynchronousProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = B4AA906570CA4DA5B4B562A4 /* LRSynchronousProxy.h */; };
 		C4C57DAA41D1440F9EF02842 /* LRSynchronousProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 59434AF6D6FE48E9B3F6B213 /* LRSynchronousProxy.m */; };
@@ -124,13 +118,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = C1CE2AEE82BF4C6995D7EC07;
 			remoteInfo = "Pods-JSONKit";
-		};
-		77642D1CFD9848378F3ED4BE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A89A39760074454BAFA68B7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 954471EA4D7246788C056772;
-			remoteInfo = "Pods-GPUImage";
 		};
 		7999D0B9175A409DA77DF5A8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -256,7 +243,6 @@
 		A69BF39291A049FD9C2C09B8 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A987AD42F25F4EA89D9CB719 /* LRRestyResource.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LRRestyResource.h; path = Classes/LRRestyResource.h; sourceTree = "<group>"; };
 		A9B1A2823B44426991D1F187 /* JSONKit.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
-		ADE8121978DB42FF8356D199 /* libPods-GPUImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-GPUImage.a"; path = "/Users/farthen/Code/iOS/Zapr/Pods/build/Debug-iphoneos/libPods-GPUImage.a"; sourceTree = "<absolute>"; };
 		AFF30437639548FF8E7932E8 /* LRRestyClient+DELETE.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "LRRestyClient+DELETE.m"; path = "Classes/LRRestyClient+DELETE.m"; sourceTree = "<group>"; };
 		B0879815618F4E9E888E4625 /* Pods-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-environment.h"; sourceTree = "<group>"; };
 		B0C00045E25042E79DAFDEC0 /* libPods-MBProgressHUD.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MBProgressHUD.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -307,19 +293,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E21D8E2BD6CF4848BBB3BEF5 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		6740AF2D38944883951AA81E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4E66D211B568468EBF87A3EA /* Foundation.framework in Frameworks */,
-				6ECD42ED72AE4BFFA16DB7B7 /* OpenGLES.framework in Frameworks */,
-				68A55E2DD2564C59BF2AF12B /* CoreVideo.framework in Frameworks */,
-				BC2B42C93B404A48B3EB6206 /* CoreMedia.framework in Frameworks */,
-				58F67A37E87844F4B06F58FC /* QuartzCore.framework in Frameworks */,
-				7B33A2791C66454EB1C71ED5 /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -844,13 +817,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F7FE1D72F304414B8F0D50A2 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -916,7 +882,6 @@
 			);
 			dependencies = (
 				8EC9DDBDC7E9447C99EEEBFB /* PBXTargetDependency */,
-				B56955366F934D5593C784DA /* PBXTargetDependency */,
 				167A61F74E5740A5B7E75707 /* PBXTargetDependency */,
 				FEF51A15C1884740A83145E0 /* PBXTargetDependency */,
 				8DF820D218E94AB4B4B4EC1D /* PBXTargetDependency */,
@@ -926,23 +891,6 @@
 			name = Pods;
 			productName = Pods;
 			productReference = 8FA19F55657A4163B2120BA2 /* libPods.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		954471EA4D7246788C056772 /* Pods-GPUImage */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D51B117D60A445F79CD737F0 /* Build configuration list for PBXNativeTarget "Pods-GPUImage" */;
-			buildPhases = (
-				0A06C8D87E4A49D59B2D315E /* Sources */,
-				6740AF2D38944883951AA81E /* Frameworks */,
-				F7FE1D72F304414B8F0D50A2 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-GPUImage";
-			productName = "Pods-GPUImage";
-			productReference = ADE8121978DB42FF8356D199 /* libPods-GPUImage.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		AC9525B5D6124853A10B638F /* Pods-LRResty */ = {
@@ -1018,7 +966,6 @@
 			projectRoot = "";
 			targets = (
 				111AE23F927D401A85101E0C /* Pods-CocoaLumberjack */,
-				954471EA4D7246788C056772 /* Pods-GPUImage */,
 				C1CE2AEE82BF4C6995D7EC07 /* Pods-JSONKit */,
 				AC9525B5D6124853A10B638F /* Pods-LRResty */,
 				EC86CF477A1449C4A5A4E0D8 /* Pods-MBProgressHUD */,
@@ -1035,13 +982,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9705E442321C49728343FFB6 /* Pods-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A06C8D87E4A49D59B2D315E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1156,11 +1096,6 @@
 			target = 3D9EB8F64AC94C9984FD9EC6 /* Pods-NSData+Base64 */;
 			targetProxy = BDD2D7D9BF1343E5BBFA215B /* PBXContainerItemProxy */;
 		};
-		B56955366F934D5593C784DA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 954471EA4D7246788C056772 /* Pods-GPUImage */;
-			targetProxy = 77642D1CFD9848378F3ED4BE /* PBXContainerItemProxy */;
-		};
 		FEF51A15C1884740A83145E0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AC9525B5D6124853A10B638F /* Pods-LRResty */;
@@ -1240,37 +1175,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pods-NSData+Base64-prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_CFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"-DNS_BLOCK_ASSERTIONS=1",
-					"$(inherited)",
-				);
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		493C49A01C9D4185810461D9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = YES;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Pods-GPUImage-prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
@@ -1434,35 +1338,6 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pods-NSData+Base64-prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
-				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		9DAC1BB6241A45E894A31908 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				COPY_PHASE_STRIP = NO;
-				DSTROOT = /tmp/xcodeproj.dst;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Pods-GPUImage-prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1745,15 +1620,6 @@
 			buildConfigurations = (
 				3BCA755BDC6348E4BD007F92 /* Release */,
 				83E825E702D64FC69B3F5756 /* Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D51B117D60A445F79CD737F0 /* Build configuration list for PBXNativeTarget "Pods-GPUImage" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				493C49A01C9D4185810461D9 /* Release */,
-				9DAC1BB6241A45E894A31908 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

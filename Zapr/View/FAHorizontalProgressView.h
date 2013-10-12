@@ -13,6 +13,7 @@
 
 @interface FAHorizontalProgressView : UIView <FAProgressView>
 
+@property NSString *fontTextStyle;
 @property UILabel *textLabel;
 
 @end

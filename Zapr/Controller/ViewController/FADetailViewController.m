@@ -96,7 +96,13 @@
     
     if (_loadContent) {
         _currentContent = [_currentContent cachedVersion];
-        self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
+        
+        if (_currentContent.contentType == FATraktContentTypeEpisodes) {
+            FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+            self.navigationItem.title = [NSString stringWithFormat:@"S%iE%i", episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+        } else {
+            self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
+        }
         
         [self loadContentData:_currentContent];
         

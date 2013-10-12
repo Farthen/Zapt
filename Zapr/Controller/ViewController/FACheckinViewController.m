@@ -92,7 +92,7 @@ typedef enum {
 
 - (void)viewWillLayoutSubviews
 {
-    self.progressView.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    self.progressView.fontTextStyle = UIFontTextStyleSubheadline;
     [self.progressView setNeedsLayout];
     
     self.contentNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];

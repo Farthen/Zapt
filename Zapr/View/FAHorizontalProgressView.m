@@ -42,6 +42,8 @@
     self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
     self.textLabel.textColor = [UIColor whiteColor];
     
+    self.fontTextStyle = UIFontTextStyleSubheadline;
+    
     [self addSubview:self.textLabel];
     
     [self setNeedsLayout];
@@ -67,7 +69,7 @@
 {
     [super layoutSubviews];
     
-    self.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+    self.textLabel.font = [UIFont preferredFontForTextStyle:self.fontTextStyle];
     
     [self.textLabel invalidateIntrinsicContentSize];
     [self invalidateIntrinsicContentSize];

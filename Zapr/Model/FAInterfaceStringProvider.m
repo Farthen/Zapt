@@ -51,7 +51,7 @@ static NSArray *_ratingNames;
             }
         } else if (type == FATraktContentTypeEpisodes) {
             if (longVersion) {
-                name = @"TV Episode";
+                name = NSLocalizedString(@"TV Episode", nil);
             } else if (capitalized) {
                 name = NSLocalizedString(@"Episode", nil);
             } else {

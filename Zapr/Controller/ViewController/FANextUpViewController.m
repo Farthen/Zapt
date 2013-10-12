@@ -153,6 +153,7 @@
     if (!self.cell) {
         self.cell = [[FANextUpTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    
     self.cell.frameHeight = [FANextUpTableViewCell cellHeight];
     
     if (_nextUpEpisode) {
@@ -185,13 +186,16 @@
         UIViewController *presentingViewController = self.parentViewController.presentingViewController;
         
         if ([presentingViewController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nc = (UINavigationController *)presentingViewController;
-            [nc pushViewController:detailViewController animated:NO];
+            [self.parentViewController dismissViewControllerAnimated:YES completion:^{
+                UINavigationController *nc = (UINavigationController *)presentingViewController;
+                [nc pushViewController:detailViewController animated:YES];
+            }];
         } else {
-            [presentingViewController presentViewController:detailViewController animated:YES completion:nil];
+            [self.parentViewController dismissViewControllerAnimated:YES completion:^{
+                [presentingViewController presentViewController:detailViewController animated:YES completion:nil];
+            }];
         }
         
-        [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
