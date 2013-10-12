@@ -19,8 +19,11 @@
 
 @property IBOutlet FAHorizontalProgressView *progressView;
 @property IBOutlet FAReloadControl *reloadControl;
+
 @property IBOutlet UILabel *messageLabel;
 @property IBOutlet UILabel *contentNameLabel;
+@property IBOutlet UILabel *showNameLabel;
+
 @property IBOutlet FASimpleControl *statusControl;
 
 @property FANextUpViewController *nextUpViewController;

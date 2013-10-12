@@ -994,21 +994,34 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (FATraktRequest *)cancelCheckInCallback:(void (^)(FATraktStatus))callback
+- (FATraktRequest *)cancelCheckInForContentType:(FATraktContentType)contentType callback:(void (^)(FATraktStatus))callback
 {
-    return [self.connection postAPI:@"show/cancelcheckin" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *responseDict = [[response asString] objectFromJSONString];
-        NSString *status = [responseDict objectForKey:@"status"];
-        FATraktStatus traktStatus = FATraktStatusFailed;
-        
-        if (status &&[status isEqualToString:@"success"]) {
-            traktStatus = FATraktStatusSuccess;
-        }
-        
-        callback(traktStatus);
-    } onError:^(FATraktConnectionResponse *connectionError) {
+    NSString *api = nil;
+    if (contentType == FATraktContentTypeEpisodes) {
+        api = @"show/cancelcheckin";
+    } else if (contentType == FATraktContentTypeMovies) {
+        api = @"movie/cancelcheckin";
+    }
+    
+    if (api) {
+        return [self.connection postAPI:api payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
+            NSDictionary *responseDict = [[response asString] objectFromJSONString];
+            NSString *status = [responseDict objectForKey:@"status"];
+            FATraktStatus traktStatus = FATraktStatusFailed;
+            
+            if (status &&[status isEqualToString:@"success"]) {
+                traktStatus = FATraktStatusSuccess;
+            }
+            
+            callback(traktStatus);
+        } onError:^(FATraktConnectionResponse *connectionError) {
+            callback(FATraktStatusFailed);
+        }];
+    } else {
         callback(FATraktStatusFailed);
-    }];
+        
+        return nil;
+    }
 }
 
 

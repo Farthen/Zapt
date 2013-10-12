@@ -328,11 +328,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fO1-5h-J3g">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="274"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZfZ-1d-fPy">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="153"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Episode Name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" translatesAutoresizingMaskIntoConstraints="NO" id="saD-i8-VXT">
@@ -342,11 +342,18 @@
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dyt-Fa-ehA">
+                                                        <rect key="frame" x="8" y="48" width="304" height="17"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WYd-Vw-RoX" customClass="FASimpleControl">
-                                                        <rect key="frame" x="0.0" y="48" width="320" height="60"/>
+                                                        <rect key="frame" x="0.0" y="73" width="320" height="60"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <subviews>
-                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have successfully checked in!" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="V0L-oZ-CZf" customClass="FAFixedHeightLabel">
+                                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="260" translatesAutoresizingMaskIntoConstraints="NO" id="V0L-oZ-CZf" customClass="FAFixedHeightLabel">
                                                                 <rect key="frame" x="8" y="20" width="260" height="20"/>
                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
@@ -388,7 +395,7 @@
                                                         </connections>
                                                     </view>
                                                     <view contentMode="scaleToFill" placeholderIntrinsicWidth="320" placeholderIntrinsicHeight="20" translatesAutoresizingMaskIntoConstraints="NO" id="f5f-bw-1cL" customClass="FAHorizontalProgressView">
-                                                        <rect key="frame" x="0.0" y="108" width="320" height="20"/>
+                                                        <rect key="frame" x="0.0" y="133" width="320" height="20"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
@@ -398,8 +405,11 @@
                                                     <constraint firstItem="WYd-Vw-RoX" firstAttribute="leading" secondItem="ZfZ-1d-fPy" secondAttribute="leading" id="0W0-Ce-EeD"/>
                                                     <constraint firstAttribute="trailing" secondItem="f5f-bw-1cL" secondAttribute="trailing" id="DeH-l3-tGx"/>
                                                     <constraint firstItem="f5f-bw-1cL" firstAttribute="leading" secondItem="ZfZ-1d-fPy" secondAttribute="leading" id="GST-ac-zqw"/>
+                                                    <constraint firstItem="dyt-Fa-ehA" firstAttribute="top" secondItem="saD-i8-VXT" secondAttribute="bottom" constant="8" symbolic="YES" id="QTz-f5-qkb"/>
                                                     <constraint firstItem="saD-i8-VXT" firstAttribute="leading" secondItem="ZfZ-1d-fPy" secondAttribute="leading" constant="8" id="RwZ-8D-bX2"/>
-                                                    <constraint firstItem="WYd-Vw-RoX" firstAttribute="top" secondItem="saD-i8-VXT" secondAttribute="bottom" constant="8" symbolic="YES" id="eX4-Em-VZ8"/>
+                                                    <constraint firstItem="dyt-Fa-ehA" firstAttribute="leading" secondItem="ZfZ-1d-fPy" secondAttribute="leading" constant="8" id="SLw-pE-LAk"/>
+                                                    <constraint firstAttribute="trailing" secondItem="dyt-Fa-ehA" secondAttribute="trailing" constant="8" id="Uxe-m4-bZO"/>
+                                                    <constraint firstItem="WYd-Vw-RoX" firstAttribute="top" secondItem="dyt-Fa-ehA" secondAttribute="bottom" constant="8" symbolic="YES" id="fvF-tm-P1S"/>
                                                     <constraint firstItem="saD-i8-VXT" firstAttribute="top" secondItem="ZfZ-1d-fPy" secondAttribute="top" constant="20" symbolic="YES" id="gXL-yC-3rE"/>
                                                     <constraint firstAttribute="trailing" secondItem="saD-i8-VXT" secondAttribute="trailing" constant="8" id="mqg-Q7-Hfm"/>
                                                     <constraint firstAttribute="trailing" secondItem="WYd-Vw-RoX" secondAttribute="trailing" id="rJD-V5-8Rl"/>
@@ -408,7 +418,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ctH-yE-Ex6">
-                                                <rect key="frame" x="0.0" y="128" width="320" height="121"/>
+                                                <rect key="frame" x="0.0" y="153" width="320" height="121"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5IE-H9-TRb">
@@ -486,6 +496,7 @@
                         <outlet property="nextUpHeightConstraint" destination="JVA-23-KgG" id="a6L-55-vZ8"/>
                         <outlet property="progressView" destination="f5f-bw-1cL" id="h6d-Pv-4hf"/>
                         <outlet property="reloadControl" destination="Ii0-6P-zgg" id="cBI-Z6-0jy"/>
+                        <outlet property="showNameLabel" destination="dyt-Fa-ehA" id="XbV-Xc-sYC"/>
                         <outlet property="statusControl" destination="WYd-Vw-RoX" id="Zm3-ux-VuG"/>
                     </connections>
                 </viewController>

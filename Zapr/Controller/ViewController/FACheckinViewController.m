@@ -78,6 +78,7 @@ typedef enum {
     
     if (!self.content) {
         self.checkinViewState = FACheckinViewStateNone;
+        self.showNameLabel.text = @"";
     }
     
     self.reloadControl.userInteractionEnabled = NO;
@@ -177,6 +178,9 @@ typedef enum {
         self.nextUpViewController.dismissesModalToDisplay = YES;
         [self.nextUpViewController displayProgress:episode.show.progress];
         
+        NSString *showNameString = [NSString stringWithFormat:@"%@ S%iE%i", episode.show.title, episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+        self.showNameLabel.text = showNameString;
+        
         FATraktEpisode *nextEpisode = [episode nextEpisode];
         if (!nextEpisode) {
             [[FATrakt sharedInstance] seasonInfoForShow:episode.show callback:^(FATraktShow *show) {
@@ -185,6 +189,8 @@ typedef enum {
         } else {
             [self.nextUpViewController displayNextUp:nextEpisode];
         }
+    } else {
+        self.showNameLabel.text = nil;
     }
     
     self.contentNameLabel.text = content.title;
@@ -201,27 +207,38 @@ typedef enum {
     if (state == FACheckinViewStatePerformingCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Performing Checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+        
     } else if (state == FACheckinViewStateCancellingCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Cancelling checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+        
     } else if (state == FACheckinViewStateCancellingOldCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Cancelling old checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
+        
     } else if (state == FACheckinViewStateSuccess) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Checkin successful!", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateFinished;
+        
     } else if (state == FACheckinViewStateFailed) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"An error occured checking in.\nYou can try again.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
+        
     } else if (state == FACheckinViewStateCancelled) {
+        [self stopUpdatingContinuously];
+        self.progressView.textLabel.text = @" ";
+        self.progressView.progress = 0;
+        
         self.messageLabel.text = NSLocalizedString(@"Cancelled checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateFinished;
+        
     } else if (state == FACheckinViewStateFailedCancel) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Failed to cancel checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
+
     } else {
         self.messageLabel.text = NSLocalizedString(@" ", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
@@ -237,8 +254,14 @@ typedef enum {
 {
     self.checkin = checkin;
     
-    [self loadContent:checkin.content];
-    [self updateContinuously];
+    if (checkin) {
+        [self loadContent:checkin.content];
+        [self updateContinuously];
+    } else {
+        [self stopUpdatingContinuously];
+        self.progressView.textLabel.text = @" ";
+        self.progressView.progress = 0;
+    }
     
     if (checkin && checkin.status == FATraktStatusFailed) {
         [self.checkinInProgressAlert show];
@@ -277,7 +300,7 @@ typedef enum {
     } else if (self.checkinViewState == FACheckinViewStateSuccess) {
         [self.shouldCancelCheckinAlert show];
     } else if (self.checkinViewState == FACheckinViewStateFailedCancel) {
-        [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+        [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
             if (status == FATraktStatusSuccess) {
                 [self performCheckinForContent:self.content];
             } else {
@@ -300,7 +323,7 @@ typedef enum {
             // Cancel the other checkin and check into the new one
             self.checkinViewState = FACheckinViewStateCancellingOldCheckin;
             
-            [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+            [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
                 if (status == FATraktStatusSuccess) {
                     [self performCheckinForContent:self.content];
                 } else {
@@ -313,7 +336,7 @@ typedef enum {
             // Cancel this checkin
             self.checkinViewState = FACheckinViewStateCancellingCheckin;
             
-            [[FATrakt sharedInstance] cancelCheckInCallback:^(FATraktStatus status) {
+            [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
                 if (status == FATraktStatusSuccess) {
                     self.checkinViewState = FACheckinViewStateCancelled;
                 } else {
