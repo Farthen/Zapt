@@ -32,7 +32,7 @@ typedef enum {
 @property BOOL performingCheckin;
 
 @property UIAlertView *checkinInProgressAlert;
-@property UIAlertView *shouldCancelCheckinAlert;
+@property UIActionSheet *shouldCancelActionSheet;
 
 @property FACheckinViewState checkinViewState;
 @end
@@ -66,12 +66,12 @@ typedef enum {
                                         delegate:self
                                cancelButtonTitle:NSLocalizedString(@"Cancel Checkin", nil)
                                otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
-    self.shouldCancelCheckinAlert = [[UIAlertView alloc]
-                                     initWithTitle:NSLocalizedString(@"Cancel Checkin?", nil)
-                                           message:NSLocalizedString(@"Do you want to cancel this checkin?", nil)
-                                          delegate:self
-                                 cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
-                                 otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
+    
+    self.shouldCancelActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Cancel This Checkin?", nil)
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Don't Cancel", nil)
+                                                 destructiveButtonTitle:NSLocalizedString(@"Cancel Checkin", nil)
+                                                      otherButtonTitles:nil];
     
     [self reloadTimeRemaining];
     [self loadContent:self.content];
@@ -82,6 +82,16 @@ typedef enum {
     }
     
     self.reloadControl.userInteractionEnabled = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self reloadCheckinViewState];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self reloadCheckinViewState];
 }
 
 - (void)preferredContentSizeChanged
@@ -198,11 +208,10 @@ typedef enum {
     [self.view setNeedsLayout];
 }
 
-- (void)setCheckinViewState:(FACheckinViewState)state
+- (void)reloadCheckinViewState
 {
-    _checkinViewState = state;
-    
     self.statusControl.userInteractionEnabled = NO;
+    FACheckinViewState state = self.checkinViewState;
     
     if (state == FACheckinViewStatePerformingCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Performing Checkin.\nPlease wait…", nil);
@@ -238,11 +247,17 @@ typedef enum {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Failed to cancel checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
-
+        
     } else {
         self.messageLabel.text = NSLocalizedString(@" ", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
     }
+}
+
+- (void)setCheckinViewState:(FACheckinViewState)state
+{
+    _checkinViewState = state;
+    [self reloadCheckinViewState];
 }
 
 - (FACheckinViewState)checkinViewState
@@ -298,7 +313,7 @@ typedef enum {
     if (self.checkinViewState == FACheckinViewStateFailed) {
         [self performCheckinForContent:self.content];
     } else if (self.checkinViewState == FACheckinViewStateSuccess) {
-        [self.shouldCancelCheckinAlert show];
+        [self.shouldCancelActionSheet showInView:self.view];
     } else if (self.checkinViewState == FACheckinViewStateFailedCancel) {
         [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
             if (status == FATraktStatusSuccess) {
@@ -331,7 +346,13 @@ typedef enum {
                 }
             }];
         }
-    } else if (alertView == self.shouldCancelCheckinAlert) {
+    }
+}
+
+#pragma mark UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet == self.shouldCancelActionSheet) {
         if (buttonIndex == 0) {
             // Cancel this checkin
             self.checkinViewState = FACheckinViewStateCancellingCheckin;

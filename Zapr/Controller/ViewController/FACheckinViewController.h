@@ -15,7 +15,7 @@
 #import "FAReloadControl.h"
 #import "FASimpleControl.h"
 
-@interface FACheckinViewController : UIViewController <FAViewControllerPreferredContentSizeChanged, UIAlertViewDelegate>
+@interface FACheckinViewController : UIViewController <FAViewControllerPreferredContentSizeChanged, UIAlertViewDelegate, UIActionSheetDelegate>
 
 @property IBOutlet FAHorizontalProgressView *progressView;
 @property IBOutlet FAReloadControl *reloadControl;
