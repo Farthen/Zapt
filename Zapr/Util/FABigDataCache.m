@@ -10,13 +10,14 @@
 #import "NSObject+PerformBlock.h"
 #import "FACache+Private.h"
 
-@interface FABigDataCachedItem : FACachedItem
+@interface FABigDataCachedItem : FACachedItem <NSDiscardableContent>
 
 @property (assign) BOOL dirty;
 @property (readonly) NSInteger accessCount;
 
 - (BOOL)isContentDiscarded;
 - (void)commitToPersistentStorage;
+- (void)purgeDataFromMemory;
 - (void)purgeFromPersistentStorage;
 
 @end
@@ -24,7 +25,7 @@
 @implementation FABigDataCache
 
 // commits all data to the backing cache
-- (void)commitAllItemsToPersistentStorage
+- (void)commitAllItemsToPersistentStoragePurgingFromMemory:(BOOL)purgingFromMemory
 {
     [self.lock lock];
     
@@ -35,10 +36,20 @@
             if (cachedItem.dirty) {
                 [cachedItem commitToPersistentStorage];
             }
+            
+            if (purgingFromMemory) {
+                [cachedItem purgeDataFromMemory];
+            }
         }
     }
     
     [self.lock unlock];
+}
+
+- (void)evictAllObjects
+{
+    [self commitAllItemsToPersistentStoragePurgingFromMemory:YES];
+    [super evictAllObjects];
 }
 
 - (NSUInteger)loadedObjectCount
@@ -118,6 +129,7 @@
 
 @implementation FABigDataCachedItem {
     NSInteger _accessCount;
+    id _object;
 }
 
 - (instancetype)initWithCache:(FACache *)cache key:(id)key object:(id)object
@@ -139,11 +151,6 @@
     return self;
 }
 
-- (NSString *)filename
-{
-    return [((FABigDataCache *)self.cache).filePath stringByAppendingPathComponent:self.cacheKey];
-}
-
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
@@ -162,6 +169,49 @@
     [super encodeWithCoder:aCoder];
     
     [self.lock unlock];
+}
+
+- (NSString *)filename
+{
+    return [((FABigDataCache *)self.cache).filePath stringByAppendingPathComponent:self.cacheKey];
+}
+
+- (id)object
+{
+    [self beginContentAccess];
+    id object = _object;
+    
+    // FIXME: This is needed to ensure an "autoreleased" kind of behavior, that will time out the access after some time
+    // At the moment set to 0 seconds so it will time out when the current event loop is done
+    [self performBlock:^{
+        [self endContentAccess];
+    } afterDelay:0];
+    
+    return object;
+}
+
+- (BOOL)beginContentAccess
+{
+    [self.lock lock];
+    _accessCount++;
+    self.dirty = YES;
+    return [self loadDataFromPersistentStorage];
+}
+
+- (void)endContentAccess
+{
+    if (self.accessCount > 0) {
+        _accessCount--;
+        [self discardContentIfPossible];
+        [self.lock unlock];
+    }
+}
+
+- (void)endAllContentAccess
+{
+    while (self.accessCount > 0) {
+        [self endContentAccess];
+    }
 }
 
 - (void)discardContentIfPossible
@@ -193,7 +243,7 @@
     [self.lock lock];
     
     [self commitToPersistentStorage];
-    self.object = nil;
+    _object = nil;
     
     [self.lock unlock];
 }
@@ -202,11 +252,11 @@
 {
     [self.lock lock];
     
-    if (self.object == nil) {
-        self.object = [NSKeyedUnarchiver unarchiveObjectWithFile:[self filename]];
+    if (_object == nil) {
+        _object = [NSKeyedUnarchiver unarchiveObjectWithFile:[self filename]];
     }
     
-    BOOL value = self.object != nil;
+    BOOL value = _object != nil;
     
     [self.lock unlock];
     
@@ -217,8 +267,8 @@
 {
     [self.lock lock];
     
-    if (self.object != nil) {
-        if ([NSKeyedArchiver archiveRootObject:self.object toFile:[self filename]]) {
+    if (_object != nil) {
+        if ([NSKeyedArchiver archiveRootObject:_object toFile:[self filename]]) {
             self.dirty = NO;
         }
     }
@@ -231,6 +281,12 @@
     [self.lock lock];
     [[NSFileManager defaultManager] removeItemAtPath:[self filename] error:nil];
     [self.lock unlock];
+}
+
+- (void)dealloc
+{
+    // We are leaving and nobody can stop us!
+    [self endAllContentAccess];
 }
 
 @end

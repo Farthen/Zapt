@@ -6,16 +6,26 @@
 //
 
 #import <Foundation/Foundation.h>
+@class FACache;
+
+@protocol FACacheDelegate <NSObject>
+
+@optional
+- (void)willEvictAllObjectsInCache:(FACache *)cache;
+- (void)didEvictAllObjectInCache:(FACache *)cache;
+
+@end
 
 @interface FACache : NSObject <NSCoding>
 
-// This NSCache subclass implements am expiration timer. You can set an expiration time for all objects.
+// This cache implements am expiration timer. You can set an expiration time for all objects.
 // After that time elapsed the object is automatically removed from the cache.
 // This automatically takes care of any background activity and resets all its timers when resuming.
 
 // It also implements NSCoding so it can be written to disk easily and it is thread-safe
 
 - (id)initWithName:(NSString *)name;
+- (id)initWithName:(NSString *)name loadFromDisk:(BOOL)load;
 @property NSString *name;
 
 // Set object with expiration time. When the time has elapsed the object is automatically removed from the cache
@@ -24,6 +34,13 @@
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost;
 - (void)setObject:(id)obj forKey:(id)key expirationTime:(NSTimeInterval)expirationTime;
 - (void)setObject:(id)obj forKey:(id)key cost:(NSUInteger)cost expirationTime:(NSTimeInterval)expirationTime;
+
+// Save/load the cache to/from disk
+- (BOOL)saveToDisk;
++ (id)cacheFromDiskWithName:(NSString *)name;
+
+// The delegate of the cache
+@property (weak) id <FACacheDelegate> delegate;
 
 // The count limit of the cache
 @property NSUInteger countLimit;

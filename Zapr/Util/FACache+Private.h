@@ -13,6 +13,7 @@
 - (id)cachedItemForKey:(id)key;
 - (void)removeCachedItemForKey:(id)key;
 - (void)removeAllObjects;
+- (void)evictAllObjects;
 - (void)evictAllExpiredObjects;
 - (void)setCachedItem:(id)cachedItem forKey:(id)key;
 - (id)objectForKey:(id)key;
