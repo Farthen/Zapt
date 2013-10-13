@@ -24,6 +24,9 @@
 
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
+    NSArray *_sortedSectionIndexTitles;
+    NSArray *_sortedSectionObjects;
+    
     FATraktList *_loadedList;
     FATraktLibraryType _displayedLibraryType;
     NSMutableArray *_loadedLibrary;
@@ -87,6 +90,7 @@
     
     self.refreshControl = [[FARefreshControlWithActivity alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
+    self.tableView.sectionIndexMinimumDisplayRowCount = 20;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -192,6 +196,9 @@
             _loadedList = list;
             _displayedList = _loadedList;
         }
+        
+        [self reloadSectionIndexTitleData];
+        
         [self.tableView reloadData];
     }
 }
@@ -269,6 +276,51 @@
     [self refreshDataAnimated:NO];
 }
 
+- (void)reloadSectionIndexTitleData
+{
+    NSMutableDictionary *alphabetLetters = [NSMutableDictionary dictionary];
+    
+    for (FATraktListItem *listItem in _displayedList.items) {
+        NSString *letter = [[listItem.content.title substringToIndex:1] capitalizedString];
+        
+        NSMutableArray *listItems = [alphabetLetters objectForKey:letter];
+        if (!listItems) {
+            listItems = [NSMutableArray array];
+        }
+        
+        [listItems addObject:listItem];
+        [alphabetLetters setObject:listItems forKey:letter];
+    }
+    
+    _sortedSectionIndexTitles = [alphabetLetters.allKeys sortedArrayUsingSelector:@selector(localizedCompare:)];
+    NSMutableArray *sortedSectionObjects = [NSMutableArray array];
+    
+    for (NSString *letter in _sortedSectionIndexTitles) {
+        [sortedSectionObjects addObject:[alphabetLetters objectForKey:letter]];
+    }
+    
+    _sortedSectionObjects = sortedSectionObjects;
+}
+
+- (BOOL)displaysSectionIndexTitles
+{
+    return (NSInteger)_displayedList.items.count > self.tableView.sectionIndexMinimumDisplayRowCount;
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
+{
+    return _sortedSectionIndexTitles;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if ([self displaysSectionIndexTitles]) {
+        return _sortedSectionIndexTitles.count;
+    }
+    
+    return 1;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If row is deleted, remove it from the list.
@@ -307,7 +359,12 @@
     if ([_displayedList isKindOfClass:[NSNull class]]) {
         return 0;
     }
-    return (NSInteger)_displayedList.items.count;
+    
+    if ([self displaysSectionIndexTitles]) {
+        return [(NSArray *)_sortedSectionObjects[section] count];
+    } else {
+        return _displayedList.items.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -319,7 +376,14 @@
         cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     
-    FATraktListItem *item = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.item];
+    NSArray *section;
+    if ([self displaysSectionIndexTitles]) {
+        section = _sortedSectionObjects[indexPath.section];
+    } else {
+        section = _displayedList.items;
+    }
+    
+    FATraktListItem *item = section[indexPath.row];
     [cell displayContent:[item.content cachedVersion]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
