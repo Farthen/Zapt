@@ -9,6 +9,7 @@
 #import "FAAuthWindow.h"
 
 #import "FAAuthViewController.h"
+#import "FAGlobalSettings.h"
 
 @interface FAAuthWindow ()
 @property BOOL displayed;
@@ -32,6 +33,7 @@
     static FAAuthWindow *window;
     dispatch_once(&once, ^ {
         window = [[FAAuthWindow alloc] initWithFrame:[[UIWindow mainWindow] frame]];
+        window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
     });
     return window;
 }
