@@ -24,8 +24,8 @@
 
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
-    NSArray *_sortedSectionIndexTitles;
-    NSArray *_sortedSectionObjects;
+    NSMutableArray *_sortedSectionIndexTitles;
+    NSMutableArray *_sortedSectionObjects;
     
     FATraktList *_loadedList;
     FATraktLibraryType _displayedLibraryType;
@@ -292,7 +292,7 @@
         [alphabetLetters setObject:listItems forKey:letter];
     }
     
-    _sortedSectionIndexTitles = [alphabetLetters.allKeys sortedArrayUsingSelector:@selector(localizedCompare:)];
+    _sortedSectionIndexTitles = [[alphabetLetters.allKeys sortedArrayUsingSelector:@selector(localizedCompare:)] mutableCopy];
     NSMutableArray *sortedSectionObjects = [NSMutableArray array];
     
     for (NSString *letter in _sortedSectionIndexTitles) {
@@ -302,11 +302,6 @@
     _sortedSectionObjects = sortedSectionObjects;
 }
 
-- (BOOL)displaysSectionIndexTitles
-{
-    return (NSInteger)_displayedList.items.count > self.tableView.sectionIndexMinimumDisplayRowCount;
-}
-
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
     return _sortedSectionIndexTitles;
@@ -314,11 +309,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([self displaysSectionIndexTitles]) {
-        return _sortedSectionIndexTitles.count;
-    }
-    
-    return 1;
+    return _sortedSectionIndexTitles.count;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -330,16 +321,32 @@
         if (_isWatchlist) {
             FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-            [[FATrakt sharedInstance] removeFromWatchlist:[[_displayedList.items objectAtIndex:(NSUInteger)indexPath.row] content] callback:^(void) {
+            
+            NSArray *letterList = _sortedSectionObjects[indexPath.section];
+            FATraktContent *content = [(FATraktListItem *)letterList[indexPath.row] content];
+            
+            [[FATrakt sharedInstance] removeFromWatchlist:content callback:^(void) {
                 [hud showProgressHUDSuccess];
-                [[_displayedList.items objectAtIndex:indexPath.row] content].in_watchlist = NO;
-                NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+                content.in_watchlist = NO;
+                NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
                 
                 // Animate the deletion from the table.
                 [self.tableView beginUpdates];
-                [newList removeObjectAtIndex:(NSUInteger)indexPath.row];
-                _displayedList.items = newList;
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [newList removeObjectAtIndex:indexPath.row];
+                
+                if (newList.count > 0) {
+                    [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
+                    
+                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                } else {
+                    [_sortedSectionObjects removeObjectAtIndex:indexPath.section];
+                    [_sortedSectionIndexTitles removeObjectAtIndex:indexPath.section];
+                    
+                    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
+                }
+                
+                [_displayedList.items removeObject:letterList[indexPath.row]];
+                
                 [self.tableView endUpdates];
                 
             } onError:^(FATraktConnectionResponse *connectionError) {
@@ -360,11 +367,7 @@
         return 0;
     }
     
-    if ([self displaysSectionIndexTitles]) {
-        return [(NSArray *)_sortedSectionObjects[section] count];
-    } else {
-        return _displayedList.items.count;
-    }
+    return [(NSArray *)_sortedSectionObjects[section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -376,12 +379,7 @@
         cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     
-    NSArray *section;
-    if ([self displaysSectionIndexTitles]) {
-        section = _sortedSectionObjects[indexPath.section];
-    } else {
-        section = _displayedList.items;
-    }
+    NSArray *section = _sortedSectionObjects[indexPath.section];
     
     FATraktListItem *item = section[indexPath.row];
     [cell displayContent:[item.content cachedVersion]];
@@ -395,7 +393,8 @@
     UIStoryboard *storyboard = self.storyboard;
     FADetailViewController *detailViewController = [storyboard instantiateViewControllerWithIdentifier:@"detail"];
     
-    FATraktListItem *element = [_displayedList.items objectAtIndex:(NSUInteger)indexPath.row];
+    FATraktListItem *element = _sortedSectionObjects[indexPath.section][indexPath.row];
+    
     [detailViewController loadContent:element.content];
     
     [self.navigationController pushViewController:detailViewController animated:YES];
@@ -447,6 +446,7 @@
     
     _displayedList = displayedList;
     
+    [self reloadSectionIndexTitleData];
     [self.tableView reloadData];
 }
 
