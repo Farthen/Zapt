@@ -85,7 +85,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
-    if (dict) {
+    if (dict && [dict isKindOfClass:[NSDictionary class]]) {
         self = [self init];
         if (self) {
             [self mapObjectsInDict:dict];
