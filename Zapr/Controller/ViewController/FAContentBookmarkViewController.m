@@ -69,9 +69,10 @@
     self.displaysSeenButton = YES;
     if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
-        if (show.progress.left.unsignedIntegerValue == 0) {
+        if (!show.progress ||
+            show.progress.left.unsignedIntegerValue == 0) {
             self.displaysSeenButton = NO;
-        }
+        }        
     }
     
     [self.tableView reloadData];
