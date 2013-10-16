@@ -72,7 +72,7 @@
         if (!show.progress ||
             show.progress.left.unsignedIntegerValue == 0) {
             self.displaysSeenButton = NO;
-        }        
+        }
     }
     
     [self.tableView reloadData];
