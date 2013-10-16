@@ -99,7 +99,7 @@
         
         if (_currentContent.contentType == FATraktContentTypeEpisodes) {
             FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-            self.navigationItem.title = [NSString stringWithFormat:@"S%iE%i", episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+            self.navigationItem.title = [NSString stringWithFormat:@"S%02iE%02i", episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
         } else {
             self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
         }
