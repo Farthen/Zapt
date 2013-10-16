@@ -70,4 +70,14 @@
     return instance;
 }
 
++ (instancetype)invalidDataResponse
+{
+    static dispatch_once_t once;
+    static FATraktConnectionResponse *instance;
+    dispatch_once(&once, ^ {
+        instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidData];
+    });
+    return instance;
+}
+
 @end

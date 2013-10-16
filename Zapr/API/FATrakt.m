@@ -240,9 +240,16 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(LRRestyResponse *response) {
         NSDictionary *data = [[response asString] objectFromJSONString];
         FATraktAccountSettings *accountSettings = [[FATraktAccountSettings alloc] initWithJSONDict:data];
-        [cachedSettings removeFromCache];
-        [accountSettings commitToCache];
-        callback(accountSettings);
+        if (accountSettings) {
+            [cachedSettings removeFromCache];
+            [accountSettings commitToCache];
+            callback(accountSettings);
+        } else {
+            if (error) {
+                error([FATraktConnectionResponse invalidDataResponse]);
+            }
+        }
+        
     } onError:error];
 }
 
@@ -294,11 +301,21 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
         NSDictionary *data = [[response asString] objectFromJSONString];
         FATraktLastActivity *lastActivity = [[FATraktLastActivity alloc] initWithJSONDict:data];
-        lastActivity.fetchDate = [NSDate date];
-        NSSet *changedActivities = [lastActivity changedPathsToActivity:self.lastActivity];
-        [self.changedLastActivityKeys unionSet:changedActivities];
-        self.lastActivity = lastActivity;
-        callback();
+        
+        if (lastActivity) {
+            lastActivity.fetchDate = [NSDate date];
+            NSSet *changedActivities = [lastActivity changedPathsToActivity:self.lastActivity];
+            [self.changedLastActivityKeys unionSet:changedActivities];
+            self.lastActivity = lastActivity;
+            callback();
+        } else {
+            self.lastActivity = nil;
+            self.changedLastActivityKeys = nil;
+            
+            if (error) {
+                error([FATraktConnectionResponse invalidDataResponse]);
+            }
+        }
     } onError:^(FATraktConnectionResponse *response){
         self.lastActivity = nil;
         self.changedLastActivityKeys = nil;
@@ -323,7 +340,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSMutableArray *movies = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *movieDict in data) {
             FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
-            [movies addObject:movie];
+            
+            if (movie) {
+                [movies addObject:movie];
+            }
         }
         searchResult.results = movies;
         [searchResult commitToCache];
@@ -378,7 +398,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *showDict in data) {
             FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
-            [shows addObject:show];
+            
+            if (show) {
+                [shows addObject:show];
+            }
         }
         searchResult.results = shows;
         [searchResult commitToCache];
@@ -469,9 +492,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSArray *data = [[response asString] objectFromJSONString];
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *show in data) {
+            
             FATraktShowProgress *progress = [[FATraktShowProgress alloc] initWithJSONDict:show];
-            [shows addObject:progress];
+            if (progress) {
+                [shows addObject:progress];
+            }
         }
+        
         callback(shows);
     } onError:error];
 }
@@ -506,7 +533,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSMutableArray *seasons = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *seasonDict in data) {
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:show];
-                [seasons addObject:season];
+                if (season) {
+                    [seasons addObject:season];
+                }
             }
             
             show.seasons = seasons;
@@ -538,7 +567,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSDictionary *showDict = [episodeOverviewDict objectForKey:@"show"];
             FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
-            [episodes addObject:episode];
+            
+            if (show && episode) {
+                [episodes addObject:episode];
+            }
         }
         searchResult.results = episodes;
         [searchResult commitToCache];
@@ -602,21 +634,26 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             for (NSDictionary *dictitem in data) {
                 if (type == FATraktContentTypeEpisodes) {
                     FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dictitem];
-                    for (NSDictionary *episodeDict in show.episodes) {
-                        FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
-                        episode.in_watchlist = YES;
-                        [_cache.episodes setObject:episode forKey:episode.cacheKey];
-                        
-                        FATraktListItem *item = [[FATraktListItem alloc] init];
-                        item.type = typeName;
-                        item.episode = episode;
-                        [items addObject:item];
+                    if (show) {
+                        for (NSDictionary *episodeDict in show.episodes) {
+                            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+                            episode.in_watchlist = YES;
+                            [_cache.episodes setObject:episode forKey:episode.cacheKey];
+                            
+                            FATraktListItem *item = [[FATraktListItem alloc] init];
+                            item.type = typeName;
+                            item.episode = episode;
+                            [items addObject:item];
+                        }
                     }
+                    
                 } else {
                     FATraktListItem *item = [[FATraktListItem alloc] init];
-                    item.type = typeName;
-                    [item setItem:dictitem];
-                    [items addObject:item];
+                    if (item) {
+                        item.type = typeName;
+                        [item setItem:dictitem];
+                        [items addObject:item];
+                    }
                 }
             }
             list.items = items;
@@ -675,12 +712,16 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
         NSArray *data = [[response asString] objectFromJSONString];
         NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
+        
         for (NSDictionary *listData in data) {
             FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
-            list.isCustom = YES;
-            list.detailLevel = FATraktDetailLevelMinimal;
-            [lists addObject:list];
-            [list commitToCache];
+            
+            if (list) {
+                list.isCustom = YES;
+                list.detailLevel = FATraktDetailLevelMinimal;
+                [lists addObject:list];
+                [list commitToCache];
+            }
         }
         lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
         callback(lists);
@@ -702,9 +743,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
         NSDictionary *data = [[response asString] objectFromJSONString];
         FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
-        list.isCustom = YES;
-        list.detailLevel = FATraktDetailLevelDefault;
-        [list commitToCache];
+        
+        if (list) {
+            list.isCustom = YES;
+            list.detailLevel = FATraktDetailLevelDefault;
+            [list commitToCache];
+        }
         callback(list);
     } onError:error];
 }
@@ -973,8 +1017,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSDictionary *responseDict = [[response asString] objectFromJSONString];
             if (responseDict) {
                 FATraktCheckin *checkinResponse = [[FATraktCheckin alloc] initWithJSONDict:responseDict];
-                checkinResponse.content = content;
-                callback(checkinResponse);
+                if (checkinResponse) {
+                    checkinResponse.content = content;
+                    callback(checkinResponse);
+                } else if (error) {
+                    error([FATraktConnectionResponse invalidDataResponse]);
+                }
             } else {
                 if (error) {
                     error([FATraktConnectionResponse connectionResponseWithResponse:response]);
