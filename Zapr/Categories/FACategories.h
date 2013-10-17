@@ -42,6 +42,7 @@
 
 // NSString
 #import "NSString+URLEncode.h"
+#import "NSString+Base64Encode.h"
 #import "NSString+StringByAppendingSuffixToFilename.h"
 
 // NSArray

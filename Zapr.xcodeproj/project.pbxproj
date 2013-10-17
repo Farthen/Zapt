@@ -68,6 +68,7 @@
 		F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */; };
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
+		F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */ = {isa = PBXBuildFile; fileRef = F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */; };
 		F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
 		F347356417FF55AE00116A59 /* FADebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356317FF55AE00116A59 /* FADebugController.m */; };
 		F347356717FF569C00116A59 /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356617FF569C00116A59 /* UIView+Debug.m */; };
@@ -283,6 +284,8 @@
 		F33631D916ED6082004FC205 /* CGFunctions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CGFunctions.h; sourceTree = "<group>"; };
 		F33631DA16ED85A5004FC205 /* UIFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIFunctions.h; sourceTree = "<group>"; };
 		F33631DB16ED85A5004FC205 /* UIFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIFunctions.m; sourceTree = "<group>"; };
+		F338DA5018108E2D00A1E12B /* NSString+Base64Encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64Encode.h"; sourceTree = "<group>"; };
+		F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64Encode.m"; sourceTree = "<group>"; };
 		F33CC36316F093D200B7D443 /* FAPropertyInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPropertyInfo.h; sourceTree = "<group>"; };
 		F33CC36416F093D200B7D443 /* FAPropertyInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPropertyInfo.m; sourceTree = "<group>"; };
 		F347356217FF55AE00116A59 /* FADebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADebugController.h; sourceTree = "<group>"; };
@@ -633,6 +636,8 @@
 			children = (
 				B6FB0DBA161DEF2C00043207 /* NSString+URLEncode.h */,
 				B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */,
+				F338DA5018108E2D00A1E12B /* NSString+Base64Encode.h */,
+				F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */,
 				F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */,
 				F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */,
 			);
@@ -1419,6 +1424,7 @@
 				F3FA8E4117FB9C970062F236 /* FATraktCheckinTimestamps.m in Sources */,
 				F330966216281728000BD107 /* FATraktPeopleList.m in Sources */,
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
+				F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */,
 				F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
