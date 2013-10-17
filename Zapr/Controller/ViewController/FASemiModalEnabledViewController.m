@@ -9,11 +9,11 @@
 #import "FASemiModalEnabledViewController.h"
 
 @interface FASemiModalEnabledViewController () {
-    UIViewController *_presentedSemiModalViewController;
+    __weak UIViewController *_presentedSemiModalViewController;
     UIView *_semiModalViewControllerMask;
     NSString *_oldTitle;
     NSArray *_defaultRightBarButtonItems;
-    UIViewController *_semiModalParentViewController;
+    __weak UIViewController *_semiModalParentViewController;
 }
 
 @end
