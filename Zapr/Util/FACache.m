@@ -11,7 +11,7 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
-static const NSInteger codingVersionNumber = 5;
+static const NSInteger codingVersionNumber = 6;
 
 @interface FACache ()
 @property NSMutableDictionary *cachedItems;

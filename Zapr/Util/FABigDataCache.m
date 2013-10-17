@@ -173,7 +173,7 @@
 
 - (NSString *)filename
 {
-    return [((FABigDataCache *)self.cache).filePath stringByAppendingPathComponent:self.cacheKey];
+    return [((FABigDataCache *)self.cache).filePath stringByAppendingPathComponent:[self.cacheKey base64EncodedString]];
 }
 
 - (id)object
@@ -190,6 +190,15 @@
     return object;
 }
 
+- (void)setObject:(id)object
+{
+    [self beginContentAccess];
+    
+    _object = object;
+    
+    [self endContentAccess];
+}
+
 - (BOOL)beginContentAccess
 {
     [self.lock lock];
@@ -202,9 +211,10 @@
 {
     if (self.accessCount > 0) {
         _accessCount--;
-        [self discardContentIfPossible];
-        [self.lock unlock];
     }
+    
+    [self discardContentIfPossible];
+    [self.lock unlock];
 }
 
 - (void)endAllContentAccess
@@ -242,7 +252,6 @@
 {
     [self.lock lock];
     
-    [self commitToPersistentStorage];
     _object = nil;
     
     [self.lock unlock];
