@@ -9,7 +9,9 @@
 #import "FATraktConnectionResponse.h"
 
 @interface FATraktConnectionResponse ()
-@property LRRestyResponse *response;
+@property NSHTTPURLResponse *response;
+@property UIImage *imageData;
+@property id jsonData;
 @end
 
 @implementation FATraktConnectionResponse
@@ -23,30 +25,36 @@
     return  self;
 }
 
-+ (instancetype)connectionResponseWithResponse:(LRRestyResponse *)response
++ (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response
+{
+    return [self connectionResponseWithHTTPResponse:response responseData:nil];
+}
+
++ (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response responseData:(id)responseData
 {
     FATraktConnectionResponse *connectionResponse = [[FATraktConnectionResponse alloc] init];
     if (connectionResponse) {
         connectionResponse.response = response;
         connectionResponse.responseType = FATraktConnectionResponseTypeUnknown;
         
-        if (response.status == 200) {
-            connectionResponse.responseType = FATraktConnectionResponseTypeSuccess;
-        } else if (response.status == 401) {
-            connectionResponse.responseType = FATraktConnectionResponseTypeInvalidCredentials;
-        } else if (response.status == 0) {
-            if (response.originalRequest.connectionError) {
-                connectionResponse.responseType = FATraktConnectionResponseTypeNetworkUnavailable;
-            } else {
-                // The request was canceled on purpose
-                connectionResponse.responseType = FATraktConnectionResponseTypeCancelled;
-            }
-        } else if(response.status == 503) {
-            connectionResponse.responseType = FATraktConnectionResponseTypeServiceUnavailable;
-        } else if(response.responseData.length == 0) {
+        if (!responseData) {
             connectionResponse.responseType = FATraktConnectionResponseTypeNoData;
         }
+        
+        if (response.statusCode == 200) {
+            connectionResponse.responseType = FATraktConnectionResponseTypeSuccess;
+        } else if (response.statusCode == 401) {
+            connectionResponse.responseType = FATraktConnectionResponseTypeInvalidCredentials;
+        } else if (response.statusCode == 0) {
+            // TODO: find out what happens when request is cancelled on purpose
+            // TODO: find out what happens when network is not available
+        } else if(response.statusCode == 503) {
+            connectionResponse.responseType = FATraktConnectionResponseTypeServiceUnavailable;
+        }
     }
+    
+    connectionResponse.responseData = responseData;
+    
     return connectionResponse;
 }
 
@@ -78,6 +86,17 @@
         instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidData];
     });
     return instance;
+}
+
+- (void)setResponseData:(id)data
+{
+    if ([data isKindOfClass:[UIImage class]]) {
+        self.imageData = data;
+    } else if ([data isKindOfClass:[NSDictionary class]] || [data isKindOfClass:[NSArray class]]) {
+        self.jsonData = data;
+    } else {
+        NSLog(@"Invalid response data type!");
+    }
 }
 
 @end

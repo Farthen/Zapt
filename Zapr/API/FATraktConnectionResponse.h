@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LRResty/LRResty.h>
+#import <AFNetworking/AFNetworking.h>
 
 typedef enum {
     FATraktConnectionResponseTypeUnknown = (1 << 0),
@@ -28,14 +28,20 @@ typedef enum {
 
 - (instancetype)initWithResponseType:(FATraktConnectionResponseType)responseType;
 
-+ (instancetype)connectionResponseWithResponse:(LRRestyResponse *)response;
++ (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response;
++ (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response responseData:(NSDictionary *)responseData;
 
 // Guaranteed to be unique
 + (instancetype)invalidRequestResponse;
 + (instancetype)invalidCredentialsResponse;
 + (instancetype)invalidDataResponse;
 
-@property (readonly) LRRestyResponse *response;
+- (void)setResponseData:(id)data;
+
+@property (readonly) NSHTTPURLResponse *response;
 @property FATraktConnectionResponseType responseType;
+
+@property (readonly) UIImage *imageData;
+@property (readonly) id jsonData;
 
 @end

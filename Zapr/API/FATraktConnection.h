@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LRResty/LRResty.h>
+#import <AFNetworking/AFNetworking.h>
 #import "FATraktRequest.h"
 @class FATraktConnectionResponse;
 
@@ -17,11 +17,11 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
 
 + (instancetype)sharedInstance;
 
-// Main POST method
+// Main POST method for JSON Data
 - (FATraktRequest *)postURL:(NSString *)urlString
                     payload:(NSDictionary *)payload
            withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(LRRestyResponse *response))success
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (FATraktRequest *)postAPI:(NSString *)api
@@ -29,41 +29,49 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
            withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(LRRestyResponse *response))success
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (FATraktRequest *)postAPI:(NSString *)api
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
            withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(LRRestyResponse *response))success
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
                     onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
-// Main GET method
+// Main GET method for JSON Data
 - (FATraktRequest *)getURL:(NSString *)urlString
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(LRRestyResponse *response))success
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+
+// GET Method for image data
+- (FATraktRequest *)getImageURL:(NSString *)urlString
+               withActivityName:(NSString *)activityName
+                      onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
+                        onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(LRRestyResponse *response))success
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
        forceAuthentication:(BOOL)forceAuthentication
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(LRRestyResponse *))success
-                   onError:(void (^)(FATraktConnectionResponse *))error;
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (FATraktRequest *)getAPI:(NSString *)api
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(LRRestyResponse *response))success
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (NSString *)urlForAPI:(NSString *)api withParameters:(NSArray *)parameters;
+
+@property BOOL useHTTPS;
 
 + (NSString *)passwordHashForPassword:(NSString *)password;
 - (void)loadUsernameAndPassword;

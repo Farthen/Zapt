@@ -28,7 +28,7 @@
 
 - (void)cancelImmediately
 {
-    [self.restyRequest cancelImmediately];
+    [self.operation cancel];
     self.cancelled = YES;
     [self finishActivity];
 }
@@ -49,11 +49,11 @@
         return FATraktRequestStateCancelled;
     }
     
-    if (self.restyRequest.isExecuting) {
+    if (self.operation.isExecuting) {
         return FATraktRequestStateExecuting;
     }
     
-    if (self.restyRequest.isFinished) {
+    if (self.operation.isFinished) {
         return FATraktRequestStateFinished;
     }
     

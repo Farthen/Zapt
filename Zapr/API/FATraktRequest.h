@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <LRResty/LRResty.h>
+#import <AFNetworking/AFNetworking.h>
 
 typedef enum {
     FATraktRequestStateExecuting = (1 << 0),
@@ -28,7 +28,7 @@ typedef enum {
 - (void)finishActivity;
 - (void)cancelImmediately;
 
-@property LRRestyRequest *restyRequest;
+@property AFHTTPRequestOperation *operation;
 @property (readonly) NSString *activityName;
 @property (readonly) FATraktRequestState requestState;
 

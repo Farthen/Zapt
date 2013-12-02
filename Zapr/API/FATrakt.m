@@ -7,13 +7,14 @@
 //
 
 #import "FATrakt.h"
-#import <JSONKit.h>
 #import <Security/Security.h>
 
 #import "FAAppDelegate.h"
 #import "FAZapr.h"
 
 #import "FATraktCache.h"
+
+#import "UIImage+SizeInBytes.h"
 
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
@@ -43,8 +44,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 @end
 
 @implementation FATrakt {
-    LRRestyClient *_restyClient;
-    LRRestyClient *_authRestyClient;
     FATraktCache *_cache;
     FAActivityDispatch *_activity;
     NSString *_traktBaseURL;
@@ -217,8 +216,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Account test!");
     
-    return [self.connection postAPI:@"account/test" payload:nil authenticated:NO withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(LRRestyResponse *response){
-        NSDictionary *data = [[response asString] objectFromJSONString];
+    return [self.connection postAPI:@"account/test" payload:nil authenticated:NO withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response){
+        NSDictionary *data = response.jsonData;
         NSString *statusResponse = [data objectForKey:@"status"];
         if ([statusResponse isEqualToString:@"success"]) {
             self.connection.usernameAndPasswordValid = YES;
@@ -239,8 +238,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedSettings);
     }
     
-    return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
+    return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
         FATraktAccountSettings *accountSettings = [[FATraktAccountSettings alloc] initWithJSONDict:data];
         if (accountSettings) {
             [cachedSettings removeFromCache];
@@ -291,17 +290,17 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return nil;
     }
     
-    return [self.connection getURL:imageURL withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        UIImage *image = [UIImage imageWithData:[response responseData]];
-        [_cache.images setObject:image forKey:imageURL cost:response.responseData.length];
+    return [self.connection getImageURL:imageURL withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        UIImage *image = [response imageData];
+        [_cache.images setObject:image forKey:imageURL cost:image.sizeInBytes];
         callback(image);
     } onError:error];
 }
 
 - (FATraktRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
         FATraktLastActivity *lastActivity = [[FATraktLastActivity alloc] initWithJSONDict:data];
         
         if (lastActivity) {
@@ -337,8 +336,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedResult);
     }
     
-    return [self.connection getAPI:@"search/movies.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(LRRestyResponse *response) {
-        NSArray *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"search/movies.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
         NSMutableArray *movies = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *movieDict in data) {
             FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
@@ -367,8 +366,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *identifier = movie.urlIdentifier;
     
     if (identifier) {
-        return [self.connection getAPI:@"movie/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *data = [[response asString] objectFromJSONString];
+        return [self.connection getAPI:@"movie/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *data = response.jsonData;
             [movie mapObjectsInDict:data];
             
             movie.detailLevel = FATraktDetailLevelDefault;
@@ -395,8 +394,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedResult);
     }
     
-    return [self.connection getAPI:@"search/shows.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(LRRestyResponse *response) {
-        NSArray *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"search/shows.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *showDict in data) {
             FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
@@ -447,8 +446,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [parameters addObject:@"extended"];
         }
         
-        return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *data = [[response asString] objectFromJSONString];
+        return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *data = response.jsonData;
             [show mapObjectsInDict:data];
             
             if (detailLevel == FATraktDetailLevelExtended) {
@@ -490,8 +489,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return nil;
     }
     
-    return [self.connection getAPI:@"user/progress/watched.json" withParameters:@[username, title] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-        NSArray *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"user/progress/watched.json" withParameters:@[username, title] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *show in data) {
             
@@ -530,8 +529,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *api = @"show/seasons.json";
     NSString *info = [show urlIdentifier];
     if (info) {
-        return [self.connection getAPI:api withParameters:@[info] forceAuthentication:NO withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-            NSArray *data = [[response asString] objectFromJSONString];
+        return [self.connection getAPI:api withParameters:@[info] forceAuthentication:NO withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            NSArray *data = response.jsonData;
             NSMutableArray *seasons = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *seasonDict in data) {
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:show];
@@ -561,8 +560,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedResult);
     }
     
-    return [self.connection getAPI:@"search/episodes.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(LRRestyResponse *response) {
-        NSArray *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"search/episodes.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
         NSMutableArray *episodes = [[NSMutableArray alloc] initWithCapacity:data.count];
         for (NSDictionary *episodeOverviewDict in data) {
             NSDictionary *episodeDict = [episodeOverviewDict objectForKey:@"episode"];
@@ -594,8 +593,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *identifier = episode.urlIdentifier;
     
     if (identifier) {
-        return [self.connection getAPI:@"show/episode/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *data = [[response asString] objectFromJSONString];
+        return [self.connection getAPI:@"show/episode/summary.json" withParameters:@[identifier] withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *data = response.jsonData;
             [episode mapObjectsInSummaryDict:data];
             
             episode.detailLevel = FATraktDetailLevelExtended;
@@ -630,8 +629,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [self.changedLastActivityKeys removeObject:key];
         }
         
-        return [self.connection getURL:list.url withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *data = [[response asString] objectFromJSONString];
+        return [self.connection getURL:list.url withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *data = response.jsonData;
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             for (NSDictionary *dictitem in data) {
                 if (type == FATraktContentTypeEpisodes) {
@@ -711,8 +710,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedCustomLists);
     }
     
-    return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
-        NSArray *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
         NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
         
         for (NSDictionary *listData in data) {
@@ -742,8 +741,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         callback(cachedList);
     }
     
-    return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
-        NSDictionary *data = [[response asString] objectFromJSONString];
+    return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
         FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
         
         if (list) {
@@ -830,7 +829,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         content.in_watchlist = add;
         callback();
     } onError:error];
@@ -863,7 +862,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
     }
     
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         content.in_collection = add;
         callback();
     } onError:error];
@@ -881,7 +880,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     NSString *slug = list.slug;
     NSDictionary *payload = @{@"slug": slug, @"items": items};
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
         if (add) {
             [list addContent:content];
         } else {
@@ -935,7 +934,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     [content commitToCache];
     
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         callback();
     } onError:^(FATraktConnectionResponse *connectionError) {
         content.rating = oldRating;
@@ -977,7 +976,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     }
     
-    return [self.connection postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(LRRestyResponse *response) {
+    return [self.connection postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         if (content.contentType == FATraktContentTypeMovies) {
             FATraktMovie *movie = (FATraktMovie *)content;
             movie.watched = seen;
@@ -1015,8 +1014,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             api = @"show/checkin";
         }
         
-        return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *responseDict = [[response asString] objectFromJSONString];
+        return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *responseDict = response.jsonData;
             if (responseDict) {
                 FATraktCheckin *checkinResponse = [[FATraktCheckin alloc] initWithJSONDict:responseDict];
                 if (checkinResponse) {
@@ -1027,7 +1026,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 }
             } else {
                 if (error) {
-                    error([FATraktConnectionResponse connectionResponseWithResponse:response]);
+                    error([FATraktConnectionResponse invalidDataResponse]);
                 }
             }
         } onError:error];
@@ -1051,8 +1050,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     if (api) {
-        return [self.connection postAPI:api payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(LRRestyResponse *response) {
-            NSDictionary *responseDict = [[response asString] objectFromJSONString];
+        return [self.connection postAPI:api payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckin onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *responseDict = response.jsonData;
             NSString *status = [responseDict objectForKey:@"status"];
             FATraktStatus traktStatus = FATraktStatusFailed;
             

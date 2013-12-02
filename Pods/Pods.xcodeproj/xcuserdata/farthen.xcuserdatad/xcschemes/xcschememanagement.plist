@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Pods-AFNetworking.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>11</integer>
+		</dict>
 		<key>Pods-CocoaLumberjack.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -57,7 +62,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>08438D930DDE4DA5806E7F61</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>111AE23F927D401A85101E0C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1434FA2EDA294A12843F65F7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -77,6 +92,16 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>205F29D05F2542468BFF5CBD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2339649F77E84ADA8C1DB8AC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>255C451D5D444279ABFE52C1</key>
 		<dict>
 			<key>primary</key>
@@ -87,12 +112,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>308CBFBACAC042E0ACEBB917</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>33568A5648124D12B81E320D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>348DF13891E04CB88F44B29E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>374DC5F8770A42AF9656EA06</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>377D1AC095EA4A729A3C5E92</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -292,6 +332,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B778653E2F274AC59908C9C3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>BA3CE947707A4D7C9FBE47AF</key>
 		<dict>
 			<key>primary</key>
@@ -342,12 +387,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>D2D6B253C5D84B5C8FEE92BB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>D96CFC3A9B5543D1AFB2711B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>DA4945221D5844B69E6A2BD7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD6D2318DD9B43D999BF7A9C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -382,7 +437,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>F22CBAD69C9842FBADFF32FA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>F4B04C531B9742EF8525866A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F5B22A3C97AF4A839B2B799B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -36,7 +36,7 @@
     [[FAGlobalEventHandler handler] handleApplicationLaunch];
     
     DDLogInfo(@"%@ Version %@", [FAZapr applicationName], [FAZapr versionNumberDescription]);
-        
+    
     return YES;
 }
 
