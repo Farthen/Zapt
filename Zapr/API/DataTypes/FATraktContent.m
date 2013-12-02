@@ -45,6 +45,7 @@
             [cachedContent removeFromCache];
         }
     }
+    
     [self commitToCache];
 }
 

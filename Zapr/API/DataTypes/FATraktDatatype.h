@@ -19,6 +19,8 @@ typedef enum {
     NSDictionary *_originDict;
 }
 
+@property (readonly) NSDate *creationDate;
+
 // Don't call this yourself, override it if you want to associate a custom action
 - (void)finishedMappingObjects;
 

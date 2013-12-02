@@ -14,7 +14,7 @@
 #define LOG_LEVEL LOG_LEVEL_WARN
 
 @interface FATraktDatatype ()
-
+@property NSDate *creationDate;
 @end
 
 static NSMutableDictionary *__traktPropertyInfos = nil;
@@ -52,6 +52,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 {
     self = [super init];
     if (self) {
+        self.creationDate = [NSDate date];
     }
     return self;
 }
@@ -67,6 +68,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
                 [self setValue:value forKey:key];
             }
         }
+        
+        self.creationDate = [aDecoder decodeObjectForKey:@"creationDate"];
     }
     return self;
 }
@@ -81,6 +84,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             [aCoder encodeObject:value forKey:key];
         }
     }
+    
+    [aCoder encodeObject:self.creationDate forKey:@"creationDate"];
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict
@@ -207,27 +212,46 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merges the values from "object" into the reciever. Only merges objc-classes.
-    // Merge strategy: Merge in everything that is not nil in object
+    // Merge strategy: Two-way merge: The newest object is the best
     if (self == object) {
         return;
-    } else if (![object isKindOfClass:[self class]]) {
+    }
+    
+    if (![object isKindOfClass:[self class]]) {
         DDLogError(@"Can't merge object of type %@ into object of type %@", NSStringFromClass([object class]), NSStringFromClass([self class]));
         return;
     }
     
+    FATraktDatatype *oldObject;
+    FATraktDatatype *newObject;
+    
+    if ([self.creationDate compare:object.creationDate] == NSOrderedAscending) {
+        // Reciever is earlier
+        newObject = self;
+        oldObject = object;
+    } else {
+        oldObject = self;
+        newObject = object;
+    }
+    
+    
     NSDictionary *propertyInfos = self.class.propertyInfo;
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *info = propertyInfos[key];
-        BOOL merge = NO;
-        if (info.isObjcClass) {
-            if ([object valueForKey:key]) {
-                merge = YES;
-            }
+        BOOL mergeNew = NO;
+        BOOL mergeOld = NO;
+        
+        if ([newObject valueForKey:key]) {
+            mergeNew = YES;
+        } else if ([oldObject valueForKey:key]) {
+            mergeOld = YES;
         }
         
-        if (merge && [self shouldMergeObjectForKey:key]) {
-            if (info.isReadonly == NO) {
-                [self setValue:[object valueForKey:key] forKey:key];
+        if ((mergeNew || mergeOld) && info.isReadonly == NO) {
+            if (mergeOld && [newObject shouldMergeObjectForKey:key]) {
+                [newObject setValue:[object valueForKey:key] forKey:key];
+            } else if (mergeNew && [newObject shouldMergeObjectForKey:key]) {
+                [oldObject setValue:[object valueForKey:key] forKey:key];
             }
         }
     }
