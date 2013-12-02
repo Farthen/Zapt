@@ -140,6 +140,8 @@
     [self.images removeAllObjects];
     [self.lists removeAllObjects];
     [self.searches removeAllObjects];
+    
+    DDLogModel(@"Cleared all Caches");
 }
 
 + (FATraktCache *)sharedInstance

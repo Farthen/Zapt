@@ -10,6 +10,8 @@
 #import "FATrakt.h"
 #import "FAGlobalEventHandler.h"
 
+#import "FATraktCache.h"
+
 #import "FAProgressHUD.h"
 #import "FATableViewCellWithActivity.h"
 
@@ -72,7 +74,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -87,7 +89,7 @@
 {
     if (section == 0) {
         if (_loggedIn) {
-            return 2;
+            return 1;
         } else {
             return 1;
         }
@@ -97,7 +99,10 @@
         } else {
             return 1;
         }
+    } else if (section == 2) {
+        return 1;
     }
+    
     return 0;
 }
 
@@ -123,7 +128,9 @@
                 NSString *username = [FATraktConnection sharedInstance].apiUser;
                 cell.detailTextLabel.text = username;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            } else if (indexPath.row == 1) {
+            }
+            
+            /* else if (indexPath.row == 1) {
                 cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
@@ -133,7 +140,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 cell.selectionStyle = UITableViewCellSelectionStyleBlue;
                 cell.textLabel.textAlignment = NSTextAlignmentLeft;
-            }
+            } */
         } else {
             if (indexPath.row == 0) {
                 cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
@@ -158,7 +165,7 @@
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 _checkAuthButtonCell = (FATableViewCellWithActivity *)cell;
             } else if (indexPath.row == 1) {
                 cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
@@ -169,7 +176,7 @@
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             }
         } else {
             if (indexPath.row == 0) {
@@ -181,8 +188,21 @@
                 cell.textLabel.text = NSLocalizedString(@"Log In", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             }
+        }
+    } else if (indexPath.section == 2) {
+        // Includes the empty cache button
+        if (indexPath.row == 0) {
+            cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
+            }
+            
+            cell.textLabel.text = NSLocalizedString(@"Empty Cache", nil);
+            cell.textLabel.textColor = [UIColor redColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
     }
     return cell;
@@ -202,6 +222,8 @@
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
         [self reloadState];
+    } else if (indexPath.section == 2 && indexPath.row == 0) {
+        [[FATraktCache sharedInstance] clearCaches];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
