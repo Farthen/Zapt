@@ -31,7 +31,8 @@
 #define NSLogError(frmt, ...)    do{ if(LOG_LEVEL >= 1) NSLog((frmt), ##__VA_ARGS__); } while(0)
 #define NSLogWarn(frmt, ...)     do{ if(LOG_LEVEL >= 2) NSLog((frmt), ##__VA_ARGS__); } while(0)
 #define NSLogInfo(frmt, ...)     do{ if(LOG_LEVEL >= 3) NSLog((frmt), ##__VA_ARGS__); } while(0)
-#define NSLogVerbose(frmt, ...)  do{ if(LOG_LEVEL >= 4) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogDebug(frmt, ...)    do{ if(LOG_LEVEL >= 4) NSLog((frmt), ##__VA_ARGS__); } while(0)
+#define NSLogVerbose(frmt, ...)  do{ if(LOG_LEVEL >= 5) NSLog((frmt), ##__VA_ARGS__); } while(0)
 
 @interface DDLogFileManagerDefault (PrivateAPI)
 
@@ -61,7 +62,7 @@
 	return [self initWithLogsDirectory:nil];
 }
 
-- (id)initWithLogsDirectory:(NSString *)aLogsDirectory
+- (instancetype)initWithLogsDirectory:(NSString *)aLogsDirectory
 {
 	if ((self = [super init]))
 	{
@@ -74,7 +75,7 @@
 		
 		NSKeyValueObservingOptions kvoOptions = NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew;
 		
-		[self addObserver:self forKeyPath:@"maximumNumberOfLogFiles" options:kvoOptions context:nil];
+		[self addObserver:self forKeyPath:NSStringFromSelector(@selector(maximumNumberOfLogFiles)) options:kvoOptions context:nil];
 		
 		NSLogVerbose(@"DDFileLogManagerDefault: logsDirectory:\n%@", [self logsDirectory]);
 		NSLogVerbose(@"DDFileLogManagerDefault: sortedLogFileNames:\n%@", [self sortedLogFileNames]);
@@ -84,7 +85,13 @@
 
 - (void)dealloc
 {
-	[self removeObserver:self forKeyPath:@"maximumNumberOfLogFiles"];
+    // try-catch because the observer might be removed or never added. In this case, removeObserver throws and exception
+    @try {
+        [self removeObserver:self forKeyPath:@"maximumNumberOfLogFiles"];
+    }
+    @catch (NSException *exception) {
+        
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -423,7 +430,7 @@
 	return [self initWithDateFormatter:nil];
 }
 
-- (id)initWithDateFormatter:(NSDateFormatter *)aDateFormatter
+- (instancetype)initWithDateFormatter:(NSDateFormatter *)aDateFormatter
 {
 	if ((self = [super init]))
 	{
@@ -463,7 +470,7 @@
 	return [self initWithLogFileManager:defaultLogFileManager];
 }
 
-- (id)initWithLogFileManager:(id <DDLogFileManager>)aLogFileManager
+- (instancetype)initWithLogFileManager:(id <DDLogFileManager>)aLogFileManager
 {
 	if ((self = [super init]))
 	{
@@ -846,6 +853,7 @@
 #pragma mark DDLogger Protocol
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+static int exception_count = 0;
 - (void)logMessage:(DDLogMessage *)logMessage
 {
 	NSString *logMsg = logMessage->logMsg;
@@ -863,10 +871,20 @@
 		}
 		
 		NSData *logData = [logMsg dataUsingEncoding:NSUTF8StringEncoding];
-		
-		[[self currentLogFileHandle] writeData:logData];
-		
-		[self maybeRollLogFileDueToSize];
+
+		@try {
+			[[self currentLogFileHandle] writeData:logData];
+
+			[self maybeRollLogFileDueToSize];
+		}
+		@catch (NSException *exception) {
+			exception_count++;
+			if (exception_count <= 10) {
+				NSLogError(@"DDFileLogger.logMessage: %@", exception);
+				if (exception_count == 10)
+					NSLogError(@"DDFileLogger.logMessage: Too many exceptions -- will not log any more of them.");
+			}
+		}
 	}
 }
 
@@ -910,12 +928,12 @@
 
 #pragma mark Lifecycle
 
-+ (id)logFileWithPath:(NSString *)aFilePath
++ (instancetype)logFileWithPath:(NSString *)aFilePath
 {
-	return [[DDLogFileInfo alloc] initWithFilePath:aFilePath];
+	return [[self alloc] initWithFilePath:aFilePath];
 }
 
-- (id)initWithFilePath:(NSString *)aFilePath
+- (instancetype)initWithFilePath:(NSString *)aFilePath
 {
 	if ((self = [super init]))
 	{
@@ -1017,14 +1035,14 @@
 
 - (NSString *)description
 {
-	return [@{@"filePath": self.filePath,
-		@"fileName": self.fileName,
-		@"fileAttributes": self.fileAttributes,
-		@"creationDate": self.creationDate,
-		@"modificationDate": self.modificationDate,
-		@"fileSize": @(self.fileSize),
-		@"age": @(self.age),
-		@"isArchived": @(self.isArchived)} description];
+	return [@{@"filePath": self.filePath ?: @"",
+              @"fileName": self.fileName ?: @"",
+              @"fileAttributes": self.fileAttributes ?: @"",
+              @"creationDate": self.creationDate ?: @"",
+              @"modificationDate": self.modificationDate ?: @"",
+              @"fileSize": @(self.fileSize),
+              @"age": @(self.age),
+              @"isArchived": @(self.isArchived)} description];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

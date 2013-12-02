@@ -5,7 +5,10 @@
 #import <mach/mach_host.h>
 #import <mach/host_info.h>
 #import <libkern/OSAtomic.h>
-
+#import <Availability.h>
+#if TARGET_OS_IPHONE
+    #import <UIKit/UIDevice.h>
+#endif
 
 /**
  * Welcome to Cocoa Lumberjack!
@@ -59,16 +62,19 @@ static void *const GlobalLoggingQueueIdentityKey = (void *)&GlobalLoggingQueueId
 @public 
 	id <DDLogger> logger;	
 	dispatch_queue_t loggerQueue;
+    int logLevel;
 }
 
-+ (DDLoggerNode *)nodeWithLogger:(id <DDLogger>)logger loggerQueue:(dispatch_queue_t)loggerQueue;
+@property (nonatomic, assign, readonly) int logLevel;
+
++ (DDLoggerNode *)nodeWithLogger:(id <DDLogger>)logger loggerQueue:(dispatch_queue_t)loggerQueue logLevel:(int)logLevel;
 
 @end
 
 
 @interface DDLog (PrivateAPI)
 
-+ (void)lt_addLogger:(id <DDLogger>)logger;
++ (void)lt_addLogger:(id <DDLogger>)logger logLevel:(int)logLevel;
 + (void)lt_removeLogger:(id <DDLogger>)logger;
 + (void)lt_removeAllLoggers;
 + (void)lt_log:(DDLogMessage *)logMessage;
@@ -180,11 +186,16 @@ static unsigned int numProcessors;
 
 + (void)addLogger:(id <DDLogger>)logger
 {
-	if (logger == nil) return;
-		
+    [self addLogger:logger withLogLevel:LOG_LEVEL_VERBOSE];
+}
+
++ (void)addLogger:(id <DDLogger>)logger withLogLevel:(int)logLevel
+{
+    if (logger == nil) return;
+    
 	dispatch_async(loggingQueue, ^{ @autoreleasepool {
 		
-		[self lt_addLogger:logger];
+		[self lt_addLogger:logger logLevel:logLevel];
 	}});
 }
 
@@ -429,6 +440,7 @@ static unsigned int numProcessors;
 	// So we can allocate our buffer, and get pointers to all the class definitions.
 	
 	Class *classes = (Class *)malloc(sizeof(Class) * numClasses);
+	if (classes == NULL) return nil;
 	
 	numClasses = objc_getClassList(classes, numClasses);
 	
@@ -503,7 +515,7 @@ static unsigned int numProcessors;
 /**
  * This method should only be run on the logging thread/queue.
 **/
-+ (void)lt_addLogger:(id <DDLogger>)logger
++ (void)lt_addLogger:(id <DDLogger>)logger logLevel:(int)logLevel
 {
 	// Add to loggers array.
 	// Need to create loggerQueue if loggerNode doesn't provide one.
@@ -531,7 +543,7 @@ static unsigned int numProcessors;
 		loggerQueue = dispatch_queue_create(loggerQueueName, NULL);
 	}
 	
-	DDLoggerNode *loggerNode = [DDLoggerNode nodeWithLogger:logger loggerQueue:loggerQueue];
+	DDLoggerNode *loggerNode = [DDLoggerNode nodeWithLogger:logger loggerQueue:loggerQueue logLevel:logLevel];
 	[loggers addObject:loggerNode];
 	
 	if ([logger respondsToSelector:@selector(didAddLogger)])
@@ -611,7 +623,7 @@ static unsigned int numProcessors;
 + (void)lt_log:(DDLogMessage *)logMessage
 {
 	// Execute the given log message on each of our loggers.
-		
+    
 	if (numProcessors > 1)
 	{
 		// Execute each logger concurrently, each within its own queue.
@@ -623,6 +635,11 @@ static unsigned int numProcessors;
 		
 		for (DDLoggerNode *loggerNode in loggers)
 		{
+			// skip the loggers that shouldn't write this message based on the logLevel
+
+			if (logMessage->logFlag > loggerNode.logLevel)
+				continue;
+
 			dispatch_group_async(loggingGroup, loggerNode->loggerQueue, ^{ @autoreleasepool {
 				
 				[loggerNode->logger logMessage:logMessage];
@@ -638,6 +655,11 @@ static unsigned int numProcessors;
 		
 		for (DDLoggerNode *loggerNode in loggers)
 		{
+			// skip the loggers that shouldn't write this message based on the logLevel
+            
+			if (logMessage->logFlag > loggerNode.logLevel)
+				continue;
+
 			dispatch_sync(loggerNode->loggerQueue, ^{ @autoreleasepool {
 				
 				[loggerNode->logger logMessage:logMessage];
@@ -772,7 +794,9 @@ NSString *DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy)
 
 @implementation DDLoggerNode
 
-- (id)initWithLogger:(id <DDLogger>)aLogger loggerQueue:(dispatch_queue_t)aLoggerQueue
+@synthesize logLevel;
+
+- (instancetype)initWithLogger:(id <DDLogger>)aLogger loggerQueue:(dispatch_queue_t)aLoggerQueue logLevel:(int)aLogLevel
 {
 	if ((self = [super init]))
 	{
@@ -784,13 +808,14 @@ NSString *DDExtractFileNameWithoutExtension(const char *filePath, BOOL copy)
 			dispatch_retain(loggerQueue);
 			#endif
 		}
+        logLevel = aLogLevel;
 	}
 	return self;
 }
 
-+ (DDLoggerNode *)nodeWithLogger:(id <DDLogger>)logger loggerQueue:(dispatch_queue_t)loggerQueue
++ (DDLoggerNode *)nodeWithLogger:(id <DDLogger>)logger loggerQueue:(dispatch_queue_t)loggerQueue logLevel:(int)logLevel
 {
-	return [[DDLoggerNode alloc] initWithLogger:logger loggerQueue:loggerQueue];
+	return [[DDLoggerNode alloc] initWithLogger:logger loggerQueue:loggerQueue logLevel:logLevel];
 }
 
 - (void)dealloc
@@ -814,21 +839,22 @@ static char *dd_str_copy(const char *str)
 	
 	size_t length = strlen(str);
 	char * result = malloc(length + 1);
+	if (result == NULL) return NULL;
 	strncpy(result, str, length);
 	result[length] = 0;
 	
 	return result;
 }
 
-- (id)initWithLogMsg:(NSString *)msg
-               level:(int)level
-                flag:(int)flag
-             context:(int)context
-                file:(const char *)aFile
-            function:(const char *)aFunction
-                line:(int)line
-                 tag:(id)aTag
-             options:(DDLogMessageOptions)optionsMask
+- (instancetype)initWithLogMsg:(NSString *)msg
+                         level:(int)level
+                          flag:(int)flag
+                       context:(int)context
+                          file:(const char *)aFile
+                      function:(const char *)aFunction
+                          line:(int)line
+                           tag:(id)aTag
+                       options:(DDLogMessageOptions)optionsMask
 {
 	if ((self = [super init]))
 	{
@@ -853,25 +879,47 @@ static char *dd_str_copy(const char *str)
 		timestamp = [[NSDate alloc] init];
 		
 		machThreadID = pthread_mach_thread_np(pthread_self());
-		
-		#pragma clang diagnostic push
-		#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-		// The documentation for dispatch_get_current_queue() states:
-		//
-		// > [This method is] "recommended for debugging and logging purposes only"...
-		//
-		// Well that's exactly how we're using it here. Literally for logging purposes only.
-		// However, Apple has decided to deprecate this method anyway.
-		// However they have not given us an alternate version of dispatch_queue_get_label() that
-		// automatically uses the current queue, thus dispatch_get_current_queue() is still required.
-		// 
-		// If dispatch_get_current_queue() disappears, without a dispatch_queue_get_label() alternative,
-		// Apple will have effectively taken away our ability to properly log the name of executing dispatch queue.
-		
-		dispatch_queue_t currentQueue = dispatch_get_current_queue();
-		#pragma clang diagnostic pop
-		
-		queueLabel = dd_str_copy(dispatch_queue_get_label(currentQueue));
+
+        // Try to get the current queue's label
+        
+        // a) Compiling against newer SDK's (iOS 7+/OS X 10.9+) where DISPATCH_CURRENT_QUEUE_LABEL is defined
+        //    on a (iOS 7.0+/OS X 10.9+) runtime version
+        BOOL gotLabel = NO;
+        #ifdef DISPATCH_CURRENT_QUEUE_LABEL
+        if (
+            #if TARGET_OS_IPHONE
+            [[[UIDevice currentDevice] systemVersion] compare:@"7.0" options:NSNumericSearch] != NSOrderedAscending // 7.0+
+            #else
+            [[NSApplication sharedApplication] respondsToSelector:@selector(occlusionState)] // No nice way to check for OS X 10.9+
+            #endif
+            ) {
+            queueLabel = dd_str_copy(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL));
+            gotLabel = YES;
+        }
+        #endif
+        
+        // b) Systems where dispatch_get_current_queue is not yet deprecated and won't crash (< iOS 6.0/OS X 10.9)
+        //    dispatch_get_current_queue(void); __OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_6,__MAC_10_9,__IPHONE_4_0,__IPHONE_6_0)
+        if (!gotLabel &&
+        #if TARGET_OS_IPHONE
+            [[[UIDevice currentDevice] systemVersion] compare:@"6.0" options:NSNumericSearch] == NSOrderedAscending // < 6.0
+        #else
+            ![[NSApplication sharedApplication] respondsToSelector:@selector(occlusionState)] // < OS X 10.9
+        #endif
+            ) {
+            #pragma clang diagnostic push
+            #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+            dispatch_queue_t currentQueue = dispatch_get_current_queue();
+            #pragma clang diagnostic pop
+            
+            queueLabel = dd_str_copy(dispatch_queue_get_label(currentQueue));
+            gotLabel = YES;
+        }
+        
+        // c) Give up
+        if (!gotLabel) {
+            queueLabel = dd_str_copy("");
+        }
 		
 		threadName = [[NSThread currentThread] name];
 	}
