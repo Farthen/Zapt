@@ -68,6 +68,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         
         self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
         self.manager.responseSerializer.acceptableStatusCodes = [NSIndexSet indexSetWithIndex:200];
+        self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html", @"text/json", @"application/json"]];
         
         self.imageManager = [AFHTTPRequestOperationManager manager];
         self.imageManager.responseSerializer = [AFImageResponseSerializer serializer];

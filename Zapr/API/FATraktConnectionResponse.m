@@ -94,7 +94,7 @@
         self.imageData = data;
     } else if ([data isKindOfClass:[NSDictionary class]] || [data isKindOfClass:[NSArray class]]) {
         self.jsonData = data;
-    } else {
+    } else if (data) {
         NSLog(@"Invalid response data type!");
     }
 }
