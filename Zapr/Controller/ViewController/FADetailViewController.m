@@ -425,7 +425,7 @@
     
     if (episode.show || (episode.episode && episode.season)) {
         NSString *displayString;
-        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.episode.unsignedIntegerValue, episode.season.unsignedIntegerValue];
+        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
         self.detailLabel.text = displayString;
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {
