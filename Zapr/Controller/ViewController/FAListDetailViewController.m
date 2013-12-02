@@ -101,6 +101,7 @@
     if (selection) {
         [self.tableView deselectRowAtIndexPath:selection animated:YES];
     }
+    
     if (_reloadWhenShowing) {
         for (unsigned int i = 0; i < _displayedList.items.count; i++) {
             FATraktListItem *item = [_displayedList.items objectAtIndex:i];
@@ -108,17 +109,19 @@
             if (_isWatchlist) {
                 contentInList = item.content.in_watchlist;
             } else if (_isLibrary) {
+                // FIXME
                 contentInList = YES;
             } else if (_isCustom) {
                 contentInList = YES;
             }
             if (!contentInList) {
                 NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
-                [self.tableView beginUpdates];
                 [newList removeObjectAtIndex:i];
                 _displayedList.items = newList;
-                [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)i inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [self.tableView endUpdates];
+                
+                [self reloadSectionIndexTitleData];
+                
+                [self.tableView reloadData];
             }
         }
         if (_isWatchlist) {
