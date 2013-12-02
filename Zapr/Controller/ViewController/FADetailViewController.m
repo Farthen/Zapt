@@ -258,17 +258,19 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 // Scale the image first to screen dimensions
                 
+                CGFloat scale = [UIScreen mainScreen].scale;
+                
                 CGFloat newWidth = self.coverImageView.frame.size.width;
                 CGFloat oldWidth = _coverImage.size.width;
                 
-                CGFloat ratio = newWidth / oldWidth;
+                CGFloat ratio = (newWidth / oldWidth) * scale;
                 
-                CGSize newSize = CGSizeMake(_coverImage.size.width * ratio, _coverImage.size.height * ratio);
+                CGSize newSize = CGSizeMake(newWidth * scale, ceilf(_coverImage.size.height * ratio));
                 UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
                 
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.coverImageViewHeightConstraint.constant = scaledImage.size.height;
+                    self.coverImageViewHeightConstraint.constant = scaledImage.size.height / scale;
                     [_coverImageView setNeedsUpdateConstraints];
                     [_coverImageView setNeedsLayout];
                     

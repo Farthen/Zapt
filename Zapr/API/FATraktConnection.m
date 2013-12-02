@@ -10,7 +10,6 @@
 #import "FAActivityDispatch.h"
 #import "FATraktConnectionResponse.h"
 #import "SFHFKeychainUtils.h"
-#import <JSONKit/JSONKit.h>
 
 #import "FAGlobalEventHandler.h"
 

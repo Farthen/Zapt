@@ -8,7 +8,6 @@
 
 #import "FATraktDatatype.h"
 #import "FAPropertyUtil.h"
-#import <JSONKit/JSONKit.h>
 
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_WARN

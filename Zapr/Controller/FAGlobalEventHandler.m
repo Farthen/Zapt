@@ -12,7 +12,6 @@
 
 #import "FAAuthViewController.h"
 #import "FACheckinViewController.h"
-#import <JSONKit.h>
 
 #import "FAViewControllerPreferredContentSizeChanged.h"
 #import "FAAuthWindow.h"
