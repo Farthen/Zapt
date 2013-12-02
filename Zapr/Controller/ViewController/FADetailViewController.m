@@ -258,23 +258,36 @@
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 // Scale the image first to screen dimensions
                 
-                CGSize newSize = self.coverImageView.frame.size;
-                UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
-                [_coverImage drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-                UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
+                CGFloat newWidth = self.coverImageView.frame.size.width;
+                CGFloat oldWidth = _coverImage.size.width;
+                
+                CGFloat ratio = newWidth / oldWidth;
+                
+                CGSize newSize = CGSizeMake(_coverImage.size.width * ratio, _coverImage.size.height * ratio);
+                UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
+                
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
+                    self.coverImageViewHeightConstraint.constant = scaledImage.size.height;
+                    [_coverImageView setNeedsUpdateConstraints];
+                    [_coverImageView setNeedsLayout];
+                    
                     if (animated) {
                         _willDisplayImage = YES;
-                        [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                            self.coverImageView.image = scaledImage;
-                            _willDisplayImage = NO;
-                            _imageDisplayed = YES;
-                        } completion:nil];
+                        
+                        [UIView animateWithDuration:0.3 animations:^{
+                            [self.view layoutIfNeeded];
+                        } completion:^(BOOL finished) {
+                            [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                                self.coverImageView.image = scaledImage;
+                                _willDisplayImage = NO;
+                                _imageDisplayed = YES;
+                            } completion:nil];
+                        }];
                     } else {
                         self.coverImageView.image = scaledImage;
                         _imageDisplayed = YES;
+                        [_coverImageView layoutIfNeeded];
                     }
                 });
             });
