@@ -193,7 +193,11 @@
         static UIImage *image;
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            image = [[[FAUnreadItemIndicatorView alloc] initWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)] imageScreenshot];
+            FAUnreadItemIndicatorView *indicatorView = [[FAUnreadItemIndicatorView alloc] initWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)];
+            
+            // This isn't in the view hierarchy so its tintColor property isn't set
+            indicatorView.tintColor = self.view.tintColor;
+            image = [indicatorView imageScreenshot];
         });
         cell.imageView.image = image;
     }

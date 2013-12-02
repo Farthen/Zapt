@@ -36,7 +36,7 @@
     
     circleRect = CGRectInset(circleRect, 2, 2);
     
-    [[UIColor blueColor] set];
+    [self.tintColor set];
     CGContextFillEllipseInRect(context, circleRect);
 }
 
