@@ -1,0 +1,3 @@
+[submodule "Zapr/Util"]
+	path = Zapr/Util
+	url = git@github.com:Farthen/objc-util.git
