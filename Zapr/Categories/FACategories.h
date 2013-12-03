@@ -22,6 +22,7 @@
 #import "UIImage+RoundedCorner.h"
 #import "UIImage+ImageEffects.h"
 #import "UIImage+ImageWithColor.h"
+#import "UIImage+SizeInBytes.h"
 
 // UIColor
 #import "UIColor+InvertedColor.h"
@@ -44,6 +45,7 @@
 #import "NSString+URLEncode.h"
 #import "NSString+Base64Encode.h"
 #import "NSString+StringByAppendingSuffixToFilename.h"
+#import "NSString+UUIDString.h"
 
 // NSArray
 #import "NSArray+Sorting.h"

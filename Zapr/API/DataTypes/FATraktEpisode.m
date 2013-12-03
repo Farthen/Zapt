@@ -123,11 +123,7 @@
     NSString *showKey;
     if (!self.show) {
         // If the show is unavailable for some reason, generate a UUID to avoid collisions
-        CFUUIDRef uuid = CFUUIDCreate(NULL);
-        NSString *uuidStr = (__bridge_transfer NSString *)CFUUIDCreateString(NULL, uuid);
-        CFRelease(uuid);
-        
-        showKey = uuidStr;
+        showKey = [NSString uuidString];
     } else {
         showKey = self.show.cacheKey;
     }

@@ -14,8 +14,6 @@
 
 #import "FATraktCache.h"
 
-#import "UIImage+SizeInBytes.h"
-
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
