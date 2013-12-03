@@ -10,6 +10,7 @@
 #import "FACacheableItem.h"
 
 @class FATraktShow;
+@class FATraktSeason;
 
 @interface FATraktEpisode : FATraktContent
 
@@ -19,10 +20,13 @@
 
 @property (readonly) FATraktEpisode *nextEpisode;
 
-@property (retain) FATraktShow *show;
+// These are technically weak but not declared as such
+// This prevents a compiler warning
+@property FATraktShow *show;
+@property FATraktSeason *season;
 
-@property (retain) NSNumber *season;
-@property (retain) NSNumber *episode;
+@property (retain) NSNumber *seasonNumber;
+@property (retain) NSNumber *episodeNumber;
 @property (retain) NSString *title;
 @property (retain) NSString *overview;
 @property (retain) NSDate *first_aired;

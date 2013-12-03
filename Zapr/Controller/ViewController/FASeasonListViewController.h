@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATableViewController.h"
 @class FATraktShow;
 
-@interface FASeasonListViewController : UITableViewController
+@interface FASeasonListViewController : FATableViewController
 
 - (void)loadShow:(FATraktShow *)show;
 

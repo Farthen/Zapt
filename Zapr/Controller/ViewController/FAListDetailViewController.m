@@ -430,7 +430,7 @@
             BOOL add = NO;
             if (content.contentType == FATraktContentTypeEpisodes) {
                 FATraktEpisode *episode = (FATraktEpisode *)content;
-                NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+                NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
                 if ([episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                     [episode.show.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
                     add = YES;

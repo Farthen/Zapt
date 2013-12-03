@@ -120,7 +120,7 @@
         FATraktSeason *season = _displayedShow.seasons[i];
         NSMutableArray *filteredEpisodes = [[NSMutableArray alloc] init];
         for (FATraktEpisode *episode in season.episodes) {
-            NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.season.intValue, episode.episode.intValue];
+            NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.seasonNumber.intValue, episode.episodeNumber.intValue];
             if ([episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                 [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
                 [filteredEpisodes addObject:episode];
@@ -171,18 +171,18 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         NSArray *episodeArray = _filteredSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        season = episode.show.seasons[(NSUInteger)episode.season.intValue];
+        season = episode.show.seasons[(NSUInteger)episode.seasonNumber.intValue];
     } else if (_filterWatched) {
         NSArray *episodeArray = _filteredWatchedSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        season = episode.show.seasons[(NSUInteger)episode.season.intValue];
+        season = episode.show.seasons[(NSUInteger)episode.seasonNumber.intValue];
     } else {
         season = _displayedShow.seasons[(NSUInteger)indexPath.section];
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     
     cell.textLabel.text = episode.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.season.intValue, episode.episode.intValue];
+    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.seasonNumber.intValue, episode.episodeNumber.intValue];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
@@ -216,10 +216,10 @@
             return nil;
         }
     }
-    if (season.season.intValue == 0) {
+    if (season.seasonNumber.intValue == 0) {
         return NSLocalizedString(@"Specials", nil);
     } else {
-        return [NSString stringWithFormat:NSLocalizedString(@"Season %@", nil), season.season];
+        return [NSString stringWithFormat:NSLocalizedString(@"Season %@", nil), season.seasonNumber];
     }
 }
 

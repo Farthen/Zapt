@@ -30,7 +30,7 @@
 @property (retain) NSString *tvrage_id;
 @property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
-@property (retain) NSArray *seasons;
+@property (retain) NSMutableArray *seasons;
 @property (retain) FATraktShowProgress *progress;
 
 // This is present when getting a show from an episodes watchlist

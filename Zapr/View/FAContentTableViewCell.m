@@ -92,10 +92,10 @@
         }
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
-        if (episode.season && episode.episode && episode.overview) {
-            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.season.intValue, episode.episode.intValue, episode.overview];
-        } else if (episode.season && episode.episode) {
-            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+        if (episode.seasonNumber && episode.episodeNumber && episode.overview) {
+            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue, episode.overview];
+        } else if (episode.seasonNumber && episode.episodeNumber) {
+            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
         } else if (episode.overview) {
             return [NSString stringWithFormat:NSLocalizedString(@"%@", nil), episode.overview];
         } else {

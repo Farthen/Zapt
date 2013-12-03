@@ -102,6 +102,8 @@
 		F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */; };
 		F37E487A184D606D00D66A32 /* FAArrayTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */; };
 		F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487C184D647C00D66A32 /* NSString+UUIDString.m */; };
+		F37E4880184D75B600D66A32 /* FAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487F184D75B600D66A32 /* FAViewController.m */; };
+		F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4882184D780E00D66A32 /* FATableViewController.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -353,6 +355,10 @@
 		F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAArrayTableViewDataSource.m; path = DataSource/FAArrayTableViewDataSource.m; sourceTree = "<group>"; };
 		F37E487B184D647C00D66A32 /* NSString+UUIDString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUIDString.h"; sourceTree = "<group>"; };
 		F37E487C184D647C00D66A32 /* NSString+UUIDString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUIDString.m"; sourceTree = "<group>"; };
+		F37E487E184D75B600D66A32 /* FAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAViewController.h; sourceTree = "<group>"; };
+		F37E487F184D75B600D66A32 /* FAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAViewController.m; sourceTree = "<group>"; };
+		F37E4881184D780E00D66A32 /* FATableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewController.h; sourceTree = "<group>"; };
+		F37E4882184D780E00D66A32 /* FATableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewController.m; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
@@ -1111,6 +1117,10 @@
 				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
 				F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */,
 				F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */,
+				F37E487E184D75B600D66A32 /* FAViewController.h */,
+				F37E487F184D75B600D66A32 /* FAViewController.m */,
+				F37E4881184D780E00D66A32 /* FATableViewController.h */,
+				F37E4882184D780E00D66A32 /* FATableViewController.m */,
 			);
 			name = Generic;
 			sourceTree = "<group>";
@@ -1513,11 +1523,13 @@
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 				F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
+				F37E4880184D75B600D66A32 /* FAViewController.m in Sources */,
 				F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F353F42517FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m in Sources */,
 				F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */,
+				F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,

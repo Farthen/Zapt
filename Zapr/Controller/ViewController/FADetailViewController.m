@@ -100,7 +100,7 @@
         
         if (_currentContent.contentType == FATraktContentTypeEpisodes) {
             FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-            self.navigationItem.title = [NSString stringWithFormat:@"S%02iE%02i", episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+            self.navigationItem.title = [NSString stringWithFormat:@"S%02iE%02i", episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         } else {
             self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
         }
@@ -434,9 +434,9 @@
 {
     [self displayGenericContentData:episode];
     
-    if (episode.show || (episode.episode && episode.season)) {
+    if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
         NSString *displayString;
-        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         self.detailLabel.text = displayString;
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {

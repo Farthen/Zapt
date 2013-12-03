@@ -188,7 +188,7 @@ typedef enum {
         self.nextUpViewController.dismissesModalToDisplay = YES;
         [self.nextUpViewController displayProgress:episode.show.progress];
         
-        NSString *showNameString = [NSString stringWithFormat:@"%@ S%iE%i", episode.show.title, episode.season.unsignedIntegerValue, episode.episode.unsignedIntegerValue];
+        NSString *showNameString = [NSString stringWithFormat:@"%@ S%iE%i", episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         self.showNameLabel.text = showNameString;
         
         FATraktEpisode *nextEpisode = [episode nextEpisode];

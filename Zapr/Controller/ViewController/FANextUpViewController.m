@@ -110,7 +110,7 @@
 
 - (void)displayNextUp:(FATraktEpisode *)episode
 {
-    if (episode.season && episode.episode && episode.detailLevel > FATraktDetailLevelMinimal) {
+    if (episode.seasonNumber && episode.episodeNumber && episode.detailLevel > FATraktDetailLevelMinimal) {
         _displaysProgressAndNextUp = YES;
         _nextUpEpisode = episode;
     } else {
@@ -158,7 +158,7 @@
     
     if (_nextUpEpisode) {
         FATraktEpisode *episode = _nextUpEpisode;
-        self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.intValue, episode.episode.intValue];
+        self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
         self.cell.nameLabel.text = episode.title;
     }
     

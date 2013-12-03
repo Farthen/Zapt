@@ -42,7 +42,7 @@
     
     self.arrayDataSource.configurationBlock = ^(UITableViewCell *cell, id object) {
         FATraktSeason *season = object;
-        cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.season.integerValue];
+        cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.seasonNumber.integerValue];
     };
 }
 
@@ -54,22 +54,24 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
-    NSArray *sortedSeasonData = [show.seasons sortedArrayUsingKey:@"season" ascending:YES];
-    
-    self.arrayDataSource.tableViewData = @[sortedSeasonData];
+    [self dispatchAfterViewDidLoad:^{
+        NSArray *sortedSeasonData = [show.seasons sortedArrayUsingKey:@"seasonNumber" ascending:YES];
+        
+        self.arrayDataSource.tableViewData = @[sortedSeasonData];
+    }];
 }
 
 - (void)loadShow:(FATraktShow *)show
-{    
-    if (show.seasons) {
+{
+    if (show.seasons && show.seasons.count != 0) {
         [self displayShow:show];
-    } else {
-        [[FATrakt sharedInstance] seasonInfoForShow:show callback:^(FATraktShow *show) {
-            if (show.seasons) {
-                [self displayShow:show];
-            }
-        } onError:nil];
     }
+    
+    [[FATrakt sharedInstance] seasonInfoForShow:show callback:^(FATraktShow *show) {
+        if (show.seasons) {
+            [self displayShow:show];
+        }
+    } onError:nil];
 }
 
 /*

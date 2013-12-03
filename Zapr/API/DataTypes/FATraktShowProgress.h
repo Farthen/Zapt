@@ -12,11 +12,11 @@
 
 @interface FATraktShowProgress : FATraktDatatype
 
-@property (retain) FATraktShow *show;
+@property (weak) FATraktShow *show;
 @property (retain) NSNumber *percentage;
 @property (retain) NSNumber *aired;
 @property (retain) NSNumber *completed;
 @property (retain) NSNumber *left;
-@property (retain) FATraktEpisode *next_episode;
+@property (weak) FATraktEpisode *next_episode;
 
 @end

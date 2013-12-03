@@ -12,7 +12,10 @@
 #import "FATraktImageList.h"
 #import "FATraktSeason.h"
 
-@implementation FATraktEpisode
+@implementation FATraktEpisode {
+    __weak FATraktShow *_show;
+    __weak FATraktSeason *_season;
+}
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
@@ -60,11 +63,11 @@
 
 - (FATraktEpisode *)nextEpisode
 {
-    FATraktSeason *thisSeason = [self.show seasonWithID:self.season.unsignedIntegerValue];
-    FATraktEpisode *nextEpisode = [thisSeason episodeWithID:self.episode.unsignedIntegerValue + 1];
+    FATraktSeason *thisSeason = [self.show seasonWithID:self.seasonNumber.unsignedIntegerValue];
+    FATraktEpisode *nextEpisode = [thisSeason episodeWithID:self.episodeNumber.unsignedIntegerValue + 1];
     
     if (!nextEpisode) {
-        FATraktSeason *nextSeason = [self.show seasonWithID:self.season.unsignedIntegerValue + 1];
+        FATraktSeason *nextSeason = [self.show seasonWithID:self.seasonNumber.unsignedIntegerValue + 1];
         nextEpisode = [nextSeason episodeWithID:1];
     }
     
@@ -80,8 +83,8 @@
 {
     NSString *showIdentifier = self.show.urlIdentifier;
     if (showIdentifier) {
-        if (self.season && self.episode) {
-            return [NSString stringWithFormat:@"%@/%@/%@", showIdentifier, self.season, self.episode];
+        if (self.seasonNumber && self.episodeNumber) {
+            return [NSString stringWithFormat:@"%@/%@/%@", showIdentifier, self.seasonNumber, self.episodeNumber];
         }
     }
     
@@ -92,12 +95,12 @@
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    if (self.episode) {
-        [dict setObject:self.episode forKey:@"episode"];
+    if (self.episodeNumber) {
+        [dict setObject:self.episodeNumber forKey:@"episode"];
     }
     
-    if (self.season) {
-        [dict setObject:self.season forKey:@"season"];
+    if (self.seasonNumber) {
+        [dict setObject:self.seasonNumber forKey:@"season"];
     }
     
     return dict;
@@ -105,7 +108,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktEpisode %p S%02iE%02i: \"%@\" Show: \"%@\">", self, self.season.intValue, self.episode.intValue, self.title, self.show.title];
+    return [NSString stringWithFormat:@"<FATraktEpisode %p S%02iE%02i: \"%@\" Show: \"%@\">", self, self.seasonNumber.intValue, self.episodeNumber.intValue, self.title, self.show.title];
 }
 
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
@@ -113,6 +116,10 @@
     if ([key isEqualToString:@"number"] || [key isEqualToString:@"num"]) {
         // Stupid watchlist API calls this "number" instead of "episode", the progress api calls this "num"
         [self mapObject:object toPropertyWithKey:@"episode"];
+    } else if ([key isEqualToString:@"episode"]) {
+        [self mapObject:object toPropertyWithKey:@"episodeNumber"];
+    } else if ([key isEqualToString:@"season"]) {
+        [self mapObject:object toPropertyWithKey:@"seasonNumber"];
     } else {
         [super mapObject:object toPropertyWithKey:key];
     }
@@ -127,7 +134,7 @@
     } else {
         showKey = self.show.cacheKey;
     }
-    return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.season.stringValue, self.episode.stringValue];
+    return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];
 }
 
 + (FACache *)backingCache
@@ -142,6 +149,68 @@
     } else {
         return self.show.images.fanart;
     }
+}
+
+- (void)setShow:(FATraktShow *)show
+{
+    _show = show;
+    
+    // See the implementation in FATraktSeason: We prevent a retain loop here
+    if (show) {
+        if (show.seasons && show.seasons.count > self.seasonNumber.unsignedIntegerValue) {
+            self.season = show.seasons[self.seasonNumber.unsignedIntegerValue];
+        } else {
+            FATraktSeason *season = [[FATraktSeason alloc] init];
+            
+            // This will insert itself into the show.seasons array
+            season.show = show;
+            
+            // This will stay retained because it is in the show.seasons array
+            // This will also insert the episode into the season.episodes array
+            self.season = season;
+        }
+    }
+}
+
+- (FATraktShow *)show
+{
+    return _show;
+}
+
+- (void)setSeason:(FATraktSeason *)season
+{
+    _season = season;
+    
+    if (season) {
+        if (!season.episodes) {
+            season.episodes = [NSMutableArray array];
+        }
+        
+        // - 1 because episode numbers start at 1
+        while (season.episodes.count < self.episodeNumber.unsignedIntegerValue - 1) {
+            FATraktEpisode *episode = [[FATraktEpisode alloc] init];
+            episode->_season = season;
+            episode.seasonNumber = season.seasonNumber;
+            
+            // -1 because index. +1 because episode numbers start at 1
+            episode.episodeNumber = [NSNumber numberWithUnsignedInteger:season.episodes.count - 1 + 1];
+            
+            episode.detailLevel = FATraktDetailLevelMinimal;
+            
+            [season.episodes addObject:episode];
+        }
+        
+        if (season.episodes.count == self.episodeNumber.unsignedIntegerValue - 1) {
+            [season.episodes addObject:self];
+        } else {
+            season.episodes[self.episodeNumber.unsignedIntegerValue] = self;
+        }
+    }
+}
+
+- (FATraktSeason *)season
+{
+    return _season;
 }
 
 @end

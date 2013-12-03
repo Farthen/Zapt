@@ -34,18 +34,22 @@
             }
         }
     } else if ([key isEqualToString:@"show"]) {
-        self.show = [[FATraktShow alloc] initWithJSONDict:object];
-        self.show.progress = self;
+        FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:object];
+        show.progress = self;
+        self.show = show;
+        
         if (self.next_episode) {
             self.next_episode.show = self.show;
         }
         [self.show commitToCache];
     } else if ([key isEqualToString:@"next_episode"]) {
-        self.next_episode = [[FATraktEpisode alloc] initWithJSONDict:object];
+        FATraktEpisode *next_episode = [[FATraktEpisode alloc] initWithJSONDict:object];
         if (self.show) {
-            self.next_episode.show = self.show;
+            next_episode.show = self.show;
         }
-        [self.next_episode commitToCache];
+        
+        [next_episode commitToCache];
+        self.next_episode = next_episode;
     } else {
         [super mapObject:object toPropertyWithKey:key];
     }

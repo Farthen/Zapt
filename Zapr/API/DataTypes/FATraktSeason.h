@@ -17,14 +17,15 @@
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 - (FATraktEpisode *)episodeWithID:(NSUInteger)episodeID;
 
-@property (retain) FATraktShow *show;
+// This is technically weak but not declared as such
+// This prevents a compiler warning
+@property FATraktShow *show;
 
-@property (retain) NSArray *episodes;
+@property (retain) NSMutableArray *episodes;
 @property (retain) NSNumber *episodeCount;
 @property (retain) FATraktImageList *images;
 @property (retain) NSString *poster;
-@property (retain) NSNumber *season;
+@property (retain) NSNumber *seasonNumber;
 @property (retain) NSString *url;
-
 
 @end
