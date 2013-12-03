@@ -8,6 +8,7 @@
 
 #import "FADetailViewController.h"
 
+#import "FASeasonListViewController.h"
 #import "FAEpisodeListViewController.h"
 #import "FANextUpViewController.h"
 #import "FAContentBookmarkViewController.h"
@@ -91,7 +92,7 @@
     self.nextUpHeightConstraint.constant = 0;
     self.detailViewHeightConstraint.constant = 0;
     
-    self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Episodes", nil), nil];
+    self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Seasons", nil), nil];
     self.ratingsButton.title = @"";
     
     if (_loadContent) {
@@ -419,7 +420,7 @@
 - (void)loadShowData:(FATraktShow *)show
 {
     DDLogViewController(@"Displaying show %@", show.description);
-    self.actionButton.title = NSLocalizedString(@"Episodes", nil);
+    self.actionButton.title = NSLocalizedString(@"Seasons", nil);
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self displayShow:show];
     } onError:nil];
@@ -505,10 +506,10 @@
         }
         
     } else {
-        // show list of episodes
-        FAEpisodeListViewController *eplistViewController = [storyboard instantiateViewControllerWithIdentifier:@"eplist"];
-        [self.navigationController pushViewController:eplistViewController animated:YES];
-        [eplistViewController showEpisodeListForShow:(FATraktShow *)_currentContent];
+        // show list of seasons
+        FASeasonListViewController *seasonListViewController = [storyboard instantiateViewControllerWithIdentifier:@"seasonList"];
+        [seasonListViewController loadShow:(FATraktShow *)_currentContent];
+        [self.navigationController pushViewController:seasonListViewController animated:YES];
     }
 }
 

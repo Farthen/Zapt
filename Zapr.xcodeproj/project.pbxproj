@@ -99,6 +99,9 @@
 		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
 		F3636B7816F03D050062E885 /* FACache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7716F03D050062E885 /* FACache.m */; };
 		F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
+		F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */; };
+		F37E487A184D606D00D66A32 /* FAArrayTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */; };
+		F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487C184D647C00D66A32 /* NSString+UUIDString.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -344,6 +347,12 @@
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Misc.h; sourceTree = "<group>"; };
 		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Sorting.h"; sourceTree = "<group>"; };
 		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Sorting.m"; sourceTree = "<group>"; };
+		F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASeasonListViewController.h; sourceTree = "<group>"; };
+		F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASeasonListViewController.m; sourceTree = "<group>"; };
+		F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAArrayTableViewDataSource.h; path = DataSource/FAArrayTableViewDataSource.h; sourceTree = "<group>"; };
+		F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAArrayTableViewDataSource.m; path = DataSource/FAArrayTableViewDataSource.m; sourceTree = "<group>"; };
+		F37E487B184D647C00D66A32 /* NSString+UUIDString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUIDString.h"; sourceTree = "<group>"; };
+		F37E487C184D647C00D66A32 /* NSString+UUIDString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUIDString.m"; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
@@ -643,6 +652,8 @@
 				F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */,
 				F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */,
 				F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */,
+				F37E487B184D647C00D66A32 /* NSString+UUIDString.h */,
+				F37E487C184D647C00D66A32 /* NSString+UUIDString.m */,
 			);
 			name = NSString;
 			sourceTree = "<group>";
@@ -748,6 +759,10 @@
 				F357FA6E16A8B60100420EC4 /* FAListsViewController.m */,
 				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
 				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
+				F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */,
+				F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */,
+				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
+				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 			);
 			name = Lists;
 			sourceTree = "<group>";
@@ -763,6 +778,15 @@
 				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
 			);
 			name = Misc;
+			sourceTree = "<group>";
+		};
+		F37E4877184D602400D66A32 /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */,
+				F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */,
+			);
+			name = "Data Source";
 			sourceTree = "<group>";
 		};
 		F3A8BFD217FBEF5200188453 /* Global */ = {
@@ -939,8 +963,6 @@
 			children = (
 				B667531615F12FBE00A8D76D /* FASearchViewController.h */,
 				B667531715F12FBE00A8D76D /* FASearchViewController.m */,
-				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
-				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -949,6 +971,7 @@
 			isa = PBXGroup;
 			children = (
 				F3C84B6A1628DC56006CBFEF /* View Controller */,
+				F37E4877184D602400D66A32 /* Data Source */,
 				F35A174B17E2158C004B5F44 /* Misc */,
 				F3A8BFD217FBEF5200188453 /* Global */,
 				F3A8BFD317FBF05B00188453 /* FAViewControllerPreferredContentSizeChanged.h */,
@@ -1401,6 +1424,7 @@
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
 				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
+				F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
 				F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */,
 				F347356717FF569C00116A59 /* UIView+Debug.m in Sources */,
@@ -1410,6 +1434,7 @@
 				B6FB0DBC161DEF2C00043207 /* NSString+URLEncode.m in Sources */,
 				F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */,
 				B6FB0DBF161DF2C100043207 /* FASearchData.m in Sources */,
+				F37E487A184D606D00D66A32 /* FAArrayTableViewDataSource.m in Sources */,
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
 				F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
@@ -1467,6 +1492,7 @@
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
 				F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */,
+				F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */,
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
