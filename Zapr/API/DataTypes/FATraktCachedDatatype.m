@@ -64,6 +64,11 @@
     }
 }
 
+- (NSUInteger)hash
+{
+    return self.cacheKey.hash;
+}
+
 - (NSString *)cacheKey
 { FA_MUST_OVERRIDE_IN_SUBCLASS
     return nil;
