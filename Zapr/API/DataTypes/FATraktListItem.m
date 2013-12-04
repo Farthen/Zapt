@@ -12,58 +12,100 @@
 #import "FATraktEpisode.h"
 #import "FATraktSeason.h"
 
-@implementation FATraktListItem
+#import "FATraktCache.h"
+
+@implementation FATraktListItem {
+    FATraktContent *_content;
+    NSString *_contentCacheKey;
+}
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktListItem %p of type \"%@\">", self, self.type];
-}
-
-- (FATraktContent *)content
-{
-    if ([self.type isEqualToString:@"movie"]) {
-        return self.movie;
-    } else if ([self.type isEqualToString:@"show"]) {
-        return self.show;
-    } else if ([self.type isEqualToString:@"episode"]) {
-        return self.episode;
-    }
-    return nil;
-}
-
-- (void)setContent:(FATraktContent *)content
-{
-    if ([content isKindOfClass:[FATraktMovie class]]) {
-        self.movie = (FATraktMovie *)content;
-        self.type = @"movie";
-    } else if ([content isKindOfClass:[FATraktShow class]]) {
-        self.show = (FATraktShow *)content;
-        self.type = @"show";
-    } else if ([content isKindOfClass:[FATraktEpisode class]]) {
-        self.episode = (FATraktEpisode *)content;
-        self.type = @"episode";
-    }
-}
-
-- (void)setItem:(id)object
-{
-    NSString *key = self.type;
-    [self mapObject:object ofType:nil toPropertyWithKey:key];
+    return [NSString stringWithFormat:@"<FATraktListItem %p of type \"%@\">", self, [self.content className]];
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"movie"]) {
-        [self setValue:[[FATraktMovie alloc] initWithJSONDict:object] forKey:key];
+        self.content = [[FATraktMovie alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"season"]) {
-        [self setValue:[[FATraktSeason alloc] initWithJSONDict:object] forKey:key];
+        self.content = [[FATraktSeason alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"show"]) {
-        [self setValue:[[FATraktShow alloc] initWithJSONDict:object] forKey:key];
+        self.content = [[FATraktShow alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"episode"]) {
-        [self setValue:[[FATraktEpisode alloc] initWithJSONDict:object] forKey:key];
+        self.content = [[FATraktEpisode alloc] initWithJSONDict:object];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
+}
+
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObject:@"content"];
+}
+
+- (void)setContent:(FATraktContent *)content
+{
+    _content = content;
+}
+
+- (FATraktContent *)content
+{
+    if (!_content) {
+        _content = [[FATraktCache sharedInstance].content objectForKey:self.contentCacheKey];
+    }
+    
+    return _content;
+}
+
+- (void)setContentCacheKey:(NSString *)contentCacheKey
+{
+    _contentCacheKey = contentCacheKey;
+}
+
+- (NSString *)contentCacheKey
+{
+    if (_content) {
+        return _content.cacheKey;
+    }
+    
+    return _contentCacheKey;
+}
+
+- (FATraktMovie *)movie
+{
+    if ([self.content isKindOfClass:[FATraktMovie class]]) {
+        return (FATraktMovie *)self.content;
+    }
+    
+    return nil;
+}
+
+- (FATraktShow *)show
+{
+    if ([self.content isKindOfClass:[FATraktShow class]]) {
+        return (FATraktShow *)self.content;
+    }
+    
+    return nil;
+}
+
+- (FATraktSeason *)season
+{
+    if ([self.content isKindOfClass:[FATraktSeason class]]) {
+        return (FATraktSeason *)self.content;
+    }
+    
+    return nil;
+}
+
+- (FATraktEpisode *)episode
+{
+    if ([self.content isKindOfClass:[FATraktEpisode class]]) {
+        return (FATraktEpisode *)self.content;
+    }
+    
+    return nil;
 }
 
 @end

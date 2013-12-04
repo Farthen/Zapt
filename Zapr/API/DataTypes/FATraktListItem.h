@@ -7,6 +7,8 @@
 //
 
 #import "FATraktDatatype.h"
+#import "FACacheableItem.h"
+
 @class FATraktMovie;
 @class FATraktSeason;
 @class FATraktEpisode;
@@ -15,13 +17,12 @@
 
 @interface FATraktListItem : FATraktDatatype
 
-@property (retain) NSString *type;
 @property FATraktContent *content;
-@property (retain) FATraktMovie *movie;
-@property (retain) FATraktShow *show;
-@property (retain) FATraktEpisode *episode;
-@property (retain) FATraktSeason *season;
+@property NSString *contentCacheKey;
 
-- (void)setItem:(id)object;
+@property (readonly) FATraktMovie *movie;
+@property (readonly) FATraktShow *show;
+@property (readonly) FATraktEpisode *episode;
+@property (readonly) FATraktSeason *season;
 
 @end

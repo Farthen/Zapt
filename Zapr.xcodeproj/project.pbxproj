@@ -120,6 +120,9 @@
 		F394EE36184EF368007F4BA1 /* badge-watched.png in Resources */ = {isa = PBXBuildFile; fileRef = F394EE33184EF368007F4BA1 /* badge-watched.png */; };
 		F394EE37184EF368007F4BA1 /* badge-watched.pxm in Resources */ = {isa = PBXBuildFile; fileRef = F394EE34184EF368007F4BA1 /* badge-watched.pxm */; };
 		F394EE38184EF368007F4BA1 /* badge-watched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F394EE35184EF368007F4BA1 /* badge-watched@2x.png */; };
+		F394EE3B184F30DB007F4BA1 /* NSArray+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */; };
+		F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */; };
+		F394EE41184F4A1E007F4BA1 /* NSSet+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */; };
 		F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3978A1617B50A2A001E5807 /* libPods.a */; };
 		F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EB180949BF00556EEA /* FASimpleControl.m */; };
 		F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */; };
@@ -388,6 +391,12 @@
 		F394EE33184EF368007F4BA1 /* badge-watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-watched.png"; sourceTree = "<group>"; };
 		F394EE34184EF368007F4BA1 /* badge-watched.pxm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "badge-watched.pxm"; sourceTree = "<group>"; };
 		F394EE35184EF368007F4BA1 /* badge-watched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-watched@2x.png"; sourceTree = "<group>"; };
+		F394EE39184F30DB007F4BA1 /* NSArray+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Functional.h"; sourceTree = "<group>"; };
+		F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Functional.m"; sourceTree = "<group>"; };
+		F394EE3C184F4301007F4BA1 /* NSDictionary+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Functional.h"; sourceTree = "<group>"; };
+		F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Functional.m"; sourceTree = "<group>"; };
+		F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+Functional.h"; sourceTree = "<group>"; };
+		F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Functional.m"; sourceTree = "<group>"; };
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F3A2F9EA180949BF00556EEA /* FASimpleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASimpleControl.h; sourceTree = "<group>"; };
 		F3A2F9EB180949BF00556EEA /* FASimpleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASimpleControl.m; sourceTree = "<group>"; };
@@ -681,6 +690,12 @@
 			children = (
 				F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */,
 				F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */,
+				F394EE39184F30DB007F4BA1 /* NSArray+Functional.h */,
+				F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */,
+				F394EE3C184F4301007F4BA1 /* NSDictionary+Functional.h */,
+				F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */,
+				F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */,
+				F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */,
 			);
 			name = NSArray;
 			sourceTree = "<group>";
@@ -1453,6 +1468,7 @@
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
+				F394EE3B184F30DB007F4BA1 /* NSArray+Functional.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
 				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
@@ -1523,6 +1539,7 @@
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 				F394EE32184EE56B007F4BA1 /* FABadges.m in Sources */,
+				F394EE41184F4A1E007F4BA1 /* NSSet+Functional.m in Sources */,
 				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
 				F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */,
 				F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */,
@@ -1545,6 +1562,7 @@
 				F3636B7816F03D050062E885 /* FACache.m in Sources */,
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 				F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */,
+				F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
 				F37E4880184D75B600D66A32 /* FAViewController.m in Sources */,
 				F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */,

@@ -16,9 +16,7 @@
 - (void)clearCaches;
 
 @property (readonly) FACache *misc;
-@property (readonly) FACache *movies;
-@property (readonly) FACache *episodes;
-@property (readonly) FACache *shows;
+@property (readonly) FACache *content;
 @property (readonly) FABigDataCache *images;
 @property (readonly) FACache *lists;
 @property (readonly) FACache *searches;

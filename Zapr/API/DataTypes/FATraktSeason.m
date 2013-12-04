@@ -10,8 +10,13 @@
 #import "FATraktEpisode.h"
 #import "FATraktShow.h"
 
+#import "FATraktCache.h"
+
 @implementation FATraktSeason {
     __weak FATraktShow *_show;
+    NSString *_showCacheKey;
+    NSMutableArray *_episodes;
+    NSArray *_episodeCacheKeys;
 }
 
 - (NSString *)description
@@ -68,6 +73,11 @@
     }
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObjects:@"show", @"episodes", nil];
+}
+
 - (FATraktEpisode *)episodeWithID:(NSUInteger)episodeID
 {
     if (self.episodes) {
@@ -88,6 +98,24 @@
     }
     
     return nil;
+}
+
+- (NSString *)cacheKey
+{
+    NSString *showKey;
+    if (!self.show) {
+        // If the show is unavailable for some reason, generate a UUID to avoid collisions
+        showKey = [NSString uuidString];
+    } else {
+        showKey = self.show.cacheKey;
+    }
+    
+    return [NSString stringWithFormat:@"FATraktSeason&%@&season=%@", showKey, self.seasonNumber.stringValue];
+}
+
++ (FACache *)backingCache
+{
+    return FATraktCache.sharedInstance.content;
 }
 
 - (void)setShow:(FATraktShow *)show
@@ -119,7 +147,69 @@
 
 - (FATraktShow *)show
 {
+    if (!_show) {
+        if (_showCacheKey) {
+            _show = [FATraktShow.backingCache objectForKey:_showCacheKey];
+        }
+    }
+    
     return _show;
+}
+
+- (void)setShowCacheKey:(NSString *)showCacheKey
+{
+    _showCacheKey = showCacheKey;
+}
+
+- (NSString *)showCacheKey
+{
+    if (_show) {
+        return _show.cacheKey;
+    }
+    
+    return _showCacheKey;
+}
+
+- (void)setEpisodes:(NSMutableArray *)episodes
+{
+    _episodes = episodes;
+}
+
+- (NSMutableArray *)episodes
+{
+    if (!_episodes) {
+        _episodes = [_episodeCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+            FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:obj];
+            
+            if (!episode) {
+                episode = [[FATraktEpisode alloc] init];
+                episode.episodeNumber = [NSNumber numberWithUnsignedInteger:idx + 1];
+                episode.seasonNumber = self.seasonNumber;
+            }
+            
+            return episode;
+        }];
+        
+        for (FATraktEpisode *episode in [_episodes copy]) {
+            episode.show = self.show;
+        }
+    }
+    
+    return _episodes;
+}
+
+- (void)setEpisodeCacheKeys:(NSArray *)episodeCacheKeys
+{
+    _episodeCacheKeys = episodeCacheKeys;
+}
+
+- (NSArray *)episodeCacheKeys
+{
+    if (_episodes) {
+        return [_episodes valueForKey:@"cacheKey"];
+    }
+    
+    return _episodeCacheKeys;
 }
 
 

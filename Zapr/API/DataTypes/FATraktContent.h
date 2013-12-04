@@ -15,6 +15,7 @@ typedef enum {
     FATraktContentTypeMovies = 0,
     FATraktContentTypeShows = 1,
     FATraktContentTypeEpisodes = 2,
+    FATraktContentTypeSeasons = 3,
     FATraktContentTypeNone = -1,
 } FATraktContentType;
 

@@ -125,6 +125,11 @@
     }
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObjects:@"show", @"season", nil];
+}
+
 - (NSString *)cacheKey
 {
     NSString *showKey;
@@ -134,12 +139,13 @@
     } else {
         showKey = self.show.cacheKey;
     }
+    
     return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];
 }
 
 + (FACache *)backingCache
 {
-    return FATraktCache.sharedInstance.episodes;
+    return FATraktCache.sharedInstance.content;
 }
 
 - (NSString *)widescreenImageURL

@@ -9,7 +9,10 @@
 #import "FATraktSearchResult.h"
 #import "FATraktCache.h"
 
-@implementation FATraktSearchResult
+@implementation FATraktSearchResult {
+    NSArray *_resultCacheKeys;
+    NSArray *_results;
+}
 
 - (id)initWithQuery:(NSString *)query contentType:(FATraktContentType)contentType
 {
@@ -21,6 +24,11 @@
     return self;
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObject:@"results"];
+}
+
 + (FACache *)backingCache
 {
     return FATraktCache.sharedInstance.searches;
@@ -30,5 +38,36 @@
 {
     return [NSString stringWithFormat:@"FATraktSearchResult&type=%i&query=%@", self.contentType, self.query];
 }
+
+- (void)setResults:(NSArray *)results
+{
+    _results = results;
+}
+
+- (NSArray *)results
+{
+    if (!_results) {
+        _results = [_resultCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+            return [self.class.backingCache objectForKey:obj];
+        }];
+    }
+    
+    return _results;
+}
+
+- (void)setResultCacheKeys:(NSArray *)resultCacheKeys
+{
+    _resultCacheKeys = resultCacheKeys;
+}
+
+- (NSArray *)resultCacheKeys
+{
+    if (self.results) {
+        return [self.results valueForKey:@"cacheKey"];
+    }
+    
+    return _resultCacheKeys;
+}
+
 
 @end

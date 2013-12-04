@@ -73,13 +73,19 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     return self;
 }
 
+- (NSSet *)notEncodableKeys;
+{
+    return [NSSet set];
+}
+
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     NSDictionary *propertyInfos = [self.class propertyInfo];
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
-        if (!propertyInfo.isReadonly) {
+        if (!propertyInfo.isReadonly && ![[self notEncodableKeys] containsObject:key]) {
             id value = [self valueForKey:key];
+            
             [aCoder encodeObject:value forKey:key];
         }
     }
@@ -107,8 +113,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     for (id key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
         if (!propertyInfo.isReadonly) {
+            
             NSString *propertyKey = propertyInfo.name;
             id propertyData = [self valueForKey:propertyKey];
+            
             if ([propertyData conformsToProtocol:@protocol(NSCopying)] || propertyInfo.isRetain == NO) {
                 id copiedData = [propertyData copy];
                 [newObject setValue:copiedData forKey:key];

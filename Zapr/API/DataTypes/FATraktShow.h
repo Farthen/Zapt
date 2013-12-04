@@ -30,8 +30,13 @@
 @property (retain) NSString *tvrage_id;
 @property (retain) FATraktImageList *images;
 @property (retain) NSArray *genres;
-@property (retain) NSMutableArray *seasons;
 @property (retain) FATraktShowProgress *progress;
+
+// Not encoded
+@property (retain) NSMutableArray *seasons;
+
+// Encoded
+@property (retain) NSArray *seasonCacheKeys;
 
 // This is present when getting a show from an episodes watchlist
 @property (retain) NSArray *episodes;

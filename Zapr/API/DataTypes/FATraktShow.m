@@ -10,7 +10,14 @@
 #import "FATraktSeason.h"
 #import "FATraktCache.h"
 
-@implementation FATraktShow
+@interface FATraktShow ()
+@property NSString *showCacheKey;
+@end
+
+@implementation FATraktShow {
+    NSMutableArray *_seasons;
+    NSArray *_seasonCacheKeys;
+}
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
@@ -81,6 +88,11 @@
     return nil;
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObject:@"seasons"];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShow %p with title: %@>", self, self.title];
@@ -94,7 +106,7 @@
 
 + (FACache *)backingCache
 {
-    return FATraktCache.sharedInstance.shows;
+    return FATraktCache.sharedInstance.content;
 }
 
 - (NSUInteger)episodeCount
@@ -127,6 +139,49 @@
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
+}
+
+- (void)setSeasons:(NSMutableArray *)seasons
+{
+    _seasons = seasons;
+}
+
+- (NSMutableArray *)seasons
+{
+    if (!_seasons) {
+        if (self.seasonCacheKeys) {
+            _seasons = [self.seasonCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+                FATraktSeason *season = [FATraktSeason.backingCache objectForKey:obj];
+                
+                if (!season) {
+                    season = [[FATraktSeason alloc] init];
+                    season.seasonNumber = [NSNumber numberWithUnsignedInteger:idx];
+                }
+                
+                return season;
+            }];
+            
+            for (FATraktSeason *season in [_seasons copy]) {
+                season.show = self;
+            }
+        }
+    }
+    
+    return _seasons;
+}
+
+- (void)setSeasonCacheKeys:(NSArray *)seasonCacheKeys
+{
+    _seasonCacheKeys = seasonCacheKeys;
+}
+
+- (NSArray *)seasonCacheKeys
+{
+    if (_seasons) {
+        return [_seasons valueForKey:@"cacheKey"];
+    }
+    
+    return _seasonCacheKeys;
 }
 
 

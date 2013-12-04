@@ -69,6 +69,21 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return self;
 }
 
++ (Class)classForContentType:(FATraktContentType)type
+{
+    if (type == FATraktContentTypeEpisodes) {
+        return [FATraktEpisode class];
+    } else if (type == FATraktContentTypeMovies) {
+        return [FATraktMovie class];
+    } else if (type == FATraktContentTypeShows) {
+        return [FATraktShow class];
+    } else if (type == FATraktContentTypeSeasons) {
+        return [FATraktSeason class];
+    }
+    
+    return NULL;
+}
+
 + (NSString *)nameForContentType:(FATraktContentType)type
 {
     return [FATrakt nameForContentType:type withPlural:NO];
@@ -356,9 +371,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
     
-    FATraktMovie *cachedMovie = [_cache.movies objectForKey:movie.cacheKey];
+    FATraktMovie *cachedMovie = [FATraktMovie.backingCache objectForKey:movie.cacheKey];
     if (cachedMovie && cachedMovie.detailLevel >= FATraktDetailLevelDefault) {
-        callback([_cache.movies objectForKey:movie.cacheKey]);
+        callback([FATraktMovie.backingCache objectForKey:movie.cacheKey]);
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call callback twice. Make sure it can handle this.
     }
@@ -420,7 +435,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
     
     NSString *cacheKey = [show cacheKey];
-    FATraktShow *cachedShow = [_cache.shows objectForKey:cacheKey];
+    FATraktShow *cachedShow = [FATraktShow.backingCache objectForKey:cacheKey];
     if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
         if (detailLevel == FATraktDetailLevelExtended) {
             if (cachedShow.detailLevel == FATraktDetailLevelExtended) {
@@ -548,6 +563,28 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return nil;
 }
 
+- (FATraktRequest *)detailsForSeason:(FATraktSeason *)season callback:(void (^)(FATraktSeason *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *api = @"show/season.json";
+    NSArray *parameters = @[season.show.urlIdentifier, [NSString stringWithFormat:@"%i", season.seasonNumber.unsignedIntegerValue]];
+    
+    return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
+        NSMutableArray *episodes = [NSMutableArray arrayWithCapacity:data.count];
+        
+        for (NSDictionary *episodeDict in data) {
+            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:season.show];
+            [episodes addObject:episode];
+        }
+        
+        [episodes sortedArrayUsingKey:@"episodeNumber" ascending:YES];
+        season.episodes = episodes;
+        [season.show commitToCache];
+        
+        callback(season);
+    } onError:error];
+}
+
 - (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Searching for episodes!");
@@ -583,9 +620,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
     
-    FATraktEpisode *cachedEpisode = [_cache.episodes objectForKey:episode.cacheKey];
+    FATraktEpisode *cachedEpisode = [FATraktEpisode.backingCache objectForKey:episode.cacheKey];
     if (cachedEpisode && cachedEpisode.detailLevel >= FATraktDetailLevelDefault) {
-        callback([_cache.episodes objectForKey:episode.cacheKey]);
+        callback([FATraktEpisode.backingCache objectForKey:episode.cacheKey]);
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call callback twice. Make sure it can handle this.
     }
@@ -639,11 +676,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                         for (NSDictionary *episodeDict in show.episodes) {
                             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
                             episode.in_watchlist = YES;
-                            [_cache.episodes setObject:episode forKey:episode.cacheKey];
+                            [FATraktEpisode.backingCache setObject:episode forKey:episode.cacheKey];
                             
                             FATraktListItem *item = [[FATraktListItem alloc] init];
-                            item.type = typeName;
-                            item.episode = episode;
+                            item.content = episode;
                             [items addObject:item];
                         }
                     }
@@ -651,8 +687,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 } else {
                     FATraktListItem *item = [[FATraktListItem alloc] init];
                     if (item) {
-                        item.type = typeName;
-                        [item setItem:dictitem];
+                        Class cls = [FATrakt classForContentType:list.contentType];
+                        item.content = [[cls alloc] initWithJSONDict:dictitem];
                         [items addObject:item];
                     }
                 }

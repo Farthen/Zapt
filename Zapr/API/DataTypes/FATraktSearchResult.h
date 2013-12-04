@@ -14,6 +14,8 @@
 - (id)initWithQuery:(NSString *)query contentType:(FATraktContentType)contentType;
 
 @property (retain) NSArray *results;
+@property NSArray *resultCacheKeys;
+
 @property (assign) FATraktContentType contentType;
 @property (retain) NSString *query;
 

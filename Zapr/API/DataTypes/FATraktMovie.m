@@ -79,7 +79,7 @@
 
 + (FACache *)backingCache
 {
-    return FATraktCache.sharedInstance.movies;
+    return FATraktCache.sharedInstance.content;
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(id)key

@@ -18,6 +18,7 @@
 @property NSMutableDictionary *seasonImages;
 
 @property BOOL loadedImageData;
+@property BOOL loadedEpisodeData;
 @end
 
 @implementation FASeasonListViewController
@@ -82,6 +83,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)loadEpisodeData:(FATraktShow *)show
+{
+    if (!self.loadedEpisodeData) {
+        self.loadedEpisodeData = YES;
+        
+        for (FATraktSeason *season in show.seasons) {
+            [[FATrakt sharedInstance] detailsForSeason:season callback:^(FATraktSeason *season) {
+                [self.arrayDataSource reloadRowsWithObject:season];
+            } onError:nil];
+        }
+    }
+}
+
 - (void)loadImageData:(FATraktShow *)show
 {
     if (!self.loadedImageData) {
@@ -92,8 +106,7 @@
                 
                 [[FATrakt sharedInstance] loadImageFromURL:imageList.poster callback:^(UIImage *image) {
                     self.seasonImages[season.seasonNumber] = image;
-                    //[self.tableView reloadData];
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:season.seasonNumber.integerValue inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    [self.arrayDataSource reloadRowsWithObject:season];
                 } onError:nil];
             }
         }

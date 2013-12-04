@@ -19,12 +19,15 @@
 
 @implementation FATraktCache
 @synthesize misc = _misc;
-@synthesize movies = _movies;
-@synthesize shows = _shows;
-@synthesize episodes = _episodes;
+@synthesize content = _content;
 @synthesize images = _images;
 @synthesize lists = _lists;
 @synthesize searches = _searches;
+
++ (void)initialize
+{
+    [FACache setCodingVersionNumber:11];
+}
 
 - (id)init
 {
@@ -41,9 +44,7 @@
     self = [super init];
     if (self) {
         _misc = [aDecoder decodeObjectForKey:@"_misc"];
-        _movies = [aDecoder decodeObjectForKey:@"movies"];
-        _shows = [aDecoder decodeObjectForKey:@"shows"];
-        _episodes = [aDecoder decodeObjectForKey:@"episodes"];
+        _content = [aDecoder decodeObjectForKey:@"content"];
         _images = [aDecoder decodeObjectForKey:@"images"];
         _lists = [aDecoder decodeObjectForKey:@"lists"];
         _searches = [aDecoder decodeObjectForKey:@"searches"];
@@ -64,32 +65,14 @@
     _misc.countLimit = 20;
     _misc.defaultExpirationTime = NSTimeIntervalOneWeek;
     
-    if (!_movies) {
-        _movies = [[FACache alloc] initWithName:@"movies" loadFromDisk:YES];
-        _movies.delegate = self;
+    if (!_content) {
+        _content = [[FACache alloc] initWithName:@"content" loadFromDisk:YES];
+        _content.delegate = self;
     }
     
-    // Don't cache more than 50 movies
-    _movies.countLimit = 50;
-    _movies.defaultExpirationTime = NSTimeIntervalOneWeek;
-    
-    if (!_shows) {
-        _shows = [[FACache alloc] initWithName:@"shows" loadFromDisk:YES];
-        _shows.delegate = self;
-    }
-    
-    // Don't cache more than 50 shows
-    _shows.countLimit = 50;
-    _shows.defaultExpirationTime = NSTimeIntervalOneWeek;
-    
-    if (!_episodes) {
-        _episodes = [[FACache alloc] initWithName:@"episodes" loadFromDisk:YES];
-        _episodes.delegate = self;
-    }
-    
-    // Don't cache more than 500 episodes
-    _episodes.countLimit = 500;
-    _episodes.defaultExpirationTime = NSTimeIntervalOneWeek;
+    // Don't cache more than 500 content things
+    _content.countLimit = 50;
+    _content.defaultExpirationTime = NSTimeIntervalOneWeek;
     
     if (!_images) {
         _images = [[FABigDataCache alloc] initWithName:@"images" loadFromDisk:YES];
@@ -123,9 +106,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeObject:_misc forKey:@"misc"];
-    [aCoder encodeObject:_movies forKey:@"movies"];
-    [aCoder encodeObject:_shows forKey:@"shows"];
-    [aCoder encodeObject:_episodes forKey:@"episodes"];
+    [aCoder encodeObject:_content forKey:@"content"];
     [aCoder encodeObject:_images forKey:@"images"];
     [aCoder encodeObject:_lists forKey:@"lists"];
     [aCoder encodeObject:_searches forKey:@"searches"];
@@ -134,9 +115,7 @@
 - (void)clearCaches
 {
     [self.misc removeAllObjects];
-    [self.movies removeAllObjects];
-    [self.shows removeAllObjects];
-    [self.episodes removeAllObjects];
+    [self.content removeAllObjects];
     [self.images removeAllObjects];
     [self.lists removeAllObjects];
     [self.searches removeAllObjects];
