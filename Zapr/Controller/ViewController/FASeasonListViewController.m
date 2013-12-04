@@ -10,10 +10,14 @@
 
 #import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
+#import "FAImageTableViewCell.h"
 
 @interface FASeasonListViewController ()
 @property FATraktShow *show;
 @property FAArrayTableViewDataSource *arrayDataSource;
+@property NSMutableDictionary *seasonImages;
+
+@property BOOL loadedImageData;
 @end
 
 @implementation FASeasonListViewController
@@ -27,6 +31,13 @@
     return self;
 }
 
+- (void)setUp
+{
+    self.navigationItem.title = @"Seasons";
+    
+    self.seasonImages = [NSMutableDictionary dictionary];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -38,12 +49,31 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.arrayDataSource = [[FAArrayTableViewDataSource alloc] initWithTableView:self.tableView];
+    self.arrayDataSource.cellClass = [FAImageTableViewCell class];
     self.tableView.dataSource = self.arrayDataSource;
     
-    self.arrayDataSource.configurationBlock = ^(UITableViewCell *cell, id object) {
+    __weak typeof(self) weakSelf = self;
+    self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id object) {
         FATraktSeason *season = object;
-        cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.seasonNumber.integerValue];
+        
+        if (season.seasonNumber.integerValue == 0) {
+            cell.textLabel.text = @"Specials";
+        } else {
+            cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.seasonNumber.integerValue];
+        }
+        if (weakSelf.seasonImages) {
+            UIImage *image = weakSelf.seasonImages[season.seasonNumber];
+            
+            if (image) {
+                cell.imageView.image = image;
+            }
+        }
     };
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,8 +82,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)loadImageData:(FATraktShow *)show
+{
+    if (!self.loadedImageData) {
+        for (FATraktSeason *season in show.seasons) {
+            FATraktImageList *imageList = season.images;
+            if (imageList) {
+                self.loadedImageData = YES;
+                
+                [[FATrakt sharedInstance] loadImageFromURL:imageList.poster callback:^(UIImage *image) {
+                    self.seasonImages[season.seasonNumber] = image;
+                    //[self.tableView reloadData];
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:season.seasonNumber.integerValue inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                } onError:nil];
+            }
+        }
+    }
+}
+
 - (void)displayShow:(FATraktShow *)show
 {
+    [self loadImageData:show];
+    
     [self dispatchAfterViewDidLoad:^{
         NSArray *sortedSeasonData = [show.seasons sortedArrayUsingKey:@"seasonNumber" ascending:YES];
         
