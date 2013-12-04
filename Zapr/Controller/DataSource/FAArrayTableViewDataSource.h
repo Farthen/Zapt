@@ -35,7 +35,7 @@
 // The table view (must be set)
 @property (readonly) UITableView *tableView;
 
-typedef void (^FAArrayTableViewCellConfigurationBlock)(UITableViewCell *cell, id object);
+typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 @property (nonatomic, copy) FAArrayTableViewCellConfigurationBlock configurationBlock;
 
 // Defaults to UITableViewCell
