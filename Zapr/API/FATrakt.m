@@ -660,7 +660,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     FATraktRequest *(^actualRequest)(void) = ^FATraktRequest *{
         FATraktContentType type = list.contentType;
-        NSString *typeName = [FATrakt nameForContentType:type];
         
         if (key) {
             [self.changedLastActivityKeys removeObject:key];
