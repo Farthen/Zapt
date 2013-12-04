@@ -23,9 +23,7 @@
         id object = block(obj, idx);
         
         if (object) {
-            [result addObject:obj];
-        } else {
-            [result addObject:[NSNull null]];
+            [result addObject:object];
         }
         
         idx++;
