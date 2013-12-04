@@ -10,6 +10,6 @@
 
 @interface NSSet (Functional)
 
-- (NSDictionary *)dictionaryForPairsArraysSet;
+- (NSMutableDictionary *)dictionaryForPairsArraysSet;
 
 @end

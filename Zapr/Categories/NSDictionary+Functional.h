@@ -11,15 +11,15 @@
 @interface NSDictionary (Functional)
 
 // Returns all the keys of the dictionary as set
-- (NSSet *)allKeysSet;
+- (NSMutableSet *)allKeysSet;
 
 // Returns all the values of the dictionary as set
-- (NSSet *)allValuesSet;
+- (NSMutableSet *)allValuesSet;
 
 // Returns a set with arrays in the form @[key, value]
-- (NSSet *)pairsArraySet;
+- (NSMutableSet *)pairsArraySet;
 
 // Returns a dictionary with the keys and object swapped
-- (NSDictionary *)invertedDictionary;
+- (NSMutableDictionary *)invertedDictionary;
 
 @end

@@ -10,10 +10,10 @@
 
 @implementation NSArray (Functional)
 
-- (NSArray *)mapUsingBlock:(id (^)(id obj, NSUInteger idx))block
+- (NSMutableArray *)mapUsingBlock:(id (^)(id obj, NSUInteger idx))block
 {
     if (!block) {
-        return self;
+        return [self mutableCopy];
     }
     
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:self.count];
@@ -34,10 +34,10 @@
     return result;
 }
 
-- (NSArray *)filterUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block
+- (NSMutableArray *)filterUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block
 {
     if (!block) {
-        return self;
+        return [self mutableCopy];
     }
     
     NSMutableArray *result = [NSMutableArray array];
@@ -59,7 +59,7 @@
     return result;
 }
 
-- (NSArray *)arrayZippingArray:(NSArray *)array
+- (NSMutableArray *)arrayZippingArray:(NSArray *)array
 {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:self.count + array.count];
     
@@ -76,7 +76,7 @@
     return result;
 }
 
-- (NSArray *)flattenedArray
+- (NSMutableArray *)flattenedArray
 {
     NSMutableArray *flattenedArray = [NSMutableArray array];
     
@@ -215,7 +215,7 @@
     return memo;
 }
 
-- (NSDictionary *)groupByBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block
+- (NSMutableDictionary *)groupByBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block
 {
     if (!block) {
         return nil;
@@ -247,7 +247,7 @@
     return groups;
 }
 
-- (NSDictionary *)indexByValueForKey:(NSString *)key
+- (NSMutableDictionary *)indexByValueForKey:(NSString *)key
 {
     NSMutableDictionary *indexes = [NSMutableDictionary dictionaryWithCapacity:self.count];
     

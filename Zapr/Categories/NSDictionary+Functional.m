@@ -10,7 +10,7 @@
 
 @implementation NSDictionary (Functional)
 
-- (NSSet *)allKeysSet
+- (NSMutableSet *)allKeysSet
 {
     NSMutableSet *keySet = [NSMutableSet setWithCapacity:self.count];
     
@@ -21,7 +21,7 @@
     return keySet;
 }
 
-- (NSSet *)allValuesSet
+- (NSMutableSet *)allValuesSet
 {
     NSMutableSet *valueSet = [NSMutableSet setWithCapacity:self.count];
     
@@ -32,7 +32,7 @@
     return valueSet;
 }
 
-- (NSSet *)pairsArraySet
+- (NSMutableSet *)pairsArraySet
 {
     NSMutableSet *pairsSet = [NSMutableSet setWithCapacity:self.count];
     
@@ -43,7 +43,7 @@
     return pairsSet;
 }
 
-- (NSDictionary *)invertedDictionary
+- (NSMutableDictionary *)invertedDictionary
 {
     NSMutableDictionary *invertedDictionary = [NSMutableDictionary dictionaryWithCapacity:self.count];
     

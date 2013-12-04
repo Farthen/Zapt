@@ -11,16 +11,16 @@
 @interface NSArray (Functional)
 
 // Modifies each object with the block and returns the modified array
-- (NSArray *)mapUsingBlock:(id (^)(id obj, NSUInteger idx))block;
+- (NSMutableArray *)mapUsingBlock:(id (^)(id obj, NSUInteger idx))block;
 
 // Returns the array without the objects for which the block returned false
-- (NSArray *)filterUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block;
+- (NSMutableArray *)filterUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block;
 
 // Zip the two arrays together like a zipper
-- (NSArray *)arrayZippingArray:(NSArray *)array;
+- (NSMutableArray *)arrayZippingArray:(NSArray *)array;
 
 // Flatten the array structure of nested arrays
-- (NSArray *)flattenedArray;
+- (NSMutableArray *)flattenedArray;
 
 // Left-Reduces the array
 - (id)reduceUsingBlock:(id (^)(id memo, id object, NSUInteger idx, BOOL *stop))block;
@@ -42,10 +42,10 @@
 
 // Groups all objects for which the return value of the block returns zero in one NSSet
 // The dictionary key is the return value of the block
-- (NSDictionary *)groupByBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block;
+- (NSMutableDictionary *)groupByBlock:(id (^)(id obj, NSUInteger idx, BOOL *stop))block;
 
 // Executes valueForKey with each array element and uses this value as the dictionary key
-- (NSDictionary *)indexByValueForKey:(NSString *)key;
+- (NSMutableDictionary *)indexByValueForKey:(NSString *)key;
 
 // Returns a random object determined through arc4random_uniform
 - (id)randomObject;

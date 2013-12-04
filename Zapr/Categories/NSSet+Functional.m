@@ -10,7 +10,7 @@
 
 @implementation NSSet (Functional)
 
-- (NSDictionary *)dictionaryForPairsArraysSet
+- (NSMutableDictionary *)dictionaryForPairsArraysSet
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:self.count];
     

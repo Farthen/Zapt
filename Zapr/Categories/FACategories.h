@@ -49,3 +49,10 @@
 
 // NSArray
 #import "NSArray+Sorting.h"
+#import "NSArray+Functional.m"
+
+// NSDictionary
+#import "NSDictionary+Functional.m"
+
+// NSSet
+#import "NSSet+Functional.m"
