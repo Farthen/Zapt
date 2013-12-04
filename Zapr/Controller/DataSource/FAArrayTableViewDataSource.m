@@ -154,24 +154,28 @@
 #pragma mark convenience methods
 - (void)reloadRowsWithObject:(id)object
 {
-    NSMutableIndexSet *reloadIndexSet = [NSMutableIndexSet indexSet];
-    
-    for (NSMutableArray *section in self.tableViewData) {
-        [reloadIndexSet addIndexes:[section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            return [obj isEqual:object];
-        }]];
-    }
+    return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
 }
 
 - (void)reloadRowsWithObjects:(NSSet *)objects
 {
-    NSMutableIndexSet *reloadIndexSet = [NSMutableIndexSet indexSet];
+    NSMutableArray *indexPaths = [NSMutableArray array];
+    
+    NSUInteger *sectionIndex = 0;
     
     for (NSMutableArray *section in self.tableViewData) {
-        [reloadIndexSet addIndexes:[section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        NSIndexSet *indexes = [section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             return [objects containsObject:obj];
-        }]];
+        }];
+        
+        [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            [indexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:(NSInteger)sectionIndex]];
+        }];
+        
+        sectionIndex++;
     }
+    
+    [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 
 @end
