@@ -157,6 +157,17 @@
     return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
 }
 
+- (void)replaceObjectInSection:(NSUInteger)section row:(NSUInteger)row withObject:(id)object
+{
+    self.tableViewData[section][row] = object;
+    [self reloadSection:section row:row];
+}
+
+- (void)reloadSection:(NSUInteger)section row:(NSUInteger)row
+{
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)row inSection:(NSInteger)section]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
 - (void)reloadRowsWithObjects:(NSSet *)objects
 {
     NSMutableArray *indexPaths = [NSMutableArray array];

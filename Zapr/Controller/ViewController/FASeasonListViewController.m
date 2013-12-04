@@ -62,12 +62,20 @@
         } else {
             cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.seasonNumber.integerValue];
         }
+        
         if (weakSelf.seasonImages) {
             UIImage *image = weakSelf.seasonImages[season.seasonNumber];
             
             if (image) {
                 cell.imageView.image = image;
             }
+        }
+        
+        if (season.episodes) {
+            NSUInteger episodesWatched = season.episodesWatched.unsignedIntegerValue;
+            NSUInteger episodesTotal = season.episodeCount.unsignedIntegerValue;
+            
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%i / %i", episodesWatched, episodesTotal];
         }
     };
 }
@@ -81,19 +89,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)loadEpisodeData:(FATraktShow *)show
-{
-    if (!self.loadedEpisodeData) {
-        self.loadedEpisodeData = YES;
-        
-        for (FATraktSeason *season in show.seasons) {
-            [[FATrakt sharedInstance] detailsForSeason:season callback:^(FATraktSeason *season) {
-                [self.arrayDataSource reloadRowsWithObject:season];
-            } onError:nil];
-        }
-    }
 }
 
 - (void)loadImageData:(FATraktShow *)show
@@ -115,6 +110,8 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
+    self.show = show;
+    
     [self loadImageData:show];
     
     [self dispatchAfterViewDidLoad:^{
@@ -130,7 +127,7 @@
         [self displayShow:show];
     }
     
-    [[FATrakt sharedInstance] seasonInfoForShow:show callback:^(FATraktShow *show) {
+    [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
         if (show.seasons) {
             [self displayShow:show];
         }

@@ -25,6 +25,9 @@
 // Left-Reduces the array
 - (id)reduceUsingBlock:(id (^)(id memo, id object, NSUInteger idx, BOOL *stop))block;
 
+// Returns the count of the objects meeting the test
+- (NSUInteger)countUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block;
+
 // Returns the first object passing the test
 - (id)findUsingBlock:(BOOL (^)(id obj, NSUInteger idx))block;
 

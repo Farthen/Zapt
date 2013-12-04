@@ -24,7 +24,9 @@
 
 @property (retain) NSMutableArray *episodes;
 @property NSArray *episodeCacheKeys;
+
 @property (retain) NSNumber *episodeCount;
+@property (readonly) NSNumber *episodesWatched;
 
 @property (retain) FATraktImageList *images;
 @property (retain) NSString *poster;

@@ -130,7 +130,7 @@
             }
             
             NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"season" ascending:YES];
+            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seasonNumber" ascending:YES];
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             [seasonArray sortUsingDescriptors:sortDescriptors];
             

@@ -566,6 +566,15 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (FATraktRequest *)detailsForSeason:(FATraktSeason *)season callback:(void (^)(FATraktSeason *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *api = @"show/season.json";
+    
+    if (!season.show) {
+        if (error) {
+            error([FATraktConnectionResponse invalidRequestResponse]);
+        }
+        
+        return nil;
+    }
+    
     NSArray *parameters = @[season.show.urlIdentifier, [NSString stringWithFormat:@"%i", season.seasonNumber.unsignedIntegerValue]];
     
     return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
@@ -580,6 +589,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         [episodes sortedArrayUsingKey:@"episodeNumber" ascending:YES];
         season.episodes = episodes;
         [season.show commitToCache];
+        [season commitToCache];
         
         callback(season);
     } onError:error];

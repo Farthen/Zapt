@@ -112,6 +112,31 @@
     return memo;
 }
 
+- (NSUInteger)countUsingBlock:(BOOL (^)(id obj, NSUInteger idx, BOOL *stop))block
+{
+    if (!block) {
+        return 0;
+    }
+    
+    NSUInteger idx = 0;
+    NSUInteger count = 0;
+    BOOL stop = NO;
+    
+    for (id obj in self) {
+        if (block(obj, idx, &stop)) {
+            count++;
+        }
+        
+        if (stop) {
+            break;
+        }
+        
+        idx++;
+    }
+    
+    return count;
+}
+
 - (id)findUsingBlock:(BOOL (^)(id obj, NSUInteger idx))block
 {
     if (!block) {

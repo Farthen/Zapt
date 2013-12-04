@@ -17,6 +17,7 @@
     NSString *_showCacheKey;
     NSMutableArray *_episodes;
     NSArray *_episodeCacheKeys;
+    NSNumber *_episodeCount;
 }
 
 - (NSString *)description
@@ -118,6 +119,27 @@
     return FATraktCache.sharedInstance.content;
 }
 
+- (void)setEpisodeCount:(NSNumber *)episodeCount
+{
+    _episodeCount = episodeCount;
+}
+
+- (NSNumber *)episodeCount
+{
+    if (self.episodes) {
+        return [NSNumber numberWithUnsignedInteger:self.episodes.count];
+    }
+    
+    return _episodeCount;
+}
+
+- (NSNumber *)episodesWatched
+{
+    return [NSNumber numberWithUnsignedInteger:[self.episodes countUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        return ((FATraktEpisode *)obj).watched == YES;
+    }]];
+}
+
 - (void)setShow:(FATraktShow *)show
 {
     _show = show;
@@ -142,6 +164,8 @@
         } else {
             show.seasons[self.seasonNumber.unsignedIntegerValue] = self;
         }
+        
+        [show commitToCache];
     }
 }
 
