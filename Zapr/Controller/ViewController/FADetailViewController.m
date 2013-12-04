@@ -22,6 +22,7 @@
 
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
+#import "FABadges.h"
 
 #import "FAGlobalEventHandler.h"
 
@@ -374,6 +375,12 @@
     [self displayOverview:item.overview];
     [self setPosterToURL:item.widescreenImageURL];
     [self.overviewLabel sizeToFit];
+    
+    if (item.isWatched) {
+        [[FABadges instanceForView:self.coverImageView] badge:FABadgeWatched];
+    } else {
+        [[FABadges instanceForView:self.coverImageView] unbadge:FABadgeWatched];
+    }
 }
 
 - (void)displayMovie:(FATraktMovie *)movie

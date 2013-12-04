@@ -115,6 +115,11 @@
 		F3938E5416F46DC300A19FD1 /* love.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5016F46DC300A19FD1 /* love.png */; };
 		F3938E5516F46DC300A19FD1 /* love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3938E5116F46DC300A19FD1 /* love@2x.png */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
+		F394EE29184ECFBF007F4BA1 /* FAImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */; };
+		F394EE32184EE56B007F4BA1 /* FABadges.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE31184EE56B007F4BA1 /* FABadges.m */; };
+		F394EE36184EF368007F4BA1 /* badge-watched.png in Resources */ = {isa = PBXBuildFile; fileRef = F394EE33184EF368007F4BA1 /* badge-watched.png */; };
+		F394EE37184EF368007F4BA1 /* badge-watched.pxm in Resources */ = {isa = PBXBuildFile; fileRef = F394EE34184EF368007F4BA1 /* badge-watched.pxm */; };
+		F394EE38184EF368007F4BA1 /* badge-watched@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F394EE35184EF368007F4BA1 /* badge-watched@2x.png */; };
 		F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3978A1617B50A2A001E5807 /* libPods.a */; };
 		F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EB180949BF00556EEA /* FASimpleControl.m */; };
 		F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */; };
@@ -376,6 +381,13 @@
 		F3938E5116F46DC300A19FD1 /* love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "love@2x.png"; sourceTree = "<group>"; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animations.m"; sourceTree = "<group>"; };
+		F394EE27184ECFBF007F4BA1 /* FAImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAImageTableViewCell.h; sourceTree = "<group>"; };
+		F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAImageTableViewCell.m; sourceTree = "<group>"; };
+		F394EE30184EE56B007F4BA1 /* FABadges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FABadges.h; sourceTree = "<group>"; };
+		F394EE31184EE56B007F4BA1 /* FABadges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FABadges.m; sourceTree = "<group>"; };
+		F394EE33184EF368007F4BA1 /* badge-watched.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-watched.png"; sourceTree = "<group>"; };
+		F394EE34184EF368007F4BA1 /* badge-watched.pxm */ = {isa = PBXFileReference; lastKnownFileType = file; path = "badge-watched.pxm"; sourceTree = "<group>"; };
+		F394EE35184EF368007F4BA1 /* badge-watched@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-watched@2x.png"; sourceTree = "<group>"; };
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F3A2F9EA180949BF00556EEA /* FASimpleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASimpleControl.h; sourceTree = "<group>"; };
 		F3A2F9EB180949BF00556EEA /* FASimpleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASimpleControl.m; sourceTree = "<group>"; };
@@ -782,6 +794,8 @@
 				F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */,
 				F32645C517F0E436001D4F74 /* FAColorSorting.h */,
 				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
+				F394EE30184EE56B007F4BA1 /* FABadges.h */,
+				F394EE31184EE56B007F4BA1 /* FABadges.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -868,6 +882,9 @@
 				F33631C716ED3752004FC205 /* outlets.png */,
 				F33631C816ED3752004FC205 /* outlets@2X.png */,
 				F3E2209216EA8A48008C3AFA /* fanart-summary.jpg */,
+				F394EE33184EF368007F4BA1 /* badge-watched.png */,
+				F394EE34184EF368007F4BA1 /* badge-watched.pxm */,
+				F394EE35184EF368007F4BA1 /* badge-watched@2x.png */,
 				F3E2209016EA7B14008C3AFA /* badge-love.png */,
 				F3E2208616EA799F008C3AFA /* badge-love@2x.png */,
 				F3636B7416EDDE420062E885 /* badge-hate.png */,
@@ -947,6 +964,8 @@
 				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
 				F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */,
 				F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */,
+				F394EE27184ECFBF007F4BA1 /* FAImageTableViewCell.h */,
+				F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -1314,6 +1333,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F394EE37184EF368007F4BA1 /* badge-watched.pxm in Resources */,
 				F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */,
 				F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */,
 				F3D80E5A17CCFC9F00343C9F /* MainStoryboard_iPad.storyboard in Resources */,
@@ -1338,12 +1358,14 @@
 				F3E2208D16EA799F008C3AFA /* profile-watchlist-dark@2x.png in Resources */,
 				F3E2208F16EA7A68008C3AFA /* profile-lists-dark.png in Resources */,
 				F3E2209116EA7B14008C3AFA /* badge-love.png in Resources */,
+				F394EE38184EF368007F4BA1 /* badge-watched@2x.png in Resources */,
 				F3E2209316EA8A48008C3AFA /* fanart-summary.jpg in Resources */,
 				F33631C916ED3752004FC205 /* outlets.png in Resources */,
 				F33631CA16ED3752004FC205 /* outlets@2X.png in Resources */,
 				F33631CD16ED3E46004FC205 /* +-mark.png in Resources */,
 				F33631D016ED3E52004FC205 /* +-mark@2x.png in Resources */,
 				F3636B6E16EDDAAA0062E885 /* --mark.png in Resources */,
+				F394EE36184EF368007F4BA1 /* badge-watched.png in Resources */,
 				F3636B6F16EDDAAA0062E885 /* --mark@2x.png in Resources */,
 				F3636B7216EDDE350062E885 /* badge-hate@2x.png in Resources */,
 				F3636B7516EDDE420062E885 /* badge-hate.png in Resources */,
@@ -1500,6 +1522,7 @@
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
+				F394EE32184EE56B007F4BA1 /* FABadges.m in Sources */,
 				F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */,
 				F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */,
 				F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */,
@@ -1528,6 +1551,7 @@
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F353F42517FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m in Sources */,
+				F394EE29184ECFBF007F4BA1 /* FAImageTableViewCell.m in Sources */,
 				F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */,
 				F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
