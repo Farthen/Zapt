@@ -41,4 +41,8 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 // Defaults to UITableViewCell
 @property (assign) Class cellClass;
 
+// Convenicence methods
+- (void)reloadRowsWithObjects:(NSSet *)objects;
+- (void)reloadRowsWithObject:(id)object;
+
 @end

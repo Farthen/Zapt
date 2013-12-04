@@ -151,4 +151,27 @@
     [toSection insertObject:object atIndex:toIndexPath.row];
 }
 
+#pragma mark convenience methods
+- (void)reloadRowsWithObject:(id)object
+{
+    NSMutableIndexSet *reloadIndexSet = [NSMutableIndexSet indexSet];
+    
+    for (NSMutableArray *section in self.tableViewData) {
+        [reloadIndexSet addIndexes:[section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [obj isEqual:object];
+        }]];
+    }
+}
+
+- (void)reloadRowsWithObjects:(NSSet *)objects
+{
+    NSMutableIndexSet *reloadIndexSet = [NSMutableIndexSet indexSet];
+    
+    for (NSMutableArray *section in self.tableViewData) {
+        [reloadIndexSet addIndexes:[section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [objects containsObject:obj];
+        }]];
+    }
+}
+
 @end
