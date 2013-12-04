@@ -252,34 +252,36 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
+- (FATraktRequest *)loadImageFromURL:(NSString *)url callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self loadImageFromURL:url withWidth:0 callback:callback onError:error];
+}
+
 - (FATraktRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    NSString *suffix;
-    if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
-        DDLogController(@"Loading image of type poster");
-        if (width <= 138) {
-            suffix = @"-138";
-        } else if (width <= 300) {
-            suffix = @"-300";
+    NSString *suffix = @"";
+    if (width > 0) {
+        if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
+            DDLogController(@"Loading image of type poster");
+            if (width <= 138) {
+                suffix = @"-138";
+            } else if (width <= 300) {
+                suffix = @"-300";
+            }
+        } else if ([url hasPrefix:@"http://trakt.us/images/fanart"] && ![url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
+            DDLogController(@"Loading image of type fanart");
+            if (width <= 218) {
+                suffix = @"-218";
+            } else if (width <= 940) {
+                suffix = @"-940";
+            }
         } else {
             suffix = @"";
         }
-    } else if ([url hasPrefix:@"http://trakt.us/images/fanart"] && ![url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
-        DDLogController(@"Loading image of type fanart");
-        if (width <= 218) {
-            suffix = @"-218";
-        } else if (width <= 940) {
-            suffix = @"-940";
-        } else {
-            suffix = @"";
+        if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
         }
-    } else {
-        suffix = @"";
     }
-    if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
-    } else {
-        suffix = @"";
-    }
+    
     NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
