@@ -15,7 +15,7 @@
 #import "FATraktCache.h"
 
 @implementation FATraktListItem {
-    FATraktContent *_content;
+    id<FACacheableItem> _content;
     NSString *_contentCacheKey;
 }
 
@@ -27,13 +27,13 @@
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"movie"]) {
-        self.content = [[FATraktMovie alloc] initWithJSONDict:object];
+        _content = [[FATraktMovie alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"season"]) {
-        self.content = [[FATraktSeason alloc] initWithJSONDict:object];
+        _content = [[FATraktSeason alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"show"]) {
-        self.content = [[FATraktShow alloc] initWithJSONDict:object];
+        _content = [[FATraktShow alloc] initWithJSONDict:object];
     } else if ([key isEqualToString:@"episode"]) {
-        self.content = [[FATraktEpisode alloc] initWithJSONDict:object];
+        _content = [[FATraktEpisode alloc] initWithJSONDict:object];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
@@ -55,7 +55,11 @@
         _content = [[FATraktCache sharedInstance].content objectForKey:self.contentCacheKey];
     }
     
-    return _content;
+    if ([_content isKindOfClass:[FATraktSeason class]]) {
+        return nil;
+    }
+    
+    return (FATraktContent *)_content;
 }
 
 - (void)setContentCacheKey:(NSString *)contentCacheKey
