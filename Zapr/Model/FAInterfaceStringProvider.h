@@ -7,12 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FATraktContent.h"
+#import "FATrakt.h"
 
 @interface FAInterfaceStringProvider : NSObject
 
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized longVersion:(BOOL)longVersion;
 + (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized;
+
++ (NSString *)nameForSeason:(FATraktSeason *)season capitalized:(BOOL)capitalized;
++ (NSString *)nameForEpisode:(FATraktEpisode *)episode long:(BOOL)longName capitalized:(BOOL)capitalized;
++ (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName;
 
 @end

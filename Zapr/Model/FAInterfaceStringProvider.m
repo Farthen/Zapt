@@ -108,4 +108,65 @@ static NSArray *_ratingNames;
     return name;
 }
 
++ (NSString *)nameForSeason:(FATraktSeason *)season capitalized:(BOOL)capitalized
+{
+    NSString *name;
+    if (season.seasonNumber.unsignedIntegerValue == 0) {
+        name = @"specials";
+    } else {
+        name = [NSString stringWithFormat:NSLocalizedString(@"season %i", nil), season.seasonNumber.integerValue];
+    }
+    
+    if (capitalized) {
+        name = [name capitalizedString];
+    }
+    
+    return name;
+}
+
++ (NSString *)nameForEpisode:(FATraktEpisode *)episode long:(BOOL)longName capitalized:(BOOL)capitalized
+{
+    NSString *name;
+    if (longName)
+    {
+        if (episode.seasonNumber.unsignedIntegerValue == 0)
+        {
+            if (capitalized) {
+                name = [NSString stringWithFormat:NSLocalizedString(@"Specials Episode %i", nil), episode.episodeNumber.unsignedIntegerValue];
+            } else {
+                name = [NSString stringWithFormat:NSLocalizedString(@"specials episode %i", nil), episode.episodeNumber.unsignedIntegerValue];
+            }
+        } else {
+            if (capitalized) {
+                name = [NSString stringWithFormat:NSLocalizedString(@"Season %i Episode %i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+            } else {
+                name = [NSString stringWithFormat:NSLocalizedString(@"season %i episode %i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+            }
+        }
+    } else {
+        if (capitalized) {
+            name = [NSString stringWithFormat:NSLocalizedString(@"S%2iE%2i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        } else {
+            name = [NSString stringWithFormat:NSLocalizedString(@"s%2ie%2i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        }
+    }
+    
+    return name;
+}
+
++ (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName
+{
+    NSString *name = nil;
+    
+    if (season.episodes) {
+        if (longName) {
+            name = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i", nil), season.episodesWatched.unsignedIntegerValue, season.episodeCount.unsignedIntegerValue];
+        } else {
+            name = [NSString stringWithFormat:NSLocalizedString(@"%i / %i", nil), season.episodesWatched.unsignedIntegerValue, season.episodesWatched.unsignedIntegerValue];
+        }
+    }
+    
+    return name;
+}
+
 @end

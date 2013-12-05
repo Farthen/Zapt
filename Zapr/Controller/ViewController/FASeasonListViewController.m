@@ -11,6 +11,9 @@
 #import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
 #import "FAImageTableViewCell.h"
+#import "FAInterfaceStringProvider.h"
+
+#import "FABadges.h"
 
 @interface FASeasonListViewController ()
 @property FATraktShow *show;
@@ -57,11 +60,7 @@
     self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id object) {
         FATraktSeason *season = object;
         
-        if (season.seasonNumber.integerValue == 0) {
-            cell.textLabel.text = @"Specials";
-        } else {
-            cell.textLabel.text = [NSString stringWithFormat:@"Season %i", season.seasonNumber.integerValue];
-        }
+        cell.textLabel.text = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
         
         if (weakSelf.seasonImages) {
             UIImage *image = weakSelf.seasonImages[season.seasonNumber];
@@ -72,10 +71,11 @@
         }
         
         if (season.episodes) {
-            NSUInteger episodesWatched = season.episodesWatched.unsignedIntegerValue;
-            NSUInteger episodesTotal = season.episodeCount.unsignedIntegerValue;
+            cell.detailTextLabel.text = [FAInterfaceStringProvider progressForSeason:season long:YES];
             
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%i / %i", episodesWatched, episodesTotal];
+            if (season.episodesWatched >= season.episodeCount) {
+                [[FABadges instanceForView:cell] badge:FABadgeWatched];
+            }
         }
     };
 }
@@ -133,56 +133,5 @@
         }
     } onError:nil];
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-
-*/
 
 @end
