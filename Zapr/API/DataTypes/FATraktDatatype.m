@@ -161,6 +161,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             }
         }
         
+        [self setValue:object forKey:key];
+        
     } else if (propertyType.objcClass == [NSDate class] && [object isKindOfClass:[NSNumber class]]) {
         // If NSDate, set date
         
