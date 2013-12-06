@@ -10,6 +10,8 @@
 #import "FACache.h"
 #import "FABigDataCache.h"
 
+extern NSString *FATraktCacheClearedNotification;
+
 @interface FATraktCache : NSObject <FACacheDelegate, NSCoding>
 
 + (FATraktCache *)sharedInstance;

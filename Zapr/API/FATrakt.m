@@ -60,13 +60,21 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     self = [super init];
     if (self) {
         self.connection = [FATraktConnection sharedInstance];
+        
         self.changedLastActivityKeys = [NSMutableSet set];
         self.fetchingLastActivity = NO;
         _cache = [FATraktCache sharedInstance];
         _activity = [FAActivityDispatch sharedInstance];
         [_activity registerForAllActivity:[FAStatusBarSpinnerController sharedInstance]];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(allCachesClearedNotification:) name:FATraktCacheClearedNotification object:[FATraktCache sharedInstance]];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 + (Class)classForContentType:(FATraktContentType)type
@@ -128,6 +136,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return @"show/episode";
     }
     return nil;
+}
+
+- (void)allCachesClearedNotification:(NSNotification *)notification
+{
+    // Invalidate last activity
+    self.lastActivity = nil;
 }
 
 // call this with movie.rating for example

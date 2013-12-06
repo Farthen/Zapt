@@ -13,6 +13,8 @@
 #undef LOG_LEVEL
 #define LOG_LEVEL LOG_LEVEL_INFO
 
+NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
+
 @interface FATraktCache ()
 @property NSLock *lock;
 @end
@@ -118,6 +120,8 @@
         [cache removeAllObjects];
         [cache saveToDisk];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:FATraktCacheClearedNotification object:self];
     
     DDLogModel(@"Cleared all Caches");
 }
