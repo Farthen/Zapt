@@ -55,7 +55,6 @@ typedef enum {
 
 @property (retain) FATraktImageList *images;
 @property (readonly) NSString *widescreenImageURL;
-@property (retain) NSString *ratings;
 
 @property (readonly) NSString *slug;
 @property (readonly) NSString *urlIdentifier;
@@ -63,6 +62,8 @@ typedef enum {
 @property (readonly) BOOL isWatched;
 @property (assign) BOOL in_watchlist;
 @property (assign) BOOL in_collection;
+
+@property NSDictionary *ratings;
 @property FATraktRating rating;
 @property FATraktRating rating_advanced;
 

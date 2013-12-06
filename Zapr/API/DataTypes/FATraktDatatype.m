@@ -25,6 +25,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     if (!__traktPropertyInfos) {
         __traktPropertyInfos = [[NSMutableDictionary alloc] init];
     }
+    
     DDLogController(@"Adding class %@ to dict", self);
     [__traktPropertyInfos setObject:[self.class fetchPropertyInfo] forKey:NSStringFromClass(self)];
 }
@@ -33,11 +34,12 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 {
     Class cls = [self class];
     NSMutableDictionary *propertyInfo = [[NSMutableDictionary alloc] init];
-    while (cls != [FATraktDatatype class])
-    {
+    
+    while (cls != [FATraktDatatype class]) {
         [propertyInfo addEntriesFromDictionary:[FAPropertyUtil propertyInfoForClass:cls]];
         cls = [cls superclass];
     }
+    
     return [((NSDictionary *)propertyInfo) copy];
 }
 
@@ -53,6 +55,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     if (self) {
         self.creationDate = [NSDate date];
     }
+    
     return self;
 }
 
@@ -158,8 +161,6 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             }
         }
         
-        [self setValue:object forKey:key];
-        
     } else if (propertyType.objcClass == [NSDate class] && [object isKindOfClass:[NSNumber class]]) {
         // If NSDate, set date
         
@@ -188,6 +189,21 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         id datatype = [[propertyType.objcClass alloc] initWithJSONDict:object];
         [self setValue:datatype forKey:key];
         
+    } else if (propertyType.isObjcClass) {
+        // It's an objc class but not one of the above so it isn't the same class as the property
+        
+        if (([object isKindOfClass:[NSArray      class]] && propertyType.objcClass == [NSMutableArray      class]) ||
+            ([object isKindOfClass:[NSDictionary class]] && propertyType.objcClass == [NSMutableDictionary class])) {
+            // Convert array/dict to mutable copy
+            
+            [self setValue:[object mutableCopy] forKey:key];
+        } else if (object) {
+            // Wrong class mapping. Yield an error if in debug mode. Otherwise don't map anything and just fail silently
+            
+            #if DEBUG
+            [NSException raise:@"WrongPropertyMapping" format:@"<%@.%@> Tried to map object of type %@ to property of type %@", [self className], propertyType.name, [object className], [propertyType.objcClass className]];
+            #endif
+        }
     } else {
         // This gets called for things like NSNumber setting to NSInteger property or NSNumber to BOOL
         [self setValue:object forKey:key];

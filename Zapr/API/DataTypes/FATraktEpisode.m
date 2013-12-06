@@ -14,7 +14,10 @@
 
 @implementation FATraktEpisode {
     __weak FATraktShow *_show;
+    NSString *_showCacheKey;
+    
     __weak FATraktSeason *_season;
+    NSString *_seasonCacheKey;
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict
@@ -182,7 +185,27 @@
 
 - (FATraktShow *)show
 {
+    if (!_show) {
+        if (_showCacheKey) {
+            _show = [FATraktShow.backingCache objectForKey:_showCacheKey];
+        }
+    }
+    
     return _show;
+}
+
+- (void)setShowCacheKey:(NSString *)showCacheKey
+{
+    _showCacheKey = showCacheKey;
+}
+
+- (NSString *)showCacheKey
+{
+    if (_show) {
+        return _show.cacheKey;
+    }
+    
+    return _showCacheKey;
 }
 
 - (void)setSeason:(FATraktSeason *)season
@@ -195,7 +218,7 @@
         }
         
         // - 1 because episode numbers start at 1
-        while (season.episodes.count < self.episodeNumber.unsignedIntegerValue - 1) {
+        while ((NSInteger)season.episodes.count < self.episodeNumber.integerValue - 1) {
             FATraktEpisode *episode = [[FATraktEpisode alloc] init];
             episode->_season = season;
             episode.seasonNumber = season.seasonNumber;
@@ -220,7 +243,27 @@
 
 - (FATraktSeason *)season
 {
+    if (!_season) {
+        if (_seasonCacheKey) {
+            _season = [FATraktShow.backingCache objectForKey:_seasonCacheKey];
+        }
+    }
+    
     return _season;
+}
+
+- (void)setSeasonCacheKey:(NSString *)seasonCacheKey
+{
+    _seasonCacheKey = seasonCacheKey;
+}
+
+- (NSString *)seasonCacheKey
+{
+    if (_season) {
+        return _season.cacheKey;
+    }
+    
+    return _seasonCacheKey;
 }
 
 @end

@@ -25,6 +25,16 @@
     return [NSString stringWithFormat:@"<FATraktSeason %p season %@ of show with title: %@>", self, self.seasonNumber, self.show.title];
 }
 
+- (void)finishedMappingObjects
+{
+    [super finishedMappingObjects];
+    
+    for (FATraktEpisode *episode in self.episodes) {
+        episode.seasonNumber = self.seasonNumber;
+        episode.showCacheKey = self.showCacheKey;
+    }
+}
+
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {
     _show = show;
@@ -48,9 +58,11 @@
                     [episodesArray addObject:episode];
                 } else if ([item isKindOfClass:[NSNumber class]]) {
                     FATraktEpisode *episode = [[FATraktEpisode alloc] init];
+                    
+                    // the rest will be filled in finishedMappingObjects
                     episode.episodeNumber = item;
-                    episode.seasonNumber = self.seasonNumber;
                     episode.detailLevel = FATraktDetailLevelMinimal;
+                    
                     [episodesArray addObject:episode];
                 }
             }

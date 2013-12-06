@@ -43,10 +43,7 @@
         }
         [self.show commitToCache];
     } else if ([key isEqualToString:@"next_episode"]) {
-        FATraktEpisode *next_episode = [[FATraktEpisode alloc] initWithJSONDict:object];
-        if (self.show) {
-            next_episode.show = self.show;
-        }
+        FATraktEpisode *next_episode = [[FATraktEpisode alloc] initWithJSONDict:object andShow:self.show];
         
         [next_episode commitToCache];
         self.next_episode = next_episode;

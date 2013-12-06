@@ -23,7 +23,10 @@
 // These are technically weak but not declared as such
 // This prevents a compiler warning
 @property FATraktShow *show;
+@property NSString *showCacheKey;
+
 @property FATraktSeason *season;
+@property NSString *seasonCacheKey;
 
 @property (retain) NSNumber *seasonNumber;
 @property (retain) NSNumber *episodeNumber;

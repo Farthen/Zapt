@@ -286,13 +286,15 @@
     for (FATraktListItem *listItem in _displayedList.items) {
         NSString *letter = [[listItem.content.title substringToIndex:1] capitalizedString];
         
-        NSMutableArray *listItems = [alphabetLetters objectForKey:letter];
-        if (!listItems) {
-            listItems = [NSMutableArray array];
+        if (letter) {
+            NSMutableArray *listItems = [alphabetLetters objectForKey:letter];
+            if (!listItems) {
+                listItems = [NSMutableArray array];
+            }
+            
+            [listItems addObject:listItem];
+            [alphabetLetters setObject:listItems forKey:letter];
         }
-        
-        [listItems addObject:listItem];
-        [alphabetLetters setObject:listItems forKey:letter];
     }
     
     _sortedSectionIndexTitles = [[alphabetLetters.allKeys sortedArrayUsingSelector:@selector(localizedCompare:)] mutableCopy];
