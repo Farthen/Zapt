@@ -114,13 +114,17 @@
 
 - (void)clearCaches
 {
-    [self.misc removeAllObjects];
-    [self.content removeAllObjects];
-    [self.images removeAllObjects];
-    [self.lists removeAllObjects];
-    [self.searches removeAllObjects];
+    for (FACache *cache in self.allCaches) {
+        [cache removeAllObjects];
+        [cache saveToDisk];
+    }
     
     DDLogModel(@"Cleared all Caches");
+}
+
+- (NSArray *)allCaches
+{
+    return @[self.misc, self.content, self.images, self.lists, self.searches];
 }
 
 + (FATraktCache *)sharedInstance
