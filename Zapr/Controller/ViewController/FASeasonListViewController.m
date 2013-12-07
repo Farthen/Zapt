@@ -73,7 +73,7 @@
         if (season.episodes) {
             cell.detailTextLabel.text = [FAInterfaceStringProvider progressForSeason:season long:YES];
             
-            if (season.episodesWatched >= season.episodeCount) {
+            if (season.episodesWatched.unsignedIntegerValue >= season.episodeCount.unsignedIntegerValue) {
                 [[FABadges instanceForView:cell] badge:FABadgeWatched];
             }
         }
