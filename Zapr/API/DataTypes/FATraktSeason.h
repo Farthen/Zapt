@@ -7,6 +7,7 @@
 //
 
 #import "FATraktCachedDatatype.h"
+#import "FATraktContent.h"
 
 @class FATraktImageList;
 @class FATraktShow;
@@ -33,5 +34,7 @@
 @property (retain) NSString *poster;
 @property (retain) NSNumber *seasonNumber;
 @property (retain) NSString *url;
+
+@property (assign) FATraktDetailLevel detailLevel;
 
 @end

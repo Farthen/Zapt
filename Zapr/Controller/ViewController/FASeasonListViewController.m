@@ -70,12 +70,18 @@
             }
         }
         
+        cell.detailTextLabel.text = [FAInterfaceStringProvider progressForSeason:season long:YES];
+        
         if (season.episodes) {
-            cell.detailTextLabel.text = [FAInterfaceStringProvider progressForSeason:season long:YES];
-            
             if (season.episodesWatched.unsignedIntegerValue >= season.episodeCount.unsignedIntegerValue) {
                 [[FABadges instanceForView:cell] badge:FABadgeWatched];
             }
+        }
+        
+        if (season.detailLevel >= FATraktDetailLevelDefault) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
         }
     };
 }

@@ -42,6 +42,7 @@
     if (self) {
         self.seasonNumber = seasonNumber;
         self.show = show;
+        self.detailLevel = FATraktDetailLevelMinimal;
     }
     
     return self;
@@ -54,6 +55,7 @@
     
     if (self) {
         self.show = show;
+        self.detailLevel = FATraktDetailLevelDefault;
     }
     
     return self;

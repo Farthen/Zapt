@@ -164,6 +164,12 @@ static NSArray *_ratingNames;
         } else {
             name = [NSString stringWithFormat:NSLocalizedString(@"%i / %i", nil), season.episodesWatched.unsignedIntegerValue, season.episodesWatched.unsignedIntegerValue];
         }
+    } else {
+        if (longName) {
+            name = [NSString stringWithFormat:NSLocalizedString(@"Watched - / -", nil)];
+        } else {
+            name = [NSString stringWithFormat:NSLocalizedString(@"- / -", nil)];
+        }
     }
     
     return name;
