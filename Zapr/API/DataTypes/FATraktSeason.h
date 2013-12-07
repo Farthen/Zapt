@@ -14,7 +14,8 @@
 
 @interface FATraktSeason : FATraktCachedDatatype
 
-- (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
+- (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber;
+- (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 - (FATraktEpisode *)episodeWithID:(NSUInteger)episodeID;
 
 // This is technically weak but not declared as such

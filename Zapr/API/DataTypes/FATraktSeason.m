@@ -11,6 +11,7 @@
 #import "FATraktShow.h"
 
 #import "FATraktCache.h"
+#import "Misc.h"
 
 @implementation FATraktSeason {
     __weak FATraktShow *_show;
@@ -35,7 +36,18 @@
     }
 }
 
-- (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
+- (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber
+{
+    self = [super init];
+    if (self) {
+        self.seasonNumber = seasonNumber;
+        self.show = show;
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {
     _show = show;
     self = [super initWithJSONDict:dict];
@@ -43,6 +55,7 @@
     if (self) {
         self.show = show;
     }
+    
     return self;
 }
 
@@ -57,6 +70,7 @@
                     FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
                     [episodesArray addObject:episode];
                 } else if ([item isKindOfClass:[NSNumber class]]) {
+                    
                     FATraktEpisode *episode = [[FATraktEpisode alloc] init];
                     
                     // the rest will be filled in finishedMappingObjects
@@ -101,10 +115,11 @@
         }
     } else if (self.episodeCount) {
         if (self.episodeCount.unsignedIntegerValue >= episodeID) {
-            FATraktEpisode *episode = [[FATraktEpisode alloc] init];
-            episode.show = self.show;
-            episode.seasonNumber = self.seasonNumber;
-            episode.episodeNumber = [NSNumber numberWithUnsignedInteger:episodeID];
+            FATraktEpisode *episode =
+                [[FATraktEpisode alloc] initWithShow:self.show
+                                        seasonNumber:self.seasonNumber
+                                       episodeNumber:[NSNumber numberWithUnsignedInteger:episodeID]];
+            
             episode.detailLevel = FATraktDetailLevelMinimal;
             return episode;
         }

@@ -14,8 +14,10 @@
 
 @interface FATraktEpisode : FATraktContent
 
+- (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber episodeNumber:(NSNumber *)episodeNumber;
 - (id)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show;
 - (id)initWithSummaryDict:(NSDictionary *)dict;
+
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
 
 @property (readonly) FATraktEpisode *nextEpisode;
