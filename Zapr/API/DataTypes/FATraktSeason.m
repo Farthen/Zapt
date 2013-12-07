@@ -168,7 +168,7 @@
             FATraktSeason *season = [[FATraktSeason alloc] init];
             season->_show = show;
             season.seasonNumber = [NSNumber numberWithUnsignedInteger:show.seasons.count - 1 + 1];
-            [show.seasons addObject:[NSMutableArray array]];
+            [show.seasons addObject:season];
         }
         
         if (show.seasons.count == self.seasonNumber.unsignedIntegerValue - 1) {
