@@ -69,10 +69,19 @@
 {
     if ([self isKindOfClass:[FATraktMovie class]]) {
         return ((FATraktMovie *)self).watched;
+        
     } else if ([self isKindOfClass:[FATraktShow class]]) {
-        return ((FATraktShow *)self).progress.left == 0;
+        
+        FATraktShow *show = (FATraktShow *)self;
+        if (show.progress) {
+            return show.progress.left == 0;
+        }
+        
+        return NO;
+        
     } else if ([self isKindOfClass:[FATraktEpisode class]]) {
         return ((FATraktEpisode *)self).watched;
+        
     }
     
     return NO;
