@@ -169,7 +169,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     BOOL (^episodeFilterBlock)(FATraktEpisode *obj, NSUInteger idx, BOOL *stop) = ^BOOL(FATraktEpisode *episode, NSUInteger idx, BOOL *stop) {
-        NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.seasonNumber.intValue, episode.episodeNumber.intValue];
+        NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         
         return [episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound;

@@ -30,9 +30,10 @@
 {
     [super finishedMappingObjects];
     
-    for (FATraktEpisode *episode in self.episodes) {
+    for (FATraktEpisode *episode in [self.episodes copy]) {
         episode.seasonNumber = self.seasonNumber;
         episode.showCacheKey = self.showCacheKey;
+        episode.season = self;
     }
 }
 
