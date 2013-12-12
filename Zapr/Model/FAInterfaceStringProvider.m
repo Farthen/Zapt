@@ -145,9 +145,9 @@ static NSArray *_ratingNames;
         }
     } else {
         if (capitalized) {
-            name = [NSString stringWithFormat:NSLocalizedString(@"S%2iE%2i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+            name = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         } else {
-            name = [NSString stringWithFormat:NSLocalizedString(@"s%2ie%2i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+            name = [NSString stringWithFormat:NSLocalizedString(@"s%02ie%02i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         }
     }
     

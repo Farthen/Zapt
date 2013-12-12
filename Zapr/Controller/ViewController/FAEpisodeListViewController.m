@@ -169,7 +169,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     BOOL (^episodeFilterBlock)(FATraktEpisode *obj, NSUInteger idx, BOOL *stop) = ^BOOL(FATraktEpisode *episode, NSUInteger idx, BOOL *stop) {
-        NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        NSString *episodeString = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
         
         return [episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound;
@@ -252,7 +252,7 @@
     }
     
     cell.textLabel.text = episode.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.seasonNumber.intValue, episode.episodeNumber.intValue];
+    cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
