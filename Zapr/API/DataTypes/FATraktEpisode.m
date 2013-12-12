@@ -181,18 +181,21 @@
     
     // See the implementation in FATraktSeason: We prevent a retain loop here
     if (show) {
+        FATraktSeason *season;
+        
         if (show.seasons && show.seasons.count > self.seasonNumber.unsignedIntegerValue) {
-            self.season = show.seasons[self.seasonNumber.unsignedIntegerValue];
+            season = show.seasons[self.seasonNumber.unsignedIntegerValue];
         } else {
-            FATraktSeason *season = [[FATraktSeason alloc] initWithShow:show seasonNumber:self.seasonNumber];
-            
-            // This will insert itself into the show.seasons array
-            season.show = show;
-            
-            // This will stay retained because it is in the show.seasons array
-            // This will also insert the episode into the season.episodes array
-            self.season = season;
+            season = [[FATraktSeason alloc] initWithShow:show seasonNumber:self.seasonNumber];
         }
+        
+        
+        // This will insert itself into the show.seasons array
+        season.show = show;
+        
+        // This will stay retained because it is in the show.seasons array
+        // This will also insert the episode into the season.episodes array
+        self.season = season;
         
         [show commitToCache];
     }
