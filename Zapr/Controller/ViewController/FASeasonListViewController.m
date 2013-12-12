@@ -71,12 +71,10 @@
         
         cell.textLabel.text = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
         
-        if (weakSelf.seasonImages) {
-            UIImage *image = weakSelf.seasonImages[season.seasonNumber];
-            
-            if (image) {
-                cell.imageView.image = image;
-            }
+        UIImage *image = weakSelf.seasonImages[season.seasonNumber];
+        
+        if (image) {
+            cell.imageView.image = image;
         }
         
         cell.detailTextLabel.text = [FAInterfaceStringProvider progressForSeason:season long:YES];
