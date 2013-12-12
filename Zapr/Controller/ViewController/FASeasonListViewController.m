@@ -7,6 +7,7 @@
 //
 
 #import "FASeasonListViewController.h"
+#import "FAEpisodeListViewController.h"
 
 #import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
@@ -17,7 +18,10 @@
 
 @interface FASeasonListViewController ()
 @property FATraktShow *show;
+
 @property FAArrayTableViewDataSource *arrayDataSource;
+@property FAArrayTableViewDelegate *arrayTableViewDelegate;
+
 @property NSMutableDictionary *seasonImages;
 
 @property BOOL loadedImageData;
@@ -53,6 +57,11 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.arrayDataSource = [[FAArrayTableViewDataSource alloc] initWithTableView:self.tableView];
+    
+    self.arrayTableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+    self.arrayTableViewDelegate.delegate = self;
+    self.tableView.delegate = self.arrayTableViewDelegate;
+    
     self.arrayDataSource.cellClass = [FAImageTableViewCell class];
     self.tableView.dataSource = self.arrayDataSource;
     
@@ -80,15 +89,26 @@
         
         if (season.detailLevel >= FATraktDetailLevelDefault) {
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
         } else {
             cell.accessoryType = UITableViewCellAccessoryNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     };
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowWithObject:(id)object
 {
     return 100;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+{
+    FATraktSeason *season = object;
+    
+    FAEpisodeListViewController *episodeListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"episodeList"];
+    [episodeListVC showEpisodeListForSeason:season];
+    [self.navigationController pushViewController:episodeListVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning

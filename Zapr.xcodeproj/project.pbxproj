@@ -49,6 +49,7 @@
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
+		F323DB921852BF4B00BE0DAB /* FAArrayTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */; };
 		F32645C417F0D48F001D4F74 /* FARatingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C317F0D48F001D4F74 /* FARatingsView.m */; };
 		F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C617F0E436001D4F74 /* FAColorSorting.m */; };
 		F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CA17F0F9A4001D4F74 /* UIImage+Alpha.m */; };
@@ -265,6 +266,9 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARefreshControlWithActivity.m; sourceTree = "<group>"; };
+		F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAArrayTableViewDelegate.h; path = DataSource/FAArrayTableViewDelegate.h; sourceTree = "<group>"; };
+		F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAArrayTableViewDelegate.m; path = DataSource/FAArrayTableViewDelegate.m; sourceTree = "<group>"; };
+		F323DB931852C13E00BE0DAB /* FATableViewCellHeight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FATableViewCellHeight.h; sourceTree = "<group>"; };
 		F32645C217F0D48F001D4F74 /* FARatingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARatingsView.h; sourceTree = "<group>"; };
 		F32645C317F0D48F001D4F74 /* FARatingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARatingsView.m; sourceTree = "<group>"; };
 		F32645C517F0E436001D4F74 /* FAColorSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAColorSorting.h; sourceTree = "<group>"; };
@@ -820,6 +824,8 @@
 			children = (
 				F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */,
 				F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */,
+				F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */,
+				F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */,
 			);
 			name = "Data Source";
 			sourceTree = "<group>";
@@ -981,6 +987,7 @@
 				F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */,
 				F394EE27184ECFBF007F4BA1 /* FAImageTableViewCell.h */,
 				F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */,
+				F323DB931852C13E00BE0DAB /* FATableViewCellHeight.h */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -1526,6 +1533,7 @@
 				F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */,
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 				F3A443F317A752FE00210EE9 /* FASemiModalEnabledViewController.m in Sources */,
+				F323DB921852BF4B00BE0DAB /* FAArrayTableViewDelegate.m in Sources */,
 				F357AB3416A78F5C00A578D5 /* FAEpisodeListViewController.m in Sources */,
 				F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */,
 				F34D986517DB1C510033FBD7 /* FATraktConnection.m in Sources */,

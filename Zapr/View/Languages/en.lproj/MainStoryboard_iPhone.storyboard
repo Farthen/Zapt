@@ -260,7 +260,7 @@
         <!--Episode List View Controller-->
         <scene sceneID="Y6Q-JP-zWi">
             <objects>
-                <tableViewController storyboardIdentifier="eplist" id="3u5-q9-M2N" customClass="FAEpisodeListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="episodeList" id="3u5-q9-M2N" customClass="FAEpisodeListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OAr-Va-uLq">
                         <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

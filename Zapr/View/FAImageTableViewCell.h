@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATableViewCellHeight.h"
 
-@interface FAImageTableViewCell : UITableViewCell
+@interface FAImageTableViewCell : UITableViewCell <FATableViewCellHeight>
 
 @end

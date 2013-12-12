@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "FATrakt.h"
+#import "FATableViewCellHeight.h"
 
-@interface FAContentTableViewCell : UITableViewCell
+@interface FAContentTableViewCell : UITableViewCell <FATableViewCellHeight>
 
 + (CGFloat)cellHeight;
 

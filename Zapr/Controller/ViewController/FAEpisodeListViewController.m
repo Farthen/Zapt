@@ -20,8 +20,12 @@
     NSMutableArray *_filteredSeasons;
     BOOL _visible;
     
+    BOOL _displaysSingleSeason;
+    FATraktSeason *_displayedSeason;
+    
     UIBarButtonItem *_filterWatchedButton;
     BOOL _watchedAny;
+    BOOL _notWatchedAny;
     BOOL _filterWatched;
 }
 
@@ -33,7 +37,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self populateEpisodeListForShow:_displayedShow];
+    
+    if (_displaysSingleSeason) {
+        [self showEpisodeListForSeason:_displayedSeason];
+    } else {
+        [self showEpisodeListForShow:_displayedShow];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -49,11 +58,47 @@
     _visible = false;
 }
 
-- (void)populateEpisodeListForShow:(FATraktShow *)show
+- (void)configureFilterWatchedButton
+{
+    if (_watchedAny && _notWatchedAny) {
+        _filterWatchedButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Not watched", nil) style:UIBarButtonItemStylePlain target:self action:@selector(filterWatched)];
+        _filterWatched = NO;
+        
+        _filterWatchedButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Not watched", nil), NSLocalizedString(@"All", nil), nil];
+        [self.navigationItem setRightBarButtonItem:_filterWatchedButton animated:YES];
+    }
+}
+
+- (void)showEpisodeListForSeason:(FATraktSeason *)season
+{
+    _displaysSingleSeason = YES;
+    _displayedShow = season.show;
+    _displayedSeason = season;
+    
+    _filteredWatchedIndexPaths = [[NSMutableArray alloc] init];
+    
+    _filteredWatchedSeasons = [NSMutableArray arrayWithObject:[season.episodes filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        FATraktEpisode *episode = obj;
+        
+        if (episode.watched) {
+            _watchedAny = YES;
+            [_filteredWatchedIndexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
+            return NO;
+        }
+        
+        _notWatchedAny = YES;
+        return YES;
+    }]];
+    
+    [self configureFilterWatchedButton];
+}
+
+- (void)showEpisodeListForShow:(FATraktShow *)show
 {
     _displayedShow = show;
     [self.tableView reloadData];
     _watchedAny = NO;
+    
     _filteredWatchedSeasons = [[NSMutableArray alloc] init];
     _filteredWatchedIndexPaths = [[NSMutableArray alloc] init];
     for (unsigned int s = 0; s < _displayedShow.seasons.count; s++) {
@@ -65,33 +110,37 @@
                 _watchedAny = YES;
                 [_filteredWatchedIndexPaths addObject:[NSIndexPath indexPathForRow:(NSInteger)e inSection:(NSInteger)s]];
             } else {
+                _notWatchedAny = YES;
                 [filteredEpisodes addObject:episode];
             }
         }
         [_filteredWatchedSeasons addObject:filteredEpisodes];
     }
-    if (_watchedAny) {
-        _filterWatchedButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Not watched", nil) style:UIBarButtonItemStylePlain target:self action:@selector(filterWatched)];
-        _filterWatched = NO;
-        
-        _filterWatchedButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Not watched", nil), NSLocalizedString(@"All", nil), nil];
-        [self.navigationItem setRightBarButtonItem:_filterWatchedButton animated:YES];
-    }
+    
+    [self configureFilterWatchedButton];
 }
 
 - (void)filterWatched
 {
-   [self.tableView beginUpdates];
-    if (_filterWatched == YES) {
-        _filterWatched = NO;
+    [self.tableView beginUpdates];
+    
+    _filterWatched = !_filterWatched;
+    
+    if (_filterWatched == NO) {
         _filterWatchedButton.title = NSLocalizedString(@"Not watched", nil);
         [self.tableView insertRowsAtIndexPaths:_filteredWatchedIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+        
     } else {
-        _filterWatched = YES;
         _filterWatchedButton.title = NSLocalizedString(@"All", nil);
         [self.tableView deleteRowsAtIndexPaths:_filteredWatchedIndexPaths withRowAnimation:UITableViewRowAnimationFade];
     }
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _displayedShow.seasons.count)] withRowAnimation:UITableViewRowAnimationFade];
+    
+    if (_displaysSingleSeason) {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 1)] withRowAnimation:UITableViewRowAnimationFade];
+    } else {
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _displayedShow.seasons.count)] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
     [self.tableView endUpdates];
 
     CGPoint offset = CGPointZero;
@@ -100,10 +149,10 @@
     [self.tableView setContentOffset:offset animated:YES];
 }
 
-- (void)showEpisodeListForShow:(FATraktShow *)show
+- (void)loadEpisodeListForShow:(FATraktShow *)show
 {
     [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
-        [self populateEpisodeListForShow:show];
+        [self showEpisodeListForShow:show];
     } onError:nil];
 }
 
@@ -115,18 +164,20 @@
 #pragma mark UISearchBarDelegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    _filteredSeasons = [[NSMutableArray alloc] init];
-    for (unsigned int i = 0; i < _displayedShow.seasons.count; i++) {
-        FATraktSeason *season = _displayedShow.seasons[i];
-        NSMutableArray *filteredEpisodes = [[NSMutableArray alloc] init];
-        for (FATraktEpisode *episode in season.episodes) {
-            NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), season.seasonNumber.intValue, episode.episodeNumber.intValue];
-            if ([episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
-                [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
-                [filteredEpisodes addObject:episode];
-            }
-        }
-        [_filteredSeasons addObject:filteredEpisodes];
+    BOOL (^episodeFilterBlock)(FATraktEpisode *obj, NSUInteger idx, BOOL *stop) = ^BOOL(FATraktEpisode *episode, NSUInteger idx, BOOL *stop) {
+        NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.season.seasonNumber.intValue, episode.episodeNumber.intValue];
+        
+        return [episode.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
+               [episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound;
+    };
+    
+    if (_displaysSingleSeason) {
+        _filteredSeasons = [NSMutableArray arrayWithObject:[_displayedSeason.episodes filterUsingBlock:episodeFilterBlock]];
+    } else {
+        _filteredSeasons = [_displayedShow.seasons mapUsingBlock:^id(FATraktSeason *season, NSUInteger idx) {
+            NSMutableArray *filteredEpisodes = [season.episodes filterUsingBlock:episodeFilterBlock];
+            return filteredEpisodes;
+        }];
     }
 }
 
@@ -136,6 +187,11 @@
     if (_displayedShow == nil) {
         return 0;
     }
+    
+    if (_displaysSingleSeason) {
+        return 1;
+    }
+    
     return (NSInteger)_displayedShow.seasons.count;
 }
 
@@ -144,12 +200,19 @@
     if (_displayedShow == nil) {
         return 0;
     }
+    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return (NSInteger)((NSArray *)_filteredSeasons[section]).count;
     }
+    
     if (_filterWatched) {
         return (NSInteger)((NSArray *)_filteredWatchedSeasons[section]).count;
     }
+    
+    if (_displaysSingleSeason) {
+        return _displayedSeason.episodes.count;
+    }
+    
     return (NSInteger)((FATraktSeason *)_displayedShow.seasons[section]).episodes.count;
 }
 
@@ -176,6 +239,9 @@
         NSArray *episodeArray = _filteredWatchedSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
         season = episode.show.seasons[(NSUInteger)episode.seasonNumber.intValue];
+    } else if (_displaysSingleSeason) {
+        season = _displayedSeason;
+        episode = season.episodes[(NSUInteger)indexPath.row];
     } else {
         season = _displayedShow.seasons[(NSUInteger)indexPath.section];
         episode = season.episodes[(NSUInteger)indexPath.row];
@@ -206,16 +272,25 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    FATraktSeason *season = _displayedShow.seasons[(NSUInteger)section];
+    FATraktSeason *season;
+    if (_displaysSingleSeason) {
+        season = _displayedSeason;
+    } else {
+        season = _displayedShow.seasons[(NSUInteger)section];
+    }
+    
+    
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         if (((NSArray *)_filteredSeasons[section]).count == 0) {
             return nil;
         }
+        
     } else if (_filterWatched) {
         if (((NSArray *)_filteredWatchedSeasons[section]).count == 0) {
             return nil;
         }
     }
+    
     if (season.seasonNumber.intValue == 0) {
         return NSLocalizedString(@"Specials", nil);
     } else {
@@ -225,19 +300,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    FATraktSeason *season;
     FATraktEpisode *episode;
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         NSArray *episodeArray = _filteredSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        //season = episode.show.seasons[(NSUInteger)episode.season.intValue];
     } else if (_filterWatched) {
         NSArray *episodeArray = _filteredWatchedSeasons[(NSUInteger)indexPath.section];
         episode = episodeArray[(NSUInteger)indexPath.row];
-        //season = episode.show.seasons[episode.season.unsignedIntValue];
+    } else if (_displaysSingleSeason) {
+        episode = _displayedSeason.episodes[indexPath.row];
     } else {
-        season = _displayedShow.seasons[(NSUInteger)indexPath.section];
+        FATraktSeason *season = _displayedShow.seasons[(NSUInteger)indexPath.section];
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     

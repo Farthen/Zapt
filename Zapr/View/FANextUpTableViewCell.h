@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATableViewCellHeight.h"
 
-@interface FANextUpTableViewCell : UITableViewCell
+@interface FANextUpTableViewCell : UITableViewCell <FATableViewCellHeight>
 
 @property IBOutlet UILabel *nextUpLabel;
 @property IBOutlet UILabel *nameLabel;

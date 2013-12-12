@@ -120,9 +120,24 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             NSString *propertyKey = propertyInfo.name;
             id propertyData = [self valueForKey:propertyKey];
             
-            if ([propertyData conformsToProtocol:@protocol(NSCopying)] || propertyInfo.isRetain == NO) {
-                id copiedData = [propertyData copy];
+            if ([propertyData conformsToProtocol:@protocol(NSCopying)] && propertyInfo.isRetain == YES) {
+                
+                id copiedData;
+                
+                if ([propertyData conformsToProtocol:@protocol(NSMutableCopying)] &&
+                   ([propertyInfo.objcClass isSubclassOfClass:[NSMutableArray class]] ||
+                    [propertyInfo.objcClass isSubclassOfClass:[NSMutableDictionary class]] ||
+                    [propertyInfo.objcClass isSubclassOfClass:[NSMutableSet class]]
+                    )) {
+                    
+                    copiedData = [propertyData mutableCopyWithZone:zone];
+                   } else {
+                    copiedData = [propertyData copyWithZone:zone];
+                }
+                
                 [newObject setValue:copiedData forKey:key];
+            } else if (propertyInfo.isWeak == YES || propertyInfo.isObjcClass == NO) {
+                [newObject setValue:propertyData forKey:key];
             } else if (propertyData != nil) {
                 DDLogWarn(@"Failed copying property with key %@: Underlying object does not support NSCopying", propertyKey);
             }

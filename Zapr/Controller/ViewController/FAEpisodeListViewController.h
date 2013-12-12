@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class FATraktShow;
+@class FATraktSeason;
 
 @interface FAEpisodeListViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UITableViewDataSource>
 
 - (void)showEpisodeListForShow:(FATraktShow *)show;
+- (void)showEpisodeListForSeason:(FATraktSeason *)season;
+- (void)loadEpisodeListForShow:(FATraktShow *)show;
 
 @end

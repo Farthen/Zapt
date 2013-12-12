@@ -11,6 +11,10 @@
 @interface FAArrayTableViewDataSource ()
 @property NSString *cellIdentifier;
 @property (weak) UITableView *tableView;
+
+// An object to index path mapping. It contains NSSets with index paths
+@property NSMutableDictionary *objects;
+
 @end
 
 @implementation FAArrayTableViewDataSource {
@@ -41,17 +45,41 @@
 - (void)setTableViewData:(NSArray *)tableViewData
 {
     NSMutableArray *mutableTableViewData = [NSMutableArray arrayWithCapacity:tableViewData.count];
+    NSMutableDictionary *objects = [NSMutableDictionary dictionary];
     
-    for (id object in tableViewData) {
-        if (![object isKindOfClass:[NSArray class]]) {
+    NSUInteger sectionIndex = 0;
+    
+    for (id section in [tableViewData copy]) {
+        if (![section isKindOfClass:[NSArray class]]) {
             [NSException raise:NSInternalInconsistencyException format:@"%@ needs table view data that consists of an array of arrays of objects. %@ does not conform to this.", [self className], tableViewData];
         } else {
-            [mutableTableViewData addObject:[object mutableCopy]];
+            [mutableTableViewData addObject:[section mutableCopy]];
+            
+            NSUInteger rowIndex = 0;
+            
+            for (id object in (NSArray *)section) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
+                
+                NSMutableSet *indexPaths = [objects objectForKey:object];
+                
+                if (!indexPaths) {
+                    indexPaths = [NSMutableSet set];
+                    [objects setObject:indexPaths forKey:object];
+                }
+                
+                [indexPaths addObject:indexPath];
+                
+                rowIndex++;
+            }
         }
+        
+        sectionIndex++;
         
     }
     
     _tableViewData = mutableTableViewData;
+    self.objects = objects;
+    
     [self.tableView reloadData];
 }
 
@@ -157,8 +185,59 @@
     return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
 }
 
+
+
+- (void)removeObject:(id)object
+{
+    NSSet *indexPaths = [self.objects objectForKey:object];
+    [self.objects removeObjectForKey:object];
+    
+    for (NSIndexPath *indexPath in indexPaths) {
+        NSMutableArray *section = [_tableViewData objectAtIndex:indexPath.section];
+        [section removeObjectAtIndex:indexPath.row];
+    }
+    
+    [self.tableView deleteRowsAtIndexPaths:indexPaths.allObjects withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)replaceObject:(id)oldObject withObject:(id)newObject
+{
+    NSSet *indexPaths = [self.objects objectForKey:oldObject];
+    [self replaceObjectsAtIndexPaths:indexPaths withObject:newObject];
+}
+
+- (void)replaceObjectsAtIndexPaths:(NSSet *)indexPaths withObject:(id)object
+{
+    for (NSIndexPath *indexPath in indexPaths) {
+        [self replaceObjectAtIndexPath:indexPath withObject:object];
+    }
+}
+
+- (void)replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object
+{
+    [self replaceObjectInSection:indexPath.section row:indexPath.row withObject:object];
+}
+
 - (void)replaceObjectInSection:(NSUInteger)section row:(NSUInteger)row withObject:(id)object
 {
+    id oldObject = self.tableViewData[section][row];
+    NSMutableSet *oldIndexPaths = [self.objects objectForKey:oldObject];
+    [oldIndexPaths removeObject:oldObject];
+    
+    if (oldIndexPaths.count == 0) {
+        [self.objects removeObjectForKey:oldObject];
+    }
+    
+    NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
+    NSMutableSet *newIndexPaths = [self.objects objectForKey:object];
+    
+    if (!newIndexPaths) {
+        newIndexPaths = [NSMutableSet set];
+        [self.objects setObject:newIndexPaths forKey:object];
+    }
+    
+    [newIndexPaths addObject:newIndexPath];
+    
     self.tableViewData[section][row] = object;
     [self reloadSection:section row:row];
 }
@@ -172,21 +251,38 @@
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     
-    NSUInteger *sectionIndex = 0;
-    
-    for (NSMutableArray *section in self.tableViewData) {
-        NSIndexSet *indexes = [section indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-            return [objects containsObject:obj];
-        }];
+    for (id object in objects) {
+        NSSet *objectIndexPaths = [self.objects objectForKey:object];
         
-        [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:idx inSection:(NSInteger)sectionIndex]];
-        }];
-        
-        sectionIndex++;
+        if (objectIndexPaths) {
+            [indexPaths addObjectsFromArray:[objectIndexPaths allObjects]];
+        }
     }
     
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+}
+
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ((NSInteger)self.tableViewData.count > indexPath.section) {
+        NSArray *section = self.tableViewData[indexPath.section];
+        
+        if ((NSInteger)section.count > indexPath.row) {
+            return section[indexPath.row];
+        }
+    }
+    
+    return nil;
+}
+
+- (NSIndexPath *)anyIndexPathForObject:(id)object
+{
+    return [self indexPathsForObject:object].anyObject;
+}
+
+- (NSSet *)indexPathsForObject:(id)object
+{
+    return self.objects[object];
 }
 
 @end

@@ -8,10 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol FAArrayTableViewDataSourceDelegate <NSObject>
-
-@end
-
 @interface FAArrayTableViewDataSource : NSObject <UITableViewDataSource>
 
 // Designated initializer
@@ -42,9 +38,17 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 @property (assign) Class cellClass;
 
 // Convenicence methods
+- (void)replaceObject:(id)oldObject withObject:(id)newObject;
+- (void)replaceObjectsAtIndexPaths:(NSSet *)indexPaths withObject:(id)object;
+- (void)replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;
 - (void)replaceObjectInSection:(NSUInteger)section row:(NSUInteger)row withObject:(id)object;
+
 - (void)reloadSection:(NSUInteger)section row:(NSUInteger)row;
 - (void)reloadRowsWithObjects:(NSSet *)objects;
 - (void)reloadRowsWithObject:(id)object;
+
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath;
+- (NSIndexPath *)anyIndexPathForObject:(id)object;
+- (NSSet *)indexPathsForObject:(id)object;
 
 @end
