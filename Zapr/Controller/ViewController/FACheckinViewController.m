@@ -64,8 +64,8 @@ typedef enum {
                                    initWithTitle:NSLocalizedString(@"Checkin failed", nil)
                                          message:NSLocalizedString(@"Another checkin is already in progress. Do you want to cancel it?", nil)
                                         delegate:self
-                               cancelButtonTitle:NSLocalizedString(@"Cancel Checkin", nil)
-                               otherButtonTitles:NSLocalizedString(@"Dismiss", nil), nil];
+                               cancelButtonTitle:NSLocalizedString(@"Don't Cancel", nil)
+                               otherButtonTitles:NSLocalizedString(@"Cancel Checkin", nil), nil];
     
     self.shouldCancelActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Cancel This Checkin?", nil)
                                                                delegate:self
@@ -334,7 +334,7 @@ typedef enum {
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView == self.checkinInProgressAlert) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == 1) {
             // Cancel the other checkin and check into the new one
             self.checkinViewState = FACheckinViewStateCancellingOldCheckin;
             
