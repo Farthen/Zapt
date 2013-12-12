@@ -124,16 +124,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
                 
                 id copiedData;
                 
-                if ([propertyData conformsToProtocol:@protocol(NSMutableCopying)] &&
-                   ([propertyInfo.objcClass isSubclassOfClass:[NSMutableArray class]] ||
-                    [propertyInfo.objcClass isSubclassOfClass:[NSMutableDictionary class]] ||
-                    [propertyInfo.objcClass isSubclassOfClass:[NSMutableSet class]]
-                    )) {
-                    
-                    copiedData = [propertyData mutableCopyWithZone:zone];
-                   } else {
-                    copiedData = [propertyData copyWithZone:zone];
-                }
+                copiedData = propertyData;
                 
                 [newObject setValue:copiedData forKey:key];
             } else if (propertyInfo.isWeak == YES || propertyInfo.isObjcClass == NO) {
