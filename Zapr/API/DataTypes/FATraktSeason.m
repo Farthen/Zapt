@@ -193,8 +193,6 @@
         } else {
             show.seasons[self.seasonNumber.unsignedIntegerValue] = self;
         }
-        
-        [show commitToCache];
     }
 }
 
