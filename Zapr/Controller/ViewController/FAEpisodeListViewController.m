@@ -11,6 +11,8 @@
 #import "FAStatusBarSpinnerController.h"
 #import "FATrakt.h"
 
+#import "FAInterfaceStringProvider.h"
+
 #import "FAUnreadItemIndicatorView.h"
 
 @implementation FAEpisodeListViewController {
@@ -89,6 +91,8 @@
         _notWatchedAny = YES;
         return YES;
     }]];
+    
+    self.navigationItem.title = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
     
     [self configureFilterWatchedButton];
 }
@@ -291,11 +295,11 @@
         }
     }
     
-    if (season.seasonNumber.intValue == 0) {
-        return NSLocalizedString(@"Specials", nil);
-    } else {
-        return [NSString stringWithFormat:NSLocalizedString(@"Season %@", nil), season.seasonNumber];
+    if (_displaysSingleSeason) {
+        return nil;
     }
+    
+    return [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
