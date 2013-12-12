@@ -28,7 +28,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 + (void)initialize
 {
-    [FACache setCodingVersionNumber:14];
+    [FACache setCodingVersionNumber:15];
 }
 
 - (id)init
