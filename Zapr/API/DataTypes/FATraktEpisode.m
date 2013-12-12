@@ -193,6 +193,8 @@
             // This will also insert the episode into the season.episodes array
             self.season = season;
         }
+        
+        [show commitToCache];
     }
 }
 
@@ -250,6 +252,8 @@
         } else {
             season.episodes[self.episodeNumber.unsignedIntegerValue] = self;
         }
+        
+        [season commitToCache];
     }
 }
 
