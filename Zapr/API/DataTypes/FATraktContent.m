@@ -74,7 +74,7 @@
         
         FATraktShow *show = (FATraktShow *)self;
         if (show.progress) {
-            return show.progress.left == 0;
+            return show.progress.left.unsignedIntegerValue == 0;
         }
         
         return NO;
