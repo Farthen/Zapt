@@ -83,7 +83,7 @@
                 }
             }
             
-            [self setValue:[NSArray arrayWithArray:episodesArray] forKey:key];
+            self.episodes = episodesArray;
         } else if ([object isKindOfClass:[NSNumber class]]) {
             // Only basic season information
             self.episodeCount = object;

@@ -134,7 +134,7 @@
             NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
             [seasonArray sortUsingDescriptors:sortDescriptors];
             
-            [self setValue:[NSArray arrayWithArray:seasonArray] forKey:key];
+            self.seasons = seasonArray;
         }
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
