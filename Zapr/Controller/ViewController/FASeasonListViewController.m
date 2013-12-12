@@ -62,6 +62,8 @@
     self.arrayTableViewDelegate.delegate = self;
     self.tableView.delegate = self.arrayTableViewDelegate;
     
+    self.tableView.rowHeight = 100;
+    
     self.arrayDataSource.cellClass = [FAImageTableViewCell class];
     self.tableView.dataSource = self.arrayDataSource;
     
