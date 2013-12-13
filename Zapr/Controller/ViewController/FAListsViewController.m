@@ -130,7 +130,7 @@
     if (section == 0) {
         return NSLocalizedString(@"Watchlists", nil);
     } else if (section == 1) {
-        return NSLocalizedString(@"Seen", nil);
+        return NSLocalizedString(@"Library", nil);
     }
     return NSLocalizedString(@"Custom Lists", nil);
 }

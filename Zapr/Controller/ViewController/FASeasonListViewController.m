@@ -47,7 +47,10 @@
     
     self.seasonImages = [NSMutableDictionary dictionary];
     
-    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
+    __weak typeof(self) weakSelf = self;
+    [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
+        [weakSelf loadShowData:weakSelf.show withActivity:YES];
+    }];
 }
 
 - (void)viewDidLoad
@@ -151,17 +154,30 @@
     }];
 }
 
+- (void)loadShowData:(FATraktShow *)show withActivity:(BOOL)activity
+{
+    if (activity) {
+        [self.refreshControlWithActivity startActivity];
+    }
+    
+    [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
+        [self.refreshControlWithActivity finishActivity];
+        
+        if (show.seasons) {
+            [self displayShow:show];
+        }
+    } onError:^(FATraktConnectionResponse *connectionError) {
+        [self.refreshControlWithActivity finishActivity];
+    }];
+}
+
 - (void)loadShow:(FATraktShow *)show
 {
     if (show.seasons && show.seasons.count != 0) {
         [self displayShow:show];
     }
     
-    [[FATrakt sharedInstance] detailsForShow:show detailLevel:FATraktDetailLevelExtended callback:^(FATraktShow *show) {
-        if (show.seasons) {
-            [self displayShow:show];
-        }
-    } onError:nil];
+    [self loadShowData:show withActivity:NO];
 }
 
 @end

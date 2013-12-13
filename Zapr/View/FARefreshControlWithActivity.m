@@ -17,7 +17,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        self.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@" ", nil)];;
     }
+    return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.attributedTitle = [[NSAttributedString alloc] initWithString:@" "];
+    }
+    
     return self;
 }
 
@@ -45,13 +57,17 @@
     if (startCount < 0) {
         startCount = 0;
     }
+    
     _startCount = startCount;
     if (_startCount > 0) {
         if (!self.refreshing) {
             [self beginRefreshing];
         }
+        
+        self.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Reloading Data…", nil)];
     } else {
         [self endRefreshing];
+        self.attributedTitle = [[NSAttributedString alloc] initWithString:NSLocalizedString(@" ", nil)];;
     }
 }
 
