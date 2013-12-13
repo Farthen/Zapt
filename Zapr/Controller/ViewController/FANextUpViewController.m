@@ -9,6 +9,8 @@
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
 
+#import "FAInterfaceStringProvider.h"
+
 #import "FAHorizontalProgressView.h"
 
 #import "FATrakt.h"
@@ -104,8 +106,12 @@
     _displaysProgress = YES;
     _progress = progress;
     CGFloat percentage = (CGFloat)progress.percentage.unsignedIntegerValue / 100;
+    
     self.progressView.progress = percentage;
-    self.progressView.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i episodes", nil), progress.completed.unsignedIntegerValue, progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue];
+    self.progressView.textLabel.text = [FAInterfaceStringProvider progressForProgress:progress long:YES];
+    
+    [self.view setNeedsLayout];
+    [self.view layoutIfNeeded];
 }
 
 - (void)displayNextUp:(FATraktEpisode *)episode
@@ -158,7 +164,7 @@
     
     if (_nextUpEpisode) {
         FATraktEpisode *episode = _nextUpEpisode;
-        self.cell.seasonLabel.text = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
+        self.cell.seasonLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
         self.cell.nameLabel.text = episode.title;
     }
     

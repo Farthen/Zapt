@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FAViewController.h"
 
-@interface FASemiModalEnabledViewController : UIViewController
+@interface FASemiModalEnabledViewController : FAViewController
 
 - (void)presentSemiModalViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)dismissSemiModalViewControllerAnimated:(BOOL)animated completion:(void (^)(void))completion;

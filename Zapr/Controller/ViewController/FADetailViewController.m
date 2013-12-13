@@ -235,8 +235,8 @@
 - (void)setNextUpViewWithEpisode:(FATraktEpisode *)episode
 {
     if (episode) {
-        [self.nextUpViewController displayNextUp:episode];
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
+            [self.nextUpViewController displayNextUp:episode];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.contentView layoutIfNeeded];
