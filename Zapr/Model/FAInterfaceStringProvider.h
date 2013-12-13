@@ -17,6 +17,9 @@
 
 + (NSString *)nameForSeason:(FATraktSeason *)season capitalized:(BOOL)capitalized;
 + (NSString *)nameForEpisode:(FATraktEpisode *)episode long:(BOOL)longName capitalized:(BOOL)capitalized;
+
++ (NSString *)progressForProgress:(FATraktShowProgress *)progress long:(BOOL)longName;
++ (NSString *)progressForShow:(FATraktShow *)show long:(BOOL)longName;
 + (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName;
 
 @end

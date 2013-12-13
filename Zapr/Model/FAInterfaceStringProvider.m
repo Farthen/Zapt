@@ -154,25 +154,54 @@ static NSArray *_ratingNames;
     return name;
 }
 
-+ (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName
++ (NSString *)progressForProgressValue:(NSInteger)progress totalValue:(NSInteger)total long:(BOOL)longName
 {
     NSString *name = nil;
+    NSString *progressString;
+    NSString *totalString;
     
-    if (season.episodes) {
-        if (longName) {
-            name = [NSString stringWithFormat:NSLocalizedString(@"Watched %i / %i", nil), season.episodesWatched.unsignedIntegerValue, season.episodeCount.unsignedIntegerValue];
-        } else {
-            name = [NSString stringWithFormat:NSLocalizedString(@"%i / %i", nil), season.episodesWatched.unsignedIntegerValue, season.episodesWatched.unsignedIntegerValue];
-        }
+    if (progress >= 0) {
+        progressString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), progress];
     } else {
-        if (longName) {
-            name = [NSString stringWithFormat:NSLocalizedString(@"Watched - / -", nil)];
-        } else {
-            name = [NSString stringWithFormat:NSLocalizedString(@"- / -", nil)];
-        }
+        progressString = NSLocalizedString(@"-", nil);
+    }
+    
+    if (total >= 0) {
+        totalString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), progress];
+    } else {
+        totalString = NSLocalizedString(@"-", nil);
+    }
+    
+    if (longName) {
+        name = [NSString stringWithFormat:NSLocalizedString(@"Watched %@ / %@", nil), progressString, totalString];
+    } else {
+        name = [NSString stringWithFormat:NSLocalizedString(@"%@ / %@", nil), progressString, totalString];
     }
     
     return name;
+}
+
++ (NSString *)progressForProgress:(FATraktShowProgress *)progress long:(BOOL)longName
+{
+    if (progress) {
+        return [self progressForProgressValue:progress.completed.unsignedIntegerValue totalValue:progress.completed.unsignedIntegerValue + progress.left.unsignedIntegerValue long:longName];
+    } else {
+        return [self progressForProgressValue:-1 totalValue:-1 long:longName];
+    }
+}
+
++ (NSString *)progressForShow:(FATraktShow *)show long:(BOOL)longName
+{
+    return [self progressForProgress:show.progress long:longName];
+}
+
++ (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName
+{
+    if (season.episodes) {
+        return [self progressForProgressValue:season.episodesWatched.unsignedIntegerValue totalValue:season.episodeCount.unsignedIntegerValue long:longName];
+    } else {
+        return [self progressForProgressValue:-1 totalValue:-1 long:longName];
+    }
 }
 
 @end
