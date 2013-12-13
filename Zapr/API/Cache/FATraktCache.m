@@ -72,8 +72,8 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
         _content.delegate = self;
     }
     
-    // Don't cache more than 500 content things
-    _content.countLimit = 50;
+    // Don't cache more than 1000 content things
+    _content.countLimit = 1000;
     _content.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_images) {
