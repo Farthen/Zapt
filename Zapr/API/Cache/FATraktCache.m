@@ -65,7 +65,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     }
     
     _misc.countLimit = 20;
-    _misc.defaultExpirationTime = NSTimeIntervalOneWeek;
+    _misc.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_content) {
         _content = [[FACache alloc] initWithName:@"content" loadFromDisk:YES];
@@ -74,7 +74,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     
     // Don't cache more than 500 content things
     _content.countLimit = 50;
-    _content.defaultExpirationTime = NSTimeIntervalOneWeek;
+    _content.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_images) {
         _images = [[FABigDataCache alloc] initWithName:@"images" loadFromDisk:YES];
@@ -84,7 +84,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     // Don't cache more than 100 images
     _images.countLimit = 20;
     _images.totalCostLimit = FACacheCostMebibytes(100);
-    _images.defaultExpirationTime = NSTimeIntervalOneWeek;
+    _images.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_lists) {
         _lists = [[FACache alloc] initWithName:@"lists" loadFromDisk:YES];
@@ -93,7 +93,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     
     // Don't cache more than 20 lists
     _lists.countLimit = 200;
-    _lists.defaultExpirationTime = NSTimeIntervalOneWeek;
+    _lists.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_searches) {
         _searches = [[FACache alloc] initWithName:@"searches" loadFromDisk:YES];
@@ -102,7 +102,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     
     // Don't cache more than 100 search results
     _searches.countLimit = 100;
-    _searches.defaultExpirationTime = NSTimeIntervalOneWeek;
+    _searches.defaultExpirationTime = FATimeIntervalOneWeek;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
