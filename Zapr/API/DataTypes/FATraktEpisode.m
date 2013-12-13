@@ -26,7 +26,7 @@
     if (self) {
         self.seasonNumber = seasonNumber;
         self.episodeNumber = episodeNumber;
-        self.show = show;
+        _show = show;
     }
     
     return self;

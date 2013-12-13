@@ -17,25 +17,22 @@ PODS:
   - AFNetworking/Serialization (2.0.3)
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
-  - CocoaLumberjack (1.6.4):
+  - CocoaLumberjack (1.6.5.1):
     - CocoaLumberjack/Core
     - CocoaLumberjack/Extensions
-  - CocoaLumberjack/Core (1.6.4)
-  - CocoaLumberjack/Extensions (1.6.4):
+  - CocoaLumberjack/Core (1.6.5.1)
+  - CocoaLumberjack/Extensions (1.6.5.1):
     - CocoaLumberjack/Core
-  - MBProgressHUD (0.8)
   - TUSafariActivity (1.0.0)
 
 DEPENDENCIES:
   - AFNetworking
   - CocoaLumberjack
-  - MBProgressHUD
   - TUSafariActivity
 
 SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
-  CocoaLumberjack: 006187e7e3c52f505aab43d7b5ba6af35838bf23
-  MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  CocoaLumberjack: 17803afbade3126a377d32b8d23367264b44ced6
   TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
 
 COCOAPODS: 0.28.0

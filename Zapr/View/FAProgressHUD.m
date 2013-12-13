@@ -7,7 +7,7 @@
 //
 
 #import "FAProgressHUD.h"
-#import <MBProgressHUD.h>
+#import "MBProgressHUD.h"
 
 @implementation FAProgressHUD {
     MBProgressHUD *_progressHUD;
@@ -22,7 +22,7 @@
         _progressHUD = [[MBProgressHUD alloc] initWithView:view];
         _successView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
         _failedView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"X-Mark"]];
-        _progressHUD.animationType = MBProgressHUDAnimationZoom;
+        _progressHUD.animationType = MBProgressHUDAnimationFade;
         [view addSubview:_progressHUD];
     }
     return self;
@@ -61,6 +61,7 @@
     } else {
         [_progressHUD hide:YES];
     }
+    
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = YES;
     }

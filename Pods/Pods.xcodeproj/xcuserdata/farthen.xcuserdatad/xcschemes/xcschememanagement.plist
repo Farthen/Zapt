@@ -14,11 +14,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-MBProgressHUD.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-TUSafariActivity.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +27,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2021AD4459DF490E86624AA0</key>
+		<key>63A8F864BA014639811B79D9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>53F136C17CC745DD8F8E4060</key>
+		<key>6E6318473ABE4C3F869C20BC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>68C43C7742A04E2AA49145E2</key>
+		<key>6E9E9551BB9A4AAC93A5CE68</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>91F0FEDECC8E443C91BB8505</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D1B40DE9C7BC4117823D1FDF</key>
+		<key>C019CB5495AB4DA7BA8610C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

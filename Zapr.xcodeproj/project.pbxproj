@@ -147,6 +147,7 @@
 		F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */; };
 		F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94A17FA6470004264E6 /* RNTimer.m */; };
 		F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */; };
+		F3BE5642185B3AAB0066E4D4 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BE5641185B3AAB0066E4D4 /* MBProgressHUD.m */; };
 		F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */; };
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
 		F3C84B7B162976A6006CBFEF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C84B7A162976A5006CBFEF /* Default.png */; };
@@ -446,6 +447,8 @@
 		F3B9C94A17FA6470004264E6 /* RNTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNTimer.m; sourceTree = "<group>"; };
 		F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularProgressView.h; sourceTree = "<group>"; };
 		F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACircularProgressView.m; sourceTree = "<group>"; };
+		F3BE5640185B3AAB0066E4D4 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		F3BE5641185B3AAB0066E4D4 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		F3C7921217FB6F5F00C9CDC0 /* FAProgressView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAProgressView.h; sourceTree = "<group>"; };
 		F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAUIElementWithActivity.h; sourceTree = "<group>"; };
 		F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewCellWithActivity.h; sourceTree = "<group>"; };
@@ -596,6 +599,7 @@
 		B667530515F12FBE00A8D76D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F3BE563F185B3AAB0066E4D4 /* MBProgressHUD */,
 				F34FB71A17F8D68C0031549F /* TestFlight */,
 				F3D80E5317CCFC8800343C9F /* en.lproj */,
 				F3C84B681628DC1A006CBFEF /* Images */,
@@ -866,6 +870,15 @@
 			);
 			name = Cache;
 			path = ../API/Cache;
+			sourceTree = "<group>";
+		};
+		F3BE563F185B3AAB0066E4D4 /* MBProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				F3BE5640185B3AAB0066E4D4 /* MBProgressHUD.h */,
+				F3BE5641185B3AAB0066E4D4 /* MBProgressHUD.m */,
+			);
+			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
 		F3C7921117FB6F1C00C9CDC0 /* Progress */ = {
@@ -1475,6 +1488,7 @@
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
+				F3BE5642185B3AAB0066E4D4 /* MBProgressHUD.m in Sources */,
 				F394EE3B184F30DB007F4BA1 /* NSArray+Functional.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
 				F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */,

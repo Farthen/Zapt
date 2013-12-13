@@ -1,5 +1,4 @@
 platform :ios, '7.0'
-pod 'MBProgressHUD'
 pod 'CocoaLumberjack'
 pod 'TUSafariActivity'
 pod 'AFNetworking'

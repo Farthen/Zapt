@@ -39,6 +39,20 @@
 		sizeWithFont:font constrainedToSize:maxSize lineBreakMode:mode] : CGSizeZero;
 #endif
 
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+	#define kCFCoreFoundationVersionNumber_iOS_7_0 847.2
+#endif
+
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
+	#define MB_IF_IOS7_OR_GREATER(...) \
+		if (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0) { __VA_ARGS__ }
+#else
+	#define MB_IF_IOS7_OR_GREATER(...)
+#endif
+
+#define MB_IF_PRE_IOS7(...)  \
+	if (kCFCoreFoundationVersionNumber < kCFCoreFoundationVersionNumber_iOS_7_0) { __VA_ARGS__ }
+
 
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
@@ -93,7 +107,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize opacity;
 @synthesize color;
 @synthesize labelFont;
+@synthesize labelColor;
 @synthesize detailsLabelFont;
+@synthesize detailsLabelColor;
 @synthesize indicator;
 @synthesize xOffset;
 @synthesize yOffset;
@@ -180,7 +196,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.opacity = 0.8f;
         self.color = nil;
 		self.labelFont = [UIFont boldSystemFontOfSize:kLabelFontSize];
+        MB_IF_PRE_IOS7(self.labelColor = [UIColor whiteColor];)
+		MB_IF_IOS7_OR_GREATER(self.labelColor = [UIColor blackColor];)
 		self.detailsLabelFont = [UIFont boldSystemFontOfSize:kDetailsLabelFontSize];
+        MB_IF_PRE_IOS7(self.detailsLabelColor = [UIColor whiteColor];)
+		MB_IF_IOS7_OR_GREATER(self.detailsLabelColor = [UIColor blackColor];)
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
@@ -196,6 +216,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		// Transparent background
 		self.opaque = NO;
 		self.backgroundColor = [UIColor clearColor];
+        
+        MB_IF_IOS7_OR_GREATER(
+			self.dimBackground = YES;
+            self.opacity = 1.f;
+        )
+		
 		// Make it invisible for now
 		self.alpha = 0.0f;
 		
@@ -450,7 +476,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	label.textAlignment = MBLabelAlignmentCenter;
 	label.opaque = NO;
 	label.backgroundColor = [UIColor clearColor];
-	label.textColor = [UIColor whiteColor];
+	label.textColor = self.labelColor;
 	label.font = self.labelFont;
 	label.text = self.labelText;
 	[self addSubview:label];
@@ -461,7 +487,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	detailsLabel.textAlignment = MBLabelAlignmentCenter;
 	detailsLabel.opaque = NO;
 	detailsLabel.backgroundColor = [UIColor clearColor];
-	detailsLabel.textColor = [UIColor whiteColor];
+	detailsLabel.textColor = self.detailsLabelColor;
 	detailsLabel.numberOfLines = 0;
 	detailsLabel.font = self.detailsLabelFont;
 	detailsLabel.text = self.detailsLabelText;
@@ -476,10 +502,12 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	if (mode == MBProgressHUDModeIndeterminate &&  !isActivityIndicator) {
 		// Update to indeterminate indicator
 		[indicator removeFromSuperview];
-		self.indicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
-										 initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
-		[(UIActivityIndicatorView *)indicator startAnimating];
-		[self addSubview:indicator];
+		UIActivityIndicatorView *activityIndicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
+			initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
+		MB_IF_IOS7_OR_GREATER(activityIndicator.color = [UIColor grayColor];)
+		self.indicator = activityIndicator;        
+		[(UIActivityIndicatorView *)activityIndicator startAnimating];
+		[self addSubview:activityIndicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {
 		// Update to bar determinate indicator
@@ -607,7 +635,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		//Gradient colours
 		size_t gradLocationsNum = 2;
 		CGFloat gradLocations[2] = {0.0f, 1.0f};
-		CGFloat gradColors[8] = {0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.75f}; 
+		CGFloat alphaCenter = 0.f;
+		MB_IF_IOS7_OR_GREATER(alphaCenter = .2f;)
+		CGFloat alphaEdge = 0.75f;
+		MB_IF_IOS7_OR_GREATER(alphaEdge = .2f;)
+		CGFloat gradColors[8] = {0.0f,0.0f,0.0f,alphaCenter,0.0f,0.0f,0.0f,alphaEdge};
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 		CGGradientRef gradient = CGGradientCreateWithColorComponents(colorSpace, gradColors, gradLocations, gradLocationsNum);
 		CGColorSpaceRelease(colorSpace);
@@ -627,8 +659,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         CGContextSetFillColorWithColor(context, self.color.CGColor);
     } else {
         CGContextSetGrayFillColor(context, 0.0f, self.opacity);
+		CGFloat gray = 0.f;
+		MB_IF_IOS7_OR_GREATER(gray = 1.f;)
+		CGContextSetGrayFillColor(context, gray, self.opacity);
     }
-
 	
 	// Center HUD
 	CGRect allRect = self.bounds;
@@ -663,8 +697,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 }
 
 - (NSArray *)observableKeypaths {
-	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", 
-			@"detailsLabelText", @"detailsLabelFont", @"progress", nil];
+	return [NSArray arrayWithObjects:@"mode", @"customView", @"labelText", @"labelFont", @"labelColor",
+			@"detailsLabelText", @"detailsLabelFont", @"detailsLabelColor", @"progress", nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -682,10 +716,14 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		label.text = self.labelText;
 	} else if ([keyPath isEqualToString:@"labelFont"]) {
 		label.font = self.labelFont;
+	} else if ([keyPath isEqualToString:@"labelColor"]) {
+		label.textColor = self.labelColor;
 	} else if ([keyPath isEqualToString:@"detailsLabelText"]) {
 		detailsLabel.text = self.detailsLabelText;
 	} else if ([keyPath isEqualToString:@"detailsLabelFont"]) {
 		detailsLabel.font = self.detailsLabelFont;
+	} else if ([keyPath isEqualToString:@"detailsLabelColor"]) {
+		detailsLabel.textColor = self.detailsLabelColor;
 	} else if ([keyPath isEqualToString:@"progress"]) {
 		if ([indicator respondsToSelector:@selector(setProgress:)]) {
 			[(id)indicator setProgress:progress];
@@ -715,7 +753,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	} else if ([superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:YES];
 	} else {
-		self.bounds = self.superview.bounds;
+		self.frame = self.superview.bounds;
 		[self setNeedsDisplay];
 	}
 }
@@ -767,8 +805,10 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.opaque = NO;
 		_progress = 0.f;
 		_annular = NO;
-		_progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
-		_backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];
+		MB_IF_PRE_IOS7(_progressTintColor = [[UIColor alloc] initWithWhite:1.f alpha:1.f];)
+		MB_IF_IOS7_OR_GREATER(_progressTintColor = (MB_RETAIN([UIColor grayColor]));)
+		MB_IF_PRE_IOS7(_backgroundTintColor = [[UIColor alloc] initWithWhite:1.f alpha:.1f];)
+		MB_IF_IOS7_OR_GREATER(_backgroundTintColor = MB_RETAIN([[UIColor grayColor] colorWithAlphaComponent:0.2]);)
 		[self registerForKVO];
 	}
 	return self;
@@ -824,7 +864,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		CGFloat radius = (allRect.size.width - 4) / 2;
 		CGFloat startAngle = - ((float)M_PI / 2); // 90 degrees
 		CGFloat endAngle = (self.progress * 2 * (float)M_PI) + startAngle;
-		CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f); // white
+		[_progressTintColor setFill];
 		CGContextMoveToPoint(context, center.x, center.y);
 		CGContextAddArc(context, center.x, center.y, radius, startAngle, endAngle, 0);
 		CGContextClosePath(context);
@@ -869,9 +909,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
     self = [super initWithFrame:frame];
     if (self) {
 		_progress = 0.f;
-		_lineColor = [UIColor whiteColor];
-		_progressColor = [UIColor whiteColor];
-		_progressRemainingColor = [UIColor clearColor];
+		MB_IF_PRE_IOS7(_lineColor = MB_RETAIN([UIColor whiteColor]);)
+		MB_IF_IOS7_OR_GREATER(_lineColor = MB_RETAIN([UIColor grayColor]);)
+		MB_IF_PRE_IOS7(_progressColor = MB_RETAIN([UIColor whiteColor]);)
+		MB_IF_IOS7_OR_GREATER(_progressColor = MB_RETAIN([UIColor grayColor]);)
+		_progressRemainingColor = MB_RETAIN([UIColor clearColor]);
 		self.backgroundColor = [UIColor clearColor];
 		self.opaque = NO;
 		[self registerForKVO];
