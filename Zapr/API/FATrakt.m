@@ -22,6 +22,8 @@
 #import "FAStatusBarSpinnerController.h"
 #import "FAActivityDispatch.h"
 
+#import "Misc.h"
+
 #import "FATraktConnection.h"
 
 #undef LOG_LEVEL
@@ -453,15 +455,18 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
         if (detailLevel == FATraktDetailLevelExtended) {
             if (cachedShow.detailLevel == FATraktDetailLevelExtended) {
-                // Don't request extended information twice, this is definitely overkill
-                // TODO: actually do this when episode data has changed (new episodes!)
-                //detailLevel = FATraktDetailLevelDefault;
+                
                 callback(cachedShow);
-                return nil;
+                
+                // Don't request extended information twice within 5 minutes, this is definitely overkill
+                if ([[NSDate date] timeIntervalSinceDate:cachedShow.creationDate] <= FATimeIntervalMinutes(5)) {
+                    return nil;
+                }
             }
         } else {
             callback(cachedShow);
         }
+        
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call callback twice. Make sure it can handle this.
         show = cachedShow;
