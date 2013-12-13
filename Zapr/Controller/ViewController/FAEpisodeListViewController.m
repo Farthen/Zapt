@@ -34,11 +34,18 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.clearsSelectionOnViewWillAppear = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    if (selectedRowIndexPath) {
+        [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
+    }
     
     if (_displaysSingleSeason) {
         [self showEpisodeListForSeason:_displayedSeason];
@@ -303,7 +310,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{    
+{
     FATraktEpisode *episode;
     
     if (tableView == self.searchDisplayController.searchResultsTableView) {

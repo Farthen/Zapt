@@ -45,6 +45,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.clearsSelectionOnViewWillAppear = NO;
     
     [self performBlock:^{
         self.viewWasLoaded = YES;
@@ -56,6 +57,16 @@
             self.viewDidLoadCompletionBlocks = nil;
         }
     } afterDelay:0];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    if (selectedRowIndexPath) {
+        [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
+    }
 }
 
 - (void)dispatchAfterViewDidLoad:(void (^)(void))completionBlock

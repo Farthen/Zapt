@@ -105,10 +105,9 @@
 {
     [super viewWillAppear:animated];
     
-    // Deselect the selected row if any
-    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
-    if (selection) {
-        [self.tableView deselectRowAtIndexPath:selection animated:YES];
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    if (selectedRowIndexPath) {
+        [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
     }
     
     [self.tableView reloadData];

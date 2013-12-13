@@ -83,6 +83,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.clearsSelectionOnViewWillAppear = NO;
+    
 	// Set the row height before loading the tableView for a more smooth experience
     self.tableView.rowHeight = [FAContentTableViewCell cellHeight];
     self.tableView.tableHeaderView = self.searchBar;
@@ -96,10 +99,12 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     // Unselect the selected row if any
-    NSIndexPath *selection = [self.tableView indexPathForSelectedRow];
-    if (selection) {
-        [self.tableView deselectRowAtIndexPath:selection animated:YES];
+    
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    if (selectedRowIndexPath) {
+        [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
     }
     
     if (_reloadWhenShowing) {

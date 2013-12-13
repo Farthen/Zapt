@@ -116,7 +116,7 @@
         return [self.dataSource anyIndexPathForObject:object];
     }
     
-    return nil;
+    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

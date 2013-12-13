@@ -104,15 +104,6 @@
     };
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    NSIndexPath *selectedRow = [self.tableView indexPathForSelectedRow];
-    
-    if (selectedRow) {
-        [self.tableView deselectRowAtIndexPath:selectedRow animated:YES];
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowWithObject:(id)object
 {
     return 100;
