@@ -29,7 +29,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>TraktAPIKey</key>
-	<string>***INVALID***</string>
+	<string>f51f0ae1adf8759e128662bb8d8a6487e81be010</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
