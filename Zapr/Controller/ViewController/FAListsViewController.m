@@ -41,7 +41,7 @@
 	// Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
     
-    __weak id weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
         [weakSelf refreshDataAnimated:YES];
     }];
