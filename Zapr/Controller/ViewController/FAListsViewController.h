@@ -12,6 +12,4 @@
 
 @interface FAListsViewController : FALoggedInTableViewController
 
-@property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;
-
 @end

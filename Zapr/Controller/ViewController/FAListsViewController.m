@@ -40,8 +40,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
-    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
+    
+    __weak id weakSelf = self;
+    [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
+        [weakSelf refreshDataAnimated:YES];
+    }];
     
     self.needsLoginContentName = NSLocalizedString(@"lists", nil);
 }
@@ -55,27 +58,6 @@
     }
     
     [super displayNeedsLoginTableViewIfNeeded];
-}
-
-- (void)setRefreshControlWithActivity:(FARefreshControlWithActivity *)refreshControlWithActivity
-{
-    self.refreshControl = refreshControlWithActivity;
-}
-
-- (FARefreshControlWithActivity *)refreshControlWithActivity
-{
-    if ([self.refreshControl isKindOfClass:[FARefreshControlWithActivity class]]) {
-        return (FARefreshControlWithActivity *)self.refreshControl;
-    } else {
-        return nil;
-    }
-}
-
-- (void)refreshControlValueChanged
-{
-    if (self.refreshControl.refreshing) {
-        [self refreshDataAnimated:YES];
-    }
 }
 
 - (void)refreshDataAnimated:(BOOL)animated

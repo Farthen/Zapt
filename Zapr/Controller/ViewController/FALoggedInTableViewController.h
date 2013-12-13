@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "FATableViewController.h"
 
-@interface FALoggedInTableViewController : UITableViewController
+@interface FALoggedInTableViewController : FATableViewController
 
 @property NSString *needsLoginContentName;
 

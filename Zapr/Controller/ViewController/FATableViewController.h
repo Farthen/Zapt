@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FARefreshControlWithActivity;
 
 @interface FATableViewController : UITableViewController
 
 - (void)setUp;
 
+- (void)setUpRefreshControlWithActivityWithRefreshDataBlock:(void (^)(FARefreshControlWithActivity *refreshControlWithActivity))refreshDataBlock;
+
 typedef void (^FAViewControllerCompletionBlock)(void);
 - (void)dispatchAfterViewDidLoad:(void (^)(void))completionBlock;
+
+@property (nonatomic) FARefreshControlWithActivity *refreshControlWithActivity;
 
 @end

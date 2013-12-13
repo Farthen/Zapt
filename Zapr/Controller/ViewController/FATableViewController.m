@@ -7,10 +7,13 @@
 //
 
 #import "FATableViewController.h"
+#import "FARefreshControlWithActivity.h"
 
 @interface FATableViewController ()
 @property NSMutableArray *viewDidLoadCompletionBlocks;
 @property BOOL viewWasLoaded;
+
+@property (nonatomic, copy) void (^refreshControlWithActivityRefreshDataBlock)(FARefreshControlWithActivity *refreshControl);
 @end
 
 @implementation FATableViewController
@@ -68,6 +71,37 @@
             completionBlock();
         }
     });
+}
+
+- (void)setRefreshControlWithActivity:(FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    self.refreshControl = refreshControlWithActivity;
+}
+
+- (FARefreshControlWithActivity *)refreshControlWithActivity
+{
+    if ([self.refreshControl isKindOfClass:[FARefreshControlWithActivity class]]) {
+        return (FARefreshControlWithActivity *)self.refreshControl;
+    } else {
+        return nil;
+    }
+}
+
+- (void)refreshControlValueChanged
+{
+    if (self.refreshControl.refreshing) {
+        if ([self refreshControlWithActivityRefreshDataBlock]) {
+            self.refreshControlWithActivityRefreshDataBlock(self.refreshControlWithActivity);
+        }
+    }
+}
+
+- (void)setUpRefreshControlWithActivityWithRefreshDataBlock:(void (^)(FARefreshControlWithActivity *refreshControlWithActivity))refreshDataBlock
+{
+    self.refreshControlWithActivityRefreshDataBlock = refreshDataBlock;
+    
+    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshControlValueChanged) forControlEvents:UIControlEventValueChanged];
 }
 
 @end

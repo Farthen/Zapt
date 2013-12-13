@@ -14,6 +14,8 @@
 #import "FAImageTableViewCell.h"
 #import "FAInterfaceStringProvider.h"
 
+#import "FARefreshControlWithActivity.h"
+
 #import "FABadges.h"
 
 @interface FASeasonListViewController ()
@@ -44,6 +46,8 @@
     self.navigationItem.title = @"Seasons";
     
     self.seasonImages = [NSMutableDictionary dictionary];
+    
+    self.refreshControl = [[FARefreshControlWithActivity alloc] init];
 }
 
 - (void)viewDidLoad
