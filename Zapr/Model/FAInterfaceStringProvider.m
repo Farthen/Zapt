@@ -167,7 +167,7 @@ static NSArray *_ratingNames;
     }
     
     if (total >= 0) {
-        totalString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), progress];
+        totalString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), total];
     } else {
         totalString = NSLocalizedString(@"-", nil);
     }
