@@ -24,7 +24,7 @@
 
 @implementation FAListDetailViewController {
     FATraktList *_displayedList;
-    NSMutableArray *_sortedSectionIndexTitles;
+    NSArray *_sortedSectionIndexTitles;
     NSMutableArray *_sortedSectionObjects;
     
     FATraktList *_loadedList;
@@ -321,31 +321,43 @@
 
 - (void)reloadSectionIndexTitleData
 {
-    NSMutableDictionary *alphabetLetters = [NSMutableDictionary dictionary];
+    _sortedSectionIndexTitles = @[@"A", @"B", @"C", @"D", @"E", @"F", @"G", @"H", @"I", @"J", @"K", @"L", @"M",
+                                  @"N", @"O", @"P", @"Q", @"R", @"S", @"T", @"U", @"V", @"W", @"X", @"Y", @"Z", @"#"];
+    
+    NSMutableDictionary * alphabetIndexes = [NSMutableDictionary dictionaryWithCapacity:_sortedSectionIndexTitles.count];
+    
+    for (NSUInteger i = 0; i < _sortedSectionIndexTitles.count; i++) {
+        NSString *alphabetLetter = _sortedSectionIndexTitles[i];
+        [alphabetIndexes setObject:[NSNumber numberWithUnsignedInteger:i] forKey:alphabetLetter];
+    }
+    
+    NSMutableArray *sortedSectionObjects = [NSMutableArray arrayWithCapacity:_sortedSectionIndexTitles.count];
+    
+    for (NSUInteger i = 0; i < _sortedSectionIndexTitles.count; i++) {
+        [sortedSectionObjects addObject:[NSMutableSet set]];
+    }
     
     for (FATraktListItem *listItem in _displayedList.items) {
         NSString *letter = [[listItem.content.title substringToIndex:1] capitalizedString];
         
         if (letter) {
-            NSMutableArray *listItems = [alphabetLetters objectForKey:letter];
+            NSNumber *sectionIndexNumber = alphabetIndexes[letter];
             
-            if (!listItems) {
-                listItems = [NSMutableArray array];
+            if (!sectionIndexNumber) {
+                // Anything that doesn't fit will go to the label '#'
+                sectionIndexNumber = alphabetIndexes[@"#"];
             }
             
+            NSMutableSet *listItems = sortedSectionObjects[[sectionIndexNumber unsignedIntegerValue]];
             [listItems addObject:listItem];
-            [alphabetLetters setObject:listItems forKey:letter];
         }
     }
     
-    _sortedSectionIndexTitles = [[alphabetLetters.allKeys sortedArrayUsingSelector:@selector(localizedCompare:)] mutableCopy];
-    NSMutableArray *sortedSectionObjects = [NSMutableArray array];
-    
-    for (NSString *letter in _sortedSectionIndexTitles) {
-        [sortedSectionObjects addObject:[alphabetLetters objectForKey:letter]];
-    }
-    
-    _sortedSectionObjects = sortedSectionObjects;
+    _sortedSectionObjects = [sortedSectionObjects mapUsingBlock:^id(id obj, NSUInteger idx) {
+        NSSet *listItems = obj;
+        NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"content.title" ascending:YES];
+        return [listItems sortedArrayUsingDescriptors:@[sortDescriptor]];
+    }];    
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
@@ -385,7 +397,7 @@
                     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                 } else {
                     [_sortedSectionObjects removeObjectAtIndex:indexPath.section];
-                    [_sortedSectionIndexTitles removeObjectAtIndex:indexPath.section];
+                    //[_sortedSectionIndexTitles removeObjectAtIndex:indexPath.section];
                     
                     [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
                 }
