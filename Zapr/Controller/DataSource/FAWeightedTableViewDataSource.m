@@ -52,13 +52,13 @@
     [self.tableView reloadData];
 }
 
-- (void)removeRowInSection:(id<NSCopying>)sectionKey forKey:(id<NSCopying>)key
+- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowObject
 {
     NSMutableDictionary *section = self.weightedSections[sectionKey];
-    [section removeObjectForKey:key];
+    [section removeObjectForKey:rowObject];
 }
 
-- (void)insertRow:(id)rowObject inSection:(id<NSCopying>)sectionKey forKey:(id<NSCopying>)key withWeight:(NSInteger)weight
+- (void)insertRow:(id)rowObject inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight
 {
     NSMutableDictionary *section = self.weightedSections[sectionKey];
     
@@ -74,7 +74,7 @@
         section[@"sectionData"] = sectionData;
     }
     
-    sectionData[key] = [@{@"rowObject": rowObject, @"weight": [NSNumber numberWithInteger:weight]} mutableCopy];
+    sectionData[rowObject] = [@{@"rowObject": rowObject, @"weight": [NSNumber numberWithInteger:weight]} mutableCopy];
 }
 
 

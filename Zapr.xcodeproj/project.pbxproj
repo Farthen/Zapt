@@ -841,10 +841,10 @@
 			children = (
 				F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */,
 				F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */,
-				F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */,
-				F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */,
 				F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */,
 				F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */,
+				F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */,
+				F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */,
 			);
 			name = "Data Source";
 			path = DataSource;

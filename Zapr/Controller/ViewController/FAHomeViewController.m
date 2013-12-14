@@ -21,6 +21,8 @@
 @property FAArrayTableViewDelegate *arrayDelegate;
 
 @property BOOL tableViewContainsCurrentlyWatching;
+
+@property FATraktContent *currentlyWatchingContent;
 @end
 
 @implementation FAHomeViewController
@@ -40,7 +42,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-        
+    
     self.arrayDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
     self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
     
@@ -62,11 +64,14 @@
 
 - (void)loadTableViewData
 {
+    __weak typeof(self) weakSelf = self;
+    
     self.arrayDataSource.configurationBlock = ^(id cell, id object) {
-        if ([object isKindOfClass:[FATraktContent class]]) {
+        if ([object isEqual:@"currentlyWatchingRow"]) {
+            FATraktContent *content = weakSelf.currentlyWatchingContent;
             
             FAContentTableViewCell *contentCell = cell;
-            [contentCell displayContent:object];
+            [contentCell displayContent:content];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -77,11 +82,13 @@
 {
     [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
         if (content) {
+            self.currentlyWatchingContent = content;
+            
             if (!self.tableViewContainsCurrentlyWatching) {
                 self.tableViewContainsCurrentlyWatching = YES;
                 
                 [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
-                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" forKey:@"0" withWeight:0];
+                [self.arrayDataSource insertRow:@"currentlyWatchingRow" inSection:@"currentlyWatching" withWeight:0];
                 [self.arrayDataSource recalculateWeight];
             }
         }
