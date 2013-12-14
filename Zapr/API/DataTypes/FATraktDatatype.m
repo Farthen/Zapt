@@ -258,11 +258,11 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     
     if ([self.creationDate compare:object.creationDate] == NSOrderedAscending) {
         // Reciever is earlier
-        newObject = self;
-        oldObject = object;
-    } else {
-        oldObject = self;
         newObject = object;
+        oldObject = self;
+    } else {
+        oldObject = object;
+        newObject = self;
     }
     
     
