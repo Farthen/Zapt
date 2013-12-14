@@ -10,6 +10,15 @@
 
 @interface NSDictionary (Functional)
 
+// Applies the block to all objects in the dictionary and returns the modified dictionary
+- (NSMutableDictionary *)mapObjectsUsingBlock:(id (^)(id key, id obj))block;
+
+// Returns a modified dictionary that contains all objects that meet the test
+- (NSMutableDictionary *)filterUsingBlock:(BOOL (^)(id key, id obj, BOOL *stop))block;
+
+// Flatten the dictionary, collapsing entries from subdictionaries. Not recursive
+- (NSMutableDictionary *)flattenedDictionary;
+
 // Returns all the keys of the dictionary as set
 - (NSMutableSet *)allKeysSet;
 

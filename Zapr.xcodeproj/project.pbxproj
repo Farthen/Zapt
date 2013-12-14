@@ -160,6 +160,7 @@
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
 		F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DC466316FC93350022BE12 /* FATraktSearchResult.m */; };
+		F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -269,8 +270,8 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARefreshControlWithActivity.m; sourceTree = "<group>"; };
-		F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAArrayTableViewDelegate.h; path = DataSource/FAArrayTableViewDelegate.h; sourceTree = "<group>"; };
-		F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAArrayTableViewDelegate.m; path = DataSource/FAArrayTableViewDelegate.m; sourceTree = "<group>"; };
+		F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAArrayTableViewDelegate.h; sourceTree = "<group>"; };
+		F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAArrayTableViewDelegate.m; sourceTree = "<group>"; };
 		F323DB931852C13E00BE0DAB /* FATableViewCellHeight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FATableViewCellHeight.h; sourceTree = "<group>"; };
 		F32645C217F0D48F001D4F74 /* FARatingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARatingsView.h; sourceTree = "<group>"; };
 		F32645C317F0D48F001D4F74 /* FARatingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARatingsView.m; sourceTree = "<group>"; };
@@ -370,8 +371,8 @@
 		F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchDisplayController.m; sourceTree = "<group>"; };
 		F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASeasonListViewController.h; sourceTree = "<group>"; };
 		F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASeasonListViewController.m; sourceTree = "<group>"; };
-		F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAArrayTableViewDataSource.h; path = DataSource/FAArrayTableViewDataSource.h; sourceTree = "<group>"; };
-		F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAArrayTableViewDataSource.m; path = DataSource/FAArrayTableViewDataSource.m; sourceTree = "<group>"; };
+		F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAArrayTableViewDataSource.h; sourceTree = "<group>"; };
+		F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAArrayTableViewDataSource.m; sourceTree = "<group>"; };
 		F37E487B184D647C00D66A32 /* NSString+UUIDString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUIDString.h"; sourceTree = "<group>"; };
 		F37E487C184D647C00D66A32 /* NSString+UUIDString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUIDString.m"; sourceTree = "<group>"; };
 		F37E487E184D75B600D66A32 /* FAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAViewController.h; sourceTree = "<group>"; };
@@ -476,6 +477,8 @@
 		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSearchResult.h; sourceTree = "<group>"; };
 		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSearchResult.m; sourceTree = "<group>"; };
+		F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWeightedTableViewDataSource.h; sourceTree = "<group>"; };
+		F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWeightedTableViewDataSource.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-love@2x.png"; sourceTree = "<group>"; };
@@ -838,10 +841,13 @@
 			children = (
 				F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */,
 				F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */,
+				F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */,
+				F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */,
 				F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */,
 				F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */,
 			);
 			name = "Data Source";
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		F3A8BFD217FBEF5200188453 /* Global */ = {
@@ -1502,6 +1508,7 @@
 				F37E487A184D606D00D66A32 /* FAArrayTableViewDataSource.m in Sources */,
 				B64C8F3E16238B0600A7C784 /* FATraktMovie.m in Sources */,
 				F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */,
+				F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
