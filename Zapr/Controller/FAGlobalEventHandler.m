@@ -70,11 +70,11 @@
     
     DDASLLogger *aslLogger = [DDASLLogger sharedInstance];
     [aslLogger setLogFormatter:logFormatter];
-    [DDLog addLogger:aslLogger];
+    [DDLog addLogger:aslLogger withLogLevel:LOG_LEVEL_ALL];
     
     DDTTYLogger *ttyLogger = [DDTTYLogger sharedInstance];
     [ttyLogger setLogFormatter:logFormatter];
-    [DDLog addLogger:ttyLogger];
+    [DDLog addLogger:ttyLogger withLogLevel:LOG_LEVEL_ALL];
 }
 
 - (void)handleApplicationLaunch
