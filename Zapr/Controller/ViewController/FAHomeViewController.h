@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FAHomeViewController : UIViewController
-
-@property IBOutlet NSLayoutConstraint *currentlyWatchingHeightConstraint;
+@interface FAHomeViewController : UITableViewController
 
 @end

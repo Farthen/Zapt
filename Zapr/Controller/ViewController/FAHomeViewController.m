@@ -9,10 +9,18 @@
 #import "FAHomeViewController.h"
 #import "FANextUpViewController.h"
 
+#import "FAWeightedTableViewDataSource.h"
+#import "FAArrayTableViewDelegate.h"
+
+#import "FAContentTableViewCell.h"
+
 #import "FATrakt.h"
 
 @interface FAHomeViewController ()
-@property FANextUpViewController *currentlyWatchingViewController;
+@property FAWeightedTableViewDataSource *arrayDataSource;
+@property FAArrayTableViewDelegate *arrayDelegate;
+
+@property BOOL tableViewContainsCurrentlyWatching;
 @end
 
 @implementation FAHomeViewController
@@ -32,6 +40,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+        
+    self.arrayDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
+    self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+    
+    self.arrayDataSource.cellClass = [FAContentTableViewCell class];
+    
+    [self loadTableViewData];
+    
+    self.tableView.dataSource = self.arrayDataSource;
+    self.tableView.delegate = self.arrayDelegate;
     
     [self loadCurrentlyWatching];
 }
@@ -42,31 +60,30 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)addChildViewController:(UIViewController *)childController
+- (void)loadTableViewData
 {
-    if ([childController isKindOfClass:[FANextUpViewController class]]) {
-        FANextUpViewController *nextUpViewController = (FANextUpViewController *)childController;
-        
-        if (!self.currentlyWatchingViewController) {
-            self.currentlyWatchingViewController = nextUpViewController;
+    self.arrayDataSource.configurationBlock = ^(id cell, id object) {
+        if ([object isKindOfClass:[FATraktContent class]]) {
+            
+            FAContentTableViewCell *contentCell = cell;
+            [contentCell displayContent:object];
+            
+            contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-    }
-    
-    [super addChildViewController:childController];
-}
-
-- (void)viewWillLayoutSubviews
-{
-    self.currentlyWatchingHeightConstraint.constant = self.currentlyWatchingViewController.preferredContentSize.height;
+    };
 }
 
 - (void)loadCurrentlyWatching
 {
-    self.currentlyWatchingViewController.nextUpText = NSLocalizedString(@"Watching:", nil);
-    
     [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
-        if ([content isKindOfClass:[FATraktEpisode class]]) {
-            [self.currentlyWatchingViewController displayNextUp:(FATraktEpisode *)content];
+        if (content) {
+            if (!self.tableViewContainsCurrentlyWatching) {
+                self.tableViewContainsCurrentlyWatching = YES;
+                
+                [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
+                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" forKey:@"0" withWeight:0];
+                [self.arrayDataSource recalculateWeight];
+            }
         }
     } onError:nil];
 }

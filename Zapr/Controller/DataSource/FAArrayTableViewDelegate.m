@@ -33,6 +33,27 @@
     return self;
 }
 
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    // If we don't display custom header or footer views we need to trick the
+    // tableView to think we don't implement those delegate methods
+    if (!self.displaysCustomHeaderViews &&
+        (aSelector == @selector(tableView:heightForHeaderInSection:) ||
+         aSelector == @selector(tableView:viewForHeaderInSection:) ||
+         aSelector == @selector(tableView:willDisplayHeaderView:forSection:))) {
+        return NO;
+    }
+    
+    if (!self.displaysCustomFooterViews &&
+        (aSelector == @selector(tableView:heightForFooterInSection:) ||
+         aSelector == @selector(tableView:viewForFooterInSection:) ||
+         aSelector == @selector(tableView:willDisplayFooterView:forSection:))) {
+        return NO;
+    }
+    
+    return [super respondsToSelector:aSelector];
+}
+
 #pragma mark - UITableViewDelegate -
 #pragma mark Configuring Rows for the Table View
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

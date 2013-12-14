@@ -19,6 +19,9 @@
 
 @implementation FAArrayTableViewDataSource {
     NSMutableArray *_tableViewData;
+    NSMutableArray *_sectionIndexTitles;
+    NSMutableArray *_headerTitles;
+    NSMutableArray *_footerTitles;
 }
 
 - (instancetype)init
@@ -122,7 +125,13 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
 {
-    return self.sectionIndexTitles;
+    return [self.sectionIndexTitles mapUsingBlock:^id(id obj, NSUInteger idx) {
+        if ([obj isKindOfClass:[NSString class]]) {
+            return obj;
+        }
+        
+        return @"";
+    }];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -185,6 +194,124 @@
 }
 
 #pragma mark convenience methods
+- (void)setHeaderTitle:(NSString *)title forSection:(NSUInteger)section
+{
+    [self.headerTitles replaceObjectAtIndex:section withObject:title];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)setFooterTitle:(NSString *)title forSection:(NSUInteger)section
+{
+    [self.footerTitles replaceObjectAtIndex:section withObject:title];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)setSectionIndexTitle:(NSString *)title forSection:(NSUInteger)section
+{
+    if (!_sectionIndexTitles || _sectionIndexTitles.count < self.tableViewData.count) {
+        _sectionIndexTitles = [NSMutableArray array];
+        
+        for (NSUInteger i = 0; i < self.tableViewData.count; i++) {
+            [_sectionIndexTitles addObject:[NSNull null]];
+        }
+    }
+    
+    [_sectionIndexTitles replaceObjectAtIndex:section withObject:title];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)insertSectionData:(NSArray *)sectionData atIndex:(NSUInteger)sectionIndex
+{
+    [self insertSectionData:sectionData atIndex:sectionIndex];
+}
+
+- (void)insertSectionData:(NSArray *)sectionData atIndex:(NSUInteger)sectionIndex withTitle:(NSString *)title
+{
+    // Shift all following rows by one
+    for (NSMutableSet *indexes in self.objects) {
+        
+        // For all indexes the object has
+        for (NSIndexPath *originalPath in indexes) {
+            
+            // If the section was moved, move the indexPath section too
+            if (originalPath.section >= (NSInteger)sectionIndex) {
+                NSIndexPath *newPath = [NSIndexPath indexPathForRow:originalPath.row inSection:originalPath.section + 1];
+                [indexes removeObject:originalPath];
+                [indexes addObject:newPath];
+            }
+        }
+    }
+    
+    // Insert the new data
+    [_tableViewData insertObject:[sectionData mutableCopy] atIndex:sectionIndex];
+    
+    // Shift the titles
+    if (_headerTitles) {
+        [_headerTitles insertObject:[NSNull null] atIndex:sectionIndex];
+    }
+    
+    if (title) {
+        [self.headerTitles replaceObjectAtIndex:sectionIndex withObject:title];
+    }
+    
+    if (_footerTitles) {
+        [_footerTitles insertObject:[NSNull null] atIndex:sectionIndex];
+    }
+    
+    if (_sectionIndexTitles) {
+        [_sectionIndexTitles insertObject:[NSNull null] atIndex:sectionIndex];
+    }
+    
+    // Generate the index paths for the object
+    for (NSUInteger i = 0; i < sectionData.count; i++)
+    {
+        id object = sectionData[i];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
+        [self.objects setObject:indexPath forKey:object];
+    }
+    
+    [self.tableView reloadData];
+}
+
+- (void)removeSectionAtIndex:(NSUInteger)sectionIndex
+{
+    for (id obj in _tableViewData[sectionIndex]) {
+        [self.objects removeObjectForKey:obj];
+    }
+    
+    if (_headerTitles) {
+        [_headerTitles removeObjectAtIndex:sectionIndex];
+    }
+    
+    if (_footerTitles) {
+        [_footerTitles removeObjectAtIndex:sectionIndex];
+    }
+    
+    if (_sectionIndexTitles) {
+        [_sectionIndexTitles removeObjectAtIndex:sectionIndex];
+    }
+    
+    // Shift all following rows by one
+    for (NSMutableSet *indexes in self.objects) {
+        
+        // For all indexes the object has
+        for (NSIndexPath *originalPath in indexes) {
+            
+            // If the section was moved, move the indexPath section too
+            if (originalPath.section > (NSInteger)sectionIndex) {
+                NSIndexPath *newPath = [NSIndexPath indexPathForRow:originalPath.row inSection:originalPath.section - 1];
+                [indexes removeObject:originalPath];
+                [indexes addObject:newPath];
+            }
+        }
+    }
+    
+    [_tableViewData removeObjectAtIndex:sectionIndex];
+    [self.tableView reloadData];
+}
+
 - (void)reloadRowsWithObject:(id)object
 {
     return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
@@ -201,6 +328,13 @@
     }
     
     [self.tableView deleteRowsAtIndexPaths:indexPaths.allObjects withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableArray *section = _tableViewData[indexPath.section];
+    [section insertObject:object atIndex:indexPath.row];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (void)replaceObject:(id)oldObject withObject:(id)newObject
@@ -286,6 +420,60 @@
 - (NSSet *)indexPathsForObject:(id)object
 {
     return self.objects[object];
+}
+
+- (void)setHeaderTitles:(NSArray *)headerTitles
+{
+    _headerTitles = [headerTitles mutableCopy];
+}
+
+- (NSMutableArray *)headerTitles
+{
+    if (!_headerTitles || _headerTitles.count != self.tableViewData.count) {
+        _headerTitles = [NSMutableArray array];
+        
+        for (NSUInteger i = 0; i <= self.tableViewData.count; i++) {
+            [_headerTitles addObject:[NSNull null]];
+        }
+        
+        for (NSUInteger i = self.tableViewData.count - 1; i <= _headerTitles.count - 1; i++) {
+            [_headerTitles removeObjectAtIndex:i];
+        }
+    }
+    
+    return _headerTitles;
+}
+
+- (void)setFooterTitles:(NSArray *)footerTitles
+{
+    _footerTitles = [footerTitles mutableCopy];
+}
+
+- (NSMutableArray *)footerTitles
+{
+    if (!_footerTitles || _footerTitles.count != self.tableViewData.count) {
+        _footerTitles = [NSMutableArray array];
+        
+        for (NSUInteger i = 0; i <= self.tableViewData.count; i++) {
+            [_footerTitles addObject:[NSNull null]];
+        }
+        
+        for (NSUInteger i = self.tableViewData.count - 1; i <= _footerTitles.count - 1; i++) {
+            [_footerTitles removeObjectAtIndex:i];
+        }
+    }
+    
+    return _footerTitles;
+}
+
+- (void)setSectionIndexTitles:(NSArray *)sectionIndexTitles
+{
+    _sectionIndexTitles = [sectionIndexTitles mutableCopy];
+}
+
+- (NSArray *)sectionIndexTitles
+{
+    return _sectionIndexTitles;
 }
 
 @end

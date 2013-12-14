@@ -18,9 +18,9 @@
 @property NSArray *tableViewData;
 
 // Titles. If you want a header or footerTitle to not show, specify NSNull
-@property NSArray *sectionIndexTitles;
-@property NSArray *headerTitles;
-@property NSArray *footerTitles;
+@property NSMutableArray *sectionIndexTitles;
+@property NSMutableArray *headerTitles;
+@property NSMutableArray *footerTitles;
 
 // Set with all objects that should respond with YES to
 // - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -38,6 +38,17 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 @property (assign) Class cellClass;
 
 // Convenicence methods
+- (void)setSectionIndexTitle:(NSString *)title forSection:(NSUInteger)section;
+- (void)setHeaderTitle:(NSString *)title forSection:(NSUInteger)section;
+- (void)setFooterTitle:(NSString *)title forSection:(NSUInteger)section;
+
+- (void)insertSectionData:(NSArray *)sectionData atIndex:(NSUInteger)sectionIndex withTitle:(NSString *)title;
+- (void)insertSectionData:(NSArray *)sectionData atIndex:(NSUInteger)index;
+- (void)removeSectionAtIndex:(NSUInteger)sectionIndex;
+
+- (void)insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
+- (void)removeObject:(id)object;
+
 - (void)replaceObject:(id)oldObject withObject:(id)newObject;
 - (void)replaceObjectsAtIndexPaths:(NSSet *)indexPaths withObject:(id)object;
 - (void)replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;

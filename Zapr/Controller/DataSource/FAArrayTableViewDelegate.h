@@ -63,6 +63,9 @@
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 
+@property BOOL displaysCustomHeaderViews;
+@property BOOL displaysCustomFooterViews;
+
 - (void)setView:(UIView *)view forHeaderInSection:(NSInteger)section;
 - (void)setView:(UIView *)view forFooterInSection:(NSInteger)section;
 - (void)setHeight:(CGFloat)height forHeaderInSection:(NSInteger)section;
