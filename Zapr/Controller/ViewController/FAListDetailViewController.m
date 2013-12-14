@@ -357,7 +357,7 @@
         NSSet *listItems = obj;
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"content.title" ascending:YES];
         return [listItems sortedArrayUsingDescriptors:@[sortDescriptor]];
-    }];    
+    }];
 }
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView
