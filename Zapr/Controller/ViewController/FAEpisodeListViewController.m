@@ -10,6 +10,7 @@
 #import "FADetailViewController.h"
 #import "FAStatusBarSpinnerController.h"
 #import "FATrakt.h"
+#import "FASearchDisplayController.h"
 
 #import "FAInterfaceStringProvider.h"
 
@@ -52,6 +53,9 @@
     } else {
         [self showEpisodeListForShow:_displayedShow];
     }
+    
+    FASearchDisplayController *searchDisplayController = (FASearchDisplayController *)self.searchDisplayController;
+    searchDisplayController.hidesNavigationBar = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -102,6 +106,8 @@
     self.navigationItem.title = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
     
     [self configureFilterWatchedButton];
+    
+    [self.tableView reloadData];
 }
 
 - (void)showEpisodeListForShow:(FATraktShow *)show
@@ -129,6 +135,8 @@
     }
     
     [self configureFilterWatchedButton];
+    
+    [self.tableView reloadData];
 }
 
 - (void)filterWatched

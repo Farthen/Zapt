@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "FATableViewController.h"
 
 @class FATraktShow;
 @class FATraktSeason;
 
-@interface FAEpisodeListViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, UITableViewDataSource>
+@interface FAEpisodeListViewController : FATableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
 - (void)showEpisodeListForShow:(FATraktShow *)show;
 - (void)showEpisodeListForSeason:(FATraktSeason *)season;

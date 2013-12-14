@@ -7,7 +7,7 @@
 //
 
 #import "FASeasonListViewController.h"
-#import "FAEpisodeListViewController.h"
+#import "FASeasonDetailViewController.h"
 
 #import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
@@ -113,9 +113,9 @@
 {
     FATraktSeason *season = object;
     
-    FAEpisodeListViewController *episodeListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"episodeList"];
-    [episodeListVC showEpisodeListForSeason:season];
-    [self.navigationController pushViewController:episodeListVC animated:YES];
+    FASeasonDetailViewController *seasonDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"seasonDetail"];
+    [seasonDetailVC showEpisodeListForSeason:season];
+    [self.navigationController pushViewController:seasonDetailVC animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
