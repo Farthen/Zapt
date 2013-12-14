@@ -112,7 +112,7 @@
 - (NSUInteger)episodeCount
 {
     NSUInteger count = 0;
-    for (FATraktSeason *season in self.seasons) {
+    for (FATraktSeason *season in [self.seasons copy]) {
         count += season.episodes.count;
     }
     return count;
