@@ -260,7 +260,8 @@
         if (season.episodes.count == self.episodeNumber.unsignedIntegerValue - 1) {
             [season.episodes addObject:self];
         } else {
-            season.episodes[self.episodeNumber.unsignedIntegerValue - 1] = self;
+            // FIXME: this overrides the 0th episode if a first exists
+            season.episodes[MAX(0, (NSInteger)self.episodeNumber.unsignedIntegerValue - 1)] = self;
         }
         
         [season commitToCache];

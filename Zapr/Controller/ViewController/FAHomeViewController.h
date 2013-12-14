@@ -10,4 +10,6 @@
 
 @interface FAHomeViewController : UIViewController
 
+@property IBOutlet NSLayoutConstraint *currentlyWatchingHeightConstraint;
+
 @end

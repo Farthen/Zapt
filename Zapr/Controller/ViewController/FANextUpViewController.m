@@ -19,7 +19,7 @@
 
 @interface FANextUpViewController () {
     BOOL _displaysProgress;
-    BOOL _displaysProgressAndNextUp;
+    BOOL _displaysNextUp;
     FATraktShowProgress *_progress;
     FATraktEpisode *_nextUpEpisode;
 }
@@ -57,6 +57,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -91,13 +93,23 @@
 {
     CGFloat height = 0;
     
-    if (_displaysProgressAndNextUp) {
+    if (_displaysNextUp) {
         height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
     
     self.tableViewHeightConstraint.constant = height;
-    [self.view recursiveSetNeedsUpdateConstraints];
-    [self.view recursiveLayoutIfNeeded];
+    
+    if (!_displaysProgress) {
+        if (!self.progressViewHeightConstraint) {
+            self.progressViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0 constant:0];
+            [self.progressView addConstraint:self.progressViewHeightConstraint];
+        }
+    } else {
+        if (self.progressViewHeightConstraint) {
+            [self.progressView removeConstraint:self.progressViewHeightConstraint];
+            self.progressViewHeightConstraint = nil;
+        }
+    }
 }
 
 - (void)displayProgress:(FATraktShowProgress *)progress
@@ -109,14 +121,15 @@
     self.progressView.progress = percentage;
     self.progressView.textLabel.text = [FAInterfaceStringProvider progressForProgress:progress long:YES];
     
-    [self.view setNeedsLayout];
+    [self.view recursiveSetNeedsUpdateConstraints];
+    [self.view recursiveSetNeedsLayout];
     [self.view layoutIfNeeded];
 }
 
 - (void)displayNextUp:(FATraktEpisode *)episode
 {
     if (episode.seasonNumber && episode.episodeNumber && episode.detailLevel > FATraktDetailLevelMinimal) {
-        _displaysProgressAndNextUp = YES;
+        _displaysNextUp = YES;
         _nextUpEpisode = episode;
     } else {
         [[FATrakt sharedInstance] detailsForEpisode:episode callback:^(FATraktEpisode *episode) {
@@ -125,13 +138,14 @@
     }
     
     [self.tableView reloadData];
-    [self.view setNeedsLayout];
+    [self.view recursiveSetNeedsUpdateConstraints];
+    [self.view recursiveSetNeedsLayout];
     [self.view layoutIfNeeded];
 }
 
 - (void)hideNextUp
 {
-    _displaysProgressAndNextUp = NO;
+    _displaysNextUp = NO;
     [self.view setNeedsLayout];
     [self.view layoutIfNeeded];
 }

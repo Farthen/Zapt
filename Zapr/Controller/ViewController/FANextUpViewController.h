@@ -18,6 +18,7 @@
 @property IBOutlet UITableView *tableView;
 @property NSString *nextUpText;
 
+@property IBOutlet NSLayoutConstraint *progressViewHeightConstraint;
 @property IBOutlet NSLayoutConstraint *tableViewHeightConstraint;
 
 @property BOOL dismissesModalToDisplay;

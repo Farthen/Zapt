@@ -44,6 +44,12 @@ typedef enum {
     FATraktRatingsModeAdvanced
 } FATraktRatingsMode;
 
+typedef enum {
+    FATraktWatchingTypeNotWatching = 0,
+    FATraktWatchingTypeWatching = 1,
+    FATraktWatchingTypeCheckin = 2
+} FATraktWatchingType;
+
 // This is the superclass of movies, shows and episodes.
 @interface FATraktContent : FATraktCachedDatatype
 
@@ -62,6 +68,8 @@ typedef enum {
 @property (readonly) BOOL isWatched;
 @property (assign) BOOL in_watchlist;
 @property (assign) BOOL in_collection;
+
+@property (assign) FATraktWatchingType watchingType;
 
 @property NSDictionary *ratings;
 @property FATraktRating rating;

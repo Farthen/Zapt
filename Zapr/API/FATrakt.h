@@ -88,6 +88,9 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
+#pragma mark user
+- (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *content))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+
 #pragma mark content actions
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;

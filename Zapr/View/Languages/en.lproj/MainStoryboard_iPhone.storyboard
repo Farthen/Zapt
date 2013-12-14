@@ -569,19 +569,23 @@
                                     <outlet property="delegate" destination="ncl-x0-j1H" id="myu-RW-J6w"/>
                                 </connections>
                             </searchBar>
-                            <containerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F3F-G0-X7r">
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F3F-G0-X7r">
                                 <rect key="frame" x="0.0" y="108" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <connections>
-                                    <segue destination="ECQ-hn-PhI" kind="embed" id="llt-4Z-2uy"/>
+                                    <segue destination="ZSW-Rg-oDR" kind="embed" id="35m-YG-jj9"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Th7-va-Rbz" firstAttribute="leading" secondItem="0vq-dZ-TEq" secondAttribute="leading" id="1y5-PP-rgN"/>
+                            <constraint firstItem="iPF-7L-e6k" firstAttribute="top" secondItem="F3F-G0-X7r" secondAttribute="bottom" id="Bd0-75-aod"/>
                             <constraint firstItem="Th7-va-Rbz" firstAttribute="trailing" secondItem="0vq-dZ-TEq" secondAttribute="trailing" id="BxO-fd-dIg"/>
+                            <constraint firstItem="F3F-G0-X7r" firstAttribute="leading" secondItem="0vq-dZ-TEq" secondAttribute="leading" id="IeW-ai-PlW"/>
+                            <constraint firstAttribute="trailing" secondItem="F3F-G0-X7r" secondAttribute="trailing" id="UWr-v0-NC4"/>
+                            <constraint firstItem="F3F-G0-X7r" firstAttribute="top" secondItem="Th7-va-Rbz" secondAttribute="bottom" id="YiE-0t-Vcw"/>
                             <constraint firstItem="Th7-va-Rbz" firstAttribute="top" secondItem="p30-os-uQH" secondAttribute="bottom" id="nv5-JA-uyn"/>
                         </constraints>
                     </view>
@@ -620,19 +624,27 @@
                         <viewControllerLayoutGuide type="bottom" id="TUF-gC-DLz"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="vLu-Uf-WD4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <containerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ASj-c6-Awy">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="183"/>
+                            <containerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ASj-c6-Awy">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="bMH-ay-RV4"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="Qv3-Ro-3n4" kind="embed" id="cki-Jf-quz"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ASj-c6-Awy" firstAttribute="top" secondItem="a0b-Ld-NUQ" secondAttribute="bottom" id="Wtc-MS-N0j"/>
+                            <constraint firstItem="ASj-c6-Awy" firstAttribute="leading" secondItem="vLu-Uf-WD4" secondAttribute="leading" id="Yq4-dN-RHw"/>
+                            <constraint firstAttribute="trailing" secondItem="ASj-c6-Awy" secondAttribute="trailing" id="rCx-o1-JnH"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ugi-hU-hBm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -644,7 +656,7 @@
             <objects>
                 <tableViewController id="ECQ-hn-PhI" customClass="FAListsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="XtT-US-yn3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -877,13 +889,13 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pkN-oM-Zlt">
-                                                            <rect key="frame" x="8" y="29" width="31" height="15"/>
+                                                            <rect key="frame" x="8" y="29" width="68" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="1000" text="Next Up:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1R8-9j-lPh">
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Next Up:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1R8-9j-lPh">
                                                             <rect key="frame" x="8" y="5" width="68" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -906,8 +918,8 @@
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="leading" secondItem="HTI-jW-4Qf" secondAttribute="leading" constant="8" id="JvB-V2-U1v"/>
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="top" secondItem="HTI-jW-4Qf" secondAttribute="top" constant="5" id="UkZ-GR-ppp"/>
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="leading" secondItem="pkN-oM-Zlt" secondAttribute="leading" id="XG4-HR-ac5"/>
-                                                        <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" secondItem="1R8-9j-lPh" secondAttribute="trailing" constant="8" id="c6h-oQ-uyn"/>
-                                                        <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pkN-oM-Zlt" secondAttribute="trailing" constant="8" id="yaA-bY-qiy"/>
+                                                        <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" secondItem="1R8-9j-lPh" secondAttribute="trailing" priority="900" constant="8" id="c6h-oQ-uyn"/>
+                                                        <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" secondItem="pkN-oM-Zlt" secondAttribute="trailing" priority="900" constant="8" id="yaA-bY-qiy"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
                                                 <connections>
@@ -963,6 +975,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qiG-9f-tu8"/>
+        <segue reference="cki-Jf-quz"/>
     </inferredMetricsTieBreakers>
 </document>

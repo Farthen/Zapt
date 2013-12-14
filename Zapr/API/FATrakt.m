@@ -1022,6 +1022,64 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self addContent:content toCustomList:list add:NO callback:callback onError:error];
 }
 
+- (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *api = @"user/watching.json";
+    
+    if (!self.connection.apiUser) {
+        return nil;
+    }
+    
+    NSArray *parameters = @[self.connection.apiUser];
+    
+    return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        if ([response.jsonData isKindOfClass:[NSArray class]]) {
+            callback(nil);
+            return;
+        }
+        
+        NSDictionary *responseDict = response.jsonData;
+        NSString *typeName = responseDict[@"type"];
+        
+        NSString *action = responseDict[@"action"];
+        FATraktWatchingType watchingType = FATraktWatchingTypeNotWatching;
+        
+        if ([action isEqualToString:@"watching"]) {
+            watchingType = FATraktWatchingTypeWatching;
+        } else if ([action isEqualToString:@"checkin"]) {
+            watchingType = FATraktWatchingTypeCheckin;
+        }
+        
+        if ([typeName isEqualToString:@"movie"]) {
+            FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:responseDict[@"movie"]];
+            movie.detailLevel = FATraktDetailLevelMinimal;
+            movie = [movie cachedVersion];
+            movie.watchingType = watchingType;
+            
+            callback(movie);
+        } else if ([typeName isEqualToString:@"episode"]) {
+            FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:responseDict[@"show"]];
+            show.detailLevel = FATraktDetailLevelMinimal;
+            show = [show cachedVersion];
+            
+            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:responseDict[@"episode"] andShow:show];
+            episode.detailLevel = FATraktDetailLevelMinimal;
+            episode = [episode cachedVersion];
+            episode.watchingType = watchingType;
+            
+            callback(episode);
+        } else {
+            DDLogWarn(@"Unkown type name %@", typeName);
+            
+            if (error) {
+                error([FATraktConnectionResponse invalidDataResponse]);
+            }
+        }
+    } onError:^(FATraktConnectionResponse *connectionError) {
+    }];
+}
+
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO];
