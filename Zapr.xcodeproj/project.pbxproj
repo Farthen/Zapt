@@ -100,6 +100,8 @@
 		F3636B7516EDDE420062E885 /* badge-hate.png in Resources */ = {isa = PBXBuildFile; fileRef = F3636B7416EDDE420062E885 /* badge-hate.png */; };
 		F3636B7816F03D050062E885 /* FACache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3636B7716F03D050062E885 /* FACache.m */; };
 		F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
+		F37B677D185BAD1800FAC329 /* FASeasonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */; };
+		F37B6780185BBF4000FAC329 /* FASearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */; };
 		F37E4876184D5D8100D66A32 /* FASeasonListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */; };
 		F37E487A184D606D00D66A32 /* FAArrayTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4879184D606D00D66A32 /* FAArrayTableViewDataSource.m */; };
 		F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487C184D647C00D66A32 /* NSString+UUIDString.m */; };
@@ -362,6 +364,10 @@
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Misc.h; sourceTree = "<group>"; };
 		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Sorting.h"; sourceTree = "<group>"; };
 		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Sorting.m"; sourceTree = "<group>"; };
+		F37B677B185BAD1800FAC329 /* FASeasonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASeasonDetailViewController.h; sourceTree = "<group>"; };
+		F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASeasonDetailViewController.m; sourceTree = "<group>"; };
+		F37B677E185BBF4000FAC329 /* FASearchDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchDisplayController.h; sourceTree = "<group>"; };
+		F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchDisplayController.m; sourceTree = "<group>"; };
 		F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASeasonListViewController.h; sourceTree = "<group>"; };
 		F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASeasonListViewController.m; sourceTree = "<group>"; };
 		F37E4878184D606D00D66A32 /* FAArrayTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAArrayTableViewDataSource.h; path = DataSource/FAArrayTableViewDataSource.h; sourceTree = "<group>"; };
@@ -802,6 +808,8 @@
 				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 				F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */,
 				F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */,
+				F37B677B185BAD1800FAC329 /* FASeasonDetailViewController.h */,
+				F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */,
 				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
 				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 			);
@@ -819,6 +827,8 @@
 				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
 				F394EE30184EE56B007F4BA1 /* FABadges.h */,
 				F394EE31184EE56B007F4BA1 /* FABadges.m */,
+				F37B677E185BBF4000FAC329 /* FASearchDisplayController.h */,
+				F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -1517,6 +1527,7 @@
 				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
 				F3B9C93F17F96914004264E6 /* FAZapr.m in Sources */,
+				F37B677D185BAD1800FAC329 /* FASeasonDetailViewController.m in Sources */,
 				F3EE213317F4FA2400A0118E /* UIView+ImageScreenshot.m in Sources */,
 				F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */,
 				F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */,
@@ -1541,6 +1552,7 @@
 				F3A8BFD117FBED2800188453 /* FAGlobalSettings.m in Sources */,
 				F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
+				F37B6780185BBF4000FAC329 /* FASearchDisplayController.m in Sources */,
 				F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */,
 				F30CAFBF179CC9B1002E7D3C /* FANavigationController.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
