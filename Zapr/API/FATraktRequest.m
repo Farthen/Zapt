@@ -19,6 +19,7 @@
 + (instancetype)requestWithActivityName:(NSString *)activityName
 {
     FATraktRequest *request = [[self alloc] init];
+    
     if (request) {
         request.activityName = activityName;
     }

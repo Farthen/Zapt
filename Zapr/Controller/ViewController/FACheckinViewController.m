@@ -44,16 +44,18 @@ typedef enum {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
     self.progressView.progress = self.progress;
     self.progressView.textLabel.text = @" ";
@@ -62,10 +64,10 @@ typedef enum {
     
     self.checkinInProgressAlert = [[UIAlertView alloc]
                                    initWithTitle:NSLocalizedString(@"Checkin failed", nil)
-                                         message:NSLocalizedString(@"Another checkin is already in progress. Do you want to cancel it?", nil)
-                                        delegate:self
-                               cancelButtonTitle:NSLocalizedString(@"Don't Cancel", nil)
-                               otherButtonTitles:NSLocalizedString(@"Cancel Checkin", nil), nil];
+                                   message:NSLocalizedString(@"Another checkin is already in progress. Do you want to cancel it?", nil)
+                                   delegate:self
+                                   cancelButtonTitle:NSLocalizedString(@"Don't Cancel", nil)
+                                   otherButtonTitles:NSLocalizedString(@"Cancel Checkin", nil), nil];
     
     self.shouldCancelActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Cancel This Checkin?", nil)
                                                                delegate:self
@@ -149,7 +151,6 @@ typedef enum {
 - (void)reloadTimeRemaining
 {
     if (self.checkin && self.checkin.status == FATraktStatusSuccess) {
-        
         self.progressView.progress = self.checkin.timestamps.progress;
         
         NSTimeInterval remaining = self.checkin.timestamps.remaining;
@@ -183,6 +184,7 @@ typedef enum {
 - (void)loadContent:(FATraktContent *)content
 {
     self.content = content;
+    
     if (content.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
         self.nextUpViewController.dismissesModalToDisplay = YES;
@@ -192,6 +194,7 @@ typedef enum {
         self.showNameLabel.text = showNameString;
         
         FATraktEpisode *nextEpisode = [episode nextEpisode];
+        
         if (!nextEpisode) {
             [[FATrakt sharedInstance] seasonInfoForShow:episode.show callback:^(FATraktShow *show) {
                 [self.nextUpViewController displayNextUp:[episode nextEpisode]];
@@ -216,25 +219,20 @@ typedef enum {
     if (state == FACheckinViewStatePerformingCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Performing Checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
-        
     } else if (state == FACheckinViewStateCancellingCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Cancelling checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
-        
     } else if (state == FACheckinViewStateCancellingOldCheckin) {
         self.messageLabel.text = NSLocalizedString(@"Cancelling old checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
-        
     } else if (state == FACheckinViewStateSuccess) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Checkin successful!", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateFinished;
-        
     } else if (state == FACheckinViewStateFailed) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"An error occured checking in.\nYou can try again.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
-        
     } else if (state == FACheckinViewStateCancelled) {
         [self stopUpdatingContinuously];
         self.progressView.textLabel.text = @" ";
@@ -242,12 +240,10 @@ typedef enum {
         
         self.messageLabel.text = NSLocalizedString(@"Cancelled checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateFinished;
-        
     } else if (state == FACheckinViewStateFailedCancel) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Failed to cancel checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
-        
     } else {
         self.messageLabel.text = NSLocalizedString(@" ", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;

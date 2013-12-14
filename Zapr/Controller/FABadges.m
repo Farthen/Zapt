@@ -28,7 +28,8 @@ typedef enum {
 {
     FABadges *instance = nil;
     
-    @synchronized(self) {
+    @synchronized(self)
+    {
         if (!instances) {
             // This collection was chosen so that when the view gets deallocated all stored objects
             // get deallocated too.
@@ -52,9 +53,11 @@ typedef enum {
 - (instancetype)initWithView:(UIView *)view
 {
     self = [super init];
+    
     if (self && view) {
         self.view = view;
         self.badgeViews = [NSMutableDictionary dictionary];
+        
         return self;
     }
     
@@ -63,8 +66,7 @@ typedef enum {
 
 + (FABadgePosition)positionForBadge:(const NSString *)badge
 {
-    if (badge == FABadgeWatched)
-    {
+    if (badge == FABadgeWatched) {
         return FABadgePositionUpperLeft;
     }
     

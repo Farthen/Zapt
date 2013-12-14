@@ -23,9 +23,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -55,6 +57,7 @@
     if (self.navigationController) {
         return YES;
     }
+    
     return NO;
 }
 
@@ -80,8 +83,8 @@
     BOOL desaturateNavigationBar = [self presentationStyleDesaturateNavigationBar];
     
     /*if (desaturateNavigationBar) {
-        _semiModalParentViewController = self.navigationController;
-    }*/
+     _semiModalParentViewController = self.navigationController;
+     }*/
     
     
     [_semiModalParentViewController addChildViewController:viewControllerToPresent];
@@ -103,6 +106,7 @@
     viewControllerFrame.size = viewControllerToPresent.view.intrinsicContentSize;
     viewControllerFrame.size.width = _semiModalParentViewController.view.bounds.size.width;
     viewControllerToPresent.view.frame = viewControllerFrame;
+    
     if (viewControllerFrame.size.height <= 0) {
         [self updateSizeForPresentedSemiModalViewControllerAnimated:NO];
     }
@@ -121,7 +125,7 @@
     } else {
         [self displaySemiModalViewControllerNavigationItem];
     }
-        
+    
     // Animate it up
     [UIView animateIf:animated duration:0.3 animations:^{
         viewControllerToPresent.view.frame = finalViewControllerFrame;
@@ -152,6 +156,7 @@
             if (![self presentationStyleDesaturateNavigationBar]) {
                 self.navigationItem.title = _oldTitle;
             }
+            
             CGPoint position = CGPointMake(self.view.bounds.origin.x, self.view.bounds.origin.y + self.view.bounds.size.height);
             CGRect viewControllerFrame = _presentedSemiModalViewController.view.frame;
             viewControllerFrame.origin = position;
@@ -162,6 +167,7 @@
             [_presentedSemiModalViewController removeFromParentViewController];
             [_semiModalViewControllerMask removeFromSuperview];
             _semiModalViewControllerMask = nil;
+            
             if (completion) {
                 _presentedSemiModalViewController = nil;
                 completion();
@@ -178,8 +184,10 @@
 - (void)updateSizeForPresentedSemiModalViewControllerAnimated:(BOOL)animated
 {
     CGRect frame = _presentedSemiModalViewController.view.frame;
+    
     if ([_presentedSemiModalViewController isKindOfClass:[UITableViewController class]]) {
         CGSize preferredContentSize = _presentedSemiModalViewController.preferredContentSize;
+        
         if (!CGSizeEqualToSize(preferredContentSize, CGSizeZero)) {
             if (preferredContentSize.height < self.view.bounds.size.height) {
                 frame.size.height = preferredContentSize.height;
@@ -191,6 +199,7 @@
     } else {
         frame.size.height = 100;
     }
+    
     [UIView animateIf:animated duration:0.3 animations:^{
         _presentedSemiModalViewController.view.frame = frame;
     }];
@@ -199,7 +208,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)viewDidDisappear:(BOOL)animated

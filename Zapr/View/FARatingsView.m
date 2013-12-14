@@ -35,6 +35,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
         self.simpleRating = YES;
@@ -49,6 +50,7 @@
                                 [UIColor colorWithRed:0.2 green:0 blue:0 alpha:1],
                                 [UIColor colorWithRed:0.1 green:0 blue:0 alpha:1]];
     }
+    
     return self;
 }
 
@@ -92,6 +94,7 @@
             
             [self.likeButton addTarget:self action:@selector(likeButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         }
+        
         if (!self.hateButton) {
             CGRect hateButtonFrame;
             hateButtonFrame.size = buttonSize;
@@ -144,7 +147,6 @@
             ratingFrame.origin.y += self.navigationBarHeight;
             self.ratingControl = [[UIControl alloc] initWithFrame:ratingFrame];
             [self.ratingControl addTarget:self action:@selector(didMoveFinger:withEvent:) forControlEvents:UIControlEventTouchDragInside];
-            
         }
         
         if (!self.ratingLabel) {
@@ -199,10 +201,10 @@
         [self.ratingControl addSubview:self.ratingDescriptionLabel];
         
         /*if ([self.backgroundColor isEqual:[UIColor blackColor]]) {
-            self.navigationBar.topItem.rightBarButtonItem.tintColor = self.tintColor;
-        } else {
-            self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor invertedColor];
-        }*/
+         self.navigationBar.topItem.rightBarButtonItem.tintColor = self.tintColor;
+         } else {
+         self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor invertedColor];
+         }*/
         
         self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor colorWithHighContrast];
         
@@ -263,6 +265,7 @@
     if (rating > 10) {
         rating = 10;
     }
+    
     _rating = rating;
     [self layoutSubviews];
 }
@@ -278,12 +281,12 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

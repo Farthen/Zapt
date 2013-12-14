@@ -22,6 +22,7 @@
     if ([key isEqualToString:@"progress"]) {
         // This is the progress dict. Parse it and put it directly in here
         NSDictionary *progressDict = (NSDictionary *)object;
+        
         for (NSString *key in progressDict) {
             if ([key isEqualToString:@"percentage"]) {
                 [self mapObject:progressDict[key] toPropertyWithKey:@"percentage"];
@@ -41,6 +42,7 @@
         if (self.next_episode) {
             self.next_episode.show = self.show;
         }
+        
         [self.show commitToCache];
     } else if ([key isEqualToString:@"next_episode"]) {
         FATraktEpisode *next_episode = [[FATraktEpisode alloc] initWithJSONDict:object andShow:self.show];

@@ -21,16 +21,18 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,16 +44,13 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
 // stolen from http://stackoverflow.com/a/10005594/1084385
 - (void)longPress:(UILongPressGestureRecognizer *)sender
 {
-    if (sender.state == UIGestureRecognizerStateBegan)
-    {
+    if (sender.state == UIGestureRecognizerStateBegan) {
         // set a default rectangle in case we don't find the back button for some reason
         CGRect rect = CGRectMake(0, 0, 100, 40);
         
         // iterate through the subviews looking for something that looks like it might be the right location to be the back button
-        for (UIView *subview in self.navigationBar.subviews)
-        {
-            if (subview.frame.origin.x < 30 && subview.frame.size.width < 300 && subview.frame.size.width > 15)
-            {
+        for (UIView *subview in self.navigationBar.subviews) {
+            if (subview.frame.origin.x < 30 && subview.frame.size.width < 300 && subview.frame.size.width > 15) {
                 rect = subview.frame;
                 break;
             }
@@ -65,7 +64,7 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
             BOOL pop = YES;
             
             // Check if the delegate wants to have a say in this
-            id <FANavigationControllerLongButtonTouchDelegate> __weak delegate = (id <FANavigationControllerLongButtonTouchDelegate>)self.delegate;
+            id <FANavigationControllerLongButtonTouchDelegate> __weak delegate = (id <FANavigationControllerLongButtonTouchDelegate> )self.delegate;
             UIViewController *lastViewController = self.viewControllers.lastObject;
             
             if ([self.delegate conformsToProtocol:@protocol(FANavigationControllerLongButtonTouchDelegate)]) {
@@ -89,8 +88,7 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
 
 - (void)addLongButtonTouchGesture
 {
-    if (NSClassFromString(@"UILongPressGestureRecognizer"))
-    {
+    if (NSClassFromString(@"UILongPressGestureRecognizer")) {
         _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
         _longPressGesture.minimumPressDuration = 0.7;
         [self.navigationBar addGestureRecognizer:_longPressGesture];

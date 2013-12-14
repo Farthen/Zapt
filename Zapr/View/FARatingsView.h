@@ -17,7 +17,7 @@
 
 @interface FARatingsView : UIView
 
-@property id<FARatingsViewDelegate> delegate;
+@property id <FARatingsViewDelegate> delegate;
 @property BOOL simpleRating;
 @property FATraktRating rating;
 

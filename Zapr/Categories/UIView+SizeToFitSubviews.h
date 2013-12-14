@@ -10,11 +10,11 @@
 
 @interface UIView (SizeToFitSubviews)
 
--(void)resizeToFitSubviews;
--(void)resizeToFitSubviewsWithMinimumSize:(CGSize)size;
--(void)resizeWidthToFitSubviews;
--(void)resizeWidthToFitSubviewsWithMinimumSize:(CGFloat)width;
--(void)resizeHeightToFitSubviews;
--(void)resizeHeightToFitSubviewsWithMinimumSize:(CGFloat)height;
+- (void)resizeToFitSubviews;
+- (void)resizeToFitSubviewsWithMinimumSize:(CGSize)size;
+- (void)resizeWidthToFitSubviews;
+- (void)resizeWidthToFitSubviewsWithMinimumSize:(CGFloat)width;
+- (void)resizeHeightToFitSubviews;
+- (void)resizeHeightToFitSubviewsWithMinimumSize:(CGFloat)height;
 
 @end

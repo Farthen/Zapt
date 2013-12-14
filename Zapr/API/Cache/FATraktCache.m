@@ -34,16 +34,19 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         self.lock = [[NSLock alloc] init];
         [self setupCaches];
     }
+    
     return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
+    
     if (self) {
         _misc = [aDecoder decodeObjectForKey:@"_misc"];
         _content = [aDecoder decodeObjectForKey:@"content"];
@@ -53,7 +56,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
         self.lock = [[NSLock alloc] init];
         [self setupCaches];
     }
-
+    
     return self;
 }
 
@@ -135,9 +138,10 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 {
     static dispatch_once_t once;
     static FATraktCache *traktCache;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         traktCache = [[FATraktCache alloc] init];
     });
+    
     return traktCache;
 }
 

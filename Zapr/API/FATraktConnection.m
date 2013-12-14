@@ -40,16 +40,19 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     static dispatch_once_t once;
     static FATraktConnection *instance;
-    dispatch_once(&once, ^ { instance = [[FATraktConnection alloc] init]; });
+    dispatch_once(&once, ^{ instance = [[FATraktConnection alloc] init]; });
+    
     return instance;
 }
 
 - (instancetype)init
 {
     self = [super init];
+    
     if (self) {
         self.apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
         [self loadUsernameAndPassword];
+        
         if (self.usernameAndPasswordSaved) {
             self.usernameAndPasswordValid = YES;
         } else {
@@ -61,6 +64,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         } else {
             self.traktBaseURL = @"http://api.trakt.tv";
         }
+        
         self.manager = [AFHTTPRequestOperationManager manager];
         
         self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -74,9 +78,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         self.imageManager.responseSerializer.acceptableStatusCodes = [NSIndexSet indexSetWithIndex:200];
         
         //[[LRResty client] setGlobalTimeout:60 handleWithBlock:^(LRRestyRequest *request) {
-            //[[FAGlobalEventHandler handler] handleTimeout];
+        //[[FAGlobalEventHandler handler] handleTimeout];
         //}];
     }
+    
     return self;
 }
 
@@ -85,11 +90,13 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     self.apiUser = [defaults stringForKey:FATraktConnectionDefaultsKeyTraktUsername];
+    
     if ([self.apiUser isEqualToString:@""]) {
         self.apiUser = nil;
     }
     
     self.apiPasswordHash = [SFHFKeychainUtils getPasswordForUsername:self.apiUser andServiceName:FATraktConnectionKeychainKeyCredentials error:nil];
+    
     if ([self.apiPasswordHash isEqualToString:@""]) {
         self.apiPasswordHash = nil;
     }
@@ -105,17 +112,21 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         // Needs to be authenticated
         FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
         response.responseType = FATraktConnectionResponseTypeInvalidCredentials;
+        
         if (error) {
             error(response);
         }
+        
         return NO;
     }
+    
     return YES;
 }
 
 - (BOOL)usernameAndPasswordSaved
 {
     [self loadUsernameAndPassword];
+    
     if (self.apiUser && self.apiPasswordHash) {
         return YES;
     } else {
@@ -143,6 +154,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     if ([passwordHash isEqualToString:@""]) {
         passwordHash = nil;
     }
+    
     if ([username isEqualToString:@""]) {
         username = nil;
     }
@@ -152,6 +164,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     
     if (username != nil) {
         [defaults setObject:username forKey:FATraktConnectionDefaultsKeyTraktUsername];
+        
         if (passwordHash != nil) {
             [SFHFKeychainUtils storeUsername:username andPassword:passwordHash forServiceName:FATraktConnectionKeychainKeyCredentials updateExisting:YES error:nil];
             [self.manager.requestSerializer setAuthorizationHeaderFieldWithUsername:username password:passwordHash];
@@ -179,10 +192,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     if (CC_SHA1([passwordBytes bytes], [passwordBytes length], digest)) {
         // If successful
         // Create an output string
-        NSMutableString* output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
+        NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
         
         // Shift the sha1 bytes in
-        for(int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
+        for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; i++)
             [output appendFormat:@"%02x", digest[i]];
         
         // Return the output
@@ -202,9 +215,11 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     if (parameters) {
         NSMutableString *url = [self urlForAPI:api].mutableCopy;
+        
         for (NSString *parameter in parameters) {
             [url appendFormat:@"/%@", parameter];
         }
+        
         return url;
     } else {
         return [self urlForAPI:api];
@@ -215,6 +230,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     NSMutableDictionary *authDict = [[NSMutableDictionary alloc] initWithCapacity:2];
     [self postDataDictAddingAuthToDict:authDict];
+    
     return authDict;
 }
 
@@ -224,14 +240,15 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         return nil;
     }
     
-    NSDictionary *authDict = @{@"username:": _apiUser, @"password": _apiPasswordHash};
+    NSDictionary *authDict = @{ @"username:": _apiUser, @"password": _apiPasswordHash };
     NSMutableDictionary *mutableDict = [dict mutableCopy];
     [mutableDict addEntriesFromDictionary:authDict];
+    
     return mutableDict;
 }
 
 - (void)handleResponse:(id)responseData forOperation:(AFHTTPRequestOperation *)operation onSuccess:(void (^)(FATraktConnectionResponse *))successCallback onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
-{    
+{
     FATraktConnectionResponse *connectionResponse = [FATraktConnectionResponse connectionResponseWithHTTPResponse:operation.response responseData:responseData];
     
     if (connectionResponse.responseType == FATraktConnectionResponseTypeSuccess) {
@@ -260,7 +277,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithHTTPResponse:operation.response];
     
-	if (callback) {
+    if (callback) {
         callback(response);
     }
 }
@@ -302,15 +319,14 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         
         // Handle the response
         [self handleResponse:responseDict forOperation:operation onSuccess:successCallback onError:errorCallback];
-
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [traktRequest finishActivity];
-			
+        
         [self handleError:error forRequestOperation:operation callback:errorCallback];
     }];
     
     traktRequest.operation = operation;
-  
+    
     // Return the request
     return traktRequest;
 }
@@ -323,7 +339,6 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                   onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                     onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
-    
     // Set the url with the specified parameters
     NSString *urlString = [self urlForAPI:api withParameters:parameters];
     
@@ -333,11 +348,13 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             if (errorCallback) {
                 errorCallback([FATraktConnectionResponse invalidCredentialsResponse]);
             }
+            
             return nil;
         } else {
             if (!payload) {
                 payload = [[NSMutableDictionary alloc] init];
             }
+            
             payload = [self postDataDictAddingAuthToDict:payload];
         }
     }
@@ -371,6 +388,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             response.responseType = FATraktConnectionResponseTypeUnknown;
             errorCallback(response);
         }
+        
         return nil;
     }
     
@@ -418,9 +436,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 
 - (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
-       withActivityName:(NSString *)activityName
-              onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
-                onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+          withActivityName:(NSString *)activityName
+                 onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
     // Set the url with the specified parameters
     NSString *urlString = [self urlForAPI:api withParameters:parameters];
@@ -439,6 +457,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         if (errorCallback) {
             errorCallback([FATraktConnectionResponse invalidCredentialsResponse]);
         }
+        
         return nil;
     }
     

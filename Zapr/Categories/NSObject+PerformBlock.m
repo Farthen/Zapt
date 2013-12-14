@@ -10,27 +10,31 @@
 
 @interface NSObject (PerformBlockHidden)
 
-- (void)performBlock:(void(^)(void))block;
+- (void)performBlock:(void (^)(void))block;
 
 @end
 
 @implementation NSObject (PerformBlock)
 
-- (void)performBlock:(void(^)(void))block {
+- (void)performBlock:(void (^)(void))block
+{
     block();
 }
 
-- (void)performBlock:(void(^)(void))block waitUntilDone:(BOOL)wait {
+- (void)performBlock:(void (^)(void))block waitUntilDone:(BOOL)wait
+{
     [self performSelector:@selector(performBlock:) onThread:nil withObject:[block copy] waitUntilDone:wait];
 }
 
-- (void)performBlock:(void(^)(void))block afterDelay:(NSTimeInterval)delay {
+- (void)performBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay
+{
     [self performSelector:@selector(performBlock:) withObject:[block copy] afterDelay:delay];
 }
 
-- (void)performBlock:(void(^)(void))block repeatCount:(NSUInteger)repeatCount timeInteval:(NSTimeInterval)timeInterval {
+- (void)performBlock:(void (^)(void))block repeatCount:(NSUInteger)repeatCount timeInteval:(NSTimeInterval)timeInterval
+{
     for (NSUInteger repetition = 0; repetition < repeatCount; repetition++)
-        [self performBlock:block afterDelay:(repetition*timeInterval)];
+        [self performBlock:block afterDelay:(repetition * timeInterval)];
 }
 
 @end

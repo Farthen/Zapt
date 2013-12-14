@@ -14,12 +14,14 @@
 - (NSSet *)changedPathsForDictA:(NSDictionary *)dictA dictB:(NSDictionary *)dictB name:(NSString *)name
 {
     NSMutableSet *changedPaths = [NSMutableSet set];
+    
     for (NSString *key in dictA) {
         NSNumber *myNumber = [dictA objectForKey:key];
         NSUInteger myTimestamp = myNumber.unsignedIntegerValue;
         
         NSNumber *theirNumber = [dictB objectForKey:key];
         NSUInteger theirTimestamp = 0;
+        
         if (theirNumber) {
             theirTimestamp = theirNumber.unsignedIntegerValue;
         }
@@ -28,6 +30,7 @@
             [changedPaths addObject:[NSString stringWithFormat:@"%@.%@", name, key]];
         }
     }
+    
     return changedPaths;
 }
 
@@ -40,6 +43,7 @@
         [changedPaths unionSet:[self changedPathsForDictA:self.movie dictB:otherActivity.movie name:@"movie"]];
         [changedPaths unionSet:[self changedPathsForDictA:self.show dictB:otherActivity.show name:@"show"]];
         [changedPaths unionSet:[self changedPathsForDictA:self.episode dictB:otherActivity.episode name:@"episode"]];
+        
         return changedPaths;
     }
 }

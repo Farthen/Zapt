@@ -22,18 +22,18 @@
 
 + (NSString *)buildString
 {
-    return [[NSBundle mainBundle] objectForInfoDictionaryKey: (NSString *)kCFBundleVersionKey];
+    return [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleVersionKey];
 }
 
 + (NSString *)versionNumberDescription
 {
-    NSString * version = [self versionNumberString];
-    NSString * build = [self buildString];
+    NSString *version = [self versionNumberString];
+    NSString *build = [self buildString];
     
-    NSString * versionBuild = [NSString stringWithFormat: @"v%@", version];
+    NSString *versionBuild = [NSString stringWithFormat:@"v%@", version];
     
-    if (![version isEqualToString: build]) {
-        versionBuild = [NSString stringWithFormat: @"%@(%@)", versionBuild, build];
+    if (![version isEqualToString:build]) {
+        versionBuild = [NSString stringWithFormat:@"%@(%@)", versionBuild, build];
     }
     
     return versionBuild;

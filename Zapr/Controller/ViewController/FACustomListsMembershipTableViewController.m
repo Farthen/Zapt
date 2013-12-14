@@ -23,16 +23,18 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
     self.reloadingIndexPaths = [NSMutableSet set];
     self.tableView.rowHeight = 44;
@@ -58,6 +60,7 @@
     [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists) {
         self.customLists = [lists mutableCopy];
         [self.tableView reloadData];
+        
         for (NSUInteger i = 0; i < self.customLists.count; i++) {
             FATraktList *list = self.customLists[i];
             [[FATrakt sharedInstance] detailsForCustomList:list callback:^(FATraktList *newList) {
@@ -81,6 +84,7 @@
 {
     static NSString *id = @"FACustomListsMembershipTableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
@@ -96,6 +100,7 @@
         if (cell.accessoryView) {
             cell.accessoryView = nil;
         }
+        
         if ([list containsContent:self.content]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
         } else {
@@ -104,6 +109,7 @@
     }
     
     cell.separatorInset = self.tableView.separatorInset;
+    
     return cell;
 }
 
@@ -112,6 +118,7 @@
     if (indexPath.section == 0) {
         FATraktList *list = [[self.customLists objectAtIndex:indexPath.row] cachedVersion];
         BOOL add;
+        
         if ([list containsContent:self.content]) {
             add = NO;
         } else {

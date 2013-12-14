@@ -13,22 +13,26 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
+
 /*
-- (UIBarPosition)barPosition
-{
-    return UIBarPositionTopAttached;
-}*/
+ - (UIBarPosition)barPosition
+ {
+ return UIBarPositionTopAttached;
+ }*/
 
 
 - (CGSize)intrinsicContentSize
 {
     CGSize intrinsicContentSize = [super intrinsicContentSize];
     intrinsicContentSize.height += [[UIApplication sharedApplication] statusBarFrame].size.height;
+    
     return intrinsicContentSize;
 }
 

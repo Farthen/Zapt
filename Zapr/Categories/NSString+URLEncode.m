@@ -10,13 +10,16 @@
 
 @implementation NSString (URLEncode)
 
-- (NSString *)URLEncodedString {
-    NSMutableString * output = [NSMutableString string];
-    const unsigned char * source = (const unsigned char *)[self UTF8String];
+- (NSString *)URLEncodedString
+{
+    NSMutableString *output = [NSMutableString string];
+    const unsigned char *source = (const unsigned char *)[self UTF8String];
     unsigned long sourceLen = strlen((const char *)source);
+    
     for (unsigned int i = 0; i < sourceLen; ++i) {
         const unsigned char thisChar = source[i];
-        if (thisChar == ' '){
+        
+        if (thisChar == ' ') {
             [output appendString:@"+"];
         } else if (thisChar == '.' || thisChar == '-' || thisChar == '_' || thisChar == '~' ||
                    (thisChar >= 'a' && thisChar <= 'z') ||
@@ -27,6 +30,7 @@
             [output appendFormat:@"%%%02X", thisChar];
         }
     }
+    
     return output;
 }
 

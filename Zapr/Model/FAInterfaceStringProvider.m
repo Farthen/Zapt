@@ -14,16 +14,16 @@ static NSArray *_ratingNames;
 + (void)initialize
 {
     _ratingNames = @[NSLocalizedString(@"Not rated", nil),
-                    NSLocalizedString(@"Weak sauce :(", nil),
-                    NSLocalizedString(@"Terrible", nil),
-                    NSLocalizedString(@"Bad", nil),
-                    NSLocalizedString(@"Poor", nil),
-                    NSLocalizedString(@"Meh", nil),
-                    NSLocalizedString(@"Fair", nil),
-                    NSLocalizedString(@"Good", nil),
-                    NSLocalizedString(@"Great", nil),
-                    NSLocalizedString(@"Superb", nil),
-                    NSLocalizedString(@"Totally ninja!", nil)];
+                     NSLocalizedString(@"Weak sauce :(", nil),
+                     NSLocalizedString(@"Terrible", nil),
+                     NSLocalizedString(@"Bad", nil),
+                     NSLocalizedString(@"Poor", nil),
+                     NSLocalizedString(@"Meh", nil),
+                     NSLocalizedString(@"Fair", nil),
+                     NSLocalizedString(@"Good", nil),
+                     NSLocalizedString(@"Great", nil),
+                     NSLocalizedString(@"Superb", nil),
+                     NSLocalizedString(@"Totally ninja!", nil)];
 }
 
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized
@@ -34,6 +34,7 @@ static NSArray *_ratingNames;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized longVersion:(BOOL)longVersion
 {
     NSString *name;
+    
     if (!plural) {
         if (type == FATraktContentTypeMovies) {
             if (capitalized) {
@@ -83,12 +84,14 @@ static NSArray *_ratingNames;
             }
         }
     }
+    
     return name;
 }
 
 + (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized
 {
     NSString *name;
+    
     if (ratingsMode == FATraktRatingsModeSimple) {
         if (rating == FATraktRatingUndefined) {
             name = NSLocalizedString(@"not rated", nil);
@@ -99,18 +102,21 @@ static NSArray *_ratingNames;
         } else {
             name = [NSString stringWithFormat:@"%i", rating];
         }
+        
         if (capitalized) {
             name = [name capitalizedString];
         }
     } else {
         name = [_ratingNames objectAtIndex:rating];
     }
+    
     return name;
 }
 
 + (NSString *)nameForSeason:(FATraktSeason *)season capitalized:(BOOL)capitalized
 {
     NSString *name;
+    
     if (season.seasonNumber.unsignedIntegerValue == 0) {
         name = @"specials";
     } else {
@@ -127,10 +133,9 @@ static NSArray *_ratingNames;
 + (NSString *)nameForEpisode:(FATraktEpisode *)episode long:(BOOL)longName capitalized:(BOOL)capitalized
 {
     NSString *name;
-    if (longName)
-    {
-        if (episode.seasonNumber.unsignedIntegerValue == 0)
-        {
+    
+    if (longName) {
+        if (episode.seasonNumber.unsignedIntegerValue == 0) {
             if (capitalized) {
                 name = [NSString stringWithFormat:NSLocalizedString(@"Specials Episode %i", nil), episode.episodeNumber.unsignedIntegerValue];
             } else {

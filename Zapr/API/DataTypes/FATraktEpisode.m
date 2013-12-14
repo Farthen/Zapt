@@ -23,6 +23,7 @@
 - (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber episodeNumber:(NSNumber *)episodeNumber
 {
     self = [super init];
+    
     if (self) {
         self.seasonNumber = seasonNumber;
         self.episodeNumber = episodeNumber;
@@ -35,6 +36,7 @@
 - (instancetype)initWithJSONDict:(NSDictionary *)dict
 {
     self = [super initWithJSONDict:dict];
+    
     if (self) {
         self.detailLevel = FATraktDetailLevelDefault;
     }
@@ -45,10 +47,12 @@
 - (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {
     self = [self initWithJSONDict:dict];
+    
     if (self) {
         self.show = show;
         
         FATraktEpisode *cachedEpisode = [self.class.backingCache objectForKey:self.cacheKey];
+        
         if (cachedEpisode) {
             // cache hit!
             // update the cached episode with new values
@@ -56,6 +60,7 @@
             // return the cached episode
             self = cachedEpisode;
         }
+        
         [self commitToCache];
         [self.show commitToCache];
     }
@@ -66,6 +71,7 @@
 - (instancetype)initWithSummaryDict:(NSDictionary *)dict
 {
     self = [self initWithJSONDict:[dict objectForKey:@"episode"]];
+    
     if (self) {
         self.show = [[FATraktShow alloc] initWithJSONDict:[dict objectForKey:@"show"]];
     }
@@ -100,6 +106,7 @@
 - (NSString *)urlIdentifier
 {
     NSString *showIdentifier = self.show.urlIdentifier;
+    
     if (showIdentifier) {
         if (self.seasonNumber && self.episodeNumber) {
             return [NSString stringWithFormat:@"%@/%@/%@", showIdentifier, self.seasonNumber, self.episodeNumber];
@@ -151,6 +158,7 @@
 - (NSString *)cacheKey
 {
     NSString *showKey;
+    
     if (!self.show) {
         // If the show is unavailable for some reason, generate a UUID to avoid collisions
         showKey = [NSString uuidString];
@@ -188,7 +196,6 @@
         } else {
             season = [[FATraktSeason alloc] initWithShow:show seasonNumber:self.seasonNumber];
         }
-        
         
         // This will insert itself into the show.seasons array
         season.show = show;
@@ -239,11 +246,11 @@
         while (season.episodes.count < self.episodeNumber.unsignedIntegerValue - 1) {
             // -1 because index. +1 because episode numbers start at 1
             FATraktEpisode *episode =
-                [[FATraktEpisode alloc] initWithShow:self.show
-                                        seasonNumber:season.seasonNumber
-                                       episodeNumber:[NSNumber numberWithUnsignedInteger:season.episodes.count - 1 + 1]];
+            [[FATraktEpisode alloc] initWithShow:self.show
+                                    seasonNumber:season.seasonNumber
+                                   episodeNumber:[NSNumber numberWithUnsignedInteger:season.episodes.count - 1 + 1]];
             episode->_season = season;
-
+            
             
             episode.detailLevel = FATraktDetailLevelMinimal;
             

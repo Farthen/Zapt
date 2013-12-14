@@ -14,9 +14,10 @@
 {
     static dispatch_once_t once;
     static FAGlobalSettings *instance;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         instance = [[FAGlobalSettings alloc] init];
     });
+    
     return instance;
 }
 

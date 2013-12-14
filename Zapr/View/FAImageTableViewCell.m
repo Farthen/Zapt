@@ -14,17 +14,19 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
 
 - (id)init
 {
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+    
     if (self) {
-        
     }
     
     return self;
@@ -33,7 +35,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -42,7 +44,7 @@
 {
     [super layoutSubviews];
     // Makes imageView get placed in the corner
-    self.imageView.frame = CGRectMake( 0, 0, self.imageView.frame.size.width, self.imageView.frame.size.height);
+    self.imageView.frame = CGRectMake(0, 0, self.imageView.frame.size.width, self.imageView.frame.size.height);
     
     self.textLabel.frameX = 90;
     self.textLabel.frameWidth += self.detailTextLabel.frameX;
@@ -55,7 +57,6 @@
 
 - (void)displaySeason:(FATraktSeason *)content
 {
-    
 }
 
 + (CGFloat)cellHeight

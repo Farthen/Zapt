@@ -22,11 +22,13 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
         
         [self setUp];
     }
+    
     return self;
 }
 
@@ -86,9 +88,9 @@
     } else if (reloadControlState == FAReloadControlStateReloading) {
         [self addActivityIndicatorViewIfNeeded];
     }
-        
+    
     _reloadControlState = reloadControlState;
-        
+    
     [self setNeedsDisplay];
 }
 
@@ -115,7 +117,6 @@
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
     if (event.type == UIEventTypeTouches) {
-        
         // The touch area is a minimum of 44x44
         CGSize touchArea;
         touchArea.height = MAX(self.bounds.size.height, 44);
@@ -184,7 +185,6 @@
         [arrowPath addLineToPoint:beginPoint];
         
         [arrowPath fill];
-        
     } else if (self.reloadControlState == FAReloadControlStateFinished) {
         // Draw a checkmark
         
@@ -219,6 +219,5 @@
         [checkmarkPath stroke];
     }
 }
-
 
 @end

@@ -59,7 +59,7 @@
 
 @interface FAArrayTableViewDelegate : NSObject <UITableViewDelegate>
 
-@property id<FAArrayTableViewDelegate> delegate;
+@property id <FAArrayTableViewDelegate> delegate;
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 

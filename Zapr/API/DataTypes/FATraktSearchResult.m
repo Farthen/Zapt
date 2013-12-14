@@ -17,10 +17,12 @@
 - (id)initWithQuery:(NSString *)query contentType:(FATraktContentType)contentType
 {
     self = [super init];
+    
     if (self) {
         _query = query;
         _contentType = contentType;
     }
+    
     return self;
 }
 
@@ -47,7 +49,7 @@
 - (NSArray *)results
 {
     if (!_results) {
-        _results = [_resultCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+        _results = [_resultCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
             return [self.class.backingCache objectForKey:obj];
         }];
     }
@@ -68,6 +70,5 @@
     
     return _resultCacheKeys;
 }
-
 
 @end

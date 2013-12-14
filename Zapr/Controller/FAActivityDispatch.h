@@ -13,9 +13,9 @@
 
 + (FAActivityDispatch *)sharedInstance;
 
-- (void)registerForAllActivity:(id <FAUIElementWithActivity>)observer;
-- (void)registerForActivityName:(NSString *)name observer:(id <FAUIElementWithActivity>)observer;
-- (void)unregister:(id <FAUIElementWithActivity>)observer;
+- (void)registerForAllActivity:(id <FAUIElementWithActivity> )observer;
+- (void)registerForActivityName:(NSString *)name observer:(id <FAUIElementWithActivity> )observer;
+- (void)unregister:(id <FAUIElementWithActivity> )observer;
 
 - (void)startActivityNamed:(NSString *)name;
 - (void)finishActivityNamed:(NSString *)name;

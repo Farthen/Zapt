@@ -33,7 +33,6 @@
     return self;
 }
 
-
 #pragma mark - UITableViewDelegate -
 #pragma mark Configuring Rows for the Table View
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -43,8 +42,9 @@
     }
     
     if ([self.dataSource.cellClass conformsToProtocol:@protocol(FATableViewCellHeight)]) {
-        Class<FATableViewCellHeight, NSObject> cellClass = self.dataSource.cellClass;
-        if ([(id)cellClass respondsToSelector:@selector(cellHeight)]) {
+        Class <FATableViewCellHeight, NSObject> cellClass = self.dataSource.cellClass;
+        
+        if ([(id)cellClass respondsToSelector : @selector(cellHeight)]) {
             return [cellClass cellHeight];
         }
     }
@@ -93,8 +93,8 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:willSelectRowWithObject:)]) {
-        
         id object = [self.delegate tableView:tableView willSelectRowWithObject:[self.dataSource objectAtIndexPath:indexPath]];
+        
         return [self.dataSource anyIndexPathForObject:object];
     }
     
@@ -111,8 +111,8 @@
 - (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:didDeselectRowWithObject:)]) {
-        
         id object = [self.delegate tableView:tableView willDeselectRowWithObject:[self.dataSource objectAtIndexPath:indexPath]];
+        
         return [self.dataSource anyIndexPathForObject:object];
     }
     

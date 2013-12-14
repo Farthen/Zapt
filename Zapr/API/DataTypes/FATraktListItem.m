@@ -15,7 +15,7 @@
 #import "FATraktCache.h"
 
 @implementation FATraktListItem {
-    id<FACacheableItem> _content;
+    id <FACacheableItem> _content;
     NSString *_contentCacheKey;
 }
 

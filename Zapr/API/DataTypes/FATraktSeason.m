@@ -30,7 +30,7 @@
 {
     [super finishedMappingObjects];
     
-    for (FATraktEpisode *episode in [self.episodes copy]) {
+    for (FATraktEpisode *episode in[self.episodes copy]) {
         episode.seasonNumber = self.seasonNumber;
         episode.showCacheKey = self.showCacheKey;
         episode.season = self;
@@ -40,6 +40,7 @@
 - (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber
 {
     self = [super init];
+    
     if (self) {
         self.seasonNumber = seasonNumber;
         self.show = show;
@@ -67,13 +68,13 @@
     if ([key isEqualToString:@"episodes"]) {
         if ([object isKindOfClass:[NSArray class]]) {
             NSMutableArray *episodesArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-            for (id item in (NSArray *)object) {
+            
+            for (id item in(NSArray *) object) {
                 if ([item isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *episodeDict = item;
                     FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
                     [episodesArray addObject:episode];
                 } else if ([item isKindOfClass:[NSNumber class]]) {
-                    
                     FATraktEpisode *episode = [[FATraktEpisode alloc] init];
                     
                     // the rest will be filled in finishedMappingObjects
@@ -119,11 +120,12 @@
     } else if (self.episodeCount) {
         if (self.episodeCount.unsignedIntegerValue >= episodeID) {
             FATraktEpisode *episode =
-                [[FATraktEpisode alloc] initWithShow:self.show
-                                        seasonNumber:self.seasonNumber
-                                       episodeNumber:[NSNumber numberWithUnsignedInteger:episodeID]];
+            [[FATraktEpisode alloc] initWithShow:self.show
+                                    seasonNumber:self.seasonNumber
+                                   episodeNumber:[NSNumber numberWithUnsignedInteger:episodeID]];
             
             episode.detailLevel = FATraktDetailLevelMinimal;
+            
             return episode;
         }
     }
@@ -134,6 +136,7 @@
 - (NSString *)cacheKey
 {
     NSString *showKey;
+    
     if (!self.show) {
         // If the show is unavailable for some reason, generate a UUID to avoid collisions
         showKey = [NSString uuidString];
@@ -165,7 +168,7 @@
 
 - (NSNumber *)episodesWatched
 {
-    return [NSNumber numberWithUnsignedInteger:[self.episodes countUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+    return [NSNumber numberWithUnsignedInteger:[self.episodes countUsingBlock:^BOOL (id obj, NSUInteger idx, BOOL *stop) {
         return ((FATraktEpisode *)obj).watched == YES;
     }]];
 }
@@ -232,7 +235,7 @@
 - (NSMutableArray *)episodes
 {
     if (!_episodes) {
-        _episodes = [_episodeCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+        _episodes = [_episodeCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
             FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:obj];
             
             if (!episode) {
@@ -244,7 +247,7 @@
             return episode;
         }];
         
-        for (FATraktEpisode *episode in [_episodes copy]) {
+        for (FATraktEpisode *episode in[_episodes copy]) {
             episode.show = self.show;
         }
     }
@@ -265,6 +268,5 @@
     
     return _episodeCacheKeys;
 }
-
 
 @end

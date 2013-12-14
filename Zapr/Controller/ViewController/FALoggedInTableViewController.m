@@ -41,6 +41,7 @@
 {
     static NSString *cellIdentifier = @"FANeedsLoginTableViewCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -60,6 +61,7 @@
         } else {
             cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"to view %@", nil), self.contentName];
         }
+        
         cell.textLabel.textColor = [UIColor grayColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     } else {
@@ -97,9 +99,11 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -165,6 +169,7 @@
 - (void)displayNeedsLoginTableViewIfNeeded
 {
     BOOL usernameAndPasswordValid = [[FATraktConnection sharedInstance] usernameAndPasswordValid];
+    
     if (usernameAndPasswordValid) {
         [self hideNeedsLoginTableViewAnimated:YES];
     } else {

@@ -14,6 +14,7 @@
 {
     UIApplication *application = [UIApplication sharedApplication];
     id <UIApplicationDelegate> delegate = [application delegate];
+    
     return delegate.window;
 }
 

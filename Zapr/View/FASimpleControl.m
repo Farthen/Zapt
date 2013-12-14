@@ -17,9 +17,11 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
 
@@ -63,34 +65,33 @@
     [self checkStateChanged:oldState];
 }
 
-- (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UIControlState oldState = self.state;
     [super touchesBegan:touches withEvent:event];
     [self checkStateChanged:oldState];
 }
 
-- (void)touchesMoved:(NSSet*)touches withEvent:(UIEvent*)event
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UIControlState oldState = self.state;
     [super touchesMoved:touches withEvent:event];
     [self checkStateChanged:oldState];
 }
 
-- (void)touchesEnded:(NSSet*)touches withEvent:(UIEvent*)event
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UIControlState oldState = self.state;
     [super touchesEnded:touches withEvent:event];
     [self checkStateChanged:oldState];
 }
 
-- (void)touchesCancelled:(NSSet*)touches withEvent:(UIEvent*)event
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UIControlState oldState = self.state;
     [super touchesCancelled:touches withEvent:event];
     [self checkStateChanged:oldState];
 }
-
 
 - (void)layoutIfNeeded
 {
@@ -102,12 +103,12 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

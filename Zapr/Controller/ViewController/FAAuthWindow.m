@@ -21,9 +21,11 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+    
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
 
@@ -31,10 +33,11 @@
 {
     static dispatch_once_t once;
     static FAAuthWindow *window;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         window = [[FAAuthWindow alloc] initWithFrame:[[UIWindow mainWindow] frame]];
         window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
     });
+    
     return window;
 }
 
@@ -47,6 +50,7 @@
 {
     CGRect firstFrame = [self finalFrame];
     firstFrame.origin.y = self.bounds.origin.y + self.bounds.size.height;
+    
     return firstFrame;
 }
 
@@ -54,7 +58,8 @@
 {
     BOOL display = NO;
     
-    @synchronized(self) {
+    @synchronized(self)
+    {
         if (!self.displayed) {
             self.displayed = YES;
             display = YES;

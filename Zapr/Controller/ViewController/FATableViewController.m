@@ -21,11 +21,13 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
+    
     if (self) {
         // Custom initialization
         
         [self setUp];
     }
+    
     return self;
 }
 
@@ -44,11 +46,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     self.clearsSelectionOnViewWillAppear = NO;
     
     [self performBlock:^{
         self.viewWasLoaded = YES;
+        
         if (self.viewDidLoadCompletionBlocks) {
             for (FAViewControllerCompletionBlock block in self.viewDidLoadCompletionBlocks) {
                 block();
@@ -64,6 +67,7 @@
     [super viewWillAppear:animated];
     
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    
     if (selectedRowIndexPath) {
         [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
     }

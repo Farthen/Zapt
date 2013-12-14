@@ -10,29 +10,29 @@
 
 @implementation UIView (SizeToFitSubviews)
 
--(void)resizeToFitSubviews
+- (void)resizeToFitSubviews
 {
     [self resizeWidthToFitSubviews];
     [self resizeHeightToFitSubviews];
 }
 
--(void)resizeToFitSubviewsWithMinimumSize:(CGSize)size
+- (void)resizeToFitSubviewsWithMinimumSize:(CGSize)size
 {
     [self resizeWidthToFitSubviewsWithMinimumSize:size.width];
     [self resizeHeightToFitSubviewsWithMinimumSize:size.height];
 }
 
--(void)resizeWidthToFitSubviews
+- (void)resizeWidthToFitSubviews
 {
     [self resizeWidthToFitSubviewsWithMinimumSize:0];
 }
 
--(void)resizeHeightToFitSubviews
+- (void)resizeHeightToFitSubviews
 {
     [self resizeHeightToFitSubviewsWithMinimumSize:0];
 }
 
--(void)resizeWidthToFitSubviewsWithMinimumSize:(CGFloat)width
+- (void)resizeWidthToFitSubviewsWithMinimumSize:(CGFloat)width
 {
     CGFloat maxWidth = width - 20;
     
@@ -40,10 +40,11 @@
         CGFloat currentWidth = view.frame.origin.x + view.frame.size.width;
         maxWidth = MAX(currentWidth, maxWidth);
     }
+    
     [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, maxWidth + 20, self.frame.size.height)];
 }
 
--(void)resizeHeightToFitSubviewsWithMinimumSize:(CGFloat)height
+- (void)resizeHeightToFitSubviewsWithMinimumSize:(CGFloat)height
 {
     CGFloat maxHeight = height - 20;
     
@@ -51,6 +52,7 @@
         CGFloat currentHeight = view.frame.origin.y + view.frame.size.height;
         maxHeight = MAX(currentHeight, maxHeight);
     }
+    
     [self setFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, maxHeight + 20)];
 }
 

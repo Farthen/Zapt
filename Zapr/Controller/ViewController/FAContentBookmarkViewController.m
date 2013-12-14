@@ -29,9 +29,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -61,14 +63,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)loadContent:(FATraktContent *)content
 {
     self.displaysSeenButton = YES;
+    
     if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
+        
         if (show.progress && show.progress.left.unsignedIntegerValue == 0) {
             self.displaysSeenButton = NO;
         }
@@ -77,14 +81,14 @@
     [self.tableView reloadData];
     
     /*if (_accountSettings) {
-        if (_accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
-            self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
-        } else {
-            self.ratingDetailLabel.text = [NSString stringWithFormat:@"%i", content.rating_advanced];
-        }
-    } else {
-        self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
-    }*/
+     if (_accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
+     self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
+     } else {
+     self.ratingDetailLabel.text = [NSString stringWithFormat:@"%i", content.rating_advanced];
+     }
+     } else {
+     self.ratingDetailLabel.text = [FAInterfaceStringProvider nameForRating:content.rating capitalized:YES];
+     }*/
 }
 
 - (void)displayContent:(FATraktContent *)content
@@ -123,11 +127,13 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSUInteger offset = 0;
+    
     if (!self.displaysSeenButton) {
         offset = 1;
     }
     
     section = section + offset;
+    
     if (section == 0) {
         return 1;
     } else if (section == 1) {
@@ -143,11 +149,13 @@
 {
     static NSString *cellIdentifier = @"contentBookmark";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     NSUInteger offset = 0;
+    
     if (!self.displaysSeenButton) {
         offset = 1;
     }
@@ -189,6 +197,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger offset = 0;
+    
     if (!self.displaysSeenButton) {
         offset = 1;
     }
@@ -196,6 +205,7 @@
     if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
         [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"do any content action", nil)];
         [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
+        
         return;
     }
     
@@ -203,6 +213,7 @@
         // Seen button
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
+        
         if (indexPath.row == 0) {
             if (_currentContent.isWatched) {
                 [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:NSLocalizedString(@"Unwatching the %@ for you", nil), [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:NO longVersion:NO]]];
@@ -222,10 +233,10 @@
             
             [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         }
-        
     } else if (indexPath.section + offset == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
+        
         if (indexPath.row == 0) {
             // Watchlist add/remove button
             if (_currentContent.in_watchlist) {

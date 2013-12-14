@@ -43,9 +43,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -86,7 +88,7 @@
     
     self.clearsSelectionOnViewWillAppear = NO;
     
-	// Set the row height before loading the tableView for a more smooth experience
+    // Set the row height before loading the tableView for a more smooth experience
     self.tableView.rowHeight = [FAContentTableViewCell cellHeight];
     self.tableView.tableHeaderView = self.searchBar;
     _shouldBeginEditingSearchText = YES;
@@ -103,6 +105,7 @@
     // Unselect the selected row if any
     
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    
     if (selectedRowIndexPath) {
         [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
     }
@@ -111,6 +114,7 @@
         for (unsigned int i = 0; i < _displayedList.items.count; i++) {
             FATraktListItem *item = [_displayedList.items objectAtIndex:i];
             BOOL contentInList = NO;
+            
             if (_isWatchlist) {
                 contentInList = item.content.in_watchlist;
             } else if (_isLibrary) {
@@ -119,6 +123,7 @@
             } else if (_isCustom) {
                 contentInList = YES;
             }
+            
             if (!contentInList) {
                 NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
                 [newList removeObjectAtIndex:i];
@@ -129,9 +134,10 @@
                 [self.tableView reloadData];
             }
         }
+        
         if (_isWatchlist) {
             [self loadWatchlistOfType:_contentType];
-        } else if (_isLibrary){
+        } else if (_isLibrary) {
             [self loadLibraryOfType:_contentType];
         }
     }
@@ -172,8 +178,10 @@
     BOOL reloadData = NO;
     
     FATraktList *loadedList;
+    
     if (list.isLibrary) {
         loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)list.libraryType];
+        
         if ([loadedList isMemberOfClass:[NSNull class]]) {
             loadedList = nil;
         }
@@ -194,9 +202,11 @@
     
     if (reloadData) {
         _loadedList = list;
+        
         if (list.isLibrary) {
             // This is replacing the libraries at the positions/NSNull with the real objects
             [_loadedLibrary replaceObjectAtIndex:(NSUInteger)list.libraryType withObject:list];
+            
             if (_displayedLibraryType == list.libraryType) {
                 _displayedList = _loadedList;
             }
@@ -215,30 +225,54 @@
 {
     if (self.refreshControlWithActivity.startCount == 0) {
         if (_isLibrary) {
-            if (animated) [self.refreshControlWithActivity startActivityWithCount:3];
-            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list){
+            if (animated) {
+                [self.refreshControlWithActivity startActivityWithCount:3];
+            }
+            
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                if (animated) [self.refreshControlWithActivity finishActivity];
+                
+                if (animated) {
+                    [self.refreshControlWithActivity finishActivity];
+                }
             } onError:nil];
-            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list){
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                if (animated) [self.refreshControlWithActivity finishActivity];
+                
+                if (animated) {
+                    [self.refreshControlWithActivity finishActivity];
+                }
             } onError:nil];
-            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list){
+            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                if (animated) [self.refreshControlWithActivity finishActivity];
+                
+                if (animated) {
+                    [self.refreshControlWithActivity finishActivity];
+                }
             } onError:nil];
         } else if (_isWatchlist) {
-            if (animated) [self.refreshControlWithActivity startActivity];
+            if (animated) {
+                [self.refreshControlWithActivity startActivity];
+            }
+            
             [[FATrakt sharedInstance] watchlistForType:_contentType callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                if (animated) [self.refreshControlWithActivity finishActivity];
+                
+                if (animated) {
+                    [self.refreshControlWithActivity finishActivity];
+                }
             } onError:nil];
         } else if (_isCustom) {
-            if (animated) [self.refreshControlWithActivity startActivity];
+            if (animated) {
+                [self.refreshControlWithActivity startActivity];
+            }
+            
             [[FATrakt sharedInstance] detailsForCustomList:_loadedList callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
-                if (animated) [self.refreshControlWithActivity finishActivity];
+                
+                if (animated) {
+                    [self.refreshControlWithActivity finishActivity];
+                }
             } onError:nil];
         }
     }
@@ -263,6 +297,7 @@
     _reloadWhenShowing = NO;
     _contentType = type;
     _displayedLibraryType = FATraktLibraryTypeAll;
+    
     if (!_loadedLibrary) {
         _loadedLibrary = [[NSMutableArray alloc] initWithArray:@[[NSNull null], [NSNull null], [NSNull null]]];
     }
@@ -293,6 +328,7 @@
         
         if (letter) {
             NSMutableArray *listItems = [alphabetLetters objectForKey:letter];
+            
             if (!listItems) {
                 listItems = [NSMutableArray array];
             }
@@ -326,8 +362,7 @@
 {
     // If row is deleted, remove it from the list.
     // FIXME this should work for library as well
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
         if (_isWatchlist) {
             FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
@@ -358,7 +393,6 @@
                 [_displayedList.items removeObject:letterList[indexPath.row]];
                 
                 [self.tableView endUpdates];
-                
             } onError:^(FATraktConnectionResponse *connectionError) {
                 [hud showProgressHUDFailed];
             }];
@@ -385,6 +419,7 @@
     // Reuse cells
     static NSString *id = @"FASearchResultTableViewCell";
     FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    
     if (!cell) {
         cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
@@ -394,6 +429,7 @@
     FATraktListItem *item = section[indexPath.row];
     [cell displayContent:[item.content cachedVersion]];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
 
@@ -422,6 +458,7 @@
     NSString *searchText = searchBar.text;
     
     FATraktList *loadedList = _loadedList;
+    
     if (_isLibrary) {
         FATraktLibraryType libraryType = searchBar.selectedScopeButtonIndex;
         loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)libraryType];
@@ -430,19 +467,23 @@
     
     FATraktList *displayedList = [loadedList copy];
     NSMutableArray *items = [[NSMutableArray alloc] init];
+    
     if (searchText && ![searchText isEqualToString:@""]) {
         for (unsigned int i = 0; i < loadedList.items.count; i++) {
             FATraktListItem *listItem = loadedList.items[i];
             FATraktContent *content = listItem.content;
             BOOL add = NO;
+            
             if (content.contentType == FATraktContentTypeEpisodes) {
                 FATraktEpisode *episode = (FATraktEpisode *)content;
                 NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
+                
                 if ([episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                     [episode.show.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
                     add = YES;
                 }
             }
+            
             if ([content.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
                 add = YES;
             }
@@ -451,6 +492,7 @@
                 [items addObject:listItem];
             }
         }
+        
         displayedList.items = items;
     }
     
@@ -459,7 +501,6 @@
     [self reloadSectionIndexTitleData];
     [self.tableView reloadData];
 }
-
 
 #pragma mark - UISearchBarDelegate Methods
 // React to any delegate method we are interested in and change whatever needs changing
@@ -490,18 +531,21 @@
 {
     if (!_shouldBeginEditingSearchText) {
         _shouldBeginEditingSearchText = YES;
+        
         return NO;
     }
+    
     return YES;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     // http://stackoverflow.com/questions/1092246/uisearchbar-clearbutton-forces-the-keyboard-to-appear/3852509#3852509
-    if(![searchBar isFirstResponder]) {
+    if (![searchBar isFirstResponder]) {
         // user tapped the 'clear' button
         _shouldBeginEditingSearchText = NO;
     }
+    
     // do whatever I want to happen when the user clears the search...
     [self filterContentForSearchBar:searchBar];
 }

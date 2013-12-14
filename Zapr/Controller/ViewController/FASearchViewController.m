@@ -33,10 +33,10 @@ static CGPoint _scrollPositions[3];
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
     self.searchData = [[FASearchData alloc] init];
     _searchRequests = [[NSMutableArray alloc] initWithCapacity:3];
-        
+    
     self.searchBar.translucent = YES;
     
     _scrollPositions[0] = CGPointZero;
@@ -64,7 +64,7 @@ static CGPoint _scrollPositions[3];
     [super viewDidAppear:animated];
     
     /*NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-    [self.view.window addConstraint:searchBarConstraint];*/
+     [self.view.window addConstraint:searchBarConstraint];*/
     
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
@@ -111,10 +111,12 @@ static CGPoint _scrollPositions[3];
 
 - (void)cancelAllSearchRequests
 {
-    @synchronized(self) {
+    @synchronized(self)
+    {
         for (FATraktRequest *request in _searchRequests) {
             [request cancelImmediately];
         }
+        
         [_searchRequests removeAllObjects];
     }
 }
@@ -122,11 +124,13 @@ static CGPoint _scrollPositions[3];
 - (void)removeFinishedRequestsFromRequestArray
 {
     // NSMutableArray isn't thread safe
-    @synchronized(self) {
+    @synchronized(self)
+    {
         NSMutableIndexSet *removalSet = [NSMutableIndexSet indexSet];
         
         for (NSUInteger i = 0; i < _searchRequests.count; i++) {
             FATraktRequest *request = _searchRequests[i];
+            
             if (request.requestState & FATraktRequestStateFinished) {
                 [removalSet addIndex:i];
             }
@@ -160,7 +164,8 @@ static CGPoint _scrollPositions[3];
     [self removeFinishedRequestsFromRequestArray];
     
     // NSMutableArray isn't thread safe
-    @synchronized(self) {
+    @synchronized(self)
+    {
         [_searchRequests addObject:requestMovies];
         [_searchRequests addObject:requestShows];
         [_searchRequests addObject:requestEpisodes];
@@ -181,6 +186,7 @@ static CGPoint _scrollPositions[3];
         _searchScope = searchScope;
         [controller.searchResultsTableView setContentOffset:_scrollPositions[searchScope] animated:NO];
         [controller.searchResultsTableView flashScrollIndicators];
+        
         return YES;
     }
     
@@ -191,6 +197,7 @@ static CGPoint _scrollPositions[3];
 {
     //[APLog tiny:@"New search string: %@", searchText];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    
     if (![searchText isEqualToString:@""]) {
         [self performSelector:@selector(searchForString:) withObject:searchText afterDelay:0.20];
     }
@@ -239,9 +246,11 @@ static CGPoint _scrollPositions[3];
     // Reuse cells
     static NSString *id = @"FASearchResultTableViewCell";
     FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    
     if (!cell) {
         cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
+    
     if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
         [cell displayContent:movie];
@@ -253,7 +262,9 @@ static CGPoint _scrollPositions[3];
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
         [cell displayContent:episode];
     }
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
 
@@ -270,6 +281,7 @@ static CGPoint _scrollPositions[3];
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     _resultsTableView = tableView;
+    
     if (_searchScope == FATraktContentTypeMovies) {
         return (NSInteger)self.searchData.movies.count;
     } else if (_searchScope == FATraktContentTypeShows) {
@@ -301,6 +313,5 @@ static CGPoint _scrollPositions[3];
     self.searchDisplayController.delegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 @end

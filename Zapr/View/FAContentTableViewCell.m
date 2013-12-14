@@ -18,9 +18,11 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         [self layoutSubviews];
     }
+    
     return self;
 }
 
@@ -35,6 +37,7 @@
         FATraktMovie *movie = (FATraktMovie *)content;
         NSString *genres = [movie.genres componentsJoinedByString:@", "];
         NSString *detailString;
+        
         if (movie.year && ![genres isEqualToString:@""]) {
             detailString = [NSString stringWithFormat:NSLocalizedString(@"%@ - %@", nil), movie.year, genres];
         } else if (movie.year) {
@@ -51,11 +54,14 @@
         FATraktShow *show = (FATraktShow *)content;
         
         NSDateComponents *components;
+        
         if (show.first_aired) {
             components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
         }
+        
         NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
         NSString *detailString;
+        
         if (![genres isEqualToString:@""] && show.first_aired) {
             detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
         } else if (show.first_aired) {
@@ -65,9 +71,11 @@
         } else {
             detailString = nil;
         }
+        
         return detailString;
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
+        
         return episode.show.title;
     }
     
@@ -78,6 +86,7 @@
 {
     if ([content isKindOfClass:[FATraktMovie class]]) {
         FATraktMovie *movie = (FATraktMovie *)content;
+        
         if (movie.tagline && ![movie.tagline isEqual:[NSNull null]]) {
             return movie.tagline;
         } else {
@@ -85,6 +94,7 @@
         }
     } else if ([content isKindOfClass:[FATraktShow class]]) {
         FATraktShow *show = (FATraktShow *)content;
+        
         if (show.overview && ![show.overview isEqual:[NSNull class]]) {
             return show.network;
         } else {
@@ -92,6 +102,7 @@
         }
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
+        
         if (episode.seasonNumber && episode.episodeNumber && episode.overview) {
             return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue, episode.overview];
         } else if (episode.seasonNumber && episode.episodeNumber) {
@@ -149,7 +160,7 @@
     self.leftAuxiliaryTextLabel.adjustsFontSizeToFitWidth = NO;
     self.leftAuxiliaryTextLabel.numberOfLines = 1;
     
-    if (!self.addedConstraints) {        
+    if (!self.addedConstraints) {
         // Create constraints for the title label:
         self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
@@ -170,13 +181,13 @@
         self.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
         [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+        
         if ([self.detailTextLabel isDescendantOfView:self.contentView]) {
             // watwatwat abandon ship (it's sad but it actually works)
             // More thorough explanation: The detail text label seems to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.class.labelSpacing]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
-            
         }
     }
     
@@ -218,8 +229,8 @@
 {
     // This is so much fun, yoloswag
     // Cell height is the same for each cell but it can change depending on the fonts used
-    CGSize titleSize = [@"Title" sizeWithAttributes:@{NSFontAttributeName: [FAContentTableViewCell titleFont]}];
-    CGSize detailSize = [@"Detail" sizeWithAttributes:@{NSFontAttributeName: [FAContentTableViewCell detailFont]}];
+    CGSize titleSize = [@"Title" sizeWithAttributes : @{ NSFontAttributeName :[FAContentTableViewCell titleFont] }];
+    CGSize detailSize = [@"Detail" sizeWithAttributes : @{ NSFontAttributeName :[FAContentTableViewCell detailFont] }];
     
     // Now calculate this crap
     CGFloat height = 0;
@@ -231,13 +242,14 @@
     height += self.labelSpacing;
     height += detailSize.height;
     height += self.bottomMargin;
+    
     return ceil(height);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

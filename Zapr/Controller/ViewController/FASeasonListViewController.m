@@ -35,9 +35,11 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -48,6 +50,7 @@
     self.seasonImages = [NSMutableDictionary dictionary];
     
     __weak typeof(self) weakSelf = self;
+    
     [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
         [weakSelf loadShowData:weakSelf.show withActivity:YES];
     }];
@@ -56,10 +59,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -75,6 +78,7 @@
     self.tableView.dataSource = self.arrayDataSource;
     
     __weak typeof(self) weakSelf = self;
+    
     self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id object) {
         FATraktSeason *season = object;
         
@@ -129,6 +133,7 @@
     if (!self.loadedImageData) {
         for (FATraktSeason *season in show.seasons) {
             FATraktImageList *imageList = season.images;
+            
             if (imageList) {
                 self.loadedImageData = YES;
                 

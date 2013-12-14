@@ -20,10 +20,12 @@
 - (instancetype)initWithContent:(FATraktContent *)content type:(Class)type
 {
     self = [super init];
+    
     if (self) {
         self.content = content;
         self.type = type;
     }
+    
     return self;
 }
 
@@ -62,12 +64,12 @@
     
     if (self.type == [NSString class]) {
         if (activityType == UIActivityTypePostToTwitter) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@ #Zapr", nil) , itemName, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@ #Zapr", nil), itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypePostToTencentWeibo) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@# #Zapr#", nil) , itemName, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! #%@# #Zapr#", nil), itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypeMessage ||
                    activityType == UIActivityTypePostToFacebook) {
-            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@", nil) , itemName, itemTypeShortName];
+            return [NSString stringWithFormat:NSLocalizedString(@"Check out \"%@\" on Trakt! %@", nil), itemName, itemTypeShortName];
         } else if (activityType == UIActivityTypeMail) {
             // FIXME URL
             return [NSString stringWithFormat:NSLocalizedString(@"\
@@ -78,7 +80,7 @@
                                                                 <p>Have a nice day!</p>\
                                                                 <p><small style=\"font-size:10px;\">Sent with <a href=\"http://www.farthen.de/zapr\" style=\"font-size:10px;\">Zapr</a>, an iPhone App to manage your favorite movies and TV Shows in your <a href=\"http://trakt.tv\" style=\"font-size:10px;\">Trakt</a> library</small></p>\
                                                                 </body></html>\
-                                                                ", nil) , itemTypeString, itemURL, itemName];
+                                                                ", nil), itemTypeString, itemURL, itemName];
         }
     } else if (self.type == [NSURL class]) {
         return [NSURL URLWithString:itemURL];

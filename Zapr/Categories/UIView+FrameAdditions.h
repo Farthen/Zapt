@@ -20,12 +20,12 @@
 @property (assign) CGFloat frameRightPosition;
 
 @property (assign) CGPoint frameOrigin;
-- (void) frameAddOrigin:(CGPoint)origin;
-- (void) frameSubtractOrigin:(CGPoint)origin;
+- (void)frameAddOrigin:(CGPoint)origin;
+- (void)frameSubtractOrigin:(CGPoint)origin;
 
 @property (assign) CGSize frameSize;
-- (void) frameAddSize:(CGSize)size;
-- (void) frameSubtractSize:(CGSize)size;
+- (void)frameAddSize:(CGSize)size;
+- (void)frameSubtractSize:(CGSize)size;
 
 
 @property (assign) CGFloat boundsX;
@@ -38,12 +38,12 @@
 @property (assign) CGFloat boundsRightPosition;
 
 @property (assign) CGPoint boundsOrigin;
-- (void) boundsAddOrigin:(CGPoint)origin;
-- (void) boundsSubtractOrigin:(CGPoint)origin;
+- (void)boundsAddOrigin:(CGPoint)origin;
+- (void)boundsSubtractOrigin:(CGPoint)origin;
 
 @property (assign) CGSize boundsSize;
-- (void) boundsAddSize:(CGSize)size;
-- (void) boundsSubtractSize:(CGSize)size;
+- (void)boundsAddSize:(CGSize)size;
+- (void)boundsSubtractSize:(CGSize)size;
 
 
 @property (assign) CGFloat centerX;

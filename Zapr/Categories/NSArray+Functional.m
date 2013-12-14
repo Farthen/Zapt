@@ -285,6 +285,7 @@
 - (id)randomObject
 {
     NSUInteger idx = arc4random_uniform(self.count);
+    
     return self[idx];
 }
 

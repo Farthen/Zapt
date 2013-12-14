@@ -1,6 +1,6 @@
 //
 //  FAAuthViewController.m
-//  
+//
 //
 //  Created by Finn Wilke on 10.09.12.
 //
@@ -32,9 +32,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -81,6 +83,7 @@
     if (textField == self.passwordTextField && _passwordFieldContainsHash) {
         textField.text = @"";
         _passwordFieldContainsHash = NO;
+        
         return NO;
     } else {
         return YES;
@@ -91,12 +94,16 @@
 {
     if (textField == self.usernameTextField) {
         [self.passwordTextField becomeFirstResponder];
+        
         return YES;
     } else if (textField == self.passwordTextField) {
         [self loginButtonPressed];
         [textField resignFirstResponder];
+        
         return YES;
-    } return YES;
+    }
+    
+    return YES;
 }
 
 - (void)loginButtonPressed
@@ -119,7 +126,7 @@
     [self.loginButtonCell startActivity];
     
     [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
-    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {
         _checkingAuth = NO;
         [self.loginButtonCell finishActivity];
         
@@ -127,7 +134,6 @@
         self.passwordTextField.userInteractionEnabled = YES;
         
         if (valid) {
-            
             // Clear password text field to remove clear text copy of the password from memory
             self.passwordTextField.text = @"";
             [self dismiss];
@@ -194,7 +200,9 @@
 {
     if (section == 0) {
         return NSLocalizedString(@"Trakt Username & Password", nil);
-    } return nil;
+    }
+    
+    return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -203,6 +211,7 @@
         FAEditableTableViewCell *cell = [[FAEditableTableViewCell alloc] init];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.textField.delegate = self;
+        
         if (indexPath.row == 0) {
             self.usernameTextField = cell.textField;
             self.usernameTableViewCell = cell;
@@ -213,6 +222,7 @@
             cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
             cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             NSString *username = [[FATraktConnection sharedInstance] apiUser];
+            
             if (username) {
                 cell.textField.text = username;
             }
@@ -224,6 +234,7 @@
             cell.textField.secureTextEntry = YES;
             cell.textField.returnKeyType = UIReturnKeySend;
             cell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+            
             if ([[FATraktConnection sharedInstance] usernameAndPasswordSaved]) {
                 cell.textField.text = @"*****";
                 _passwordFieldContainsHash = YES;
@@ -231,9 +242,9 @@
                 _passwordFieldContainsHash = NO;
             }
         }
+        
         return cell;
     } else {
-        
         FATableViewCellWithActivity *cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
@@ -275,6 +286,7 @@
 - (void)setShowsInvalidPrompt:(BOOL)showsInvalidPrompt
 {
     _showsInvalidPrompt = showsInvalidPrompt;
+    
     if (self.navigationController) {
         // viewDidLoad already called, navigation bar available
         [self setNavigationItem];

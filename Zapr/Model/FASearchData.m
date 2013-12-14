@@ -20,11 +20,13 @@
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         self.movies = [[NSMutableArray alloc] init];
         self.shows = [[NSMutableArray alloc] init];
         self.episodes = [[NSMutableArray alloc] init];
     }
+    
     return self;
 }
 

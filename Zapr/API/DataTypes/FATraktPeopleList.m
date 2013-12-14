@@ -16,10 +16,12 @@
 {
     if ([object isKindOfClass:[NSArray class]]) {
         NSMutableArray *peopleArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-        for (NSDictionary *peopleDict in (NSArray *)object) {
+        
+        for (NSDictionary *peopleDict in(NSArray *) object) {
             FATraktPeople *people = [[FATraktPeople alloc] initWithJSONDict:peopleDict];
             [peopleArray addObject:people];
         }
+        
         [self setValue:[NSArray arrayWithArray:peopleArray] forKey:key];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];

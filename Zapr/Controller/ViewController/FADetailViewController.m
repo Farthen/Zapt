@@ -61,9 +61,11 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
@@ -143,10 +145,12 @@
     }
     
     _showing = YES;
+    
     if (_displayImageWhenFinishedShowing) {
         [self doDisplayImageAnimated:YES];
         _displayImageWhenFinishedShowing = NO;
     }
+    
     [self.contentView layoutIfNeeded];
     [self.scrollView layoutIfNeeded];
     _alreadyBeenShowed = YES;
@@ -163,6 +167,7 @@
     [self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];
+    
     if (_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
     }
@@ -190,7 +195,8 @@
     [self viewDidLayoutSubviews];
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
     
     // If we disabled this, we will enable it again now
@@ -221,14 +227,17 @@
 {
     // decide if displaying it animated or not
     BOOL animated;
+    
     if (_willAppear && !_showing) {
         _displayImageWhenFinishedShowing = YES;
+        
         return;
     } else if (_willAppear && _showing && !_imageDisplayed) {
         animated = YES;
     } else {
         animated = NO;
     }
+    
     [self doDisplayImageAnimated:animated];
 }
 
@@ -297,7 +306,7 @@
 
 - (void)setPosterToURL:(NSString *)posterURL
 {
-    if (posterURL && ![posterURL isEqualToString:@""]/* && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]*/) {
+    if (posterURL && ![posterURL isEqualToString:@""] /* && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]*/) {
         if (!_imageLoaded) {
             [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
                 _imageLoaded = YES;
@@ -334,7 +343,7 @@
         } animations:^{
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
-        } completion:^(BOOL finished){
+        } completion:^(BOOL finished) {
             if (progress.percentage.unsignedIntegerValue != 100 && ![progress.next_episode.title isEqualToString:@"TBA"]) {
                 [self setNextUpViewWithEpisode:progress.next_episode];
             } else {
@@ -351,11 +360,13 @@
             self.ratingsButton.enabled = YES;
             
             NSString *ratingString;
+            
             if (ratingMode == FATraktRatingsModeAdvanced) {
                 ratingString = [FAInterfaceStringProvider nameForRating:content.rating_advanced ratingsMode:ratingMode capitalized:YES];
             } else {
                 ratingString = [FAInterfaceStringProvider nameForRating:content.rating ratingsMode:ratingMode capitalized:YES];
             }
+            
             self.ratingsButton.title = [NSString stringWithFormat:@"Rating: %@", ratingString];
         } else {
             self.ratingsButton.title = [NSString stringWithFormat:NSLocalizedString(@"Rating: Not rated", nil)];
@@ -371,6 +382,7 @@
     if (_accountSettings) {
         [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
     }
+    
     [self displayTitle:item.title];
     [self displayOverview:item.overview];
     [self setPosterToURL:item.widescreenImageURL];
@@ -431,7 +443,7 @@
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self displayShow:show];
     } onError:nil];
-    [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress){
+    [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress) {
         [self displayShow:show];
     } onError:nil];
     [self displayShow:show];
@@ -443,17 +455,18 @@
     
     if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
         NSString *displayString;
-        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil) , episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         self.detailLabel.text = displayString;
         [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {
                 [self.detailLabel.superview removeConstraint:self.detailViewHeightConstraint];
                 self.detailViewHeightConstraint = nil;
             }
+            
             [self.detailLabel.superview invalidateIntrinsicContentSize];
         } animations:^{
             [self.view layoutIfNeeded];
-        } completion:^(BOOL completed){
+        } completion:^(BOOL completed) {
             if (completed) {
                 if (!_detailLabelTapGestureRecognizer) {
                     _detailLabelTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(actionDetailLabel:)];
@@ -482,11 +495,11 @@
     
     if (_willAppear) {
         if (content.contentType == FATraktContentTypeMovies) {
-            [self loadMovieData:[((FATraktMovie *)content) cachedVersion]];
+            [self loadMovieData:[((FATraktMovie *)content)cachedVersion]];
         } else if (content.contentType == FATraktContentTypeShows) {
-            [self loadShowData:[((FATraktShow *)content) cachedVersion]];
+            [self loadShowData:[((FATraktShow *)content)cachedVersion]];
         } else if (content.contentType == FATraktContentTypeEpisodes) {
-            [self loadEpisodeData:[((FATraktEpisode *)content) cachedVersion]];
+            [self loadEpisodeData:[((FATraktEpisode *)content)cachedVersion]];
         }
     } else {
         _loadContent = YES;
@@ -502,7 +515,7 @@
 - (IBAction)actionItem:(id)sender
 {
     UIStoryboard *storyboard = self.storyboard;
-
+    
     if (_currentContent.contentType == FATraktContentTypeMovies || _currentContent.contentType == FATraktContentTypeEpisodes) {
         if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
             [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"check in", nil)];
@@ -511,7 +524,6 @@
             [checkinViewController performCheckinForContent:_currentContent];
             [self presentViewControllerInsideNavigationController:checkinViewController animated:YES completion:nil];
         }
-        
     } else {
         // show list of seasons
         FASeasonListViewController *seasonListViewController = [storyboard instantiateViewControllerWithIdentifier:@"seasonList"];

@@ -21,18 +21,21 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
         self.ratingsView = [[FARatingsView alloc] initWithFrame:self.view.bounds];
         [self.view addSubview:self.ratingsView];
         self.ratingsView.delegate = self;
     }
+    
     return self;
 }
 
 - (instancetype)initWithContent:(FATraktContent *)content
 {
     self = [super init];
+    
     if (self) {
         self.currentContent = content;
         
@@ -44,6 +47,7 @@
         [[FATrakt sharedInstance] accountSettings:^(FATraktAccountSettings *settings) {
             self.accountSettings = settings;
             FATraktRatingsMode mode = self.accountSettings.viewing.ratings_mode;
+            
             if (mode == FATraktRatingsModeSimple) {
                 [self.ratingsView setSimpleRating:YES];
                 [self.ratingsView setRating:content.rating];
@@ -53,13 +57,14 @@
             }
         } onError:nil];
     }
+    
     return self;
 }
 
 - (void)ratingsViewDoneButtonPressed:(id)sender
 {
     FATraktRating rating = self.ratingsView.rating;
-
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     
     if (self.accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
@@ -67,7 +72,6 @@
     } else {
         [[FATrakt sharedInstance] rate:self.currentContent simple:NO rating:rating callback:^{} onError:nil];
     }
-    
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle
@@ -83,12 +87,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];    
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning

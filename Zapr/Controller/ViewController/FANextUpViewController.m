@@ -35,16 +35,18 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
+    
     return self;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
     
@@ -66,7 +68,7 @@
 - (void)didMoveToParentViewController:(UIViewController *)parent
 {
     if ([parent respondsToSelector:@selector(setNextUpViewController:)]) {
-        [(id)parent setNextUpViewController:self];
+        [(id)parent setNextUpViewController : self];
     }
 }
 
@@ -74,8 +76,8 @@
 {
     // This is called when dynamic type settings are changed
     /*[self.view recursiveSetNeedsUpdateConstraints];
-    [self.view recursiveSetNeedsLayout];
-    [self.view recursiveLayoutIfNeeded];*/
+     [self.view recursiveSetNeedsLayout];
+     [self.view recursiveLayoutIfNeeded];*/
     
     [self.view setNeedsUpdateConstraints];
     [self.progressView setNeedsLayout];
@@ -88,9 +90,11 @@
 - (void)viewWillLayoutSubviews
 {
     CGFloat height = 0;
+    
     if (_displaysProgressAndNextUp) {
         height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
+    
     self.tableViewHeightConstraint.constant = height;
     [self.view recursiveSetNeedsUpdateConstraints];
     [self.view recursiveLayoutIfNeeded];
@@ -136,6 +140,7 @@
 {
     if (_nextUpEpisode.title) {
         FANextUpTableViewCell *cell = (FANextUpTableViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        
         return [FANextUpTableViewCell cellHeightForTitle:_nextUpEpisode.title cell:cell];
     }
     
@@ -151,6 +156,7 @@
 {
     static NSString *cellIdentifier = @"nextUpCell";
     self.cell = [tableView dequeueReusableCellWithIdentifier:@"nextUpCell"];
+    
     if (!self.cell) {
         self.cell = [[FANextUpTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -196,7 +202,6 @@
                 [presentingViewController presentViewController:detailViewController animated:YES completion:nil];
             }];
         }
-        
     } else {
         [self.navigationController pushViewController:detailViewController animated:YES];
     }
@@ -206,6 +211,7 @@
 {
     if (_displaysProgress) {
         CGSize size = [self.view.subviews[0] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        
         return size;
     }
     

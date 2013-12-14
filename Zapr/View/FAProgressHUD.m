@@ -18,6 +18,7 @@
 - (id)initWithView:(UIView *)view
 {
     self = [super init];
+    
     if (self) {
         _progressHUD = [[MBProgressHUD alloc] initWithView:view];
         _successView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Checkmark"]];
@@ -25,6 +26,7 @@
         _progressHUD.animationType = MBProgressHUDAnimationFade;
         [view addSubview:_progressHUD];
     }
+    
     return self;
 }
 
@@ -44,7 +46,6 @@
     [self showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
 }
 
-
 - (void)showProgressHUDFailedMessage:(NSString *)message
 {
     _progressHUD.customView = _failedView;
@@ -54,7 +55,10 @@
 - (void)showProgressHUDCompleteMessage:(NSString *)message
 {
     if (message) {
-        if (_progressHUD.isHidden) [_progressHUD show:YES];
+        if (_progressHUD.isHidden) {
+            [_progressHUD show:YES];
+        }
+        
         _progressHUD.labelText = message;
         _progressHUD.mode = MBProgressHUDModeCustomView;
         [_progressHUD hide:YES afterDelay:1];
@@ -70,6 +74,7 @@
 - (void)hideProgressHUD
 {
     [_progressHUD hide:YES];
+    
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = YES;
     }
@@ -85,6 +90,7 @@
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = NO;
     }
+    
     _progressHUD.mode = MBProgressHUDModeIndeterminate;
     _progressHUD.labelText = text;
     [_progressHUD show:YES];

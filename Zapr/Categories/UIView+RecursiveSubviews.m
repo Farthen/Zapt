@@ -13,9 +13,11 @@
 - (NSArray *)recursiveSubviews
 {
     NSMutableArray *subviews = [[NSMutableArray alloc] initWithArray:self.subviews];
+    
     for (UIView *subview in self.subviews) {
         [subviews addObjectsFromArray:[subview recursiveSubviews]];
     }
+    
     return subviews;
 }
 

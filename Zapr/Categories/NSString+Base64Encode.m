@@ -14,23 +14,26 @@
 - (NSString *)base64EncodedString
 {
     NSData *theData = [self dataUsingEncoding:NSUTF8StringEncoding];
+    
     return [NSString stringByBase64EncodingData:theData];
 }
 
 + (NSString *)stringByBase64EncodingData:(NSData *)theData
 {
-    const uint8_t* input = (const uint8_t*)[theData bytes];
+    const uint8_t *input = (const uint8_t *)[theData bytes];
     NSInteger length = [theData length];
     
     static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
     
-    NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-    uint8_t* output = (uint8_t*)data.mutableBytes;
+    NSMutableData *data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
+    uint8_t *output = (uint8_t *)data.mutableBytes;
     
     NSInteger i;
-    for (i=0; i < length; i += 3) {
+    
+    for (i = 0; i < length; i += 3) {
         NSInteger value = 0;
         NSInteger j;
+        
         for (j = i; j < (i + 3); j++) {
             value <<= 8;
             

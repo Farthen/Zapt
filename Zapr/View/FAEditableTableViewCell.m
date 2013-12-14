@@ -22,6 +22,7 @@
 {
     style = UITableViewCellStyleDefault;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         //textField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, 185, 30)];
         textField = [[UITextField alloc] initWithFrame:CGRectMake(12, 10, 280, 23)];
@@ -33,13 +34,14 @@
         
         [self.contentView addSubview:textField];
     }
+    
     return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

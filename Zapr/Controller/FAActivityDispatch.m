@@ -20,7 +20,8 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 {
     static dispatch_once_t once;
     static FAActivityDispatch *instance;
-    dispatch_once(&once, ^ { instance = [[FAActivityDispatch alloc] init]; });
+    dispatch_once(&once, ^{ instance = [[FAActivityDispatch alloc] init]; });
+    
     return instance;
 }
 
@@ -39,12 +40,12 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
     return [notificationName stringByAppendingString:@"StopAll"];
 }
 
-- (void)registerForAllActivity:(id <FAUIElementWithActivity>)observer
+- (void)registerForAllActivity:(id <FAUIElementWithActivity> )observer
 {
     [self registerForActivityName:FAActivityDispatchNotificationAll observer:observer];
 }
 
-- (void)registerForActivityName:(NSString *)name observer:(id <FAUIElementWithActivity>)observer
+- (void)registerForActivityName:(NSString *)name observer:(id <FAUIElementWithActivity> )observer
 {
     NSString *didStartName = [self notificationNameForStartActivity:name];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(startActivity) name:didStartName object:nil];
@@ -58,9 +59,10 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
     DDLogController(@"Registered observer: %@ for: %@, %@, %@", observer, didStartName, didFinishName, stopAllName);
 }
 
-- (void)unregister:(id <FAUIElementWithActivity>)observer
+- (void)unregister:(id <FAUIElementWithActivity> )observer
 {
     [[NSNotificationCenter defaultCenter] removeObserver:observer];
+    
     if ([observer respondsToSelector:@selector(stopAllActivity)]) {
         [observer stopAllActivity];
     }
@@ -89,6 +91,7 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 - (void)finishActivityNamed:(NSString *)name
 {
     DDLogController(@"Stopping activity named: %@", name);
+    
     if (name) {
         NSString *finishName = [self notificationNameForFinishActivity:name];
         [[NSNotificationCenter defaultCenter] postNotificationName:finishName object:self];

@@ -18,10 +18,12 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [self.contentView addSubview:self.activityIndicatorView];
     }
+    
     return self;
 }
 
@@ -69,7 +71,6 @@
             completion();
         }
     }];
-
 }
 
 @end

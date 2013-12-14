@@ -24,6 +24,7 @@
 - (instancetype)init
 {
     self = [super init];
+    
     if (self) {
         self.cellIdentifier = [NSString uuidString];
         self.cellClass = [UITableViewCell class];
@@ -35,6 +36,7 @@
 - (instancetype)initWithTableView:(UITableView *)tableView
 {
     self = [self init];
+    
     if (self) {
         self.tableView = tableView;
     }
@@ -49,7 +51,7 @@
     
     NSUInteger sectionIndex = 0;
     
-    for (id section in [tableViewData copy]) {
+    for (id section in[tableViewData copy]) {
         if (![section isKindOfClass:[NSArray class]]) {
             [NSException raise:NSInternalInconsistencyException format:@"%@ needs table view data that consists of an array of arrays of objects. %@ does not conform to this.", [self className], tableViewData];
         } else {
@@ -57,7 +59,7 @@
             
             NSUInteger rowIndex = 0;
             
-            for (id object in (NSArray *)section) {
+            for (id object in(NSArray *) section) {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowIndex inSection:sectionIndex];
                 
                 NSMutableSet *indexPaths = [objects objectForKey:object];
@@ -74,7 +76,6 @@
         }
         
         sectionIndex++;
-        
     }
     
     _tableViewData = mutableTableViewData;
@@ -92,6 +93,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     id cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+    
     if (!cell) {
         cell = [[self.cellClass alloc] init];
     }
@@ -114,6 +116,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSArray *sectionData = self.tableViewData[section];
+    
     return sectionData.count;
 }
 
@@ -127,6 +130,7 @@
     if (self.headerTitles) {
         if (self.headerTitles.count > (NSUInteger)section) {
             id title = self.headerTitles[section];
+            
             if ([title isKindOfClass:[NSString class]]) {
                 return title;
             }
@@ -141,6 +145,7 @@
     if (self.footerTitles) {
         if (self.footerTitles.count > (NSUInteger)section) {
             id title = self.footerTitles[section];
+            
             if ([title isKindOfClass:[NSString class]]) {
                 return title;
             }
@@ -184,8 +189,6 @@
 {
     return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
 }
-
-
 
 - (void)removeObject:(id)object
 {

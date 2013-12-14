@@ -17,7 +17,7 @@ struct Color {
     uint8_t green;
     uint8_t blue;
     uint8_t alpha;
-} __attribute__ ((packed));
+} __attribute__((packed));
 typedef struct Color Color;
 
 // This is the same size as color. We are doing fun stuff here :)
@@ -26,7 +26,7 @@ struct ColorValue {
     uint8_t green;
     uint8_t blue;
     uint8_t clusterIndex;
-} __attribute__ ((packed));
+} __attribute__((packed));
 typedef struct ColorValue ColorValue;
 
 struct ColorValueCollection {
@@ -86,6 +86,7 @@ ColorValueCollection colorArrayFromImage(UIImage *image)
     ColorValueCollection collection;
     collection.values = value;
     collection.count = pixelCount;
+    
     return collection;
 }
 
@@ -94,7 +95,8 @@ static CGFloat euclideanDistance(ColorValue *value1, ColorValue *value2)
     CGFloat x = (CGFloat)(value1->red) - (CGFloat)(value2->red);
     CGFloat y = (CGFloat)(value1->green) - (CGFloat)(value2->green);
     CGFloat z = (CGFloat)(value1->blue) - (CGFloat)(value2->blue);
-    CGFloat distance = sqrt(x*x + y*y + z*z);
+    CGFloat distance = sqrt(x * x + y * y + z * z);
+    
     return distance;
 }
 
@@ -128,6 +130,7 @@ static NSUInteger recalculateCenters(ColorCluster *clusters, NSUInteger clusterC
     // It also shouldn't consume more than a uint8_t, this is RGB after all.
     
     NSUInteger distance = 0;
+    
     for (NSUInteger i = 0; i < clusterCount; i++) {
         ColorCluster *cluster = &clusters[i];
         ClusterCalculationValues *value = &clusterValues[i];
@@ -151,6 +154,7 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
     ColorCluster *clusters = calloc(sizeof(ColorCluster), clusterCount);
     // Pick clusterCount * random points in the value array
     NSUInteger currentValue = 0;
+    
     for (NSUInteger i = 0; i < clusterCount; i++) {
         ColorCluster *currentCluster = &clusters[i];
         
@@ -159,9 +163,10 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
         // We just pick the first different values 1 - n and work from that (except when this is exceeding the value array)
         NSUInteger index;
         BOOL close = NO;
+        
         do {
             close = NO;
-            index = MIN(valueCollection->count, currentValue);;
+            index = MIN(valueCollection->count, currentValue);
             currentValue++;
             
             // Iterate over all the old clusters
@@ -172,13 +177,15 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
                 NSInteger diffRed = oldCluster->center.red - valueCollection->values[index].red;
                 NSInteger diffGreen = oldCluster->center.green - valueCollection->values[index].green;
                 NSInteger diffBlue = oldCluster->center.blue - valueCollection->values[index].blue;
+                
                 if (diffRed != 0 || diffGreen != 0 || diffBlue != 0) {
                     close = NO;
                 } else {
                     close = YES;
                 }
             }
-        } while (close && currentValue < valueCollection->count);
+        }
+        while (close && currentValue < valueCollection->count);
         
         // Copies over the center, it is not part of the collection and will be removed later
         currentCluster->center = valueCollection->values[index];
@@ -196,9 +203,11 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
         for (NSUInteger i = 0; i < valueCollection->count; i++) {
             ColorValue *value = &values[i];
             CGFloat smallestDistance = CGFLOAT_MAX;
+            
             for (NSUInteger j = 0; j < clusterCount; j++) {
                 ColorCluster *currentCluster = &clusters[j];
                 CGFloat distance = euclideanDistance(value, &currentCluster->center);
+                
                 if (distance < smallestDistance) {
                     smallestDistance = distance;
                     value->clusterIndex = j;
@@ -207,8 +216,8 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
         }
         
         distance = recalculateCenters(clusters, clusterCount, valueCollection);
-        
-    } while (distance > smallestDistanceLimit);
+    }
+    while (distance > smallestDistanceLimit);
     
     return clusters;
 }
@@ -225,6 +234,7 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
     // We still have the clusters and the center points.
     // Create UIColor objects for those
     NSMutableArray *colorArray = [NSMutableArray arrayWithCapacity:count];
+    
     for (NSUInteger i = 0; i < count; i++) {
         ColorValue currentColor = clusters[i].center;
         CGFloat red = (CGFloat)currentColor.red / 0xff;
@@ -233,7 +243,7 @@ static ColorCluster *colorClusters(ColorValueCollection *valueCollection, NSUInt
         UIColor *colorObj = [UIColor colorWithRed:red green:green blue:blue alpha:1];
         [colorArray addObject:colorObj];
     }
-        
+    
     // Now free the clusters too
     free(clusters);
     

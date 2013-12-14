@@ -13,16 +13,18 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
     if (self) {
         // Initialization code
     }
+    
     return self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -32,7 +34,7 @@
     
     self.nextUpLabel.font = self.class.nameFont;
     self.nameLabel.font = self.class.nameFont;
-    self.seasonLabel.font = self.class.seasonFont;    
+    self.seasonLabel.font = self.class.seasonFont;
 }
 
 - (void)prepareForReuse
@@ -60,12 +62,12 @@
     context.minimumScaleFactor = 1.0;
     
     CGRect nameRect = [title boundingRectWithSize:nameSizeConstraint
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                        attributes:@{NSFontAttributeName: self.nameFont}
-                                           context:context];
+                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                       attributes:@{ NSFontAttributeName: self.nameFont }
+                                          context:context];
     
-    CGSize seasonSize = [@"S01E01" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
-    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    CGSize seasonSize = [@"S01E01" sizeWithAttributes : @{ NSFontAttributeName : self.seasonFont }];
+    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes : @{ NSFontAttributeName : self.seasonFont }];
     
     CGFloat rightHeight = 0;
     rightHeight += 5;
@@ -80,15 +82,16 @@
     leftHeight += 8;
     
     CGFloat height = MAX(leftHeight, rightHeight);
+    
     return height;
 }
 
 + (CGFloat)cellHeight
 {
     // More yolo swag fun fun fun
-    CGSize nameSize = [@"Title" sizeWithAttributes:@{NSFontAttributeName: self.nameFont}];
-    CGSize seasonSize = [@"S01E01" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
-    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes:@{NSFontAttributeName: self.seasonFont}];
+    CGSize nameSize = [@"Title" sizeWithAttributes : @{ NSFontAttributeName : self.nameFont }];
+    CGSize seasonSize = [@"S01E01" sizeWithAttributes : @{ NSFontAttributeName : self.seasonFont }];
+    CGSize nextUpSize = [@"Next Up:" sizeWithAttributes : @{ NSFontAttributeName : self.seasonFont }];
     
     // Now calculate this crap
     CGFloat rightHeight = 0;
@@ -104,6 +107,7 @@
     leftHeight += 8;
     
     CGFloat height = MAX(leftHeight, rightHeight);
+    
     return height;
 }
 

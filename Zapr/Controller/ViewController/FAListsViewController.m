@@ -29,6 +29,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    
     if (self) {
         // Custom initialization
     }
@@ -39,10 +40,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
     
     __weak typeof(self) weakSelf = self;
+    
     [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
         [weakSelf refreshDataAnimated:YES];
     }];
@@ -53,6 +55,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     // Load all the list information to get the count
     if ([FATraktCache sharedInstance].lists.objectCount == 0) {
         [self refreshDataAnimated:NO];
@@ -64,44 +67,67 @@
 - (void)refreshDataAnimated:(BOOL)animated
 {
     if (self.refreshControlWithActivity.startCount == 0) {
-        
-        if (animated) [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
+        if (animated) {
+            [self.refreshControlWithActivity startActivityWithCount:3];           // update this if updating more values
+        }
         
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
         
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeShows callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
         
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeEpisodes callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
         
         
-        if (animated) [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
+        if (animated) {
+            [self.refreshControlWithActivity startActivityWithCount:2];           // update this if updating more values
+        }
         
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
         
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeShows libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {
             [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
         
         
-        if (animated) [self.refreshControlWithActivity startActivity];
+        if (animated) {
+            [self.refreshControlWithActivity startActivity];
+        }
         
-        [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists){
+        [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists) {
             _customLists = lists;
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
-            if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) {
+                [self.refreshControlWithActivity finishActivity];
+            }
         } onError:nil];
     }
 }
@@ -111,6 +137,7 @@
     [super viewWillAppear:animated];
     
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    
     if (selectedRowIndexPath) {
         [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
     }
@@ -144,12 +171,13 @@
 {
     if (section == 0) {
         return 3;
-    } else if(section == 1) {
+    } else if (section == 1) {
         return 2;
-    } else if(section == 2) {
+    } else if (section == 2) {
         if (!_customLists) {
             _customLists = [FATraktList cachedCustomLists];
         }
+        
         return (NSInteger)_customLists.count;
     }
     
@@ -189,6 +217,7 @@
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
 
@@ -205,7 +234,7 @@
             [listDetailViewController loadCustomList:[_customLists objectAtIndex:(NSUInteger)indexPath.row]];
         }
         
-        [self.navigationController pushViewController:listDetailViewController animated:YES];        
+        [self.navigationController pushViewController:listDetailViewController animated:YES];
     }
 }
 

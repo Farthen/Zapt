@@ -20,21 +20,25 @@
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         self.contentType = FATraktContentTypeNone;
         self.libraryType = FATraktLibraryTypeNone;
         self.detailLevel = FATraktDetailLevelMinimal;
     }
+    
     return self;
 }
 
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
     self = [super initWithJSONDict:dict];
+    
     if (self) {
         self.contentType = FATraktContentTypeNone;
         self.detailLevel = FATraktDetailLevelMinimal;
         FATraktList *cachedList = [self.class.backingCache objectForKey:self.cacheKey];
+        
         if (cachedList && cachedList.detailLevel > self.detailLevel) {
             // cache hit!
             // merge the two
@@ -43,8 +47,10 @@
             // return the cached show
             self = cachedList;
         }
+        
         [self commitToCache];
     }
+    
     return self;
 }
 
@@ -52,6 +58,7 @@
 {
     for (FATraktListItem *listItem in self.items) {
         FATraktContent *listContent = listItem.content;
+        
         if ([listContent isEqual:content]) {
             return YES;
         }
@@ -68,18 +75,22 @@
     if (!self.items) {
         self.items = [[NSMutableArray alloc] init];
     }
+    
     [self.items addObject:listItem];
 }
 
 - (void)removeContent:(FATraktContent *)content
 {
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+    
     for (NSUInteger i = 0; i < self.items.count; i++) {
         FATraktListItem *listItem = [self.items objectAtIndex:i];
+        
         if ([listItem.content isEqual:content]) {
             [indexes addIndex:i];
         }
     }
+    
     [self.items removeObjectsAtIndexes:indexes];
 }
 
@@ -87,6 +98,7 @@
 {
     // See if we can find a cached equivalent now and merge them if appropriate
     FATraktList *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
+    
     if (cachedContent && cachedContent != self) {
         if (cachedContent.detailLevel > self.detailLevel) {
             [cachedContent mergeWithObject:self];
@@ -97,6 +109,7 @@
             [cachedContent removeFromCache];
         }
     }
+    
     [self commitToCache];
 }
 
@@ -134,11 +147,13 @@
 {
     NSArray *allLists = [self.class.backingCache allObjects];
     NSMutableArray *customLists = [[NSMutableArray alloc] initWithCapacity:allLists.count];
+    
     for (FATraktList *list in allLists) {
         if (list.isCustom) {
             [customLists addObject:list];
         }
     }
+    
     return [customLists sortedArrayUsingKey:@"name" ascending:YES];
 }
 
@@ -157,10 +172,12 @@
 {
     if ([object isKindOfClass:[NSArray class]]) {
         NSMutableArray *itemArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-        for (NSDictionary *itemDict in (NSArray *)object) {
+        
+        for (NSDictionary *itemDict in(NSArray *) object) {
             FATraktListItem *item = [[FATraktListItem alloc] initWithJSONDict:itemDict];
             [itemArray addObject:item];
         }
+        
         [self setValue:itemArray forKey:key];
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];

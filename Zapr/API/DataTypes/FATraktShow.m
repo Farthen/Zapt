@@ -22,9 +22,11 @@
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
     self = [super initWithJSONDict:dict];
+    
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
         FATraktShow *cachedShow = [self.class.backingCache objectForKey:self.cacheKey];
+        
         if (cachedShow) {
             // cache hit!
             // merge the two
@@ -33,8 +35,10 @@
             // return the cached show
             self = cachedShow;
         }
+        
         [self commitToCache];
     }
+    
     return self;
 }
 
@@ -101,6 +105,7 @@
 - (NSString *)cacheKey
 {
     NSString *key = [NSString stringWithFormat:@"FATraktShow&tvdb=%@&title=%@&year=%@", self.tvdb_id, self.title, self.year];
+    
     return key;
 }
 
@@ -112,9 +117,11 @@
 - (NSUInteger)episodeCount
 {
     NSUInteger count = 0;
-    for (FATraktSeason *season in [self.seasons copy]) {
+    
+    for (FATraktSeason *season in[self.seasons copy]) {
         count += season.episodes.count;
     }
+    
     return count;
 }
 
@@ -122,9 +129,9 @@
 {
     if ([key isEqualToString:@"seasons"]) {
         if ([object isKindOfClass:[NSArray class]]) {
-            
             NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-            for (NSDictionary *seasonDict in (NSArray *)object) {
+            
+            for (NSDictionary *seasonDict in(NSArray *) object) {
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];
                 [seasonArray addObject:season];
             }
@@ -150,7 +157,7 @@
 {
     if (!_seasons) {
         if (self.seasonCacheKeys) {
-            _seasons = [self.seasonCacheKeys mapUsingBlock:^id(id obj, NSUInteger idx) {
+            _seasons = [self.seasonCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
                 FATraktSeason *season = [FATraktSeason.backingCache objectForKey:obj];
                 
                 if (!season) {
@@ -161,7 +168,7 @@
                 return season;
             }];
             
-            for (FATraktSeason *season in [_seasons copy]) {
+            for (FATraktSeason *season in[_seasons copy]) {
                 season.show = self;
             }
         }
@@ -183,6 +190,5 @@
     
     return _seasonCacheKeys;
 }
-
 
 @end

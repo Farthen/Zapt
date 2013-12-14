@@ -17,6 +17,7 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
     NSArray *sortedArray;
     sortedArray = [self sortedArrayUsingDescriptors:sortDescriptors];
+    
     return sortedArray;
 }
 

@@ -25,6 +25,7 @@
 - (NSTimeInterval)remaining
 {
     NSDate *now = [NSDate date];
+    
     if ([self.start timeIntervalSinceDate:now] > 0) {
         return [self.end timeIntervalSinceDate:self.start];
     }
@@ -35,6 +36,7 @@
 - (BOOL)isOver
 {
     NSTimeInterval interval = [self.end timeIntervalSinceNow];
+    
     return interval < 0;
 }
 

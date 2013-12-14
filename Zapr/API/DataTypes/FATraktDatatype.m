@@ -40,18 +40,20 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         cls = [cls superclass];
     }
     
-    return [((NSDictionary *)propertyInfo) copy];
+    return [((NSDictionary *)propertyInfo)copy];
 }
 
 + (NSDictionary *)propertyInfo
 {
     NSDictionary *propertyInfos = [__traktPropertyInfos objectForKey:NSStringFromClass(self)];
+    
     return propertyInfos;
 }
 
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         self.creationDate = [NSDate date];
     }
@@ -62,8 +64,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [self init];
+    
     if (self) {
         NSDictionary *propertyInfos = [self.class propertyInfo];
+        
         for (NSString *key in propertyInfos) {
             if ([aDecoder containsValueForKey:key]) {
                 id value = [aDecoder decodeObjectForKey:key];
@@ -73,6 +77,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         
         self.creationDate = [aDecoder decodeObjectForKey:@"creationDate"];
     }
+    
     return self;
 }
 
@@ -84,8 +89,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     NSDictionary *propertyInfos = [self.class propertyInfo];
+    
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
+        
         if (!propertyInfo.isReadonly && ![[self notEncodableKeys] containsObject:key]) {
             id value = [self valueForKey:key];
             
@@ -100,9 +107,11 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 {
     if (dict && [dict isKindOfClass:[NSDictionary class]]) {
         self = [self init];
+        
         if (self) {
             [self mapObjectsInDict:dict];
         }
+        
         return self;
     } else {
         return nil;
@@ -113,15 +122,15 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 {
     id newObject = [[self.class allocWithZone:zone] init];
     NSDictionary *propertyInfos = [self.class propertyInfo];
+    
     for (id key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
+        
         if (!propertyInfo.isReadonly) {
-            
             NSString *propertyKey = propertyInfo.name;
             id propertyData = [self valueForKey:propertyKey];
             
             if ([propertyData conformsToProtocol:@protocol(NSCopying)] && propertyInfo.isRetain == YES) {
-                
                 id copiedData;
                 
                 copiedData = propertyData;
@@ -134,7 +143,9 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             }
         }
     }
+    
     DDLogModel(@"Copied object %@ to new object %@", self, newObject);
+    
     return newObject;
 }
 
@@ -147,6 +158,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 {
     // Try to map all the JSON keys to the properties
     _originDict = dict;
+    
     for (NSString *key in dict) {
         [self mapObject:[dict objectForKey:key] toPropertyWithKey:key];
     }
@@ -168,35 +180,31 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         }
         
         [self setValue:object forKey:key];
-        
     } else if (propertyType.objcClass == [NSDate class] && [object isKindOfClass:[NSNumber class]]) {
         // If NSDate, set date
         
         NSNumber *number = (NSNumber *)object;
         /*NSTimeInterval pacificUnixTime = [number doubleValue];
-        
-        // Set to PST (pacific time zone, gmt-8)
-        NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithName:@"America/Los_Angeles"];
-        
-        NSInteger destinationGMTOffset = [sourceTimeZone secondsFromGMT];
-        NSTimeInterval unixTime = pacificUnixTime - destinationGMTOffset;*/
+         
+         // Set to PST (pacific time zone, gmt-8)
+         NSTimeZone *sourceTimeZone = [NSTimeZone timeZoneWithName:@"America/Los_Angeles"];
+         
+         NSInteger destinationGMTOffset = [sourceTimeZone secondsFromGMT];
+         NSTimeInterval unixTime = pacificUnixTime - destinationGMTOffset;*/
         NSTimeInterval unixTime = [number doubleValue];
         
         NSDate *date = [NSDate dateWithTimeIntervalSince1970:unixTime];
         
         [self setValue:date forKey:key];
-        
     } else if (propertyType.objcClass == [NSString class] && [object isKindOfClass:[NSNumber class]]) {
         // If it is a number but the property needs a string, just convert
         NSNumber *number = (NSNumber *)object;
         NSString *string = [number stringValue];
         [self setValue:string forKey:key];
-        
     } else if ([propertyType.objcClass isSubclassOfClass:[FATraktDatatype class]]) {
         // This is another FATraktDatatype
         id datatype = [[propertyType.objcClass alloc] initWithJSONDict:object];
         [self setValue:datatype forKey:key];
-        
     } else if (propertyType.isObjcClass) {
         // It's an objc class but not one of the above so it isn't the same class as the property
         
@@ -208,9 +216,9 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         } else if (object) {
             // Wrong class mapping. Yield an error if in debug mode. Otherwise don't map anything and just fail silently
             
-            #if DEBUG
+#if DEBUG
             [NSException raise:@"WrongPropertyMapping" format:@"<%@.%@> Tried to map object of type %@ to property of type %@", [self className], propertyType.name, [object className], [propertyType.objcClass className]];
-            #endif
+#endif
         }
     } else {
         // This gets called for things like NSNumber setting to NSInteger property or NSNumber to BOOL
@@ -225,6 +233,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     
     if (!propertyInfo) {
         DDLogModel(@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key);
+        
         return;
     }
     
@@ -250,6 +259,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     
     if (![object isKindOfClass:[self class]]) {
         DDLogError(@"Can't merge object of type %@ into object of type %@", NSStringFromClass([object class]), NSStringFromClass([self class]));
+        
         return;
     }
     
@@ -265,8 +275,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         newObject = self;
     }
     
-    
     NSDictionary *propertyInfos = self.class.propertyInfo;
+    
     for (NSString *key in propertyInfos) {
         FAPropertyInfo *info = propertyInfos[key];
         BOOL mergeNew = NO;

@@ -12,10 +12,12 @@
 // Returns a copy of this image that is cropped to the given bounds.
 // The bounds will be adjusted using CGRectIntegral.
 // This method ignores the image's imageOrientation setting.
-- (UIImage *)croppedImage:(CGRect)bounds {
+- (UIImage *)croppedImage:(CGRect)bounds
+{
     CGImageRef imageRef = CGImageCreateWithImageInRect([self CGImage], bounds);
     UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
+    
     return croppedImage;
 }
 
@@ -24,7 +26,8 @@
 - (UIImage *)thumbnailImage:(NSInteger)thumbnailSize
           transparentBorder:(NSUInteger)borderSize
                cornerRadius:(NSUInteger)cornerRadius
-       interpolationQuality:(CGInterpolationQuality)quality {
+       interpolationQuality:(CGInterpolationQuality)quality
+{
     UIImage *resizedImage = [self resizedImageWithContentMode:UIViewContentModeScaleAspectFill
                                                        bounds:CGSizeMake(thumbnailSize, thumbnailSize)
                                          interpolationQuality:quality];
@@ -39,13 +42,14 @@
     UIImage *croppedImage = [resizedImage croppedImage:cropRect];
     
     UIImage *transparentBorderImage = borderSize ? [croppedImage transparentBorderImage:borderSize] : croppedImage;
-
+    
     return [transparentBorderImage roundedCornerImage:cornerRadius borderSize:borderSize];
 }
 
 // Returns a rescaled copy of the image, taking into account its orientation
 // The image will be scaled disproportionately if necessary to fit the bounds specified by the parameter
-- (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality {
+- (UIImage *)resizedImage:(CGSize)newSize interpolationQuality:(CGInterpolationQuality)quality
+{
     BOOL drawTransposed;
     
     switch (self.imageOrientation) {
@@ -61,15 +65,16 @@
     }
     
     return [self _resizedImage:newSize
-                    transform:[self _transformForOrientation:newSize]
-               drawTransposed:drawTransposed
-         interpolationQuality:quality];
+                     transform:[self _transformForOrientation:newSize]
+                drawTransposed:drawTransposed
+          interpolationQuality:quality];
 }
 
 // Resizes the image according to the given content mode, taking into account the image's orientation
 - (UIImage *)resizedImageWithContentMode:(UIViewContentMode)contentMode
                                   bounds:(CGSize)bounds
-                    interpolationQuality:(CGInterpolationQuality)quality {
+                    interpolationQuality:(CGInterpolationQuality)quality
+{
     CGFloat horizontalRatio = bounds.width / self.size.width;
     CGFloat verticalRatio = bounds.height / self.size.height;
     CGFloat ratio;
@@ -99,9 +104,10 @@
 // The new image's orientation will be UIImageOrientationUp, regardless of the current image's orientation
 // If the new size is not integral, it will be rounded up
 - (UIImage *)_resizedImage:(CGSize)newSize
-                transform:(CGAffineTransform)transform
-           drawTransposed:(BOOL)transpose
-     interpolationQuality:(CGInterpolationQuality)quality {
+                 transform:(CGAffineTransform)transform
+            drawTransposed:(BOOL)transpose
+      interpolationQuality:(CGInterpolationQuality)quality
+{
     CGRect newRect = CGRectIntegral(CGRectMake(0, 0, newSize.width, newSize.height));
     CGRect transposedRect = CGRectMake(0, 0, newRect.size.height, newRect.size.width);
     CGImageRef imageRef = self.CGImage;
@@ -136,7 +142,8 @@
 }
 
 // Returns an affine transform that takes into account the image orientation when drawing a scaled image
-- (CGAffineTransform)_transformForOrientation:(CGSize)newSize {
+- (CGAffineTransform)_transformForOrientation:(CGSize)newSize
+{
     CGAffineTransform transform = CGAffineTransformIdentity;
     
     switch (self.imageOrientation) {
@@ -157,6 +164,7 @@
             transform = CGAffineTransformTranslate(transform, 0, newSize.height);
             transform = CGAffineTransformRotate(transform, -M_PI_2);
             break;
+            
         default:
             break;
     }
@@ -173,6 +181,7 @@
             transform = CGAffineTransformTranslate(transform, newSize.height, 0);
             transform = CGAffineTransformScale(transform, -1, 1);
             break;
+            
         default:
             break;
     }

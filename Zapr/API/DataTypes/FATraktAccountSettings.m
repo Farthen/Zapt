@@ -15,9 +15,11 @@
 - (instancetype)init
 {
     self = [super init];
+    
     if (self) {
         self.success = NO;
     }
+    
     return self;
 }
 

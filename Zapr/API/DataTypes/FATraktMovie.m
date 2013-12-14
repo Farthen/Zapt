@@ -15,9 +15,11 @@
 - (id)initWithJSONDict:(NSDictionary *)dict
 {
     self = [super initWithJSONDict:dict];
+    
     if (self) {
         self.detailLevel = FATraktDetailLevelMinimal;
         FATraktMovie *cachedMovie = [self.class.backingCache objectForKey:self.cacheKey];
+        
         if (cachedMovie) {
             // cache hit!
             // update the cached movie with new values
@@ -25,8 +27,10 @@
             // return the cached movie
             self = cachedMovie;
         }
+        
         [self commitToCache];
     }
+    
     return self;
 }
 

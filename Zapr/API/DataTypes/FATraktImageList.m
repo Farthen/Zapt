@@ -21,11 +21,11 @@
     if (self.fanart) {
         images[@"fanart"] = self.poster;
     }
-
+    
     if (self.banner) {
         images[@"banner"] = self.poster;
     }
-
+    
     if (self.screen) {
         images[@"screen"] = self.poster;
     }

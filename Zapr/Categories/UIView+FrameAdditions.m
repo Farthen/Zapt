@@ -153,7 +153,6 @@
     self.frameSize = CGSizeSubtract(self.frameSize, size);
 }
 
-
 #pragma mark bounds
 
 - (CGFloat)boundsX
@@ -295,7 +294,6 @@
 {
     self.boundsSize = CGSizeSubtract(self.boundsSize, size);
 }
-
 
 #pragma mark center
 

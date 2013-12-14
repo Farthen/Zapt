@@ -19,10 +19,12 @@
 - (instancetype)initWithResponseType:(FATraktConnectionResponseType)responseType
 {
     self = [super init];
+    
     if (self) {
         self.responseType = responseType;
     }
-    return  self;
+    
+    return self;
 }
 
 + (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response
@@ -33,6 +35,7 @@
 + (instancetype)connectionResponseWithHTTPResponse:(NSHTTPURLResponse *)response responseData:(id)responseData
 {
     FATraktConnectionResponse *connectionResponse = [[FATraktConnectionResponse alloc] init];
+    
     if (connectionResponse) {
         connectionResponse.response = response;
         connectionResponse.responseType = FATraktConnectionResponseTypeUnknown;
@@ -48,7 +51,7 @@
         } else if (response.statusCode == 0) {
             // TODO: find out what happens when request is cancelled on purpose
             // TODO: find out what happens when network is not available
-        } else if(response.statusCode == 503) {
+        } else if (response.statusCode == 503) {
             connectionResponse.responseType = FATraktConnectionResponseTypeServiceUnavailable;
         }
     }
@@ -62,9 +65,10 @@
 {
     static dispatch_once_t once;
     static FATraktConnectionResponse *instance;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidRequest];
     });
+    
     return instance;
 }
 
@@ -72,9 +76,10 @@
 {
     static dispatch_once_t once;
     static FATraktConnectionResponse *instance;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidCredentials];
     });
+    
     return instance;
 }
 
@@ -82,9 +87,10 @@
 {
     static dispatch_once_t once;
     static FATraktConnectionResponse *instance;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeInvalidData];
     });
+    
     return instance;
 }
 

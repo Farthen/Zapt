@@ -13,9 +13,11 @@
 - (instancetype)init
 {
     self = [super init];
+    
     if (self) {
         self.ratings_mode = FATraktRatingsModeSimple;
     }
+    
     return self;
 }
 
@@ -23,6 +25,7 @@
 {
     if ([key isEqualToString:@"ratings"]) {
         NSString *ratingsModeString = [object objectForKey:@"mode"];
+        
         if ([ratingsModeString isEqualToString:@"advanced"]) {
             self.ratings_mode = FATraktRatingsModeAdvanced;
         } else {

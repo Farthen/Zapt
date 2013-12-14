@@ -37,10 +37,11 @@
 - (instancetype)init
 {
     self = [super init];
+    
     if (self) {
-        self.timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles: nil];
-        self.networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
-        self.serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles: nil];
+        self.timeoutAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Timeout", nil) message:NSLocalizedString(@"Timeout connecting to Trakt. Check your internet connection and try again.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"OK", nil) otherButtonTitles:nil];
+        self.networkNotAvailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Problem", nil) message:NSLocalizedString(@"Network not available. Check your internet connection and try again. Trakt may also be over capacity.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles:nil];
+        self.serviceUnavailableAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Over capacity", nil) message:NSLocalizedString(@"Trakt is currently over capacity. Try again in a few seconds.", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Ok", nil) otherButtonTitles:nil];
         self.needsLoginAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"You need to be logged in for this action.", nil) message:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) otherButtonTitles:NSLocalizedString(@"Log In", nil), nil];
         
         self.lastNetworkErrorDate = [NSDate distantPast];
@@ -56,9 +57,10 @@
 {
     static dispatch_once_t once;
     static FAGlobalEventHandler *handler;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         handler = [[FAGlobalEventHandler alloc] init];
     });
+    
     return handler;
 }
 
@@ -82,7 +84,7 @@
     [self setUpLogging];
     
     if ([FATraktConnection sharedInstance].usernameAndPasswordSaved) {
-        [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+        [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {
             if (!valid) {
                 [[FAGlobalEventHandler handler] handleInvalidCredentials];
             }
@@ -92,7 +94,7 @@
 
 - (void)handleApplicationResume
 {
-    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid){
+    [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {
         if (!valid) {
             [[FAGlobalEventHandler handler] handleInvalidCredentials];
         }
@@ -123,8 +125,10 @@
 
 - (void)showNetworkAlertViewIfNeeded:(UIAlertView *)alertView
 {
-    @synchronized(self) {
+    @synchronized(self)
+    {
         NSDate *now = [NSDate date];
+        
         if ([now timeIntervalSinceDate:_lastNetworkErrorDate] > 5) {
             if (!alertView.visible && !_timeoutAlert.visible && !_networkNotAvailableAlert.visible && !_serviceUnavailableAlert.visible) {
                 // It has been 5 seconds after the last alert has been dismissed and none is being shown right now
@@ -155,7 +159,7 @@
     [self performLoginAnimated:YES showInvalidCredentialsPrompt:YES];
 }
 
-- (void)performLoginAnimated:(BOOL)animated 
+- (void)performLoginAnimated:(BOOL)animated
 {
 }
 
@@ -163,8 +167,9 @@
 {
     // Check if the top viewController supports layout
     UIViewController *topViewController = [UIViewController topViewController];
+    
     if (topViewController && [topViewController conformsToProtocol:@protocol(FAViewControllerPreferredContentSizeChanged)]) {
-        [(UIViewController <FAViewControllerPreferredContentSizeChanged> *)topViewController preferredContentSizeChanged];
+        [(UIViewController < FAViewControllerPreferredContentSizeChanged > *) topViewController preferredContentSizeChanged];
     }
 }
 
@@ -192,7 +197,5 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-
 
 @end

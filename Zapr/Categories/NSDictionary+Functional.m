@@ -47,8 +47,7 @@
 {
     NSMutableDictionary *invertedDictionary = [NSMutableDictionary dictionaryWithCapacity:self.count];
     
-    for (id key in self)
-    {
+    for (id key in self) {
         invertedDictionary[self[key]] = key;
     }
     

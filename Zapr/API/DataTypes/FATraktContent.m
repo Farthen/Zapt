@@ -22,11 +22,13 @@
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         self.detailLevel = FATraktDetailLevelDefault;
         self.rating = FATraktRatingUndefined;
         self.rating_advanced = FATraktRatingUndefined;
     }
+    
     return self;
 }
 
@@ -34,6 +36,7 @@
 {
     // See if we can find a cached equivalent now and merge them if appropriate
     FATraktContent *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
+    
     if (cachedContent) {
         if (cachedContent.detailLevel > self.detailLevel) {
             [cachedContent mergeWithObject:self];
@@ -52,8 +55,10 @@
 - (instancetype)cachedVersion
 {
     FATraktContent *cachedVersion = [self.class.backingCache objectForKey:self.cacheKey];
+    
     if (cachedVersion && cachedVersion.detailLevel >= self.detailLevel) {
         [cachedVersion mergeWithObject:self];
+        
         return cachedVersion;
     } else {
         return self;
@@ -69,19 +74,16 @@
 {
     if ([self isKindOfClass:[FATraktMovie class]]) {
         return ((FATraktMovie *)self).watched;
-        
     } else if ([self isKindOfClass:[FATraktShow class]]) {
-        
         FATraktShow *show = (FATraktShow *)self;
+        
         if (show.progress) {
             return show.progress.left.unsignedIntegerValue == 0;
         }
         
         return NO;
-        
     } else if ([self isKindOfClass:[FATraktEpisode class]]) {
         return ((FATraktEpisode *)self).watched;
-        
     }
     
     return NO;
@@ -93,12 +95,16 @@
 }
 
 - (NSString *)urlIdentifier
-{ FA_MUST_OVERRIDE_IN_SUBCLASS
+{
+    FA_MUST_OVERRIDE_IN_SUBCLASS
+    
     return nil;
 }
 
 - (NSDictionary *)postDictInfo
-{ FA_MUST_OVERRIDE_IN_SUBCLASS
+{
+    FA_MUST_OVERRIDE_IN_SUBCLASS
+    
     return nil;
 }
 

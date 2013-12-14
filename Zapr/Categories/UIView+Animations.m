@@ -32,9 +32,11 @@
 - (id)init
 {
     self = [super init];
+    
     if (self) {
         _nextAnimation = nil;
     }
+    
     return self;
 }
 
@@ -42,27 +44,32 @@
 {
     static dispatch_once_t once;
     static FAAnimationQueue *object;
-    dispatch_once(&once, ^ {
+    dispatch_once(&once, ^{
         object = [[FAAnimationQueue alloc] init];
     });
+    
     return object;
 }
 
 - (void)addAnimation:(FAAnimation *)newAnimation
 {
     BOOL executeNext = NO;
-    @synchronized(self){
+    @synchronized(self)
+    {
         if (_nextAnimation == nil) {
             _nextAnimation = newAnimation;
             executeNext = YES;
         } else {
             FAAnimation *animation = _nextAnimation;
+            
             while (animation.next != nil) {
                 animation = animation.next;
             }
+            
             animation.next = newAnimation;
         }
     }
+    
     if (executeNext) {
         [self executeNext];
     }
@@ -84,14 +91,17 @@
 - (void)finishAnimation
 {
     BOOL newAnimation = NO;
-    @synchronized(self){
+    @synchronized(self)
+    {
         FAAnimation *next = _nextAnimation.next;
         _nextAnimation = next;
+        
         // Check if there is another animation scheduled
         if (_nextAnimation) {
             newAnimation = YES;
         } // else we are running dry, no new yummy animations for us
     }
+    
     if (newAnimation) {
         [self executeNext];
     }
@@ -100,14 +110,17 @@
 - (void)executeNext
 {
     FAAnimation *animation = _nextAnimation;
+    
     if (animation != nil) {
         if (animation.setUp) {
             animation.setUp();
         }
-        [UIView animateIf:animation.animate duration:animation.duration delay:animation.delay options:animation.options animations:animation.animations completion:^(BOOL finished){
+        
+        [UIView animateIf:animation.animate duration:animation.duration delay:animation.delay options:animation.options animations:animation.animations completion:^(BOOL finished) {
             if (animation.completion) {
                 animation.completion(finished);
             }
+            
             // We are done now
             [self finishAnimation];
         }];
@@ -130,37 +143,32 @@
 
 + (void)animateIf:(BOOL)condition duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options animations:(void (^)(void))animations completion:(void (^)(BOOL))completion
 {
-    if (condition == YES)
-	{
-		[UIView animateWithDuration: duration
-                              delay: delay
-                            options: options
-                         animations: animations
-                         completion: completion];
-	}
-	else
-	{
+    if (condition == YES) {
+        [UIView animateWithDuration:duration
+                              delay:delay
+                            options:options
+                         animations:animations
+                         completion:completion];
+    } else {
         // This is better than setting the duration of the animation to 0.0 because that will still result in the completion block being executed in a subsequent run loop.
-		if (animations != nil)
-		{
-			animations();
-		}
-		
-		if (completion != nil)
-		{
-			completion(YES);
-		}
-	}
+        if (animations != nil) {
+            animations();
+        }
+        
+        if (completion != nil) {
+            completion(YES);
+        }
+    }
 }
 
 + (void)animateIf:(BOOL)condition duration:(NSTimeInterval)duration animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion
 {
-    [self animateIf:condition duration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionTransitionNone animations:animations completion:completion];
+    [self animateIf:condition duration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionTransitionNone animations:animations completion:completion];
 }
 
 + (void)animateSynchronizedIf:(BOOL)condition duration:(NSTimeInterval)duration setUp:(void (^)(void))setUp animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion
 {
-    [self animateSynchronizedIf:condition duration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut|UIViewAnimationOptionTransitionNone setUp:setUp animations:animations completion:completion];
+    [self animateSynchronizedIf:condition duration:duration delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionTransitionNone setUp:setUp animations:animations completion:completion];
 }
 
 + (void)animateIf:(BOOL)condition duration:(NSTimeInterval)duration animations:(void (^)(void))animations
