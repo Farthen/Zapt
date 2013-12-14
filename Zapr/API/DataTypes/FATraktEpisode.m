@@ -243,7 +243,7 @@
         }
         
         // - 1 because episode numbers start at 1
-        while (season.episodes.count < self.episodeNumber.unsignedIntegerValue - 1) {
+        while ((NSInteger)season.episodes.count < (NSInteger)self.episodeNumber.unsignedIntegerValue - 1) {
             // -1 because index. +1 because episode numbers start at 1
             FATraktEpisode *episode =
             [[FATraktEpisode alloc] initWithShow:self.show
