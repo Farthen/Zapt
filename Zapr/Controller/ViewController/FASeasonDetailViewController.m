@@ -8,6 +8,8 @@
 
 #import "FASeasonDetailViewController.h"
 
+#import "FAInterfaceStringProvider.h"
+
 @interface FASeasonDetailViewController ()
 
 @end
@@ -37,13 +39,10 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (UINavigationItem *)navigationItem
-{
-    return self.episodeListViewController.navigationItem;
-}
-
 - (void)showEpisodeListForSeason:(FATraktSeason *)season
 {
+    self.navigationItem.title = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
+    
     [self dispatchAfterViewDidLoad:^{
         [self.episodeListViewController showEpisodeListForSeason:season];
     }];

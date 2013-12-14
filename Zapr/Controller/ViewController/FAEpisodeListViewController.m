@@ -253,7 +253,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
     FATraktSeason *season;
@@ -275,8 +275,8 @@
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     
-    cell.textLabel.text = episode.title;
-    cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
+    cell.textLabel.text = [NSString stringWithFormat:@"%i. %@", episode.episodeNumber.unsignedIntegerValue, episode.title];
+    //cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
