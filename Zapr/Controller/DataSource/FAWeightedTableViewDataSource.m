@@ -21,23 +21,28 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+    NSArray *section = self.tableViewData[indexPath.section];
     
-    if (!cell) {
-        cell = [[self.cellClass alloc] init];
+    id object = [section objectAtIndex:indexPath.row];
+    id sectionKey = self.sectionsToKeys[[NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section]];
+    
+    id cell = nil;
+    
+    if (!self.weightedCellCreationBlock && !self.cellCreationBlock) {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+        
+        if (!cell) {
+            cell = [[self.cellClass alloc] init];
+        }
+    } else if (self.weightedCellCreationBlock) {
+        cell = self.weightedCellCreationBlock(sectionKey, object);
+    } else if (self.cellCreationBlock) {
+        cell = self.cellCreationBlock(object);
     }
     
     if (self.weightedConfigurationBlock) {
-        NSArray *section = self.tableViewData[indexPath.section];
-        id object = [section objectAtIndex:indexPath.row];
-        
-        id sectionKey = self.sectionsToKeys[[NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section]];
-        
         self.weightedConfigurationBlock(cell, sectionKey, object);
     } else if (self.configurationBlock) {
-        NSArray *section = self.tableViewData[indexPath.section];
-        id object = [section objectAtIndex:indexPath.row];
-        
         self.configurationBlock(cell, object);
     }
     

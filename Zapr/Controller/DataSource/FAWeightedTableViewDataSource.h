@@ -20,6 +20,9 @@
 
 - (void)recalculateWeight;
 
+typedef id (^FAWeightedTableViewCellCreationBlock)(id sectionKey, id object);
+@property (nonatomic, copy) FAWeightedTableViewCellCreationBlock weightedCellCreationBlock;
+
 typedef void (^FAWeightedTableViewCellConfigurationBlock)(id cell, id sectionKey, id object);
 @property (nonatomic, copy) FAWeightedTableViewCellConfigurationBlock weightedConfigurationBlock;
 

@@ -31,6 +31,9 @@
 // The table view (must be set)
 @property (readonly) UITableView *tableView;
 
+typedef id (^FAArrayTableViewCellCreationBlock)(id object);
+@property (nonatomic, copy) FAArrayTableViewCellCreationBlock cellCreationBlock;
+
 typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 @property (nonatomic, copy) FAArrayTableViewCellConfigurationBlock configurationBlock;
 

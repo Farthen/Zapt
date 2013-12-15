@@ -9,6 +9,7 @@
 #import "FAHomeViewController.h"
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
+#import "FAListsViewController.h"
 
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDataSource.h"
@@ -60,6 +61,7 @@
     
     [self loadCurrentlyWatching];
     [self loadProgress];
+    [self displayListsEntry];
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,6 +72,31 @@
 
 - (void)setupTableView
 {
+    __weak typeof(self) weakSelf = self;
+    self.arrayDataSource.weightedCellCreationBlock = ^(id sectionKey, id object) {
+        id cell = nil;
+        
+        NSString *reuseIdentifier = nil;
+        
+        if ([sectionKey isEqualToString:@"lists"]) {
+            reuseIdentifier = @"lists";
+        } else {
+            reuseIdentifier = @"content";
+        }
+        
+        cell = [weakSelf.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        
+        if (!cell) {
+            if ([sectionKey isEqualToString:@"lists"]) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+            } else {
+                cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            }
+        }
+        
+        return cell;
+    };
+    
     self.arrayDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
         if ([sectionKey isEqualToString:@"currentlyWatching"]) {
             FATraktContent *content = object;
@@ -86,8 +113,21 @@
             [contentCell displayContent:show];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else if ([sectionKey isEqualToString:@"lists"]) {
+            UITableViewCell *standardCell = cell;
+            
+            standardCell.textLabel.text = NSLocalizedString(@"Lists", nil);
+            standardCell.detailTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
+            standardCell.detailTextLabel.textColor = [UIColor grayColor];
+            standardCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     };
+}
+
+- (void)displayListsEntry
+{
+    [self.arrayDataSource createSectionForKey:@"lists" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
+    [self.arrayDataSource insertRow:@"lists" inSection:@"lists" withWeight:0];
 }
 
 - (void)displayProgressData
@@ -95,7 +135,7 @@
     if (!self.tableViewContainsProgress) {
         self.tableViewContainsProgress = YES;
         
-        [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:1 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
+        [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
     }
     
     NSArray *shows = self.showsWithProgress;
@@ -134,11 +174,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
 {
-    FATraktContent *content = object;
+    if ([object isKindOfClass:[FATraktContent class]]) {
+        FATraktContent *content = object;
+        
+        FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+        [detailVC loadContent:content];
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
     
-    FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [detailVC loadContent:content];
-    [self.navigationController pushViewController:detailVC animated:YES];
+    if ([object isKindOfClass:[NSString class]] && [object isEqualToString:@"lists"]) {
+        
+        FAListsViewController *listsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"lists"];
+        [self.navigationController pushViewController:listsVC animated:YES];
+        
+    }
 }
 
 @end

@@ -95,16 +95,21 @@
 #pragma mark UITableViewDataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+    id cell = nil;
+    NSArray *section = self.tableViewData[indexPath.section];
+    id object = [section objectAtIndex:indexPath.row];
     
-    if (!cell) {
-        cell = [[self.cellClass alloc] init];
+    if (!self.cellCreationBlock) {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+        
+        if (!cell) {
+            cell = [[self.cellClass alloc] init];
+        }
+    } else {
+        cell = self.cellCreationBlock(object);
     }
     
     if (self.configurationBlock) {
-        NSArray *section = self.tableViewData[indexPath.section];
-        id object = [section objectAtIndex:indexPath.row];
-        
         self.configurationBlock(cell, object);
     }
     
