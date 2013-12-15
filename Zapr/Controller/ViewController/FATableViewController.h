@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class FARefreshControlWithActivity;
+#import "FARefreshControlWithActivity.h"
 
 @interface FATableViewController : UITableViewController
 

@@ -8,7 +8,8 @@
 
 #import "FATableViewController.h"
 #import "FAArrayTableViewDelegate.h"
+#import "FALoggedInTableViewController.h"
 
-@interface FAHomeViewController : FATableViewController <FAArrayTableViewDelegate>
+@interface FAHomeViewController : FALoggedInTableViewController <FAArrayTableViewDelegate>
 
 @end

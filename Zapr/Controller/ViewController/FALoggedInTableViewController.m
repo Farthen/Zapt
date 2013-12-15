@@ -134,7 +134,8 @@
     }
     
     self.needsLoginTableView.frame = self.tableView.frame;
-    [self.tableView.superview addSubview:self.needsLoginTableView];
+    [self.tableView addSubview:self.needsLoginTableView];
+    self.tableView.scrollEnabled = NO;
     
     self.needsLoginTableView.scrollEnabled = NO;
     
@@ -161,6 +162,7 @@
     if (self.showingNeedsLoginTableView) {
         [self.needsLoginTableView removeFromSuperview];
         [self.tableView reloadData];
+        self.tableView.scrollEnabled = YES;
         
         self.showingNeedsLoginTableView = NO;
     }

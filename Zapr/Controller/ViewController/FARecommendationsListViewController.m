@@ -38,6 +38,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
+    self.navigationItem.title = NSLocalizedString(@"Recommendations", nil);
+    
     self.weightedDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
     self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.weightedDataSource];
     self.arrayDelegate.delegate = self;

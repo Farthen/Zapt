@@ -45,6 +45,8 @@
 
 - (void)viewDidLoad
 {
+    self.needsLoginContentName = NSLocalizedString(@"your home view", nil);
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -60,15 +62,51 @@
     self.tableView.dataSource = self.arrayDataSource;
     self.tableView.delegate = self.arrayDelegate;
     
-    [self loadCurrentlyWatching];
-    [self loadProgress];
     [self displayUserSection];
+    
+    __weak typeof(self) weakSelf = self;
+    [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
+        [weakSelf reloadData:YES];
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self reloadData:NO];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)reloadData:(BOOL)animated
+{
+    if (animated) [self.refreshControlWithActivity startActivityWithCount:2];
+    
+    [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
+        if (content) {
+            if (!self.tableViewContainsCurrentlyWatching) {
+                self.tableViewContainsCurrentlyWatching = YES;
+                
+                [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
+                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
+                [self.arrayDataSource recalculateWeight];
+            }
+        }
+        
+        if (animated) [self.refreshControlWithActivity finishActivity];
+    } onError:nil];
+    
+    [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
+        self.showsWithProgress = result;
+        [self displayProgressData];
+        
+        if (animated) [self.refreshControlWithActivity finishActivity];
+    } onError:nil];
 }
 
 - (void)setupTableView
@@ -137,6 +175,7 @@
     [self.arrayDataSource createSectionForKey:@"user" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
     [self.arrayDataSource insertRow:@"lists" inSection:@"user" withWeight:0];
     [self.arrayDataSource insertRow:@"recommendations" inSection:@"user" withWeight:1];
+    [self.arrayDataSource recalculateWeight];
 }
 
 - (void)displayProgressData
@@ -156,29 +195,6 @@
     }
     
     [self.arrayDataSource recalculateWeight];
-}
-
-- (void)loadCurrentlyWatching
-{
-    [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
-        if (content) {
-            if (!self.tableViewContainsCurrentlyWatching) {
-                self.tableViewContainsCurrentlyWatching = YES;
-                
-                [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
-                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
-                [self.arrayDataSource recalculateWeight];
-            }
-        }
-    } onError:nil];
-}
-
-- (void)loadProgress
-{
-    [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
-        self.showsWithProgress = result;
-        [self displayProgressData];
-    } onError:nil];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
