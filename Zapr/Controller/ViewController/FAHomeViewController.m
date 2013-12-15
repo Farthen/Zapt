@@ -79,8 +79,8 @@
         
         NSString *reuseIdentifier = nil;
         
-        if ([sectionKey isEqualToString:@"lists"]) {
-            reuseIdentifier = @"lists";
+        if ([sectionKey isEqualToString:@"user"]) {
+            reuseIdentifier = @"user";
         } else {
             reuseIdentifier = @"content";
         }
