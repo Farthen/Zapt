@@ -189,21 +189,8 @@
     
     // See the implementation in FATraktSeason: We prevent a retain loop here
     if (show) {
-        FATraktSeason *season;
-        
-        if (show.seasons && show.seasons.count > self.seasonNumber.unsignedIntegerValue) {
-            season = show.seasons[self.seasonNumber.unsignedIntegerValue];
-        } else {
-            season = [[FATraktSeason alloc] initWithShow:show seasonNumber:self.seasonNumber];
-        }
-        
-        // This will insert itself into the show.seasons array
-        season.show = show;
-        
-        // This will stay retained because it is in the show.seasons array
-        // This will also insert the episode into the season.episodes array
+        FATraktSeason *season = show[self.seasonNumber];
         self.season = season;
-        
         [show commitToCache];
     }
 }
@@ -238,30 +225,10 @@
     _season = season;
     
     if (season) {
-        if (!season.episodes) {
-            season.episodes = [NSMutableArray array];
-        }
+        [season addEpisode:self];
         
-        // - 1 because episode numbers start at 1
-        while ((NSInteger)season.episodes.count < (NSInteger)self.episodeNumber.unsignedIntegerValue - 1) {
-            // -1 because index. +1 because episode numbers start at 1
-            FATraktEpisode *episode =
-            [[FATraktEpisode alloc] initWithShow:self.show
-                                    seasonNumber:season.seasonNumber
-                                   episodeNumber:[NSNumber numberWithUnsignedInteger:season.episodes.count - 1 + 1]];
-            episode->_season = season;
-            
-            
-            episode.detailLevel = FATraktDetailLevelMinimal;
-            
-            [season.episodes addObject:episode];
-        }
-        
-        if (season.episodes.count == self.episodeNumber.unsignedIntegerValue - 1) {
-            [season.episodes addObject:self];
-        } else {
-            // FIXME: this overrides the 0th episode if a first exists
-            season.episodes[MAX(0, (NSInteger)self.episodeNumber.unsignedIntegerValue - 1)] = self;
+        if (season.show) {
+            _show = season.show;
         }
         
         [season commitToCache];

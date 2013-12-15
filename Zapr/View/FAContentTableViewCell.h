@@ -14,6 +14,7 @@
 
 + (CGFloat)cellHeight;
 
+@property BOOL showsProgressForShows;
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
 
 - (void)displayContent:(FATraktContent *)content;

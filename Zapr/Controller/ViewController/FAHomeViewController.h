@@ -6,8 +6,9 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "FATableViewController.h"
+#import "FAArrayTableViewDelegate.h"
 
-@interface FAHomeViewController : UITableViewController
+@interface FAHomeViewController : FATableViewController <FAArrayTableViewDelegate>
 
 @end

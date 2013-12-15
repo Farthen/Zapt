@@ -17,6 +17,13 @@
     return [NSString stringWithFormat:@"<FATraktProgress %p for show \"%@\">", self, self.show];
 }
 
+- (void)finishedMappingObjects
+{
+    if (self.next_episode) {
+        self.next_episode.show = self.show;
+    }
+}
+
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"progress"]) {
@@ -36,14 +43,11 @@
         }
     } else if ([key isEqualToString:@"show"]) {
         FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:object];
+        
+        self.show = [show cachedVersion];
         show.progress = self;
-        self.show = show;
-        
-        if (self.next_episode) {
-            self.next_episode.show = self.show;
-        }
-        
         [self.show commitToCache];
+        
     } else if ([key isEqualToString:@"next_episode"]) {
         FATraktEpisode *next_episode = [[FATraktEpisode alloc] initWithJSONDict:object andShow:self.show];
         

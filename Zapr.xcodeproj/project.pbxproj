@@ -161,6 +161,8 @@
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
 		F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DC466316FC93350022BE12 /* FATraktSearchResult.m */; };
 		F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */; };
+		F3DEDC13185D26C4006F5833 /* FATraktSeasonProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */; };
+		F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -479,6 +481,10 @@
 		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSearchResult.m; sourceTree = "<group>"; };
 		F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWeightedTableViewDataSource.h; sourceTree = "<group>"; };
 		F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWeightedTableViewDataSource.m; sourceTree = "<group>"; };
+		F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSeasonProgress.h; sourceTree = "<group>"; };
+		F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSeasonProgress.m; sourceTree = "<group>"; };
+		F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktProgressStats.h; sourceTree = "<group>"; };
+		F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktProgressStats.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-love@2x.png"; sourceTree = "<group>"; };
@@ -1249,6 +1255,10 @@
 				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
 				F30E52BD1799076A006C5091 /* FATraktShowProgress.h */,
 				F30E52BE1799076A006C5091 /* FATraktShowProgress.m */,
+				F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */,
+				F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */,
+				F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */,
+				F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */,
 				F31551E117B081B200307CC3 /* FATraktAccountSettings.h */,
 				F31551E217B081B200307CC3 /* FATraktAccountSettings.m */,
 				F31551E417B0844600307CC3 /* FATraktViewingSettings.h */,
@@ -1600,6 +1610,8 @@
 				F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */,
 				F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
+				F3DEDC13185D26C4006F5833 /* FATraktSeasonProgress.m in Sources */,
+				F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */,
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
 				F347356417FF55AE00116A59 /* FADebugController.m in Sources */,

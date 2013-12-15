@@ -8,8 +8,10 @@
 
 #import "FAHomeViewController.h"
 #import "FANextUpViewController.h"
+#import "FADetailViewController.h"
 
 #import "FAWeightedTableViewDataSource.h"
+#import "FAArrayTableViewDataSource.h"
 #import "FAArrayTableViewDelegate.h"
 
 #import "FAContentTableViewCell.h"
@@ -21,8 +23,9 @@
 @property FAArrayTableViewDelegate *arrayDelegate;
 
 @property BOOL tableViewContainsCurrentlyWatching;
+@property BOOL tableViewContainsProgress;
 
-@property FATraktContent *currentlyWatchingContent;
+@property NSArray *showsWithProgress;
 @end
 
 @implementation FAHomeViewController
@@ -44,16 +47,19 @@
     // Do any additional setup after loading the view.
     
     self.arrayDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
+    
     self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+    self.arrayDelegate.delegate = self;
     
     self.arrayDataSource.cellClass = [FAContentTableViewCell class];
     
-    [self loadTableViewData];
+    [self setupTableView];
     
     self.tableView.dataSource = self.arrayDataSource;
     self.tableView.delegate = self.arrayDelegate;
     
     [self loadCurrentlyWatching];
+    [self loadProgress];
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,37 +68,77 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)loadTableViewData
+- (void)setupTableView
 {
-    __weak typeof(self) weakSelf = self;
-    
-    self.arrayDataSource.configurationBlock = ^(id cell, id object) {
-        if ([object isEqual:@"currentlyWatchingRow"]) {
-            FATraktContent *content = weakSelf.currentlyWatchingContent;
+    self.arrayDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
+        if ([sectionKey isEqualToString:@"currentlyWatching"]) {
+            FATraktContent *content = object;
             
             FAContentTableViewCell *contentCell = cell;
             [contentCell displayContent:content];
+            
+            contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        } else if ([sectionKey isEqualToString:@"showProgress"]) {
+            FATraktShow *show = object;
+            
+            FAContentTableViewCell *contentCell = cell;
+            contentCell.showsProgressForShows = YES;
+            [contentCell displayContent:show];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     };
 }
 
+- (void)displayProgressData
+{
+    if (!self.tableViewContainsProgress) {
+        self.tableViewContainsProgress = YES;
+        
+        [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:1 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
+    }
+    
+    NSArray *shows = self.showsWithProgress;
+    
+    for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
+        FATraktShow *show = shows[i];
+        
+        [self.arrayDataSource insertRow:show inSection:@"showProgress" withWeight:i];
+    }
+    
+    [self.arrayDataSource recalculateWeight];
+}
+
 - (void)loadCurrentlyWatching
 {
     [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
         if (content) {
-            self.currentlyWatchingContent = content;
-            
             if (!self.tableViewContainsCurrentlyWatching) {
                 self.tableViewContainsCurrentlyWatching = YES;
                 
                 [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
-                [self.arrayDataSource insertRow:@"currentlyWatchingRow" inSection:@"currentlyWatching" withWeight:0];
+                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
                 [self.arrayDataSource recalculateWeight];
             }
         }
     } onError:nil];
+}
+
+- (void)loadProgress
+{
+    [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
+        self.showsWithProgress = result;
+        [self displayProgressData];
+    } onError:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+{
+    FATraktContent *content = object;
+    
+    FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+    [detailVC loadContent:content];
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 @end

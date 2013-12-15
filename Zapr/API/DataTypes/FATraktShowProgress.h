@@ -9,6 +9,7 @@
 #import "FATraktDatatype.h"
 @class FATraktShow;
 @class FATraktEpisode;
+@class FATraktSeasonProgress;
 
 @interface FATraktShowProgress : FATraktDatatype
 
@@ -18,5 +19,6 @@
 @property (retain) NSNumber *completed;
 @property (retain) NSNumber *left;
 @property (weak) FATraktEpisode *next_episode;
+@property (retain) FATraktSeasonProgress *seasonProgress;
 
 @end

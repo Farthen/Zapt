@@ -530,67 +530,93 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (FATraktRequest *)loadProgressDataWithTitle:(NSString *)title callback:(void (^)(NSArray *data))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progessItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    // title can be tvdb-id or slug
-    DDLogController(@"Getting progress data");
+    NSString *api = @"user/progress/watched.json";
     
-    NSString *username = self.connection.apiUser;
-    
-    if (!username) {
-        if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
-        }
-        
+    if (!self.connection.apiUser) {
         return nil;
     }
     
-    if (!title) {
-        if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
-        }
-        
-        return nil;
+    NSString *title;
+    
+    if (!show) {
+        title = @"all";
+    } else {
+        title = show.urlIdentifier;
     }
     
-    return [self.connection getAPI:@"user/progress/watched.json" withParameters:@[username, title] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+    NSString *sort = @"title";
+    
+    if (sortingOption == FATraktSortingOptionRecentActivity) {
+        sort = @"activity";
+    } else if (sortingOption == FATraktSortingOptionMostCompleted) {
+        sort = @"most-completed";
+    } else if (sortingOption == FATraktSortingOptionLeastCompleted) {
+        sort = @"least-completed";
+    } else if (sortingOption == FATraktSortingOptionRecentlyAired) {
+        sort = @"recently-aired";
+    } else if (sortingOption == FATraktSortingOptionPreviouslyAired) {
+        sort = @"previously-aired";
+    }
+    
+    NSString *extended = @"";
+    
+    if (detailLevel == FATraktDetailLevelDefault) {
+        extended = @"default";
+    } else if (detailLevel == FATraktDetailLevelExtended) {
+        extended = @"extended";
+    }
+    
+    NSArray *parameters = @[self.connection.apiUser, title, sort, extended];
+    
+    return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
         NSArray *data = response.jsonData;
         NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
         
-        for (NSDictionary * show in data) {
-            FATraktShowProgress *progress = [[FATraktShowProgress alloc] initWithJSONDict:show];
+        for (NSDictionary *progressDict in data) {
+            FATraktShowProgress *progress = [[FATraktShowProgress alloc] initWithJSONDict:progressDict];
             
-            if (progress) {
-                [shows addObject:progress];
+            FATraktShow *show = progress.show;
+            
+            if (show) {
+                [shows addObject:show];
+            } else {
+                DDLogError(@"There is no show after initializing FATraktShowProgress.");
             }
         }
         
         callback(shows);
+        
     } onError:error];
+}
+
+- (FATraktRequest *)watchedProgressSortedBy:(FATraktSortingOption)sortingOption callback:(void (^)(NSArray *progressItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self watchedProgressForShow:nil sortedBy:sortingOption detailLevel:FATraktDetailLevelDefault callback:callback onError:error];
 }
 
 - (FATraktRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Getting progress for show: %@", show.title);
     
-    return [self loadProgressDataWithTitle:[show urlIdentifier] callback:^(NSArray *data) {
-        FATraktShowProgress *progress = nil;
+    return [self watchedProgressForShow:show sortedBy:FATraktSortingOptionTitle detailLevel:FATraktDetailLevelMinimal callback:^(NSArray *progressItems) {
+        FATraktShow *show = nil;
         
-        if (data.count >= 1) {
-            progress = data[0];
-            progress.show = show;
-            show.progress = progress;
+        if (progressItems.count >= 1) {
+            show = progressItems[0];
         }
         
-        callback(progress);
+        callback(show.progress);
     } onError:error];
 }
 
-- (FATraktRequest *)progressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)watchedProgressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     DDLogController(@"Getting progress for all shows");
     
-    return [self loadProgressDataWithTitle:@"" callback:callback onError:error];
+    return [self watchedProgressForShow:nil sortedBy:FATraktSortingOptionRecentActivity detailLevel:FATraktDetailLevelDefault callback:callback onError:error];
 }
 
 - (FATraktRequest *)seasonInfoForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -601,17 +627,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     if (info) {
         return [self.connection getAPI:api withParameters:@[info] forceAuthentication:NO withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
             NSArray *data = response.jsonData;
-            NSMutableArray *seasons = [[NSMutableArray alloc] initWithCapacity:data.count];
             
             for (NSDictionary * seasonDict in data) {
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:show];
-                
-                if (season) {
-                    [seasons addObject:season];
-                }
+                [show addSeason:season];
             }
             
-            show.seasons = seasons;
             [show commitToCache];
             callback(show);
         } onError:error];
@@ -641,10 +662,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         for (NSDictionary * episodeDict in data) {
             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:season.show];
             [episodes addObject:episode];
+            [season addEpisode:episode];
         }
         
-        [episodes sortedArrayUsingKey:@"episodeNumber" ascending:YES];
-        season.episodes = episodes;
         [season.show commitToCache];
         [season commitToCache];
         

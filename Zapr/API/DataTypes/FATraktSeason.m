@@ -16,7 +16,6 @@
 @implementation FATraktSeason {
     __weak FATraktShow *_show;
     NSString *_showCacheKey;
-    NSMutableArray *_episodes;
     NSArray *_episodeCacheKeys;
     NSNumber *_episodeCount;
 }
@@ -30,7 +29,9 @@
 {
     [super finishedMappingObjects];
     
-    for (FATraktEpisode *episode in[self.episodes copy]) {
+    for (id key in [self.episodesDict copy]) {
+        FATraktEpisode *episode = self.episodesDict[key];
+        
         episode.seasonNumber = self.seasonNumber;
         episode.showCacheKey = self.showCacheKey;
         episode.season = self;
@@ -67,25 +68,25 @@
 {
     if ([key isEqualToString:@"episodes"]) {
         if ([object isKindOfClass:[NSArray class]]) {
-            NSMutableArray *episodesArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-            
+
             for (id item in(NSArray *) object) {
+                FATraktEpisode *episode;
+                
                 if ([item isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *episodeDict = item;
-                    FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
-                    [episodesArray addObject:episode];
+                    episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
+                    
                 } else if ([item isKindOfClass:[NSNumber class]]) {
-                    FATraktEpisode *episode = [[FATraktEpisode alloc] init];
+                    episode = [[FATraktEpisode alloc] init];
                     
                     // the rest will be filled in finishedMappingObjects
                     episode.episodeNumber = item;
                     episode.detailLevel = FATraktDetailLevelMinimal;
-                    
-                    [episodesArray addObject:episode];
                 }
+                
+                [self addEpisode:episode];
             }
-            
-            self.episodes = episodesArray;
+
         } else if ([object isKindOfClass:[NSNumber class]]) {
             // Only basic season information
             self.episodeCount = object;
@@ -179,25 +180,9 @@
     
     // This prevents a retain loop:
     // Show will retain season but season will not retain show
-    // To keep show in memory we need to put season in the array though
+    // To keep show in memory we need to put season in the dict though
     if (show) {
-        if (!show.seasons) {
-            show.seasons = [NSMutableArray array];
-        }
-        
-        while (show.seasons.count < self.seasonNumber.unsignedIntegerValue) {
-            FATraktSeason *season = [[FATraktSeason alloc] init];
-            season->_show = show;
-            season.seasonNumber = [NSNumber numberWithUnsignedInteger:show.seasons.count - 1 + 1];
-            [show.seasons addObject:season];
-        }
-        
-        if (show.seasons.count == self.seasonNumber.unsignedIntegerValue - 1) {
-            [show.seasons addObject:self];
-        } else {
-            show.seasons[self.seasonNumber.unsignedIntegerValue] = self;
-        }
-        
+        [show addSeason:self];
         [show commitToCache];
     }
 }
@@ -227,32 +212,23 @@
     return _showCacheKey;
 }
 
-- (void)setEpisodes:(NSMutableArray *)episodes
+- (NSArray *)episodes
 {
-    _episodes = episodes;
-}
-
-- (NSMutableArray *)episodes
-{
-    if (!_episodes) {
-        _episodes = [_episodeCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
-            FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:obj];
-            
-            if (!episode) {
-                episode = [[FATraktEpisode alloc] init];
-                episode.episodeNumber = [NSNumber numberWithUnsignedInteger:idx + 1];
-                episode.seasonNumber = self.seasonNumber;
+    if (!self.episodesDict) {
+        if (self.episodeCacheKeys) {
+            for (NSString *key in self.episodeCacheKeys) {
+                FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:key];
+                
+                if (episode) {
+                    episode.show = self.show;
+                    episode.season = self;
+                    self.episodesDict[episode.episodeNumber] = episode;
+                }
             }
-            
-            return episode;
-        }];
-        
-        for (FATraktEpisode *episode in[_episodes copy]) {
-            episode.show = self.show;
         }
     }
     
-    return _episodes;
+    return [self.episodesDict.allValues sortedArrayUsingKey:@"episodeNumber" ascending:YES];
 }
 
 - (void)setEpisodeCacheKeys:(NSArray *)episodeCacheKeys
@@ -262,11 +238,41 @@
 
 - (NSArray *)episodeCacheKeys
 {
-    if (_episodes) {
-        return [_episodes valueForKey:@"cacheKey"];
+    if (_episodesDict) {
+        return [_episodesDict.allValues valueForKey:@"cacheKey"];
     }
     
     return _episodeCacheKeys;
+}
+
+- (void)addEpisode:(FATraktEpisode *)episode
+{
+    if (!self.episodesDict) {
+        self.episodesDict = [NSMutableDictionary dictionary];
+    }
+    
+    self.episodesDict[episode.episodeNumber] = episode;
+}
+
+- (FATraktEpisode *)episodeForNumber:(NSNumber *)number
+{
+    return self.episodesDict[number];
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)index
+{
+    return [self episodeForNumber:[NSNumber numberWithUnsignedInteger:index]];
+}
+
+- (id)objectForKeyedSubscript:(id)key
+{
+    if ([key isKindOfClass:[NSNumber class]]) {
+        return [self episodeForNumber:key];
+    }
+    
+    [NSException raise:NSInternalInconsistencyException format:@"- (id)objectForKeyedSubscript: expected an NSNumber as key but got: %@", key];
+    
+    return nil;
 }
 
 @end

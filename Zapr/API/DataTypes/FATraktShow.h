@@ -32,8 +32,14 @@
 @property (retain) NSArray *genres;
 @property (retain) FATraktShowProgress *progress;
 
-// Not encoded
-@property (retain) NSMutableArray *seasons;
+// Readonly, accesses the dict internally
+@property (readonly) NSArray *seasons;
+
+@property (retain) NSMutableDictionary *seasonsDict;
+- (void)addSeason:(FATraktSeason *)season;
+- (FATraktSeason *)seasonForNumber:(NSNumber *)seasonNumber;
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (id)objectForKeyedSubscript:(id)key;
 
 // Encoded
 @property (retain) NSArray *seasonCacheKeys;

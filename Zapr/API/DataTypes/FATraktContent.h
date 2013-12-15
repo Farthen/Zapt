@@ -50,6 +50,15 @@ typedef enum {
     FATraktWatchingTypeCheckin = 2
 } FATraktWatchingType;
 
+typedef enum {
+    FATraktSortingOptionTitle = 0,
+    FATraktSortingOptionRecentActivity = 1,
+    FATraktSortingOptionMostCompleted = 2,
+    FATraktSortingOptionLeastCompleted = 3,
+    FATraktSortingOptionRecentlyAired = 4,
+    FATraktSortingOptionPreviouslyAired = 5
+} FATraktSortingOption;
+
 // This is the superclass of movies, shows and episodes.
 @interface FATraktContent : FATraktCachedDatatype
 

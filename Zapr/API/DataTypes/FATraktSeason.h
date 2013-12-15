@@ -12,6 +12,7 @@
 @class FATraktImageList;
 @class FATraktShow;
 @class FATraktEpisode;
+@class FATraktSeasonProgress;
 
 @interface FATraktSeason : FATraktCachedDatatype
 
@@ -24,8 +25,16 @@
 @property FATraktShow *show;
 @property NSString *showCacheKey;
 
-@property (retain) NSMutableArray *episodes;
+@property (readonly) NSArray *episodes;
 @property NSArray *episodeCacheKeys;
+
+@property (retain) NSMutableDictionary *episodesDict;
+- (void)addEpisode:(FATraktEpisode *)episode;
+- (FATraktEpisode *)episodeForNumber:(NSNumber *)number;
+- (id)objectAtIndexedSubscript:(NSUInteger)index;
+- (id)objectForKeyedSubscript:(id)key;
+
+@property FATraktSeasonProgress *seasonProgress;
 
 @property (retain) NSNumber *episodeCount;
 @property (readonly) NSNumber *episodesWatched;

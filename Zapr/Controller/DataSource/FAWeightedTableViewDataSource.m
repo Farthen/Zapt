@@ -9,13 +9,40 @@
 #import "FAWeightedTableViewDataSource.h"
 
 @interface FAWeightedTableViewDataSource ()
+@property NSString *cellIdentifier;
 
 @property NSMutableDictionary *weightedSections;
 @property NSArray *weightedSectionData;
+@property NSMutableDictionary *sectionsToKeys;
 
 @end
 
 @implementation FAWeightedTableViewDataSource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id cell = [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
+    
+    if (!cell) {
+        cell = [[self.cellClass alloc] init];
+    }
+    
+    if (self.weightedConfigurationBlock) {
+        NSArray *section = self.tableViewData[indexPath.section];
+        id object = [section objectAtIndex:indexPath.row];
+        
+        id sectionKey = self.sectionsToKeys[[NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section]];
+        
+        self.weightedConfigurationBlock(cell, sectionKey, object);
+    } else if (self.configurationBlock) {
+        NSArray *section = self.tableViewData[indexPath.section];
+        id object = [section objectAtIndex:indexPath.row];
+        
+        self.configurationBlock(cell, object);
+    }
+    
+    return cell;
+}
 
 - (void)recalculateWeight
 {
@@ -29,6 +56,14 @@
     
     NSMutableArray *headerTitles = [NSMutableArray array];
     
+    self.sectionsToKeys = [NSMutableDictionary dictionary];
+    
+    for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
+        NSDictionary *sectionDict = sortedWeightedSections[i];
+        
+        [self.sectionsToKeys setObject:sectionDict[@"key"] forKey:[NSNumber numberWithUnsignedInteger:i]];
+    }
+
     self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger idx) {
         NSMutableDictionary *sectionData = obj[@"sectionData"];
         
@@ -89,7 +124,7 @@
         self.weightedSections = [NSMutableDictionary dictionary];
     }
     
-    [self.weightedSections setObject:[@{@"weight": [NSNumber numberWithInteger:weight]} mutableCopy] forKey:key];
+    [self.weightedSections setObject:[@{@"weight": [NSNumber numberWithInteger:weight], @"key": key} mutableCopy] forKey:key];
     
     if (title) {
         self.weightedSections[key][@"headerTitle"] = title;

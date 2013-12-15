@@ -50,6 +50,8 @@
     BOOL _willDisplayImage;
     BOOL _displayImageWhenFinishedShowing;
     
+    BOOL _animatedOverviewText;
+    
     UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
     UIActivityViewController *_activityViewController;
 }
@@ -248,7 +250,6 @@
             [self.nextUpViewController displayNextUp:episode];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
-            [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
         } completion:nil];
     } else {
@@ -256,8 +257,8 @@
             [self.nextUpViewController hideNextUp];
             [self.contentView recursiveSetNeedsUpdateConstraints];
         } animations:^{
-            [self.contentView layoutIfNeeded];
-            [self.scrollView layoutIfNeeded];
+            //[self.contentView layoutIfNeeded];
+            //[self.scrollView layoutIfNeeded];
         } completion:nil];
     }
 }
@@ -331,7 +332,22 @@
 
 - (void)displayOverview:(NSString *)overview
 {
-    self.overviewLabel.text = overview;
+    if (![self.overviewLabel.text isEqualToString:overview]) {
+        [UIView animateSynchronizedIf:NO duration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear setUp:^{
+            self.overviewLabel.alpha = 0.0;
+        } animations:^{
+            self.overviewLabel.text = overview;
+            [self.overviewLabel setNeedsLayout];
+            [self.overviewLabel layoutIfNeeded];
+        } completion:nil];
+        [UIView animateSynchronizedIf:!_animatedOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
+            self.overviewLabel.alpha = 1.0;
+        } completion:nil];
+        
+        if (overview) {
+            _animatedOverviewText = YES;
+        }
+    }
 }
 
 - (void)displayProgress:(FATraktShowProgress *)progress
@@ -429,11 +445,13 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
-    [self displayGenericContentData:show];
-    [self displayProgress:show.progress];
-    
-    [self.view layoutIfNeeded];
-    [self.view updateConstraintsIfNeeded];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayGenericContentData:show];
+        [self displayProgress:show.progress];
+        
+        [self.view layoutIfNeeded];
+        [self.view updateConstraintsIfNeeded];
+    });
 }
 
 - (void)loadShowData:(FATraktShow *)show
@@ -446,6 +464,7 @@
     [[FATrakt sharedInstance] progressForShow:show callback:^(FATraktShowProgress *progress) {
         [self displayShow:show];
     } onError:nil];
+    
     [self displayShow:show];
 }
 

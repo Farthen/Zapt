@@ -15,7 +15,6 @@
 @end
 
 @implementation FATraktShow {
-    NSMutableArray *_seasons;
     NSArray *_seasonCacheKeys;
 }
 
@@ -129,52 +128,32 @@
 {
     if ([key isEqualToString:@"seasons"]) {
         if ([object isKindOfClass:[NSArray class]]) {
-            NSMutableArray *seasonArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)object count]];
-            
-            for (NSDictionary *seasonDict in(NSArray *) object) {
+            for (NSDictionary *seasonDict in object) {
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:self];
-                [seasonArray addObject:season];
+                [self addSeason:season];
             }
-            
-            NSSortDescriptor *sortDescriptor;
-            sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"seasonNumber" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
-            [seasonArray sortUsingDescriptors:sortDescriptors];
-            
-            self.seasons = seasonArray;
         }
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
 }
 
-- (void)setSeasons:(NSMutableArray *)seasons
+- (NSArray *)seasons
 {
-    _seasons = seasons;
-}
-
-- (NSMutableArray *)seasons
-{
-    if (!_seasons) {
+    if (!self.seasonsDict) {
         if (self.seasonCacheKeys) {
-            _seasons = [self.seasonCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
-                FATraktSeason *season = [FATraktSeason.backingCache objectForKey:obj];
+            for (NSString *key in self.seasonCacheKeys) {
+                FATraktSeason *season = [FATraktSeason.backingCache objectForKey:key];
                 
-                if (!season) {
-                    season = [[FATraktSeason alloc] init];
-                    season.seasonNumber = [NSNumber numberWithUnsignedInteger:idx];
+                if (season) {
+                    season.show = self;
+                    self.seasonsDict[season.seasonNumber] = season;
                 }
-                
-                return season;
-            }];
-            
-            for (FATraktSeason *season in[_seasons copy]) {
-                season.show = self;
             }
         }
     }
     
-    return _seasons;
+    return [self.seasonsDict.allValues sortedArrayUsingKey:@"seasonNumber" ascending:YES];
 }
 
 - (void)setSeasonCacheKeys:(NSArray *)seasonCacheKeys
@@ -184,11 +163,41 @@
 
 - (NSArray *)seasonCacheKeys
 {
-    if (_seasons) {
-        return [_seasons valueForKey:@"cacheKey"];
+    if (!_seasonCacheKeys) {
+        return [self.seasonsDict.allValues valueForKey:@"cacheKey"];
     }
     
     return _seasonCacheKeys;
+}
+
+- (void)addSeason:(FATraktSeason *)season
+{
+    if (!self.seasonsDict) {
+        self.seasonsDict = [NSMutableDictionary dictionary];
+    }
+    
+    self.seasonsDict[season.seasonNumber] = season;
+}
+
+- (FATraktSeason *)seasonForNumber:(NSNumber *)seasonNumber
+{
+    return self.seasonsDict[seasonNumber];
+}
+
+- (id)objectAtIndexedSubscript:(NSUInteger)index
+{
+    return [self seasonForNumber:[NSNumber numberWithUnsignedInteger:index]];
+}
+
+- (id)objectForKeyedSubscript:(id)key
+{
+    if ([key isKindOfClass:[NSNumber class]]) {
+        return [self seasonForNumber:key];
+    }
+    
+    [NSException raise:NSInternalInconsistencyException format:@"- (id)objectForKeyedSubscript: expected an NSNumber as key but got: %@", key];
+    
+    return nil;
 }
 
 @end

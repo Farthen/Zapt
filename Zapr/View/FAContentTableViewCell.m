@@ -9,6 +9,8 @@
 #import "FAContentTableViewCell.h"
 #import "FATrakt.h"
 
+#import "FAInterfaceStringProvider.h"
+
 @interface FAContentTableViewCell ()
 @property BOOL addedConstraints;
 @end
@@ -62,12 +64,16 @@
         NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
         NSString *detailString;
         
-        if (![genres isEqualToString:@""] && show.first_aired) {
-            detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
-        } else if (show.first_aired) {
-            detailString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), components.year];
-        } else if (![genres isEqualToString:@""]) {
-            detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];
+        if (self.showsProgressForShows && show.progress) {
+            detailString = [FAInterfaceStringProvider progressForProgress:show.progress long:YES];
+        } else if (genres || show.first_aired) {
+            if (![genres isEqualToString:@""] && show.first_aired) {
+                detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
+            } else if (show.first_aired) {
+                detailString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), components.year];
+            } else if (![genres isEqualToString:@""]) {
+                detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];
+            }
         } else {
             detailString = nil;
         }
