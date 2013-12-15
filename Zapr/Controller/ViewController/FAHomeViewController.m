@@ -10,6 +10,7 @@
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
 #import "FAListsViewController.h"
+#import "FARecommendationsListViewController.h"
 
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDataSource.h"
@@ -61,7 +62,7 @@
     
     [self loadCurrentlyWatching];
     [self loadProgress];
-    [self displayListsEntry];
+    [self displayUserSection];
 }
 
 - (void)didReceiveMemoryWarning
@@ -87,7 +88,7 @@
         cell = [weakSelf.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
         
         if (!cell) {
-            if ([sectionKey isEqualToString:@"lists"]) {
+            if ([sectionKey isEqualToString:@"user"]) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
             } else {
                 cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
@@ -114,21 +115,28 @@
             [contentCell displayContent:show];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        } else if ([sectionKey isEqualToString:@"lists"]) {
-            UITableViewCell *standardCell = cell;
+        } else if ([sectionKey isEqualToString:@"user"]) {
             
-            standardCell.textLabel.text = NSLocalizedString(@"Lists", nil);
-            standardCell.detailTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
+            UITableViewCell *standardCell = cell;
             standardCell.detailTextLabel.textColor = [UIColor grayColor];
             standardCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
+            if ([object isEqualToString:@"lists"]) {
+                standardCell.textLabel.text = NSLocalizedString(@"Lists", nil);
+                standardCell.detailTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
+            } else if ([object isEqualToString:@"recommendations"]) {
+                standardCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
+                standardCell.detailTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
+            }
         }
     };
 }
 
-- (void)displayListsEntry
+- (void)displayUserSection
 {
-    [self.arrayDataSource createSectionForKey:@"lists" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
-    [self.arrayDataSource insertRow:@"lists" inSection:@"lists" withWeight:0];
+    [self.arrayDataSource createSectionForKey:@"user" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
+    [self.arrayDataSource insertRow:@"lists" inSection:@"user" withWeight:0];
+    [self.arrayDataSource insertRow:@"recommendations" inSection:@"user" withWeight:1];
 }
 
 - (void)displayProgressData
@@ -183,11 +191,18 @@
         [self.navigationController pushViewController:detailVC animated:YES];
     }
     
-    if ([object isKindOfClass:[NSString class]] && [object isEqualToString:@"lists"]) {
-        
-        FAListsViewController *listsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"lists"];
-        [self.navigationController pushViewController:listsVC animated:YES];
-        
+    if ([object isKindOfClass:[NSString class]]) {
+        if ([object isEqualToString:@"lists"]) {
+            
+            FAListsViewController *listsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"lists"];
+            [self.navigationController pushViewController:listsVC animated:YES];
+            
+        } else if ([object isEqualToString:@"recommendations"]) {
+            
+            FARecommendationsListViewController *recommendationsListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recommendations"];
+            [recommendationsListVC loadRecommendations];
+            [self.navigationController pushViewController:recommendationsListVC animated:YES];
+        }
     }
 }
 

@@ -57,7 +57,18 @@
         return [weight1 compare:weight2];
     };
     
-    NSArray *sortedWeightedSections = [self.weightedSections.allValues sortedArrayUsingComparator:weightComparator];
+    BOOL (^hiddenFilter)(id key, id obj, BOOL *stop) = ^BOOL(id key, id obj, BOOL *stop) {
+        if ([obj[@"hidden"] isEqual:[NSNumber numberWithBool:YES]]) {
+            return NO;
+        }
+        
+        return YES;
+        
+    };
+    
+    NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
+    
+    NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
     
     NSMutableArray *headerTitles = [NSMutableArray array];
     
@@ -72,7 +83,9 @@
     self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger idx) {
         NSMutableDictionary *sectionData = obj[@"sectionData"];
         
-        NSArray *sortedWeightedRows = [sectionData.allValues sortedArrayUsingComparator:weightComparator];
+        NSMutableDictionary *filteredRows = [sectionData filterUsingBlock:hiddenFilter];
+        
+        NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
         
         id title = obj[@"headerTitle"];
         
@@ -90,6 +103,61 @@
     self.headerTitles = headerTitles;
     
     [self.tableView reloadData];
+}
+
+- (void)clearFilters
+{
+    for (id sectionKey in self.weightedSections) {
+        NSMutableDictionary *section = self.weightedSections[sectionKey];
+        
+        for (id rowKey in section[@"sectionData"]) {
+            NSMutableDictionary *row = section[@"sectionData"][rowKey];
+            
+            [row removeObjectForKey:@"hidden"];
+        }
+    }
+}
+
+- (void)filterRowsUsingBlock:(BOOL (^)(id key, id obj, BOOL *stop))filterBlock
+{
+    BOOL stop = NO;
+    
+    for (id sectionKey in self.weightedSections) {
+        NSMutableDictionary *section = self.weightedSections[sectionKey];
+        
+        for (id rowKey in section[@"sectionData"]) {
+            NSMutableDictionary *row = section[@"sectionData"][rowKey];
+            
+            if (filterBlock(rowKey, row[@"rowObject"], &stop)) {
+                row[@"hidden"] = [NSNumber numberWithBool:NO];
+            } else {
+                row[@"hidden"] = [NSNumber numberWithBool:YES];
+            }
+            
+            if (stop) {
+                break;
+            }
+        }
+        
+        if (stop) {
+            break;
+        }
+    }
+}
+
+- (void)hideSection:(id <NSCopying>)sectionKey
+{
+    self.weightedSections[sectionKey][@"hidden"] = [NSNumber numberWithBool:YES];
+}
+
+- (void)showSection:(id <NSCopying>)sectionKey
+{
+    self.weightedSections[sectionKey][@"hidden"] = [NSNumber numberWithBool:NO];
+}
+
+- (void)clearSection:(id <NSCopying>)sectionKey
+{
+    [self.weightedSections[sectionKey] removeObjectForKey:@"sectionData"];
 }
 
 - (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowObject

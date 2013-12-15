@@ -10,10 +10,16 @@
 
 @interface FAWeightedTableViewDataSource : FAArrayTableViewDataSource
 
-
 - (void)insertRow:(id)rowObject inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
 - (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowObject;
 
+- (void)filterRowsUsingBlock:(BOOL (^)(id key, id obj, BOOL *stop))filterBlock;
+- (void)clearFilters;
+
+- (void)hideSection:(id <NSCopying>)sectionKey;
+- (void)showSection:(id <NSCopying>)sectionKey;
+
+- (void)clearSection:(id <NSCopying>)sectionKey;
 - (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight;
 - (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
 - (void)removeSectionForKey:(id <NSCopying>)key;

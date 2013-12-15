@@ -164,6 +164,7 @@
 		F3DEDC13185D26C4006F5833 /* FATraktSeasonProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */; };
 		F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */; };
 		F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DEDC17185D7874006F5833 /* MessageUI.framework */; };
+		F3DEDC1B185D8811006F5833 /* FARecommendationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -487,6 +488,8 @@
 		F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktProgressStats.h; sourceTree = "<group>"; };
 		F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktProgressStats.m; sourceTree = "<group>"; };
 		F3DEDC17185D7874006F5833 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F3DEDC19185D8811006F5833 /* FARecommendationsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARecommendationsListViewController.h; sourceTree = "<group>"; };
+		F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARecommendationsListViewController.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-love@2x.png"; sourceTree = "<group>"; };
@@ -825,6 +828,8 @@
 				F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */,
 				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
 				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
+				F3DEDC19185D8811006F5833 /* FARecommendationsListViewController.h */,
+				F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */,
 			);
 			name = Lists;
 			sourceTree = "<group>";
@@ -1595,6 +1600,7 @@
 				F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
 				F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */,
+				F3DEDC1B185D8811006F5833 /* FARecommendationsListViewController.m in Sources */,
 				F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */,
 				F33631D816ED606C004FC205 /* CGFunctions.c in Sources */,
 				F3EE213917F6765800A0118E /* FACustomListsMembershipViewController.m in Sources */,

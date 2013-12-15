@@ -95,6 +95,7 @@ extern NSString *const FATraktActivityNotificationCheckin;
 
 #pragma mark user
 - (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *content))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error;
 
 #pragma mark content actions
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;

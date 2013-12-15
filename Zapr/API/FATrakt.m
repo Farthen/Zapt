@@ -1100,6 +1100,53 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
+- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *api;
+    
+    if (contentType == FATraktContentTypeShows) {
+        api = @"recommendations/shows";
+    } else if (contentType == FATraktContentTypeMovies) {
+        api = @"recommendations/movies";
+    } else {
+        [NSException raise:NSInternalInconsistencyException format:@"You can't have recommendations for anything other than shows and movies"];
+        return nil;
+    }
+    
+    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+    
+    if (genre) {
+        payload[@"genre"] = genre;
+    }
+    
+    if (startYear > 0) {
+        payload[@"start_year"] = [NSNumber numberWithInteger:startYear];
+    }
+    
+    if (endYear > 0) {
+        payload[@"end_year"] = [NSNumber numberWithInteger:endYear];
+    }
+    
+    payload[@"hide_collected"] = [NSNumber numberWithBool:hideCollected];
+    payload[@"hide_watchlisted"] = [NSNumber numberWithBool:hideWatchlisted];
+    
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSArray *recommendationData = response.jsonData;
+        
+        NSArray *recommendations = [recommendationData mapUsingBlock:^id(id obj, NSUInteger idx) {
+            
+            if (contentType == FATraktContentTypeShows) {
+                return [[FATraktShow alloc] initWithJSONDict:obj];
+            } else {
+                return [[FATraktMovie alloc] initWithJSONDict:obj];
+            }
+        }];
+        
+        callback(recommendations);
+    } onError:nil];
+}
+
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO];
