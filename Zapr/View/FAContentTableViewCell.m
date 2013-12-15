@@ -168,6 +168,12 @@
     
     [self.contentView removeConstraints:self.contentView.constraints];
     
+    if (self.twoLineMode) {
+        self.detailTextLabel.hidden = YES;
+    } else {
+        self.detailTextLabel.hidden = NO;
+    }
+    
     if (!self.addedConstraints) {
         // Create constraints for the title label:
         
@@ -267,14 +273,25 @@
 
 + (UIFont *)titleFont
 {
-    //return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    return [UIFont systemFontOfSize:18];
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    //return [UIFont systemFontOfSize:18];
 }
 
 + (UIFont *)detailFont
 {
+    UIFontDescriptor *footnoteDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleFootnote];
+    NSMutableDictionary *fontAttributes = [footnoteDescriptor.fontAttributes mutableCopy];
+    
+    NSNumber *fontSizeNumber = fontAttributes[@"NSFontSizeAttribute"];
+    NSNumber *newFontSizeNumber = [NSNumber numberWithFloat:fontSizeNumber.floatValue - 1];
+    fontAttributes[@"NSFontSizeAttribute"] = newFontSizeNumber;
+    
+    UIFontDescriptor *detailFontDescriptor = [[UIFontDescriptor alloc] initWithFontAttributes:fontAttributes];
+    
+    return [UIFont fontWithDescriptor:detailFontDescriptor size:0.0];
+    
     //return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-    return [UIFont systemFontOfSize:12];
+    //return [UIFont systemFontOfSize:12];
 }
 
 + (CGFloat)cellHeight
