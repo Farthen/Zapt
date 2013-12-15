@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
+#import <Social/Social.h>
+
 #import "FASettingsViewController.h"
 #import "FATrakt.h"
 #import "FAGlobalEventHandler.h"
@@ -16,7 +18,7 @@
 #import "FATableViewCellWithActivity.h"
 
 @interface FASettingsViewController ()
-
+@property UIActionSheet *feedbackActionSheet;
 @end
 
 @implementation FASettingsViewController {
@@ -46,6 +48,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.feedbackActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Choose a feedback method", nil)
+                                                           delegate:self
+                                                  cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:NSLocalizedString(@"Twitter", nil),
+                                                                    NSLocalizedString(@"Mail", nil), nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -77,13 +86,34 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 4;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return NSLocalizedString(@"User", nil);
+        return NSLocalizedString(@"Trakt User", nil);
+    }
+    
+    if (section == 2) {
+        return NSLocalizedString(@"Zapr", nil);
+    }
+    
+    if (section == 3) {
+        return NSLocalizedString(@"Maintenance", nil);
+    }
+    
+    return nil;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    if (section == 2) {
+        return NSLocalizedString(@"Please note that developers can't contact you when you write a review on the App Store. If you need help or would like to report a bug, please use the feedback button. I promise to read all of it and take every suggestion to heart.", nil);
+    }
+    
+    if (section == 3) {
+        return NSLocalizedString(@"This will delete all cached data and reload it. Use this when things seem weird or inconsistent. Also please give feedback so that it will be fixed in a future update.", nil);
     }
     
     return nil;
@@ -93,7 +123,7 @@
 {
     if (section == 0) {
         if (_loggedIn) {
-            return 1;
+            return 2;
         } else {
             return 1;
         }
@@ -104,6 +134,12 @@
             return 1;
         }
     } else if (section == 2) {
+        if ([MFMailComposeViewController canSendMail]) {
+            return 3;
+        }
+        
+        return 2;
+    } else if (section == 3) {
         return 1;
     }
     
@@ -134,19 +170,22 @@
                 NSString *username = [FATraktConnection sharedInstance].apiUser;
                 cell.detailTextLabel.text = username;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else if (indexPath.row == 1) {
+                cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
+                
+                if (cell == nil) {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:BasicCellIdentifier];
+                }
+                
+                cell.textLabel.text = NSLocalizedString(@"Profile", nil);
+                cell.textLabel.textColor = [UIColor blackColor];
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.textLabel.textAlignment = NSTextAlignmentLeft;
+                
+                cell.detailTextLabel.text = NSLocalizedString(@"View profile website", nil);
+                cell.detailTextLabel.textColor = [UIColor grayColor];
             }
-            
-            /* else if (indexPath.row == 1) {
-             cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
-             if (cell == nil) {
-             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
-             }
-             cell.textLabel.text = NSLocalizedString(@"Profile", nil);
-             cell.textLabel.textColor = [UIColor blackColor];
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-             cell.textLabel.textAlignment = NSTextAlignmentLeft;
-             } */
         } else {
             if (indexPath.row == 0) {
                 cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
@@ -171,7 +210,7 @@
                     cell = [[FATableViewCellWithActivity alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ActivityCellIdentifier];
                 }
                 
-                cell.textLabel.text = NSLocalizedString(@"Check", nil);
+                cell.textLabel.text = NSLocalizedString(@"Verify Credentials", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -206,6 +245,26 @@
             }
         }
     } else if (indexPath.section == 2) {
+        cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
+        
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:BasicCellIdentifier];
+        }
+        
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textAlignment = NSTextAlignmentLeft;
+        
+        if (indexPath.row == 0) {
+            cell.textLabel.text = NSLocalizedString(@"Legal", nil);
+        } else if (indexPath.row == 1 && [MFMailComposeViewController canSendMail]) {
+            cell.textLabel.text = NSLocalizedString(@"Feedback", nil);
+        } else {
+            cell.textLabel.text = NSLocalizedString(@"Rate on the App Store", nil);
+        }
+    } else if (indexPath.section == 3) {
         // Includes the empty cache button
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
@@ -226,7 +285,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 && indexPath.row == 0) {
+    if (indexPath.section == 0 && indexPath.row == 1) {
+        NSString *username = [FATraktConnection sharedInstance].apiUser;
+        
+        if (username) {
+            NSString *url = [NSString stringWithFormat:@"http://trakt.tv/user/%@", username];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }
+        
+    } else if (indexPath.section == 1 && indexPath.row == 0) {
         if (_loggedIn) {
             [self checkAuthButtonPressed];
         } else {
@@ -238,7 +305,22 @@
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
         [self reloadState];
-    } else if (indexPath.section == 2 && indexPath.row == 0) {
+    } else if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            // Legal
+        } else if (indexPath.row == 1 && [MFMailComposeViewController canSendMail]) {
+            // Feedback
+            
+            [self.feedbackActionSheet showInView:self.view];
+        } else {
+            // Rate on App Store
+            
+            // FIXME: App Store URL
+            NSString *appStoreURL = [NSString stringWithFormat:@"http://"];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreURL]];
+        }
+        
+    } else if (indexPath.section == 3 && indexPath.row == 0) {
         [[FATraktCache sharedInstance] clearCaches];
     }
     
@@ -261,6 +343,32 @@
 - (IBAction)actionDoneButton:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        // Twitter
+        
+        SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [tweetSheet setInitialText:NSLocalizedString(@"@ZaprApp ", nil)];
+        
+        [self presentViewController:tweetSheet animated:YES completion:nil];
+        
+    } else if (buttonIndex == 1) {
+        // Mail
+        
+        MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
+        [mailViewController setSubject:NSLocalizedString(@"Zapr Feedback", nil)];
+        [mailViewController setToRecipients:@[@"zapr@farthen.de"]];
+        mailViewController.mailComposeDelegate = self;
+        [self presentViewController:mailViewController animated:YES completion:nil];
+    }
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

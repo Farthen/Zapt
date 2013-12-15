@@ -163,6 +163,7 @@
 		F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */; };
 		F3DEDC13185D26C4006F5833 /* FATraktSeasonProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */; };
 		F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */; };
+		F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DEDC17185D7874006F5833 /* MessageUI.framework */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -485,6 +486,7 @@
 		F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSeasonProgress.m; sourceTree = "<group>"; };
 		F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktProgressStats.h; sourceTree = "<group>"; };
 		F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktProgressStats.m; sourceTree = "<group>"; };
+		F3DEDC17185D7874006F5833 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-love@2x.png"; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
 				F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
@@ -584,6 +587,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3DEDC17185D7874006F5833 /* MessageUI.framework */,
 				F3B33BA917F8D5040090BA21 /* TestFlight */,
 				F31446EA17F8D34F005B164D /* libz.dylib */,
 				F390191A16513819006C8E5B /* Security.framework */,

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-@interface FASettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface FASettingsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate>
 
 @property (retain) IBOutlet UITableView *tableView;
 
