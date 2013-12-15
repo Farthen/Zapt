@@ -476,8 +476,9 @@
         NSString *displayString;
         displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
         self.detailLabel.text = displayString;
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 setUp:^{
+        [UIView animateSynchronizedIf:YES duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {
+                NSLog(@"%f", self.detailViewHeightConstraint.constant);
                 [self.detailLabel.superview removeConstraint:self.detailViewHeightConstraint];
                 self.detailViewHeightConstraint = nil;
             }
