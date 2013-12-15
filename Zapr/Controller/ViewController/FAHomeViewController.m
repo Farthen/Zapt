@@ -110,6 +110,7 @@
             
             FAContentTableViewCell *contentCell = cell;
             contentCell.showsProgressForShows = YES;
+            contentCell.twoLineMode = YES;
             [contentCell displayContent:show];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

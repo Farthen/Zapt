@@ -146,7 +146,7 @@
     
     //UIFont *auxiliaryFont = [UIFont systemFontOfSize:14];
     UIFont *auxiliaryFont = [FAContentTableViewCell detailFont];
-    UIColor *auxiliaryTextColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0];
+    UIColor *auxiliaryTextColor = [UIColor grayColor];
     
     self.detailTextLabel.font = auxiliaryFont;
     self.detailTextLabel.textColor = auxiliaryTextColor;
@@ -166,8 +166,31 @@
     self.leftAuxiliaryTextLabel.adjustsFontSizeToFitWidth = NO;
     self.leftAuxiliaryTextLabel.numberOfLines = 1;
     
+    [self.contentView removeConstraints:self.contentView.constraints];
+    
     if (!self.addedConstraints) {
         // Create constraints for the title label:
+        
+        CGFloat topSpacing = 0;
+        CGFloat bottomSpacing = 0;
+        
+        if (self.twoLineMode) {
+            CGFloat height = [FAContentTableViewCell cellHeight];
+            
+            CGSize titleSize = [@"Title" sizeWithAttributes : @{ NSFontAttributeName :[FAContentTableViewCell titleFont] }];
+            CGSize detailSize = [@"Detail" sizeWithAttributes : @{ NSFontAttributeName :[FAContentTableViewCell detailFont] }];
+            
+            CGFloat labelArea = 0;
+            labelArea += self.class.topMargin;
+            labelArea += titleSize.height;
+            labelArea += self.class.labelSpacing;
+            labelArea += detailSize.height;
+            labelArea += self.class.bottomMargin;
+            
+            CGFloat offset = height - labelArea;
+            topSpacing = offset / 2;
+            bottomSpacing = offset / 2;
+        }
         
         if ([self.textLabel isDescendantOfView:self.contentView]) {
             // watwatwat abandon ship (it's sad but it actually works)
@@ -175,11 +198,10 @@
             self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin]];
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin + topSpacing]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
         }
-
         
         // auxiliary label
         self.leftAuxiliaryTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -193,22 +215,25 @@
         }
         
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
         
-        // Detail label
-        self.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
-        [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
-        
-        if ([self.detailTextLabel isDescendantOfView:self.contentView]) {
-            // watwatwat abandon ship (it's sad but it actually works)
-            // More thorough explanation: The text labels seem to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.class.labelSpacing]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+        if (self.twoLineMode) {
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.class.bottomMargin + bottomSpacing]];
+            
+        } else {
+            // Detail label
+            self.detailTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+            [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+            [self.detailTextLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+            
+            if ([self.detailTextLabel isDescendantOfView:self.contentView]) {
+                // watwatwat abandon ship (it's sad but it actually works)
+                // More thorough explanation: The text labels seem to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            }
         }
-        
-        //self.addedConstraints = YES;
     }
     
     [self.contentView setNeedsUpdateConstraints];
@@ -222,7 +247,7 @@
 
 + (CGFloat)widthMargin
 {
-    return 8;
+    return 16;
 }
 
 + (CGFloat)topMargin
@@ -242,12 +267,14 @@
 
 + (UIFont *)titleFont
 {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    //return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    return [UIFont systemFontOfSize:18];
 }
 
 + (UIFont *)detailFont
 {
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+    //return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    return [UIFont systemFontOfSize:12];
 }
 
 + (CGFloat)cellHeight
@@ -264,7 +291,7 @@
     height += titleSize.height;
     height += self.labelSpacing;
     height += detailSize.height;
-    height += self.labelSpacing;
+    height += 0;
     height += detailSize.height;
     height += self.bottomMargin;
     
