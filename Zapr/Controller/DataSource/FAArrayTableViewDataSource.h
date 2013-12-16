@@ -40,6 +40,8 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 // Defaults to UITableViewCell
 @property (assign) Class cellClass;
 
+@property BOOL reloadsDataOnDataChange;
+
 // Convenicence methods
 - (void)setSectionIndexTitle:(NSString *)title forSection:(NSUInteger)section;
 - (void)setHeaderTitle:(NSString *)title forSection:(NSUInteger)section;

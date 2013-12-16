@@ -13,18 +13,161 @@
 
 @property NSMutableDictionary *weightedSections;
 @property NSArray *weightedSectionData;
-@property NSMutableDictionary *sectionsToKeys;
+@property NSMutableDictionary *sectionsForIndexes;
 
+@property NSMutableArray *tableViewActions;
+
+@end
+
+@interface FAWeightedTableViewDataSourceSection : NSObject
+
+@property NSMutableDictionary *rowData;
+@property BOOL hidden;
+@property __weak id <NSCopying> key;
+@property NSInteger weight;
+@property NSString *headerTitle;
+@property (readonly) NSInteger lastSectionIndex;
+@property NSInteger currentSectionIndex;
+
+@property NSMutableDictionary *rowsForIndexes;
+
+- (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight;
++ (instancetype)sectionWithKey:(id <NSCopying>)key weight:(NSInteger)weight;
+
+@end
+
+@implementation FAWeightedTableViewDataSourceSection {
+    NSInteger _currentSectionIndex;
+    NSInteger _lastSectionIndex;
+}
+
+- (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight
+{
+    self = [super init];
+    
+    if (self) {
+        self.key = key;
+        self.weight = weight;
+        self.hidden = NO;
+        self.rowsForIndexes = [NSMutableDictionary dictionary];
+        self.currentSectionIndex = -1;
+    }
+    
+    return self;
+}
+
++ (instancetype)sectionWithKey:(id <NSCopying>)key weight:(NSInteger)weight
+{
+    FAWeightedTableViewDataSourceSection *instance = [[self alloc] initWithKey:key weight:weight];
+    return instance;
+}
+
+- (void)setCurrentSectionIndex:(NSInteger)currentSectionIndex
+{
+    _lastSectionIndex = _currentSectionIndex;
+    _currentSectionIndex = currentSectionIndex;
+}
+
+- (NSInteger)currentSectionIndex
+{
+    return _currentSectionIndex;
+}
+
+@end
+
+@interface FAWeightedTableViewDataSourceRow : NSObject
+
+@property __weak id key;
+@property NSInteger weight;
+@property BOOL hidden;
+@property (readonly) NSIndexPath *lastIndexPath;
+@property NSIndexPath *currentIndexPath;
+
+- (instancetype)initWithKey:(id)obj weight:(NSInteger)weight;
++ (instancetype)rowWithKey:(id <NSCopying>)obj weight:(NSInteger)weight;
+
+@end
+
+@implementation FAWeightedTableViewDataSourceRow {
+    NSIndexPath *_lastIndexPath;
+    NSIndexPath *_currentIndexPath;
+}
+
+- (instancetype)initWithKey:(id)obj weight:(NSInteger)weight
+{
+    self = [super init];
+    
+    if (self) {
+        self.weight = weight;
+        self.key = obj;
+        self.hidden = NO;
+    }
+    
+    return self;
+}
+
++ (instancetype)rowWithKey:(id <NSCopying>)obj weight:(NSInteger)weight
+{
+    FAWeightedTableViewDataSourceRow *instance = [[self.class alloc] initWithKey:obj weight:weight];
+    return instance;
+}
+
+- (void)setCurrentIndexPath:(NSIndexPath *)currentIndexPath
+{
+    _lastIndexPath = _currentIndexPath;
+    _currentIndexPath = currentIndexPath;
+}
+
+- (NSIndexPath *)currentIndexPath
+{
+    return _currentIndexPath;
+}
+
+@end
+
+@interface FAWeightedTableViewDataSourceAction : NSObject
+
+typedef enum {
+    FAWeightedTableViewDataSourceActionInsertRow,
+    FAWeightedTableViewDataSourceActionDeleteRow,
+    FAWeightedTableViewDataSourceActionMoveRow,
+    
+    FAWeightedTableViewDataSourceActionInsertSection,
+    FAWeightedTableViewDataSourceActionDeleteSection,
+    FAWeightedTableViewDataSourceActionMoveSection
+} FAWeightedTableViewDataSourceActionType;
+
+@property FAWeightedTableViewDataSourceActionType actionType;
+@property FAWeightedTableViewDataSourceSection *section;
+@property FAWeightedTableViewDataSourceRow *row;
+
+@end
+
+@implementation FAWeightedTableViewDataSourceAction
 @end
 
 @implementation FAWeightedTableViewDataSource
 
+- (instancetype)initWithTableView:(UITableView *)tableView
+{
+    self = [super initWithTableView:tableView];
+    
+    if (self) {
+        self.tableViewActions = [NSMutableArray array];
+        self.reloadsDataOnDataChange = NO;
+    }
+    
+    return self;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *section = self.tableViewData[indexPath.section];
+    NSArray *sectionArray = self.tableViewData[indexPath.section];
+    id rowKey = [sectionArray objectAtIndex:indexPath.row];
     
-    id object = [section objectAtIndex:indexPath.row];
-    id sectionKey = self.sectionsToKeys[[NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section]];
+    NSNumber *sectionNumber = [NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section];
+    FAWeightedTableViewDataSourceSection *section = self.sectionsForIndexes[sectionNumber];
+    id sectionKey = section.key;
     
     id cell = nil;
     
@@ -35,15 +178,15 @@
             cell = [[self.cellClass alloc] init];
         }
     } else if (self.weightedCellCreationBlock) {
-        cell = self.weightedCellCreationBlock(sectionKey, object);
+        cell = self.weightedCellCreationBlock(sectionKey, rowKey);
     } else if (self.cellCreationBlock) {
-        cell = self.cellCreationBlock(object);
+        cell = self.cellCreationBlock(rowKey);
     }
     
     if (self.weightedConfigurationBlock) {
-        self.weightedConfigurationBlock(cell, sectionKey, object);
+        self.weightedConfigurationBlock(cell, sectionKey, rowKey);
     } else if (self.configurationBlock) {
-        self.configurationBlock(cell, object);
+        self.configurationBlock(cell, rowKey);
     }
     
     return cell;
@@ -52,42 +195,45 @@
 - (void)recalculateWeight
 {
     NSComparisonResult (^weightComparator)(id obj1, id obj2) = ^NSComparisonResult(id obj1, id obj2) {
-        NSNumber *weight1 = obj1[@"weight"];
-        NSNumber *weight2 = obj2[@"weight"];
-        return [weight1 compare:weight2];
+        NSInteger weight1 = [obj1 weight];
+        NSInteger weight2 = [obj2 weight];
+        
+        if (weight1 < weight2) {
+            return NSOrderedAscending;
+        }
+        
+        if (weight1 == weight2) {
+            return NSOrderedSame;
+        }
+        
+        return NSOrderedDescending;
     };
     
     BOOL (^hiddenFilter)(id key, id obj, BOOL *stop) = ^BOOL(id key, id obj, BOOL *stop) {
-        if ([obj[@"hidden"] isEqual:[NSNumber numberWithBool:YES]]) {
-            return NO;
-        }
-        
-        return YES;
-        
+        return ![obj hidden];
     };
     
     NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
-    
     NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
     
-    NSMutableArray *headerTitles = [NSMutableArray array];
-    
-    self.sectionsToKeys = [NSMutableDictionary dictionary];
-    
+    self.sectionsForIndexes = [NSMutableDictionary dictionary];
     for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
-        NSDictionary *sectionDict = sortedWeightedSections[i];
+        FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
         
-        [self.sectionsToKeys setObject:sectionDict[@"key"] forKey:[NSNumber numberWithUnsignedInteger:i]];
+        self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
     }
-
-    self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger idx) {
-        NSMutableDictionary *sectionData = obj[@"sectionData"];
+    
+    NSMutableArray *headerTitles = [NSMutableArray array];
+    self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger sectionIdx) {
         
-        NSMutableDictionary *filteredRows = [sectionData filterUsingBlock:hiddenFilter];
+        FAWeightedTableViewDataSourceSection *section = obj;
         
+        NSMutableDictionary *filteredRows = [section.rowData filterUsingBlock:hiddenFilter];
         NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
         
-        id title = obj[@"headerTitle"];
+        section.currentSectionIndex = sectionIdx;
+        
+        id title = section.headerTitle;
         
         if (!title) {
             title = [NSNull null];
@@ -95,43 +241,99 @@
         
         [headerTitles addObject:title];
         
-        return [sortedWeightedRows mapUsingBlock:^id(id obj, NSUInteger idx) {
-            return obj[@"rowObject"];
+        return [sortedWeightedRows mapUsingBlock:^id(id obj, NSUInteger rowIdx) {
+            FAWeightedTableViewDataSourceRow *row = obj;
+            section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
+            
+            row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
+            
+            return row.key;
         }];
     }];
     
     self.headerTitles = headerTitles;
     
+    [self interpolateDataChange];
+}
+
+- (void)reloadData
+{
+    [self.tableViewActions removeAllObjects];
     [self.tableView reloadData];
+}
+
+- (void)interpolateDataChange
+{
+    [self.tableView beginUpdates];
+    UITableViewRowAnimation animation = UITableViewRowAnimationAutomatic;
+    
+    for (FAWeightedTableViewDataSourceAction *action in self.tableViewActions) {
+        
+        FAWeightedTableViewDataSourceActionType actionType = action.actionType;
+        FAWeightedTableViewDataSourceSection *section = action.section;
+        
+        // This is nil for section actions
+        FAWeightedTableViewDataSourceRow *row = action.row;
+        
+        
+        if (actionType == FAWeightedTableViewDataSourceActionInsertRow) {
+            [self.tableView insertRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
+            
+        } else if (actionType == FAWeightedTableViewDataSourceActionDeleteRow) {
+            [self.tableView deleteRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
+            
+        } else if (actionType == FAWeightedTableViewDataSourceActionMoveRow) {
+            [self.tableView moveRowAtIndexPath:row.lastIndexPath toIndexPath:row.currentIndexPath];
+            
+        } else if (actionType == FAWeightedTableViewDataSourceActionInsertSection) {
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
+            
+        } else if (actionType == FAWeightedTableViewDataSourceActionDeleteSection) {
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
+            
+        } else if (actionType == FAWeightedTableViewDataSourceActionMoveSection) {
+            [self.tableView moveSection:section.lastSectionIndex toSection:section.currentSectionIndex];
+            
+        }
+    }
+    
+    [self.tableViewActions removeAllObjects];
+    
+    [self.tableView endUpdates];
+}
+
+- (void)clearFiltersForSection:(id <NSCopying>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    
+    for (id rowKey in section.rowData) {
+        FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+        
+        if (row.hidden) {
+            [self showRow:rowKey inSection:section.rowData];
+        }
+    }
 }
 
 - (void)clearFilters
 {
     for (id sectionKey in self.weightedSections) {
-        NSMutableDictionary *section = self.weightedSections[sectionKey];
-        
-        for (id rowKey in section[@"sectionData"]) {
-            NSMutableDictionary *row = section[@"sectionData"][rowKey];
-            
-            [row removeObjectForKey:@"hidden"];
-        }
+        [self clearFiltersForSection:sectionKey];
     }
 }
 
-- (void)filterRowsUsingBlock:(BOOL (^)(id key, id obj, BOOL *stop))filterBlock
+- (void)filterRowsUsingBlock:(BOOL (^)(id key, BOOL *stop))filterBlock
 {
     BOOL stop = NO;
     
     for (id sectionKey in self.weightedSections) {
-        NSMutableDictionary *section = self.weightedSections[sectionKey];
+        FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
         
-        for (id rowKey in section[@"sectionData"]) {
-            NSMutableDictionary *row = section[@"sectionData"][rowKey];
-            
-            if (filterBlock(rowKey, row[@"rowObject"], &stop)) {
-                row[@"hidden"] = [NSNumber numberWithBool:NO];
+        for (id rowKey in section.rowData) {            
+            if (filterBlock(rowKey, &stop)) {
+                [self showRow:rowKey inSection:sectionKey];
             } else {
-                row[@"hidden"] = [NSNumber numberWithBool:YES];
+                [self hideRow:rowKey inSection:sectionKey];
             }
             
             if (stop) {
@@ -145,44 +347,117 @@
     }
 }
 
+- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+    
+    if (row.hidden) {
+        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+        action.actionType = FAWeightedTableViewDataSourceActionInsertRow;
+        action.section = section;
+        action.row = row;
+        [self.tableViewActions addObject:action];
+    }
+    
+    row.hidden = NO;
+}
+
+- (void)hideRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+    
+    if (!row.hidden) {
+        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+        action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
+        action.section = section;
+        action.row = row;
+        [self.tableViewActions addObject:action];
+    }
+    
+    row.hidden = YES;
+}
+
 - (void)hideSection:(id <NSCopying>)sectionKey
 {
-    self.weightedSections[sectionKey][@"hidden"] = [NSNumber numberWithBool:YES];
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    section.hidden = YES;
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.section = section;
+    action.actionType = FAWeightedTableViewDataSourceActionDeleteSection;
+    
+    [self.tableViewActions addObject:action];
 }
 
 - (void)showSection:(id <NSCopying>)sectionKey
 {
-    self.weightedSections[sectionKey][@"hidden"] = [NSNumber numberWithBool:NO];
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    section.hidden = NO;
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.section = section;
+    action.actionType = FAWeightedTableViewDataSourceActionInsertSection;
+    
+    [self.tableViewActions addObject:action];
 }
 
 - (void)clearSection:(id <NSCopying>)sectionKey
 {
-    [self.weightedSections[sectionKey] removeObjectForKey:@"sectionData"];
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    
+    for (id rowKey in section.rowData) {
+        FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+        
+        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+        action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
+        action.section = section;
+        action.row = row;
+        [self.tableViewActions addObject:action];
+    }
+    
+    [section.rowData removeAllObjects];
 }
 
-- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowObject
+- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey
 {
-    NSMutableDictionary *section = self.weightedSections[sectionKey];
-    [section removeObjectForKey:rowObject];
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+    
+    [section.rowData removeObjectForKey:rowKey];
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
+    action.section = section;
+    action.row = row;
+    [self.tableViewActions addObject:action];
 }
 
-- (void)insertRow:(id)rowObject inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight
+- (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight
 {
-    NSMutableDictionary *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
     if (!section) {
         [NSException raise:NSInternalInconsistencyException format:@"FAWeightedTableViewDataSource: Tried to insert a row into a section that doesn't exist. Failing!"];
         return;
     }
     
-    NSMutableDictionary *sectionData = section[@"sectionData"];
+    NSMutableDictionary *rowData = section.rowData;
     
-    if (!sectionData) {
-        sectionData = [NSMutableDictionary dictionary];
-        section[@"sectionData"] = sectionData;
+    if (!rowData) {
+        rowData = [NSMutableDictionary dictionary];
+        section.rowData = rowData;
     }
     
-    sectionData[rowObject] = [@{@"rowObject": rowObject, @"weight": [NSNumber numberWithInteger:weight]} mutableCopy];
+    FAWeightedTableViewDataSourceRow *row = [FAWeightedTableViewDataSourceRow rowWithKey:rowKey weight:weight];
+    rowData[rowKey] = row;
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.actionType = FAWeightedTableViewDataSourceActionInsertRow;
+    action.section = section;
+    action.row = row;
+    [self.tableViewActions addObject:action];
 }
 
 
@@ -197,15 +472,31 @@
         self.weightedSections = [NSMutableDictionary dictionary];
     }
     
-    [self.weightedSections setObject:[@{@"weight": [NSNumber numberWithInteger:weight], @"key": key} mutableCopy] forKey:key];
+    FAWeightedTableViewDataSourceSection *section = [FAWeightedTableViewDataSourceSection sectionWithKey:key weight:weight];
+    
+    self.weightedSections[key] = section;
     
     if (title) {
-        self.weightedSections[key][@"headerTitle"] = title;
+        section.headerTitle = title;
     }
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.section = section;
+    action.actionType = FAWeightedTableViewDataSourceActionInsertSection;
+    
+    [self.tableViewActions addObject:action];
 }
 
 - (void)removeSectionForKey:(id<NSCopying>)key
 {
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[key];
+    
+    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
+    action.section = section;
+    action.actionType = FAWeightedTableViewDataSourceActionDeleteSection;
+    
+    [self.tableViewActions addObject:action];
+    
     [self.weightedSections removeObjectForKey:key];
 }
 

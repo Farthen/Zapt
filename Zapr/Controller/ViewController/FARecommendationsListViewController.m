@@ -85,8 +85,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    [self.weightedDataSource filterRowsUsingBlock:^BOOL(id key, id obj, BOOL *stop) {
-        FATraktContent *content = obj;
+    [self.weightedDataSource filterRowsUsingBlock:^BOOL(id key, BOOL *stop) {
+        FATraktContent *content = key;
         
         if ([content.title rangeOfString:searchText options:NSCaseInsensitiveSearch].location != NSNotFound) {
             return YES;

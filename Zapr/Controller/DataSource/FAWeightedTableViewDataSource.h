@@ -10,11 +10,17 @@
 
 @interface FAWeightedTableViewDataSource : FAArrayTableViewDataSource
 
-- (void)insertRow:(id)rowObject inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
-- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowObject;
+- (void)recalculateWeight;
 
-- (void)filterRowsUsingBlock:(BOOL (^)(id key, id obj, BOOL *stop))filterBlock;
+- (void)clearFiltersForSection:(id <NSCopying>)sectionKey;
 - (void)clearFilters;
+- (void)filterRowsUsingBlock:(BOOL (^)(id key, BOOL *stop))filterBlock;
+
+- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey;
+- (void)hideRow:(id)rowKey inSection:(id <NSCopying>)sectionKey;
+
+- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey;
+- (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
 
 - (void)hideSection:(id <NSCopying>)sectionKey;
 - (void)showSection:(id <NSCopying>)sectionKey;
@@ -22,14 +28,15 @@
 - (void)clearSection:(id <NSCopying>)sectionKey;
 - (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight;
 - (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
-- (void)removeSectionForKey:(id <NSCopying>)key;
+- (void)removeSectionForKey:(id<NSCopying>)key;
 
-- (void)recalculateWeight;
+- (void)reloadData;
+- (void)interpolateDataChange;
 
-typedef id (^FAWeightedTableViewCellCreationBlock)(id sectionKey, id object);
+typedef id (^FAWeightedTableViewCellCreationBlock)(id sectionKey, id rowKey);
 @property (nonatomic, copy) FAWeightedTableViewCellCreationBlock weightedCellCreationBlock;
 
-typedef void (^FAWeightedTableViewCellConfigurationBlock)(id cell, id sectionKey, id object);
+typedef void (^FAWeightedTableViewCellConfigurationBlock)(id cell, id sectionKey, id rowKey);
 @property (nonatomic, copy) FAWeightedTableViewCellConfigurationBlock weightedConfigurationBlock;
 
 @end

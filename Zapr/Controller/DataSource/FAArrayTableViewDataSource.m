@@ -31,6 +31,7 @@
     if (self) {
         self.cellIdentifier = [NSString uuidString];
         self.cellClass = [UITableViewCell class];
+        self.reloadsDataOnDataChange = YES;
     }
     
     return self;
@@ -85,7 +86,9 @@
     _tableViewData = mutableTableViewData;
     self.objects = objects;
     
-    [self.tableView reloadData];
+    if (self.reloadsDataOnDataChange) {
+        [self.tableView reloadData];
+    }
 }
 
 - (NSArray *)tableViewData

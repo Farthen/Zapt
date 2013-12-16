@@ -45,7 +45,7 @@
 
 - (void)viewDidLoad
 {
-    self.needsLoginContentName = NSLocalizedString(@"your home view", nil);
+    self.needsLoginContentName = NSLocalizedString(@"the home view", nil);
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
