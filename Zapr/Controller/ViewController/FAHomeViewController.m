@@ -141,6 +141,7 @@
             FATraktContent *content = object;
             
             FAContentTableViewCell *contentCell = cell;
+            contentCell.twoLineMode = YES;
             [contentCell displayContent:content];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
