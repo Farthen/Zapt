@@ -41,6 +41,11 @@
     NSInteger _lastSectionIndex;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceSection key:%@ weight:%i rowCount:%i hidden:%@ lastIndex:%i currentIndex:%i headerTitle:%@>", self.key, self.weight, self.rowData.count, self.hidden ? @"YES" : @"NO", self.lastSectionIndex, self.currentSectionIndex, self.headerTitle];
+}
+
 - (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight
 {
     self = [super init];
@@ -93,6 +98,11 @@
     NSIndexPath *_currentIndexPath;
 }
 
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceRow key:%@ weight:%i hidden:%@ lastIndexPath:%@ currentIndexPath:%@>", self.key, self.weight, self.hidden ? @"YES" : @"NO", self.lastIndexPath, self.currentIndexPath];
+}
+
 - (instancetype)initWithKey:(id)obj weight:(NSInteger)weight
 {
     self = [super init];
@@ -134,7 +144,10 @@ typedef enum {
     
     FAWeightedTableViewDataSourceActionInsertSection,
     FAWeightedTableViewDataSourceActionDeleteSection,
-    FAWeightedTableViewDataSourceActionMoveSection
+    FAWeightedTableViewDataSourceActionMoveSection,
+    
+    FAWeightedTableViewDataSourceActionReloadRow,
+    FAWeightedTableViewDataSourceActionReloadSection
 } FAWeightedTableViewDataSourceActionType;
 
 @property FAWeightedTableViewDataSourceActionType actionType;
@@ -153,9 +166,42 @@ typedef enum {
 
 @implementation FAWeightedTableViewDataSourceAction
 
+- (NSString *)description
+{
+    if (self.row) {
+        return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceAction actionType:%@ section:%@ row:%@>", [self stringForActionType], self.section, self.row];
+    }
+    
+    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceAction actionType:%@ section:%@>", [self stringForActionType], self.section];
+}
+
+- (NSString *)stringForActionType
+{
+    switch (self.actionType) {
+        case FAWeightedTableViewDataSourceActionInsertRow:
+            return @"Insert Row";
+        case FAWeightedTableViewDataSourceActionDeleteRow:
+            return @"Delete Row";
+        case FAWeightedTableViewDataSourceActionMoveRow:
+            return @"Move Row";
+        case FAWeightedTableViewDataSourceActionInsertSection:
+            return @"Insert Section";
+        case FAWeightedTableViewDataSourceActionDeleteSection:
+            return @"Delete Section";
+        case FAWeightedTableViewDataSourceActionMoveSection:
+            return @"Move Section";
+        case FAWeightedTableViewDataSourceActionReloadRow:
+            return @"Reload Row";
+        case FAWeightedTableViewDataSourceActionReloadSection:
+            return @"Reload Section";
+        default:
+            return @"<unknown>";
+    }
+}
+
 + (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType
 {
-    return [[self alloc] initWithSection:section row:nil actionType:actionType animation:UITableViewRowAnimationAutomatic];
+    return [[self alloc] initWithSection:section row:nil actionType:actionType animation:UITableViewRowAnimationFade];
 }
 
 + (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation
@@ -165,7 +211,7 @@ typedef enum {
 
 + (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType
 {
-    return [[self alloc] initWithSection:section row:row actionType:actionType animation:UITableViewRowAnimationAutomatic];
+    return [[self alloc] initWithSection:section row:row actionType:actionType animation:UITableViewRowAnimationFade];
 }
 
 + (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation
@@ -329,6 +375,9 @@ typedef enum {
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveRow) {
             [self.tableView moveRowAtIndexPath:row.lastIndexPath toIndexPath:row.currentIndexPath];
             
+        } else if (actionType == FAWeightedTableViewDataSourceActionReloadRow) {
+            [self.tableView reloadRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
+            
         } else if (actionType == FAWeightedTableViewDataSourceActionInsertSection) {
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
             
@@ -338,12 +387,14 @@ typedef enum {
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveSection) {
             [self.tableView moveSection:section.lastSectionIndex toSection:section.currentSectionIndex];
             
+        } else if (actionType == FAWeightedTableViewDataSourceActionReloadSection) {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
+            
         }
     }
     
-    [self.tableViewActions removeAllObjects];
-    
     [self.tableView endUpdates];
+    [self.tableViewActions removeAllObjects];
 }
 
 - (void)clearFiltersForSection:(id <NSCopying>)sectionKey
@@ -400,8 +451,7 @@ typedef enum {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
                                                               row:row
-                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow
-                                                        animation:UITableViewRowAnimationFade];
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow];
         [self.tableViewActions addObject:action];
         
         row.hidden = YES;
@@ -417,8 +467,7 @@ typedef enum {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
                                                               row:row
-                                                       actionType:FAWeightedTableViewDataSourceActionInsertRow
-                                                        animation:UITableViewRowAnimationFade];
+                                                       actionType:FAWeightedTableViewDataSourceActionInsertRow];
         [self.tableViewActions addObject:action];
         
         section.hidden = YES;
@@ -477,8 +526,7 @@ typedef enum {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
                                                               row:row
-                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow
-                                                        animation:UITableViewRowAnimationFade];
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow];
         [self.tableViewActions addObject:action];
     }
     
@@ -518,14 +566,25 @@ typedef enum {
         section.rowData = rowData;
     }
     
+    FAWeightedTableViewDataSourceAction *action;
+    FAWeightedTableViewDataSourceRow *oldRow = rowData[rowKey];
     FAWeightedTableViewDataSourceRow *row = [FAWeightedTableViewDataSourceRow rowWithKey:rowKey weight:weight];
+    
+    if (oldRow && oldRow.currentIndexPath) {
+        // Only replace the data, don't add a row
+        action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                                   row:oldRow
+                                                            actionType:FAWeightedTableViewDataSourceActionReloadRow
+                                                             animation:UITableViewRowAnimationNone];
+    
+    } else {
+        action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                                   row:row
+                                                            actionType:FAWeightedTableViewDataSourceActionInsertRow];
+    }
+    
     rowData[rowKey] = row;
     
-    FAWeightedTableViewDataSourceAction *action =
-        [FAWeightedTableViewDataSourceAction actionForSection:section
-                                                          row:row
-                                                   actionType:FAWeightedTableViewDataSourceActionInsertRow
-                                                    animation:UITableViewRowAnimationFade];
     [self.tableViewActions addObject:action];
 }
 
@@ -540,6 +599,8 @@ typedef enum {
         self.weightedSections = [NSMutableDictionary dictionary];
     }
     
+    FAWeightedTableViewDataSourceAction *action;
+    FAWeightedTableViewDataSourceSection *oldSection = self.weightedSections[key];
     FAWeightedTableViewDataSourceSection *section = [FAWeightedTableViewDataSourceSection sectionWithKey:key weight:weight];
     
     self.weightedSections[key] = section;
@@ -548,9 +609,14 @@ typedef enum {
         section.headerTitle = title;
     }
     
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.section = section;
-    action.actionType = FAWeightedTableViewDataSourceActionInsertSection;
+    // If there is an old section with this name, update the section data
+    if (oldSection && oldSection.currentSectionIndex) {
+        action = [FAWeightedTableViewDataSourceAction actionForSection:oldSection
+                                                            actionType:FAWeightedTableViewDataSourceActionReloadSection];
+    } else {
+        action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                            actionType:FAWeightedTableViewDataSourceActionInsertSection];
+    }
     
     [self.tableViewActions addObject:action];
 }
@@ -562,8 +628,7 @@ typedef enum {
     if (section && !section.hidden) {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
-                                                       actionType:FAWeightedTableViewDataSourceActionDeleteSection
-                                                        animation:UITableViewRowAnimationFade];
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteSection];
         [self.tableViewActions addObject:action];
     }
     
