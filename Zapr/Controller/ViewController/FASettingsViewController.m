@@ -315,8 +315,7 @@
         } else {
             // Rate on App Store
             
-            // FIXME: App Store URL
-            NSString *appStoreURL = [NSString stringWithFormat:@"http://"];
+            NSString *appStoreURL = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/id783342439?mt=8"];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreURL]];
         }
         
