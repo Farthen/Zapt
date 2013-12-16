@@ -1075,6 +1075,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:responseDict[@"movie"]];
             movie.detailLevel = FATraktDetailLevelMinimal;
             movie = [movie cachedVersion];
+            [movie commitToCache];
+            
             movie.watchingType = watchingType;
             
             callback(movie);
@@ -1082,11 +1084,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:responseDict[@"show"]];
             show.detailLevel = FATraktDetailLevelMinimal;
             show = [show cachedVersion];
+            [show commitToCache];
             
             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:responseDict[@"episode"] andShow:show];
             episode.detailLevel = FATraktDetailLevelMinimal;
             episode = [episode cachedVersion];
             episode.watchingType = watchingType;
+            [episode commitToCache];
             
             callback(episode);
         } else {
