@@ -62,15 +62,15 @@
 
 - (void)displayShows
 {
-    [self.weightedDataSource hideSection:@"movie-recommendations"];
-    [self.weightedDataSource showSection:@"show-recommendations"];
+    [self.weightedDataSource hideSection:@"movie-recommendations" animation:UITableViewRowAnimationRight];
+    [self.weightedDataSource showSection:@"show-recommendations" animation:UITableViewRowAnimationLeft];
     [self.weightedDataSource recalculateWeight];
 }
 
 - (void)displayMovies
 {
-    [self.weightedDataSource hideSection:@"show-recommendations"];
-    [self.weightedDataSource showSection:@"movie-recommendations"];
+    [self.weightedDataSource hideSection:@"show-recommendations" animation:UITableViewRowAnimationLeft];
+    [self.weightedDataSource showSection:@"movie-recommendations" animation:UITableViewRowAnimationRight];
     [self.weightedDataSource recalculateWeight];
 }
 

@@ -140,10 +140,53 @@ typedef enum {
 @property FAWeightedTableViewDataSourceActionType actionType;
 @property FAWeightedTableViewDataSourceSection *section;
 @property FAWeightedTableViewDataSourceRow *row;
+@property UITableViewRowAnimation animation;
+
+- (instancetype)initWithSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation;
+
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType;
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation;
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType;
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation;
 
 @end
 
 @implementation FAWeightedTableViewDataSourceAction
+
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType
+{
+    return [[self alloc] initWithSection:section row:nil actionType:actionType animation:UITableViewRowAnimationAutomatic];
+}
+
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation
+{
+    return [[self alloc] initWithSection:section row:nil actionType:actionType animation:animation];
+}
+
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType
+{
+    return [[self alloc] initWithSection:section row:row actionType:actionType animation:UITableViewRowAnimationAutomatic];
+}
+
++ (instancetype)actionForSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation
+{
+    return [[self alloc] initWithSection:section row:row actionType:actionType animation:animation];
+}
+
+- (instancetype)initWithSection:(FAWeightedTableViewDataSourceSection *)section row:(FAWeightedTableViewDataSourceRow *)row actionType:(FAWeightedTableViewDataSourceActionType)actionType animation:(UITableViewRowAnimation)animation
+{
+    self = [super init];
+    
+    if (self) {
+        self.section = section;
+        self.row = row;
+        self.actionType = actionType;
+        self.animation = animation;
+    }
+    
+    return self;
+}
+
 @end
 
 @implementation FAWeightedTableViewDataSource
@@ -265,9 +308,10 @@ typedef enum {
 - (void)interpolateDataChange
 {
     [self.tableView beginUpdates];
-    UITableViewRowAnimation animation = UITableViewRowAnimationAutomatic;
     
     for (FAWeightedTableViewDataSourceAction *action in self.tableViewActions) {
+        
+        UITableViewRowAnimation animation = action.animation;
         
         FAWeightedTableViewDataSourceActionType actionType = action.actionType;
         FAWeightedTableViewDataSourceSection *section = action.section;
@@ -347,60 +391,80 @@ typedef enum {
     }
 }
 
-- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
-{
-    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
-    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
-    
-    if (row.hidden) {
-        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-        action.actionType = FAWeightedTableViewDataSourceActionInsertRow;
-        action.section = section;
-        action.row = row;
-        [self.tableViewActions addObject:action];
-    }
-    
-    row.hidden = NO;
-}
-
 - (void)hideRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
     
-    if (!row.hidden) {
-        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-        action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
-        action.section = section;
-        action.row = row;
+    if (row && !row.hidden) {
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                              row:row
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow
+                                                        animation:UITableViewRowAnimationFade];
         [self.tableViewActions addObject:action];
+        
+        row.hidden = YES;
+    }
+}
+
+- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+    
+    if (row && row.hidden) {
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                              row:row
+                                                       actionType:FAWeightedTableViewDataSourceActionInsertRow
+                                                        animation:UITableViewRowAnimationFade];
+        [self.tableViewActions addObject:action];
+        
+        section.hidden = YES;
     }
     
-    row.hidden = YES;
+    row.hidden = NO;
+}
+
+- (void)hideSection:(id<NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    
+    if (section && !section.hidden) {
+        FAWeightedTableViewDataSourceAction *action =
+        [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                   actionType:FAWeightedTableViewDataSourceActionDeleteSection
+                                                    animation:animation];
+        [self.tableViewActions addObject:action];
+        
+        section.hidden = YES;
+    }
 }
 
 - (void)hideSection:(id <NSCopying>)sectionKey
 {
-    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
-    section.hidden = YES;
-    
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.section = section;
-    action.actionType = FAWeightedTableViewDataSourceActionDeleteSection;
-    
-    [self.tableViewActions addObject:action];
+    [self hideSection:sectionKey animation:UITableViewRowAnimationFade];
 }
 
-- (void)showSection:(id <NSCopying>)sectionKey
+- (void)showSection:(id <NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
-    section.hidden = NO;
     
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.section = section;
-    action.actionType = FAWeightedTableViewDataSourceActionInsertSection;
-    
-    [self.tableViewActions addObject:action];
+    if (section && section.hidden) {
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                       actionType:FAWeightedTableViewDataSourceActionInsertSection
+                                                        animation:animation];
+        [self.tableViewActions addObject:action];
+        
+        section.hidden = NO;
+    }
+}
+
+- (void)showSection:(id<NSCopying>)sectionKey
+{
+    [self showSection:sectionKey animation:UITableViewRowAnimationFade];
 }
 
 - (void)clearSection:(id <NSCopying>)sectionKey
@@ -410,10 +474,11 @@ typedef enum {
     for (id rowKey in section.rowData) {
         FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
         
-        FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-        action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
-        action.section = section;
-        action.row = row;
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                              row:row
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow
+                                                        animation:UITableViewRowAnimationFade];
         [self.tableViewActions addObject:action];
     }
     
@@ -427,11 +492,14 @@ typedef enum {
     
     [section.rowData removeObjectForKey:rowKey];
     
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.actionType = FAWeightedTableViewDataSourceActionDeleteRow;
-    action.section = section;
-    action.row = row;
-    [self.tableViewActions addObject:action];
+    if (row) {
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                              row:row
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteRow
+                                                        animation:UITableViewRowAnimationFade];
+        [self.tableViewActions addObject:action];
+    }
 }
 
 - (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight
@@ -453,13 +521,13 @@ typedef enum {
     FAWeightedTableViewDataSourceRow *row = [FAWeightedTableViewDataSourceRow rowWithKey:rowKey weight:weight];
     rowData[rowKey] = row;
     
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.actionType = FAWeightedTableViewDataSourceActionInsertRow;
-    action.section = section;
-    action.row = row;
+    FAWeightedTableViewDataSourceAction *action =
+        [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                          row:row
+                                                   actionType:FAWeightedTableViewDataSourceActionInsertRow
+                                                    animation:UITableViewRowAnimationFade];
     [self.tableViewActions addObject:action];
 }
-
 
 - (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight
 {
@@ -491,11 +559,14 @@ typedef enum {
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[key];
     
-    FAWeightedTableViewDataSourceAction *action = [[FAWeightedTableViewDataSourceAction alloc] init];
-    action.section = section;
-    action.actionType = FAWeightedTableViewDataSourceActionDeleteSection;
+    if (section && !section.hidden) {
+        FAWeightedTableViewDataSourceAction *action =
+            [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                       actionType:FAWeightedTableViewDataSourceActionDeleteSection
+                                                        animation:UITableViewRowAnimationFade];
+        [self.tableViewActions addObject:action];
+    }
     
-    [self.tableViewActions addObject:action];
     
     [self.weightedSections removeObjectForKey:key];
 }
