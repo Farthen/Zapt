@@ -353,6 +353,8 @@ typedef enum {
 
 - (void)interpolateDataChange
 {
+    CGPoint scrollPosition = self.tableView.contentOffset;
+    
     [self.tableView beginUpdates];
     
     for (FAWeightedTableViewDataSourceAction *action in self.tableViewActions) {
@@ -395,6 +397,16 @@ typedef enum {
     
     [self.tableView endUpdates];
     [self.tableViewActions removeAllObjects];
+    
+    // Fix the scroll position after reloading
+    CGSize contentSize = self.tableView.contentSize;
+    
+    // Calculate the biggest possible point for the contentoffset
+    CGPoint biggestPoint = CGPointMake(contentSize.width, contentSize.height);
+    scrollPosition.x = MIN(biggestPoint.x, scrollPosition.x);
+    scrollPosition.y = MIN(biggestPoint.y, scrollPosition.y);
+    
+    self.tableView.contentOffset = scrollPosition;
 }
 
 - (void)clearFiltersForSection:(id <NSCopying>)sectionKey
