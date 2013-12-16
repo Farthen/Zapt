@@ -11,6 +11,7 @@
 #import "FASettingsViewController.h"
 #import "FATrakt.h"
 #import "FAGlobalEventHandler.h"
+#import "FATextViewController.h"
 
 #import "FATraktCache.h"
 
@@ -308,6 +309,12 @@
     } else if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             // Legal
+            
+            FATextViewController *textViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"text"];
+            [textViewController displayBundledFileWithName:@"license"];
+            textViewController.navigationItem.title = @"Legal";
+            [self.navigationController pushViewController:textViewController animated:YES];
+            
         } else if (indexPath.row == 1 && [MFMailComposeViewController canSendMail]) {
             // Feedback
             

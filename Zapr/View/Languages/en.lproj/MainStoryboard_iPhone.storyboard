@@ -790,6 +790,44 @@
             </objects>
             <point key="canvasLocation" x="2031" y="277"/>
         </scene>
+        <!--Text View Controller-->
+        <scene sceneID="r4F-iT-xKl">
+            <objects>
+                <viewController storyboardIdentifier="text" id="Gno-OX-PX5" customClass="FATextViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Hih-Ze-imk"/>
+                        <viewControllerLayoutGuide type="bottom" id="x7g-3d-9Mx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FXD-9h-pwI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tmF-uo-vgK">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="x7g-3d-9Mx" firstAttribute="top" secondItem="tmF-uo-vgK" secondAttribute="bottom" id="5hs-fK-0D3"/>
+                            <constraint firstItem="tmF-uo-vgK" firstAttribute="top" secondItem="Hih-Ze-imk" secondAttribute="bottom" id="7bX-xt-SLO"/>
+                            <constraint firstAttribute="trailing" secondItem="tmF-uo-vgK" secondAttribute="trailing" id="XGt-eW-Ys0"/>
+                            <constraint firstItem="tmF-uo-vgK" firstAttribute="leading" secondItem="FXD-9h-pwI" secondAttribute="leading" id="cnr-lE-Kgw"/>
+                        </constraints>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <connections>
+                        <outlet property="textView" destination="tmF-uo-vgK" id="x2N-CA-1Df"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6R8-HR-GvZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="164" y="-1085"/>
+        </scene>
         <!--Recommendations List View Controller-->
         <scene sceneID="R1Y-lQ-ZrS">
             <objects>
@@ -831,7 +869,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UL9-cC-cKq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="439" y="-1085"/>
+            <point key="canvasLocation" x="550" y="-1085"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RUj-cj-D6V">

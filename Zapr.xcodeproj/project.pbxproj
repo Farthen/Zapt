@@ -165,6 +165,7 @@
 		F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */; };
 		F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DEDC17185D7874006F5833 /* MessageUI.framework */; };
 		F3DEDC1B185D8811006F5833 /* FARecommendationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */; };
+		F3DEDC1E185EE6FC006F5833 /* FATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E2208A16EA799F008C3AFA /* badge-love@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208616EA799F008C3AFA /* badge-love@2x.png */; };
 		F3E2208C16EA799F008C3AFA /* profile-lists-dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E2208816EA799F008C3AFA /* profile-lists-dark@2x.png */; };
@@ -490,6 +491,8 @@
 		F3DEDC17185D7874006F5833 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F3DEDC19185D8811006F5833 /* FARecommendationsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARecommendationsListViewController.h; sourceTree = "<group>"; };
 		F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARecommendationsListViewController.m; sourceTree = "<group>"; };
+		F3DEDC1C185EE6FC006F5833 /* FATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATextViewController.h; sourceTree = "<group>"; };
+		F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATextViewController.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E2208616EA799F008C3AFA /* badge-love@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "badge-love@2x.png"; sourceTree = "<group>"; };
@@ -811,6 +814,8 @@
 			children = (
 				F357FA6616A8842600420EC4 /* FASettingsViewController.h */,
 				F357FA6716A8842600420EC4 /* FASettingsViewController.m */,
+				F3DEDC1C185EE6FC006F5833 /* FATextViewController.h */,
+				F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */,
 			);
 			name = "Settings Tab";
 			sourceTree = "<group>";
@@ -1597,6 +1602,7 @@
 				F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
 				F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */,
+				F3DEDC1E185EE6FC006F5833 /* FATextViewController.m in Sources */,
 				F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */,
 				F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */,
 				F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */,
