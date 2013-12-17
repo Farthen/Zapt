@@ -372,7 +372,7 @@
 - (void)displayRatingForContent:(FATraktContent *)content ratingsMode:(FATraktRatingsMode)ratingMode
 {
     if (content && [FATraktConnection sharedInstance].usernameAndPasswordValid) {
-        if (content.rating != FATraktRatingUndefined) {
+        if (content.rating != FATraktRatingUndefined && content.rating_advanced != FATraktRatingUndefined) {
             self.ratingsButton.enabled = YES;
             
             NSString *ratingString;
