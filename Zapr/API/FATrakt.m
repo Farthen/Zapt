@@ -241,7 +241,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             dict = postDictInfo;
         } else {
             if (multiple) {
-                [showPostDictInfo addEntriesFromDictionary:@{ @"episodes": postDictInfo }];
+                [showPostDictInfo addEntriesFromDictionary:@{ @"episodes": @[postDictInfo] }];
                 dict = showPostDictInfo;
             } else {
                 [showPostDictInfo addEntriesFromDictionary:postDictInfo];
