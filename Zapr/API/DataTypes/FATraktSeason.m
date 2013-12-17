@@ -99,7 +99,7 @@
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
     if ([key isEqualToString:@"season"]) {
-        [self mapObject:object toPropertyWithKey:@"seasonNumber"];
+        self.seasonNumber = object;
     } else {
         [super mapObject:object toPropertyWithKey:key];
     }

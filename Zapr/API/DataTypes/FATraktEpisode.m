@@ -35,34 +35,34 @@
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict
 {
-    self = [super initWithJSONDict:dict];
-    
-    if (self) {
-        self.detailLevel = FATraktDetailLevelDefault;
-    }
-    
-    return self;
+    return [self initWithJSONDict:dict andShow:nil];
 }
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {
-    self = [self initWithJSONDict:dict];
+    self = [super initWithJSONDict:dict];
     
     if (self) {
-        self.show = show;
+        self.detailLevel = FATraktDetailLevelDefault;
+        
+        if (show) {
+            self.show = show;
+        }
         
         FATraktEpisode *cachedEpisode = [self.class.backingCache objectForKey:self.cacheKey];
         
         if (cachedEpisode) {
             // cache hit!
             // update the cached episode with new values
-            [cachedEpisode mapObjectsInDict:dict];
+            [cachedEpisode mergeWithObject:self];
+            
             // return the cached episode
             self = cachedEpisode;
         }
         
         [self commitToCache];
         [self.show commitToCache];
+        [self.season commitToCache];
     }
     
     return self;
