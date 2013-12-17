@@ -29,6 +29,7 @@ typedef enum {
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key;
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key;
 
+- (void)copyVitalDataToNewObject:(id)newDatatype;
 
 - (NSSet *)notEncodableKeys;
 

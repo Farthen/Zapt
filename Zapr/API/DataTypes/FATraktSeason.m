@@ -110,6 +110,13 @@
     return [NSSet setWithObjects:@"show", @"episodes", nil];
 }
 
+- (void)copyVitalDataToNewObject:(id)newDatatype
+{
+    FATraktSeason *season = newDatatype;
+    season.seasonNumber = self.seasonNumber;
+    season.show = self.show;
+}
+
 - (FATraktEpisode *)episodeWithID:(NSUInteger)episodeID
 {
     if (self.episodes) {
@@ -252,6 +259,12 @@
     }
     
     if (episode.episodeNumber) {
+        FATraktEpisode *oldEpisode = self.episodesDict[episode.episodeNumber];
+        
+        if (oldEpisode) {
+            [self mergeWithObject:oldEpisode];
+        }
+        
         self.episodesDict[episode.episodeNumber] = episode;
     }
 }

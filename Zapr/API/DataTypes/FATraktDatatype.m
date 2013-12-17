@@ -118,10 +118,17 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     }
 }
 
+- (void)copyVitalDataToNewObject:(id)newDatatype
+{
+    return;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     id newObject = [[self.class allocWithZone:zone] init];
     NSDictionary *propertyInfos = [self.class propertyInfo];
+    
+    [self copyVitalDataToNewObject:newObject];
     
     for (id key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];

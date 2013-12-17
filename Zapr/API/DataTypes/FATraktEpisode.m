@@ -79,6 +79,15 @@
     return self;
 }
 
+- (void)copyVitalDataToNewObject:(id)newDatatype
+{
+    FATraktEpisode *episode = newDatatype;
+    episode.seasonNumber = self.seasonNumber;
+    episode.episodeNumber = self.episodeNumber;
+    episode.season = self.season;
+    episode.show = self.show;
+}
+
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict
 {
     [self mapObjectsInDict:[dict objectForKey:@"episode"]];

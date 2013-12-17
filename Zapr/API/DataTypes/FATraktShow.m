@@ -177,6 +177,12 @@
     }
     
     if (season.seasonNumber) {
+        FATraktSeason *oldSeason = self.seasonsDict[season.seasonNumber];
+        
+        if (oldSeason) {
+            [self mergeWithObject:oldSeason];
+        }
+        
         self.seasonsDict[season.seasonNumber] = season;
     }
 }
