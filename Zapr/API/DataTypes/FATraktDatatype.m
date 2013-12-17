@@ -289,17 +289,23 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         BOOL mergeNew = NO;
         BOOL mergeOld = NO;
         
-        if ([newObject valueForKey:key]) {
-            mergeNew = YES;
-        } else if ([oldObject valueForKey:key]) {
-            mergeOld = YES;
+        // Don't merge non objc properties
+        // This will otherwise break for rating for example
+        if (info.isObjcClass) {
+            if ([newObject valueForKey:key]) {
+                mergeNew = YES;
+            } else if ([oldObject valueForKey:key]) {
+                mergeOld = YES;
+            }
         }
         
         if ((mergeNew || mergeOld) && info.isReadonly == NO) {
             if (mergeOld && [newObject shouldMergeObjectForKey:key]) {
-                [newObject setValue:[object valueForKey:key] forKey:key];
-            } else if (mergeNew && [newObject shouldMergeObjectForKey:key]) {
-                [oldObject setValue:[object valueForKey:key] forKey:key];
+                [newObject setValue:[oldObject valueForKey:key] forKey:key];
+            }
+            
+            if (mergeNew && [newObject shouldMergeObjectForKey:key]) {
+                [oldObject setValue:[newObject valueForKey:key] forKey:key];
             }
         }
     }
