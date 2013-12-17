@@ -219,7 +219,7 @@
             for (NSString *key in self.episodeCacheKeys) {
                 FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:key];
                 
-                if (episode) {
+                if (episode && episode.episodeNumber) {
                     episode.show = self.show;
                     episode.season = self;
                     self.episodesDict[episode.episodeNumber] = episode;
@@ -251,7 +251,9 @@
         self.episodesDict = [NSMutableDictionary dictionary];
     }
     
-    self.episodesDict[episode.episodeNumber] = episode;
+    if (episode.episodeNumber) {
+        self.episodesDict[episode.episodeNumber] = episode;
+    }
 }
 
 - (FATraktEpisode *)episodeForNumber:(NSNumber *)number

@@ -138,8 +138,10 @@
                 self.loadedImageData = YES;
                 
                 [[FATrakt sharedInstance] loadImageFromURL:imageList.poster callback:^(UIImage *image) {
-                    self.seasonImages[season.seasonNumber] = image;
-                    [self.arrayDataSource reloadRowsWithObject:season];
+                    if (season.seasonNumber) {
+                        self.seasonImages[season.seasonNumber] = image;
+                        [self.arrayDataSource reloadRowsWithObject:season];
+                    }
                 } onError:nil];
             }
         }

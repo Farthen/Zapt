@@ -145,7 +145,7 @@
             for (NSString *key in self.seasonCacheKeys) {
                 FATraktSeason *season = [FATraktSeason.backingCache objectForKey:key];
                 
-                if (season) {
+                if (season && season.seasonNumber) {
                     season.show = self;
                     self.seasonsDict[season.seasonNumber] = season;
                 }
@@ -176,7 +176,9 @@
         self.seasonsDict = [NSMutableDictionary dictionary];
     }
     
-    self.seasonsDict[season.seasonNumber] = season;
+    if (season.seasonNumber) {
+        self.seasonsDict[season.seasonNumber] = season;
+    }
 }
 
 - (FATraktSeason *)seasonForNumber:(NSNumber *)seasonNumber

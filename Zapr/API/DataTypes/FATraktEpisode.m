@@ -138,13 +138,11 @@
 
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
 {
-    if ([key isEqualToString:@"number"] || [key isEqualToString:@"num"]) {
+    if ([key isEqualToString:@"episode"] || [key isEqualToString:@"number"] || [key isEqualToString:@"num"]) {
         // Stupid watchlist API calls this "number" instead of "episode", the progress api calls this "num"
-        [self mapObject:object toPropertyWithKey:@"episode"];
-    } else if ([key isEqualToString:@"episode"]) {
-        [self mapObject:object toPropertyWithKey:@"episodeNumber"];
+        self.episodeNumber = object;
     } else if ([key isEqualToString:@"season"]) {
-        [self mapObject:object toPropertyWithKey:@"seasonNumber"];
+        self.seasonNumber = object;
     } else {
         [super mapObject:object toPropertyWithKey:key];
     }
