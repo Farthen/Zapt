@@ -237,9 +237,9 @@
     CGFloat offset = self.initialTouchLocation.y - touchLocation.y;
     
     NSInteger segmentOffset = floor((offset) / segmentHeight);
-    NSUInteger currentSegment = self.rating;
+    NSInteger currentSegment = self.rating;
     
-    NSInteger newSegment = (NSInteger)currentSegment + segmentOffset;
+    NSInteger newSegment = currentSegment + segmentOffset;
     newSegment = MIN(newSegment, 10);
     newSegment = MAX(0, newSegment);
     
