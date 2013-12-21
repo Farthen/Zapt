@@ -26,6 +26,8 @@
 
 @property NSArray *dominantColors;
 @property NSArray *ratingNames;
+
+@property CGPoint initialTouchLocation;
 @end
 
 @implementation FARatingsView
@@ -215,22 +217,35 @@
 
 - (void)didMoveFinger:(id)sender withEvent:(UIEvent *)event
 {
-    // Calculate the position in the view
     UITouch *touch = [[event allTouches] anyObject];
+    
+    // Calculate the initial position
+    if (touch.phase == UITouchPhaseBegan) {
+        self.initialTouchLocation = [touch locationInView:self.ratingControl];
+    }
+    
+    // Calculate the position in the view
     CGPoint touchLocation = [touch locationInView:self.ratingControl];
     
-    // We separate the view in 10 distinct areas.
-    // The navigationbar is not part of this area
+    // We use the current touch location as the starting point of the scrubbing.
+    // This should make it easier to select the correct option
     
-    CGRect touchArea = self.ratingControl.bounds;
+    // The height of the segments are the minimum size required. 44 pixels.
+    CGFloat segmentHeight = 44;
+
+    // the offset from the starting location
+    CGFloat offset = self.initialTouchLocation.y - touchLocation.y;
     
-    if (CGRectContainsPoint(touchArea, touchLocation)) {
-        CGFloat segmentHeight = touchArea.size.height / 11;
-        NSUInteger segment = 10 - floor((touchLocation.y) / segmentHeight);
-        
-        self.rating = segment;
-        [self layoutSubviews];
-    }
+    NSInteger segmentOffset = floor((offset) / segmentHeight);
+    NSUInteger currentSegment = self.rating;
+    
+    NSInteger newSegment = (NSInteger)currentSegment + segmentOffset;
+    newSegment = MIN(newSegment, 10);
+    newSegment = MAX(0, newSegment);
+    
+    self.rating = (NSUInteger)newSegment;
+    [self layoutSubviews];
+
 }
 
 - (void)likeButtonPressed:(id)sender
