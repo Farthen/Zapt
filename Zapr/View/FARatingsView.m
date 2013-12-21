@@ -188,7 +188,8 @@
             } else {
                 self.ratingLabel.textColor = [UIColor blackColor];
             }
-                        self.ratingDescriptionLabel.hidden = NO;
+            
+            self.ratingDescriptionLabel.hidden = NO;
             self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRating:self.rating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
             self.ratingDescriptionLabel.textColor = self.ratingLabel.textColor;
         }
