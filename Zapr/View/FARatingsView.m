@@ -182,10 +182,15 @@
             self.ratingDescriptionLabel.textColor = [UIColor grayColor];
         } else {
             self.ratingLabel.text = [NSString stringWithFormat:@"%i", self.rating];
-            self.ratingLabel.textColor = [self.backgroundColor colorWithHighContrast];
-            self.ratingDescriptionLabel.hidden = NO;
+            
+            if (self.rating > 5) {
+                self.ratingLabel.textColor = [UIColor whiteColor];
+            } else {
+                self.ratingLabel.textColor = [UIColor blackColor];
+            }
+                        self.ratingDescriptionLabel.hidden = NO;
             self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRating:self.rating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
-            self.ratingDescriptionLabel.textColor = [self.backgroundColor colorWithHighContrast];
+            self.ratingDescriptionLabel.textColor = self.ratingLabel.textColor;
         }
         
         frame = CGRectZero;
