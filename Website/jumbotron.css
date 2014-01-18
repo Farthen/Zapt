@@ -1,0 +1,24 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+.appicon img {
+    height: 200px;
+    width: 200px;
+    margin-top: 1em;
+    margin-right: 2em;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.infotext div {
+    display: inline-block;
+    clear: both;
+    float: left;
+}
+
+.supportbutton {
+    margin-right: 1em;
+}
