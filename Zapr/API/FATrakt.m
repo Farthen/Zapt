@@ -259,7 +259,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Account test!");
     
-    return [self.connection postAPI:@"account/test" payload:nil authenticated:NO withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
+    return [self.connection postAPI:@"account/test" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
         NSDictionary *data = response.jsonData;
         NSString *statusResponse = [data objectForKey:@"status"];
         

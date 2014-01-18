@@ -240,7 +240,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         return nil;
     }
     
-    NSDictionary *authDict = @{ @"username:": _apiUser, @"password": _apiPasswordHash };
+    NSDictionary *authDict = @{ @"username": _apiUser, @"password": _apiPasswordHash };
     NSMutableDictionary *mutableDict = [dict mutableCopy];
     [mutableDict addEntriesFromDictionary:authDict];
     
