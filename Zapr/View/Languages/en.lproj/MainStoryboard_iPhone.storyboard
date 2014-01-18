@@ -813,10 +813,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="x7g-3d-9Mx" firstAttribute="top" secondItem="tmF-uo-vgK" secondAttribute="bottom" id="5hs-fK-0D3"/>
-                            <constraint firstItem="tmF-uo-vgK" firstAttribute="top" secondItem="Hih-Ze-imk" secondAttribute="bottom" id="7bX-xt-SLO"/>
-                            <constraint firstAttribute="trailing" secondItem="tmF-uo-vgK" secondAttribute="trailing" id="XGt-eW-Ys0"/>
-                            <constraint firstItem="tmF-uo-vgK" firstAttribute="leading" secondItem="FXD-9h-pwI" secondAttribute="leading" id="cnr-lE-Kgw"/>
+                            <constraint firstItem="tmF-uo-vgK" firstAttribute="leading" secondItem="FXD-9h-pwI" secondAttribute="leading" id="KlL-M1-WCI"/>
+                            <constraint firstItem="tmF-uo-vgK" firstAttribute="top" secondItem="FXD-9h-pwI" secondAttribute="top" id="hCr-dT-i3B"/>
+                            <constraint firstAttribute="bottom" secondItem="tmF-uo-vgK" secondAttribute="bottom" id="sUw-rR-kxb"/>
+                            <constraint firstAttribute="trailing" secondItem="tmF-uo-vgK" secondAttribute="trailing" id="y9o-Zv-XGd"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -899,7 +899,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gdt-1z-20G">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="Gdt-1z-20G">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -910,6 +910,12 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Gdt-1z-20G" firstAttribute="leading" secondItem="ucd-CZ-QgA" secondAttribute="leading" id="2DI-lR-LY4"/>
+                            <constraint firstItem="WUa-eQ-NAW" firstAttribute="top" secondItem="Gdt-1z-20G" secondAttribute="bottom" id="H53-jR-ijx"/>
+                            <constraint firstItem="Gdt-1z-20G" firstAttribute="top" secondItem="ucd-CZ-QgA" secondAttribute="top" id="V80-Uz-oV7"/>
+                            <constraint firstAttribute="trailing" secondItem="Gdt-1z-20G" secondAttribute="trailing" id="Y3Z-nm-uhA"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="Z8T-5R-xGC">
                         <barButtonItem key="rightBarButtonItem" title="Done" style="done" id="z3X-aB-6jl">
