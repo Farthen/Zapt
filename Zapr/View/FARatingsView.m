@@ -28,6 +28,7 @@
 @property NSArray *ratingNames;
 
 @property CGPoint initialTouchLocation;
+@property FATraktRating initialSegment;
 @end
 
 @implementation FARatingsView
@@ -148,7 +149,7 @@
             ratingFrame.size.height -= self.navigationBarHeight;
             ratingFrame.origin.y += self.navigationBarHeight;
             self.ratingControl = [[UIControl alloc] initWithFrame:ratingFrame];
-            [self.ratingControl addTarget:self action:@selector(didMoveFinger:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+            [self.ratingControl addTarget:self action:@selector(didMoveFinger:withEvent:) forControlEvents:UIControlEventTouchDragInside | UIControlEventTouchDown];
         }
         
         if (!self.ratingLabel) {
@@ -183,11 +184,7 @@
         } else {
             self.ratingLabel.text = [NSString stringWithFormat:@"%i", self.rating];
             
-            if (self.rating > 5) {
-                self.ratingLabel.textColor = [UIColor whiteColor];
-            } else {
-                self.ratingLabel.textColor = [UIColor blackColor];
-            }
+            self.ratingLabel.textColor = [UIColor whiteColor];
             
             self.ratingDescriptionLabel.hidden = NO;
             self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRating:self.rating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
@@ -214,7 +211,7 @@
          self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor invertedColor];
          }*/
         
-        self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor colorWithHighContrast];
+        self.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
         
         [self addSubview:self.ratingControl];
         [self.ratingControl addSubview:self.ratingLabel];
@@ -228,6 +225,7 @@
     // Calculate the initial position
     if (touch.phase == UITouchPhaseBegan) {
         self.initialTouchLocation = [touch locationInView:self.ratingControl];
+        self.initialSegment = self.rating;
     }
     
     // Calculate the position in the view
@@ -236,21 +234,23 @@
     // We use the current touch location as the starting point of the scrubbing.
     // This should make it easier to select the correct option
     
-    // The height of the segments are the minimum size required. 44 pixels.
-    CGFloat segmentHeight = 44;
+    // This height was tested on device and seems reasonable.
+    CGFloat segmentHeight = 30;
 
     // the offset from the starting location
     CGFloat offset = self.initialTouchLocation.y - touchLocation.y;
     
     NSInteger segmentOffset = floor((offset) / segmentHeight);
-    NSInteger currentSegment = self.rating;
+    NSInteger currentSegment = self.initialSegment;
     
     NSInteger newSegment = currentSegment + segmentOffset;
     newSegment = MIN(newSegment, 10);
     newSegment = MAX(0, newSegment);
     
     self.rating = (NSUInteger)newSegment;
-    [self layoutSubviews];
+    [self setNeedsLayout];
+    [self setNeedsDisplay];
+    [self layoutIfNeeded];
 
 }
 
