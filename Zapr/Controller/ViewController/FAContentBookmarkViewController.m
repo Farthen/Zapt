@@ -73,9 +73,7 @@
     if (content.contentType == FATraktContentTypeShows) {
         FATraktShow *show = (FATraktShow *)content;
         
-        if (show.progress && show.progress.left.unsignedIntegerValue == 0) {
-            self.displaysSeenButton = NO;
-        }
+        self.displaysSeenButton = !show.isWatched;
     }
     
     [self.tableView reloadData];
@@ -219,6 +217,8 @@
                 [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:NSLocalizedString(@"Unwatching the %@ for you", nil), [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:NO longVersion:NO]]];
                 [[FATrakt sharedInstance] setContent:_currentContent seenStatus:NO callback:^{
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
@@ -226,6 +226,8 @@
                 [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:NSLocalizedString(@"Watching the %@ for you", nil), [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:NO longVersion:NO]]];
                 [[FATrakt sharedInstance] setContent:_currentContent seenStatus:YES callback:^{
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
@@ -243,6 +245,8 @@
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
                 [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
@@ -250,6 +254,8 @@
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to watchlist", nil)];
                 [[FATrakt sharedInstance] addToWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
@@ -262,6 +268,8 @@
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from collection", nil)];
                 [[FATrakt sharedInstance] removeFromLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
@@ -269,6 +277,8 @@
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding to collection", nil)];
                 [[FATrakt sharedInstance] addToLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
+                    [self.delegate changedPropertiesOfContent:_currentContent];
+                    
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];

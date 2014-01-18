@@ -344,6 +344,7 @@
                             <constraint firstAttribute="trailing" secondItem="8nD-Mk-xNx" secondAttribute="trailing" id="nsU-Wl-7Gt"/>
                         </constraints>
                     </view>
+                    <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -352,7 +353,7 @@
             </objects>
             <point key="canvasLocation" x="2406" y="-387"/>
         </scene>
-        <!--Checkin View Controller - Success-->
+        <!--Checkin View Controller - Checkin-->
         <scene sceneID="0fq-2i-5cE">
             <objects>
                 <viewController storyboardIdentifier="checkin" id="Efi-W3-vQs" customClass="FACheckinViewController" sceneMemberID="viewController">
@@ -523,7 +524,7 @@
                             <constraint firstItem="SVS-NY-0P2" firstAttribute="leading" secondItem="Glg-kH-nD3" secondAttribute="leading" id="uAo-wT-KJq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Success" id="m7c-Vy-r97">
+                    <navigationItem key="navigationItem" title="Checkin" id="m7c-Vy-r97">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="lkW-sD-IXg">
                             <connections>
                                 <action selector="actionDoneButton:" destination="Efi-W3-vQs" id="zID-cR-BWC"/>

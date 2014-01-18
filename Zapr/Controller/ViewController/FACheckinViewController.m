@@ -9,6 +9,7 @@
 #import "FACheckinViewController.h"
 #import "FATrakt.h"
 #import "RNTimer.h"
+#import "FAInterfaceStringProvider.h"
 
 typedef enum {
     FACheckinViewStateSuccess,
@@ -18,6 +19,7 @@ typedef enum {
     FACheckinViewStateCancellingOldCheckin,
     FACheckinViewStateCancellingCheckin,
     FACheckinViewStateCancelled,
+    FACheckinViewStateNoMoreCancels,
     FACheckinViewStateNone,
 } FACheckinViewState;
 
@@ -35,6 +37,8 @@ typedef enum {
 @property UIActionSheet *shouldCancelActionSheet;
 
 @property FACheckinViewState checkinViewState;
+
+@property NSInteger checkinCancelCount;
 @end
 
 @implementation FACheckinViewController {
@@ -60,14 +64,14 @@ typedef enum {
     self.progressView.progress = self.progress;
     self.progressView.textLabel.text = @" ";
     
-    self.nextUpViewController.nextUpText = NSLocalizedString(@"Next:", nil);
+    self.nextUpViewController.nextUpText = NSLocalizedString(@"Next Episode:", nil);
     
     self.checkinInProgressAlert = [[UIAlertView alloc]
                                    initWithTitle:NSLocalizedString(@"Checkin failed", nil)
-                                   message:NSLocalizedString(@"Another checkin is already in progress. Do you want to cancel it?", nil)
+                                   message:NSLocalizedString(@"Another checkin is already in progress. You need to cancel it to check in now.", nil)
                                    delegate:self
-                                   cancelButtonTitle:NSLocalizedString(@"Don't Cancel", nil)
-                                   otherButtonTitles:NSLocalizedString(@"Cancel Checkin", nil), nil];
+                                   cancelButtonTitle:NSLocalizedString(@"Don't Checkin", nil)
+                                   otherButtonTitles:NSLocalizedString(@"Checkin Anyway", nil), nil];
     
     self.shouldCancelActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Cancel This Checkin?", nil)
                                                                delegate:self
@@ -190,7 +194,7 @@ typedef enum {
         self.nextUpViewController.dismissesModalToDisplay = YES;
         [self.nextUpViewController displayProgress:episode.show.progress];
         
-        NSString *showNameString = [NSString stringWithFormat:@"%@ S%iE%i", episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        NSString *showNameString = [NSString stringWithFormat:@"%@ - %@", episode.show.title, [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES]];
         self.showNameLabel.text = showNameString;
         
         FATraktEpisode *nextEpisode = [episode nextEpisode];
@@ -223,7 +227,7 @@ typedef enum {
         self.messageLabel.text = NSLocalizedString(@"Cancelling checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
     } else if (state == FACheckinViewStateCancellingOldCheckin) {
-        self.messageLabel.text = NSLocalizedString(@"Cancelling old checkin.\nPlease wait…", nil);
+        self.messageLabel.text = NSLocalizedString(@"Cancelling previous checkin.\nPlease wait…", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
     } else if (state == FACheckinViewStateSuccess) {
         self.statusControl.userInteractionEnabled = YES;
@@ -237,13 +241,18 @@ typedef enum {
         [self stopUpdatingContinuously];
         self.progressView.textLabel.text = @" ";
         self.progressView.progress = 0;
+        self.statusControl.userInteractionEnabled = YES;
         
-        self.messageLabel.text = NSLocalizedString(@"Cancelled checkin.", nil);
-        self.reloadControl.reloadControlState = FAReloadControlStateFinished;
+        self.messageLabel.text = NSLocalizedString(@"Cancelled checkin.\nTap to checkin again", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateError;
     } else if (state == FACheckinViewStateFailedCancel) {
         self.statusControl.userInteractionEnabled = YES;
         self.messageLabel.text = NSLocalizedString(@"Failed to cancel checkin.", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateError;
+    } else if (state == FACheckinViewStateNoMoreCancels) {
+        self.statusControl.userInteractionEnabled = NO;
+        self.messageLabel.text = NSLocalizedString(@"No more cancels for you. Sorry :(", nil);
+        self.reloadControl.reloadControlState = FAReloadControlStateFinished;
     } else {
         self.messageLabel.text = NSLocalizedString(@" ", nil);
         self.reloadControl.reloadControlState = FAReloadControlStateReloading;
@@ -275,6 +284,17 @@ typedef enum {
     }
     
     if (checkin && checkin.status == FATraktStatusFailed) {
+        if (checkin.wait) {
+            NSInteger wait = checkin.wait.integerValue;
+            if (wait >= 60) {
+                self.checkinInProgressAlert.message = [NSString stringWithFormat:NSLocalizedString(@"Another checkin is already in progress. You need to cancel it or wait %i minutes", nil), wait / 60];
+            } else if (wait >= 30) {
+                self.checkinInProgressAlert.message = [NSString stringWithFormat:NSLocalizedString(@"Another checkin is already in progress. You need to cancel it or wait about half a minute", nil), wait];
+            } else  {
+                self.checkinInProgressAlert.message = [NSString stringWithFormat:NSLocalizedString(@"Another checkin is already in progress. You need to cancel it or wait a few more seconds", nil), wait];
+            }
+        }
+        
         [self.checkinInProgressAlert show];
     }
     
@@ -306,7 +326,7 @@ typedef enum {
 
 - (IBAction)actionStatusControl:(id)sender
 {
-    if (self.checkinViewState == FACheckinViewStateFailed) {
+    if (self.checkinViewState == FACheckinViewStateFailed || self.checkinViewState == FACheckinViewStateCancelled) {
         [self performCheckinForContent:self.content];
     } else if (self.checkinViewState == FACheckinViewStateSuccess) {
         [self.shouldCancelActionSheet showInView:self.view];
@@ -353,13 +373,31 @@ typedef enum {
             // Cancel this checkin
             self.checkinViewState = FACheckinViewStateCancellingCheckin;
             
-            [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
-                if (status == FATraktStatusSuccess) {
-                    self.checkinViewState = FACheckinViewStateCancelled;
-                } else {
-                    self.checkinViewState = FACheckinViewStateFailedCancel;
-                }
-            }];
+            if (self.checkinCancelCount == 5) {
+                UIAlertView *tooManyCancelsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Seriously?", nil) message:NSLocalizedString(@"What the hell are you doing there?", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Let me do what I want!", nil) otherButtonTitles:nil, nil];
+                [tooManyCancelsAlert show];
+            } else if (self.checkinCancelCount == 6) {
+                UIAlertView *tooManyCancelsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"WAT?", nil) message:NSLocalizedString(@"Stop this! Now!", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Let me do what I want!", nil) otherButtonTitles:nil, nil];
+                [tooManyCancelsAlert show];
+            } else if (self.checkinCancelCount == 7) {
+                UIAlertView *tooManyCancelsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Uhm…", nil) message:NSLocalizedString(@"Do you think you can get away with this?", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Let me do what I want!", nil) otherButtonTitles:nil, nil];
+                [tooManyCancelsAlert show];
+            } else if (self.checkinCancelCount == 8) {
+                UIAlertView *tooManyCancelsAlert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Well…", nil) message:NSLocalizedString(@"I have no choice. No more cancels for you.", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Ooooookaaaaayyy", nil) otherButtonTitles:nil, nil];
+                [tooManyCancelsAlert show];
+                self.checkinViewState = FACheckinViewStateNoMoreCancels;
+            }
+            
+            if (self.checkinCancelCount < 8) {
+                [[FATrakt sharedInstance] cancelCheckInForContentType:self.content.contentType callback:^(FATraktStatus status) {
+                    if (status == FATraktStatusSuccess) {
+                        self.checkinCancelCount++;
+                        self.checkinViewState = FACheckinViewStateCancelled;
+                    } else {
+                        self.checkinViewState = FACheckinViewStateFailedCancel;
+                    }
+                }];
+            }
         }
     }
 }

@@ -575,6 +575,7 @@
 {
     UIStoryboard *storyboard = self.storyboard;
     FAContentBookmarkViewController *bookmarkViewController = [storyboard instantiateViewControllerWithIdentifier:@"contentBookmark"];
+    bookmarkViewController.delegate = self;
     [bookmarkViewController displayContent:_currentContent];
     [self presentSemiModalViewController:bookmarkViewController animated:YES completion:nil];
 }
@@ -588,6 +589,12 @@
 {
     FARatingsViewController *ratingsViewController = [[FARatingsViewController alloc] initWithContent:[_currentContent cachedVersion]];
     [self presentViewController:ratingsViewController animated:YES completion:nil];
+}
+
+#pragma Bookmark Delegate
+- (void)changedPropertiesOfContent:(FATraktContent *)content
+{
+    [self displayGenericContentData:_currentContent];
 }
 
 #pragma mark misc

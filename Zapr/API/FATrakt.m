@@ -1200,57 +1200,90 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }];
 }
 
-- (FATraktRequest *)setContent:(FATraktContent *)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)setContent:(id)idContent seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *api;
     NSDictionary *postData;
     
-    if (content.contentType == FATraktContentTypeMovies) {
-        if (seen) {
-            api = @"movie/seen";
-        } else {
-            api = @"movie/unseen";
-        }
+    if ([idContent isKindOfClass:[FATraktSeason class]]) {
+        FATraktSeason *season = idContent;
         
-        postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
-    } else if (content.contentType == FATraktContentTypeShows) {
         if (seen) {
-            api = @"show/seen";
-            postData = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+            api = @"show/season/seen";
+            postData = season.postDictInfo;
         } else {
-            // There is no show/unseen API
-            FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
-            response.responseType = FATraktConnectionResponseTypeUnknown;
-            error(response);
+            if (error) {
+                error([FATraktConnectionResponse invalidRequestResponse]);
+            }
+            
+            return nil;
         }
-    } else if (content.contentType == FATraktContentTypeEpisodes) {
-        if (seen) {
-            api = @"show/episode/seen";
-        } else {
-            api = @"show/episode/unseen";
-        }
-        
-        postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     }
     
-    return [self.connection postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+    if ([idContent isKindOfClass:[FATraktContent class]]) {
+        FATraktContent *content = idContent;
         if (content.contentType == FATraktContentTypeMovies) {
-            FATraktMovie *movie = (FATraktMovie *)content;
-            movie.watched = seen;
-        } else if (content.contentType == FATraktContentTypeEpisodes) {
-            FATraktEpisode *episode = (FATraktEpisode *)content;
-            episode.watched = seen;
-        } else if (content.contentType == FATraktContentTypeShows) {
-            FATraktShow *show = (FATraktShow *)content;
-            
-            if (!show.progress) {
-                show.progress = [[FATraktShowProgress alloc] init];
+            if (seen) {
+                api = @"movie/seen";
             } else {
-                show.progress.left = 0;
-                show.progress.completed = show.progress.aired;
-                show.progress.percentage = @100;
+                api = @"movie/unseen";
+            }
+            
+            postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+        } else if (content.contentType == FATraktContentTypeShows) {
+            if (seen) {
+                api = @"show/seen";
+                postData = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+            } else {
+                // There is no show/unseen API
+                FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
+                response.responseType = FATraktConnectionResponseTypeUnknown;
+                error(response);
+            }
+        } else if (content.contentType == FATraktContentTypeEpisodes) {
+            if (seen) {
+                api = @"show/episode/seen";
+            } else {
+                api = @"show/episode/unseen";
+            }
+            
+            postData = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+        }
+    }
+    
+    
+    return [self.connection postAPI:api payload:postData authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        if ([idContent isKindOfClass:[FATraktSeason class]]) {
+            FATraktSeason *season = idContent;
+            
+            for (FATraktEpisode *episode in season.episodes) {
+                episode.watched = seen;
             }
         }
+        
+        if ([idContent isKindOfClass:[FATraktContent class]]) {
+            FATraktContent *content = idContent;
+            
+            if (content.contentType == FATraktContentTypeMovies) {
+                FATraktMovie *movie = (FATraktMovie *)content;
+                movie.watched = seen;
+            } else if (content.contentType == FATraktContentTypeEpisodes) {
+                FATraktEpisode *episode = (FATraktEpisode *)content;
+                episode.watched = seen;
+            } else if (content.contentType == FATraktContentTypeShows) {
+                FATraktShow *show = (FATraktShow *)content;
+                
+                if (!show.progress) {
+                    show.progress = [[FATraktShowProgress alloc] init];
+                } else {
+                    show.progress.left = 0;
+                    show.progress.completed = show.progress.aired;
+                    show.progress.percentage = @100;
+                }
+            }
+        }
+        
         
         callback();
     } onError:error];

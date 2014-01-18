@@ -43,7 +43,10 @@
 @property (retain) NSString *poster;
 @property (retain) NSNumber *seasonNumber;
 @property (retain) NSString *url;
+@property (readonly) NSDictionary *postDictInfo;
 
 @property (assign) FATraktDetailLevel detailLevel;
+
+@property (readonly) BOOL isWatched;
 
 @end

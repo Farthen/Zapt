@@ -290,4 +290,29 @@
     return nil;
 }
 
+- (BOOL)isWatched
+{
+    return [self.episodes everyUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        FATraktEpisode *episode = obj;
+        return episode.watched;
+    }];
+}
+
+- (NSDictionary *)postDictInfo
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    NSDictionary *showDictInfo = [self.show postDictInfo];
+    
+    if (showDictInfo) {
+        [dict addEntriesFromDictionary:showDictInfo];
+    }
+    
+    if (self.seasonNumber) {
+        [dict setObject:self.seasonNumber forKey:@"season"];
+    }
+    
+    return dict;
+}
+
 @end

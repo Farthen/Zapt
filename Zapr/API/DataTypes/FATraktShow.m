@@ -9,6 +9,7 @@
 #import "FATraktShow.h"
 #import "FATraktSeason.h"
 #import "FATraktCache.h"
+#import "FATraktShowProgress.h"
 
 @interface FATraktShow ()
 @property NSString *showCacheKey;

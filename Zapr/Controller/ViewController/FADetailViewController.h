@@ -10,12 +10,13 @@
 #import "FAViewControllerPreferredContentSizeChanged.h"
 #import "FASemiModalEnabledViewController.h"
 #import "FAAppDelegate.h"
+#import "FAContentBookmarkViewController.h"
 
 @class FATitleLabel;
 @class FATraktContent;
 @class FANextUpViewController;
 
-@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged, FAContentBookmarkViewControllerDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
