@@ -262,7 +262,7 @@
         FATraktEpisode *oldEpisode = self.episodesDict[episode.episodeNumber];
         
         if (oldEpisode) {
-            [self mergeWithObject:oldEpisode];
+            [episode mergeWithObject:oldEpisode];
         }
         
         self.episodesDict[episode.episodeNumber] = episode;

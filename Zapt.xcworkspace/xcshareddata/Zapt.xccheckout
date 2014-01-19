@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2D208B82-9E1E-4C51-8962-068D887ED778</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Zapt</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
+		<string>ssh://github.com/Farthen/objc-util.git</string>
+		<key>93A3EF43-194C-4EAB-8539-317483B21325</key>
+		<string>ssh://github.com/Farthen/Zapt.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Zapt.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
+		<string>../Zapt/Util</string>
+		<key>93A3EF43-194C-4EAB-8539-317483B21325</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/Farthen/Zapt.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>93A3EF43-194C-4EAB-8539-317483B21325</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>45F8E010-906B-474E-AC8C-48B793B2FBA8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Util</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>93A3EF43-194C-4EAB-8539-317483B21325</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Zapt</string>
+		</dict>
+	</array>
+</dict>
+</plist>

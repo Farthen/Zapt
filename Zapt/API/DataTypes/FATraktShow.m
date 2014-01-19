@@ -181,7 +181,7 @@
         FATraktSeason *oldSeason = self.seasonsDict[season.seasonNumber];
         
         if (oldSeason) {
-            [self mergeWithObject:oldSeason];
+            [season mergeWithObject:oldSeason];
         }
         
         self.seasonsDict[season.seasonNumber] = season;

@@ -356,7 +356,7 @@
     _sortedSectionObjects = [sortedSectionObjects mapUsingBlock:^id(id obj, NSUInteger idx) {
         NSSet *listItems = obj;
         NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"content.title" ascending:YES];
-        return [listItems sortedArrayUsingDescriptors:@[sortDescriptor]];
+        return [[listItems sortedArrayUsingDescriptors:@[sortDescriptor]] mutableCopy];
     }];
 }
 
@@ -370,17 +370,23 @@
     return _sortedSectionIndexTitles.count;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return _isWatchlist || (_isLibrary && _displayedLibraryType == FATraktLibraryTypeCollection);
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // If row is deleted, remove it from the list.
     // FIXME this should work for library as well
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
+        
+        NSArray *letterList = _sortedSectionObjects[indexPath.section];
+        FATraktContent *content = [(FATraktListItem *)letterList[indexPath.row] content];
+        
         if (_isWatchlist) {
-            FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.view];
             [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
-            
-            NSArray *letterList = _sortedSectionObjects[indexPath.section];
-            FATraktContent *content = [(FATraktListItem *)letterList[indexPath.row] content];
             
             [[FATrakt sharedInstance] removeFromWatchlist:content callback:^(void) {
                 [hud showProgressHUDSuccess];
@@ -389,25 +395,43 @@
                 
                 // Animate the deletion from the table.
                 [self.tableView beginUpdates];
-                [newList removeObjectAtIndex:indexPath.row];
-                
-                if (newList.count > 0) {
-                    [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
-                    
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                } else {
-                    [_sortedSectionObjects removeObjectAtIndex:indexPath.section];
-                    //[_sortedSectionIndexTitles removeObjectAtIndex:indexPath.section];
-                    
-                    [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationAutomatic];
-                }
                 
                 [_displayedList.items removeObject:letterList[indexPath.row]];
+                [newList removeObjectAtIndex:indexPath.row];
+                [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
+                
+                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
                 
                 [self.tableView endUpdates];
             } onError:^(FATraktConnectionResponse *connectionError) {
                 [hud showProgressHUDFailed];
             }];
+        } else if (_isLibrary) {
+            if (_displayedLibraryType == FATraktLibraryTypeCollection) {
+                [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from collection", nil)];
+                
+                [[FATrakt sharedInstance] removeFromLibrary:content callback:^{
+                    [hud showProgressHUDSuccess];
+                    
+                    content.in_collection = NO;
+                    
+                    NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
+                    
+                    // Animate the deletion from the table.
+                    [self.tableView beginUpdates];
+                    
+                    [_displayedList.items removeObject:letterList[indexPath.row]];
+                    [newList removeObjectAtIndex:indexPath.row];
+                    [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
+                    
+                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                    
+                    
+                    [self.tableView endUpdates];
+                } onError:^(FATraktConnectionResponse *connectionError) {
+                    [hud showProgressHUDFailed];
+                }];
+            }
         }
     }
 }

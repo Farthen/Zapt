@@ -116,6 +116,15 @@
     [self connectionUsernameAndPasswordValidityChangedNotification:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (self.showingNeedsLoginTableView) {
+        [self.tableView addSubview:self.needsLoginTableView];
+    }
+}
+
 - (void)connectionUsernameAndPasswordValidityChangedNotification:(NSNotification *)notification
 {
     [self displayNeedsLoginTableViewIfNeeded];
@@ -131,6 +140,7 @@
 {
     if (!self.needsLoginTableView) {
         self.needsLoginTableView = [[UITableView alloc] init];
+        self.needsLoginTableView.backgroundColor = [UIColor whiteColor];
     }
     
     self.needsLoginTableView.frame = self.tableView.frame;
