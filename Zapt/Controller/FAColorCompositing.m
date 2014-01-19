@@ -81,9 +81,9 @@
     CGFloat newComponents[4];
     const CGFloat *topComponents = CGColorGetComponents(topColor.CGColor);
     const CGFloat *components = CGColorGetComponents(bottomColor.CGColor);
-    const int n = CGColorGetNumberOfComponents(bottomColor.CGColor);
+    size_t n = CGColorGetNumberOfComponents(bottomColor.CGColor);
     
-    for (int i = 0; i < n; i++) {
+    for (NSUInteger i = 0; i < n; i++) {
         if (components[i] > 0.5) {
             CGFloat value = (topComponents[i] - components[i]) / 0.5;
             CGFloat min = components[i] - (topComponents[i] - components[i]);

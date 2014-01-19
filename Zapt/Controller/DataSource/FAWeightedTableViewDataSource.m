@@ -43,7 +43,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceSection key:%@ weight:%i rowCount:%i hidden:%@ lastIndex:%i currentIndex:%i headerTitle:%@>", self.key, self.weight, self.rowData.count, self.hidden ? @"YES" : @"NO", self.lastSectionIndex, self.currentSectionIndex, self.headerTitle];
+    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceSection key:%@ weight:%ld rowCount:%ld hidden:%@ lastIndex:%ld currentIndex:%ld headerTitle:%@>", self.key, (long)self.weight, (long)self.rowData.count, self.hidden ? @"YES" : @"NO", (long)self.lastSectionIndex, (long)self.currentSectionIndex, self.headerTitle];
 }
 
 - (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight
@@ -100,7 +100,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceRow key:%@ weight:%i hidden:%@ lastIndexPath:%@ currentIndexPath:%@>", self.key, self.weight, self.hidden ? @"YES" : @"NO", self.lastIndexPath, self.currentIndexPath];
+    return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceRow key:%@ weight:%ld hidden:%@ lastIndexPath:%@ currentIndexPath:%@>", self.key, (long)self.weight, self.hidden ? @"YES" : @"NO", self.lastIndexPath, self.currentIndexPath];
 }
 
 - (instancetype)initWithKey:(id)obj weight:(NSInteger)weight
@@ -137,7 +137,7 @@
 
 @interface FAWeightedTableViewDataSourceAction : NSObject
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     FAWeightedTableViewDataSourceActionInsertRow,
     FAWeightedTableViewDataSourceActionDeleteRow,
     FAWeightedTableViewDataSourceActionMoveRow,
@@ -148,7 +148,7 @@ typedef enum {
     
     FAWeightedTableViewDataSourceActionReloadRow,
     FAWeightedTableViewDataSourceActionReloadSection
-} FAWeightedTableViewDataSourceActionType;
+};
 
 @property FAWeightedTableViewDataSourceActionType actionType;
 @property FAWeightedTableViewDataSourceSection *section;

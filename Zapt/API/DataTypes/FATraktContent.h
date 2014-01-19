@@ -11,53 +11,53 @@
 #import "FACacheableItem.h"
 @class FATraktImageList;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, FATraktContentType) {
     FATraktContentTypeMovies = 0,
     FATraktContentTypeShows = 1,
     FATraktContentTypeEpisodes = 2,
     FATraktContentTypeSeasons = 3,
     FATraktContentTypeNone = -1,
-} FATraktContentType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, FATraktLibraryType) {
     FATraktLibraryTypeNone = -1,
     FATraktLibraryTypeAll = 0,
     FATraktLibraryTypeCollection = 1,
     FATraktLibraryTypeWatched = 2,
-} FATraktLibraryType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, FATraktDetailLevel) {
     FATraktDetailLevelMinimal = -1,
     FATraktDetailLevelDefault = 0,
     FATraktDetailLevelExtended = 1,
-} FATraktDetailLevel;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktRating) {
     FATraktRatingUndefined = 0,
     FATraktRatingHate = 1,
     // chose 2-9 omitted
     FATraktRatingLove = 10
-} FATraktRating;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktRatingsMode) {
     FATraktRatingsModeSimple = 0,
     FATraktRatingsModeAdvanced
-} FATraktRatingsMode;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktWatchingType) {
     FATraktWatchingTypeNotWatching = 0,
     FATraktWatchingTypeWatching = 1,
     FATraktWatchingTypeCheckin = 2
-} FATraktWatchingType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
     FATraktSortingOptionTitle = 0,
     FATraktSortingOptionRecentActivity = 1,
     FATraktSortingOptionMostCompleted = 2,
     FATraktSortingOptionLeastCompleted = 3,
     FATraktSortingOptionRecentlyAired = 4,
     FATraktSortingOptionPreviouslyAired = 5
-} FATraktSortingOption;
+};
 
 // This is the superclass of movies, shows and episodes.
 @interface FATraktContent : FATraktCachedDatatype

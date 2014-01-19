@@ -120,7 +120,7 @@
 
 + (NSString *)cacheKeyForWatchlistWithContentType:(FATraktContentType)contentType
 {
-    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%i&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%i", @"watchlist", contentType, YES, NO, NO, FATraktLibraryTypeNone];
+    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%li&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%li", @"watchlist", (long)contentType, YES, NO, NO, (long)FATraktLibraryTypeNone];
 }
 
 + (FATraktList *)cachedListForWatchlistWithContentType:(FATraktContentType)contentType
@@ -130,7 +130,7 @@
 
 + (NSString *)cacheKeyForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType
 {
-    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%i&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%i", @"library", contentType, NO, YES, NO, libraryType];
+    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%li&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%li", @"library", (long)contentType, NO, YES, NO, (long)libraryType];
 }
 
 + (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType
@@ -140,7 +140,7 @@
 
 - (NSString *)cacheKey
 {
-    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%i&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%i", self.name, self.contentType, self.isWatchlist, self.isLibrary, self.isCustom, self.libraryType];
+    return [NSString stringWithFormat:@"FATraktList&name=%@&contentType=%li&isWatchlist=%i&isLibrary=%i&isCustom=%i&libraryType=%li", self.name, (long)self.contentType, self.isWatchlist, self.isLibrary, self.isCustom, (long)self.libraryType];
 }
 
 + (NSArray *)cachedCustomLists

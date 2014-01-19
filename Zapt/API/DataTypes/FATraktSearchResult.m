@@ -38,7 +38,7 @@
 
 - (NSString *)cacheKey
 {
-    return [NSString stringWithFormat:@"FATraktSearchResult&type=%i&query=%@", self.contentType, self.query];
+    return [NSString stringWithFormat:@"FATraktSearchResult&type=%li&query=%@", (long)self.contentType, self.query];
 }
 
 - (void)setResults:(NSArray *)results

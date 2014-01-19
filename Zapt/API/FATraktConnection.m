@@ -189,7 +189,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
     
     // Create SHA1 hash
-    if (CC_SHA1([passwordBytes bytes], [passwordBytes length], digest)) {
+    if (CC_SHA1([passwordBytes bytes], (int)[passwordBytes length], digest)) {
         // If successful
         // Create an output string
         NSMutableString *output = [NSMutableString stringWithCapacity:CC_SHA1_DIGEST_LENGTH * 2];
@@ -259,7 +259,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         // We cancelled this request. We don't need to do anything anymore
     } else if (connectionResponse.responseType & FATraktConnectionResponseTypeAnyError) {
         // Check if we handle errors. If we don't, let the application delegate handle it
-        DDLogController(@"HTTP RESPONSE Error %i", connectionResponse.response.statusCode);
+        DDLogController(@"HTTP RESPONSE Error %ld", (long)connectionResponse.response.statusCode);
         
         if (connectionResponse.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
             self.usernameAndPasswordValid = NO;

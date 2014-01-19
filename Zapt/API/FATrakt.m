@@ -653,7 +653,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return nil;
     }
     
-    NSArray *parameters = @[season.show.urlIdentifier, [NSString stringWithFormat:@"%i", season.seasonNumber.unsignedIntegerValue]];
+    NSArray *parameters = @[season.show.urlIdentifier, [NSString stringWithFormat:@"%ld", (long)season.seasonNumber.unsignedIntegerValue]];
     
     return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         NSArray *data = response.jsonData;
@@ -1172,7 +1172,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             ratingString = @"unrate";
         }
     } else {
-        ratingString = [NSString stringWithFormat:@"%i", rating];
+        ratingString = [NSString stringWithFormat:@"%ld", (long)rating];
     }
     
     NSMutableDictionary *payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];

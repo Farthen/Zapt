@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFNetworking.h>
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktRequestState) {
     FATraktRequestStateExecuting = (1 << 0),
     
     FATraktRequestStateFinished = (1 << 1),
@@ -18,7 +18,7 @@ typedef enum {
     FATraktRequestStateStopped = FATraktRequestStateFinished | FATraktRequestStateCancelled,
     
     FATraktRequestStateUnknown = (1 << 3),
-} FATraktRequestState;
+};
 
 @interface FATraktRequest : NSObject
 

@@ -43,7 +43,7 @@
     self.startCount = 0;
 }
 
-- (int)startCount
+- (NSInteger)startCount
 {
     return _startCount;
 }

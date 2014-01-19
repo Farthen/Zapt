@@ -211,7 +211,7 @@
     }
     
     if (cachedList.items) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%i", cachedList.items.count];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu", (long)cachedList.items.count];
     } else {
         cell.detailTextLabel.text = nil;
     }

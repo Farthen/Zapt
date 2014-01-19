@@ -182,7 +182,7 @@
             self.ratingDescriptionLabel.text = NSLocalizedString(@"Slide up/down to rate", nil);
             self.ratingDescriptionLabel.textColor = [UIColor grayColor];
         } else {
-            self.ratingLabel.text = [NSString stringWithFormat:@"%i", self.rating];
+            self.ratingLabel.text = [NSString stringWithFormat:@"%ld", (long)self.rating];
             
             self.ratingLabel.textColor = [UIColor whiteColor];
             

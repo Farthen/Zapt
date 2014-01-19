@@ -100,7 +100,7 @@ static NSArray *_ratingNames;
         } else if (rating == FATraktRatingLove) {
             name = NSLocalizedString(@"love", nil);
         } else {
-            name = [NSString stringWithFormat:@"%i", rating];
+            name = [NSString stringWithFormat:@"%ld", (long)rating];
         }
         
         if (capitalized) {

@@ -183,7 +183,7 @@ static CGPoint _scrollPositions[3];
         return NO;
     } else if (searchScope >= 0 && searchScope <= 2) {
         _scrollPositions[_searchScope] = controller.searchResultsTableView.contentOffset;
-        _searchScope = searchScope;
+        _searchScope = (unsigned int)searchScope;
         [controller.searchResultsTableView setContentOffset:_scrollPositions[searchScope] animated:NO];
         [controller.searchResultsTableView flashScrollIndicators];
         

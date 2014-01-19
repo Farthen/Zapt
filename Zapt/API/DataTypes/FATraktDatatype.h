@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "FAPropertyInfo.h"
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, FATraktStatus) {
     FATraktStatusUnkown = 0,
     FATraktStatusSuccess = 1,
     FATraktStatusFailed = 2,
-} FATraktStatus;
+};
 
 @interface FATraktDatatype : NSObject <NSCoding, NSCopying> {
     NSDictionary *_originDict;

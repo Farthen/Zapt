@@ -275,7 +275,7 @@
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%i. %@", episode.episodeNumber.unsignedIntegerValue, episode.title];
+    cell.textLabel.text = [NSString stringWithFormat:@"%lu. %@", (unsigned long)episode.episodeNumber.unsignedIntegerValue, episode.title];
     //cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
