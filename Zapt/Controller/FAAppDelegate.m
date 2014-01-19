@@ -28,7 +28,7 @@
     // Override point for customization after application launch.
     // TestFlight SDK
 #ifndef DEBUG
-    [TestFlight takeOff:@"3ac925de-67dd-43f0-9e1a-602e269ab57b"];
+    [TestFlight takeOff:@"bd1a97eb-c0bd-4e93-aaac-166911b86304"];
 #endif
     
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
