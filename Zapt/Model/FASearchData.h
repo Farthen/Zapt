@@ -8,8 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FASearchData : NSObject
+@interface FASearchData : NSObject <NSCoding>
+- (id)initWithSearchString:(NSString *)searchString;
+
+@property (nonatomic) NSString *searchString;
+
 @property (retain) NSArray *movies;
 @property (retain) NSArray *shows;
 @property (retain) NSArray *episodes;
+
 @end

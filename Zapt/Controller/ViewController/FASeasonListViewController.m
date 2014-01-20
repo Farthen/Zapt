@@ -187,4 +187,19 @@
     [self loadShowData:show withActivity:NO];
 }
 
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+
+    [coder encodeObject:self.show forKey:@"show"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    [self loadShow:[coder decodeObjectForKey:@"show"]];
+}
+
 @end

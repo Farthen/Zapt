@@ -315,4 +315,13 @@
     return dict;
 }
 
+- (BOOL)shouldMergeObjectForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"show"]) {
+        return NO;
+    }
+    
+    return [super shouldMergeObjectForKey:key];
+}
+
 @end

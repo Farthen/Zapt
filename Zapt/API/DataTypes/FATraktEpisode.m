@@ -267,4 +267,14 @@
     return _seasonCacheKey;
 }
 
+- (BOOL)shouldMergeObjectForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"season"] ||
+        [key isEqualToString:@"show"]) {
+        return NO;
+    }
+    
+    return [super shouldMergeObjectForKey:key];
+}
+
 @end

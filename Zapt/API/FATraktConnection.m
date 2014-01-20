@@ -45,6 +45,12 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     return instance;
 }
 
++ (void)initialize
+{
+    // Initialize this. Otherwise this will be a race condition. Nobody likes race conditions.
+    [self sharedInstance];
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -54,9 +60,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         [self loadUsernameAndPassword];
         
         if (self.usernameAndPasswordSaved) {
-            self.usernameAndPasswordValid = YES;
+            _usernameAndPasswordValid = YES;
         } else {
-            self.usernameAndPasswordValid = NO;
+            _usernameAndPasswordValid = NO;
         }
         
         if (self.useHTTPS) {

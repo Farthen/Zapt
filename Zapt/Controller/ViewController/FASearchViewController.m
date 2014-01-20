@@ -143,7 +143,7 @@ static CGPoint _scrollPositions[3];
 - (void)searchForString:(NSString *)searchString
 {
     DDLogViewController(@"Searching for string: %@", searchString);
-    FASearchData *searchData = [[FASearchData alloc] init];
+    FASearchData *searchData = [[FASearchData alloc] initWithSearchString:searchString];
     self.searchData = searchData;
     
     [_resultsTableView reloadData];
@@ -306,6 +306,32 @@ static CGPoint _scrollPositions[3];
 - (IBAction)actionDoneButton:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+
+    [coder encodeObject:self.searchData forKey:@"searchData"];
+    [coder encodeInteger:_searchScope forKey:@"_searchScope"];
+    
+    [coder encodeObject:self.childViewControllers[0] forKey:@"childViewController"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.searchData = [coder decodeObjectForKey:@"searchData"];
+    _searchScope = [coder decodeIntegerForKey:@"_searchScope"];
+    
+    [self.searchDisplayController.searchResultsTableView reloadData];
+    
+    UIViewController *childViewController = [coder decodeObjectForKey:@"childViewController"];
+    if (childViewController) {
+        [self addChildViewController:childViewController];
+    }
 }
 
 - (void)dealloc

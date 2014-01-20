@@ -88,4 +88,19 @@
     [super addChildViewController:childController];
 }
 
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+
+    [coder encodeObject:self.season forKey:@"season"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    [self showEpisodeListForSeason:[coder decodeObjectForKey:@"season"]];
+}
+
 @end

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5037.2" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--Auth View Controller - Login-->
         <scene sceneID="CGM-cw-zy6">
             <objects>
-                <viewController storyboardIdentifier="auth" id="gg8-zH-TK9" customClass="FAAuthViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="auth" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gg8-zH-TK9" customClass="FAAuthViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="dGe-Bc-Kms"/>
                         <viewControllerLayoutGuide type="bottom" id="Kvv-fG-65u"/>
@@ -47,7 +47,7 @@
         <!--Navigation Controller-->
         <scene sceneID="U4f-1Z-6aq">
             <objects>
-                <navigationController definesPresentationContext="YES" id="Dc3-Gx-bgp" customClass="FANavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="mainNavigation" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Dc3-Gx-bgp" customClass="FANavigationController" sceneMemberID="viewController">
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="iIB-Ow-L8P">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="44"/>
@@ -64,7 +64,7 @@
         <!--Detail View Controller - Movie-->
         <scene sceneID="92n-65-4t4">
             <objects>
-                <viewController storyboardIdentifier="detail" id="pJW-2g-U2f" customClass="FADetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detail" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pJW-2g-U2f" customClass="FADetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Edw-Ky-ioc"/>
                         <viewControllerLayoutGuide type="bottom" id="VQb-3R-7Xf"/>
@@ -261,7 +261,7 @@
         <!--Episode List View Controller-->
         <scene sceneID="Y6Q-JP-zWi">
             <objects>
-                <tableViewController storyboardIdentifier="episodeList" id="3u5-q9-M2N" customClass="FAEpisodeListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="episodeList" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3u5-q9-M2N" customClass="FAEpisodeListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OAr-Va-uLq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -290,7 +290,7 @@
         <!--Season List View Controller-->
         <scene sceneID="RXX-CE-CEM">
             <objects>
-                <tableViewController storyboardIdentifier="seasonList" id="25m-3Q-WqO" customClass="FASeasonListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="seasonList" useStoryboardIdentifierAsRestorationIdentifier="YES" id="25m-3Q-WqO" customClass="FASeasonListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NIL-33-Mjx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -318,7 +318,7 @@
         <!--Season Detail View Controller-->
         <scene sceneID="T1j-XZ-QQc">
             <objects>
-                <viewController storyboardIdentifier="seasonDetail" id="l20-Xu-PLs" customClass="FASeasonDetailViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="seasonDetail" useStoryboardIdentifierAsRestorationIdentifier="YES" id="l20-Xu-PLs" customClass="FASeasonDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CZN-Se-Gpk"/>
                         <viewControllerLayoutGuide type="bottom" id="n9N-uo-YYZ"/>
@@ -549,7 +549,7 @@
         <!--Search View Controller - Zapt-->
         <scene sceneID="iWu-av-aDO">
             <objects>
-                <viewController storyboardIdentifier="search" id="ncl-x0-j1H" customClass="FASearchViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="search" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ncl-x0-j1H" customClass="FASearchViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="p30-os-uQH"/>
                         <viewControllerLayoutGuide type="bottom" id="iPF-7L-e6k"/>
@@ -620,7 +620,7 @@
         <!--Home View Controller-->
         <scene sceneID="2fs-CM-Nan">
             <objects>
-                <tableViewController id="Wns-kR-h92" customClass="FAHomeViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="home" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wns-kR-h92" customClass="FAHomeViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="nCc-hI-Id7">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -648,7 +648,7 @@
         <!--Lists View Controller - Lists-->
         <scene sceneID="3wz-yE-vIi">
             <objects>
-                <tableViewController storyboardIdentifier="lists" title="Lists" id="ECQ-hn-PhI" customClass="FAListsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="lists" title="Lists" useStoryboardIdentifierAsRestorationIdentifier="YES" id="ECQ-hn-PhI" customClass="FAListsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="XtT-US-yn3">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -676,7 +676,7 @@
         <!--List Detail View Controller-->
         <scene sceneID="02V-Hk-26n">
             <objects>
-                <tableViewController storyboardIdentifier="listdetail" id="KEm-lc-Swd" customClass="FAListDetailViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="listdetail" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KEm-lc-Swd" customClass="FAListDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ADF-tG-rpm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -755,7 +755,7 @@
         <!--Content Bookmark View Controller-->
         <scene sceneID="Ikz-1n-bcF">
             <objects>
-                <tableViewController storyboardIdentifier="contentBookmark" id="E4M-Qj-pH9" customClass="FAContentBookmarkViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="contentBookmark" useStoryboardIdentifierAsRestorationIdentifier="YES" id="E4M-Qj-pH9" customClass="FAContentBookmarkViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="gkE-LG-6oO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -832,7 +832,7 @@
         <!--Recommendations List View Controller-->
         <scene sceneID="R1Y-lQ-ZrS">
             <objects>
-                <tableViewController storyboardIdentifier="recommendations" id="3fa-fr-pWp" customClass="FARecommendationsListViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="recommendations" useStoryboardIdentifierAsRestorationIdentifier="YES" id="3fa-fr-pWp" customClass="FARecommendationsListViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="1Pb-rH-5cm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -875,7 +875,7 @@
         <!--Navigation Controller-->
         <scene sceneID="RUj-cj-D6V">
             <objects>
-                <navigationController definesPresentationContext="YES" id="yTk-Qq-ql7" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="settingsNavigation" definesPresentationContext="YES" id="yTk-Qq-ql7" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Jgb-kf-iiZ">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -890,7 +890,7 @@
         <!--Settings View Controller - Settings-->
         <scene sceneID="vhH-3t-Ok6">
             <objects>
-                <viewController id="28J-3Q-f74" customClass="FASettingsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settings" id="28J-3Q-f74" customClass="FASettingsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="n5l-1e-SfJ"/>
                         <viewControllerLayoutGuide type="bottom" id="WUa-eQ-NAW"/>
@@ -935,13 +935,13 @@
         <!--Next Up View Controller-->
         <scene sceneID="adP-XN-KQs">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="Qv3-Ro-3n4" customClass="FANextUpViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="nextUp" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Qv3-Ro-3n4" customClass="FANextUpViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="niF-XF-NZV"/>
                         <viewControllerLayoutGuide type="bottom" id="6Kf-z6-tsI"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="O0q-07-3xv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nMh-O4-5Fv">
@@ -1056,6 +1056,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="qiG-9f-tu8"/>
+        <segue reference="6NS-Tz-hxy"/>
     </inferredMetricsTieBreakers>
 </document>

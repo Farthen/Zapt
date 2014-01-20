@@ -12,7 +12,7 @@
 @class FATraktEpisode;
 @class FATraktShowProgress;
 
-@interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, FAViewControllerPreferredContentSizeChanged>
+@interface FANextUpViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, FAViewControllerPreferredContentSizeChanged, UIViewControllerRestoration>
 
 @property IBOutlet FAHorizontalProgressView *progressView;
 @property IBOutlet UITableView *tableView;
@@ -26,5 +26,8 @@
 - (void)displayProgress:(FATraktShowProgress *)progress;
 - (void)displayNextUp:(FATraktEpisode *)content;
 - (void)hideNextUp;
+
+@property (nonatomic, readonly) BOOL displaysProgress;
+@property (nonatomic, readonly) BOOL displaysNextUp;
 
 @end

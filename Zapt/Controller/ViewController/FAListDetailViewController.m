@@ -591,4 +591,47 @@
     [self filterContentForSearchBar:searchBar];
 }
 
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+
+    [coder encodeBool:_isWatchlist forKey:@"_isWatchlist"];
+    [coder encodeBool:_isLibrary forKey:@"_isLibrary"];
+    [coder encodeBool:_isCustom forKey:@"_isCustom"];
+    [coder encodeInteger:_contentType forKey:@"_contentType"];
+    [coder encodeObject:self.title forKey:@"title"];
+    
+    if (_isLibrary) {
+        [coder encodeObject:_loadedLibrary forKey:@"_loadedLibrary"];
+    } else {
+        [coder encodeObject:_loadedList forKey:@"_loadedList"];
+    }
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    _isWatchlist = [coder decodeBoolForKey:@"_isWatchlist"];
+    _isLibrary = [coder decodeBoolForKey:@"_isLibrary"];
+    _isCustom = [coder decodeBoolForKey:@"_isCustom"];
+    _contentType = [coder decodeBoolForKey:@"_contentType"];
+    _reloadWhenShowing = YES;
+    self.title = [coder decodeObjectForKey:@"title"];
+    
+    if (_isLibrary) {
+        NSArray *loadedLibrary = [coder decodeObjectForKey:@"_loadedLibrary"];
+        for (NSUInteger i = 0; i < 3; i++) {
+            FATraktList *list = loadedLibrary[i];
+            [self checkReloadDataForList:list];
+        }
+    } else {
+        FATraktList *list = [coder decodeObjectForKey:@"_loadedList"];
+        [self checkReloadDataForList:list];
+    }
+    
+    [self refreshDataAnimated:NO];
+}
+
 @end

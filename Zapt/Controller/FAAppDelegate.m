@@ -37,6 +37,8 @@
     
     DDLogInfo(@"%@ Version %@", [FAZapt applicationName], [FAZapt versionNumberDescription]);
     
+    
+    
     return YES;
 }
 
@@ -67,6 +69,43 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    NSLog(@"Path: %@", [identifierComponents reduceUsingBlock:^id(id memo, id object, NSUInteger idx, BOOL *stop) {
+        if (!memo) {
+            memo = [[NSMutableString alloc] init];
+        }
+        
+        [memo appendString:object];
+        [memo appendString:@"/"];
+        return memo;
+    }]);
+    
+    return nil;
+}
+
+- (void)application:(UIApplication *)application willEncodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:[FAZapt versionNumberString] forKey:@"FAZaptVersionNumber"];
+}
+
+- (void)application:(UIApplication *)application didDecodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    
+}
+
+- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
+{
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
+{
+    //return NO;
+    NSString *versionNumber = [coder decodeObjectForKey:@"FAZaptVersionNumber"];
+    return [versionNumber isEqualToString:[FAZapt versionNumberString]];
 }
 
 @end

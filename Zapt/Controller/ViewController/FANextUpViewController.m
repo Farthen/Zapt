@@ -18,8 +18,6 @@
 #import "FANextUpTableViewCell.h"
 
 @interface FANextUpViewController () {
-    BOOL _displaysProgress;
-    BOOL _displaysNextUp;
     FATraktShowProgress *_progress;
     FATraktEpisode *_nextUpEpisode;
 }
@@ -92,8 +90,8 @@
 - (void)viewWillLayoutSubviews
 {
     CGFloat height = 0;
-    
     if (_displaysNextUp) {
+        [self.tableView layoutIfNeeded];
         height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
     
@@ -225,7 +223,6 @@
 {
     if (_displaysProgress) {
         CGSize size = [self.view.subviews[0] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        
         return size;
     }
     
@@ -241,6 +238,53 @@
 - (BOOL)dismissesModalToDisplay
 {
     return _dismissesModalOnDisplay;
+}
+
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:_progress forKey:@"_progress"];
+    [coder encodeObject:_nextUpEpisode forKey:@"_nextUpEpisode"];
+    
+    [coder encodeBool:self.displaysProgress forKey:@"displaysProgress"];
+    [coder encodeBool:self.displaysNextUp forKey:@"displaysNextUp"];
+    
+    [coder encodeObject:self.nextUpText forKey:@"nextUpText"];
+    [coder encodeBool:self.dismissesModalToDisplay forKey:@"dismissesModalToDisplay"];
+    [coder encodeObject:self.tableView forKey:@"tableView"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    _progress = [coder decodeObjectForKey:@"_progress"];
+    _nextUpEpisode = [coder decodeObjectForKey:@"_nextUpEpisode"];
+    
+    _displaysProgress = [coder decodeBoolForKey:@"displaysProgress"];
+    _displaysNextUp = [coder decodeBoolForKey:@"displaysNextUp"];
+    
+    self.nextUpText = [coder decodeObjectForKey:@"nextUpText"];
+    self.dismissesModalToDisplay = [coder decodeBoolForKey:@"dismissesModalToDisplay"];
+    self.tableView = [coder decodeObjectForKey:@"tableView"];
+    
+    if (_displaysProgress) {
+        [self displayProgress:_progress];
+    }
+    
+    if (_displaysNextUp) {
+        [self displayNextUp:_nextUpEpisode];
+    }
+}
+
+- (Class<UIViewControllerRestoration>)restorationClass
+{
+    return self.class;
+}
+
++ (UIViewController *)viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
+{
+    FAAppDelegate *appDelegate = (FAAppDelegate *)[[UIApplication sharedApplication] delegate];
+    FANextUpViewController *nextUpVC = [appDelegate.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:@"nextUp"];
+    return nextUpVC;
 }
 
 @end

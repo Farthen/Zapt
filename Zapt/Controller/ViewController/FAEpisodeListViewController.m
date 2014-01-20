@@ -365,4 +365,33 @@
     self.searchDisplayController.delegate = nil;
 }
 
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+
+    [coder encodeBool:_displaysSingleSeason forKey:@"_displaysSingleSeason"];
+    
+    if (_displaysSingleSeason) {
+        [coder encodeObject:_displayedSeason forKey:@"_displayedSeason"];
+    } else {
+        [coder encodeObject:_displayedShow forKey:@"_displayedShow"];
+    }
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    _displaysSingleSeason = [coder decodeBoolForKey:@"_displaysSingleSeason"];
+    
+    if (_displaysSingleSeason) {
+        FATraktSeason *season = [coder decodeObjectForKey:@"_displayedSeason"];
+        [self showEpisodeListForSeason:season];
+    } else {
+        FATraktShow *show = [coder decodeObjectForKey:@"_displayedShow"];
+        [self loadEpisodeListForShow:show];
+    }
+}
+
 @end

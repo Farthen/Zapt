@@ -17,17 +17,40 @@
 
 @implementation FASearchData
 
-- (id)init
+- (id)initWithSearchString:(NSString *)searchString
 {
     self = [super init];
     
     if (self) {
+        self.searchString = searchString;
         self.movies = [[NSMutableArray alloc] init];
         self.shows = [[NSMutableArray alloc] init];
         self.episodes = [[NSMutableArray alloc] init];
     }
     
     return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    
+    if (self) {
+        self.searchString = [aDecoder decodeObjectForKey:@"searchString"];
+        self.movies = [aDecoder decodeObjectForKey:@"movies"];
+        self.shows = [aDecoder decodeObjectForKey:@"shows"];
+        self.episodes = [aDecoder decodeObjectForKey:@"episodes"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.searchString forKey:@"searchString"];
+    [aCoder encodeObject:self.movies forKey:@"movies"];
+    [aCoder encodeObject:self.shows forKey:@"shows"];
+    [aCoder encodeObject:self.episodes forKey:@"episodes"];
 }
 
 - (NSArray *)movies

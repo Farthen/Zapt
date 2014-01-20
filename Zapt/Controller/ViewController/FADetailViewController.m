@@ -34,12 +34,15 @@
 @interface FADetailViewController () {
     BOOL _showing;
     BOOL _willAppear;
+    BOOL _didLoad;
+    
+    BOOL _willRestoreState;
     
     FATraktContent *_currentContent;
     FATraktAccountSettings *_accountSettings;
     
     BOOL _loadContent;
-    BOOL _alreadyBeenShowed;
+    BOOL _alreadyBeenShown;
     
     BOOL _animatesLayoutChanges;
     
@@ -100,25 +103,32 @@
     self.actionButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Check In", nil), NSLocalizedString(@"Seasons", nil), nil];
     self.ratingsButton.title = @"";
     
+    _didLoad = YES;
+
     if (_loadContent) {
-        _currentContent = [_currentContent cachedVersion];
-        
-        if (_currentContent.contentType == FATraktContentTypeEpisodes) {
-            FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
-            self.navigationItem.title = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
-        } else {
-            self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
-        }
-        
-        [self loadContentData:_currentContent];
-        
-        if (_currentContent.contentType == FATraktContentTypeMovies) {
-            [self loadMovieData:(FATraktMovie *)_currentContent];
-        } else if (_currentContent.contentType == FATraktContentTypeShows) {
-            [self loadShowData:(FATraktShow *)_currentContent];
-        } else if (_currentContent.contentType == FATraktContentTypeEpisodes) {
-            [self loadEpisodeData:(FATraktEpisode *)_currentContent];
-        }
+        [self prepareViewForContent];
+    }
+}
+
+- (void)prepareViewForContent
+{
+    _currentContent = [_currentContent cachedVersion];
+    
+    if (_currentContent.contentType == FATraktContentTypeEpisodes) {
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        self.navigationItem.title = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
+    } else {
+        self.navigationItem.title = [FAInterfaceStringProvider nameForContentType:_currentContent.contentType withPlural:NO capitalized:YES longVersion:YES];
+    }
+    
+    [self loadContentData:_currentContent];
+    
+    if (_currentContent.contentType == FATraktContentTypeMovies) {
+        [self loadMovieData:(FATraktMovie *)_currentContent];
+    } else if (_currentContent.contentType == FATraktContentTypeShows) {
+        [self loadShowData:(FATraktShow *)_currentContent];
+    } else if (_currentContent.contentType == FATraktContentTypeEpisodes) {
+        [self loadEpisodeData:(FATraktEpisode *)_currentContent];
     }
 }
 
@@ -133,6 +143,11 @@
         [self doDisplayImageAnimated:NO];
     }
     
+    if (_willRestoreState) {
+         [self displayContent:_currentContent];
+         //[self loadContent:_currentContent];
+    }
+    
     _willAppear = YES;
     _animatesLayoutChanges = YES;
 }
@@ -141,7 +156,7 @@
 {
     [super viewDidAppear:animated];
     
-    if (_alreadyBeenShowed) {
+    if (_alreadyBeenShown) {
         [self displayRatingForContent:_currentContent ratingsMode:_accountSettings.viewing.ratings_mode];
         [self loadContent:_currentContent];
     }
@@ -155,7 +170,7 @@
     
     [self.contentView layoutIfNeeded];
     [self.scrollView layoutIfNeeded];
-    _alreadyBeenShowed = YES;
+    _alreadyBeenShown = YES;
 }
 
 - (void)viewWillLayoutSubviews
@@ -234,7 +249,7 @@
         _displayImageWhenFinishedShowing = YES;
         
         return;
-    } else if (_willAppear && _showing && !_imageDisplayed) {
+    } else if (_willAppear && _showing && !_imageDisplayed && _animatesLayoutChanges) {
         animated = YES;
     } else {
         animated = NO;
@@ -246,14 +261,18 @@
 - (void)setNextUpViewWithEpisode:(FATraktEpisode *)episode
 {
     if (episode) {
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
+        BOOL animate = !self.nextUpViewController.displaysNextUp && _animatesLayoutChanges;
+        
+        [UIView animateSynchronizedIf:animate duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
             [self.nextUpViewController displayNextUp:episode];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.scrollView layoutIfNeeded];
         } completion:nil];
     } else {
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
+        BOOL animate = self.nextUpViewController.displaysNextUp && _animatesLayoutChanges;
+        
+        [UIView animateSynchronizedIf:animate duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
             [self.nextUpViewController hideNextUp];
             [self.contentView recursiveSetNeedsUpdateConstraints];
         } animations:^{
@@ -340,6 +359,9 @@
             [self.overviewLabel setNeedsLayout];
             [self.overviewLabel layoutIfNeeded];
         } completion:nil];
+        
+        _animatedOverviewText = _animatedOverviewText || !_animatesLayoutChanges;
+        
         [UIView animateSynchronizedIf:!_animatedOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
             self.overviewLabel.alpha = 1.0;
         } completion:nil];
@@ -353,7 +375,9 @@
 - (void)displayProgress:(FATraktShowProgress *)progress
 {
     if (progress) {
-        [UIView animateSynchronizedIf:_animatesLayoutChanges duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
+        BOOL animate = !self.nextUpViewController.displaysProgress && _animatesLayoutChanges;
+        
+        [UIView animateSynchronizedIf:animate duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn setUp:^{
             [self.nextUpViewController displayProgress:progress];
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
@@ -445,13 +469,21 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    if (_animatesLayoutChanges) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayGenericContentData:show];
+            [self displayProgress:show.progress];
+            
+            [self.view layoutIfNeeded];
+            [self.view updateConstraintsIfNeeded];
+        });
+    } else {
         [self displayGenericContentData:show];
         [self displayProgress:show.progress];
         
         [self.view layoutIfNeeded];
         [self.view updateConstraintsIfNeeded];
-    });
+    }
 }
 
 - (void)loadShowData:(FATraktShow *)show
@@ -508,18 +540,29 @@
     [self displayEpisode:episode];
 }
 
+- (void)displayContent:(FATraktContent *)content
+{
+    if (content.contentType == FATraktContentTypeMovies) {
+        [self displayMovie:[((FATraktMovie *)content) cachedVersion]];
+    } else if (content.contentType == FATraktContentTypeShows) {
+        [self displayShow:[((FATraktShow *)content) cachedVersion]];
+    } else if (content.contentType == FATraktContentTypeEpisodes) {
+        [self displayEpisode:[((FATraktEpisode *)content) cachedVersion]];
+    }
+}
+
 - (void)loadContent:(FATraktContent *)content
 {
     _currentContent = content;
     [self loadContentData:content];
     
-    if (_willAppear) {
+    if (_didLoad) {
         if (content.contentType == FATraktContentTypeMovies) {
-            [self loadMovieData:[((FATraktMovie *)content)cachedVersion]];
+            [self loadMovieData:[((FATraktMovie *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeShows) {
-            [self loadShowData:[((FATraktShow *)content)cachedVersion]];
+            [self loadShowData:[((FATraktShow *)content) cachedVersion]];
         } else if (content.contentType == FATraktContentTypeEpisodes) {
-            [self loadEpisodeData:[((FATraktEpisode *)content)cachedVersion]];
+            [self loadEpisodeData:[((FATraktEpisode *)content) cachedVersion]];
         }
     } else {
         _loadContent = YES;
@@ -597,8 +640,36 @@
     [self displayGenericContentData:_currentContent];
 }
 
-#pragma mark misc
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    [coder encodeObject:_currentContent forKey:@"_currentContent"];
+    [coder encodeFloat:self.nextUpHeightConstraint.constant forKey:@"nextUpHeightConstraint.constant"];
+    [coder encodeObject:_coverImage forKey:@"_coverImage"];
+    [coder encodeObject:self.navigationItem.title forKey:@"title"];
+    
+    [coder encodeObject:self.nextUpViewController forKey:@"nextUpViewController"];
+}
 
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.nextUpHeightConstraint.constant = [coder decodeFloatForKey:@"nextUpHeightConstraint.constant"];
+    self.nextUpViewController = [coder decodeObjectForKey:@"nextUpViewController"];
+    
+    _coverImage = [coder decodeObjectForKey:@"_coverImage"];
+    [self doDisplayImageAnimated:NO];
+    
+    _currentContent = [coder decodeObjectForKey:@"_currentContent"];
+    _willRestoreState = YES;
+    
+    [self prepareViewForContent];
+    [self.view recursiveSetNeedsUpdateConstraints];
+}
+
+#pragma mark misc
 - (BOOL)shouldPerformSegueWithIdentifier:identifier sender:sender
 {
     return YES;

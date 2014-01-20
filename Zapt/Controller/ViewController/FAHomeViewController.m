@@ -223,4 +223,18 @@
     }
 }
 
+#pragma mark State Restoration
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    [coder encodeObject:self.arrayDataSource.tableViewData forKey:@"tableViewData"];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    //self.arrayDataSource.tableViewData = [coder decodeObjectForKey:@"tableViewData"];
+}
+
 @end

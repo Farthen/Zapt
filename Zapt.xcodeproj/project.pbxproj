@@ -161,7 +161,6 @@
 		F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */; };
 		F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30F162831C30077CBAA /* FATraktShow.m */; };
 		F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
-		F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */; };
 		F3FA8E4117FB9C970062F236 /* FATraktCheckinTimestamps.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */; };
 		F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */; };
 /* End PBXBuildFile section */
@@ -477,8 +476,6 @@
 		F3F9E30F162831C30077CBAA /* FATraktShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktShow.m; sourceTree = "<group>"; };
 		F3F9E311162838610077CBAA /* FATraktEpisode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktEpisode.h; sourceTree = "<group>"; };
 		F3F9E312162838610077CBAA /* FATraktEpisode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktEpisode.m; sourceTree = "<group>"; };
-		F3F9E3141628C9700077CBAA /* FAConnectingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAConnectingViewController.h; sourceTree = "<group>"; };
-		F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAConnectingViewController.m; sourceTree = "<group>"; };
 		F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinTimestamps.h; sourceTree = "<group>"; };
 		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
 		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
@@ -906,8 +903,6 @@
 		F3C84B691628DC48006CBFEF /* Connection */ = {
 			isa = PBXGroup;
 			children = (
-				F3F9E3141628C9700077CBAA /* FAConnectingViewController.h */,
-				F3F9E3151628C9710077CBAA /* FAConnectingViewController.m */,
 				B613A87015FD6FEB005D88CA /* FAAuthViewController.h */,
 				B613A87115FD6FEB005D88CA /* FAAuthViewController.m */,
 				F3152DBF17FBFDE20039AF30 /* FAAuthWindow.h */,
@@ -1447,7 +1442,6 @@
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */,
-				F3F9E3161628C9710077CBAA /* FAConnectingViewController.m in Sources */,
 				F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */,
 				F3B9C93F17F96914004264E6 /* FAZapt.m in Sources */,
 				F37B677D185BAD1800FAC329 /* FASeasonDetailViewController.m in Sources */,
