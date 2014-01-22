@@ -206,6 +206,7 @@ static CGPoint _scrollPositions[3];
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+    self.searchData = nil;
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar

@@ -89,8 +89,11 @@
 
 - (void)viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
+    
     CGFloat height = 0;
     if (_displaysNextUp) {
+        [self.tableView setNeedsLayout];
         [self.tableView layoutIfNeeded];
         height = [self tableView:(self.tableView) heightForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
@@ -121,7 +124,6 @@
     
     [self.view recursiveSetNeedsUpdateConstraints];
     [self.view recursiveSetNeedsLayout];
-    [self.view layoutIfNeeded];
 }
 
 - (void)displayNextUp:(FATraktEpisode *)episode
@@ -138,7 +140,6 @@
     [self.tableView reloadData];
     [self.view recursiveSetNeedsUpdateConstraints];
     [self.view recursiveSetNeedsLayout];
-    [self.view layoutIfNeeded];
 }
 
 - (void)hideNextUp
@@ -221,17 +222,27 @@
 
 - (CGSize)preferredContentSize
 {
+    CGSize size = CGSizeZero;
+    
     if (_displaysProgress) {
-        CGSize size = [self.view.subviews[0] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
-        return size;
+        size = [self.view.subviews[0] systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        
+        // Simulate the height because otherwise it won't be ready for state restoration
+        if (size.height <= 0 || (_displaysNextUp && size.height <= 22)) {
+            if (_displaysNextUp) {
+                size.height = 73;
+            } else {
+                size.height = 22;
+            }
+        }
     }
     
-    return CGSizeZero;
+    return size;
 }
 
 - (void)setDismissesModalToDisplay:(BOOL)dismissesModalToDisplay
 {
-    _dismissesModalOnDisplay = YES;
+    _dismissesModalOnDisplay = dismissesModalToDisplay;
     [self.tableView reloadData];
 }
 
@@ -264,7 +275,7 @@
     
     self.nextUpText = [coder decodeObjectForKey:@"nextUpText"];
     self.dismissesModalToDisplay = [coder decodeBoolForKey:@"dismissesModalToDisplay"];
-    self.tableView = [coder decodeObjectForKey:@"tableView"];
+    //self.tableView = [coder decodeObjectForKey:@"tableView"];
     
     if (_displaysProgress) {
         [self displayProgress:_progress];
@@ -273,6 +284,9 @@
     if (_displaysNextUp) {
         [self displayNextUp:_nextUpEpisode];
     }
+    
+    [self.tableView reloadData];
+    [self.tableView setNeedsLayout];
 }
 
 - (Class<UIViewControllerRestoration>)restorationClass

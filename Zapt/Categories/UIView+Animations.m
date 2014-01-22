@@ -85,7 +85,12 @@
     animation.setUp = setUp;
     animation.animations = animations;
     animation.completion = completion;
-    [self addAnimation:animation];
+    
+    if (!animate) {
+        [self executeAnimation:animation finish:nil];
+    } else {
+        [self addAnimation:animation];
+    }
 }
 
 - (void)finishAnimation
@@ -107,10 +112,8 @@
     }
 }
 
-- (void)executeNext
+- (void)executeAnimation:(FAAnimation *)animation finish:(void (^)(void))finish
 {
-    FAAnimation *animation = _nextAnimation;
-    
     if (animation != nil) {
         if (animation.setUp) {
             animation.setUp();
@@ -121,10 +124,18 @@
                 animation.completion(finished);
             }
             
-            // We are done now
-            [self finishAnimation];
+            if (finish) {
+                finish();
+            }
         }];
     }
+}
+
+- (void)executeNext
+{
+    [self executeAnimation:_nextAnimation finish:^{
+        [self finishAnimation];
+    }];
 }
 
 @end

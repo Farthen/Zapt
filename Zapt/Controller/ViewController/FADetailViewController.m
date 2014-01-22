@@ -146,6 +146,8 @@
     if (_willRestoreState) {
          [self displayContent:_currentContent];
          //[self loadContent:_currentContent];
+        
+        [self prepareViewForContent];
     }
     
     _willAppear = YES;
@@ -260,7 +262,7 @@
 
 - (void)setNextUpViewWithEpisode:(FATraktEpisode *)episode
 {
-    if (episode) {
+    if (episode && ![episode.title isEqualToString:@"TBA"]) {
         BOOL animate = !self.nextUpViewController.displaysNextUp && _animatesLayoutChanges;
         
         [UIView animateSynchronizedIf:animate duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut setUp:^{
@@ -268,6 +270,7 @@
             self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
         } animations:^{
             [self.scrollView layoutIfNeeded];
+            [self.contentView layoutIfNeeded];
         } completion:nil];
     } else {
         BOOL animate = self.nextUpViewController.displaysNextUp && _animatesLayoutChanges;
@@ -276,8 +279,8 @@
             [self.nextUpViewController hideNextUp];
             [self.contentView recursiveSetNeedsUpdateConstraints];
         } animations:^{
-            //[self.contentView layoutIfNeeded];
-            //[self.scrollView layoutIfNeeded];
+            [self.contentView layoutIfNeeded];
+            [self.scrollView layoutIfNeeded];
         } completion:nil];
     }
 }
@@ -362,7 +365,7 @@
         
         _animatedOverviewText = _animatedOverviewText || !_animatesLayoutChanges;
         
-        [UIView animateSynchronizedIf:!_animatedOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
+        [UIView animateSynchronizedIf:_animatedOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
             self.overviewLabel.alpha = 1.0;
         } completion:nil];
         
@@ -384,7 +387,7 @@
             [self.contentView layoutIfNeeded];
             [self.scrollView layoutIfNeeded];
         } completion:^(BOOL finished) {
-            if (progress.percentage.unsignedIntegerValue != 100 && ![progress.next_episode.title isEqualToString:@"TBA"]) {
+            if (progress.percentage.unsignedIntegerValue != 100) {
                 [self setNextUpViewWithEpisode:progress.next_episode];
             } else {
                 [self setNextUpViewWithEpisode:nil];
@@ -469,7 +472,7 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
-    if (_animatesLayoutChanges) {
+    if (_animatesLayoutChanges && ![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self displayGenericContentData:show];
             [self displayProgress:show.progress];
@@ -665,7 +668,6 @@
     _currentContent = [coder decodeObjectForKey:@"_currentContent"];
     _willRestoreState = YES;
     
-    [self prepareViewForContent];
     [self.view recursiveSetNeedsUpdateConstraints];
 }
 
