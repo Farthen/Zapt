@@ -122,6 +122,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     for (FACache *cache in self.allCaches) {
         [cache removeAllObjects];
         [cache saveToDisk];
+        [cache reloadDataFromDisk];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:FATraktCacheClearedNotification object:self];
