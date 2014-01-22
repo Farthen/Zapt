@@ -14,7 +14,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktProgress %p for show \"%@\">", self, self.show];
+    return [NSString stringWithFormat:@"<FATraktShowProgress %p for show \"%@\">", self, self.show];
 }
 
 - (void)finishedMappingObjects

@@ -18,7 +18,7 @@
 @property (retain) NSNumber *aired;
 @property (retain) NSNumber *completed;
 @property (retain) NSNumber *left;
-@property (weak) FATraktEpisode *next_episode;
+@property (retain) FATraktEpisode *next_episode;
 @property (retain) FATraktSeasonProgress *seasonProgress;
 
 @end
