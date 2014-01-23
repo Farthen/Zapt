@@ -51,6 +51,7 @@
     
     CGPoint center = CGPointMake(rect.origin.x + rect.size.width / 2, rect.origin.y + rect.size.height / 2);
     
+    // FIXME why is this like that?
     rect = CGRectCenteredToPoint(rect.size, center);
     
     return CGRectCenteredToPoint(CGSizeMake(24, 24), center);
