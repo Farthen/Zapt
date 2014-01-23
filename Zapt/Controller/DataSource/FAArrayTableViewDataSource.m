@@ -7,10 +7,10 @@
 //
 
 #import "FAArrayTableViewDataSource.h"
+#import "FADictionaryHashLocator.h"
 
 @interface FAArrayTableViewDataSource ()
 @property NSString *cellIdentifier;
-@property (weak) UITableView *tableView;
 
 // An object to index path mapping. It contains NSSets with index paths
 @property NSMutableDictionary *objects;
@@ -22,6 +22,8 @@
     NSMutableArray *_sectionIndexTitles;
     NSMutableArray *_headerTitles;
     NSMutableArray *_footerTitles;
+    
+    UITableView *_tableView;
 }
 
 - (instancetype)init
@@ -43,10 +45,54 @@
     
     if (self) {
         self.tableView = tableView;
-        tableView.dataSource = self;
     }
     
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    
+    if (self) {
+        self.reloadsDataOnDataChange = NO;
+        _objects =            [coder decodeObjectForKey:@"objects"];
+        _tableViewData =      [coder decodeObjectForKey:@"tableViewData"];
+        _cellIdentifier =     [coder decodeObjectForKey:@"cellIdentifier"];
+        _sectionIndexTitles = [coder decodeObjectForKey:@"sectionIndexTitles"];
+        _headerTitles =       [coder decodeObjectForKey:@"headerTitles"];
+        _footerTitles =       [coder decodeObjectForKey:@"footerTitles"];
+        _editableIndexPaths = [coder decodeObjectForKey:@"editableIndexPaths"];
+        _movableIndexPaths =  [coder decodeObjectForKey:@"movableIndexPaths"];
+        
+        _cellClass = NSClassFromString([coder decodeObjectForKey:@"cellClassName"]);
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.objects            forKey:@"objects"];
+    [coder encodeObject:self.tableViewData      forKey:@"tableViewData"];
+    [coder encodeObject:self.cellIdentifier     forKey:@"cellIdentifier"];
+    [coder encodeObject:self.sectionIndexTitles forKey:@"sectionIndexTitles"];
+    [coder encodeObject:self.headerTitles       forKey:@"headerTitles"];
+    [coder encodeObject:self.footerTitles       forKey:@"footerTitles"];
+    [coder encodeObject:self.editableIndexPaths forKey:@"editableIndexPaths"];
+    [coder encodeObject:self.movableIndexPaths  forKey:@"movableIndexPaths"];
+    
+    [coder encodeObject:NSStringFromClass(self.cellClass) forKey:@"cellClassName"];
+}
+
+- (void)setTableView:(UITableView *)tableView
+{
+    _tableView = tableView;
+    tableView.dataSource = self;
+}
+
+- (UITableView *)tableView
+{
+    return _tableView;
 }
 
 - (void)setTableViewData:(NSArray *)tableViewData
@@ -483,6 +529,18 @@
 - (NSArray *)sectionIndexTitles
 {
     return _sectionIndexTitles;
+}
+
+- (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view
+{
+    return [NSString stringWithFormat:@"%lu", (unsigned long)[[self objectAtIndexPath:idx] hash]];
+}
+
+- (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view
+{
+    FADictionaryHashLocator *locator = [FADictionaryHashLocator hashLocatorWithHashString:identifier];
+    NSSet *indexPaths = [self.objects objectForKey:locator];
+    return [indexPaths anyObject];
 }
 
 @end

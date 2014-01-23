@@ -43,6 +43,8 @@ static CGPoint _scrollPositions[3];
     _scrollPositions[1] = CGPointZero;
     _scrollPositions[2] = CGPointZero;
     
+    self.searchDisplayController.searchResultsTableView.restorationIdentifier = @"searchResultsTableView";
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(navigationControllerPoppedToRootViewControllerNotification:) name:FANavigationControllerDidPopToRootViewControllerNotification object:nil];
 }
 
@@ -313,9 +315,16 @@ static CGPoint _scrollPositions[3];
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
-
-    [coder encodeObject:self.searchData forKey:@"searchData"];
-    [coder encodeInteger:_searchScope forKey:@"_searchScope"];
+    
+    BOOL active = self.searchDisplayController.active;
+    
+    [coder encodeBool:active forKey:@"searchDisplayController.active"];
+    
+    if (active) {
+        [coder encodeBool:self.searchBar.isFirstResponder forKey:@"searchBarIsFirstResponder"];
+        [coder encodeObject:self.searchData forKey:@"searchData"];
+        [coder encodeInteger:_searchScope forKey:@"_searchScope"];
+    }
     
     [coder encodeObject:self.childViewControllers[0] forKey:@"childViewController"];
 }
@@ -324,10 +333,23 @@ static CGPoint _scrollPositions[3];
 {
     [super decodeRestorableStateWithCoder:coder];
     
-    self.searchData = [coder decodeObjectForKey:@"searchData"];
-    _searchScope = [coder decodeIntegerForKey:@"_searchScope"];
+    BOOL active = [coder decodeBoolForKey:@"searchDisplayController.active"];
     
-    [self.searchDisplayController.searchResultsTableView reloadData];
+    if (active) {
+        self.searchData = [coder decodeObjectForKey:@"searchData"];
+        _searchScope = [coder decodeIntegerForKey:@"_searchScope"];
+        self.searchBar.selectedScopeButtonIndex = _searchScope;
+        
+        [self.searchDisplayController setActive:YES animated:NO];
+        
+        if ([coder decodeBoolForKey:@"searchBarIsFirstResponder"]) {
+            [self.searchBar becomeFirstResponder];
+        }
+        
+        self.searchBar.text = self.searchData.searchString;
+        
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }
     
     UIViewController *childViewController = [coder decodeObjectForKey:@"childViewController"];
     if (childViewController) {

@@ -57,6 +57,8 @@
     
     UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
     UIActivityViewController *_activityViewController;
+    
+    CGFloat _contentOffsetAfterLayout;
 }
 
 @end
@@ -204,6 +206,10 @@
 {
     [super viewDidLayoutSubviews];
     [self updateViewConstraints];
+    
+    if (_contentOffsetAfterLayout != 0) {
+        self.scrollView.contentOffset = CGPointMake(0, _contentOffsetAfterLayout);
+    }
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -653,6 +659,8 @@
     [coder encodeObject:self.navigationItem.title forKey:@"title"];
     
     [coder encodeObject:self.nextUpViewController forKey:@"nextUpViewController"];
+    
+    [coder encodeFloat:self.scrollView.contentOffset.y forKey:@"scrollOffset"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
@@ -669,6 +677,8 @@
     _willRestoreState = YES;
     
     [self.view recursiveSetNeedsUpdateConstraints];
+    
+    _contentOffsetAfterLayout = [coder decodeFloatForKey:@"scrollOffset"];
 }
 
 #pragma mark misc

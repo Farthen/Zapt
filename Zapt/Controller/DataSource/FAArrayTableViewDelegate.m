@@ -11,8 +11,6 @@
 #import "FATableViewCellHeight.h"
 
 @interface FAArrayTableViewDelegate ()
-@property FAArrayTableViewDataSource *dataSource;
-
 @property NSMutableDictionary *viewsForSectionHeaders;
 @property NSMutableDictionary *viewsForSectionFooters;
 @property NSMutableDictionary *heightsForSectionHeaders;

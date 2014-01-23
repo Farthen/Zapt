@@ -66,19 +66,29 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.arrayDataSource = [[FAArrayTableViewDataSource alloc] initWithTableView:self.tableView];
+    self.tableView.rowHeight = 100;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (!self.arrayDataSource) {
+        self.arrayDataSource = [[FAArrayTableViewDataSource alloc] initWithTableView:self.tableView];
+        self.arrayDataSource.cellClass = [FAImageTableViewCell class];
+    }
     
     self.arrayTableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
     self.arrayTableViewDelegate.delegate = self;
     self.tableView.delegate = self.arrayTableViewDelegate;
     
-    self.tableView.rowHeight = 100;
-    
-    self.arrayDataSource.cellClass = [FAImageTableViewCell class];
+    [self configureTableViewDataSource];
+}
+
+- (void)configureTableViewDataSource
+{
+    self.arrayDataSource.tableView = self.tableView;
     self.tableView.dataSource = self.arrayDataSource;
     
     __weak typeof(self) weakSelf = self;
-    
     self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id object) {
         FATraktSeason *season = object;
         
@@ -106,6 +116,9 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     };
+    
+    self.arrayDataSource.reloadsDataOnDataChange = YES;
+    self.arrayTableViewDelegate.dataSource = self.arrayDataSource;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowWithObject:(id)object
@@ -193,13 +206,20 @@
     [super encodeRestorableStateWithCoder:coder];
 
     [coder encodeObject:self.show forKey:@"show"];
+    [coder encodeObject:self.arrayDataSource forKey:@"arrayDataSource"];
+    [coder encodeObject:self.seasonImages forKey:@"seasonImages"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
     
-    [self loadShow:[coder decodeObjectForKey:@"show"]];
+    self.show = [coder decodeObjectForKey:@"show"];
+    self.seasonImages = [coder decodeObjectForKey:@"seasonImages"];
+    self.arrayDataSource = [coder decodeObjectForKey:@"arrayDataSource"];
+    [self configureTableViewDataSource];
+    //[self.tableView reloadData];
+    //[self loadShow:[coder decodeObjectForKey:@"show"]];
 }
 
 @end

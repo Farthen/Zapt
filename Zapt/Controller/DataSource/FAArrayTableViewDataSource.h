@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface FAArrayTableViewDataSource : NSObject <UITableViewDataSource>
+@interface FAArrayTableViewDataSource : NSObject <UITableViewDataSource, UIDataSourceModelAssociation, NSCoding>
 
 // Designated initializer
 - (instancetype)initWithTableView:(UITableView *)tableView;
@@ -29,7 +29,7 @@
 @property NSSet *movableIndexPaths;
 
 // The table view (must be set)
-@property (readonly) UITableView *tableView;
+@property UITableView *tableView;
 
 typedef id (^FAArrayTableViewCellCreationBlock)(id object);
 @property (nonatomic, copy) FAArrayTableViewCellCreationBlock cellCreationBlock;

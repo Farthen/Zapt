@@ -63,6 +63,8 @@
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 
+@property (nonatomic) FAArrayTableViewDataSource *dataSource;
+
 @property BOOL displaysCustomHeaderViews;
 @property BOOL displaysCustomFooterViews;
 
