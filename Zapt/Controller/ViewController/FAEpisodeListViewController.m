@@ -372,10 +372,10 @@
 
     [coder encodeBool:_displaysSingleSeason forKey:@"_displaysSingleSeason"];
     
+    [coder encodeObject:_displayedShow forKey:@"_displayedShow"];
+    
     if (_displaysSingleSeason) {
         [coder encodeObject:_displayedSeason forKey:@"_displayedSeason"];
-    } else {
-        [coder encodeObject:_displayedShow forKey:@"_displayedShow"];
     }
 }
 
@@ -385,9 +385,12 @@
     
     _displaysSingleSeason = [coder decodeBoolForKey:@"_displaysSingleSeason"];
     
+    _displayedShow = [coder decodeObjectForKey:@"_displayedSeason"];
+    
     if (_displaysSingleSeason) {
-        FATraktSeason *season = [coder decodeObjectForKey:@"_displayedSeason"];
-        [self showEpisodeListForSeason:season];
+        _displayedSeason = [coder decodeObjectForKey:@"_displayedSeason"];
+        _displayedSeason.show = _displayedShow;
+        [self showEpisodeListForSeason:_displayedSeason];
     } else {
         FATraktShow *show = [coder decodeObjectForKey:@"_displayedShow"];
         [self loadEpisodeListForShow:show];
