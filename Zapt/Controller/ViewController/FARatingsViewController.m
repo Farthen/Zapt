@@ -74,6 +74,12 @@
     }
 }
 
+- (void)ratingsViewCancelButtonPressed:(id)sender
+{
+    // Just dismiss the VC and do nothing
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleLightContent;

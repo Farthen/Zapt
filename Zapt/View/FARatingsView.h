@@ -12,6 +12,7 @@
 @protocol FARatingsViewDelegate <NSObject>
 
 - (void)ratingsViewDoneButtonPressed:(id)sender;
+- (void)ratingsViewCancelButtonPressed:(id)sender;
 
 @end
 

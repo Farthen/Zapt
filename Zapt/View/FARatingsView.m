@@ -67,14 +67,22 @@
         self.navigationBar = [[UINavigationBar alloc] initWithFrame:frame];
         
         UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:NSLocalizedString(@"Rating", nil)];
+        
         UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self.delegate action:@selector(ratingsViewDoneButtonPressed:)];
         navigationItem.rightBarButtonItem = rightButton;
+        
+        UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self.delegate action:@selector(ratingsViewCancelButtonPressed:)];
+        navigationItem.leftBarButtonItem = leftButton;
+        
         [self.navigationBar setItems:@[navigationItem]];
         
         self.navigationBar.barStyle = UIBarStyleBlack;
         
         [self addSubview:self.navigationBar];
     }
+    
+    self.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
+    self.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     
     if (self.simpleRating) {
         [self.ratingControl removeFromSuperview];
@@ -125,10 +133,6 @@
             self.likeButton.backgroundColor = buttonColor;
             self.hateButton.backgroundColor = buttonColor;
         }
-        
-        self.likeButton.tintColor = [self.likeButton.backgroundColor invertedColor];
-        self.hateButton.tintColor = [self.hateButton.backgroundColor invertedColor];
-        self.navigationBar.topItem.rightBarButtonItem.tintColor = self.tintColor;
     } else {
         [self.likeButton removeFromSuperview];
         [self.hateButton removeFromSuperview];
@@ -211,8 +215,6 @@
          self.navigationBar.topItem.rightBarButtonItem.tintColor = [self.backgroundColor invertedColor];
          }*/
         
-        self.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
-        
         [self addSubview:self.ratingControl];
         [self.ratingControl addSubview:self.ratingLabel];
     }
@@ -256,12 +258,20 @@
 
 - (void)likeButtonPressed:(id)sender
 {
-    self.rating = 10;
+    if (self.rating == 10) {
+        self.rating = 0;
+    } else {
+        self.rating = 10;
+    }
 }
 
 - (void)hateButtonPressed:(id)sender
 {
-    self.rating = 0;
+    if (self.rating == 1) {
+        self.rating = 0;
+    } else {
+        self.rating = 1;
+    }
 }
 
 - (CGFloat)navigationBarHeight
