@@ -107,6 +107,8 @@
         if (season.episodes) {
             if (season.episodesWatched.unsignedIntegerValue >= season.episodeCount.unsignedIntegerValue) {
                 [[FABadges instanceForView:cell] badge:FABadgeWatched];
+            } else {
+                [[FABadges instanceForView:cell] unbadge:FABadgeWatched];
             }
         }
         
