@@ -253,7 +253,6 @@
     [self setNeedsLayout];
     [self setNeedsDisplay];
     [self layoutIfNeeded];
-
 }
 
 - (void)likeButtonPressed:(id)sender

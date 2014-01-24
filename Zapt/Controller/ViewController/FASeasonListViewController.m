@@ -71,6 +71,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if (!self.arrayDataSource) {
         self.arrayDataSource = [[FAArrayTableViewDataSource alloc] initWithTableView:self.tableView];
         self.arrayDataSource.cellClass = [FAImageTableViewCell class];
