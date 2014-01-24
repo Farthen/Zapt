@@ -114,6 +114,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionUsernameAndPasswordValidityChangedNotification:) name:FATraktUsernameAndPasswordValidityChangedNotification object:nil];
     [self connectionUsernameAndPasswordValidityChangedNotification:nil];
+    [self connectionUsernameAndPasswordValidityChanged];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -125,9 +126,14 @@
     }
 }
 
+- (void)connectionUsernameAndPasswordValidityChanged
+{
+}
+
 - (void)connectionUsernameAndPasswordValidityChangedNotification:(NSNotification *)notification
 {
     [self displayNeedsLoginTableViewIfNeeded];
+    [self connectionUsernameAndPasswordValidityChanged];
 }
 
 - (void)didReceiveMemoryWarning

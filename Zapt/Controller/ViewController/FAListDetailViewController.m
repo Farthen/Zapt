@@ -616,7 +616,7 @@
     _isWatchlist = [coder decodeBoolForKey:@"_isWatchlist"];
     _isLibrary = [coder decodeBoolForKey:@"_isLibrary"];
     _isCustom = [coder decodeBoolForKey:@"_isCustom"];
-    _contentType = [coder decodeBoolForKey:@"_contentType"];
+    _contentType = [coder decodeIntegerForKey:@"_contentType"];
     _reloadWhenShowing = YES;
     self.title = [coder decodeObjectForKey:@"title"];
     

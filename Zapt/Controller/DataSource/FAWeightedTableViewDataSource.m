@@ -19,11 +19,11 @@
 
 @end
 
-@interface FAWeightedTableViewDataSourceSection : NSObject
+@interface FAWeightedTableViewDataSourceSection : NSObject <NSCoding>
 
 @property NSMutableDictionary *rowData;
 @property BOOL hidden;
-@property __weak id <NSCopying> key;
+@property __weak id <NSCopying, NSCoding> key;
 @property NSInteger weight;
 @property NSString *headerTitle;
 @property (readonly) NSInteger lastSectionIndex;
@@ -31,8 +31,8 @@
 
 @property NSMutableDictionary *rowsForIndexes;
 
-- (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight;
-+ (instancetype)sectionWithKey:(id <NSCopying>)key weight:(NSInteger)weight;
+- (instancetype)initWithKey:(id <NSCopying, NSCoding>)key weight:(NSInteger)weight;
++ (instancetype)sectionWithKey:(id <NSCopying, NSCoding>)key weight:(NSInteger)weight;
 
 @end
 
@@ -46,7 +46,39 @@
     return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceSection key:%@ weight:%ld rowCount:%ld hidden:%@ lastIndex:%ld currentIndex:%ld headerTitle:%@>", self.key, (long)self.weight, (long)self.rowData.count, self.hidden ? @"YES" : @"NO", (long)self.lastSectionIndex, (long)self.currentSectionIndex, self.headerTitle];
 }
 
-- (instancetype)initWithKey:(id <NSCopying>)key weight:(NSInteger)weight
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [self init];
+    
+    if (self) {
+        self.rowData = [coder decodeObjectForKey:@"rowData"];
+        self.hidden = [coder decodeBoolForKey:@"hidden"];
+        self.key = [coder decodeObjectForKey:@"key"];
+        self.weight = [coder decodeIntegerForKey:@"weight"];
+        self.headerTitle = [coder decodeObjectForKey:@"headerTitle"];
+        _lastSectionIndex = [coder decodeIntegerForKey:@"lastSectionIndex"];
+        _currentSectionIndex = [coder decodeIntegerForKey:@"currentSectionIndex"];
+        
+        self.rowsForIndexes = [coder decodeObjectForKey:@"rowsForIndexes"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.rowData forKey:@"rowData"];
+    [coder encodeBool:self.hidden forKey:@"hidden"];
+    [coder encodeObject:self.key forKey:@"key"];
+    [coder encodeInteger:self.weight forKey:@"weight"];
+    [coder encodeObject:self.headerTitle forKey:@"headerTitle"];
+    [coder encodeInteger:self.lastSectionIndex forKey:@"lastSectionIndex"];
+    [coder encodeInteger:self.currentSectionIndex forKey:@"currentSectionIndex"];
+    
+    [coder encodeObject:self.rowsForIndexes forKey:@"rowsForIndexes"];
+}
+
+- (instancetype)initWithKey:(id <NSCopying, NSCoding>)key weight:(NSInteger)weight
 {
     self = [super init];
     
@@ -61,7 +93,7 @@
     return self;
 }
 
-+ (instancetype)sectionWithKey:(id <NSCopying>)key weight:(NSInteger)weight
++ (instancetype)sectionWithKey:(id <NSCopying, NSCoding>)key weight:(NSInteger)weight
 {
     FAWeightedTableViewDataSourceSection *instance = [[self alloc] initWithKey:key weight:weight];
     return instance;
@@ -80,16 +112,16 @@
 
 @end
 
-@interface FAWeightedTableViewDataSourceRow : NSObject
+@interface FAWeightedTableViewDataSourceRow : NSObject <NSCoding>
 
-@property __weak id key;
+@property __weak id <NSCoding, NSCopying> key;
 @property NSInteger weight;
 @property BOOL hidden;
 @property (readonly) NSIndexPath *lastIndexPath;
 @property NSIndexPath *currentIndexPath;
 
 - (instancetype)initWithKey:(id)obj weight:(NSInteger)weight;
-+ (instancetype)rowWithKey:(id <NSCopying>)obj weight:(NSInteger)weight;
++ (instancetype)rowWithKey:(id <NSCopying, NSCoding>)obj weight:(NSInteger)weight;
 
 @end
 
@@ -101,6 +133,30 @@
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FAWeightedTableViewDataSourceRow key:%@ weight:%ld hidden:%@ lastIndexPath:%@ currentIndexPath:%@>", self.key, (long)self.weight, self.hidden ? @"YES" : @"NO", self.lastIndexPath, self.currentIndexPath];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [self init];
+    
+    if (self) {
+        self.key = [coder decodeObjectForKey:@"key"];
+        self.weight = [coder decodeIntegerForKey:@"weight"];
+        self.hidden = [coder decodeBoolForKey:@"hidden"];
+        _lastIndexPath = [coder decodeObjectForKey:@"lastIndexPath"];
+        _currentIndexPath = [coder decodeObjectForKey:@"currentIndexPath"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.key forKey:@"key"];
+    [coder encodeInteger:self.weight forKey:@"weight"];
+    [coder encodeBool:self.hidden forKey:@"hidden"];
+    [coder encodeObject:self.lastIndexPath forKey:@"lastIndexPath"];
+    [coder encodeObject:self.currentIndexPath forKey:@"currentIndexPath"];
 }
 
 - (instancetype)initWithKey:(id)obj weight:(NSInteger)weight
@@ -116,7 +172,7 @@
     return self;
 }
 
-+ (instancetype)rowWithKey:(id <NSCopying>)obj weight:(NSInteger)weight
++ (instancetype)rowWithKey:(id <NSCopying, NSCoding>)obj weight:(NSInteger)weight
 {
     FAWeightedTableViewDataSourceRow *instance = [[self.class alloc] initWithKey:obj weight:weight];
     return instance;
@@ -247,6 +303,29 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
     
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    
+    if (self) {
+        self.weightedSections = [coder decodeObjectForKey:@"weightedSections"];
+        self.weightedSectionData = [coder decodeObjectForKey:@"weightedSectionData"];
+        self.sectionsForIndexes = [coder decodeObjectForKey:@"sectionsForIndexes"];
+        self.tableViewActions = [coder decodeObjectForKey:@"tableViewActions"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [super encodeWithCoder:coder];
+    [coder encodeObject:self.weightedSections forKey:@"weightedSections"];
+    [coder encodeObject:self.weightedSectionData forKey:@"weightedSectionData"];
+    [coder encodeObject:self.sectionsForIndexes forKey:@"sectionsForIndexes"];
+    [coder encodeObject:self.tableViewActions forKey:@"tableViewActions"];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -409,7 +488,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     self.tableView.contentOffset = scrollPosition;
 }
 
-- (void)clearFiltersForSection:(id <NSCopying>)sectionKey
+- (void)clearFiltersForSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
@@ -454,7 +533,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
-- (void)hideRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
+- (void)hideRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
@@ -470,7 +549,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
-- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey
+- (void)showRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
@@ -488,7 +567,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     row.hidden = NO;
 }
 
-- (void)hideSection:(id<NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation
+- (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
@@ -503,12 +582,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
-- (void)hideSection:(id <NSCopying>)sectionKey
+- (void)hideSection:(id <NSCopying, NSCoding>)sectionKey
 {
     [self hideSection:sectionKey animation:UITableViewRowAnimationFade];
 }
 
-- (void)showSection:(id <NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation
+- (void)showSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
@@ -523,12 +602,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
-- (void)showSection:(id<NSCopying>)sectionKey
+- (void)showSection:(id <NSCopying, NSCoding>)sectionKey
 {
     [self showSection:sectionKey animation:UITableViewRowAnimationFade];
 }
 
-- (void)clearSection:(id <NSCopying>)sectionKey
+- (void)clearSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
@@ -545,7 +624,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [section.rowData removeAllObjects];
 }
 
-- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey
+- (void)removeRowInSection:(id <NSCopying, NSCoding>)sectionKey forObject:(id)rowKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
@@ -562,7 +641,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
-- (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight
+- (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
@@ -600,12 +679,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [self.tableViewActions addObject:action];
 }
 
-- (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight
 {
     [self createSectionForKey:key withWeight:weight andHeaderTitle:nil];
 }
 
-- (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title
 {
     if (!self.weightedSections) {
         self.weightedSections = [NSMutableDictionary dictionary];
@@ -613,7 +692,16 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     
     FAWeightedTableViewDataSourceAction *action;
     FAWeightedTableViewDataSourceSection *oldSection = self.weightedSections[key];
-    FAWeightedTableViewDataSourceSection *section = [FAWeightedTableViewDataSourceSection sectionWithKey:key weight:weight];
+    FAWeightedTableViewDataSourceSection *section;
+    
+    // If there is an old section, just silently use that one and don't create a new one
+    if (oldSection) {
+        section = oldSection;
+        section.key = key;
+        section.weight = weight;
+    } else {
+        section = [FAWeightedTableViewDataSourceSection sectionWithKey:key weight:weight];
+    }
     
     self.weightedSections[key] = section;
     
@@ -623,8 +711,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     
     // If there is an old section with this name, update the section data
     if (oldSection && oldSection.currentSectionIndex) {
-        action = [FAWeightedTableViewDataSourceAction actionForSection:oldSection
-                                                            actionType:FAWeightedTableViewDataSourceActionReloadSection];
+        action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                            actionType:FAWeightedTableViewDataSourceActionReloadSection
+                                                             animation:UITableViewRowAnimationNone];
     } else {
         action = [FAWeightedTableViewDataSourceAction actionForSection:section
                                                             actionType:FAWeightedTableViewDataSourceActionInsertSection];
@@ -633,7 +722,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [self.tableViewActions addObject:action];
 }
 
-- (void)removeSectionForKey:(id<NSCopying>)key
+- (void)removeSectionForKey:(id <NSCopying, NSCoding>)key
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[key];
     

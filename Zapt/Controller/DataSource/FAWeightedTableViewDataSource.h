@@ -8,29 +8,29 @@
 
 #import "FAArrayTableViewDataSource.h"
 
-@interface FAWeightedTableViewDataSource : FAArrayTableViewDataSource
+@interface FAWeightedTableViewDataSource : FAArrayTableViewDataSource <NSCoding>
 
 - (void)recalculateWeight;
 
-- (void)clearFiltersForSection:(id <NSCopying>)sectionKey;
+- (void)clearFiltersForSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)clearFilters;
 - (void)filterRowsUsingBlock:(BOOL (^)(id key, BOOL *stop))filterBlock;
 
-- (void)showRow:(id)rowKey inSection:(id <NSCopying>)sectionKey;
-- (void)hideRow:(id)rowKey inSection:(id <NSCopying>)sectionKey;
+- (void)showRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
+- (void)hideRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
 
 - (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey;
 - (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
 
-- (void)hideSection:(id <NSCopying>)sectionKey;
-- (void)hideSection:(id<NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation;
-- (void)showSection:(id <NSCopying>)sectionKey;
-- (void)showSection:(id <NSCopying>)sectionKey animation:(UITableViewRowAnimation)animation;
+- (void)hideSection:(id <NSCopying, NSCoding>)sectionKey;
+- (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
+- (void)showSection:(id <NSCopying, NSCoding>)sectionKey;
+- (void)showSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
 
-- (void)clearSection:(id <NSCopying>)sectionKey;
-- (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight;
-- (void)createSectionForKey:(id <NSCopying>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
-- (void)removeSectionForKey:(id<NSCopying>)key;
+- (void)clearSection:(id <NSCopying, NSCoding>)sectionKey;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
+- (void)removeSectionForKey:(id <NSCopying, NSCoding>)key;
 
 - (void)reloadData;
 - (void)interpolateDataChange;

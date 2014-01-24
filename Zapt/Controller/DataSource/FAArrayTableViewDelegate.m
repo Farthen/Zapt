@@ -18,7 +18,9 @@
 
 @end
 
-@implementation FAArrayTableViewDelegate
+@implementation FAArrayTableViewDelegate {
+    UITableView *_tableView;
+}
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource
 {
@@ -26,10 +28,43 @@
     
     if (self) {
         self.dataSource = dataSource;
-        self.dataSource.tableView.delegate = self;
+        self.tableView = dataSource.tableView;
     }
     
     return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [self init];
+    
+    if (self) {
+        self.dataSource = [coder decodeObjectForKey:@"dataSource"];
+        self.highlightableRowObjects = [coder decodeObjectForKey:@"highlightableRowObjects"];
+        self.cellHeight = [coder decodeObjectForKey:@"cellHeight"];
+    }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+    [coder encodeObject:self.dataSource forKey:@"dataSource"];
+    [coder encodeObject:self.highlightableRowObjects forKey:@"highlightableRowObjects"];
+    [coder encodeObject:self.cellHeight forKey:@"cellHeight"];
+}
+
+- (void)setTableView:(UITableView *)tableView
+{
+    _tableView = tableView;
+    _tableView.delegate = self;
+    
+    self.dataSource.tableView = tableView;
+}
+
+- (UITableView *)tableView
+{
+    return _tableView;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector

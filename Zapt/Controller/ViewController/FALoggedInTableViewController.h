@@ -16,4 +16,6 @@
 - (void)hideNeedsLoginTableViewAnimated:(BOOL)animated;
 - (void)displayNeedsLoginTableViewIfNeeded;
 
+- (void)connectionUsernameAndPasswordValidityChanged;
+
 @end

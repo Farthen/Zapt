@@ -57,13 +57,14 @@
 
 @end
 
-@interface FAArrayTableViewDelegate : NSObject <UITableViewDelegate>
+@interface FAArrayTableViewDelegate : NSObject <UITableViewDelegate, NSCoding>
 
 @property id <FAArrayTableViewDelegate> delegate;
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 
 @property (nonatomic) FAArrayTableViewDataSource *dataSource;
+@property (nonatomic) UITableView *tableView;
 
 @property BOOL displaysCustomHeaderViews;
 @property BOOL displaysCustomFooterViews;

@@ -28,6 +28,8 @@
 @property BOOL tableViewContainsProgress;
 
 @property NSArray *showsWithProgress;
+
+@property (nonatomic) BOOL initialDataFetchDone;
 @end
 
 @implementation FAHomeViewController
@@ -45,24 +47,33 @@
 
 - (void)viewDidLoad
 {
-    self.needsLoginContentName = NSLocalizedString(@"the home view", nil);
+    self.needsLoginContentName = NSLocalizedString(@"your lists", nil);
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    self.arrayDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
-    
-    self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
-    self.arrayDelegate.delegate = self;
-    
-    self.arrayDataSource.cellClass = [FAContentTableViewCell class];
-    
-    [self setupTableView];
-    
-    self.tableView.dataSource = self.arrayDataSource;
-    self.tableView.delegate = self.arrayDelegate;
-    
-    [self displayUserSection];
+    if (!self.arrayDelegate) {
+        self.arrayDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
+        
+        self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+        self.arrayDelegate.delegate = self;
+        
+        self.arrayDataSource.cellClass = [FAContentTableViewCell class];
+        
+        self.tableView.dataSource = self.arrayDataSource;
+        self.tableView.delegate = self.arrayDelegate;
+
+        
+        [self setupTableView];
+        [self.tableView reloadData];
+        
+        [self displayUserSection];
+    }
     
     __weak typeof(self) weakSelf = self;
     [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
@@ -70,11 +81,12 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
     [self reloadData:NO];
+    self.initialDataFetchDone = YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,6 +106,13 @@
                 
                 [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
                 [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
+                [self.arrayDataSource recalculateWeight];
+            }
+        } else {
+            if (self.tableViewContainsCurrentlyWatching) {
+                self.tableViewContainsCurrentlyWatching = NO;
+                
+                [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
                 [self.arrayDataSource recalculateWeight];
             }
         }
@@ -223,18 +242,35 @@
     }
 }
 
+- (void)connectionUsernameAndPasswordValidityChanged
+{
+    if (self.initialDataFetchDone) {
+        [self reloadData:NO];
+    }
+}
+
 #pragma mark State Restoration
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
-    [coder encodeObject:self.arrayDataSource.tableViewData forKey:@"tableViewData"];
+    [coder encodeObject:self.arrayDelegate forKey:@"arrayDelegate"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
     
-    //self.arrayDataSource.tableViewData = [coder decodeObjectForKey:@"tableViewData"];
+    self.arrayDelegate = [coder decodeObjectForKey:@"arrayDelegate"];
+    self.arrayDelegate.tableView = self.tableView;
+    self.arrayDelegate.delegate = self;
+    self.arrayDataSource = (FAWeightedTableViewDataSource *)self.arrayDelegate.dataSource;
+    
+    self.tableView.dataSource = self.arrayDataSource;
+    self.tableView.delegate = self.arrayDelegate;
+    
+    [self setupTableView];
+    
+    [self.tableView reloadData];
 }
 
 @end
