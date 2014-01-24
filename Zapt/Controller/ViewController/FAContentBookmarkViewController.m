@@ -160,12 +160,12 @@
     
     if (indexPath.section + offset == 0) {
         if (_currentContent.contentType == FATraktContentTypeShows) {
-            cell.textLabel.text = NSLocalizedString(@"+ Seen everything", nil);
+            cell.textLabel.text = NSLocalizedString(@"Mark everything as seen", nil);
         } else {
             if (_currentContent.isWatched) {
-                cell.textLabel.text = NSLocalizedString(@"- Seen", nil);
+                cell.textLabel.text = NSLocalizedString(@"Mark as not seen", nil);
             } else {
-                cell.textLabel.text = NSLocalizedString(@"+ Seen", nil);
+                cell.textLabel.text = NSLocalizedString(@"Mark as seen", nil);
             }
         }
     } else if (indexPath.section + offset == 1) {
