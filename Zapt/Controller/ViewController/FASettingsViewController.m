@@ -10,6 +10,7 @@
 
 #import "FASettingsViewController.h"
 #import "FATrakt.h"
+#import "FAZapt.h"
 #import "FAGlobalEventHandler.h"
 #import "FATextViewController.h"
 
@@ -322,7 +323,7 @@
         } else {
             // Rate on App Store
             
-            NSString *appStoreURL = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/id783342439?mt=8"];
+            NSString *appStoreURL = [FAZapt appStoreURL];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreURL]];
         }
         

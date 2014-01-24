@@ -52,4 +52,9 @@
     return [dateFormatter dateFromString:compilationDateString];
 }
 
++ (NSString *)appStoreURL
+{
+    return @"https://itunes.apple.com/us/app/zapt-for-trakt";
+}
+
 @end

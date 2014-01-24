@@ -19,5 +19,6 @@
 + (NSString *)versionNumberDescription;
 
 + (NSDate *)compilationDate;
++ (NSString *)appStoreURL;
 
 @end
