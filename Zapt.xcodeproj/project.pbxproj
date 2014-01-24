@@ -35,7 +35,6 @@
 		F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
 		F311206417F3C6F000FAC263 /* FATraktActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */; };
 		F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
-		F31446E817F8D2DD005B164D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; };
 		F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446EA17F8D34F005B164D /* libz.dylib */; };
 		F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */; };
 		F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3152DC017FBFDE20039AF30 /* FAAuthWindow.m */; };
@@ -494,7 +493,6 @@
 				F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
-				F31446E817F8D2DD005B164D /* libTestFlight.a in Frameworks */,
 				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
 				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
@@ -1293,7 +1291,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FA;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Finn Wilke";
 				TargetAttributes = {
 					B66752F915F12FBE00A8D76D = {
@@ -1619,6 +1617,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -1626,6 +1625,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "D2A39F39-DE7B-4F00-B409-64F8FBA90301";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1643,10 +1643,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -1654,6 +1655,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "D2A39F39-DE7B-4F00-B409-64F8FBA90301";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -1672,8 +1674,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Finn Wilke (R6693WW55J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Finn Wilke (R6693WW55J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
 				GCC_VERSION = "";
@@ -1698,7 +1700,7 @@
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
 				);
 				PRODUCT_NAME = Zapt;
-				PROVISIONING_PROFILE = "CCE8613B-26E1-4088-B490-06979FE1AE90";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -1717,8 +1719,8 @@
 				CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Finn Wilke (R6693WW55J)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Finn Wilke (R6693WW55J)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1744,7 +1746,7 @@
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
 				);
 				PRODUCT_NAME = Zapt;
-				PROVISIONING_PROFILE = "CCE8613B-26E1-4088-B490-06979FE1AE90";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos7.1;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
