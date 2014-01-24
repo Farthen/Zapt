@@ -40,12 +40,18 @@
     
     self.navigationItem.title = NSLocalizedString(@"Recommendations", nil);
     
-    self.weightedDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
-    self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.weightedDataSource];
-    self.arrayDelegate.delegate = self;
+    [self setupTableView];
+}
+
+- (void)setupTableView
+{
+    if (!self.weightedDataSource) {
+        self.weightedDataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
+        self.arrayDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.weightedDataSource];
+        self.arrayDelegate.delegate = self;
+    }
     
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
-    
     self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
         
         FAContentTableViewCell *contentCell = cell;
@@ -166,6 +172,36 @@
             [self displaySelectedSection];
         } onError:nil];
     }];
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.showData = [coder decodeObjectForKey:@"showData"];
+    self.movieData = [coder decodeObjectForKey:@"movieData"];
+    
+    self.arrayDelegate = [coder decodeObjectForKey:@"arrayDelegate"];
+    self.weightedDataSource = (FAWeightedTableViewDataSource *)self.arrayDelegate.dataSource;
+    
+    self.arrayDelegate.tableView = self.tableView;
+    
+    self.searchBar.selectedScopeButtonIndex = [coder decodeIntegerForKey:@"selectedScopeButtonIndex"];
+    
+    [self setupTableView];
+    
+    //[self loadRecommendations];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:self.showData forKey:@"showData"];
+    [coder encodeObject:self.movieData forKey:@"movieData"];
+    
+    [coder encodeObject:self.arrayDelegate forKey:@"arrayDelegate"];
+    [coder encodeInteger:self.searchBar.selectedScopeButtonIndex forKey:@"selectedScopeButtonIndex"];
 }
 
 @end
