@@ -17,11 +17,10 @@ PODS:
   - AFNetworking/Serialization (2.1.0)
   - AFNetworking/UIKit (2.1.0):
     - AFNetworking/NSURLConnection
-  - CocoaLumberjack (1.7.0):
-    - CocoaLumberjack/Core
+  - CocoaLumberjack (1.8.0):
     - CocoaLumberjack/Extensions
-  - CocoaLumberjack/Core (1.7.0)
-  - CocoaLumberjack/Extensions (1.7.0):
+  - CocoaLumberjack/Core (1.8.0)
+  - CocoaLumberjack/Extensions (1.8.0):
     - CocoaLumberjack/Core
   - TUSafariActivity (1.0.0)
 
@@ -32,7 +31,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
-  CocoaLumberjack: be87113f649942f020a37c061c58009b6ee5ff68
+  CocoaLumberjack: 6ed94046d2ca7fde03a73b3d01b8cfc56574b314
   TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
 
 COCOAPODS: 0.28.0

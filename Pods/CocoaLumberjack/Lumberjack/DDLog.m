@@ -155,7 +155,7 @@ static unsigned int numProcessors;
     #else
         NSString *notificationName = nil;
 
-        if (NSApp)
+        if (NSClassFromString(@"NSApplication"))
         {
             notificationName = @"NSApplicationWillTerminateNotification";
         }
@@ -652,7 +652,7 @@ static unsigned int numProcessors;
         {
             // skip the loggers that shouldn't write this message based on the logLevel
 
-            if (logMessage->logFlag > loggerNode.logLevel)
+            if (!(logMessage->logFlag & loggerNode.logLevel))
                 continue;
 
             dispatch_group_async(loggingGroup, loggerNode->loggerQueue, ^{ @autoreleasepool {
@@ -672,7 +672,7 @@ static unsigned int numProcessors;
         {
             // skip the loggers that shouldn't write this message based on the logLevel
             
-            if (logMessage->logFlag > loggerNode.logLevel)
+            if (!(logMessage->logFlag & loggerNode.logLevel))
                 continue;
 
             dispatch_sync(loggerNode->loggerQueue, ^{ @autoreleasepool {
@@ -908,7 +908,7 @@ static char *dd_str_copy(const char *str)
                 #endif
                 floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1 // iOS 7+ (> iOS 6.1)
             #else
-                [[NSApplication sharedApplication] respondsToSelector:@selector(occlusionState)] // OS X 10.9+
+                [NSTimer instancesRespondToSelector:@selector(tolerance)] // OS X 10.9+
             #endif
             ) {
             queueLabel = dd_str_copy(dispatch_queue_get_label(DISPATCH_CURRENT_QUEUE_LABEL));
@@ -925,7 +925,7 @@ static char *dd_str_copy(const char *str)
             #endif
             floor(NSFoundationVersionNumber) < NSFoundationVersionNumber_iOS_6_0 // < iOS 6.0
         #else
-            ![[NSApplication sharedApplication] respondsToSelector:@selector(occlusionState)] // < OS X 10.9
+            ![NSTimer instancesRespondToSelector:@selector(tolerance)] // < OS X 10.9
         #endif
             ) {
             #pragma clang diagnostic push
