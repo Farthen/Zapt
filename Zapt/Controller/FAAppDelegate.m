@@ -7,16 +7,16 @@
 //
 
 #import "FAAppDelegate.h"
+
+#ifndef RELEASE
 #import "TestFlight.h"
+#endif
 
 #import "FAGlobalEventHandler.h"
 #import "FAGlobalSettings.h"
 #import "FAZapt.h"
 
 #import "FATraktCache.h"
-
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_INFO
 
 @interface FAAppDelegate ()
 @end
@@ -28,7 +28,9 @@
     // Override point for customization after application launch.
     // TestFlight SDK
 #ifndef DEBUG
+#ifndef RELEASE
     [TestFlight takeOff:@"bd1a97eb-c0bd-4e93-aaac-166911b86304"];
+#endif
 #endif
     
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
@@ -69,21 +71,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (UIViewController *)application:(UIApplication *)application viewControllerWithRestorationIdentifierPath:(NSArray *)identifierComponents coder:(NSCoder *)coder
-{
-    NSLog(@"Path: %@", [identifierComponents reduceUsingBlock:^id(id memo, id object, NSUInteger idx, BOOL *stop) {
-        if (!memo) {
-            memo = [[NSMutableString alloc] init];
-        }
-        
-        [memo appendString:object];
-        [memo appendString:@"/"];
-        return memo;
-    }]);
-    
-    return nil;
 }
 
 - (void)application:(UIApplication *)application willEncodeRestorableStateWithCoder:(NSCoder *)coder

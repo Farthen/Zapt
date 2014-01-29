@@ -68,7 +68,6 @@
 		F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */; };
 		F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986A17DC20890033FBD7 /* FAHomeViewController.m */; };
 		F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */; };
-		F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F34FB71B17F8D68C0031549F /* libTestFlight.a */; };
 		F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */; };
 		F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F41E17FBBD8200A03E6A /* FAReloadControl.m */; };
 		F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F42117FBE85000A03E6A /* FAGlobalEventHandler.m */; };
@@ -490,7 +489,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
-				F34FB71F17F8D68C0031549F /* libTestFlight.a in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
 				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
@@ -1612,7 +1610,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
+					"DEBUG=0",
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
@@ -1646,6 +1644,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -1677,6 +1676,10 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+				);
 				GCC_VERSION = "";
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;

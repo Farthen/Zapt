@@ -9,9 +9,6 @@
 #import "FATraktDatatype.h"
 #import "FAPropertyUtil.h"
 
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_WARN
-
 @interface FATraktDatatype ()
 @property NSDate *creationDate;
 @end

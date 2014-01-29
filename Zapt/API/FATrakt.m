@@ -26,9 +26,6 @@
 
 #import "FATraktConnection.h"
 
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_WARN
-
 NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
 NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";
 NSString *const FATraktActivityNotificationLists = @"FATraktActivityNotificationLists";

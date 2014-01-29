@@ -366,7 +366,7 @@
         // Mail
         
         MFMailComposeViewController *mailViewController = [[MFMailComposeViewController alloc] init];
-        [mailViewController setSubject:NSLocalizedString(@"Zapt Feedback", nil)];
+        [mailViewController setSubject:[NSString stringWithFormat:NSLocalizedString(@"Zapt Feedback (%@)", nil), [FAZapt versionNumberString]] ];
         [mailViewController setToRecipients:@[@"zapt@farthen.de"]];
         mailViewController.mailComposeDelegate = self;
         [self presentViewController:mailViewController animated:YES completion:nil];

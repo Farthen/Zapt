@@ -14,9 +14,6 @@
 #import "FATraktShowProgress.h"
 #import "Misc.h"
 
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_MODEL
-
 @implementation FATraktContent
 
 - (id)init

@@ -15,9 +15,6 @@
 
 #import <CommonCrypto/CommonDigest.h>
 
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_CONTROLLER
-
 NSString *const FATraktConnectionKeychainKeyCredentials = @"TraktCredentials";
 NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
 NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATraktUsernameAndPasswordValidityChangedNotification";

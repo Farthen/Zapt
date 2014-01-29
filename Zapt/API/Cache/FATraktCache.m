@@ -9,10 +9,6 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 
-
-#undef LOG_LEVEL
-#define LOG_LEVEL LOG_LEVEL_INFO
-
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 @interface FATraktCache ()
