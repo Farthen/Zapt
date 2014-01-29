@@ -9,8 +9,9 @@
 #import "FATableViewController.h"
 #import "FATraktContent.h"
 #import "FAArrayTableViewDelegate.h"
+#import "FAViewControllerPreferredContentSizeChanged.h"
 
-@interface FARecommendationsListViewController : FATableViewController <UISearchBarDelegate, FAArrayTableViewDelegate>
+@interface FARecommendationsListViewController : FATableViewController <UISearchBarDelegate, FAArrayTableViewDelegate, FAViewControllerPreferredContentSizeChanged>
 
 - (void)loadRecommendations;
 

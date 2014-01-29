@@ -89,6 +89,12 @@
     self.initialDataFetchDone = YES;
 }
 
+- (void)preferredContentSizeChanged
+{
+    [self.view setNeedsLayout];
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -146,7 +152,8 @@
         
         if (!cell) {
             if ([sectionKey isEqualToString:@"user"]) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+                // Use the content table view cell for unified experience
+                cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
             } else {
                 cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
             }
@@ -175,16 +182,16 @@
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"user"]) {
             
-            UITableViewCell *standardCell = cell;
-            standardCell.detailTextLabel.textColor = [UIColor grayColor];
-            standardCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            FAContentTableViewCell *contentCell = cell;
+            contentCell.twoLineMode = YES;
+            contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
             if ([object isEqualToString:@"lists"]) {
-                standardCell.textLabel.text = NSLocalizedString(@"Lists", nil);
-                standardCell.detailTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
+                contentCell.textLabel.text = NSLocalizedString(@"Lists", nil);
+                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
             } else if ([object isEqualToString:@"recommendations"]) {
-                standardCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
-                standardCell.detailTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
+                contentCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
+                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
             }
         }
     };

@@ -103,6 +103,13 @@ static CGPoint _scrollPositions[3];
 - (void)preferredContentSizeChanged
 {
     [_resultsTableView reloadData];
+    
+    for (UIViewController *viewController in self.childViewControllers) {
+        if ([viewController conformsToProtocol:@protocol(FAViewControllerPreferredContentSizeChanged)]) {
+            UIViewController <FAViewControllerPreferredContentSizeChanged> *updatetableViewController = (UIViewController <FAViewControllerPreferredContentSizeChanged> *)viewController;
+            [updatetableViewController preferredContentSizeChanged];
+        }
+    }
 }
 
 - (void)navigationControllerPoppedToRootViewControllerNotification:(NSNotification *)notification

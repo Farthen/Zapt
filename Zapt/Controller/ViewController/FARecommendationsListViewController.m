@@ -43,6 +43,12 @@
     [self setupTableView];
 }
 
+- (void)preferredContentSizeChanged
+{
+    [self.view setNeedsLayout];
+    [self.tableView reloadData];
+}
+
 - (void)setupTableView
 {
     if (!self.weightedDataSource) {
