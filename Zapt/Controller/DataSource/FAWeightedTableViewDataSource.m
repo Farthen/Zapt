@@ -677,7 +677,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     
     rowData[rowKey] = row;
     
-    [self.tableViewActions addObject:action];
+    if (action) {
+        [self.tableViewActions addObject:action];
+    }
 }
 
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight
@@ -722,7 +724,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                                                             actionType:FAWeightedTableViewDataSourceActionInsertSection];
     }
     
-    [self.tableViewActions addObject:action];
+    if (action) {
+        [self.tableViewActions addObject:action];
+    }
 }
 
 - (void)removeSectionForKey:(id <NSCopying, NSCoding>)key
