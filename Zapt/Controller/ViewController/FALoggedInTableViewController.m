@@ -34,7 +34,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -64,8 +64,13 @@
         
         cell.textLabel.textColor = [UIColor grayColor];
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
-    } else {
+    } else if (indexPath.row == 4) {
         cell.textLabel.text = NSLocalizedString(@"Log In", nil);
+        cell.textLabel.textColor = [FAGlobalSettings sharedInstance].tintColor;
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    } else {
+        cell.textLabel.text = NSLocalizedString(@"Register new account", nil);
         cell.textLabel.textColor = [FAGlobalSettings sharedInstance].tintColor;
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
         cell.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -76,17 +81,21 @@
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section != 0 && indexPath.row != 4) {
-        return nil;
+    if (indexPath.row == 4 || indexPath.row == 5) {
+        return indexPath;
     }
     
-    return indexPath;
+    return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 4) {
         [[FAGlobalEventHandler handler] performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
+    }
+    
+    if (indexPath.row == 5) {
+        [[FAGlobalEventHandler handler] performRegisterAccount];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

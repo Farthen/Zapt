@@ -173,6 +173,12 @@
     }
 }
 
+- (void)performRegisterAccount
+{
+    NSURL *joinURL = [NSURL URLWithString:@"http://trakt.tv/join"];
+    [[UIApplication sharedApplication] openURL:joinURL];
+}
+
 #pragma mark UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

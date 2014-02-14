@@ -25,4 +25,6 @@
 - (void)handleTimeout;
 - (void)handleInvalidCredentials;
 
+- (void)performRegisterAccount;
+
 @end
