@@ -149,6 +149,8 @@
         self.needsLoginTableView.backgroundColor = [UIColor whiteColor];
     }
     
+    [self.refreshControl endRefreshing];
+    
     self.needsLoginTableView.frame = self.tableView.frame;
     [self.tableView addSubview:self.needsLoginTableView];
     self.tableView.scrollEnabled = NO;
