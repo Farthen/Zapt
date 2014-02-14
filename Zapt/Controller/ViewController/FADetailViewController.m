@@ -366,9 +366,9 @@
             [self.overviewLabel layoutIfNeeded];
         } completion:nil];
         
-        _animatedOverviewText = _animatedOverviewText || !_animatesLayoutChanges;
+        BOOL shouldAnimateOverviewText = !_animatedOverviewText || _animatesLayoutChanges;
         
-        [UIView animateSynchronizedIf:_animatedOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
+        [UIView animateSynchronizedIf:shouldAnimateOverviewText duration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut setUp:nil animations:^{
             self.overviewLabel.alpha = 1.0;
         } completion:nil];
         
@@ -513,8 +513,15 @@
     if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
         NSString *displayString;
         displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
-        self.detailLabel.text = displayString;
-        [UIView animateSynchronizedIf:YES duration:0.3 setUp:^{
+        
+        BOOL animated = NO;
+        
+        if (![self.detailLabel.text isEqual:displayString]) {
+            self.detailLabel.text = displayString;
+            animated = YES;
+        }
+        
+        [UIView animateSynchronizedIf:animated duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {
                 NSLog(@"%f", self.detailViewHeightConstraint.constant);
                 [self.detailLabel.superview removeConstraint:self.detailViewHeightConstraint];
