@@ -523,7 +523,6 @@
         
         [UIView animateSynchronizedIf:animated duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {
-                NSLog(@"%f", self.detailViewHeightConstraint.constant);
                 [self.detailLabel.superview removeConstraint:self.detailViewHeightConstraint];
                 self.detailViewHeightConstraint = nil;
             }

@@ -127,9 +127,7 @@
         
         [self.reloadingIndexPaths addObject:indexPath];
         [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        
-        NSLog(@"add: %i", add);
-        
+                
         [[FATrakt sharedInstance] addContent:self.content toCustomList:list add:add callback:^{
             [self.reloadingIndexPaths removeObject:indexPath];
             [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];

@@ -50,7 +50,7 @@
             connectionResponse.responseType = FATraktConnectionResponseTypeInvalidCredentials;
         } else if (response.statusCode == 0) {
             // TODO: find out what happens when request is cancelled on purpose
-            // TODO: find out what happens when network is not available
+            connectionResponse.responseType = FATraktConnectionResponseTypeNetworkUnavailable;
         } else if (response.statusCode == 503) {
             connectionResponse.responseType = FATraktConnectionResponseTypeServiceUnavailable;
         }
@@ -101,7 +101,7 @@
     } else if ([data isKindOfClass:[NSDictionary class]] || [data isKindOfClass:[NSArray class]]) {
         self.jsonData = data;
     } else if (data) {
-        NSLog(@"Invalid response data type!");
+        DDLogError(@"Invalid response data type!");
     }
 }
 
