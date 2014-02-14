@@ -658,11 +658,14 @@
     [coder encodeObject:self.nextUpViewController forKey:@"nextUpViewController"];
     
     [coder encodeFloat:self.scrollView.contentOffset.y forKey:@"scrollOffset"];
+    [coder encodeObject:self.navigationItem.title forKey:@"navigationItem.title"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
+    
+    self.navigationItem.title = [coder decodeObjectForKey:@"navigationItem.title"];
     
     self.nextUpHeightConstraint.constant = [coder decodeFloatForKey:@"nextUpHeightConstraint.constant"];
     self.nextUpViewController = [coder decodeObjectForKey:@"nextUpViewController"];
