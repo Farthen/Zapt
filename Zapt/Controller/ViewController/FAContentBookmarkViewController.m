@@ -200,7 +200,7 @@
         offset = 1;
     }
     
-    if (![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
+    if (![[FATraktConnection sharedInstance] usernameAndPasswordValid] && indexPath.section + offset != 2) {
         [[FAGlobalEventHandler handler] showNeedsLoginAlertWithActionName:NSLocalizedString(@"do any content action", nil)];
         [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         

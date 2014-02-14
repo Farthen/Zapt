@@ -224,7 +224,7 @@
         
     } else {
         [self.arrayDataSource removeSectionForKey:@"showProgress"];
-        self.tableViewContainsProgress = NO;        
+        self.tableViewContainsProgress = NO;
     }
     
     [self.arrayDataSource recalculateWeight];
