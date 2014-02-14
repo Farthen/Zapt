@@ -329,10 +329,9 @@
         
     } else if (indexPath.section == 3 && indexPath.row == 0) {
         // Empty caches
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.navigationController.view];
-        [hud showProgressHUDSpinner];
+        [_progressHUD showProgressHUDSpinner];
         [[FATraktCache sharedInstance] clearCaches];
-        [hud showProgressHUDSuccess];
+        [_progressHUD showProgressHUDSuccess];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
