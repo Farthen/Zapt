@@ -222,8 +222,12 @@
             [self.arrayDataSource insertRow:show inSection:@"showProgress" withWeight:i];
         }
         
-        [self.arrayDataSource recalculateWeight];
+    } else {
+        [self.arrayDataSource removeSectionForKey:@"showProgress"];
+        self.tableViewContainsProgress = NO;        
     }
+    
+    [self.arrayDataSource recalculateWeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
