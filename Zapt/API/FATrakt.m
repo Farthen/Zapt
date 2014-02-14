@@ -21,6 +21,7 @@
 #import "FATraktListItem.h"
 #import "FAStatusBarSpinnerController.h"
 #import "FAActivityDispatch.h"
+#import "FATraktConnectionResponse.h"
 
 #import "Misc.h"
 
@@ -268,7 +269,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             callback(NO);
         }
     } onError:^(FATraktConnectionResponse *connectionError) {
-        callback(NO);
+        if (connectionError.responseType | FATraktConnectionResponseTypeInvalidCredentials)
+        {
+            callback(NO);
+        }
     }];
 }
 
