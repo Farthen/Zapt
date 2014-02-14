@@ -54,7 +54,7 @@
 
 + (NSString *)appStoreURL
 {
-    return @"https://itunes.apple.com/us/app/zapt-for-trakt";
+    return @"https://itunes.apple.com/us/app/zapt-for-trakt/id802454894";
 }
 
 @end
