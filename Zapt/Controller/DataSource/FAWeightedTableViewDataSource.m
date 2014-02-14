@@ -399,6 +399,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         NSMutableDictionary *filteredRows = [section.rowData filterUsingBlock:hiddenFilter];
         NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
         
+        if (!sortedWeightedRows) {
+            sortedWeightedRows = [NSArray array];
+        }
+        
         section.currentSectionIndex = sectionIdx;
         
         id title = section.headerTitle;

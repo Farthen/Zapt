@@ -207,21 +207,23 @@
 
 - (void)displayProgressData
 {
-    if (!self.tableViewContainsProgress) {
-        self.tableViewContainsProgress = YES;
+    if (self.showsWithProgress.count > 0) {
+        if (!self.tableViewContainsProgress) {
+            self.tableViewContainsProgress = YES;
+            
+            [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
+        }
         
-        [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
-    }
-    
-    NSArray *shows = self.showsWithProgress;
-    
-    for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
-        FATraktShow *show = shows[i];
+        NSArray *shows = self.showsWithProgress;
         
-        [self.arrayDataSource insertRow:show inSection:@"showProgress" withWeight:i];
+        for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
+            FATraktShow *show = shows[i];
+            
+            [self.arrayDataSource insertRow:show inSection:@"showProgress" withWeight:i];
+        }
+        
+        [self.arrayDataSource recalculateWeight];
     }
-    
-    [self.arrayDataSource recalculateWeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
