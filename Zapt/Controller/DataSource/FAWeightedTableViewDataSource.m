@@ -23,7 +23,7 @@
 
 @property NSMutableDictionary *rowData;
 @property BOOL hidden;
-@property __weak id <NSCopying, NSCoding> key;
+@property id <NSCopying, NSCoding> key;
 @property NSInteger weight;
 @property NSString *headerTitle;
 @property (readonly) NSInteger lastSectionIndex;
@@ -114,7 +114,7 @@
 
 @interface FAWeightedTableViewDataSourceRow : NSObject <NSCoding>
 
-@property __weak id <NSCoding, NSCopying> key;
+@property id <NSCoding, NSCopying> key;
 @property NSInteger weight;
 @property BOOL hidden;
 @property (readonly) NSIndexPath *lastIndexPath;
