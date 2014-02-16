@@ -21,7 +21,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"<FATraktListItem %p of type \"%@\">", self, [self.content className]];
+    return [NSString stringWithFormat:@"<FATraktListItem %p content:%@>", self, self.content];
 }
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key

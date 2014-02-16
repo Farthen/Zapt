@@ -111,34 +111,49 @@
     }
     
     if (_reloadWhenShowing) {
-        for (unsigned int i = 0; i < _displayedList.items.count; i++) {
-            FATraktListItem *item = [_displayedList.items objectAtIndex:i];
-            BOOL contentInList = NO;
-            
-            if (_isWatchlist) {
-                contentInList = item.content.in_watchlist;
-            } else if (_isLibrary) {
-                // FIXME
-                contentInList = YES;
-            } else if (_isCustom) {
-                contentInList = YES;
-            }
-            
-            if (!contentInList) {
-                NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
-                [newList removeObjectAtIndex:i];
-                _displayedList.items = newList;
-                
-                [self reloadSectionIndexTitleData];
-                
-                [self.tableView reloadData];
-            }
-        }
-        
         if (_isWatchlist) {
+            NSUInteger count = _displayedList.items.count;
+            
+            for (NSUInteger i = 0; i < count; i++) {
+                FATraktListItem *item = _displayedList.items[i];
+                
+                if (!item.content.in_watchlist) {
+                    NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
+                    [newList removeObjectAtIndex:i];
+                    _displayedList.items = newList;
+                    
+                    [self reloadSectionIndexTitleData];
+                    
+                    [self.tableView reloadData];
+                }
+            }
+            
             [self loadWatchlistOfType:_contentType];
         } else if (_isLibrary) {
-            [self loadLibraryOfType:_contentType];
+            FATraktList *collection = _loadedLibrary[FATraktLibraryTypeCollection];
+            collection.items = [collection.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                FATraktListItem *item = obj;
+                return item.content.in_collection;
+            }];
+            
+            FATraktList *watchedList = _loadedLibrary[FATraktLibraryTypeWatched];
+            watchedList.items = [watchedList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                FATraktListItem *item = obj;
+                return item.content.isWatched;
+            }];
+            
+            FATraktList *allList = _loadedLibrary[FATraktLibraryTypeAll];
+            allList.items = [allList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                FATraktListItem *item = obj;
+                return item.content.isWatched || item.content.in_collection;
+            }];
+            
+            [self reloadSectionIndexTitleData];
+            [self.tableView reloadData];
+            
+            [self refreshDataAnimated:NO];
+        } else {
+            [self refreshDataAnimated:NO];
         }
     }
     
@@ -200,15 +215,13 @@
         reloadData = YES;
     }
     
-    if (reloadData) {
-        _loadedList = list;
-        
+    if (reloadData) {        
         if (list.isLibrary) {
             // This is replacing the libraries at the positions/NSNull with the real objects
             [_loadedLibrary replaceObjectAtIndex:(NSUInteger)list.libraryType withObject:list];
             
             if (_displayedLibraryType == list.libraryType) {
-                _displayedList = _loadedList;
+                _displayedList = list;
             }
         } else {
             _loadedList = list;
