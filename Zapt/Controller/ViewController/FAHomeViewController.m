@@ -271,11 +271,16 @@
 {
     [super encodeRestorableStateWithCoder:coder];
     [coder encodeObject:self.arrayDelegate forKey:@"arrayDelegate"];
+    [coder encodeBool:self.tableViewContainsCurrentlyWatching forKey:@"tableViewContainsCurrentlyWatching"];
+    [coder encodeBool:self.tableViewContainsProgress forKey:@"tableViewContainsProgress"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super decodeRestorableStateWithCoder:coder];
+    
+    self.tableViewContainsCurrentlyWatching = [coder decodeBoolForKey:@"tableViewContainsCurrentlyWatching"];
+    self.tableViewContainsProgress = [coder decodeBoolForKey:@"tableViewContainsProgress"];
     
     self.arrayDelegate = [coder decodeObjectForKey:@"arrayDelegate"];
     self.arrayDelegate.tableView = self.tableView;

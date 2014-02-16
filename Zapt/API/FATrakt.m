@@ -1106,8 +1106,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 }
             }
         }
-    } onError:^(FATraktConnectionResponse *connectionError) {
-    }];
+    } onError:error];
 }
 
 - (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error
