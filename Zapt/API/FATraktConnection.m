@@ -281,7 +281,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithHTTPResponse:operation.response];
     
     if (callback) {
-        callback(response);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(response);
+        });
     }
 }
 

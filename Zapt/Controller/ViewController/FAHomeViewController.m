@@ -106,31 +106,35 @@
     if (animated) [self.refreshControlWithActivity startActivityWithCount:2];
     
     [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
-        if (content) {
-            if (!self.tableViewContainsCurrentlyWatching) {
-                self.tableViewContainsCurrentlyWatching = YES;
-                
-                [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
-                [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
-                [self.arrayDataSource recalculateWeight];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (content) {
+                if (!self.tableViewContainsCurrentlyWatching) {
+                    self.tableViewContainsCurrentlyWatching = YES;
+                    
+                    [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
+                    [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
+                    [self.arrayDataSource recalculateWeight];
+                }
+            } else {
+                if (self.tableViewContainsCurrentlyWatching) {
+                    self.tableViewContainsCurrentlyWatching = NO;
+                    
+                    [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
+                    [self.arrayDataSource recalculateWeight];
+                }
             }
-        } else {
-            if (self.tableViewContainsCurrentlyWatching) {
-                self.tableViewContainsCurrentlyWatching = NO;
-                
-                [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
-                [self.arrayDataSource recalculateWeight];
-            }
-        }
-        
-        if (animated) [self.refreshControlWithActivity finishActivity];
+            
+            if (animated) [self.refreshControlWithActivity finishActivity];
+        });
     } onError:nil];
     
     [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
-        self.showsWithProgress = result;
-        [self displayProgressData];
-        
-        if (animated) [self.refreshControlWithActivity finishActivity];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.showsWithProgress = result;
+            [self displayProgressData];
+            
+            if (animated) [self.refreshControlWithActivity finishActivity];
+        });
     } onError:nil];
 }
 

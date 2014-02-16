@@ -381,6 +381,18 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         return ![obj hidden];
     };
     
+    for (FAWeightedTableViewDataSourceSection *section in self.weightedSections) {
+        if (section.hidden) {
+            section.currentSectionIndex = -1;
+        }
+        
+        for (FAWeightedTableViewDataSourceRow *row in section.rowData.allValues) {
+            if (row.hidden) {
+                row.currentIndexPath = nil;
+            }
+        }
+    }
+    
     NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
     NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
     
@@ -635,7 +647,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     
     [section.rowData removeObjectForKey:rowKey];
     
-    if (row) {
+    if (row && !row.hidden && row.currentIndexPath) {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
                                                               row:row
@@ -718,7 +730,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     
     // If there is an old section with this name, update the section data
     if (oldSection) {
-        if (oldSection.currentSectionIndex) {
+        if (oldSection.currentSectionIndex != -1) {
             action = [FAWeightedTableViewDataSourceAction actionForSection:section
                                                                 actionType:FAWeightedTableViewDataSourceActionReloadSection
                                                                  animation:UITableViewRowAnimationNone];
@@ -737,13 +749,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[key];
     
-    if (section && !section.hidden) {
+    if (section && !section.hidden && section.currentSectionIndex != -1) {
         FAWeightedTableViewDataSourceAction *action =
             [FAWeightedTableViewDataSourceAction actionForSection:section
                                                        actionType:FAWeightedTableViewDataSourceActionDeleteSection];
         [self.tableViewActions addObject:action];
     }
-    
     
     [self.weightedSections removeObjectForKey:key];
 }
