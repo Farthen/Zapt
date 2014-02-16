@@ -63,7 +63,7 @@
     
     for (NSUInteger i = 0; i < MAX(self.count, array.count); i++) {
         if (i < self.count) {
-            [result addObject:array[i]];
+            [result addObject:self[i]];
         }
         
         if (i < array.count) {

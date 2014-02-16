@@ -12,8 +12,6 @@
 #import "FATraktCheckinTimestamps.h"
 #import "FATraktShow.h"
 
-#import <JSONKit/JSONKit.h>
-
 @interface FATraktCheckinTest : XCTestCase
 @property NSString *dictString;
 @end
@@ -60,7 +58,7 @@
 
 - (void)testInitWithJSONDict
 {
-    FATraktCheckin *checkin = [[FATraktCheckin alloc] initWithJSONDict:[self.dictString objectFromJSONString]];
+    FATraktCheckin *checkin = [[FATraktCheckin alloc] initWithJSONDict:[NSJSONSerialization JSONObjectWithData:[self.dictString dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil]];
     XCTAssertNotNil(checkin, @"checkin is nil");
     XCTAssertTrue([checkin isKindOfClass:[FATraktCheckin class]], @"Doesn't return FATraktCheckin");
     
@@ -71,9 +69,6 @@
     
     XCTAssertEqual(checkin.status, FATraktStatusSuccess);
     XCTAssertEqualObjects(checkin.message, @"checked in to Batman Begins (2005)");
-    
-    XCTAssertTrue([checkin.movie isKindOfClass:[FATraktMovie class]], @"movie not movie");
-    XCTAssertTrue([checkin.show isKindOfClass:[FATraktShow class]], @"show not show");
 }
 
 @end

@@ -145,6 +145,7 @@
 		F3DEDC1B185D8811006F5833 /* FARecommendationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */; };
 		F3DEDC1E185EE6FC006F5833 /* FATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
+		F3E3668818B1121100D985E6 /* NSArray+FunctionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3668718B1121100D985E6 /* NSArray+FunctionsTests.m */; };
 		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
 		F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveLayout.m */; };
 		F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */; };
@@ -448,6 +449,7 @@
 		F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATextViewController.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
+		F3E3668718B1121100D985E6 /* NSArray+FunctionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+FunctionsTests.m"; path = "Categories/NSArray+FunctionsTests.m"; sourceTree = "<group>"; };
 		F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktDatatypeTest.m; sourceTree = "<group>"; };
 		F3EA6CDC16F2D74A0036029F /* FALogLevels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FALogLevels.h; sourceTree = "<group>"; };
 		F3EE212817F3F3F100A0118E /* UIView+RecursiveLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveLayout.h"; sourceTree = "<group>"; };
@@ -1024,6 +1026,7 @@
 			children = (
 				F3E37B8817CA635B005C37F5 /* API */,
 				F3F9E30916282D320077CBAA /* Controller */,
+				F3E3668618B111E300D985E6 /* Categories */,
 				B667533715F12FBE00A8D76D /* ZaptTests.m */,
 				F3CBA91017CD035200BAC568 /* Supporting Files */,
 			);
@@ -1075,6 +1078,14 @@
 			);
 			name = en.lproj;
 			path = ../View/Languages/en.lproj;
+			sourceTree = "<group>";
+		};
+		F3E3668618B111E300D985E6 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				F3E3668718B1121100D985E6 /* NSArray+FunctionsTests.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		F3E37B8817CA635B005C37F5 /* API */ = {
@@ -1531,6 +1542,7 @@
 			files = (
 				B667533815F12FBE00A8D76D /* ZaptTests.m in Sources */,
 				F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */,
+				F3E3668818B1121100D985E6 /* NSArray+FunctionsTests.m in Sources */,
 				F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */,
 				F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */,
 				F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */,
