@@ -119,7 +119,7 @@
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
 		F3B03908184D13B60091ED9D /* UIImage+SizeInBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B03907184D13B60091ED9D /* UIImage+SizeInBytes.m */; };
 		F3B1F36717A85A7C00800B61 /* FABigDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B1F36617A85A7C00800B61 /* FABigDataCache.m */; };
-		F3B49DBC18B11CFA0061BDAE /* NSDictionaray+FunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B49DBB18B11CFA0061BDAE /* NSDictionaray+FunctionalTests.m */; };
+		F3B49DBC18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B49DBB18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m */; };
 		F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */; };
 		F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2C16E6E23A00230C43 /* X-Mark.png */; };
 		F3B74B2F16E6E23A00230C43 /* X-Mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */; };
@@ -395,7 +395,7 @@
 		F3B03907184D13B60091ED9D /* UIImage+SizeInBytes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SizeInBytes.m"; sourceTree = "<group>"; };
 		F3B1F36517A85A7C00800B61 /* FABigDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FABigDataCache.h; sourceTree = "<group>"; };
 		F3B1F36617A85A7C00800B61 /* FABigDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FABigDataCache.m; sourceTree = "<group>"; };
-		F3B49DBB18B11CFA0061BDAE /* NSDictionaray+FunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionaray+FunctionalTests.m"; path = "Categories/NSDictionaray+FunctionalTests.m"; sourceTree = "<group>"; };
+		F3B49DBB18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FunctionalTests.m"; path = "Categories/NSDictionary+FunctionalTests.m"; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAProgressHUD.h; sourceTree = "<group>"; };
 		F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAProgressHUD.m; sourceTree = "<group>"; };
 		F3B74B2C16E6E23A00230C43 /* X-Mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X-Mark.png"; sourceTree = "<group>"; };
@@ -1086,7 +1086,7 @@
 			isa = PBXGroup;
 			children = (
 				F3E3668718B1121100D985E6 /* NSArray+FunctionalTests.m */,
-				F3B49DBB18B11CFA0061BDAE /* NSDictionaray+FunctionalTests.m */,
+				F3B49DBB18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1547,7 +1547,7 @@
 				F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */,
 				F3E3668818B1121100D985E6 /* NSArray+FunctionalTests.m in Sources */,
 				F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */,
-				F3B49DBC18B11CFA0061BDAE /* NSDictionaray+FunctionalTests.m in Sources */,
+				F3B49DBC18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m in Sources */,
 				F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */,
 				F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */,
 			);

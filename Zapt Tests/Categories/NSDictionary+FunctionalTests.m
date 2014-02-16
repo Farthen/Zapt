@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "NSDictionary+Functional.h"
 
-@interface NSDictionaray_FunctionalTests : XCTestCase
+@interface NSDictionary_FunctionalTests : XCTestCase
 
 @end
 
-@implementation NSDictionaray_FunctionalTests
+@implementation NSDictionary_FunctionalTests
 
 - (void)setUp
 {
