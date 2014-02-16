@@ -381,7 +381,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         return ![obj hidden];
     };
     
-    for (FAWeightedTableViewDataSourceSection *section in self.weightedSections) {
+    for (FAWeightedTableViewDataSourceSection *section in self.weightedSections.allValues) {
         if (section.hidden) {
             section.currentSectionIndex = -1;
         }
