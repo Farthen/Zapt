@@ -71,7 +71,7 @@
         [self.episodeListViewController showEpisodeListForSeason:self.season];
         
         if (!self.season.isWatched) {
-            UIBarButtonItem *markAsWatchedItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Seen All", nil) style:UIBarButtonItemStylePlain target:self action:@selector(markAllAsSeen)];
+            UIBarButtonItem *markAsWatchedItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Mark Seen", nil) style:UIBarButtonItemStylePlain target:self action:@selector(markAllAsSeen)];
             self.navigationItem.rightBarButtonItem = markAsWatchedItem;
         } else {
             self.navigationItem.rightBarButtonItem = nil;
