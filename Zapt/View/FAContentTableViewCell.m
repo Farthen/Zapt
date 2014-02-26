@@ -256,7 +256,7 @@
         if (self.showsProgressForShows) {
             self.separatorInset = UIEdgeInsetsZero;
             
-            CGRect frame = CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
+            CGRect frame = CGRectMake(0, self.contentView.bounds.size.height - 2, self.contentView.bounds.size.width, 2);
             self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
             self.progressView.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
             self.progressView.backgroundColor = [UIColor lightGrayColor];
@@ -269,6 +269,7 @@
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
             
             [self.progressView setNeedsUpdateConstraints];
+            [self.progressView setNeedsLayout];
         } else {
             [self.progressView removeFromSuperview];
             self.progressView = nil;
