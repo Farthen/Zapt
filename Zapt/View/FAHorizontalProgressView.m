@@ -105,6 +105,10 @@
     CGColorRef tintColor = self.tintColor.CGColor;
     
     CGContextClearRect(context, rect);
+    
+    CGContextSetFillColorWithColor(context, self.backgroundColor.CGColor);
+    CGContextFillRect(context, rect);
+    
     CGContextSetFillColorWithColor(context, tintColor);
     CGContextFillRect(context, coloredRect);
 }

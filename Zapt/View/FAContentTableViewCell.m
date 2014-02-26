@@ -254,14 +254,16 @@
         }
         
         if (self.showsProgressForShows) {
+            self.separatorInset = UIEdgeInsetsZero;
+            
             CGRect frame = CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
             self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
             self.progressView.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
-            self.progressView.backgroundColor = [UIColor clearColor];
+            self.progressView.backgroundColor = [UIColor lightGrayColor];
             self.progressView.progress = self.showProgress;
             [self addSubview:self.progressView];
             
-            [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:1]];
+            [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:2]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
