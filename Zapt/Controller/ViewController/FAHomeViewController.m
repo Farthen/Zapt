@@ -11,6 +11,7 @@
 #import "FADetailViewController.h"
 #import "FAListsViewController.h"
 #import "FARecommendationsListViewController.h"
+#import "FAShowListViewController.h"
 
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDataSource.h"
@@ -261,7 +262,9 @@
             [self.navigationController pushViewController:recommendationsListVC animated:YES];
         } else if ([object isEqualToString:@"shows"]) {
             
-            
+            FAShowListViewController *showListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"showList"];
+            [showListVC loadShows];
+            [self.navigationController pushViewController:showListVC animated:YES];
         }
     }
 }
