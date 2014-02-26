@@ -100,12 +100,17 @@
     [self.weightedDataSource filterRowsUsingBlock:^BOOL(id key, BOOL *stop) {
         FATraktContent *content = key;
         
+        if (!searchText || [searchText isEqualToString:@""]) {
+            return YES;
+        }
+        
         if ([content.title rangeOfString:searchText options:NSCaseInsensitiveSearch].location != NSNotFound) {
             return YES;
         }
         
         return NO;
     }];
+    
     [self.weightedDataSource recalculateWeight];
 }
 
@@ -145,7 +150,7 @@
             self.showData = recommendations;
             
             [self performBlock:^{
-                [self.weightedDataSource createSectionForKey:@"show-recommendations" withWeight:0];
+                [self.weightedDataSource createSectionForKey:@"show-recommendations" withWeight:0 hidden:NO];
                 
                 for (NSUInteger i = 0; i < self.showData.count; i++) {
                     
@@ -155,8 +160,6 @@
                 
                 [self.weightedDataSource recalculateWeight];
             } afterDelay:0];
-            
-            [self displaySelectedSection];
         } onError:nil];
         
         [[FATrakt sharedInstance] recommendationsForContentType:FATraktContentTypeMovies genre:nil startYear:0 endYear:0 hideCollected:YES hideWatchlisted:YES callback:^(NSArray *recommendations) {
@@ -164,7 +167,7 @@
             self.movieData = recommendations;
             
             [self performBlock:^{
-                [self.weightedDataSource createSectionForKey:@"movie-recommendations" withWeight:0];
+                [self.weightedDataSource createSectionForKey:@"movie-recommendations" withWeight:0 hidden:YES];
                 
                 for (NSUInteger i = 0; i < self.movieData.count; i++) {
                     
@@ -175,7 +178,6 @@
                 [self.weightedDataSource recalculateWeight];
             } afterDelay:0];
             
-            [self displaySelectedSection];
         } onError:nil];
     }];
 }

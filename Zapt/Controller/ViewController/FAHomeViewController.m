@@ -196,6 +196,9 @@
             } else if ([object isEqualToString:@"recommendations"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
                 contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
+            } else if ([object isEqualToString:@"shows"]) {
+                contentCell.textLabel.text = NSLocalizedString(@"TV Shows", nil);
+                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"All your TV shows", nil);
             }
         }
     };
@@ -206,6 +209,7 @@
     [self.arrayDataSource createSectionForKey:@"user" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
     [self.arrayDataSource insertRow:@"lists" inSection:@"user" withWeight:0];
     [self.arrayDataSource insertRow:@"recommendations" inSection:@"user" withWeight:1];
+    [self.arrayDataSource insertRow:@"shows" inSection:@"user" withWeight:2];
     [self.arrayDataSource recalculateWeight];
 }
 
@@ -255,6 +259,9 @@
             FARecommendationsListViewController *recommendationsListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recommendations"];
             [recommendationsListVC loadRecommendations];
             [self.navigationController pushViewController:recommendationsListVC animated:YES];
+        } else if ([object isEqualToString:@"shows"]) {
+            
+            
         }
     }
 }

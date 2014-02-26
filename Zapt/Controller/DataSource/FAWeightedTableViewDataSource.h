@@ -29,7 +29,9 @@
 
 - (void)clearSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title hidden:(BOOL)hidden;
 - (void)removeSectionForKey:(id <NSCopying, NSCoding>)key;
 
 - (void)reloadData;
