@@ -16,6 +16,8 @@
 
 @property BOOL showsProgressForShows;
 @property BOOL twoLineMode;
+
+
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
 
 - (void)displayContent:(FATraktContent *)content;

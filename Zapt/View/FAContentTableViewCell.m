@@ -8,14 +8,20 @@
 
 #import "FAContentTableViewCell.h"
 #import "FATrakt.h"
+#import "FAGlobalSettings.h"
 
 #import "FAInterfaceStringProvider.h"
+#import "FAHorizontalProgressView.h"
 
 @interface FAContentTableViewCell ()
 @property BOOL addedConstraints;
+@property FAHorizontalProgressView *progressView;
+@property CGFloat showProgress;
 @end
 
-@implementation FAContentTableViewCell
+@implementation FAContentTableViewCell {
+    BOOL _showsProgressForShows;
+}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -129,6 +135,12 @@
     self.leftAuxiliaryTextLabel.text = [self auxiliaryLabelStringForContent:content];
     self.detailTextLabel.text = [self detailLabelStringForContent:content];
     
+    if (self.showsProgressForShows && [content isKindOfClass:[FATraktShow class]]) {
+        FATraktShow *show = (FATraktShow *)content;
+        self.showProgress = (CGFloat)show.progress.percentage.unsignedIntegerValue / 100;
+        self.progressView.progress = self.showProgress;
+    }
+    
     [self setNeedsLayout];
 }
 
@@ -240,10 +252,40 @@
                 [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
             }
         }
+        
+        if (self.showsProgressForShows) {
+            CGRect frame = CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height);
+            self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
+            self.progressView.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
+            self.progressView.backgroundColor = [UIColor clearColor];
+            self.progressView.progress = self.showProgress;
+            [self addSubview:self.progressView];
+            
+            [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:2]];
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
+            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+            
+            [self.progressView setNeedsUpdateConstraints];
+        } else {
+            [self.progressView removeFromSuperview];
+            self.progressView = nil;
+        }
     }
     
     [self.contentView setNeedsUpdateConstraints];
     [self.contentView setNeedsLayout];
+}
+
+- (BOOL)showsProgressForShows
+{
+    return _showsProgressForShows;
+}
+
+- (void)setShowsProgressForShows:(BOOL)showsProgressForShows
+{
+    _showsProgressForShows = showsProgressForShows;
+    [self setNeedsLayout];
 }
 
 - (void)setNeedsLayout

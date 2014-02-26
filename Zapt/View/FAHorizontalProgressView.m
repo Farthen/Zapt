@@ -95,12 +95,16 @@
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
+    
+    rect = self.bounds;
+    
     CGRect coloredRect = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, self.progressBarHeight);
     coloredRect.size.width *= _progress;
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     CGColorRef tintColor = self.tintColor.CGColor;
     
+    CGContextClearRect(context, rect);
     CGContextSetFillColorWithColor(context, tintColor);
     CGContextFillRect(context, coloredRect);
 }
