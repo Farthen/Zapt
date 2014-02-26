@@ -11,6 +11,8 @@
 #import "FAContentTableViewCell.h"
 #import "FADetailViewController.h"
 
+#import "FAGlobalSettings.h"
+
 @interface FAShowListViewController ()
 @property NSArray *showsWithProgress;
 @property FAWeightedTableViewDataSource *weightedDataSource;
@@ -63,10 +65,12 @@
         [weakSelf reloadData:YES];
     }];
     
-    self.hideCompletedButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Hide Completed", nil) style:UIBarButtonItemStylePlain target:self action:@selector(toggleHideCompleted)];
+    self.hideCompletedButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(toggleHideCompleted)];
     self.hideCompletedButton.possibleTitles = [NSSet setWithObjects:NSLocalizedString(@"Hide Completed", nil), NSLocalizedString(@"Show All", nil), nil];
     
     self.navigationItem.rightBarButtonItem = self.hideCompletedButton;
+    
+    self.hidingCompleted = [FAGlobalSettings sharedInstance].hideCompletedShows;
 }
 
 - (void)toggleHideCompleted
@@ -82,6 +86,7 @@
 - (void)setHidingCompleted:(BOOL)hidingCompleted
 {
     _hidingCompleted = hidingCompleted;
+    [FAGlobalSettings sharedInstance].hideCompletedShows = hidingCompleted;
     
     if (_hidingCompleted) {
         self.hideCompletedButton.title = NSLocalizedString(@"Show All", nil);
@@ -150,7 +155,13 @@
     [self.weightedDataSource createSectionForKey:@"shows" withWeight:0];
     
     [self.showsWithProgress enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [self.weightedDataSource insertRow:obj inSection:@"shows" withWeight:idx];
+        FATraktShow *show = obj;
+        
+        if (self.hidingCompleted && show.progress && [show.progress.left unsignedIntegerValue] == 0) {
+            [self.weightedDataSource insertRow:obj inSection:@"shows" withWeight:idx hidden:YES];
+        } else {
+            [self.weightedDataSource insertRow:obj inSection:@"shows" withWeight:idx hidden:NO];
+        }
     }];
     
     [self.weightedDataSource recalculateWeight];

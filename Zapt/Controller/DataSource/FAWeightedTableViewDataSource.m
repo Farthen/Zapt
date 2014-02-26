@@ -661,6 +661,11 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
 - (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight
 {
+    [self insertRow:rowKey inSection:sectionKey withWeight:weight hidden:NO];
+}
+
+- (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden
+{
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     
     if (!section) {
@@ -679,16 +684,24 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     FAWeightedTableViewDataSourceRow *oldRow = rowData[rowKey];
     FAWeightedTableViewDataSourceRow *row = [FAWeightedTableViewDataSourceRow rowWithKey:rowKey weight:weight];
     
+    row.hidden = hidden;
+    
     if (!section.hidden) {
         if (oldRow) {
             // Only replace the data, don't add a row
             if (oldRow.currentIndexPath) {
-                action = [FAWeightedTableViewDataSourceAction actionForSection:section
-                                                                           row:oldRow
-                                                                    actionType:FAWeightedTableViewDataSourceActionReloadRow
-                                                                     animation:UITableViewRowAnimationNone];
+                if (hidden) {
+                    action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                                               row:oldRow
+                                                                        actionType:FAWeightedTableViewDataSourceActionDeleteRow];
+                } else {
+                    action = [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                                               row:oldRow
+                                                                        actionType:FAWeightedTableViewDataSourceActionReloadRow
+                                                                         animation:UITableViewRowAnimationNone];
+                }
             }
-        } else {
+        } else if (!hidden) {
             action = [FAWeightedTableViewDataSourceAction actionForSection:section
                                                                        row:row
                                                                 actionType:FAWeightedTableViewDataSourceActionInsertRow];

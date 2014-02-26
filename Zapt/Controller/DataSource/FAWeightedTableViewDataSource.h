@@ -21,6 +21,7 @@
 
 - (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey;
 - (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
+- (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
