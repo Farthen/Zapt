@@ -8,7 +8,22 @@
 
 #import "FAGlobalSettings.h"
 
+@interface FAGlobalSettings ()
+@property NSUserDefaults *userDefaults;
+@end
+
 @implementation FAGlobalSettings
+
+- (instancetype)init
+{
+    self = [super init];
+    
+    if (self) {
+        self.userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    
+    return self;
+}
 
 + (instancetype)sharedInstance
 {
@@ -24,6 +39,16 @@
 - (UIColor *)tintColor
 {
     return [UIColor purpleColor];
+}
+
+- (void)setHideCompletedShows:(BOOL)hideCompletedShows
+{
+    [self.userDefaults setBool:hideCompletedShows forKey:@"hideCompletedShows"];
+}
+
+- (BOOL)hideCompletedShows
+{
+    return [self.userDefaults boolForKey:@"hideCompletedShows"];
 }
 
 @end

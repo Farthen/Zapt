@@ -21,6 +21,7 @@
 
 - (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey;
 - (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
+- (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
@@ -29,7 +30,9 @@
 
 - (void)clearSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title;
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title hidden:(BOOL)hidden;
 - (void)removeSectionForKey:(id <NSCopying, NSCoding>)key;
 
 - (void)reloadData;

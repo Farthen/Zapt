@@ -13,5 +13,6 @@
 + (instancetype)sharedInstance;
 
 @property (readonly) UIColor *tintColor;
+@property BOOL hideCompletedShows;
 
 @end

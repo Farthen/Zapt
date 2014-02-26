@@ -12,8 +12,8 @@
 	<dict>
 		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
 		<string>ssh://github.com/Farthen/objc-util.git</string>
-		<key>93A3EF43-194C-4EAB-8539-317483B21325</key>
-		<string>ssh://github.com/Farthen/Zapt.git</string>
+		<key>E2B02B29-FCB2-44B6-AA0D-66A3C758C5A8</key>
+		<string>https://github.com/Farthen/Zapr.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Zapt.xcworkspace</string>
@@ -21,15 +21,15 @@
 	<dict>
 		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
 		<string>../Zapt/Util</string>
-		<key>93A3EF43-194C-4EAB-8539-317483B21325</key>
+		<key>E2B02B29-FCB2-44B6-AA0D-66A3C758C5A8</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/Farthen/Zapt.git</string>
+	<string>https://github.com/Farthen/Zapr.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>93A3EF43-194C-4EAB-8539-317483B21325</string>
+	<string>E2B02B29-FCB2-44B6-AA0D-66A3C758C5A8</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -44,7 +44,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>93A3EF43-194C-4EAB-8539-317483B21325</string>
+			<string>E2B02B29-FCB2-44B6-AA0D-66A3C758C5A8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Zapt</string>
 		</dict>
