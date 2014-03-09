@@ -78,7 +78,7 @@
 {
     if (self.refreshControlWithActivity.startCount == 0) {
         if (animated) {
-            [self.refreshControlWithActivity startActivityWithCount:3];           // update this if updating more values
+            [self.refreshControlWithActivity startActivityWithCount:3]; // update this if updating more values
         }
         
         [[FATrakt sharedInstance] watchlistForType:FATraktContentTypeMovies callback:^(FATraktList *list) {
@@ -107,7 +107,7 @@
         
         
         if (animated) {
-            [self.refreshControlWithActivity startActivityWithCount:2];           // update this if updating more values
+            [self.refreshControlWithActivity startActivityWithCount:2]; // update this if updating more values
         }
         
         [[FATrakt sharedInstance] libraryForContentType:FATraktContentTypeMovies libraryType:FATraktLibraryTypeAll detailLevel:FATraktDetailLevelDefault callback:^(FATraktList *list) {

@@ -116,9 +116,9 @@
         FATraktEpisode *episode = (FATraktEpisode *)content;
         
         if (episode.seasonNumber && episode.episodeNumber && episode.overview) {
-            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i – %@", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue, episode.overview];
+            return [NSString stringWithFormat:NSLocalizedString(@"%@ – %@", nil), [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES], episode.overview];
         } else if (episode.seasonNumber && episode.episodeNumber) {
-            return [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
+            return [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
         } else if (episode.overview) {
             return [NSString stringWithFormat:NSLocalizedString(@"%@", nil), episode.overview];
         } else {
@@ -256,12 +256,18 @@
         if (self.showsProgressForShows) {
             self.separatorInset = UIEdgeInsetsZero;
             
-            CGRect frame = CGRectMake(0, self.contentView.bounds.size.height - 2, self.contentView.bounds.size.width, 2);
-            self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
+            CGRect frame = CGRectMake(0, self.bounds.size.height - 2, self.bounds.size.width, 2);
+            
+            if (!self.progressView) {
+                self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
+                [self addSubview:self.progressView];
+            }
+            
             self.progressView.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
+            
             self.progressView.backgroundColor = [UIColor lightGrayColor];
+            
             self.progressView.progress = self.showProgress;
-            [self addSubview:self.progressView];
             
             [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:2]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
