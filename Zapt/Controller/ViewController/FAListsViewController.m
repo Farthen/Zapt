@@ -11,13 +11,14 @@
 #import "FASearchViewController.h"
 #import "FATraktCache.h"
 #import "FATrakt.h"
+#import "FANewCustomListViewController.h"
 
 #import "FAInterfaceStringProvider.h"
 
 #import "FARefreshControlWithActivity.h"
 
 @interface FAListsViewController ()
-
+@property (nonatomic) UIBarButtonItem *addCustomListButton;
 @end
 
 @implementation FAListsViewController {
@@ -50,6 +51,9 @@
     }];
     
     self.needsLoginContentName = NSLocalizedString(@"lists", nil);
+    
+    self.addCustomListButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCustomListAction)];
+    self.navigationItem.rightBarButtonItem = self.addCustomListButton;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -62,6 +66,12 @@
     }
     
     [super displayNeedsLoginTableViewIfNeeded];
+}
+
+- (void)addCustomListAction
+{
+    FANewCustomListViewController *newCustomListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newCustomList"];
+    [self presentViewControllerInsideNavigationController:newCustomListVC animated:YES completion:nil];
 }
 
 - (void)refreshDataAnimated:(BOOL)animated

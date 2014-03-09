@@ -156,6 +156,8 @@
 		F3EE213617F4FF5E00A0118E /* UIImage+ImageWithColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213517F4FF5E00A0118E /* UIImage+ImageWithColor.m */; };
 		F3EE213917F6765800A0118E /* FACustomListsMembershipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */; };
 		F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
+		F3F02B5118CCBBBD00573274 /* FANewCustomListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F02B5018CCBBBD00573274 /* FANewCustomListViewController.m */; };
+		F3F02B5418CCC5D900573274 /* FABarButtonItemWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F02B5318CCC5D900573274 /* FABarButtonItemWithActivity.m */; };
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
 		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
@@ -471,6 +473,10 @@
 		F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACustomListsMembershipViewController.m; sourceTree = "<group>"; };
 		F3EE743C16DA916300FF2C9F /* FATraktListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktListItem.h; sourceTree = "<group>"; };
 		F3EE743D16DA916300FF2C9F /* FATraktListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktListItem.m; sourceTree = "<group>"; };
+		F3F02B4F18CCBBBD00573274 /* FANewCustomListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANewCustomListViewController.h; sourceTree = "<group>"; };
+		F3F02B5018CCBBBD00573274 /* FANewCustomListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANewCustomListViewController.m; sourceTree = "<group>"; };
+		F3F02B5218CCC5D900573274 /* FABarButtonItemWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FABarButtonItemWithActivity.h; sourceTree = "<group>"; };
+		F3F02B5318CCC5D900573274 /* FABarButtonItemWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FABarButtonItemWithActivity.m; sourceTree = "<group>"; };
 		F3F35E80169B655600A925B4 /* FASearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBar.h; sourceTree = "<group>"; };
 		F3F35E81169B655600A925B4 /* FASearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBar.m; sourceTree = "<group>"; };
 		F3F35E83169B6B7C00A925B4 /* FATraktContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktContent.h; sourceTree = "<group>"; };
@@ -776,6 +782,8 @@
 			children = (
 				F357FA6D16A8B60100420EC4 /* FAListsViewController.h */,
 				F357FA6E16A8B60100420EC4 /* FAListsViewController.m */,
+				F3F02B4F18CCBBBD00573274 /* FANewCustomListViewController.h */,
+				F3F02B5018CCBBBD00573274 /* FANewCustomListViewController.m */,
 				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
 				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 				F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */,
@@ -946,6 +954,8 @@
 				F3B74B2A16E6D83500230C43 /* FAProgressHUD.m */,
 				F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */,
 				F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */,
+				F3F02B5218CCC5D900573274 /* FABarButtonItemWithActivity.h */,
+				F3F02B5318CCC5D900573274 /* FABarButtonItemWithActivity.m */,
 			);
 			name = "Activity Spinners";
 			sourceTree = "<group>";
@@ -1431,6 +1441,7 @@
 				B667534715F1319500A8D76D /* FATrakt.m in Sources */,
 				F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */,
 				B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */,
+				F3F02B5118CCBBBD00573274 /* FANewCustomListViewController.m in Sources */,
 				F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */,
 				F347356717FF569C00116A59 /* UIView+Debug.m in Sources */,
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
@@ -1492,6 +1503,7 @@
 				F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */,
 				F3A8BFD117FBED2800188453 /* FAGlobalSettings.m in Sources */,
 				F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */,
+				F3F02B5418CCC5D900573274 /* FABarButtonItemWithActivity.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 				F37B6780185BBF4000FAC329 /* FASearchDisplayController.m in Sources */,
 				F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */,
