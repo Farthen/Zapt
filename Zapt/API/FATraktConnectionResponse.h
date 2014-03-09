@@ -37,6 +37,7 @@ typedef enum {
 + (instancetype)invalidRequestResponse;
 + (instancetype)invalidCredentialsResponse;
 + (instancetype)invalidDataResponse;
++ (instancetype)unkownErrorResponse;
 
 - (void)setResponseData:(id)data;
 

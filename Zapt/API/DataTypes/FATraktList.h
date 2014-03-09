@@ -12,6 +12,12 @@
 
 @interface FATraktList : FATraktCachedDatatype
 
+typedef NS_ENUM(NSUInteger, FATraktListPrivacy) {
+    FATraktListPrivacyPrivate,
+    FATraktListPrivacyFriends,
+    FATraktListPrivacyPublic
+};
+
 + (FATraktList *)cachedListForWatchlistWithContentType:(FATraktContentType)contentType;
 + (FATraktList *)cachedListForLibraryWithContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType;
 + (NSArray *)cachedCustomLists;

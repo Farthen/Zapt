@@ -94,6 +94,17 @@
     return instance;
 }
 
++ (instancetype)unkownErrorResponse
+{
+    static dispatch_once_t once;
+    static FATraktConnectionResponse *instance;
+    dispatch_once(&once, ^{
+        instance = [[FATraktConnectionResponse alloc] initWithResponseType:FATraktConnectionResponseTypeUnknown];
+    });
+    
+    return instance;
+}
+
 - (void)setResponseData:(id)data
 {
     if ([data isKindOfClass:[UIImage class]]) {

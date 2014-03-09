@@ -92,6 +92,9 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)addNewCustomListWithName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)removeCustomListWithName:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark user
 - (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *content))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;

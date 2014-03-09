@@ -10,11 +10,15 @@
 #import "FAEditableTableViewCell.h"
 #import "FATableViewCellWithActivity.h"
 #import "FABarButtonItemWithActivity.h"
+#import "FAProgressHUD.h"
+
+#import "FATrakt.h"
 
 @interface FANewCustomListViewController ()
 
 @property (nonatomic) UITextField *listNameTextField;
 @property (nonatomic) FABarButtonItemWithActivity *doneButton;
+@property (nonatomic) FAProgressHUD *hud;
 
 @end
 
@@ -37,6 +41,8 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
     self.doneButton = [[FABarButtonItemWithActivity alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
     self.navigationItem.rightBarButtonItem = self.doneButton;
+    
+    self.hud = [[FAProgressHUD alloc] initWithView:self.view];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -52,11 +58,15 @@
 - (void)doneAction
 {
     [self.doneButton startActivity];
+    [self.hud showProgressHUDSpinnerWithText:@"Adding List"];
     
-    [self performBlock:^{
-        [self.doneButton finishActivity];
-    } afterDelay:2];
-    //[self dismissViewControllerAnimated:YES completion:nil];
+    [[FATrakt sharedInstance] addNewCustomListWithName:self.listNameTextField.text description:nil privacy:FATraktListPrivacyPrivate ranked:NO allowShouts:NO callback:^{
+        [self.hud showProgressHUDSuccessMessage:NSLocalizedString(@"Success", nil)];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } onError:^(FATraktConnectionResponse *connectionError) {
+        [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
+        [self.doneButton stopAllActivity];
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

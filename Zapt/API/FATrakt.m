@@ -889,6 +889,62 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
+- (FATraktRequest *)addNewCustomListWithName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *privacyString = nil;
+    
+    if (privacy == FATraktListPrivacyPublic) {
+        privacyString = @"public";
+    } else if (privacy == FATraktListPrivacyFriends) {
+        privacyString = @"friends";
+    } else {
+        // Default to private. It's safer if anything should happen with this argument
+        privacyString = @"private";
+    }
+    
+    NSMutableDictionary *postData = [@{@"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
+
+    if (description) {
+        [postData setObject:description forKey:@"description"];
+    }
+    
+    return [self.connection postAPI:@"lists/add" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSDictionary *responseDict = response.jsonData;
+        if ([responseDict[@"status"] isEqualToString:@"success"]) {
+            callback();
+        } else if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+            error(response);
+        }
+    } onError:error];
+}
+
+- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self removeCustomListWithName:list.slug callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeCustomListWithName:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (list) {
+        NSDictionary *payload = @{@"slug": list};
+        
+        return [self.connection postAPI:@"lists/delete" payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+            
+            NSDictionary *responseDict = response.jsonData;
+            if ([responseDict[@"status"] isEqualToString:@"success"]) {
+                callback();
+            } else if (error) {
+                FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+                error(response);
+            }
+        } onError:error];
+    }
+    
+    return nil;
+}
+
 - (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (![self.connection usernameSetOrDieAndError:error]) {
