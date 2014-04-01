@@ -117,6 +117,7 @@
 		F3A8BFD117FBED2800188453 /* FAGlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD017FBED2800188453 /* FAGlobalSettings.m */; };
 		F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */; };
 		F3ABFADA18908C99003885B3 /* FADictionaryHashLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */; };
+		F3AC9B9B18CCF07900551F6A /* FACircularActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
 		F3B03908184D13B60091ED9D /* UIImage+SizeInBytes.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B03907184D13B60091ED9D /* UIImage+SizeInBytes.m */; };
 		F3B1F36717A85A7C00800B61 /* FABigDataCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B1F36617A85A7C00800B61 /* FABigDataCache.m */; };
@@ -395,6 +396,8 @@
 		F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TopViewController.m"; sourceTree = "<group>"; };
 		F3ABFAD818908C99003885B3 /* FADictionaryHashLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADictionaryHashLocator.h; sourceTree = "<group>"; };
 		F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADictionaryHashLocator.m; sourceTree = "<group>"; };
+		F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularActivityIndicatorView.h; sourceTree = "<group>"; };
+		F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACircularActivityIndicatorView.m; sourceTree = "<group>"; };
 		F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAActivityDispatch.h; sourceTree = "<group>"; };
 		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityDispatch.m; sourceTree = "<group>"; };
 		F3B03906184D13B60091ED9D /* UIImage+SizeInBytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SizeInBytes.h"; sourceTree = "<group>"; };
@@ -956,6 +959,8 @@
 				F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */,
 				F3F02B5218CCC5D900573274 /* FABarButtonItemWithActivity.h */,
 				F3F02B5318CCC5D900573274 /* FABarButtonItemWithActivity.m */,
+				F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */,
+				F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */,
 			);
 			name = "Activity Spinners";
 			sourceTree = "<group>";
@@ -1504,6 +1509,7 @@
 				F3A8BFD117FBED2800188453 /* FAGlobalSettings.m in Sources */,
 				F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */,
 				F3F02B5418CCC5D900573274 /* FABarButtonItemWithActivity.m in Sources */,
+				F3AC9B9B18CCF07900551F6A /* FACircularActivityIndicatorView.m in Sources */,
 				F310CAAA16A7960900781F24 /* FATraktSeason.m in Sources */,
 				F37B6780185BBF4000FAC329 /* FASearchDisplayController.m in Sources */,
 				F3EE212D17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m in Sources */,
