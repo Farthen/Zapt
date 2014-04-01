@@ -350,7 +350,7 @@
         [sortedSectionObjects addObject:[NSMutableSet set]];
     }
     
-    if ([_displayedList isKindOfClass:[FATraktListItem class]]) {
+    if ([_displayedList isKindOfClass:[FATraktList class]]) {
         for (FATraktListItem *listItem in _displayedList.items) {
             NSString *letter = [[listItem.content.title substringToIndex:1] capitalizedString];
             
