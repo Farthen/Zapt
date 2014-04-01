@@ -23,10 +23,19 @@
 - (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
 - (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 
+- (id <NSCopying, NSCoding>)largestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey;
+- (id <NSCopying, NSCoding>)smallestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey;
+- (NSUInteger)numberOfRowsInSection:(id <NSCopying, NSCoding>)sectionKey;
+- (NSUInteger)numberOfVisibleRowsInSection:(id <NSCopying, NSCoding>)sectionKey;
+- (BOOL)hasRowWithKey:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
+- (NSSet *)rowKeysForSection:(id <NSCopying, NSCoding>)sectionKey;
+
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
 - (void)showSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)showSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;
+- (NSUInteger)numberOfSections;
+- (NSUInteger)numberOfVisibleSections;
 
 - (void)clearSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight;

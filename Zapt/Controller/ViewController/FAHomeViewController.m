@@ -216,23 +216,31 @@
 
 - (void)displayProgressData
 {
+    static NSString *sectionName = @"showProgress";
+    
     if (self.showsWithProgress.count > 0) {
         if (!self.tableViewContainsProgress) {
             self.tableViewContainsProgress = YES;
             
-            [self.arrayDataSource createSectionForKey:@"showProgress" withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
+            [self.arrayDataSource createSectionForKey:sectionName withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
         }
         
         NSArray *shows = self.showsWithProgress;
         
+        // Remove old shows
+        for (FATraktShow *show in [self.arrayDataSource rowKeysForSection:sectionName]) {
+            if ([shows indexOfObject:show] == NSNotFound) {
+                [self.arrayDataSource removeRowInSection:sectionName forObject:show];
+            }
+        }
+        
         for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
             FATraktShow *show = shows[i];
             
-            [self.arrayDataSource insertRow:show inSection:@"showProgress" withWeight:i];
+            [self.arrayDataSource insertRow:show inSection:sectionName withWeight:i];
         }
-        
     } else {
-        [self.arrayDataSource removeSectionForKey:@"showProgress"];
+        [self.arrayDataSource removeSectionForKey:sectionName];
         self.tableViewContainsProgress = NO;
     }
     

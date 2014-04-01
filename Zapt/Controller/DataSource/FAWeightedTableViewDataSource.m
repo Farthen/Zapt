@@ -549,6 +549,19 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
 }
 
+- (NSUInteger)numberOfSections
+{
+    return self.weightedSections.count;
+}
+
+- (NSUInteger)numberOfVisibleSections
+{
+    return [self.weightedSections.allValues countUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        FAWeightedTableViewDataSourceSection *section = obj;
+        return !section.hidden;
+    }];
+}
+
 - (void)hideRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
@@ -638,6 +651,67 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
     
     [section.rowData removeAllObjects];
+}
+
+- (id <NSCopying, NSCoding>)largestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = [section.rowData.allValues reduceUsingBlock:^id(id memo, id object, NSUInteger idx, BOOL *stop) {
+        FAWeightedTableViewDataSourceRow *memoRow = memo;
+        FAWeightedTableViewDataSourceRow *row = object;
+        if (row.weight >= memoRow.weight) {
+            return row;
+        }
+        
+        return memo;
+    }];
+    
+    return row.key;
+}
+
+- (id <NSCopying, NSCoding>)smallestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = [section.rowData.allValues reduceUsingBlock:^id(id memo, id object, NSUInteger idx, BOOL *stop) {
+        FAWeightedTableViewDataSourceRow *memoRow = memo;
+        FAWeightedTableViewDataSourceRow *row = object;
+        if (row.weight <= memoRow.weight) {
+            return row;
+        }
+        
+        return memo;
+    }];
+    
+    return row.key;
+}
+
+- (BOOL)hasRowWithKey:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+    
+    return !!row;
+}
+
+- (NSSet *)rowKeysForSection:(id <NSCopying, NSCoding>)sectionKey;
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    return section.rowData.allKeysSet;
+}
+
+- (NSUInteger)numberOfRowsInSection:(id<NSCopying,NSCoding>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    return section.rowData.count;
+}
+
+- (NSUInteger)numberOfVisibleRowsInSection:(id<NSCopying,NSCoding>)sectionKey
+{
+    FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+    return [section.rowData.allValues countUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        FAWeightedTableViewDataSourceRow *row = obj;
+        return !row.hidden;
+    }];
 }
 
 - (void)removeRowInSection:(id <NSCopying, NSCoding>)sectionKey forObject:(id)rowKey
