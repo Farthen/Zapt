@@ -15,6 +15,7 @@
 
 #import "FAInterfaceStringProvider.h"
 
+#import "FAProgressHUD.h"
 #import "FARefreshControlWithActivity.h"
 
 @interface FAListsViewController ()
@@ -24,7 +25,7 @@
 @implementation FAListsViewController {
     FATraktList *_watchlist;
     NSUInteger _refreshCount;
-    NSArray *_customLists;
+    NSMutableArray *_customLists;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -44,12 +45,6 @@
     // Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
     
-    __weak typeof(self) weakSelf = self;
-    
-    [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
-        [weakSelf refreshDataAnimated:YES];
-    }];
-    
     self.needsLoginContentName = NSLocalizedString(@"lists", nil);
     
     self.addCustomListButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCustomListAction)];
@@ -61,9 +56,7 @@
     [super viewDidAppear:animated];
     
     // Load all the list information to get the count
-    if ([FATraktCache sharedInstance].lists.objectCount == 0) {
-        [self refreshDataAnimated:NO];
-    }
+    [self refreshDataAnimated:NO];
     
     [super displayNeedsLoginTableViewIfNeeded];
 }
@@ -132,7 +125,7 @@
         }
         
         [[FATrakt sharedInstance] allCustomListsCallback:^(NSArray *lists) {
-            _customLists = lists;
+            _customLists = [lists mutableCopy];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
             
             if (animated) {
@@ -145,7 +138,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+        
     NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
     
     if (selectedRowIndexPath) {
@@ -185,7 +178,7 @@
         return 2;
     } else if (section == 2) {
         if (!_customLists) {
-            _customLists = [FATraktList cachedCustomLists];
+            _customLists = [[FATraktList cachedCustomLists] mutableCopy];
         }
         
         return (NSInteger)_customLists.count;
@@ -245,6 +238,29 @@
         }
         
         [self.navigationController pushViewController:listDetailViewController animated:YES];
+    }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return indexPath.section == 2;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Delete custom list
+    if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 2) {
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.navigationController.view];
+        FATraktList *list = _customLists[indexPath.row];
+        
+        [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:@"Removing list \"%@\"", list.name]];
+        [[FATrakt sharedInstance] removeCustomList:list callback:^{
+            [hud showProgressHUDSuccess];
+            [_customLists removeObjectAtIndex:indexPath.row];
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        } onError:^(FATraktConnectionResponse *connectionError) {
+            [hud showProgressHUDFailed];
+        }];
     }
 }
 
