@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FANewCustomListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface FANewCustomListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextFieldDelegate>
 
 @property (nonatomic) IBOutlet UITableView *tableView;
 

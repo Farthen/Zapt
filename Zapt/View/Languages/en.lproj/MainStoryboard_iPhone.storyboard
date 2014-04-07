@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5051" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Dc3-Gx-bgp">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -655,7 +655,7 @@
         <!--New Custom List View Controller - New Custom List-->
         <scene sceneID="k7Q-9b-Whq">
             <objects>
-                <viewController storyboardIdentifier="newCustomList" id="blz-AU-wP7" customClass="FANewCustomListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newCustomList" automaticallyAdjustsScrollViewInsets="NO" id="blz-AU-wP7" customClass="FANewCustomListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6zm-9j-khQ"/>
                         <viewControllerLayoutGuide type="bottom" id="Mlm-fq-uVV"/>
@@ -664,8 +664,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="QvX-8Q-czT">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="QvX-8Q-czT">
+                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <sections/>
@@ -676,9 +676,15 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Mlm-fq-uVV" firstAttribute="top" secondItem="QvX-8Q-czT" secondAttribute="bottom" id="YI4-w7-6OF"/>
+                            <constraint firstItem="QvX-8Q-czT" firstAttribute="top" secondItem="6zm-9j-khQ" secondAttribute="bottom" id="gOi-x3-ctx"/>
+                            <constraint firstItem="QvX-8Q-czT" firstAttribute="leading" secondItem="6Bm-Q5-06b" secondAttribute="leading" id="hBo-aw-bNY"/>
+                            <constraint firstAttribute="trailing" secondItem="QvX-8Q-czT" secondAttribute="trailing" id="zWM-9l-tIX"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="New Custom List" prompt="Enter a name for the new list" id="cKF-Iy-C0b">
+                    <navigationItem key="navigationItem" title="New Custom List" id="cKF-Iy-C0b">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="b0l-1W-R6b"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="geo-ZT-vPb"/>
                     </navigationItem>

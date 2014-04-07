@@ -116,6 +116,7 @@
 		F3A5BD0217F91C7A00138F3D /* FAAdaptiveNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */; };
 		F3A8BFD117FBED2800188453 /* FAGlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD017FBED2800188453 /* FAGlobalSettings.m */; };
 		F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */; };
+		F3AAC0C318F3456A00EF8876 /* FASegmentedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */; };
 		F3ABFADA18908C99003885B3 /* FADictionaryHashLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */; };
 		F3AC9B9B18CCF07900551F6A /* FACircularActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
@@ -394,6 +395,8 @@
 		F3A8BFD317FBF05B00188453 /* FAViewControllerPreferredContentSizeChanged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FAViewControllerPreferredContentSizeChanged.h; sourceTree = "<group>"; };
 		F3A8BFD417FBF10B00188453 /* UIViewController+TopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TopViewController.h"; sourceTree = "<group>"; };
 		F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TopViewController.m"; sourceTree = "<group>"; };
+		F3AAC0C118F3456A00EF8876 /* FASegmentedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASegmentedTableViewCell.h; sourceTree = "<group>"; };
+		F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASegmentedTableViewCell.m; sourceTree = "<group>"; };
 		F3ABFAD818908C99003885B3 /* FADictionaryHashLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADictionaryHashLocator.h; sourceTree = "<group>"; };
 		F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADictionaryHashLocator.m; sourceTree = "<group>"; };
 		F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -970,6 +973,8 @@
 			children = (
 				B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */,
 				B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */,
+				F3AAC0C118F3456A00EF8876 /* FASegmentedTableViewCell.h */,
+				F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */,
 				F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */,
 				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
 				F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */,
@@ -1495,6 +1500,7 @@
 				F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */,
 				F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */,
 				F3EE213617F4FF5E00A0118E /* UIImage+ImageWithColor.m in Sources */,
+				F3AAC0C318F3456A00EF8876 /* FASegmentedTableViewCell.m in Sources */,
 				F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */,
 				F3B03908184D13B60091ED9D /* UIImage+SizeInBytes.m in Sources */,
 				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,

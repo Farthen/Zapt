@@ -15,7 +15,7 @@
     UIImageView *_failedView;
 }
 
-- (id)initWithView:(UIView *)view
+- (instancetype)initWithView:(UIView *)view
 {
     self = [super init];
     
@@ -28,6 +28,12 @@
     }
     
     return self;
+}
+
+- (instancetype)initWithRootView
+{
+    UIView *view = UIWindow.mainWindow.rootViewController.view;
+    return [self initWithView:view];
 }
 
 - (void)showProgressHUDSuccess

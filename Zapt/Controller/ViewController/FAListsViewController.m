@@ -250,7 +250,7 @@
 {
     // Delete custom list
     if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 2) {
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.navigationController.view];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithRootView];
         FATraktList *list = _customLists[indexPath.row];
         
         [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:@"Removing list \"%@\"", list.name]];
