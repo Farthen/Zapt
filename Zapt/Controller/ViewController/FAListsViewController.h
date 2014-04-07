@@ -10,6 +10,6 @@
 @class FARefreshControlWithActivity;
 #import "FALoggedInTableViewController.h"
 
-@interface FAListsViewController : FALoggedInTableViewController
+@interface FAListsViewController : FALoggedInTableViewController <UIActionSheetDelegate>
 
 @end

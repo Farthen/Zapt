@@ -20,6 +20,8 @@
 
 @interface FAListsViewController ()
 @property (nonatomic) UIBarButtonItem *addCustomListButton;
+@property (nonatomic) UIActionSheet *deleteListConfirmationActionSheet;
+@property (nonatomic) NSIndexPath *listIndexToBeDeleted;
 @end
 
 @implementation FAListsViewController {
@@ -49,6 +51,11 @@
     
     self.addCustomListButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCustomListAction)];
     self.navigationItem.rightBarButtonItem = self.addCustomListButton;
+    
+    self.deleteListConfirmationActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                                         delegate:self
+                                                                cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
+                                                           destructiveButtonTitle:NSLocalizedString(@"Delete", nil) otherButtonTitles:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -250,17 +257,34 @@
 {
     // Delete custom list
     if (editingStyle == UITableViewCellEditingStyleDelete && indexPath.section == 2) {
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithRootView];
         FATraktList *list = _customLists[indexPath.row];
+        self.deleteListConfirmationActionSheet.title = [NSString stringWithFormat:NSLocalizedString(@"Do you want to delete the list \"%@\"?", nil), list.name];
+        self.listIndexToBeDeleted = indexPath;
         
-        [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:@"Removing list \"%@\"", list.name]];
-        [[FATrakt sharedInstance] removeCustomList:list callback:^{
-            [hud showProgressHUDSuccess];
-            [_customLists removeObjectAtIndex:indexPath.row];
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        } onError:^(FATraktConnectionResponse *connectionError) {
-            [hud showProgressHUDFailed];
-        }];
+        [self.deleteListConfirmationActionSheet showInView:self.view];
+    }
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet == self.deleteListConfirmationActionSheet) {
+        if (buttonIndex == 0) {
+            FAProgressHUD *hud = [[FAProgressHUD alloc] initWithRootView];
+            
+            FATraktList *list = _customLists[self.listIndexToBeDeleted.row];
+            
+            [hud showProgressHUDSpinnerWithText:[NSString stringWithFormat:@"Deleting list \"%@\"", list.name]];
+            [[FATrakt sharedInstance] removeCustomList:list callback:^{
+                [hud showProgressHUDSuccess];
+                [_customLists removeObjectAtIndex:self.listIndexToBeDeleted.row];
+                [self.tableView deleteRowsAtIndexPaths:@[self.listIndexToBeDeleted] withRowAnimation:UITableViewRowAnimationAutomatic];
+            } onError:^(FATraktConnectionResponse *connectionError) {
+                [hud showProgressHUDFailed];
+            }];
+            
+        } else {
+            [self.tableView reloadRowsAtIndexPaths:@[self.listIndexToBeDeleted] withRowAnimation:UITableViewRowAnimationFade];
+        }
     }
 }
 
