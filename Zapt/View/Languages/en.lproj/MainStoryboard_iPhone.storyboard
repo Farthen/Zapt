@@ -238,8 +238,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="actionButton" destination="c3r-ax-WqC" id="GjS-dd-wNa"/>
                         <outlet property="contentView" destination="Bq5-by-4MK" id="T9m-4v-5vJ"/>

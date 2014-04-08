@@ -35,6 +35,9 @@
     
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
     
+    // prevents flickering on some animations
+    self.window.backgroundColor = [UIColor whiteColor];
+    
     [[FAGlobalEventHandler handler] handleApplicationLaunch];
     
     DDLogInfo(@"%@ Version %@", [FAZapt applicationName], [FAZapt versionNumberDescription]);
