@@ -5,6 +5,8 @@
 //
 
 #import "MBProgressHUD.h"
+#import "FACircularActivityIndicatorView.h"
+#import "FAGlobalSettings.h"
 
 
 #if __has_feature(objc_arc)
@@ -496,17 +498,20 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 
 - (void)updateIndicators {
 	
-	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
+	BOOL isActivityIndicator = [indicator isKindOfClass:[FACircularActivityIndicatorView class]];
 	BOOL isRoundIndicator = [indicator isKindOfClass:[MBRoundProgressView class]];
 	
 	if (mode == MBProgressHUDModeIndeterminate &&  !isActivityIndicator) {
 		// Update to indeterminate indicator
 		[indicator removeFromSuperview];
-		UIActivityIndicatorView *activityIndicator = MB_AUTORELEASE([[UIActivityIndicatorView alloc]
-			initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge]);
-		MB_IF_IOS7_OR_GREATER(activityIndicator.color = [UIColor grayColor];)
+		FACircularActivityIndicatorView *activityIndicator = MB_AUTORELEASE([[FACircularActivityIndicatorView alloc]
+			initWithFrame:CGRectMake(0, 0, 30, 30)]);
+        
+        // FIXME: try to get the tintColor from somewhere else
+		activityIndicator.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
+        
 		self.indicator = activityIndicator;        
-		[(UIActivityIndicatorView *)activityIndicator startAnimating];
+		[(FACircularActivityIndicatorView *)activityIndicator startAnimating];
 		[self addSubview:activityIndicator];
 	}
 	else if (mode == MBProgressHUDModeDeterminateHorizontalBar) {

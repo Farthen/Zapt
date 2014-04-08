@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, FACircularActivityIndicatorStatus) {
         self.backgroundColor = [UIColor whiteColor];
         self.animationShapeLayer = [[CAShapeLayer alloc] init];
         self.animationShapeLayer.frame = self.layer.bounds;
-        self.animationShapeLayer.strokeColor = [[UIColor blueColor] CGColor];
+        self.animationShapeLayer.strokeColor = [self.tintColor CGColor];
         self.animationShapeLayer.fillColor = nil;
         self.animationShapeLayer.backgroundColor = [[UIColor whiteColor] CGColor];
         [self.layer addSublayer:self.animationShapeLayer];
@@ -182,6 +182,12 @@ typedef NS_ENUM(NSInteger, FACircularActivityIndicatorStatus) {
     _animationStatus = animationStatus;
 }
 
+- (void)tintColorDidChange
+{
+    self.animationShapeLayer.strokeColor = [self.tintColor CGColor];
+}
+
+/*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
@@ -190,7 +196,7 @@ typedef NS_ENUM(NSInteger, FACircularActivityIndicatorStatus) {
     
     if (self.circleRadian > 0) {
     }
-}
+}*/
 
 
 @end
