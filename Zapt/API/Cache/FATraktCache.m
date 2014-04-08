@@ -90,7 +90,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
         _lists.delegate = self;
     }
     
-    // Don't cache more than 20 lists
+    // Don't cache more than 200 lists
     _lists.countLimit = 200;
     _lists.defaultExpirationTime = FATimeIntervalOneWeek;
     

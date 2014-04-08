@@ -169,6 +169,8 @@
         [self.searchBar layoutIfNeeded];
         [self.tableView layoutIfNeeded];
         self.tableView.tableHeaderView = self.searchBar;
+        
+        [self filterContentForSearchBar:self.searchBar];
     } else {
         self.searchBar.showsScopeBar = NO;
     }
@@ -209,7 +211,26 @@
     FATraktList *loadedList;
     
     if (list.isLibrary) {
-        loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)list.libraryType];
+        if (list.libraryType == FATraktLibraryTypeAll) {
+            loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)list.libraryType];
+            
+            FATraktList *collectedLibrary = [list copy];
+            collectedLibrary.items = [list.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                FATraktListItem *listItem = obj;
+                return listItem.content.in_collection;
+            }];
+            collectedLibrary.libraryType = FATraktLibraryTypeCollection;
+            [self checkReloadDataForList:collectedLibrary];
+            
+            FATraktList *watchedLibrary = [list copy];
+            watchedLibrary.items = [list.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                FATraktListItem *listItem = obj;
+                return listItem.content.plays >= 1 && !listItem.content.unseen;
+            }];
+            watchedLibrary.libraryType = FATraktLibraryTypeWatched;
+            [self checkReloadDataForList:watchedLibrary];
+        }
+        
         
         if ([loadedList isMemberOfClass:[NSNull class]]) {
             loadedList = nil;
@@ -257,20 +278,6 @@
             }
             
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list) {
-                [self checkReloadDataForList:list];
-                
-                if (animated) {
-                    [self.refreshControlWithActivity finishActivity];
-                }
-            } onError:nil];
-            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeWatched callback:^(FATraktList *list) {
-                [self checkReloadDataForList:list];
-                
-                if (animated) {
-                    [self.refreshControlWithActivity finishActivity];
-                }
-            } onError:nil];
-            [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeCollection callback:^(FATraktList *list) {
                 [self checkReloadDataForList:list];
                 
                 if (animated) {

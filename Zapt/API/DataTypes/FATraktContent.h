@@ -78,6 +78,10 @@ typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
 @property (assign) BOOL in_watchlist;
 @property (assign) BOOL in_collection;
 
+// Ony important for some library stuff (?)
+@property (nonatomic) NSInteger plays;
+@property (nonatomic) BOOL unseen;
+
 @property (assign) FATraktWatchingType watchingType;
 
 @property NSDictionary *ratings;

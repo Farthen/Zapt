@@ -98,6 +98,8 @@
 
 - (void)finishedMappingObjects
 {
+    /* we don't merge lists. if we do at some point: use this code
+
     // See if we can find a cached equivalent now and merge them if appropriate
     FATraktList *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
     
@@ -112,7 +114,7 @@
         }
     }
     
-    [self commitToCache];
+    [self commitToCache];*/
 }
 
 - (NSString *)description
