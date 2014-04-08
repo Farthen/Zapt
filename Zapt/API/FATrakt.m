@@ -171,8 +171,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 - (BOOL)needsUpdateLastActivity
 {
     if (self.lastActivity) {
-        // 60 seconds seems like a good timeout, we don't want to stress the servers too hard...
-        return self.lastActivity.fetchDate.timeIntervalSinceNow < -10;
+        // 0.5 seconds seems like a good timeout, we need current data
+        return self.lastActivity.fetchDate.timeIntervalSinceNow < -0.5;
     } else {
         return YES;
     }
