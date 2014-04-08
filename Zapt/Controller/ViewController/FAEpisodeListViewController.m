@@ -279,6 +279,7 @@
     cell.textLabel.text = episode.title;
     //cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.separatorInset = UIEdgeInsetsZero;
     
     FAEpisodeNumberView *episodeNumberView = [[FAEpisodeNumberView alloc] init];
     episodeNumberView.episodeNumber = episode.episodeNumber.integerValue;
