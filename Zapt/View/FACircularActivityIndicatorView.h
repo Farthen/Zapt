@@ -10,4 +10,7 @@
 
 @interface FACircularActivityIndicatorView : UIView
 
+- (void)startAnimating;
+- (void)stopAnimating;
+
 @end
