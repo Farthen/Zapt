@@ -29,8 +29,8 @@ typedef NS_ENUM(NSUInteger, FATraktListPrivacy) {
 @property (retain) NSString *name;
 @property (retain) NSString *slug;
 @property (retain) NSString *url;
-//@property (retain) NSString *description;
-@property (retain) NSString *privacy;
+@property (retain) NSString *list_description;
+@property (assign) FATraktListPrivacy privacy;
 @property (assign) BOOL show_numbers;
 @property (assign) BOOL allow_shouts;
 @property (retain) NSMutableArray *items;

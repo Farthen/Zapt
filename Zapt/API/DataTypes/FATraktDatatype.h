@@ -35,5 +35,6 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
 
 - (BOOL)shouldMergeObjectForKey:(NSString *)key;
 - (void)mergeWithObject:(FATraktDatatype *)object;
+- (void)updateTimestamp;
 
 @end

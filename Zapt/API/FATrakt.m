@@ -846,7 +846,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSArray *data = response.jsonData;
         NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
         
-        for (NSDictionary * listData in data) {
+        for (NSDictionary *listData in data) {
             FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
             
             if (list) {
@@ -920,12 +920,48 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)editCustomList:(FATraktList *)list newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
 {
-    return [self removeCustomListWithName:list.slug callback:callback onError:error];
+    return [self editCustomListWithSlug:list.slug newName:name description:description privacy:privacy ranked:ranked allowShouts:allowShouts callback:callback onError:error];
 }
 
-- (FATraktRequest *)removeCustomListWithName:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)editCustomListWithSlug:(NSString *)slug newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *privacyString = nil;
+    
+    if (privacy == FATraktListPrivacyPublic) {
+        privacyString = @"public";
+    } else if (privacy == FATraktListPrivacyFriends) {
+        privacyString = @"friends";
+    } else {
+        // Default to private. It's safer if anything should happen with this argument
+        privacyString = @"private";
+    }
+    
+    NSMutableDictionary *postData = [@{@"slug": slug, @"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
+    
+    if (description) {
+        [postData setObject:description forKey:@"description"];
+    }
+    
+    return [self.connection postAPI:@"lists/update" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSDictionary *responseDict = response.jsonData;
+        if ([responseDict[@"status"] isEqualToString:@"success"]) {
+            callback();
+        } else if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+            error(response);
+        }
+    } onError:error];
+}
+
+- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self removeCustomListWithSlug:list.slug callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeCustomListWithSlug:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     if (list) {
         NSDictionary *payload = @{@"slug": list};

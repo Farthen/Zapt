@@ -28,6 +28,8 @@
 @property (nonatomic) FABarButtonItemWithActivity *doneButton;
 @property (nonatomic) FAProgressHUD *hud;
 
+@property (nonatomic) FATraktList *editList;
+
 @end
 
 @implementation FANewCustomListViewController
@@ -41,12 +43,17 @@
     return self;
 }
 
+- (void)editModeWithList:(FATraktList *)list
+{
+    self.editList = list;
+    self.selectedPrivacyMode = list.privacy;
+    self.navigationItem.title = NSLocalizedString(@"Edit List", nil);
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.selectedPrivacyMode = -1;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelAction)];
     self.doneButton = [[FABarButtonItemWithActivity alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction)];
@@ -133,25 +140,57 @@
 - (void)doneAction
 {
     [self.doneButton startActivity];
-    [self.hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding List", nil)];
     
-    NSString *description = nil;
-    if (self.listDescriptionCell.textField.text && ![self.listDescriptionCell.textField.text isEqual:@""]) {
-        description = self.listDescriptionCell.textField.text;
+    NSString *name = self.listNameCell.textField.text;
+    
+    NSString *description = self.listDescriptionCell.textField.text;
+    
+    FATraktListPrivacy privacy = self.segmentedCell.segmentedControl.selectedSegmentIndex;
+    BOOL ranked = self.showItemNumbersSwitch.isOn;
+    BOOL allowShouts = self.allowShoutsSwitch.isOn;
+    
+    if (!self.editList) {
+        [self.hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding List", nil)];
+        
+        [[FATrakt sharedInstance] addNewCustomListWithName:name
+                                               description:description
+                                                   privacy:privacy
+                                                    ranked:ranked
+                                               allowShouts:allowShouts
+                                                  callback:^{
+                                                      [self.hud showProgressHUDSuccessMessage:NSLocalizedString(@"Success", nil)];
+                                                      [self dismissViewControllerAnimated:YES completion:nil];
+                                                  } onError:^(FATraktConnectionResponse *connectionError) {
+                                                      [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
+                                                      [self.doneButton finishActivity];
+                                                  }];
+    } else {
+        
+        // Editing a list
+        [self.hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Updating List", nil)];
+        
+        [[FATrakt sharedInstance] editCustomList:self.editList
+                                         newName:self.listNameCell.textField.text
+                                     description:description
+                                         privacy:self.segmentedCell.segmentedControl.selectedSegmentIndex
+                                          ranked:self.showItemNumbersSwitch.isOn
+                                     allowShouts:self.allowShoutsSwitch.isOn
+                                        callback:^{
+                                            self.editList.name = name;
+                                            self.editList.list_description = description;
+                                            self.editList.privacy = privacy;
+                                            self.editList.show_numbers = ranked;
+                                            self.editList.allow_shouts = allowShouts;
+                                            [self.editList updateTimestamp];
+                                            [self.editList commitToCache];
+                                            
+                                            [self.hud showProgressHUDSuccessMessage:NSLocalizedString(@"Success", nil)];
+                                            [self dismissViewControllerAnimated:YES completion:nil];
+                                        } onError:^(FATraktConnectionResponse *connectionError) {
+                                            [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
+                                            [self.doneButton finishActivity];
+                                        }];
     }
-    
-    [[FATrakt sharedInstance] addNewCustomListWithName:self.listNameCell.textField.text
-                                           description:description
-                                               privacy:self.segmentedCell.segmentedControl.selectedSegmentIndex
-                                                ranked:self.showItemNumbersSwitch.isOn
-                                           allowShouts:self.allowShoutsSwitch.isOn
-                                              callback:^{
-        [self.hud showProgressHUDSuccessMessage:NSLocalizedString(@"Success", nil)];
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } onError:^(FATraktConnectionResponse *connectionError) {
-        [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
-        [self.doneButton finishActivity];
-    }];
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
@@ -214,7 +253,7 @@
             case 0:
                 return NSLocalizedString(@"The list is only visible to you", nil);
             case 1:
-                return NSLocalizedString(@"The list is visible to you and all of your friends", nil);
+                return NSLocalizedString(@"The list is visible to you and friends", nil);
             case 2:
                 return NSLocalizedString(@"The list is visible to anyone", nil);
             default:
@@ -247,6 +286,11 @@
             editableCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
             
             [editableCell.textField addTarget:self action:@selector(listNameValueChanged:) forControlEvents:UIControlEventEditingChanged];
+            
+            if (self.editList) {
+                editableCell.textField.text = self.editList.name;
+                [self listNameValueChanged:nil];
+            }
         } else if (indexPath.row == 1) {
             self.listDescriptionCell = editableCell;
             editableCell.textField.placeholder = NSLocalizedString(@"Description (optional)", nil);
@@ -255,6 +299,10 @@
             editableCell.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
             editableCell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
             editableCell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+            
+            if (self.editList) {
+                editableCell.textField.text = self.editList.list_description;
+            }
         }
         
     } else if (indexPath.section == 1) {
@@ -267,11 +315,7 @@
         [self.segmentedCell.segmentedControl insertSegmentWithTitle:NSLocalizedString(@"Friends", nil) atIndex:1 animated:NO];
         [self.segmentedCell.segmentedControl insertSegmentWithTitle:NSLocalizedString(@"Public", nil) atIndex:2 animated:NO];
         
-        if (self.selectedPrivacyMode == -1) {
-            self.segmentedCell.segmentedControl.selectedSegmentIndex = 0;
-        } else {
-            self.segmentedCell.segmentedControl.selectedSegmentIndex = self.selectedPrivacyMode;
-        }
+        self.segmentedCell.segmentedControl.selectedSegmentIndex = self.selectedPrivacyMode;
         
     } else if (indexPath.section == 2) {
         
@@ -284,6 +328,10 @@
             cell.textLabel.text = NSLocalizedString(@"Show item numbers", nil);
             cell.detailTextLabel.text = NSLocalizedString(@"Can be used to create ranked lists", nil);
             cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+            
+            if (self.editList) {
+                self.showItemNumbersSwitch.on = self.editList.show_numbers;
+            }
         } else if (indexPath.row == 1) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
             
@@ -293,6 +341,10 @@
             cell.textLabel.text = NSLocalizedString(@"Allow discussion", nil);
             cell.detailTextLabel.text = NSLocalizedString(@"Allows users to comment on the list", nil);
             cell.detailTextLabel.textColor = [UIColor lightGrayColor];
+            
+            if (self.editList) {
+                self.allowShoutsSwitch.on = self.editList.allow_shouts;
+            }
         }
         
     }

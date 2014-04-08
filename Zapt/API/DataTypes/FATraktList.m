@@ -37,6 +37,8 @@
     if (self) {
         self.contentType = FATraktContentTypeNone;
         self.detailLevel = FATraktDetailLevelMinimal;
+        
+        /* we don't merge lists. if we do at some point: use this code
         FATraktList *cachedList = [self.class.backingCache objectForKey:self.cacheKey];
         
         if (cachedList && cachedList.detailLevel > self.detailLevel) {
@@ -46,7 +48,7 @@
             //[cachedShow mapObjectsInDict:dict];
             // return the cached show
             self = cachedList;
-        }
+        }*/
         
         [self commitToCache];
     }
@@ -168,6 +170,15 @@
     return FATraktCache.sharedInstance.lists;
 }
 
+- (void)mapObject:(id)object toPropertyWithKey:(NSString *)key
+{
+    if ([key isEqualToString:@"description"]) {
+        [super mapObject:object toPropertyWithKey:@"list_description"];
+    } else {
+        [super mapObject:object toPropertyWithKey:key];
+    }
+}
+
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
 {
     if ([object isKindOfClass:[NSArray class]]) {
@@ -179,6 +190,14 @@
         }
         
         [self setValue:itemArray forKey:key];
+    } else if ([key isEqualToString:@"privacy"]) {
+        if ([object isEqual:@"public"]) {
+            self.privacy = FATraktListPrivacyPublic;
+        } else if ([object isEqual:@"friends"]) {
+            self.privacy = FATraktListPrivacyFriends;
+        } else {
+            self.privacy = FATraktListPrivacyPrivate;
+        }
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }

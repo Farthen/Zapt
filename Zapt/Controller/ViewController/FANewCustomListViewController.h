@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FATraktList;
 
 @interface FANewCustomListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextFieldDelegate>
 
 @property (nonatomic) IBOutlet UITableView *tableView;
+
+- (void)editModeWithList:(FATraktList *)list;
 
 @end

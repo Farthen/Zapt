@@ -308,4 +308,9 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     }
 }
 
+- (void)updateTimestamp
+{
+    self.creationDate = [NSDate date];
+}
+
 @end

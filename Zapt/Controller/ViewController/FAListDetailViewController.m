@@ -7,6 +7,7 @@
 //
 
 #import "FAListDetailViewController.h"
+#import "FANewCustomListViewController.h"
 
 #import "FAProgressHUD.h"
 
@@ -173,6 +174,12 @@
     }
     
     [self.searchBar invalidateIntrinsicContentSize];
+    
+    // Show the edit button if the list is a custom list
+    if (_isCustom) {
+        UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editCustomList:)];
+        self.navigationItem.rightBarButtonItem = editButton;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -186,6 +193,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)editCustomList:(UIEvent *)event
+{
+    FANewCustomListViewController *newListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"newCustomList"];
+    [newListVC editModeWithList:_loadedList];
+    [self presentViewControllerInsideNavigationController:newListVC animated:YES completion:nil];
 }
 
 - (void)checkReloadDataForList:(FATraktList *)list

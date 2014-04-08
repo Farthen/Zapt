@@ -99,7 +99,7 @@
 
 - (void)commitToCache
 {
-    if (self.shouldBeCached) {
+    if (self.shouldBeCached) {        
         // Check if such an object is already in the cache, merge them
         FATraktCachedDatatype *cachedObject = [self.class.backingCache objectForKey:self.cacheKey];
         
