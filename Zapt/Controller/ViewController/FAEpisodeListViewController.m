@@ -15,6 +15,7 @@
 #import "FAInterfaceStringProvider.h"
 
 #import "FAUnreadItemIndicatorView.h"
+#import "FAEpisodeNumberView.h"
 
 @implementation FAEpisodeListViewController {
     FATraktShow *_displayedShow;
@@ -275,26 +276,23 @@
         episode = season.episodes[(NSUInteger)indexPath.row];
     }
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%lu. %@", (unsigned long)episode.episodeNumber.unsignedIntegerValue, episode.title];
+    cell.textLabel.text = episode.title;
     //cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    CGSize imageSize = CGSizeMake(16, self.tableView.rowHeight);
+    FAEpisodeNumberView *episodeNumberView = [[FAEpisodeNumberView alloc] init];
+    episodeNumberView.episodeNumber = episode.episodeNumber.integerValue;
+    episodeNumberView.seen = episode.watched || ![[FATraktConnection sharedInstance] usernameAndPasswordValid];
     
-    if (episode.watched || ![[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
-        cell.imageView.image = [UIImage imageWithColor:[UIColor clearColor] size:imageSize];
-    } else {
-        static UIImage *image;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            FAUnreadItemIndicatorView *indicatorView = [[FAUnreadItemIndicatorView alloc] initWithFrame:CGRectMake(0, 0, imageSize.width, imageSize.height)];
-            
-            // This isn't in the view hierarchy so its tintColor property isn't set
-            indicatorView.tintColor = self.view.tintColor;
-            image = [indicatorView imageScreenshot];
-        });
-        cell.imageView.image = image;
-    }
+    CGFloat indicatorHeight = self.tableView.rowHeight - 16;
+    
+    episodeNumberView.frame = CGRectMake(0, 11, 40, indicatorHeight);
+    
+    // This isn't in the view hierarchy so its tintColor property isn't set
+    episodeNumberView.tintColor = self.view.tintColor;
+    UIImage *image = [episodeNumberView imageScreenshot];
+    cell.imageView.image = image;
+    cell.imageView.contentMode = UIViewContentModeCenter;
     
     return cell;
 }

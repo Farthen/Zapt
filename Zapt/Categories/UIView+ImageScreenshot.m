@@ -13,12 +13,15 @@
 - (UIImage *)imageScreenshot
 {
     CGSize size = self.bounds.size;
-    UIGraphicsBeginImageContext(size);
+    
+    UIGraphicsBeginImageContextWithOptions(size, self.opaque, 0.0);
+    
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:context];
     UIImage *screenShot = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
+    UIGraphicsEndImageContext();
+
     return screenShot;
 }
 
