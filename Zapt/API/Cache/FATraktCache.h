@@ -15,6 +15,7 @@ extern NSString *FATraktCacheClearedNotification;
 
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
+- (void)clearCachesCallback:(void (^)(void))callback;
 
 - (void)migrationRemoveFACache;
 

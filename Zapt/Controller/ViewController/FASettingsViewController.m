@@ -42,8 +42,8 @@
 
 - (void)awakeFromNib
 {
-    _progressHUD = [[FAProgressHUD alloc] initWithView:self.view];
-    _progressHUD.disabledUIElements = @[self.tableView];
+    _progressHUD = [[FAProgressHUD alloc] initWithView:self.navigationController.view];
+    _progressHUD.disabledUIElements = @[self.navigationController.view];
 }
 
 - (void)viewDidLoad
@@ -330,8 +330,11 @@
     } else if (indexPath.section == 3 && indexPath.row == 0) {
         // Empty caches
         [_progressHUD showProgressHUDSpinner];
-        [[FATraktCache sharedInstance] clearCaches];
-        [_progressHUD showProgressHUDSuccess];
+        [[FATraktCache sharedInstance] clearCachesCallback:^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [_progressHUD showProgressHUDSuccess];
+            });
+        }];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

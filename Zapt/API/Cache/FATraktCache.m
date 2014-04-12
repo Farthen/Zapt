@@ -9,6 +9,8 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 
+static dispatch_semaphore_t __cachesSemaphore;
+
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 @interface FATraktCache ()
@@ -95,16 +97,11 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 - (void)clearCachesCallback:(void (^)(void))callback
 {
-    dispatch_semaphore_t caches = dispatch_semaphore_create(- self.allCaches.count);
-    
-    for (TMCache *cache in self.allCaches) {
-        [cache removeAllObjects:^(TMCache *cache) {
-            dispatch_semaphore_signal(caches);
-        }];
-    }
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        while (dispatch_semaphore_wait(caches, DISPATCH_TIME_NOW));
+        for (TMCache *cache in self.allCaches) {
+            [cache removeAllObjects];
+        }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:FATraktCacheClearedNotification object:self];
         
         if (callback) {
