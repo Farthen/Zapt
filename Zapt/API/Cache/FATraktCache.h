@@ -7,20 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FACache.h"
-#import "FABigDataCache.h"
+#import "TMCache.h"
 
 extern NSString *FATraktCacheClearedNotification;
 
-@interface FATraktCache : NSObject <FACacheDelegate, NSCoding>
+@interface FATraktCache : NSObject <NSCoding>
 
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
 
-@property (readonly) FACache *misc;
-@property (readonly) FACache *content;
-@property (readonly) FABigDataCache *images;
-@property (readonly) FACache *lists;
-@property (readonly) FACache *searches;
+@property (readonly) TMCache *misc;
+@property (readonly) TMCache *content;
+@property (readonly) TMCache *images;
+@property (readonly) TMCache *lists;
+@property (readonly) TMCache *searches;
 
 @end

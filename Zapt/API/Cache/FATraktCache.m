@@ -24,7 +24,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 + (void)initialize
 {
-    [FACache setCodingVersionNumber:17];
+    //[FACache setCodingVersionNumber:18];
 }
 
 - (id)init
@@ -59,49 +59,24 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 - (void)setupCaches
 {
     if (!_misc) {
-        _misc = [[FACache alloc] initWithName:@"misc" loadFromDisk:YES];
-        _misc.delegate = self;
+        _misc = [[TMCache alloc] initWithName:@"misc"];
     }
-    
-    _misc.countLimit = 20;
-    _misc.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_content) {
-        _content = [[FACache alloc] initWithName:@"content" loadFromDisk:YES];
-        _content.delegate = self;
+        _content = [[TMCache alloc] initWithName:@"content"];
     }
-    
-    // Don't cache more than 10000 content things
-    _content.countLimit = 10000;
-    _content.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_images) {
-        _images = [[FABigDataCache alloc] initWithName:@"images" loadFromDisk:YES];
-        _images.delegate = self;
+        _images = [[TMCache alloc] initWithName:@"images"];
     }
-    
-    // Don't cache more than 100 images
-    _images.countLimit = 20;
-    _images.totalCostLimit = FACacheCostMebibytes(100);
-    _images.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_lists) {
-        _lists = [[FACache alloc] initWithName:@"lists" loadFromDisk:YES];
-        _lists.delegate = self;
+        _lists = [[TMCache alloc] initWithName:@"lists"];
     }
-    
-    // Don't cache more than 200 lists
-    _lists.countLimit = 200;
-    _lists.defaultExpirationTime = FATimeIntervalOneWeek;
     
     if (!_searches) {
-        _searches = [[FACache alloc] initWithName:@"searches" loadFromDisk:YES];
-        _searches.delegate = self;
+        _searches = [[TMCache alloc] initWithName:@"searches"];
     }
-    
-    // Don't cache more than 100 search results
-    _searches.countLimit = 100;
-    _searches.defaultExpirationTime = FATimeIntervalOneWeek;
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -115,13 +90,27 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 - (void)clearCaches
 {
-    for (FACache *cache in self.allCaches) {
-        [cache removeAllObjects];
-        [cache saveToDisk];
-        [cache reloadDataFromDisk];
+    [self clearCachesCallback:nil];
+}
+
+- (void)clearCachesCallback:(void (^)(void))callback
+{
+    dispatch_semaphore_t caches = dispatch_semaphore_create(- self.allCaches.count);
+    
+    for (TMCache *cache in self.allCaches) {
+        [cache removeAllObjects:^(TMCache *cache) {
+            dispatch_semaphore_signal(caches);
+        }];
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:FATraktCacheClearedNotification object:self];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        while (dispatch_semaphore_wait(caches, DISPATCH_TIME_NOW));
+        [[NSNotificationCenter defaultCenter] postNotificationName:FATraktCacheClearedNotification object:self];
+        
+        if (callback) {
+            callback();
+        }
+    });
     
     DDLogModel(@"Cleared all Caches");
 }

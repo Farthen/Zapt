@@ -63,8 +63,8 @@
 
 - (void)removeFromCache
 {
-    if ([self.class.backingCache cachedItemForKey:self.cacheKey] == self) {
-        [self.class.backingCache removeCachedItemForKey:self.cacheKey];
+    if ([self.class.backingCache objectForKey:self.cacheKey] == self) {
+        [self.class.backingCache removeObjectForKey:self.cacheKey];
         self.shouldBeCached = NO;
     }
 }
@@ -81,7 +81,7 @@
     return nil;
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     FA_MUST_OVERRIDE_IN_SUBCLASS
     
@@ -103,7 +103,7 @@
         // Check if such an object is already in the cache, merge them
         FATraktCachedDatatype *cachedObject = [self.class.backingCache objectForKey:self.cacheKey];
         
-        if (cachedObject) {
+        if (cachedObject && cachedObject != self) {
             [self mergeWithObject:cachedObject];
             cachedObject.shouldBeCached = NO;
             [cachedObject removeFromCache];

@@ -118,6 +118,9 @@
 		F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */; };
 		F3AAC0C318F3456A00EF8876 /* FASegmentedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */; };
 		F3AAC0C618F379A700EF8876 /* FAEpisodeNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */; };
+		F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC16F18F8BDCB00EF8876 /* TMCache.m */; };
+		F3AAC17518F8BDCB00EF8876 /* TMDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */; };
+		F3AAC17618F8BDCB00EF8876 /* TMMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */; };
 		F3ABFADA18908C99003885B3 /* FADictionaryHashLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */; };
 		F3AC9B9B18CCF07900551F6A /* FACircularActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
@@ -190,7 +193,7 @@
 		B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEditableTableViewCell.h; sourceTree = "<group>"; };
 		B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEditableTableViewCell.m; sourceTree = "<group>"; };
 		B64C8F3C16238B0600A7C784 /* FATraktMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktMovie.h; sourceTree = "<group>"; };
-		B64C8F3D16238B0600A7C784 /* FATraktMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktMovie.m; sourceTree = "<group>"; };
+		B64C8F3D16238B0600A7C784 /* FATraktMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktMovie.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		B66752FA15F12FBE00A8D76D /* Zapt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zapt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B66752FE15F12FBE00A8D76D /* UIKit.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B667530015F12FBE00A8D76D /* Foundation.framework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -218,13 +221,13 @@
 		F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANextUpTableViewCell.h; sourceTree = "<group>"; };
 		F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANextUpTableViewCell.m; sourceTree = "<group>"; };
 		F30CAFCA179D93E0002E7D3C /* FATraktCachedDatatype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCachedDatatype.h; sourceTree = "<group>"; };
-		F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCachedDatatype.m; sourceTree = "<group>"; };
+		F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktCachedDatatype.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F30E52BD1799076A006C5091 /* FATraktShowProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShowProgress.h; sourceTree = "<group>"; };
 		F30E52BE1799076A006C5091 /* FATraktShowProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktShowProgress.m; sourceTree = "<group>"; };
 		F30E52C01799216E006C5091 /* FAHorizontalProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHorizontalProgressView.h; sourceTree = "<group>"; };
 		F30E52C11799216E006C5091 /* FAHorizontalProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHorizontalProgressView.m; sourceTree = "<group>"; };
 		F310CAA816A7960900781F24 /* FATraktSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSeason.h; sourceTree = "<group>"; };
-		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSeason.m; sourceTree = "<group>"; };
+		F310CAA916A7960900781F24 /* FATraktSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktSeason.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktActivityItemSource.h; sourceTree = "<group>"; };
 		F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktActivityItemSource.m; sourceTree = "<group>"; };
 		F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAInterfaceStringProvider.h; sourceTree = "<group>"; };
@@ -236,13 +239,13 @@
 		F31446E617F8D2DD005B164D /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+AsyncLogging.h"; path = "Zapt/Support/TestFlight/TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		F31446E717F8D2DD005B164D /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "TestFlight+ManualSessions.h"; path = "Zapt/Support/TestFlight/TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
 		F31446EA17F8D34F005B164D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		F3146E0E17FF703E00F3BFC7 /* FACache+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FACache+Private.h"; sourceTree = "<group>"; };
+		F3146E0E17FF703E00F3BFC7 /* FACache+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "FACache+Private.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F3152DBC17FBF9300039AF30 /* UIWindow+MainWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+MainWindow.h"; sourceTree = "<group>"; };
 		F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+MainWindow.m"; sourceTree = "<group>"; };
 		F3152DBF17FBFDE20039AF30 /* FAAuthWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAuthWindow.h; sourceTree = "<group>"; };
 		F3152DC017FBFDE20039AF30 /* FAAuthWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAuthWindow.m; sourceTree = "<group>"; };
 		F31551E117B081B200307CC3 /* FATraktAccountSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktAccountSettings.h; sourceTree = "<group>"; };
-		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktAccountSettings.m; sourceTree = "<group>"; };
+		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktAccountSettings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F31551E417B0844600307CC3 /* FATraktViewingSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktViewingSettings.h; sourceTree = "<group>"; };
 		F31551E517B0844600307CC3 /* FATraktViewingSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktViewingSettings.m; sourceTree = "<group>"; };
 		F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveSubviews.h"; sourceTree = "<group>"; };
@@ -300,7 +303,7 @@
 		F34D986917DC20890033FBD7 /* FAHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAHomeViewController.h; sourceTree = "<group>"; };
 		F34D986A17DC20890033FBD7 /* FAHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHomeViewController.m; sourceTree = "<group>"; };
 		F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktLastActivity.h; sourceTree = "<group>"; };
-		F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktLastActivity.m; sourceTree = "<group>"; };
+		F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktLastActivity.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F34FB71B17F8D68C0031549F /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F34FB71C17F8D68C0031549F /* TestFlight+AsyncLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+AsyncLogging.h"; sourceTree = "<group>"; };
 		F34FB71D17F8D68C0031549F /* TestFlight+ManualSessions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestFlight+ManualSessions.h"; sourceTree = "<group>"; };
@@ -333,8 +336,8 @@
 		F35A174917E175D8004B5F44 /* FARatingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARatingsViewController.m; sourceTree = "<group>"; };
 		F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADominantColorsAnalyzer.h; sourceTree = "<group>"; };
 		F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADominantColorsAnalyzer.m; sourceTree = "<group>"; };
-		F3636B7616F03D050062E885 /* FACache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACache.h; sourceTree = "<group>"; };
-		F3636B7716F03D050062E885 /* FACache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACache.m; sourceTree = "<group>"; };
+		F3636B7616F03D050062E885 /* FACache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FACache.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F3636B7716F03D050062E885 /* FACache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FACache.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Misc.h; sourceTree = "<group>"; };
 		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Sorting.h"; sourceTree = "<group>"; };
 		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Sorting.m"; sourceTree = "<group>"; };
@@ -355,7 +358,7 @@
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
-		F386984E16DA75C600FA3F2E /* FATraktList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktList.m; sourceTree = "<group>"; };
+		F386984E16DA75C600FA3F2E /* FATraktList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListDetailViewController.h; sourceTree = "<group>"; };
 		F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListDetailViewController.m; sourceTree = "<group>"; };
 		F38BD69A16B770E300267137 /* FATitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATitleLabel.h; sourceTree = "<group>"; };
@@ -400,6 +403,13 @@
 		F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASegmentedTableViewCell.m; sourceTree = "<group>"; };
 		F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeNumberView.h; sourceTree = "<group>"; };
 		F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeNumberView.m; sourceTree = "<group>"; };
+		F3AAC16C18F5F25900EF8876 /* Zapt copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Zapt copy-Info.plist"; path = "/Users/farthen/Code/iOS/Zapt/Zapt copy-Info.plist"; sourceTree = "<absolute>"; };
+		F3AAC16E18F8BDCB00EF8876 /* TMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCache.h; sourceTree = "<group>"; };
+		F3AAC16F18F8BDCB00EF8876 /* TMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMCache.m; sourceTree = "<group>"; };
+		F3AAC17018F8BDCB00EF8876 /* TMDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDiskCache.h; sourceTree = "<group>"; };
+		F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDiskCache.m; sourceTree = "<group>"; };
+		F3AAC17218F8BDCB00EF8876 /* TMMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMMemoryCache.h; sourceTree = "<group>"; };
+		F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
 		F3ABFAD818908C99003885B3 /* FADictionaryHashLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADictionaryHashLocator.h; sourceTree = "<group>"; };
 		F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADictionaryHashLocator.m; sourceTree = "<group>"; };
 		F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -408,8 +418,8 @@
 		F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAActivityDispatch.m; sourceTree = "<group>"; };
 		F3B03906184D13B60091ED9D /* UIImage+SizeInBytes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SizeInBytes.h"; sourceTree = "<group>"; };
 		F3B03907184D13B60091ED9D /* UIImage+SizeInBytes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SizeInBytes.m"; sourceTree = "<group>"; };
-		F3B1F36517A85A7C00800B61 /* FABigDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FABigDataCache.h; sourceTree = "<group>"; };
-		F3B1F36617A85A7C00800B61 /* FABigDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FABigDataCache.m; sourceTree = "<group>"; };
+		F3B1F36517A85A7C00800B61 /* FABigDataCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FABigDataCache.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F3B1F36617A85A7C00800B61 /* FABigDataCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FABigDataCache.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3B49DBB18B11CFA0061BDAE /* NSDictionary+FunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+FunctionalTests.m"; path = "Categories/NSDictionary+FunctionalTests.m"; sourceTree = "<group>"; };
 		F3B49DBD18B121330061BDAE /* NSSet+FunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSSet+FunctionalTests.m"; path = "Categories/NSSet+FunctionalTests.m"; sourceTree = "<group>"; };
 		F3B74B2916E6D83500230C43 /* FAProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAProgressHUD.h; sourceTree = "<group>"; };
@@ -417,8 +427,8 @@
 		F3B74B2C16E6E23A00230C43 /* X-Mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X-Mark.png"; sourceTree = "<group>"; };
 		F3B74B2D16E6E23A00230C43 /* X-Mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "X-Mark@2x.png"; sourceTree = "<group>"; };
 		F3B74B3116E6EF5400230C43 /* FATraktCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCache.h; sourceTree = "<group>"; };
-		F3B74B3216E6EF5400230C43 /* FATraktCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCache.m; sourceTree = "<group>"; };
-		F3B74B3416E6F06C00230C43 /* FACacheableItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FACacheableItem.h; sourceTree = "<group>"; };
+		F3B74B3216E6EF5400230C43 /* FATraktCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktCache.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F3B74B3416E6F06C00230C43 /* FACacheableItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FACacheableItem.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F3B9C93A17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PresentInsideNavigationController.h"; sourceTree = "<group>"; };
 		F3B9C93B17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PresentInsideNavigationController.m"; sourceTree = "<group>"; };
 		F3B9C93D17F96914004264E6 /* FAZapt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAZapt.h; sourceTree = "<group>"; };
@@ -453,7 +463,7 @@
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSearchResult.h; sourceTree = "<group>"; };
-		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktSearchResult.m; sourceTree = "<group>"; };
+		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktSearchResult.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWeightedTableViewDataSource.h; sourceTree = "<group>"; };
 		F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWeightedTableViewDataSource.m; sourceTree = "<group>"; };
 		F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSeasonProgress.h; sourceTree = "<group>"; };
@@ -498,9 +508,9 @@
 		F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentTableViewCell.m; sourceTree = "<group>"; };
 		F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAZaptTestSearch.m; sourceTree = "<group>"; };
 		F3F9E30E162831C20077CBAA /* FATraktShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShow.h; sourceTree = "<group>"; };
-		F3F9E30F162831C30077CBAA /* FATraktShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktShow.m; sourceTree = "<group>"; };
+		F3F9E30F162831C30077CBAA /* FATraktShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktShow.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3F9E311162838610077CBAA /* FATraktEpisode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktEpisode.h; sourceTree = "<group>"; };
-		F3F9E312162838610077CBAA /* FATraktEpisode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktEpisode.m; sourceTree = "<group>"; };
+		F3F9E312162838610077CBAA /* FATraktEpisode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktEpisode.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinTimestamps.h; sourceTree = "<group>"; };
 		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
 		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
@@ -544,6 +554,7 @@
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
 				B66752FB15F12FBE00A8D76D /* Products */,
 				F49B2E03388B47F18675407D /* Pods.xcconfig */,
+				F3AAC16C18F5F25900EF8876 /* Zapt copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -859,6 +870,19 @@
 			name = Global;
 			sourceTree = "<group>";
 		};
+		F3AAC16D18F8BDCB00EF8876 /* TMCache */ = {
+			isa = PBXGroup;
+			children = (
+				F3AAC16E18F8BDCB00EF8876 /* TMCache.h */,
+				F3AAC16F18F8BDCB00EF8876 /* TMCache.m */,
+				F3AAC17018F8BDCB00EF8876 /* TMDiskCache.h */,
+				F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */,
+				F3AAC17218F8BDCB00EF8876 /* TMMemoryCache.h */,
+				F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */,
+			);
+			path = TMCache;
+			sourceTree = "<group>";
+		};
 		F3B33BA917F8D5040090BA21 /* TestFlight */ = {
 			isa = PBXGroup;
 			children = (
@@ -870,6 +894,7 @@
 		F3B74B3016E6EF3900230C43 /* Cache */ = {
 			isa = PBXGroup;
 			children = (
+				F3AAC16D18F8BDCB00EF8876 /* TMCache */,
 				F3B74B3116E6EF5400230C43 /* FATraktCache.h */,
 				F3B74B3216E6EF5400230C43 /* FATraktCache.m */,
 				F3B74B3416E6F06C00230C43 /* FACacheableItem.h */,
@@ -1443,6 +1468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3B9C93C17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m in Sources */,
+				F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */,
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */,
 				F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */,
@@ -1488,6 +1514,7 @@
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
 				F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */,
 				F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */,
+				F3AAC17518F8BDCB00EF8876 /* TMDiskCache.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */,
@@ -1536,6 +1563,7 @@
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
+				F3AAC17618F8BDCB00EF8876 /* TMMemoryCache.m in Sources */,
 				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */,

@@ -81,7 +81,7 @@
     return [NSString stringWithFormat:@"FATraktMovie&imdb=%@&title=%@&year=%@", self.imdb_id, self.title, self.year];
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return FATraktCache.sharedInstance.content;
 }

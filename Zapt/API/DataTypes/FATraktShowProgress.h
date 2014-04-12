@@ -13,7 +13,9 @@
 
 @interface FATraktShowProgress : FATraktDatatype
 
-@property (weak) FATraktShow *show;
+// This will only save the cache key of the show to prevent retain loops
+@property (retain) FATraktShow *show;
+
 @property (retain) NSNumber *percentage;
 @property (retain) NSNumber *aired;
 @property (retain) NSNumber *completed;

@@ -109,7 +109,7 @@
     return key;
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return FATraktCache.sharedInstance.content;
 }

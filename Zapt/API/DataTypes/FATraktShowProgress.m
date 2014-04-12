@@ -10,6 +10,10 @@
 #import "FATraktShow.h"
 #import "FATraktEpisode.h"
 
+@interface FATraktShowProgress ()
+@property (nonatomic) NSString *showCacheKey;
+@end
+
 @implementation FATraktShowProgress
 
 - (NSString *)description
@@ -56,6 +60,16 @@
     } else {
         [super mapObject:object toPropertyWithKey:key];
     }
+}
+
+- (void)setShow:(FATraktShow *)show
+{
+    self.showCacheKey = show.cacheKey;
+}
+
+- (FATraktShow *)show
+{
+    return [[FATraktShow backingCache] objectForKey:self.showCacheKey];
 }
 
 @end

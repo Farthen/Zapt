@@ -176,7 +176,7 @@
     return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return FATraktCache.sharedInstance.content;
 }

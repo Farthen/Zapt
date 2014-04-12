@@ -78,7 +78,7 @@
         [self layoutIfNeeded];
     }
     
-    self.numberLabel.text = [NSString stringWithFormat:@"%li", self.episodeNumber];
+    self.numberLabel.text = [NSString stringWithFormat:@"%li", (long)self.episodeNumber];
     
     [[UIColor whiteColor] set];
     UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:rect];

@@ -149,13 +149,11 @@
 
 + (NSArray *)cachedCustomLists
 {
-    NSArray *allLists = [self.class.backingCache allObjects];
-    NSMutableArray *customLists = [[NSMutableArray alloc] initWithCapacity:allLists.count];
+    NSArray *listCacheKeys = [[FATraktCache sharedInstance].misc objectForKey:@"customListKeys"];
     
-    for (FATraktList *list in allLists) {
-        if (list.isCustom) {
-            [customLists addObject:list];
-        }
+    NSMutableArray *customLists = [[NSMutableArray alloc] initWithCapacity:listCacheKeys.count];
+    for (id key in listCacheKeys) {
+        [customLists addObject:[self.class.backingCache objectForKey:key]];
     }
     
     return [customLists sortedArrayUsingKey:@"name" ascending:YES];
@@ -167,7 +165,7 @@
     return;
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return FATraktCache.sharedInstance.lists;
 }

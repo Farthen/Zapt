@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>Zapt copy.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>7</integer>
+		</dict>
 		<key>Zapt.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -28,6 +33,11 @@
 			<true/>
 		</dict>
 		<key>B667532815F12FBE00A8D76D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3AAC0CA18F5F25900EF8876</key>
 		<dict>
 			<key>primary</key>
 			<true/>

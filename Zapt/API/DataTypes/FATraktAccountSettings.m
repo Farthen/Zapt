@@ -28,7 +28,7 @@
     return [NSString stringWithFormat:@"FATraktAccountSettings"];
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return [FATraktCache sharedInstance].misc;
 }

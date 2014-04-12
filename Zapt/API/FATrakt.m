@@ -345,7 +345,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     return [self.connection getImageURL:imageURL withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         UIImage *image = [response imageData];
-        [_cache.images setObject:image forKey:imageURL cost:image.sizeInBytes];
+        [_cache.images setObject:image forKey:imageURL];
         callback(image);
     } onError:error];
 }
@@ -846,6 +846,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSArray *data = response.jsonData;
         NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
         
+        NSMutableArray *listCacheKeys = [NSMutableArray arrayWithCapacity:data.count];
+        
         for (NSDictionary *listData in data) {
             FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
             
@@ -854,8 +856,11 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 list.detailLevel = FATraktDetailLevelMinimal;
                 [lists addObject:list];
                 [list commitToCache];
+                [listCacheKeys addObject:list.cacheKey];
             }
         }
+        
+        [[FATraktCache sharedInstance].misc setObject:listCacheKeys forKey:@"customListKeys"];
         
         lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
         callback(lists);

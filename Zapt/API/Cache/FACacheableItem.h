@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FACache.h"
+#import "TMCache.h"
 
 @protocol FACacheableItem <NSObject>
 
@@ -16,7 +16,7 @@
 @property (readonly) NSString *cacheKey;
 @property BOOL shouldBeCached;
 
-+ (FACache *)backingCache;
++ (TMCache *)backingCache;
 - (void)commitToCache;
 - (void)removeFromCache;
 

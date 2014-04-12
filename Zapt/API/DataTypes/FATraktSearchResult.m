@@ -31,7 +31,7 @@
     return [NSSet setWithObject:@"results"];
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return FATraktCache.sharedInstance.searches;
 }

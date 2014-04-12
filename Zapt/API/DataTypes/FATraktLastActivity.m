@@ -53,7 +53,7 @@
     return [NSString stringWithFormat:@"FATraktLastActivity"];
 }
 
-+ (FACache *)backingCache
++ (TMCache *)backingCache
 {
     return [FATraktCache sharedInstance].misc;
 }
