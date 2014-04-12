@@ -273,6 +273,8 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         } else {
             [[FAGlobalEventHandler handler] handleConnectionErrorResponse:connectionResponse];
         }
+    } else {
+        
     }
 }
 
@@ -284,6 +286,8 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         dispatch_async(dispatch_get_main_queue(), ^{
             callback(response);
         });
+    } else {
+        [[FAGlobalEventHandler handler] handleConnectionErrorResponse:response];
     }
 }
 
