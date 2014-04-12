@@ -269,7 +269,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             callback(NO);
         }
     } onError:^(FATraktConnectionResponse *connectionError) {
-        if (connectionError.responseType | FATraktConnectionResponseTypeInvalidCredentials)
+        if (connectionError.responseType & FATraktConnectionResponseTypeInvalidCredentials)
         {
             callback(NO);
         }
