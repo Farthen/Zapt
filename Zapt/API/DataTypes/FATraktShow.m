@@ -211,9 +211,4 @@
     return nil;
 }
 
-- (void)dealloc
-{
-    NSLog(@"Gna");
-}
-
 @end
