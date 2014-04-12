@@ -142,6 +142,8 @@
 - (NSArray *)seasons
 {
     if (!self.seasonsDict) {
+        self.seasonsDict = [NSMutableDictionary dictionary];
+        
         if (self.seasonCacheKeys) {
             for (NSString *key in self.seasonCacheKeys) {
                 FATraktSeason *season = [FATraktSeason.backingCache objectForKey:key];
@@ -198,15 +200,20 @@
     return [self seasonForNumber:[NSNumber numberWithUnsignedInteger:index]];
 }
 
-- (id)objectForKeyedSubscript:(id)key
+- (id)objectForKeyedSubscript:(id<NSCopying, NSObject>)key
 {
     if ([key isKindOfClass:[NSNumber class]]) {
-        return [self seasonForNumber:key];
+        return [self seasonForNumber:(NSNumber *)key];
     }
     
     [NSException raise:NSInternalInconsistencyException format:@"- (id)objectForKeyedSubscript: expected an NSNumber as key but got: %@", key];
     
     return nil;
+}
+
+- (void)dealloc
+{
+    NSLog(@"Gna");
 }
 
 @end

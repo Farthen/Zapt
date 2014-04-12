@@ -197,8 +197,16 @@
     // See the implementation in FATraktSeason: We prevent a retain loop here
     if (show) {
         FATraktSeason *season = show[self.seasonNumber];
+        
+        if (!season) {
+            season = [[FATraktSeason alloc] initWithShow:show seasonNumber:self.seasonNumber];
+            [show addSeason:season];
+        }
+        
         self.season = season;
         [show commitToCache];
+        
+        self.showCacheKey = [show cacheKey];
     }
 }
 
@@ -239,6 +247,8 @@
         }
         
         [season commitToCache];
+        
+        self.seasonCacheKey = [season cacheKey];
     }
 }
 

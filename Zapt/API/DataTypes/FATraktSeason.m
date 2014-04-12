@@ -222,6 +222,8 @@
 - (NSArray *)episodes
 {
     if (!self.episodesDict) {
+        self.episodesDict = [NSMutableDictionary dictionary];
+        
         if (self.episodeCacheKeys) {
             for (NSString *key in self.episodeCacheKeys) {
                 FATraktEpisode *episode = [FATraktEpisode.backingCache objectForKey:key];
@@ -282,7 +284,7 @@
 - (id)objectForKeyedSubscript:(id)key
 {
     if ([key isKindOfClass:[NSNumber class]]) {
-        return [self episodeForNumber:key];
+        return [self episodeForNumber:(NSNumber *)key];
     }
     
     [NSException raise:NSInternalInconsistencyException format:@"- (id)objectForKeyedSubscript: expected an NSNumber as key but got: %@", key];

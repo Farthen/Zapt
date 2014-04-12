@@ -34,7 +34,7 @@
     // See if we can find a cached equivalent now and merge them if appropriate
     FATraktContent *cachedContent = [self.class.backingCache objectForKey:self.cacheKey];
     
-    if (cachedContent) {
+    if (cachedContent && cachedContent != self) {
         if (cachedContent.detailLevel > self.detailLevel) {
             [cachedContent mergeWithObject:self];
             // we don't want to cache this item anymore
@@ -46,6 +46,7 @@
         }
     }
     
+    self.shouldBeCached = YES;
     [self commitToCache];
 }
 
