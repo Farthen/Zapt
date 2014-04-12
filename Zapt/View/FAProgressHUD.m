@@ -74,6 +74,7 @@
     
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = YES;
+        view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
     }
 }
 
@@ -83,6 +84,7 @@
     
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = YES;
+        view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
     }
 }
 
@@ -95,6 +97,7 @@
 {
     for (UIView *view in self.disabledUIElements) {
         view.userInteractionEnabled = NO;
+        view.tintAdjustmentMode = UIViewTintAdjustmentModeDimmed;
     }
     
     _progressHUD.mode = MBProgressHUDModeIndeterminate;
