@@ -16,6 +16,8 @@ extern NSString *FATraktCacheClearedNotification;
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;
 
+- (void)migrationRemoveFACache;
+
 @property (readonly) TMCache *misc;
 @property (readonly) TMCache *content;
 @property (readonly) TMCache *images;

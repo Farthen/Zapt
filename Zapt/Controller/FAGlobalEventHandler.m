@@ -79,8 +79,18 @@
     [DDLog addLogger:ttyLogger withLogLevel:LOG_LEVEL_ALL];
 }
 
+- (void)doMigrationIfNeccessary
+{
+    // Remove old FACache if neccessary
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"migrationRemovedFACache"]) {
+        [[FATraktCache sharedInstance] migrationRemoveFACache];
+    }
+}
+
 - (void)handleApplicationLaunch
 {
+    [self doMigrationIfNeccessary];
+    
     [self setUpLogging];
     
     if ([FATraktConnection sharedInstance].usernameAndPasswordSaved) {

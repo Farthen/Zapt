@@ -115,6 +115,33 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     DDLogModel(@"Cleared all Caches");
 }
 
+- (void)migrationRemoveFACache
+{
+    // Removes everything that is left of FACache from older versions
+    
+    NSArray *myPathList = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString *cacheDir = [myPathList objectAtIndex:0];
+    
+    NSMutableArray *pathsToRemove = [NSMutableArray array];
+    
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"FACache-content"]];
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"FACache-images"]];
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"FACache-lists"]];
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"FACache-misc"]];
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"FACache-searches"]];
+    [pathsToRemove addObject:[cacheDir stringByAppendingPathComponent:@"images"]];
+    
+    NSError *error = nil;
+    
+    for (NSString *path in pathsToRemove) {
+        [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+    }
+    
+    if (!error) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"migrationRemovedFACache"];
+    }
+}
+
 - (NSArray *)allCaches
 {
     return @[self.misc, self.content, self.images, self.lists, self.searches];
