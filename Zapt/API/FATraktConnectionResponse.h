@@ -46,5 +46,6 @@ typedef enum {
 
 @property (readonly) UIImage *imageData;
 @property (readonly) id jsonData;
+@property (readonly) NSData *rawResponseData;
 
 @end

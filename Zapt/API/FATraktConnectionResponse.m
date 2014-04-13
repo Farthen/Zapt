@@ -11,6 +11,7 @@
 @interface FATraktConnectionResponse ()
 @property NSHTTPURLResponse *response;
 @property UIImage *imageData;
+@property (nonatomic) NSData *rawResponseData;
 @property id jsonData;
 @end
 
@@ -111,7 +112,9 @@
         self.imageData = data;
     } else if ([data isKindOfClass:[NSDictionary class]] || [data isKindOfClass:[NSArray class]]) {
         self.jsonData = data;
-    } else if (data) {
+    } else if ([data isKindOfClass:[NSData class]]) {
+        self.rawResponseData = data;
+    } else {
         DDLogError(@"Invalid response data type!");
     }
 }

@@ -25,8 +25,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 @property NSString *apiPasswordHash;
 @property NSString *traktBaseURL;
 
-@property AFHTTPRequestOperationManager *manager;
-@property AFHTTPRequestOperationManager *imageManager;
+@property (nonatomic) AFHTTPRequestOperationManager *manager;
+@property (nonatomic) AFHTTPRequestOperationManager *imageManager;
+@property (nonatomic) AFHTTPRequestOperationManager *rawManager;
 @end
 
 @implementation FATraktConnection {
@@ -79,6 +80,11 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         self.imageManager = [AFHTTPRequestOperationManager manager];
         self.imageManager.responseSerializer = [AFImageResponseSerializer serializer];
         self.imageManager.responseSerializer.acceptableStatusCodes = [NSIndexSet indexSetWithIndex:200];
+        
+        self.rawManager = [AFHTTPRequestOperationManager manager];
+        self.rawManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        self.rawManager.responseSerializer.acceptableContentTypes = nil;
+        self.rawManager.responseSerializer.acceptableStatusCodes = [NSIndexSet indexSetWithIndex:200];
         
         //[[LRResty client] setGlobalTimeout:60 handleWithBlock:^(LRRestyRequest *request) {
         //[[FAGlobalEventHandler handler] handleTimeout];
@@ -424,7 +430,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                       onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                         onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
-    return [self getURL:urlString withManager:self.imageManager withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    return [self getURL:urlString withManager:self.rawManager withActivityName:activityName onSuccess:successCallback onError:errorCallback];
 }
 
 - (FATraktRequest *)getURL:(NSString *)urlString

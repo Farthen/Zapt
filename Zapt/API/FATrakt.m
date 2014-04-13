@@ -338,14 +338,15 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
     if ([_cache.images objectForKey:imageURL]) {
-        callback([_cache.images objectForKey:imageURL]);
+        callback([UIImage imageWithData:[_cache.images objectForKey:imageURL]]);
         
         return nil;
     }
     
     return [self.connection getImageURL:imageURL withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        UIImage *image = [response imageData];
-        [_cache.images setObject:image forKey:imageURL];
+        NSData *imageData = [response rawResponseData];
+        UIImage *image = [UIImage imageWithData:imageData];
+        [_cache.images setObject:imageData forKey:imageURL];
         callback(image);
     } onError:error];
 }
