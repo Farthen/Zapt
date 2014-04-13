@@ -114,7 +114,17 @@
 {
     FATraktSeason *season = newDatatype;
     season.seasonNumber = self.seasonNumber;
-    season.show = self.show;
+    season.show = [self.show copy];
+}
+
+- (BOOL)shouldCopyPropertyWithKey:(NSString *)key
+{
+    if ([key isEqualToString:@"show"] ||
+        [key isEqualToString:@"episodes"]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (FATraktEpisode *)episodeWithID:(NSUInteger)episodeID
@@ -325,6 +335,12 @@
 {
     if ([key isEqualToString:@"show"]) {
         return NO;
+    }
+    
+    if ([key isEqualToString:@"episodes"]) {
+        if (self.episodesDict && self.episodesDict.count != 0) {
+            return NO;
+        }
     }
     
     return [super shouldMergeObjectForKey:key];

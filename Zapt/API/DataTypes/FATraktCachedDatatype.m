@@ -115,4 +115,10 @@
     }
 }
 
+- (void)copyVitalDataToNewObject:(id)newDatatype
+{
+    [super copyVitalDataToNewObject:newDatatype];
+    [newDatatype setShouldBeCached:YES];
+}
+
 @end

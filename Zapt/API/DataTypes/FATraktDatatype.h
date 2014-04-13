@@ -20,6 +20,7 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
 }
 
 @property (readonly) NSDate *creationDate;
+@property (readonly) BOOL currentlyCopying;
 
 // Don't call this yourself, override it if you want to associate a custom action
 - (void)finishedMappingObjects;
@@ -30,6 +31,7 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
 - (void)mapObject:(id)object toPropertyWithKey:(NSString *)key;
 
 - (void)copyVitalDataToNewObject:(id)newDatatype;
+- (BOOL)shouldCopyPropertyWithKey:(NSString *)key;
 
 - (NSSet *)notEncodableKeys;
 

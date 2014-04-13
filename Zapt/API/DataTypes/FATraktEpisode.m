@@ -101,8 +101,18 @@
     FATraktEpisode *episode = newDatatype;
     episode.seasonNumber = self.seasonNumber;
     episode.episodeNumber = self.episodeNumber;
-    episode.season = self.season;
-    episode.show = self.show;
+    episode.season = [self.season copy];
+    episode.show = [self.show copy];
+}
+
+- (BOOL)shouldCopyPropertyWithKey:(NSString *)key
+{
+    if ([key isEqualToString:@"season"] ||
+        [key isEqualToString:@"show"]) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict

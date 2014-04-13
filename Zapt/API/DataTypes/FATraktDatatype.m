@@ -11,6 +11,7 @@
 
 @interface FATraktDatatype ()
 @property NSDate *creationDate;
+@property (nonatomic) BOOL currentlyCopying;
 @end
 
 static NSMutableDictionary *__traktPropertyInfos = nil;
@@ -120,18 +121,24 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     return;
 }
 
+- (BOOL)shouldCopyPropertyWithKey:(NSString *)key
+{
+    return YES;
+}
+
 - (id)copyWithZone:(NSZone *)zone
 {
     id newObject = [[self.class allocWithZone:zone] init];
+    [newObject setCurrentlyCopying:YES];
     NSDictionary *propertyInfos = [self.class propertyInfo];
     
     [self copyVitalDataToNewObject:newObject];
     
     for (id key in propertyInfos) {
         FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
+        NSString *propertyKey = propertyInfo.name;
         
-        if (!propertyInfo.isReadonly) {
-            NSString *propertyKey = propertyInfo.name;
+        if (!propertyInfo.isReadonly && [self shouldCopyPropertyWithKey:propertyKey]) {
             id propertyData = [self valueForKey:propertyKey];
             
             if ([propertyData conformsToProtocol:@protocol(NSCopying)] && propertyInfo.isRetain == YES) {
@@ -147,6 +154,8 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
             }
         }
     }
+    
+    [newObject setCurrentlyCopying:NO];
     
     DDLogModel(@"Copied object %@ to new object %@", self, newObject);
     
@@ -261,6 +270,10 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         return;
     }
     
+    if (self.currentlyCopying) {
+        return;
+    }
+    
     if (![object isKindOfClass:[self class]]) {
         DDLogError(@"Can't merge object of type %@ into object of type %@", NSStringFromClass([object class]), NSStringFromClass([self class]));
         
@@ -301,7 +314,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
                 [newObject setValue:[oldObject valueForKey:key] forKey:key];
             }
             
-            if (mergeNew && [newObject shouldMergeObjectForKey:key]) {
+            if (mergeNew && [oldObject shouldMergeObjectForKey:key]) {
                 [oldObject setValue:[newObject valueForKey:key] forKey:key];
             }
         }
