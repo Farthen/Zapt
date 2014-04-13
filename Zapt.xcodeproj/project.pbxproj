@@ -142,6 +142,9 @@
 		F3BE5642185B3AAB0066E4D4 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F3BE5641185B3AAB0066E4D4 /* MBProgressHUD.m */; };
 		F3C84B761628E105006CBFEF /* FATableViewCellWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */; };
 		F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C84B781629719D006CBFEF /* FADetailViewController.m */; };
+		F3C925B518F8FE7C0054ACE3 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C925B418F8FE7C0054ACE3 /* CoreText.framework */; };
+		F3C925B818FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */; };
+		F3C925BB18FA02E50054ACE3 /* FAArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925BA18FA02E50054ACE3 /* FAArrowView.m */; };
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
@@ -451,6 +454,11 @@
 		F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewCellWithActivity.m; sourceTree = "<group>"; };
 		F3C84B771629719D006CBFEF /* FADetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADetailViewController.h; sourceTree = "<group>"; };
 		F3C84B781629719D006CBFEF /* FADetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADetailViewController.m; sourceTree = "<group>"; };
+		F3C925B418F8FE7C0054ACE3 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		F3C925B618FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAPullScrollViewAccessoryView.h; sourceTree = "<group>"; };
+		F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAPullScrollViewAccessoryView.m; sourceTree = "<group>"; };
+		F3C925B918FA02E50054ACE3 /* FAArrowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAArrowView.h; sourceTree = "<group>"; };
+		F3C925BA18FA02E50054ACE3 /* FAArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAArrowView.m; sourceTree = "<group>"; };
 		F3CAC39216F2C53600CCEE37 /* FALogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALogFormatter.h; sourceTree = "<group>"; };
 		F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALogFormatter.m; sourceTree = "<group>"; };
 		F3CBA90517CD017500BAC568 /* Zapt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt-Info.plist"; sourceTree = "<group>"; };
@@ -522,6 +530,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3C925B518F8FE7C0054ACE3 /* CoreText.framework in Frameworks */,
 				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
@@ -570,6 +579,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3C925B418F8FE7C0054ACE3 /* CoreText.framework */,
 				F3DEDC17185D7874006F5833 /* MessageUI.framework */,
 				F3B33BA917F8D5040090BA21 /* TestFlight */,
 				F31446EA17F8D34F005B164D /* libz.dylib */,
@@ -1309,6 +1319,10 @@
 				F3A2F9EB180949BF00556EEA /* FASimpleControl.m */,
 				F3A2F9ED1809531600556EEA /* FAFixedHeightLabel.h */,
 				F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */,
+				F3C925B618FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.h */,
+				F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */,
+				F3C925B918FA02E50054ACE3 /* FAArrowView.h */,
+				F3C925BA18FA02E50054ACE3 /* FAArrowView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1475,6 +1489,7 @@
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
+				F3C925B818FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m in Sources */,
 				F3BE5642185B3AAB0066E4D4 /* MBProgressHUD.m in Sources */,
 				F394EE3B184F30DB007F4BA1 /* NSArray+Functional.m in Sources */,
 				B667531815F12FBE00A8D76D /* FASearchViewController.m in Sources */,
@@ -1527,6 +1542,7 @@
 				F3C84B791629719D006CBFEF /* FADetailViewController.m in Sources */,
 				F35445FF16308050007D0AC5 /* FAStatusBarSpinnerController.m in Sources */,
 				F3112E3318BE176200E91C2D /* FAShowListViewController.m in Sources */,
+				F3C925BB18FA02E50054ACE3 /* FAArrowView.m in Sources */,
 				F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */,
 				F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */,
 				F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */,

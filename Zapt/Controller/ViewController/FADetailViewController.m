@@ -8,6 +8,8 @@
 
 #import "FADetailViewController.h"
 
+#import <CoreText/CoreText.h>
+
 #import "FASeasonListViewController.h"
 #import "FAEpisodeListViewController.h"
 #import "FANextUpViewController.h"
@@ -23,6 +25,7 @@
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
 #import "FABadges.h"
+#import "FAPullScrollViewAccessoryView.h"
 
 #import "FAGlobalEventHandler.h"
 
@@ -51,6 +54,8 @@
     BOOL _displayImageWhenFinishedShowing;
     
     BOOL _animatedOverviewText;
+    
+    BOOL _addedNextEpisodeIndicators;
     
     UITapGestureRecognizer *_detailLabelTapGestureRecognizer;
     UIActivityViewController *_activityViewController;
@@ -197,6 +202,18 @@
     self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     [self.detailLabel setNeedsLayout];
     self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    
+    if (!_addedNextEpisodeIndicators && _currentContent.contentType == FATraktContentTypeEpisodes) {
+        _addedNextEpisodeIndicators = YES;
+        
+        FAPullScrollViewAccessoryView *accessoryViewBottom = [[FAPullScrollViewAccessoryView alloc] init];
+        [accessoryViewBottom addToScrollView:self.scrollView bottom:YES];
+        accessoryViewBottom.textLabel.text = NSLocalizedString(@"Next Episode", nil);
+        
+        FAPullScrollViewAccessoryView *accessoryViewTop = [[FAPullScrollViewAccessoryView alloc] init];
+        [accessoryViewTop addToScrollView:self.scrollView bottom:NO];
+        accessoryViewTop.textLabel.text = NSLocalizedString(@"Previous Episode", nil);
+    }
 }
 
 - (void)viewDidLayoutSubviews
