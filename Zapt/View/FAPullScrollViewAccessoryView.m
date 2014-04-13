@@ -174,7 +174,7 @@
             }
         }
         
-        self.arrowView.progress = MAX(0, MIN(1, (offset - 40) / 50));
+        self.arrowView.progress = MAX(0, MIN(1, (offset - 40) / 40));
         
         if (offset >= 100) {
             if (!self.pullSuccess) {
