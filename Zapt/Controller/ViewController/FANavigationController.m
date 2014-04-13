@@ -38,6 +38,8 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
     
     self.transitioningDelegate = self;
     self.delegate = self;
+
+    [self addLongButtonTouchGesture];
 }
 
 - (void)didReceiveMemoryWarning
@@ -53,13 +55,8 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
         // set a default rectangle in case we don't find the back button for some reason
         CGRect rect = CGRectMake(0, 0, 100, 40);
         
-        // iterate through the subviews looking for something that looks like it might be the right location to be the back button
-        for (UIView *subview in self.navigationBar.subviews) {
-            if (subview.frame.origin.x < 30 && subview.frame.size.width < 300 && subview.frame.size.width > 15) {
-                rect = subview.frame;
-                break;
-            }
-        }
+        UINavigationBar *navBar = [self navigationBar];
+        rect.size.height = navBar.bounds.size.height;
         
         // ok, let's get the point of the long press
         CGPoint longPressPoint = [sender locationInView:self.navigationBar];

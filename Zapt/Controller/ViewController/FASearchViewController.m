@@ -70,12 +70,7 @@ static CGPoint _scrollPositions[3];
     
     //FAAppDelegate *delegate = (FAAppDelegate *)[UIApplication sharedApplication].delegate;
     //[delegate performLoginAnimated:YES];
-    //[self.searchBar becomeFirstResponder];
-    
-    if ([self.navigationController isKindOfClass:[FANavigationController class]]) {
-        FANavigationController *navigationController = (FANavigationController *)self.navigationController;
-        [navigationController addLongButtonTouchGesture];
-    }
+    //[self.searchBar becomeFirstResponder];    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
