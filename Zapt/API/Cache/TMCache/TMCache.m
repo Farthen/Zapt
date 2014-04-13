@@ -98,8 +98,15 @@ NSString * const TMCacheSharedName = @"TMCacheShared";
         };
     }
     
-    [_memoryCache setObject:object forKey:key block:memBlock];
-    [_diskCache setObject:object forKey:key block:diskBlock];
+    [_memoryCache objectForKey:key block:^(TMMemoryCache *cache, NSString *key, id oldObject) {
+        if (oldObject != object) {
+            [_memoryCache setObject:object forKey:key block:memBlock];
+            [_diskCache setObject:object forKey:key block:diskBlock];
+        } else if (group) {
+            dispatch_group_leave(group);
+            dispatch_group_leave(group);
+        }
+    }];
     
     if (group) {
         __weak TMCache *weakSelf = self;
