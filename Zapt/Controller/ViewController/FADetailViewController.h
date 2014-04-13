@@ -11,12 +11,13 @@
 #import "FASemiModalEnabledViewController.h"
 #import "FAAppDelegate.h"
 #import "FAContentBookmarkViewController.h"
+#import "FAPullScrollViewAccessoryView.h"
 
 @class FATitleLabel;
 @class FATraktContent;
 @class FANextUpViewController;
 
-@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged, FAContentBookmarkViewControllerDelegate>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged, FAContentBookmarkViewControllerDelegate, FAPullScrollViewAccessoryViewDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 

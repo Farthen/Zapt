@@ -515,6 +515,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             
             if (detailLevel == FATraktDetailLevelExtended) {
                 show.detailLevel = FATraktDetailLevelExtended;
+                show.hasEpisodeCounts = YES;
             } else {
                 show.detailLevel = MAX(show.detailLevel, FATraktDetailLevelDefault);
             }
@@ -633,6 +634,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 FATraktSeason *season = [[FATraktSeason alloc] initWithJSONDict:seasonDict andShow:show];
                 [show addSeason:season];
             }
+            
+            show.hasEpisodeCounts = YES;
             
             [show commitToCache];
             callback(show);

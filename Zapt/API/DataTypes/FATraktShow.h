@@ -15,6 +15,8 @@
 
 @interface FATraktShow : FATraktWatchableBaseItem <FACacheableItem>
 
+@property (nonatomic) BOOL hasEpisodeCounts;
+
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;
 @property (retain) NSString *url;

@@ -167,11 +167,15 @@
 
 - (NSNumber *)episodeCount
 {
+    if (_episodeCount) {
+        return _episodeCount;
+    }
+    
     if (self.episodes) {
         return [NSNumber numberWithUnsignedInteger:self.episodes.count];
     }
     
-    return _episodeCount;
+    return nil;
 }
 
 - (NSNumber *)episodesWatched

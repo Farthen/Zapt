@@ -20,6 +20,10 @@
 
 - (void)mapObjectsInSummaryDict:(NSDictionary *)dict;
 
+@property (readonly) NSIndexPath *previousEpisodeIndexPath;
+@property (readonly) NSIndexPath *nextEpisodeIndexPath;
+
+@property (readonly) FATraktEpisode *previousEpisode;
 @property (readonly) FATraktEpisode *nextEpisode;
 
 // These are technically weak but not declared as such

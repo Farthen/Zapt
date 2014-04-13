@@ -24,4 +24,6 @@
 
 @property (nonatomic, readonly) UILabel *textLabel;
 
+@property (nonatomic, weak) id<FAPullScrollViewAccessoryViewDelegate> delegate;
+
 @end

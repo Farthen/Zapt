@@ -9,9 +9,8 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 
-static dispatch_semaphore_t __cachesSemaphore;
-
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
+static NSInteger __cacheVersionNumber = 2;
 
 @interface FATraktCache ()
 @property NSLock *lock;
@@ -60,6 +59,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 
 - (void)setupCaches
 {
+    
     if (!_misc) {
         _misc = [[TMCache alloc] initWithName:@"misc"];
     }
@@ -70,6 +70,7 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     
     if (!_images) {
         _images = [[TMCache alloc] initWithName:@"images"];
+        _images.memoryCache.ageLimit = 60;
     }
     
     if (!_lists) {
@@ -78,7 +79,17 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     
     if (!_searches) {
         _searches = [[TMCache alloc] initWithName:@"searches"];
+        _searches.memoryCache.ageLimit = 60;
     }
+    
+    NSInteger cacheVersionNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"cacheVersionNumber"];
+    if (cacheVersionNumber != __cacheVersionNumber) {
+        [self clearCaches];
+        
+        [[NSUserDefaults standardUserDefaults] setInteger:__cacheVersionNumber forKey:@"cacheVersionNumber"];
+    }
+    
+    [self trimCaches];
 }
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
@@ -90,9 +101,26 @@ NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
     [aCoder encodeObject:_searches forKey:@"searches"];
 }
 
+- (void)trimCaches
+{
+    NSDate *trimDate = [NSDate dateWithTimeIntervalSinceNow:FATimeIntervalWeeks(4)];
+    
+    [_misc trimToDate:trimDate block:nil];
+    [_content trimToDate:trimDate block:nil];
+    [_images trimToDate:trimDate block:nil];
+    [_lists trimToDate:trimDate block:nil];
+    [_searches trimToDate:trimDate block:nil];
+}
+
 - (void)clearCaches
 {
-    [self clearCachesCallback:nil];
+    dispatch_semaphore_t cacheSemaphore = dispatch_semaphore_create(0);
+    
+    [self clearCachesCallback:^{
+        dispatch_semaphore_signal(cacheSemaphore);
+    }];
+    
+    dispatch_semaphore_wait(cacheSemaphore, DISPATCH_TIME_FOREVER);
 }
 
 - (void)clearCachesCallback:(void (^)(void))callback

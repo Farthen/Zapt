@@ -61,6 +61,10 @@
     UIActivityViewController *_activityViewController;
     
     CGFloat _contentOffsetAfterLayout;
+    
+    BOOL _loadingEpisodeCounts;
+    FAPullScrollViewAccessoryView *_previousEpisodeAccessory;
+    FAPullScrollViewAccessoryView *_nextEpisodeAccessory;
 }
 
 @end
@@ -204,15 +208,27 @@
     self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     
     if (!_addedNextEpisodeIndicators && _currentContent.contentType == FATraktContentTypeEpisodes) {
-        _addedNextEpisodeIndicators = YES;
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
         
-        FAPullScrollViewAccessoryView *accessoryViewBottom = [[FAPullScrollViewAccessoryView alloc] init];
-        [accessoryViewBottom addToScrollView:self.scrollView bottom:YES];
-        accessoryViewBottom.textLabel.text = NSLocalizedString(@"Next Episode", nil);
-        
-        FAPullScrollViewAccessoryView *accessoryViewTop = [[FAPullScrollViewAccessoryView alloc] init];
-        [accessoryViewTop addToScrollView:self.scrollView bottom:NO];
-        accessoryViewTop.textLabel.text = NSLocalizedString(@"Previous Episode", nil);
+        if ([episode.show hasEpisodeCounts]) {
+            _addedNextEpisodeIndicators = YES;
+            
+            if (episode.nextEpisodeIndexPath) {
+                _nextEpisodeAccessory = [[FAPullScrollViewAccessoryView alloc] init];
+                [_nextEpisodeAccessory addToScrollView:self.scrollView bottom:YES];
+                _nextEpisodeAccessory.textLabel.text = NSLocalizedString(@"Next Episode", nil);
+                
+                _nextEpisodeAccessory.delegate = self;
+            }
+            
+            if (episode.previousEpisodeIndexPath) {
+                _previousEpisodeAccessory = [[FAPullScrollViewAccessoryView alloc] init];
+                [_previousEpisodeAccessory addToScrollView:self.scrollView bottom:NO];
+                _previousEpisodeAccessory.textLabel.text = NSLocalizedString(@"Previous Episode", nil);
+                
+                _previousEpisodeAccessory.delegate = self;
+            }
+        }
     }
 }
 
@@ -527,6 +543,16 @@
 {
     [self displayGenericContentData:episode];
     
+    if (!_loadingEpisodeCounts && episode.show && !episode.show.hasEpisodeCounts) {
+        _loadingEpisodeCounts = YES;
+        
+        [[FATrakt sharedInstance] seasonInfoForShow:episode.show callback:^(FATraktShow *show) {
+            episode.show = show;
+            [episode commitToCache];
+            [self displayEpisode:episode];
+        } onError:nil];
+    }
+    
     if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
         NSString *displayString;
         displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
@@ -724,6 +750,36 @@
 - (void)dealloc
 {
     self.scrollView.delegate = nil;
+}
+
+#pragma mark FAPullScrollViewAccessoryViewDelegate
+- (void)pullScrollViewAccessoryView:(FAPullScrollViewAccessoryView *)accessoryView endedPullingSuccessfully:(BOOL)success
+{
+    if (success && _currentContent.contentType == FATraktContentTypeEpisodes) {
+        // Instantiate a new detail view controller with the new episode
+        
+        FATraktEpisode *newEpisode = nil;
+        FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        
+        if (accessoryView == _previousEpisodeAccessory) {
+            newEpisode = [episode previousEpisode];
+        } else if (accessoryView == _nextEpisodeAccessory) {
+            newEpisode = [episode nextEpisode];
+        }
+        
+        if (newEpisode) {
+            
+            FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+            [detailVC loadEpisodeData:newEpisode];
+            
+            NSMutableArray *viewControllers = [[self.navigationController viewControllers] mutableCopy];
+            NSUInteger lastVCIndex = [viewControllers count] - 1;
+            if (lastVCIndex > 0) {
+                [viewControllers replaceObjectAtIndex:lastVCIndex withObject:detailVC];
+                [self.navigationController setViewControllers:viewControllers animated:YES];
+            }
+        }
+    }
 }
 
 @end

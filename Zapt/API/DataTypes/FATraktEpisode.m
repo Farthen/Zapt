@@ -20,6 +20,23 @@
     NSString *_seasonCacheKey;
 }
 
+- (instancetype)initWithShow:(FATraktShow *)show indexPath:(NSIndexPath *)indexPath
+{
+    self = [super init];
+    
+    if (!indexPath) {
+        return nil;
+    }
+    
+    if (self) {
+        self.seasonNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:0]];
+        self.episodeNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:1]];
+        _show = show;
+    }
+    
+    return self;
+}
+
 - (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber episodeNumber:(NSNumber *)episodeNumber
 {
     self = [super init];
@@ -94,17 +111,78 @@
     [self.show mapObjectsInDict:[dict objectForKey:@"show"]];
 }
 
-- (FATraktEpisode *)nextEpisode
+- (NSIndexPath *)previousEpisodeIndexPath
 {
-    FATraktSeason *thisSeason = [self.show seasonWithID:self.seasonNumber.unsignedIntegerValue];
-    FATraktEpisode *nextEpisode = [thisSeason episodeWithID:self.episodeNumber.unsignedIntegerValue + 1];
-    
-    if (!nextEpisode) {
-        FATraktSeason *nextSeason = [self.show seasonWithID:self.seasonNumber.unsignedIntegerValue + 1];
-        nextEpisode = [nextSeason episodeWithID:1];
+    if (!self.show.hasEpisodeCounts) {
+        return nil;
     }
     
-    return nextEpisode;
+    NSUInteger seasonIndex = self.seasonNumber.unsignedIntegerValue;
+    NSUInteger episodeIndex = (NSInteger)self.episodeNumber.unsignedIntegerValue - 1;
+    
+    if (episodeIndex < 1) {
+        seasonIndex--;
+        FATraktSeason *lastSeason = self.show[seasonIndex];
+        
+        if (!lastSeason || lastSeason.episodeCount.integerValue <= 0) {
+            return nil;
+        }
+        
+        episodeIndex = lastSeason.episodeCount.integerValue;
+    }
+    
+    NSUInteger indexArray[] = {seasonIndex, episodeIndex};
+    return [NSIndexPath indexPathWithIndexes:indexArray length:2];
+}
+
+- (NSIndexPath *)nextEpisodeIndexPath
+{
+    if (!self.show.hasEpisodeCounts) {
+        return nil;
+    }
+    
+    NSUInteger seasonIndex = self.seasonNumber.unsignedIntegerValue;
+    NSUInteger episodeIndex = (NSInteger)self.episodeNumber.unsignedIntegerValue + 1;
+    
+    FATraktSeason *thisSeason = self.season;
+    
+    if (thisSeason.episodeCount.integerValue > (NSInteger)episodeIndex) {
+        seasonIndex++;
+        FATraktSeason *nextSeason = self.show[seasonIndex];
+        
+        if (!nextSeason || nextSeason.episodeCount.integerValue <= 0) {
+            return nil;
+        }
+        
+        episodeIndex = 1;
+    }
+    
+    NSUInteger indexArray[] = {seasonIndex, episodeIndex};
+    return [NSIndexPath indexPathWithIndexes:indexArray length:2];
+}
+
+- (FATraktEpisode *)previousEpisode
+{
+    NSIndexPath *previousEpisodeIndexPath = [self previousEpisodeIndexPath];
+    FATraktEpisode *episode = self.show[[previousEpisodeIndexPath indexAtPosition:0]][[previousEpisodeIndexPath indexAtPosition:1]];
+    
+    if (!episode) {
+        episode = [[FATraktEpisode alloc] initWithShow:self.show indexPath:previousEpisodeIndexPath];
+    }
+    
+    return episode;
+}
+
+- (FATraktEpisode *)nextEpisode
+{
+    NSIndexPath *nextEpisodeIndexPath = [self nextEpisodeIndexPath];
+    FATraktEpisode *episode = self.show[[nextEpisodeIndexPath indexAtPosition:0]][[nextEpisodeIndexPath indexAtPosition:1]];
+    
+    if (!episode) {
+        episode = [[FATraktEpisode alloc] initWithShow:self.show indexPath:nextEpisodeIndexPath];
+    }
+    
+    return episode;
 }
 
 - (FATraktContentType)contentType

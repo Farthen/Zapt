@@ -18,6 +18,9 @@
 @property (nonatomic) BOOL addedConstraints;
 
 @property (nonatomic) BOOL isBottom;
+
+@property (nonatomic) BOOL didBeginPulling;
+@property (nonatomic) BOOL pullSuccess;
 @end
 
 @implementation FAPullScrollViewAccessoryView
@@ -147,13 +150,40 @@
         if (offset > 0) {
             self.hidden = NO;
             self.alpha = MIN(1, offset / 40.0);
+            
+            if (!self.didBeginPulling) {
+                self.didBeginPulling = YES;
+                
+                if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryViewBeganPulling:)]) {
+                    [self.delegate pullScrollViewAccessoryViewBeganPulling:self];
+                }
+            }
         } else {
             self.hidden = YES;
+            
+            if (self.didBeginPulling) {
+                self.didBeginPulling = NO;
+                
+                if (!self.pullSuccess) {
+                    if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryView:endedPullingSuccessfully:)]) {
+                        [self.delegate pullScrollViewAccessoryView:self endedPullingSuccessfully:NO];
+                    }
+                }
+                
+                self.pullSuccess = NO;
+            }
         }
         
         self.arrowView.progress = MAX(0, MIN(1, (offset - 40) / 50));
         
         if (offset >= 100) {
+            if (!self.pullSuccess) {
+                self.pullSuccess = YES;
+                
+                if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryView:endedPullingSuccessfully:)]) {
+                    [self.delegate pullScrollViewAccessoryView:self endedPullingSuccessfully:YES];
+                }
+            }
         } else {
         }
     }
