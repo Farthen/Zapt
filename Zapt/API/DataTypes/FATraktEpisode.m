@@ -156,7 +156,7 @@
     
     FATraktSeason *thisSeason = self.season;
     
-    if (thisSeason.episodeCount.integerValue > (NSInteger)episodeIndex) {
+    if (thisSeason.episodeCount.integerValue < (NSInteger)episodeIndex) {
         seasonIndex++;
         FATraktSeason *nextSeason = self.show[seasonIndex];
         

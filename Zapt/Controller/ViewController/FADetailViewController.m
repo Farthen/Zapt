@@ -770,7 +770,7 @@
         if (newEpisode) {
             
             FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-            [detailVC loadEpisodeData:newEpisode];
+            [detailVC loadContent:newEpisode];
             
             NSMutableArray *viewControllers = [[self.navigationController viewControllers] mutableCopy];
             NSUInteger lastVCIndex = [viewControllers count] - 1;
