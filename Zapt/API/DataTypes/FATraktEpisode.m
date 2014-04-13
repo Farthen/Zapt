@@ -31,7 +31,7 @@
     if (self) {
         self.seasonNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:0]];
         self.episodeNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:1]];
-        _show = show;
+        self.show = show;
     }
     
     return self;
@@ -44,7 +44,7 @@
     if (self) {
         self.seasonNumber = seasonNumber;
         self.episodeNumber = episodeNumber;
-        _show = show;
+        self.show = show;
     }
     
     return self;
