@@ -22,6 +22,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        self.opaque = NO;
     }
     return self;
 }
@@ -80,9 +82,9 @@
     
     self.numberLabel.text = [NSString stringWithFormat:@"%li", (long)self.episodeNumber];
     
-    [[UIColor whiteColor] set];
+    /*[[UIColor whiteColor] set];
     UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:rect];
-    [backgroundRect fill];
+    [backgroundRect fill];*/
     
     UIColor *highlightColor;
     

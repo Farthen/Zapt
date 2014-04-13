@@ -14,7 +14,7 @@
 {
     CGSize size = self.bounds.size;
     
-    UIGraphicsBeginImageContextWithOptions(size, self.opaque, 0.0);
+    UIGraphicsBeginImageContextWithOptions(size, NO, [[UIScreen mainScreen] scale]);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:context];

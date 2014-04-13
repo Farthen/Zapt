@@ -294,6 +294,7 @@
     UIImage *image = [episodeNumberView imageScreenshot];
     cell.imageView.image = image;
     cell.imageView.contentMode = UIViewContentModeCenter;
+    cell.imageView.opaque = NO;
     
     return cell;
 }
