@@ -281,7 +281,11 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
     BOOL success = [[NSFileManager defaultManager] setAttributes:@{ NSFileModificationDate: date }
                                                     ofItemAtPath:[fileURL path]
                                                            error:&error];
-    TMDiskCacheError(error);
+    
+    if (error.code != 4) {
+        // The file doesn't exist. It has probably been removed from the cache which is totally fine
+        TMDiskCacheError(error);
+    }
 
     if (success)
         [_dates setObject:date forKey:[self keyForEncodedFileURL:fileURL]];
@@ -671,8 +675,9 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         __weak TMDiskCache *weakSelf = self;
         dispatch_barrier_async(_queue, ^{
             TMDiskCache *strongSelf = weakSelf;
-            if (strongSelf)
+            if (strongSelf) {
                 [strongSelf setFileModificationDate:[NSDate new] forURL:fileURL];
+            }
         });
     }
     

@@ -91,7 +91,7 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
 {
     if (NSClassFromString(@"UILongPressGestureRecognizer")) {
         _longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
-        _longPressGesture.minimumPressDuration = 0.7;
+        _longPressGesture.minimumPressDuration = 0.5;
         [self.navigationBar addGestureRecognizer:_longPressGesture];
     }
 }
