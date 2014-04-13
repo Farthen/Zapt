@@ -108,6 +108,7 @@
 		F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */; };
 		F394EE41184F4A1E007F4BA1 /* NSSet+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */; };
 		F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3978A1617B50A2A001E5807 /* libPods.a */; };
+		F3A2821218FA5FAE00369045 /* FASlideAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */; };
 		F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EB180949BF00556EEA /* FASimpleControl.m */; };
 		F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */; };
 		F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */; };
@@ -385,6 +386,8 @@
 		F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+Functional.h"; sourceTree = "<group>"; };
 		F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Functional.m"; sourceTree = "<group>"; };
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		F3A2821018FA5FAD00369045 /* FASlideAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASlideAnimatedTransition.h; path = Zapt/Controller/FASlideAnimatedTransition.h; sourceTree = SOURCE_ROOT; };
+		F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASlideAnimatedTransition.m; path = Zapt/Controller/FASlideAnimatedTransition.m; sourceTree = SOURCE_ROOT; };
 		F3A2F9EA180949BF00556EEA /* FASimpleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASimpleControl.h; sourceTree = "<group>"; };
 		F3A2F9EB180949BF00556EEA /* FASimpleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASimpleControl.m; sourceTree = "<group>"; };
 		F3A2F9ED1809531600556EEA /* FAFixedHeightLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAFixedHeightLabel.h; sourceTree = "<group>"; };
@@ -861,6 +864,15 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		F3A2820F18FA5F7600369045 /* View Controller Transition Animations */ = {
+			isa = PBXGroup;
+			children = (
+				F3A2821018FA5FAD00369045 /* FASlideAnimatedTransition.h */,
+				F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */,
+			);
+			name = "View Controller Transition Animations";
+			sourceTree = "<group>";
+		};
 		F3A8BFD217FBEF5200188453 /* Global */ = {
 			isa = PBXGroup;
 			children = (
@@ -979,6 +991,7 @@
 				F3EE214217F684DA00A0118E /* Generic */,
 				F3C84B6D1628DCB1006CBFEF /* Main Interface */,
 				F3C84B691628DC48006CBFEF /* Connection */,
+				F3A2820F18FA5F7600369045 /* View Controller Transition Animations */,
 			);
 			name = "View Controller";
 			path = ViewController;
@@ -1207,6 +1220,8 @@
 				F37E487F184D75B600D66A32 /* FAViewController.m */,
 				F37E4881184D780E00D66A32 /* FATableViewController.h */,
 				F37E4882184D780E00D66A32 /* FATableViewController.m */,
+				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
+				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
 			);
 			name = Generic;
 			sourceTree = "<group>";
@@ -1305,8 +1320,6 @@
 				F3F35E81169B655600A925B4 /* FASearchBar.m */,
 				F38BD69A16B770E300267137 /* FATitleLabel.h */,
 				F38BD69B16B770E300267137 /* FATitleLabel.m */,
-				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
-				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
 				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
 				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
 				F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */,
@@ -1485,6 +1498,7 @@
 				F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */,
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */,
+				F3A2821218FA5FAE00369045 /* FASlideAnimatedTransition.m in Sources */,
 				F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */,
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import "FADetailViewController.h"
+#import "FANavigationController.h"
 
 #import <CoreText/CoreText.h>
 
@@ -760,26 +761,25 @@
         
         FATraktEpisode *newEpisode = nil;
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
+        FASlideAnimatedTransitionDirection direction;
         
         if (accessoryView == _previousEpisodeAccessory) {
             newEpisode = [episode previousEpisode];
+            direction = FASlideAnimatedTransitionDirectionDown;
         } else if (accessoryView == _nextEpisodeAccessory) {
             newEpisode = [episode nextEpisode];
+            direction = FASlideAnimatedTransitionDirectionUp;
         }
         
         if (newEpisode) {
-            
             FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
             [detailVC loadContent:newEpisode];
             
-            NSMutableArray *viewControllers = [[self.navigationController viewControllers] mutableCopy];
-            NSUInteger lastVCIndex = [viewControllers count] - 1;
-            if (lastVCIndex > 0) {
-                [viewControllers replaceObjectAtIndex:lastVCIndex withObject:detailVC];
-                [self.navigationController setViewControllers:viewControllers animated:YES];
-            }
+            FANavigationController *navigationController = (FANavigationController *)self.navigationController;
+            [navigationController replaceTopViewControllerWithViewController:detailVC usingSlideAnimation:YES direction:direction completion:nil];
         }
     }
 }
+
 
 @end

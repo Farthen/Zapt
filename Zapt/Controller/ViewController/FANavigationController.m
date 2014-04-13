@@ -12,6 +12,8 @@
     UILongPressGestureRecognizer *_longPressGesture;
 }
 
+@property (nonatomic) NSDictionary *nextTransitionInformation;
+
 @end
 
 NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @"FATraktActivityNotificationSearch";
@@ -33,6 +35,9 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.transitioningDelegate = self;
+    self.delegate = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,6 +106,63 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
         [self.navigationBar removeGestureRecognizer:_longPressGesture];
         _longPressGesture = nil;
     }
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    self.nextTransitionInformation = nil;
+    [super pushViewController:viewController animated:animated];
+}
+
+- (UIViewController *)popViewControllerAnimated:(BOOL)animated
+{
+    self.nextTransitionInformation = nil;
+    return [super popViewControllerAnimated:animated];
+}
+
+- (void)replaceTopViewControllerWithViewController:(UIViewController *)newViewController usingSlideAnimation:(BOOL)animated direction:(FASlideAnimatedTransitionDirection)direction completion:(void (^)(void))completion
+{
+    NSMutableArray *viewControllers = [[self viewControllers] mutableCopy];
+    NSUInteger lastVCIndex = [viewControllers count] - 1;
+    if (lastVCIndex > 0) {
+        UIViewController *oldViewController = [viewControllers objectAtIndex:lastVCIndex];
+        [viewControllers replaceObjectAtIndex:lastVCIndex withObject:newViewController];
+        
+        if (animated) {
+            NSMutableDictionary *transitionInformation = [NSMutableDictionary dictionary];
+            [transitionInformation setObject:oldViewController forKey:@"fromViewController"];
+            [transitionInformation setObject:newViewController forKey:@"toViewController"];
+            [transitionInformation setObject:@"slide" forKey:@"animationType"];
+            [transitionInformation setObject:[NSNumber numberWithInteger:direction] forKey:@"directionUp"];
+            self.nextTransitionInformation = transitionInformation;
+        }
+        
+        [self setViewControllers:viewControllers animated:YES];
+    }
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController animationControllerForOperation:(UINavigationControllerOperation)operation fromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC
+{
+    if (self.nextTransitionInformation) {
+        if (self.nextTransitionInformation[@"fromViewController"] == fromVC &&
+            self.nextTransitionInformation[@"toViewController"] == toVC) {
+            if ([self.nextTransitionInformation[@"animationType"] isEqualToString:@"slide"]) {
+                FASlideAnimatedTransition *transition = [[FASlideAnimatedTransition alloc] init];
+                
+                FASlideAnimatedTransitionDirection direction = [self.nextTransitionInformation[@"directionUp"] integerValue];
+                
+                if (direction == FASlideAnimatedTransitionDirectionDown) {
+                    transition.direction = FASlideAnimatedTransitionDirectionDown;
+                } else {
+                    transition.direction = FASlideAnimatedTransitionDirectionUp;
+                }
+                
+                return transition;
+            }
+        }
+    }
+    
+    return nil;
 }
 
 - (void)dealloc

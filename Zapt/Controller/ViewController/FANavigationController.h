@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FASlideAnimatedTransition.h"
 
 extern NSString *const FANavigationControllerDidPopToRootViewControllerNotification;
 
@@ -16,8 +17,9 @@ extern NSString *const FANavigationControllerDidPopToRootViewControllerNotificat
 - (void)navigationController:(UINavigationController *)navigationController didPopToRootViewControllerAfterLongButtonTouchForViewController:(UIViewController *)viewController;
 @end
 
-@interface FANavigationController : UINavigationController
+@interface FANavigationController : UINavigationController <UIViewControllerTransitioningDelegate, UINavigationControllerDelegate>
 
 - (void)addLongButtonTouchGesture;
+- (void)replaceTopViewControllerWithViewController:(UIViewController *)viewController usingSlideAnimation:(BOOL)animated direction:(FASlideAnimatedTransitionDirection)direction completion:(void (^)(void))completion;
 
 @end

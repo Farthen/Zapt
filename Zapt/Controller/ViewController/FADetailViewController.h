@@ -17,7 +17,7 @@
 @class FATraktContent;
 @class FANextUpViewController;
 
-@interface FADetailViewController : FASemiModalEnabledViewController <UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged, FAContentBookmarkViewControllerDelegate, FAPullScrollViewAccessoryViewDelegate>
+@interface FADetailViewController : FASemiModalEnabledViewController <UIViewControllerTransitioningDelegate, UIActionSheetDelegate, FAViewControllerPreferredContentSizeChanged, FAContentBookmarkViewControllerDelegate, FAPullScrollViewAccessoryViewDelegate>
 
 - (void)loadContent:(FATraktContent *)content;
 
