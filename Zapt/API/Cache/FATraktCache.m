@@ -10,7 +10,7 @@
 #import "Misc.h"
 
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
-static NSInteger __cacheVersionNumber = 2;
+static NSInteger __cacheVersionNumber = 3;
 
 @interface FATraktCache ()
 @property NSLock *lock;
