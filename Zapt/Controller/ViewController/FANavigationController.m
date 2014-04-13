@@ -36,7 +36,6 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.transitioningDelegate = self;
     self.delegate = self;
 
     [self addLongButtonTouchGesture];
