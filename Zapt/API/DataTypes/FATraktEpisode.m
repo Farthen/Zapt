@@ -259,7 +259,7 @@
         showKey = self.show.cacheKey;
     }
     
-    return [NSString stringWithFormat:@"FATraktEpisode&%@&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];
+    return [NSString stringWithFormat:@"FATraktEpisode&show=<%@>&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];
 }
 
 + (TMCache *)backingCache

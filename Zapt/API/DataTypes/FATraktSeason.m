@@ -162,7 +162,7 @@
         showKey = self.show.cacheKey;
     }
     
-    return [NSString stringWithFormat:@"FATraktSeason&%@&season=%@", showKey, self.seasonNumber.stringValue];
+    return [NSString stringWithFormat:@"FATraktSeason&show=<%@>&season=%@", showKey, self.seasonNumber.stringValue];
 }
 
 + (TMCache *)backingCache
