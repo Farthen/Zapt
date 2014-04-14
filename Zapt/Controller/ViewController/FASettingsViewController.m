@@ -201,6 +201,8 @@
                 cell.textLabel.textColor = [UIColor grayColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.detailTextLabel.text = nil;
+
             }
         }
     } else if (indexPath.section == 1) {
@@ -217,6 +219,8 @@
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                cell.detailTextLabel.text = nil;
+                
                 _checkAuthButtonCell = (FATableViewCellWithActivity *)cell;
             } else if (indexPath.row == 1) {
                 cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
@@ -229,6 +233,8 @@
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                cell.detailTextLabel.text = nil;
+                
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             }
         } else {
@@ -243,6 +249,8 @@
                 cell.textLabel.text = NSLocalizedString(@"Log In", nil);
                 cell.textLabel.textColor = [UIColor blackColor];
                 cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                cell.detailTextLabel.text = nil;
+                
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             }
         }
@@ -266,6 +274,9 @@
         } else {
             cell.textLabel.text = NSLocalizedString(@"Rate on the App Store", nil);
         }
+        
+        cell.detailTextLabel.text = nil;
+
     } else if (indexPath.section == 3) {
         // Includes the empty cache button
         if (indexPath.row == 0) {
@@ -276,6 +287,7 @@
             }
             
             cell.textLabel.text = NSLocalizedString(@"Empty Cache", nil);
+            cell.detailTextLabel.text = nil;
             cell.textLabel.textColor = [UIColor redColor];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
             cell.textLabel.textAlignment = NSTextAlignmentCenter;

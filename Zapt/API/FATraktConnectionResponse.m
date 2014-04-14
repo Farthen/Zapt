@@ -57,7 +57,9 @@
         }
     }
     
-    connectionResponse.responseData = responseData;
+    if (![connectionResponse setResponseData:responseData]) {
+        connectionResponse.responseType = FATraktConnectionResponseTypeInvalidData;
+    }
     
     return connectionResponse;
 }
@@ -106,7 +108,7 @@
     return instance;
 }
 
-- (void)setResponseData:(id)data
+- (BOOL)setResponseData:(id)data
 {
     if ([data isKindOfClass:[UIImage class]]) {
         self.imageData = data;
@@ -116,7 +118,10 @@
         self.rawResponseData = data;
     } else {
         DDLogError(@"Invalid response data type!");
+        return NO;
     }
+    
+    return YES;
 }
 
 @end

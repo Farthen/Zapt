@@ -39,7 +39,7 @@ typedef enum {
 + (instancetype)invalidDataResponse;
 + (instancetype)unkownErrorResponse;
 
-- (void)setResponseData:(id)data;
+- (BOOL)setResponseData:(id)data;
 
 @property (readonly) NSHTTPURLResponse *response;
 @property FATraktConnectionResponseType responseType;
