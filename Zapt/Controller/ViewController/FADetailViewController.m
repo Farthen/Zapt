@@ -230,6 +230,8 @@
                 _nextEpisodeAccessory.textLabel.text = NSLocalizedString(@"Next Episode", nil);
                 
                 _nextEpisodeAccessory.delegate = self;
+            } else {
+                NSLog(@"bla");
             }
             
             if (episode.previousEpisodeIndexPath) {
@@ -238,6 +240,8 @@
                 _previousEpisodeAccessory.textLabel.text = NSLocalizedString(@"Previous Episode", nil);
                 
                 _previousEpisodeAccessory.delegate = self;
+            } else {
+                NSLog(@"bla");
             }
         }
     }

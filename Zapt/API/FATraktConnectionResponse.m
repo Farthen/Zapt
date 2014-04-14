@@ -57,7 +57,7 @@
         }
     }
     
-    if (![connectionResponse setResponseData:responseData]) {
+    if (![connectionResponse setResponseData:responseData] && response.statusCode == 200) {
         connectionResponse = [self invalidDataResponse];
     }
     
