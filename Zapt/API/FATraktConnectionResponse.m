@@ -117,7 +117,6 @@
     } else if ([data isKindOfClass:[NSData class]]) {
         self.rawResponseData = data;
     } else {
-        DDLogError(@"Invalid response data type!");
         return NO;
     }
     
