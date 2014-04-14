@@ -21,16 +21,16 @@
 #import "FATraktActivityItemSource.h"
 #import <TUSafariActivity/TUSafariActivity.h>
 
+#import "FAGlobalEventHandler.h"
+#import "FATrakt.h"
 #import "FAInterfaceStringProvider.h"
+#import "FANotificationScrollViewDelegate.h"
 
 #import "FATitleLabel.h"
 #import "FAProgressHUD.h"
 #import "FABadges.h"
 #import "FAPullScrollViewAccessoryView.h"
 
-#import "FAGlobalEventHandler.h"
-
-#import "FATrakt.h"
 
 @interface FADetailViewController () {
     BOOL _showing;
@@ -66,6 +66,8 @@
     BOOL _loadingEpisodeCounts;
     FAPullScrollViewAccessoryView *_previousEpisodeAccessory;
     FAPullScrollViewAccessoryView *_nextEpisodeAccessory;
+    
+    FANotificationScrollViewDelegate *_notificationScrollViewDelegate;
 }
 
 @end
@@ -213,6 +215,11 @@
         
         if ([episode.show hasEpisodeCounts]) {
             _addedNextEpisodeIndicators = YES;
+            
+            if (!_notificationScrollViewDelegate) {
+                _notificationScrollViewDelegate = [[FANotificationScrollViewDelegate alloc] init];
+                self.scrollView.delegate = _notificationScrollViewDelegate;
+            }
             
             if (episode.nextEpisodeIndexPath) {
                 _nextEpisodeAccessory = [[FAPullScrollViewAccessoryView alloc] init];

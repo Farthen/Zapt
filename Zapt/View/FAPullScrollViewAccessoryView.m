@@ -9,6 +9,7 @@
 #import "FAPullScrollViewAccessoryView.h"
 #import "FAArrowView.h"
 #import <CoreText/CoreText.h>
+#import "FANotificationScrollViewDelegate.h"
 
 @interface FAPullScrollViewAccessoryView ()
 @property (nonatomic) UILabel *textLabel;
@@ -103,6 +104,9 @@
         [self.parentScrollView removeObserver:self forKeyPath:@"contentOffset"];
         [self.parentScrollView removeObserver:self forKeyPath:@"contentSize"];
         [self.parentScrollView removeObserver:self forKeyPath:@"frame"];
+        
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center removeObserver:self];
     }
 }
 
@@ -128,24 +132,36 @@
     self.frame = frame;
 }
 
+- (CGFloat)scrollOffset
+{
+    CGFloat offset = 0;
+    
+    CGFloat scrollHeight = self.parentScrollView.frame.size.height;
+    CGFloat scrollContentHeight = self.parentScrollView.contentSize.height;
+    CGFloat contentOffset = self.parentScrollView.contentOffset.y;
+    CGFloat contentInset = self.parentScrollView.contentInset.top;
+    
+    if (self.isBottom) {
+        offset = MIN(contentOffset - (scrollContentHeight - scrollHeight), contentOffset + contentInset);
+    } else {
+        offset = - (self.parentScrollView.contentOffset.y + contentInset);
+    }
+    
+    return offset;
+}
+
+- (CGFloat)offsetThreshold
+{
+    return 80;
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"contentSize"]) {
         [self setPosition];
     } else if ([keyPath isEqualToString:@"contentOffset"]) {
         
-        CGFloat offset = 0;
-        
-        CGFloat scrollHeight = self.parentScrollView.frame.size.height;
-        CGFloat scrollContentHeight = self.parentScrollView.contentSize.height;
-        CGFloat contentOffset = self.parentScrollView.contentOffset.y;
-        CGFloat contentInset = self.parentScrollView.contentInset.top;
-        
-        if (self.isBottom) {
-            offset = MIN(contentOffset - (scrollContentHeight - scrollHeight), contentOffset + contentInset);
-        } else {
-            offset = - (self.parentScrollView.contentOffset.y + contentInset);
-        }
+        CGFloat offset = [self scrollOffset];
         
         if (offset > 0) {
             self.hidden = NO;
@@ -153,6 +169,7 @@
             
             if (!self.didBeginPulling) {
                 self.didBeginPulling = YES;
+                self.pullSuccess = NO;
                 
                 if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryViewBeganPulling:)]) {
                     [self.delegate pullScrollViewAccessoryViewBeganPulling:self];
@@ -174,17 +191,21 @@
             }
         }
         
-        self.arrowView.progress = MAX(0, MIN(1, (offset - 40) / 40));
+        CGFloat startThreshold = 40;
         
-        if (offset >= 100) {
-            if (!self.pullSuccess) {
-                self.pullSuccess = YES;
-                
-                if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryView:endedPullingSuccessfully:)]) {
-                    [self.delegate pullScrollViewAccessoryView:self endedPullingSuccessfully:YES];
-                }
-            }
-        } else {
+        self.arrowView.progress = MAX(0, MIN(1, (offset - startThreshold) / (self.offsetThreshold - startThreshold)));
+    }
+}
+
+- (void)scrollViewDidEndDragging:(NSNotification *)aNotification
+{
+    if (self.didBeginPulling) {
+        
+        self.didBeginPulling = NO;
+        self.pullSuccess = [self scrollOffset] >= self.offsetThreshold;
+        
+        if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryView:endedPullingSuccessfully:)]) {
+            [self.delegate pullScrollViewAccessoryView:self endedPullingSuccessfully:self.pullSuccess];
         }
     }
 }
@@ -193,6 +214,9 @@
 {
     self.isBottom = bottom;
     self.parentScrollView = scrollView;
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(scrollViewDidEndDragging:) name:FAScrollViewDelegateDidEndDraggingNotification object:scrollView.delegate];
     
     [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
