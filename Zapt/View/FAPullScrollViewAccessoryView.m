@@ -103,6 +103,7 @@
     if (newSuperview == nil && self.parentScrollView) {
         [self.parentScrollView removeObserver:self forKeyPath:@"contentOffset"];
         [self.parentScrollView removeObserver:self forKeyPath:@"contentSize"];
+        [self.parentScrollView removeObserver:self forKeyPath:@"contentInset"];
         [self.parentScrollView removeObserver:self forKeyPath:@"frame"];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -119,7 +120,6 @@
 - (void)setPosition
 {
     CGRect frame = self.frame;
-    
     
     if (self.isBottom) {
         frame.origin.y = MAX(self.parentScrollView.contentSize.height - self.parentScrollView.contentInset.bottom, self.parentScrollView.frame.size.height - self.parentScrollView.contentInset.bottom - self.parentScrollView.contentInset.top) + 8;
@@ -157,7 +157,9 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"contentSize"]) {
+    if ([keyPath isEqualToString:@"frame"] ||
+        [keyPath isEqualToString:@"contentSize"] ||
+        [keyPath isEqualToString:@"contentInset"]) {
         [self setPosition];
     } else if ([keyPath isEqualToString:@"contentOffset"]) {
         
@@ -221,6 +223,7 @@
     
     [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
+    [scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
     [scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
     
     [self addSubviewConstraints];
