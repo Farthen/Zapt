@@ -45,6 +45,11 @@
         self.seasonNumber = seasonNumber;
         self.show = show;
         self.detailLevel = FATraktDetailLevelMinimal;
+        
+        FATraktSeason *cachedSeason = [self cachedVersion];
+        if (cachedSeason) {
+            return cachedSeason;
+        }
     }
     
     return self;
@@ -59,6 +64,16 @@
     if (self) {
         self.show = show;
         self.detailLevel = FATraktDetailLevelDefault;
+        
+        FATraktSeason *cachedSeason = [self cachedVersion];
+        if (cachedSeason) {
+            // cache hit!
+            // merge the two
+            [cachedSeason mergeWithObject:self];
+            
+            // return the cached show
+            self = cachedSeason;
+        }
     }
     
     return self;

@@ -11,7 +11,6 @@
 
 @implementation FATraktSearchResult {
     NSArray *_resultCacheKeys;
-    NSArray *_results;
 }
 
 - (id)initWithQuery:(NSString *)query contentType:(FATraktContentType)contentType
@@ -21,6 +20,13 @@
     if (self) {
         _query = query;
         _contentType = contentType;
+        
+        FATraktSearchResult *oldResult = [self cachedVersion];
+        
+        if (oldResult) {
+            // Rather update the results of an old object than make a new one
+            self = oldResult;
+        }
     }
     
     return self;
@@ -43,18 +49,16 @@
 
 - (void)setResults:(NSArray *)results
 {
-    _results = results;
+    _resultCacheKeys = [results mapUsingBlock:^id(id obj, NSUInteger idx) {
+        return [obj cacheKey];
+    }];
 }
 
 - (NSArray *)results
 {
-    if (!_results) {
-        _results = [_resultCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
-            return [self.class.backingCache objectForKey:obj];
-        }];
-    }
-    
-    return _results;
+    return [_resultCacheKeys mapUsingBlock:^id (id obj, NSUInteger idx) {
+        return [[FATraktContent backingCache] objectForKey:obj];
+    }];
 }
 
 - (void)setResultCacheKeys:(NSArray *)resultCacheKeys
@@ -64,10 +68,6 @@
 
 - (NSArray *)resultCacheKeys
 {
-    if (self.results) {
-        return [self.results valueForKey:@"cacheKey"];
-    }
-    
     return _resultCacheKeys;
 }
 

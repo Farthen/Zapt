@@ -20,19 +20,14 @@
 
 - (instancetype)initWithShow:(FATraktShow *)show indexPath:(NSIndexPath *)indexPath
 {
-    self = [super init];
-    
     if (!indexPath) {
         return nil;
     }
     
-    if (self) {
-        self.seasonNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:0]];
-        self.episodeNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:1]];
-        self.show = show;
-    }
+    NSNumber *seasonNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:0]];
+    NSNumber *episodeNumber = [NSNumber numberWithUnsignedInteger:[indexPath indexAtPosition:1]];
     
-    return self;
+    return [self initWithShow:show seasonNumber:seasonNumber episodeNumber:episodeNumber];    
 }
 
 - (instancetype)initWithShow:(FATraktShow *)show seasonNumber:(NSNumber *)seasonNumber episodeNumber:(NSNumber *)episodeNumber
@@ -43,6 +38,16 @@
         self.seasonNumber = seasonNumber;
         self.episodeNumber = episodeNumber;
         self.show = show;
+        
+        FATraktEpisode *cachedEpisode = [self cachedVersion];
+        if (cachedEpisode) {
+            // cache hit!
+            // merge the two
+            [cachedEpisode mergeWithObject:self];
+            
+            // return the cached show
+            self = cachedEpisode;
+        }
     }
     
     return self;
@@ -85,13 +90,9 @@
 
 - (instancetype)initWithSummaryDict:(NSDictionary *)dict
 {
-    self = [self initWithJSONDict:[dict objectForKey:@"episode"]];
+    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:[dict objectForKey:@"show"]];
     
-    if (self) {
-        self.show = [[FATraktShow alloc] initWithJSONDict:[dict objectForKey:@"show"]];
-    }
-    
-    return self;
+    return [self initWithJSONDict:[dict objectForKey:@"episode"] andShow:show];
 }
 
 - (void)copyVitalDataToNewObject:(id)newDatatype

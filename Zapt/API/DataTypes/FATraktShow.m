@@ -31,7 +31,7 @@
             // cache hit!
             // merge the two
             [cachedShow mergeWithObject:self];
-            //[cachedShow mapObjectsInDict:dict];
+
             // return the cached show
             self = cachedShow;
         }
