@@ -11,7 +11,7 @@
 
 extern NSString *FATraktCacheClearedNotification;
 
-@interface FATraktCache : NSObject <NSCoding>
+@interface FATraktCache : NSObject
 
 + (FATraktCache *)sharedInstance;
 - (void)clearCaches;

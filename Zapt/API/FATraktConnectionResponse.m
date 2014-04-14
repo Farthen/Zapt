@@ -58,7 +58,7 @@
     }
     
     if (![connectionResponse setResponseData:responseData]) {
-        connectionResponse.responseType = FATraktConnectionResponseTypeInvalidData;
+        connectionResponse = [self invalidDataResponse];
     }
     
     return connectionResponse;

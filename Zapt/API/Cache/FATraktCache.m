@@ -40,23 +40,6 @@ static NSInteger __cacheVersionNumber = 3;
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super init];
-    
-    if (self) {
-        _misc = [aDecoder decodeObjectForKey:@"_misc"];
-        _content = [aDecoder decodeObjectForKey:@"content"];
-        _images = [aDecoder decodeObjectForKey:@"images"];
-        _lists = [aDecoder decodeObjectForKey:@"lists"];
-        _searches = [aDecoder decodeObjectForKey:@"searches"];
-        self.lock = [[NSLock alloc] init];
-        [self setupCaches];
-    }
-    
-    return self;
-}
-
 - (void)setupCaches
 {
     
@@ -92,18 +75,9 @@ static NSInteger __cacheVersionNumber = 3;
     [self trimCaches];
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeObject:_misc forKey:@"misc"];
-    [aCoder encodeObject:_content forKey:@"content"];
-    [aCoder encodeObject:_images forKey:@"images"];
-    [aCoder encodeObject:_lists forKey:@"lists"];
-    [aCoder encodeObject:_searches forKey:@"searches"];
-}
-
 - (void)trimCaches
 {
-    NSDate *trimDate = [NSDate dateWithTimeIntervalSinceNow:FATimeIntervalWeeks(4)];
+    NSDate *trimDate = [NSDate dateWithTimeIntervalSinceNow:- FATimeIntervalWeeks(4)];
     
     [_misc trimToDate:trimDate block:nil];
     [_content trimToDate:trimDate block:nil];

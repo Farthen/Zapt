@@ -130,6 +130,8 @@
         [self showNetworkAlertViewIfNeeded:_networkNotAvailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
         [self handleInvalidCredentials];
+    } else {
+        [self showNetworkAlertViewIfNeeded:_serviceUnavailableAlert];
     }
 }
 
