@@ -147,6 +147,8 @@
 		F3C925B818FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */; };
 		F3C925BB18FA02E50054ACE3 /* FAArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925BA18FA02E50054ACE3 /* FAArrowView.m */; };
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
+		F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		F3CE70A718FB55400003679D /* FANotificationScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
@@ -469,6 +471,8 @@
 		F3CBA91117CD035200BAC568 /* Zapt Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt Tests-Info.plist"; sourceTree = "<group>"; };
 		F3CBA91317CD035200BAC568 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F3CBA91717CD035200BAC568 /* Zapt Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zapt Tests-Prefix.pch"; sourceTree = "<group>"; };
+		F3CE70A518FB55400003679D /* FANotificationScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANotificationScrollViewDelegate.h; sourceTree = "<group>"; };
+		F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANotificationScrollViewDelegate.m; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -533,6 +537,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */,
 				F3C925B518F8FE7C0054ACE3 /* CoreText.framework in Frameworks */,
 				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
@@ -846,6 +851,8 @@
 				F394EE31184EE56B007F4BA1 /* FABadges.m */,
 				F37B677E185BBF4000FAC329 /* FASearchDisplayController.h */,
 				F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */,
+				F3CE70A518FB55400003679D /* FANotificationScrollViewDelegate.h */,
+				F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -1514,6 +1521,7 @@
 				F3F02B5118CCBBBD00573274 /* FANewCustomListViewController.m in Sources */,
 				F311206717F3C8C000FAC263 /* FAInterfaceStringProvider.m in Sources */,
 				F347356717FF569C00116A59 /* UIView+Debug.m in Sources */,
+				F3CE70A718FB55400003679D /* FANotificationScrollViewDelegate.m in Sources */,
 				F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */,
 				F3A5BD0217F91C7A00138F3D /* FAAdaptiveNavigationBar.m in Sources */,
 				B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */,
@@ -1790,10 +1798,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"$(inherited)",
-					"COCOAPODS=1",
-				);
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				GCC_VERSION = "";
 				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
@@ -1814,6 +1819,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
+					"$(PROJECT_DIR)/Zapt/Support/TestFlight",
 				);
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
@@ -1859,6 +1865,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
+					"$(PROJECT_DIR)/Zapt/Support/TestFlight",
 				);
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
