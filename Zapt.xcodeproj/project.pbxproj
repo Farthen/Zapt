@@ -149,6 +149,7 @@
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
 		F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		F3CE70A718FB55400003679D /* FANotificationScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */; };
+		F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
@@ -473,6 +474,8 @@
 		F3CBA91717CD035200BAC568 /* Zapt Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zapt Tests-Prefix.pch"; sourceTree = "<group>"; };
 		F3CE70A518FB55400003679D /* FANotificationScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANotificationScrollViewDelegate.h; sourceTree = "<group>"; };
 		F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANotificationScrollViewDelegate.m; sourceTree = "<group>"; };
+		F3CE70AB18FC38530003679D /* UIViewController+BarViews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BarViews.h"; sourceTree = "<group>"; };
+		F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BarViews.m"; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -750,6 +753,8 @@
 				F3B9C93B17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m */,
 				F3A8BFD417FBF10B00188453 /* UIViewController+TopViewController.h */,
 				F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */,
+				F3CE70AB18FC38530003679D /* UIViewController+BarViews.h */,
+				F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */,
 			);
 			name = UIViewController;
 			sourceTree = "<group>";
@@ -1633,6 +1638,7 @@
 				F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */,
 				F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */,
 				F3B9C94517FA10C0004264E6 /* FATraktRequest.m in Sources */,
+				F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */,
 				F3DEDC13185D26C4006F5833 /* FATraktSeasonProgress.m in Sources */,
 				F3DEDC16185D3A08006F5833 /* FATraktProgressStats.m in Sources */,
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,

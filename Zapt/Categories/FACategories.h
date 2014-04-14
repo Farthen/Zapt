@@ -30,6 +30,7 @@
 // UIViewController
 #import "UIViewController+PresentInsideNavigationController.h"
 #import "UIViewController+TopViewController.h"
+#import "UIViewController+BarViews.h"
 
 // Misc
 #import "UIStoryboard+MainStoryboard.h"

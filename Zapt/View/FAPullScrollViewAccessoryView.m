@@ -204,6 +204,7 @@
         self.didBeginPulling = NO;
         self.pullSuccess = [self scrollOffset] >= self.offsetThreshold;
         
+                
         if ([self.delegate respondsToSelector:@selector(pullScrollViewAccessoryView:endedPullingSuccessfully:)]) {
             [self.delegate pullScrollViewAccessoryView:self endedPullingSuccessfully:self.pullSuccess];
         }

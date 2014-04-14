@@ -152,7 +152,7 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
                 } else {
                     transition.direction = FASlideAnimatedTransitionDirectionUp;
                 }
-                
+                                
                 return transition;
             }
         }
