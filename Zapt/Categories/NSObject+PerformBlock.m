@@ -21,12 +21,6 @@
     block();
 }
 
-- (void)performBlock:(void (^)(void))block order:(NSUInteger)order modes:(NSArray *)modes
-{
-    NSRunLoop *runLoop = [NSRunLoop mainRunLoop];
-    [runLoop performSelector:@selector(performBlock:) target:self argument:[block copy] order:order modes:modes];
-}
-
 - (void)performBlockOnMainThread:(void (^)(void))block waitUntilDone:(BOOL)wait
 {
     [self performSelectorOnMainThread:@selector(performBlock:) withObject:[block copy] waitUntilDone:wait];

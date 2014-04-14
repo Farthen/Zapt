@@ -11,8 +11,6 @@
 
 @interface NSObject (PerformBlock)
 
-- (void)performBlock:(void (^)(void))block order:(NSUInteger)order modes:(NSArray *)modes;
-
 - (void)performBlockOnMainThread:(void (^)(void))block waitUntilDone:(BOOL)wait;
 - (void)performBlock:(void (^)(void))block waitUntilDone:(BOOL)wait;
 - (void)performBlock:(void (^)(void))block afterDelay:(NSTimeInterval)delay;

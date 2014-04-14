@@ -57,3 +57,6 @@
 
 // NSSet
 #import "NSSet+Functional.m"
+
+// NSRunLoop
+#import "NSRunLoop+PerformBlock.h"
