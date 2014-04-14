@@ -14,7 +14,6 @@
 #import "Misc.h"
 
 @implementation FATraktSeason {
-    __weak FATraktShow *_show;
     NSString *_showCacheKey;
     NSArray *_episodeCacheKeys;
     NSNumber *_episodeCount;
@@ -53,7 +52,8 @@
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show
 {
-    _show = show;
+    self.showCacheKey = show.cacheKey;
+    
     self = [super initWithJSONDict:dict];
     
     if (self) {
@@ -74,7 +74,7 @@
                 
                 if ([item isKindOfClass:[NSDictionary class]]) {
                     NSDictionary *episodeDict = item;
-                    episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:_show];
+                    episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:self.show];
                     
                 } else if ([item isKindOfClass:[NSNumber class]]) {
                     episode = [[FATraktEpisode alloc] init];
@@ -197,7 +197,7 @@
 
 - (void)setShow:(FATraktShow *)show
 {
-    _show = show;
+    self.showCacheKey = show.cacheKey;
     
     // This prevents a retain loop:
     // Show will retain season but season will not retain show
@@ -210,13 +210,7 @@
 
 - (FATraktShow *)show
 {
-    if (!_show) {
-        if (_showCacheKey) {
-            _show = [FATraktShow.backingCache objectForKey:_showCacheKey];
-        }
-    }
-    
-    return _show;
+    return [FATraktShow.backingCache objectForKey:_showCacheKey];
 }
 
 - (void)setShowCacheKey:(NSString *)showCacheKey
@@ -226,10 +220,6 @@
 
 - (NSString *)showCacheKey
 {
-    if (_show) {
-        return _show.cacheKey;
-    }
-    
     return _showCacheKey;
 }
 

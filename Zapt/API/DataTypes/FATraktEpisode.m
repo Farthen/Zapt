@@ -13,10 +13,8 @@
 #import "FATraktSeason.h"
 
 @implementation FATraktEpisode {
-    __weak FATraktShow *_show;
     NSString *_showCacheKey;
     
-    __weak FATraktSeason *_season;
     NSString *_seasonCacheKey;
 }
 
@@ -280,7 +278,7 @@
 
 - (void)setShow:(FATraktShow *)show
 {
-    _show = show;
+    self.showCacheKey = show.cacheKey;
     
     // See the implementation in FATraktSeason: We prevent a retain loop here
     if (show) {
@@ -300,13 +298,11 @@
 
 - (FATraktShow *)show
 {
-    if (!_show) {
-        if (_showCacheKey) {
-            _show = [FATraktShow.backingCache objectForKey:_showCacheKey];
-        }
+    if (self.showCacheKey) {
+        return [FATraktShow.backingCache objectForKey:_showCacheKey];
     }
     
-    return _show;
+    return nil;
 }
 
 - (void)setShowCacheKey:(NSString *)showCacheKey
@@ -316,39 +312,31 @@
 
 - (NSString *)showCacheKey
 {
-    if (_show) {
-        return _show.cacheKey;
-    }
-    
     return _showCacheKey;
 }
 
 - (void)setSeason:(FATraktSeason *)season
 {
-    _season = season;
+    self.seasonCacheKey = season.cacheKey;
     
     if (season) {
         [season addEpisode:self];
         
-        if (season.show) {
-            _show = season.show;
+        if (season.showCacheKey) {
+            self.showCacheKey = season.showCacheKey;
         }
         
         [season commitToCache];
-        
-        self.seasonCacheKey = [season cacheKey];
     }
 }
 
 - (FATraktSeason *)season
 {
-    if (!_season) {
-        if (_seasonCacheKey) {
-            _season = [FATraktShow.backingCache objectForKey:_seasonCacheKey];
-        }
+    if (self.seasonCacheKey) {
+        return [FATraktShow.backingCache objectForKey:self.seasonCacheKey];
     }
     
-    return _season;
+    return nil;
 }
 
 - (void)setSeasonCacheKey:(NSString *)seasonCacheKey
@@ -358,10 +346,6 @@
 
 - (NSString *)seasonCacheKey
 {
-    if (_season) {
-        return _season.cacheKey;
-    }
-    
     return _seasonCacheKey;
 }
 
