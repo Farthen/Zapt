@@ -50,6 +50,9 @@
     UIImage *_coverImage;
     
     BOOL _imageLoaded;
+    
+    NSString *_imageURL;
+    
     BOOL _imageDisplayed;
     BOOL _willDisplayImage;
     BOOL _displayImageWhenFinishedShowing;
@@ -297,6 +300,9 @@
         return;
     } else if (_willAppear && _showing && !_imageDisplayed && _animatesLayoutChanges) {
         animated = YES;
+    } else if (_imageDisplayed) {
+        // Refresh image
+        animated = YES;
     } else {
         animated = NO;
     }
@@ -332,41 +338,39 @@
 - (void)doDisplayImageAnimated:(BOOL)animated
 {
     if (!_willDisplayImage) {
-        if (!_imageDisplayed) {
-            // Scale the image first to screen dimensions
+        // Scale the image first to screen dimensions
+        
+        CGFloat scale = [UIScreen mainScreen].scale;
+        
+        CGFloat newWidth = self.coverImageView.frame.size.width;
+        CGFloat oldWidth = _coverImage.size.width;
+        
+        CGFloat ratio = (newWidth / oldWidth) * scale;
+        
+        CGSize newSize = CGSizeMake(newWidth * scale, ceilf(_coverImage.size.height * ratio));
+        UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
+        
+        
+        self.coverImageViewHeightConstraint.constant = scaledImage.size.height / scale;
+        [_coverImageView setNeedsUpdateConstraints];
+        [_coverImageView setNeedsLayout];
+        
+        if (animated) {
+            _willDisplayImage = YES;
             
-            CGFloat scale = [UIScreen mainScreen].scale;
-            
-            CGFloat newWidth = self.coverImageView.frame.size.width;
-            CGFloat oldWidth = _coverImage.size.width;
-            
-            CGFloat ratio = (newWidth / oldWidth) * scale;
-            
-            CGSize newSize = CGSizeMake(newWidth * scale, ceilf(_coverImage.size.height * ratio));
-            UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
-            
-            
-            self.coverImageViewHeightConstraint.constant = scaledImage.size.height / scale;
-            [_coverImageView setNeedsUpdateConstraints];
-            [_coverImageView setNeedsLayout];
-            
-            if (animated) {
-                _willDisplayImage = YES;
-                
-                [UIView animateWithDuration:0.3 animations:^{
-                    [self.view layoutIfNeeded];
-                } completion:^(BOOL finished) {
-                    [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-                        self.coverImageView.image = scaledImage;
-                        _willDisplayImage = NO;
-                        _imageDisplayed = YES;
-                    } completion:nil];
-                }];
-            } else {
-                self.coverImageView.image = scaledImage;
-                _imageDisplayed = YES;
-                [_coverImageView layoutIfNeeded];
-            }
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.view layoutIfNeeded];
+            } completion:^(BOOL finished) {
+                [UIView transitionWithView:self.coverImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+                    self.coverImageView.image = scaledImage;
+                    _willDisplayImage = NO;
+                    _imageDisplayed = YES;
+                } completion:nil];
+            }];
+        } else {
+            self.coverImageView.image = scaledImage;
+            _imageDisplayed = YES;
+            [_coverImageView layoutIfNeeded];
         }
     }
 }
@@ -374,7 +378,9 @@
 - (void)setPosterToURL:(NSString *)posterURL
 {
     if (posterURL && ![posterURL isEqualToString:@""] /* && ![posterURL isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]*/) {
-        if (!_imageLoaded) {
+        if (!_imageLoaded || _imageURL != posterURL) {
+            _imageURL = posterURL;
+            
             [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:940 callback:^(UIImage *image) {
                 _imageLoaded = YES;
                 _coverImage = image;
