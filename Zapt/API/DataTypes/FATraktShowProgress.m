@@ -12,6 +12,7 @@
 
 @interface FATraktShowProgress ()
 @property (nonatomic) NSString *showCacheKey;
+@property (nonatomic) NSString *nextEpisodeCacheKey;
 @end
 
 @implementation FATraktShowProgress
@@ -70,6 +71,16 @@
 - (FATraktShow *)show
 {
     return [[FATraktShow backingCache] objectForKey:self.showCacheKey];
+}
+
+- (void)setNext_episode:(FATraktEpisode *)next_episode
+{
+    self.nextEpisodeCacheKey = next_episode.cacheKey;
+}
+
+- (FATraktEpisode *)next_episode
+{
+    return [[FATraktEpisode backingCache] objectForKey:self.nextEpisodeCacheKey];
 }
 
 @end

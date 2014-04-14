@@ -252,11 +252,11 @@
 {
     NSString *showKey;
     
-    if (!self.show) {
+    if (!self.showCacheKey) {
         // If the show is unavailable for some reason, generate a UUID to avoid collisions
         showKey = [NSString uuidString];
     } else {
-        showKey = self.show.cacheKey;
+        showKey = self.showCacheKey;
     }
     
     return [NSString stringWithFormat:@"FATraktEpisode&show=<%@>&season=%@&episode=%@", showKey, self.seasonNumber.stringValue, self.episodeNumber.stringValue];

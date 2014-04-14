@@ -10,6 +10,12 @@
 #import "FATraktSeason.h"
 #import "FATraktEpisode.h"
 
+@interface FATraktSeasonProgress ()
+
+@property (nonatomic) NSString *seasonCacheKey;
+
+@end
+
 @implementation FATraktSeasonProgress
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict andSeason:(FATraktSeason *)season
@@ -41,6 +47,16 @@
             [self.season addEpisode:episode];
         }
     }
+}
+
+- (void)setSeason:(FATraktSeason *)season
+{
+    self.seasonCacheKey = season.cacheKey;
+}
+
+ -(FATraktSeason *)season
+{
+    return [[FATraktSeason backingCache] objectForKey:self.seasonCacheKey];
 }
 
 @end

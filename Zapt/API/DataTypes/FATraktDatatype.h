@@ -19,6 +19,8 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
     NSDictionary *_originDict;
 }
 
++ (NSDictionary *)propertyInfo;
+
 @property (readonly) NSDate *creationDate;
 @property (readonly) BOOL currentlyCopying;
 
@@ -36,6 +38,7 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
 - (NSSet *)notEncodableKeys;
 
 - (BOOL)shouldMergeObjectForKey:(NSString *)key;
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject;
 - (void)mergeWithObject:(FATraktDatatype *)object;
 - (void)updateTimestamp;
 

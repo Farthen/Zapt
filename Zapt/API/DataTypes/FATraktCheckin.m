@@ -10,6 +10,12 @@
 #import "FATraktMovie.h"
 #import "FATraktShow.h"
 
+@interface FATraktCheckin ()
+
+@property (nonatomic) NSString *contentCacheKey;
+
+@end
+
 @implementation FATraktCheckin
 
 - (void)mapObject:(id)object ofType:(FAPropertyInfo *)propertyType toPropertyWithKey:(NSString *)key
@@ -25,6 +31,16 @@
     } else {
         [super mapObject:object ofType:propertyType toPropertyWithKey:key];
     }
+}
+
+- (void)setContent:(FATraktContent *)content
+{
+    self.contentCacheKey = content.cacheKey;
+}
+
+- (FATraktContent *)content
+{
+    return [[FATraktContent backingCache] objectForKey:self.contentCacheKey];
 }
 
 @end

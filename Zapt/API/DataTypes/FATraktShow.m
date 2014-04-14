@@ -211,4 +211,13 @@
     return nil;
 }
 
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+{
+    if ([key isEqualToString:@"hasEpisodeCounts"]) {
+        return [NSNumber numberWithBool:([self hasEpisodeCounts] || [oldObject hasEpisodeCounts])];
+    } else {
+        return [super newValueForMergingKey:key fromOldObject:oldObject];
+    }
+}
+
 @end

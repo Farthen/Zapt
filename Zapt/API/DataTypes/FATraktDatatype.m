@@ -262,6 +262,39 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     return YES;
 }
 
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+{
+    FAPropertyInfo *info = self.class.propertyInfo[key];
+    
+    BOOL mergeNew = NO;
+    BOOL mergeOld = NO;
+    
+    // Don't merge non objc properties
+    // This will otherwise break for rating for example
+    if (info.isObjcClass) {
+        if ([self valueForKey:key]) {
+            mergeNew = YES;
+        } else if ([oldObject valueForKey:key]) {
+            mergeOld = YES;
+        }
+    } else {
+        // When merging non-classes, just take the value of the newest object
+        mergeNew = YES;
+    }
+    
+    if ((mergeNew || mergeOld) && info.isReadonly == NO) {
+        if (mergeOld && [self shouldMergeObjectForKey:key]) {
+            return [oldObject valueForKey:key];
+        }
+        
+        if (mergeNew && [oldObject shouldMergeObjectForKey:key]) {
+            return [self valueForKey:key];
+        }
+    }
+    
+    return nil;
+}
+
 - (void)mergeWithObject:(FATraktDatatype *)object
 {
     // Merges the values from "object" into the reciever. Only merges objc-classes.
@@ -295,27 +328,17 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     NSDictionary *propertyInfos = self.class.propertyInfo;
     
     for (NSString *key in propertyInfos) {
-        FAPropertyInfo *info = propertyInfos[key];
-        BOOL mergeNew = NO;
-        BOOL mergeOld = NO;
+        FAPropertyInfo *info = self.class.propertyInfo[key];
         
-        // Don't merge non objc properties
-        // This will otherwise break for rating for example
-        if (info.isObjcClass) {
-            if ([newObject valueForKey:key]) {
-                mergeNew = YES;
-            } else if ([oldObject valueForKey:key]) {
-                mergeOld = YES;
-            }
-        }
-        
-        if ((mergeNew || mergeOld) && info.isReadonly == NO) {
-            if (mergeOld && [newObject shouldMergeObjectForKey:key]) {
-                [newObject setValue:[oldObject valueForKey:key] forKey:key];
+        if (!info.isReadonly) {
+            id newValue = [newObject newValueForMergingKey:key fromOldObject:oldObject];
+            
+            if ([newObject shouldMergeObjectForKey:key]) {
+                [newObject setValue:newValue forKey:key];
             }
             
-            if (mergeNew && [oldObject shouldMergeObjectForKey:key]) {
-                [oldObject setValue:[newObject valueForKey:key] forKey:key];
+            if ([oldObject shouldMergeObjectForKey:key]) {
+                [oldObject setValue:newValue forKey:key];
             }
         }
     }
