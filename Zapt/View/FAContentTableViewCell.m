@@ -159,6 +159,11 @@
     [super layoutSubviews];
     
     CGFloat widthMargin = self.class.widthMargin;
+    CGFloat imageWidthMargin = widthMargin + 42;
+    
+    if (self.shouldDisplayImage && !self.image) {
+        widthMargin = imageWidthMargin;
+    }
     
     //self.textLabel.font = [UIFont boldSystemFontOfSize:18];
     self.textLabel.font = [FAContentTableViewCell titleFont];

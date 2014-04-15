@@ -50,9 +50,11 @@
 - (NSString *)urlIdentifier
 {
     if (self.tvdb_id) {
-        return self.imdb_id;
+        return self.tvdb_id;
     } else if (self.slug) {
         return self.slug;
+    } else if (self.imdb_id) {
+        return self.imdb_id;
     }
     
     return nil;

@@ -20,6 +20,8 @@
 
 @property UIBarButtonItem *hideCompletedButton;
 @property BOOL hidingCompleted;
+
+@property (nonatomic) NSMutableDictionary *showImages;
 @end
 
 @implementation FAShowListViewController {
@@ -114,6 +116,7 @@
 {
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
     
+    __weak FAShowListViewController *weakSelf = self;
     self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         if ([sectionKey isEqualToString:@"shows"]) {
             FATraktShow *show = [FATraktShow objectWithCacheKey:key];
@@ -122,6 +125,9 @@
             contentCell.showsProgressForShows = YES;
             contentCell.twoLineMode = YES;
             [contentCell displayContent:show];
+            
+            contentCell.shouldDisplayImage = YES;
+            contentCell.image = weakSelf.showImages[key];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
@@ -176,13 +182,21 @@
 {
     [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
         
+        if (!self.showImages) {
+            self.showImages = [NSMutableDictionary dictionary];
+        }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.showsWithProgress = result;
-            [self displayProgressData];
-            
-            if (animated) [self.refreshControlWithActivity finishActivity];
-        });
+        for (FATraktShow *show in result) {
+            [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
+                [self.showImages setObject:image forKey:show.cacheKey];
+                [self.weightedDataSource reloadRowsWithObject:show.cacheKey];
+            } onError:nil];
+        }
+        
+        self.showsWithProgress = result;
+        [self displayProgressData];
+        
+        if (animated) [self.refreshControlWithActivity finishActivity];
     } onError:nil];
 }
 

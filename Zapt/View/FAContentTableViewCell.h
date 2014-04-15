@@ -16,7 +16,7 @@
 
 @property BOOL showsProgressForShows;
 @property BOOL twoLineMode;
-
+@property (nonatomic) BOOL shouldDisplayImage;
 
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
 @property (nonatomic) UIImage *image;

@@ -62,6 +62,7 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForShows:(NSArray *)shows detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark progress
 - (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progressItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;

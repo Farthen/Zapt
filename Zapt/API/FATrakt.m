@@ -519,8 +519,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         }
         
         return [self.connection getAPI:@"show/summary.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-            NSDictionary *data = response.jsonData;
-            [show mapObjectsInDict:data];
+            FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:response.jsonData];
             
             if (detailLevel == FATraktDetailLevelExtended) {
                 show.detailLevel = FATraktDetailLevelExtended;
@@ -539,6 +538,40 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         return nil;
     }
+}
+
+- (FATraktRequest *)detailsForShows:(NSArray *)shows detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSMutableArray *parameters = [NSMutableArray array];
+    NSMutableString *showList = [NSMutableString stringWithString:@""];
+    
+    [shows enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        FATraktShow *show = obj;
+        [showList appendString:show.urlIdentifier];
+        
+        if (idx < shows.count - 1) {
+            [showList appendString:@","];
+        }
+    }];
+    
+    [parameters addObject:showList];
+    
+    if (detailLevel == FATraktDetailLevelExtended) {
+        [parameters addObject:@"full"];
+    } else if (detailLevel == FATraktDetailLevelDefault) {
+        [parameters addObject:@"normal"];
+    }
+    
+    return [self.connection getAPI:@"show/summaries.json" withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSArray *showArray = [response.jsonData mapUsingBlock:^id(id obj, NSUInteger idx) {
+            FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:obj];
+            [show commitToCache];
+            return show;
+        }];
+        
+        FATraktCallbackCall(callback(showArray));
+    } onError:error];
 }
 
 - (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progessItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -574,9 +607,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *extended = @"";
     
     if (detailLevel == FATraktDetailLevelDefault) {
-        extended = @"default";
+        extended = @"normal";
     } else if (detailLevel == FATraktDetailLevelExtended) {
-        extended = @"extended";
+        extended = @"full";
     }
     
     NSArray *parameters = @[self.connection.apiUser, title, sort, extended];
