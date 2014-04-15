@@ -134,9 +134,11 @@
         [self displayProgressData];
         
         for (FATraktShow *show in self.showsWithProgress) {
-            [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
-                [self.arrayDataSource reloadRowsWithObject:show.cacheKey];
-            } onError:nil];
+            if (!show.images.posterImage) {
+                [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
+                    [self.arrayDataSource reloadRowsWithObject:show.cacheKey];
+                } onError:nil];
+            }
         }
         
         if (animated) [self.refreshControlWithActivity finishActivity];
@@ -171,9 +173,9 @@
         return cell;
     };
     
-    self.arrayDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
+    self.arrayDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         if ([sectionKey isEqualToString:@"currentlyWatching"]) {
-            FATraktContent *content = [FATraktContent objectWithCacheKey:object];
+            FATraktContent *content = [FATraktContent objectWithCacheKey:key];
             
             FAContentTableViewCell *contentCell = cell;
             contentCell.twoLineMode = YES;
@@ -181,7 +183,7 @@
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"showProgress"]) {
-            NSString *showCacheKey = object;
+            NSString *showCacheKey = key;
             FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
             
             FAContentTableViewCell *contentCell = cell;
@@ -201,13 +203,13 @@
             contentCell.twoLineMode = YES;
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             
-            if ([object isEqualToString:@"lists"]) {
+            if ([key isEqualToString:@"lists"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Lists", nil);
                 contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
-            } else if ([object isEqualToString:@"recommendations"]) {
+            } else if ([key isEqualToString:@"recommendations"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
                 contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
-            } else if ([object isEqualToString:@"shows"]) {
+            } else if ([key isEqualToString:@"shows"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"TV Shows", nil);
                 contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"All your TV shows", nil);
             }
