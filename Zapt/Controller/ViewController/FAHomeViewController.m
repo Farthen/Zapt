@@ -31,6 +31,8 @@
 @property NSArray *showsWithProgress;
 
 @property (nonatomic) BOOL initialDataFetchDone;
+
+@property (nonatomic) NSMutableDictionary *showImages;
 @end
 
 @implementation FAHomeViewController
@@ -113,7 +115,7 @@
                     self.tableViewContainsCurrentlyWatching = YES;
                     
                     [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
-                    [self.arrayDataSource insertRow:content inSection:@"currentlyWatching" withWeight:0];
+                    [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
                     [self.arrayDataSource recalculateWeight];
                 }
             } else {
@@ -133,6 +135,16 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.showsWithProgress = result;
             [self displayProgressData];
+            
+            self.showImages = [[NSMutableDictionary alloc] init];
+            
+            for (FATraktShow *show in result) {
+                [[FATrakt sharedInstance] loadImageFromURL:show.images.poster callback:^(UIImage *image) {
+                    [self.showImages setObject:image forKey:show.cacheKey];
+                } onError:nil];
+                
+                [self.arrayDataSource reloadRowsWithObject:show];
+            }
             
             if (animated) [self.refreshControlWithActivity finishActivity];
         });
@@ -169,7 +181,7 @@
     
     self.arrayDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
         if ([sectionKey isEqualToString:@"currentlyWatching"]) {
-            FATraktContent *content = object;
+            FATraktContent *content = [FATraktContent objectWithCacheKey:object];
             
             FAContentTableViewCell *contentCell = cell;
             contentCell.twoLineMode = YES;
@@ -177,7 +189,8 @@
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"showProgress"]) {
-            FATraktShow *show = object;
+            NSString *showCacheKey = object;
+            FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
             
             FAContentTableViewCell *contentCell = cell;
             contentCell.showsProgressForShows = YES;
@@ -228,16 +241,18 @@
         NSArray *shows = self.showsWithProgress;
         
         // Remove old shows
-        for (FATraktShow *show in [self.arrayDataSource rowKeysForSection:sectionName]) {
+        for (NSString *showCacheKey in [self.arrayDataSource rowKeysForSection:sectionName]) {
+            FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
+            
             if ([shows indexOfObject:show] == NSNotFound) {
-                [self.arrayDataSource removeRowInSection:sectionName forObject:show];
+                [self.arrayDataSource removeRowInSection:sectionName forObject:show.cacheKey];
             }
         }
         
         for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
             FATraktShow *show = shows[i];
             
-            [self.arrayDataSource insertRow:show inSection:sectionName withWeight:i];
+            [self.arrayDataSource insertRow:show.cacheKey inSection:sectionName withWeight:i];
         }
     } else {
         [self.arrayDataSource removeSectionForKey:sectionName];
@@ -249,14 +264,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
 {
-    if ([object isKindOfClass:[FATraktContent class]]) {
-        FATraktContent *content = object;
-        
-        FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-        [detailVC loadContent:content];
-        [self.navigationController pushViewController:detailVC animated:YES];
-    }
-    
     if ([object isKindOfClass:[NSString class]]) {
         if ([object isEqualToString:@"lists"]) {
             
@@ -273,6 +280,16 @@
             FAShowListViewController *showListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"showList"];
             [showListVC loadShows];
             [self.navigationController pushViewController:showListVC animated:YES];
+        } else {
+            // It's a cache key
+            
+            FATraktContent *content = [FATraktContent objectWithCacheKey:object];
+            
+            if (content) {
+                FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+                [detailVC loadContent:content];
+                [self.navigationController pushViewController:detailVC animated:YES];
+            }
         }
     }
 }

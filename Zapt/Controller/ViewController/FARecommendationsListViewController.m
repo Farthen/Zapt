@@ -58,11 +58,11 @@
     }
     
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
-    self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
+    self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         
         FAContentTableViewCell *contentCell = cell;
         contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [contentCell displayContent:object];
+        [contentCell displayContent:[FATraktContent objectWithCacheKey:key]];
     };
 }
 
@@ -98,7 +98,7 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self.weightedDataSource filterRowsUsingBlock:^BOOL(id key, BOOL *stop) {
-        FATraktContent *content = key;
+        FATraktContent *content = [FATraktContent objectWithCacheKey:key];
         
         if (!searchText || [searchText isEqualToString:@""]) {
             return YES;
@@ -137,7 +137,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
 {
     FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
-    [detailVC loadContent:object];
+    [detailVC loadContent:[FATraktContent objectWithCacheKey:object]];
     
     [self.navigationController pushViewController:detailVC animated:YES];
 }
@@ -155,7 +155,7 @@
                 for (NSUInteger i = 0; i < self.showData.count; i++) {
                     
                     FATraktContent *content = self.showData[i];
-                    [self.weightedDataSource insertRow:content inSection:@"show-recommendations" withWeight:i];
+                    [self.weightedDataSource insertRow:content.cacheKey inSection:@"show-recommendations" withWeight:i];
                 }
                 
                 [self.weightedDataSource recalculateWeight];
@@ -172,7 +172,7 @@
                 for (NSUInteger i = 0; i < self.movieData.count; i++) {
                     
                     FATraktContent *content = self.movieData[i];
-                    [self.weightedDataSource insertRow:content inSection:@"movie-recommendations" withWeight:i];
+                    [self.weightedDataSource insertRow:content.cacheKey inSection:@"movie-recommendations" withWeight:i];
                 }
                 
                 [self.weightedDataSource recalculateWeight];

@@ -114,9 +114,9 @@
 {
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
     
-    self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id object) {
+    self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         if ([sectionKey isEqualToString:@"shows"]) {
-            FATraktShow *show = object;
+            FATraktShow *show = [FATraktShow objectWithCacheKey:key];
             
             FAContentTableViewCell *contentCell = cell;
             contentCell.showsProgressForShows = YES;
@@ -141,9 +141,9 @@
     [self.view layoutIfNeeded];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)key
 {
-    FATraktContent *content = object;
+    FATraktContent *content = [FATraktShow objectWithCacheKey:key];
     
     FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
     [detailVC loadContent:content];
@@ -158,9 +158,9 @@
         FATraktShow *show = obj;
         
         if (self.hidingCompleted && show.progress && [show.progress.left unsignedIntegerValue] == 0) {
-            [self.weightedDataSource insertRow:obj inSection:@"shows" withWeight:idx hidden:YES];
+            [self.weightedDataSource insertRow:[obj cacheKey] inSection:@"shows" withWeight:idx hidden:YES];
         } else {
-            [self.weightedDataSource insertRow:obj inSection:@"shows" withWeight:idx hidden:NO];
+            [self.weightedDataSource insertRow:[obj cacheKey] inSection:@"shows" withWeight:idx hidden:NO];
         }
     }];
     
