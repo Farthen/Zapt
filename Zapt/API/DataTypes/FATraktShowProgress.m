@@ -17,6 +17,14 @@
 
 @implementation FATraktShowProgress
 
+- (instancetype)initWithJSONDict:(NSDictionary *)dict
+{
+    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dict[@"show"]];
+    _showCacheKey = show.cacheKey;
+    
+    return [super initWithJSONDict:dict];
+}
+
 - (NSString *)description
 {
     return [NSString stringWithFormat:@"<FATraktShowProgress %p for show \"%@\">", self, self.show];

@@ -192,17 +192,4 @@
     }
 }
 
-- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
-{
-    if ([key isEqualToString:@"rating"]) {
-        if (self.rating) {
-            return self.rating;
-        } else {
-            return [oldObject rating];
-        }
-    } else {
-        return [super newValueForMergingKey:key fromOldObject:oldObject];
-    }
-}
-
 @end

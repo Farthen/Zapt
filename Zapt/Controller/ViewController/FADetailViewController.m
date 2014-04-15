@@ -528,21 +528,11 @@
 
 - (void)displayShow:(FATraktShow *)show
 {
-    if (_animatesLayoutChanges && ![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayGenericContentData:show];
-            [self displayProgress:show.progress];
-            
-            [self.view layoutIfNeeded];
-            [self.view updateConstraintsIfNeeded];
-        });
-    } else {
-        [self displayGenericContentData:show];
-        [self displayProgress:show.progress];
-        
-        [self.view layoutIfNeeded];
-        [self.view updateConstraintsIfNeeded];
-    }
+    [self displayGenericContentData:show];
+    [self displayProgress:show.progress];
+    
+    [self.view layoutIfNeeded];
+    [self.view updateConstraintsIfNeeded];
 }
 
 - (void)loadShowData:(FATraktShow *)show

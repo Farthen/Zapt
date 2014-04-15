@@ -498,7 +498,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 
                 // Don't request extended information twice within 5 minutes, this is definitely overkill
                 if ([[NSDate date] timeIntervalSinceDate:cachedShow.creationDate] <= FATimeIntervalMinutes(5)) {
-                    return nil;
+                    detailLevel = FATraktDetailLevelDefault;
                 }
             }
         } else {
