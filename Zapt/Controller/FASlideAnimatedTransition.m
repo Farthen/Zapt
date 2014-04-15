@@ -19,6 +19,8 @@
     UIToolbar *fromToolbar = [fromViewController toolbarView];
     UIToolbar *toToolbar = [toViewController toolbarView];
     
+    BOOL interactivePopGesture = toViewController.navigationController.interactivePopGestureRecognizer.enabled;
+    
     // screenshot of the toolbar without the background
     UIView *toolbarScreenshot = [fromToolbar snapshotViewAfterScreenUpdates:NO];
     
@@ -70,6 +72,8 @@
             
             [toolbarScreenshot removeFromSuperview];
         }];
+        
+        toViewController.navigationController.interactivePopGestureRecognizer.enabled = interactivePopGesture;
         
         [transitionContext completeTransition:YES];
     };

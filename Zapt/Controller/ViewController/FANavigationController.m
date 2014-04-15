@@ -37,6 +37,7 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
     // Do any additional setup after loading the view.
     
     self.delegate = self;
+    [self setup];
 
     [self addLongButtonTouchGesture];
 }
@@ -159,6 +160,35 @@ NSString *const FANavigationControllerDidPopToRootViewControllerNotification = @
     }
     
     return nil;
+}
+
+- (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController
+{
+    return nil;
+}
+
+// http://stackoverflow.com/a/20923477/1084385
+// Fixes the builtin pop gesture recognizer
+- (void)setup
+{
+    self.interactivePopGestureRecognizer.delegate = self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    // Don't handle gestures if navigation controller is still animating a transition
+    if ([self.transitionCoordinator isAnimated])
+        return NO;
+    
+    if (self.viewControllers.count < 2)
+        return NO;
+    
+    if (gestureRecognizer == self.interactivePopGestureRecognizer)
+    {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (void)dealloc
