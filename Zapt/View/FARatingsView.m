@@ -301,6 +301,10 @@
 
 - (FATraktRating *)rating
 {
+    if (!_rating) {
+        _rating = [[FATraktRating alloc] init];
+    }
+    
     return _rating;
 }
 

@@ -253,7 +253,7 @@
     [self updateViewConstraints];
     
     if (_contentOffsetAfterLayout != 0) {
-        self.scrollView.contentOffset = CGPointMake(0, _contentOffsetAfterLayout);
+        self.scrollView.contentOffset = CGPointMake(0, _contentOffsetAfterLayout - self.scrollView.contentInset.top);
     }
 }
 
@@ -726,7 +726,7 @@
     
     [coder encodeObject:self.nextUpViewController forKey:@"nextUpViewController"];
     
-    [coder encodeFloat:self.scrollView.contentOffset.y forKey:@"scrollOffset"];
+    [coder encodeFloat:self.scrollView.contentOffset.y + self.scrollView.contentInset.top forKey:@"scrollOffset"];
     [coder encodeObject:self.navigationItem.title forKey:@"navigationItem.title"];
 }
 
