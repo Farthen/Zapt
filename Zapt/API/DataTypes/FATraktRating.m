@@ -19,4 +19,9 @@
     return self.simpleRating;
 }
 
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+{
+    return [self valueForKey:key];
+}
+
 @end
