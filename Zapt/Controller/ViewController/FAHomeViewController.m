@@ -115,6 +115,12 @@
                     [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
                     [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
                     [self.arrayDataSource recalculateWeight];
+                    
+                    if (!content.posterImage) {
+                        [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
+                            [self.arrayDataSource reloadRowsWithObject:content.cacheKey];
+                        } onError:nil];
+                    }
                 }
             } else {
                 if (self.tableViewContainsCurrentlyWatching) {
@@ -180,6 +186,8 @@
             FAContentTableViewCell *contentCell = cell;
             contentCell.twoLineMode = YES;
             [contentCell displayContent:content];
+            
+            contentCell.image = content.posterImage;
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"showProgress"]) {

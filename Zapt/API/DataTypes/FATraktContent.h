@@ -64,6 +64,9 @@ typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
 
 @property (retain) FATraktImageList *images;
 @property (readonly) NSString *widescreenImageURL;
+@property (readonly) NSString *posterImageURL;
+@property (readonly) UIImage *widescreenImage;
+@property (readonly) UIImage *posterImage;
 
 @property (readonly) NSString *slug;
 @property (readonly) NSString *urlIdentifier;

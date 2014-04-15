@@ -65,7 +65,6 @@
         
         return detailString;
     } else if ([content isKindOfClass:[FATraktShow class]]) {
-        // TODO: Crashbug here?
         FATraktShow *show = (FATraktShow *)content;
         
         NSDateComponents *components;
@@ -151,9 +150,14 @@
         FATraktShow *show = (FATraktShow *)content;
         self.showProgress = (CGFloat)show.progress.percentage.unsignedIntegerValue / 100;
         self.progressView.progress = self.showProgress;
+    } else {
+        self.showProgress = 0;
+        self.progressView.progress = 0;
     }
     
     self.displayedContent = content;
+    
+    self.needsRemoveAllConstraints = YES;
     
     [self setNeedsLayout];
 }
@@ -312,7 +316,7 @@
             }
         }
         
-        if (self.showsProgressForShows) {
+        if (self.showsProgressForShows && self.displayedContent.contentType == FATraktContentTypeShows) {
             self.separatorInset = UIEdgeInsetsZero;
             
             CGRect frame = CGRectMake(0, self.bounds.size.height - 2, self.bounds.size.width, 2);

@@ -71,7 +71,54 @@
 
 - (NSString *)widescreenImageURL
 {
-    return self.images.fanart;
+    if (self.images.fanart) {
+        return self.images.fanart;
+    }
+    
+    if (self.contentType == FATraktContentTypeEpisodes) {
+        return ((FATraktEpisode *)self).show.images.fanart;
+    }
+    
+    return nil;
+}
+
+- (NSString *)posterImageURL
+{
+    if (self.images.poster) {
+        return self.images.poster;
+    }
+    
+    if (self.contentType == FATraktContentTypeEpisodes) {
+        return ((FATraktEpisode *)self).show.images.poster;
+    }
+    
+    return nil;
+}
+
+- (UIImage *)widescreenImage
+{
+    if (self.images.fanartImage) {
+        return self.images.fanartImage;
+    }
+    
+    if (self.contentType == FATraktContentTypeEpisodes) {
+        return ((FATraktEpisode *)self).show.images.fanartImage;
+    }
+    
+    return nil;
+}
+
+- (UIImage *)posterImage
+{
+    if (self.images.posterImage) {
+        return self.images.posterImage;
+    }
+    
+    if (self.contentType == FATraktContentTypeEpisodes) {
+        return ((FATraktEpisode *)self).show.images.posterImage;
+    }
+    
+    return nil;
 }
 
 - (BOOL)isWatched
