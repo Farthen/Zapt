@@ -124,13 +124,14 @@
 - (void)handleConnectionErrorResponse:(FATraktConnectionResponse *)response
 {
     if (response.responseType == FATraktConnectionResponseTypeTimeout) {
+        [self showNetworkAlertViewIfNeeded:_networkNotAvailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeServiceUnavailable) {
         [self showNetworkAlertViewIfNeeded:_serviceUnavailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeNetworkUnavailable) {
         [self showNetworkAlertViewIfNeeded:_networkNotAvailableAlert];
     } else if (response.responseType == FATraktConnectionResponseTypeInvalidCredentials) {
         [self handleInvalidCredentials];
-    } else {
+    } else if (response.responseType != FATraktConnectionResponseTypeNotFound) {
         [self showNetworkAlertViewIfNeeded:_serviceUnavailableAlert];
     }
 }

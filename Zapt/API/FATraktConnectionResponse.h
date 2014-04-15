@@ -20,8 +20,9 @@ typedef enum {
     FATraktConnectionResponseTypeCancelled = (1 << 7),
     FATraktConnectionResponseTypeInvalidRequest = (1 << 8),
     FATraktConnectionResponseTypeInvalidData = (1 << 9),
+    FATraktConnectionResponseTypeNotFound = (1 << 10),
     
-    FATraktConnectionResponseTypeAnyError = FATraktConnectionResponseTypeInvalidCredentials | FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable | FATraktConnectionResponseTypeTimeout | FATraktConnectionResponseTypeNoData | FATraktConnectionResponseTypeInvalidRequest | FATraktConnectionResponseTypeInvalidData,
+    FATraktConnectionResponseTypeAnyError = FATraktConnectionResponseTypeInvalidCredentials | FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable | FATraktConnectionResponseTypeTimeout | FATraktConnectionResponseTypeNoData | FATraktConnectionResponseTypeInvalidRequest | FATraktConnectionResponseTypeInvalidData | FATraktConnectionResponseTypeNotFound,
     
     FATraktConnectionResponseTypeResourceError = FATraktConnectionResponseTypeNetworkUnavailable | FATraktConnectionResponseTypeServiceUnavailable
 } FATraktConnectionResponseType;

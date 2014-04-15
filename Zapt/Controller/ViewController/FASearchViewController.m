@@ -19,16 +19,20 @@
 
 static CGPoint _scrollPositions[3];
 
-@interface FASearchViewController () {
+@interface FASearchViewController ()
+
+@property (nonatomic) FATraktContentType searchScope;
+
+@end
+
+@implementation FASearchViewController {
     FASearchData *_searchData;
     FATraktContentType _searchScope;
     UITableView *_resultsTableView;
     NSMutableArray *_searchRequests;
 }
 
-@end
-
-@implementation FASearchViewController
+@synthesize searchScope = _searchScope;
 
 - (void)viewDidLoad
 {
@@ -144,6 +148,39 @@ static CGPoint _scrollPositions[3];
     }
 }
 
+- (void)loadImagesIfNeeded
+{
+    @synchronized(self) {
+        NSArray *visibleCells = self.searchDisplayController.searchResultsTableView.visibleCells;
+        
+        [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            FAContentTableViewCell *cell = obj;
+            FATraktContent *content = cell.displayedContent;
+            FASearchData *oldSearchData = self.searchData;
+            
+            NSString *posterURL = content.images.poster;
+            UIImage *posterImage = content.images.posterImage;
+            
+            if (!posterURL && content.contentType == FATraktContentTypeEpisodes) {
+                posterURL = ((FATraktEpisode *)content).show.images.poster;
+                posterImage = ((FATraktEpisode *)content).show.images.posterImage;
+            }
+            
+            if (!posterImage) {
+                [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
+                    @synchronized(self) {
+                        if (_searchScope == content.contentType && oldSearchData == self.searchData) {
+                            [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                        }
+                    }
+                } onError:nil];
+            } else if (!cell.image) {
+                cell.image = posterImage;
+            }
+        }];
+    }
+}
+
 - (void)searchForString:(NSString *)searchString
 {
     DDLogViewController(@"Searching for string: %@", searchString);
@@ -152,17 +189,22 @@ static CGPoint _scrollPositions[3];
     
     [_resultsTableView reloadData];
     
+    __weak FASearchViewController *weakSelf = self;
+    
     FATraktRequest *requestMovies = [[FATrakt sharedInstance] searchMovies:searchString callback:^(FATraktSearchResult *result) {
         searchData.movies = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
+        [weakSelf loadImagesIfNeeded];
     } onError:nil];
     FATraktRequest *requestShows = [[FATrakt sharedInstance] searchShows:searchString callback:^(FATraktSearchResult *result) {
         searchData.shows = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
+        [weakSelf loadImagesIfNeeded];
     } onError:nil];
     FATraktRequest *requestEpisodes = [[FATrakt sharedInstance] searchEpisodes:searchString callback:^(FATraktSearchResult *result) {
         searchData.episodes = result.results;
         [self.searchDisplayController.searchResultsTableView reloadData];
+        [weakSelf loadImagesIfNeeded];
     } onError:nil];
     
     [self removeFinishedRequestsFromRequestArray];
@@ -190,6 +232,7 @@ static CGPoint _scrollPositions[3];
         _searchScope = (unsigned int)searchScope;
         [controller.searchResultsTableView setContentOffset:_scrollPositions[searchScope] animated:NO];
         [controller.searchResultsTableView flashScrollIndicators];
+        [self loadImagesIfNeeded];
         
         return YES;
     }
@@ -241,6 +284,11 @@ static CGPoint _scrollPositions[3];
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self loadImagesIfNeeded];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [FAContentTableViewCell cellHeight];
@@ -256,18 +304,24 @@ static CGPoint _scrollPositions[3];
         cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
     }
     
+    UIImage *image = nil;
+    
     if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
+        image = movie.images.posterImage;
         [cell displayContent:movie];
     } else if (_searchScope == FATraktContentTypeShows) {
-        // TODO: Crashbug here
         FATraktShow *show = [self.searchData.shows objectAtIndex:(NSUInteger)indexPath.row];
+        image = show.images.posterImage;
         [cell displayContent:show];
     } else if (_searchScope == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
+        image = episode.show.images.posterImage;
         [cell displayContent:episode];
     }
     
+    cell.shouldDisplayImage = YES;
+    cell.image = image;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

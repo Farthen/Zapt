@@ -31,8 +31,6 @@
 @property NSArray *showsWithProgress;
 
 @property (nonatomic) BOOL initialDataFetchDone;
-
-@property (nonatomic) NSMutableDictionary *showImages;
 @end
 
 @implementation FAHomeViewController
@@ -134,12 +132,9 @@
     [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
         self.showsWithProgress = result;
         [self displayProgressData];
-            
-        self.showImages = [[NSMutableDictionary alloc] init];
         
         for (FATraktShow *show in self.showsWithProgress) {
             [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
-                [self.showImages setObject:image forKey:show.cacheKey];
                 [self.arrayDataSource reloadRowsWithObject:show.cacheKey];
             } onError:nil];
         }
@@ -194,7 +189,7 @@
             contentCell.twoLineMode = YES;
             [contentCell displayContent:show];
             
-            UIImage *image = [weakSelf.showImages objectForKey:showCacheKey];
+            UIImage *image = show.images.posterImage;
             
             contentCell.shouldDisplayImage = YES;
             contentCell.image = image;

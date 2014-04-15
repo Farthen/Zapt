@@ -7,6 +7,7 @@
 //
 
 #import "FATraktImageList.h"
+#import "FATraktCache.h"
 
 @implementation FATraktImageList
 
@@ -31,6 +32,87 @@
     }
     
     return [NSString stringWithFormat:@"<FATraktImageList %p with images: %@>", self, images.description];
+}
+
+- (UIImage *)posterImage
+{
+    TMCache *cache = [FATraktCache sharedInstance].images;
+    NSData *imageData = nil;
+    
+    if (self.poster) {
+        imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@""]];
+        
+        if (!imageData) {
+            imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@"-300"]];
+        }
+        
+        if (!imageData) {
+            imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@"-138"]];
+        }
+    }
+    
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    
+    return nil;
+}
+
+- (UIImage *)fanartImage
+{
+    TMCache *cache = [FATraktCache sharedInstance].images;
+    NSData *imageData = nil;
+    
+    if (self.fanart) {
+        imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@""]];
+        
+        if (!imageData) {
+            imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@"-940"]];
+        }
+        
+        if (!imageData) {
+            imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@"-218"]];
+        }
+    }
+    
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    
+    return nil;
+}
+
+- (UIImage *)bannerImage
+{
+    TMCache *cache = [FATraktCache sharedInstance].images;
+    NSData *imageData = nil;
+    
+    if (self.banner) {
+        imageData = [cache objectForKey:[self.banner stringByAppendingFilenameSuffix:@""]];
+    }
+    
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    
+    return nil;
+}
+
+- (UIImage *)screenImage
+{
+    TMCache *cache = [FATraktCache sharedInstance].images;
+    NSData *imageData = nil;
+    
+    if (self.screen) {
+        imageData = [cache objectForKey:[self.screen stringByAppendingFilenameSuffix:@""]];
+    }
+    
+    if (imageData) {
+        return [UIImage imageWithData:imageData];
+    }
+    
+    
+    return nil;
 }
 
 @end

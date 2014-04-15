@@ -47,6 +47,7 @@
 #import "NSString+Base64Encode.h"
 #import "NSString+StringByAppendingSuffixToFilename.h"
 #import "NSString+UUIDString.h"
+#import "NSString+ContainsSubstring.h"
 
 // NSArray
 #import "NSArray+Sorting.h"

@@ -18,6 +18,8 @@
 @property FAHorizontalProgressView *progressView;
 @property CGFloat showProgress;
 
+@property (nonatomic) FATraktContent *displayedContent;
+
 @property BOOL needsRemoveAllConstraints;
 @end
 
@@ -151,6 +153,8 @@
         self.progressView.progress = self.showProgress;
     }
     
+    self.displayedContent = content;
+    
     [self setNeedsLayout];
 }
 
@@ -161,8 +165,13 @@
     CGFloat widthMargin = self.class.widthMargin;
     CGFloat imageWidthMargin = widthMargin + 42;
     
-    if (self.shouldDisplayImage && !self.image) {
-        widthMargin = imageWidthMargin;
+    if (self.shouldDisplayImage) {
+        self.separatorInset = UIEdgeInsetsZero;
+        
+        if (!self.image) {
+            widthMargin = imageWidthMargin;
+
+        }
     }
     
     //self.textLabel.font = [UIFont boldSystemFontOfSize:18];
@@ -237,10 +246,10 @@
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
             
-            CGFloat widthMultiplier = self.image.size.width / self.image.size.height;
-            CGFloat width = self.contentView.bounds.size.height * widthMultiplier;
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:42]];
             
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
+            self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            self.imageView.clipsToBounds = YES;
         }
         
         if ([self.textLabel isDescendantOfView:self.contentView]) {
@@ -291,7 +300,14 @@
                 // watwatwat abandon ship (it's sad but it actually works)
                 // More thorough explanation: The text labels seem to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
                 [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+                
+                if (self.image) {
+                    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+                } else {
+                    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+                }
+
+                
                 [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
             }
         }
@@ -313,6 +329,8 @@
             self.progressView.progress = self.showProgress;
             
             [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:2]];
+            
+            
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
             [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];

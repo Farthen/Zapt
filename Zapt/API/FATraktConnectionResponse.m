@@ -49,6 +49,8 @@
             connectionResponse.responseType = FATraktConnectionResponseTypeSuccess;
         } else if (response.statusCode == 401) {
             connectionResponse.responseType = FATraktConnectionResponseTypeInvalidCredentials;
+        } else if (response.statusCode == 404) {
+            connectionResponse.responseType = FATraktConnectionResponseTypeNotFound;
         } else if (response.statusCode == 0) {
             // TODO: find out what happens when request is cancelled on purpose
             connectionResponse.responseType = FATraktConnectionResponseTypeNetworkUnavailable;

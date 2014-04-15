@@ -15,4 +15,9 @@
 @property (retain) NSString *banner;
 @property (retain) NSString *screen;
 
+@property (readonly) UIImage *posterImage;
+@property (readonly) UIImage *fanartImage;
+@property (readonly) UIImage *bannerImage;
+@property (readonly) UIImage *screenImage;
+
 @end

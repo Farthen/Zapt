@@ -20,6 +20,7 @@
 
 @property NSArray *showData;
 @property NSArray *movieData;
+
 @end
 
 @implementation FARecommendationsListViewController
@@ -57,12 +58,18 @@
         self.arrayDelegate.delegate = self;
     }
     
+    
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
     self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         
+        FATraktContent *content = [FATraktContent objectWithCacheKey:key];
+        
         FAContentTableViewCell *contentCell = cell;
         contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        [contentCell displayContent:[FATraktContent objectWithCacheKey:key]];
+        [contentCell displayContent:content];
+        
+        contentCell.shouldDisplayImage = YES;
+        contentCell.image = content.images.posterImage;
     };
 }
 
@@ -149,34 +156,40 @@
             
             self.showData = recommendations;
             
-            [self performBlock:^{
-                [self.weightedDataSource createSectionForKey:@"show-recommendations" withWeight:0 hidden:NO];
+            [self.weightedDataSource createSectionForKey:@"show-recommendations" withWeight:0 hidden:NO];
                 
-                for (NSUInteger i = 0; i < self.showData.count; i++) {
-                    
-                    FATraktContent *content = self.showData[i];
-                    [self.weightedDataSource insertRow:content.cacheKey inSection:@"show-recommendations" withWeight:i];
-                }
+            for (NSUInteger i = 0; i < self.showData.count; i++) {
+                FATraktContent *content = self.showData[i];
+                [self.weightedDataSource insertRow:content.cacheKey inSection:@"show-recommendations" withWeight:i];
+            }
                 
-                [self.weightedDataSource recalculateWeight];
-            } afterDelay:0];
-        } onError:nil];
+            [self.weightedDataSource recalculateWeight];
+            
+            for (FATraktContent *content in self.showData) {
+                [[FATrakt sharedInstance] loadImageFromURL:content.images.poster withWidth:42 callback:^(UIImage *image) {
+                    [self.weightedDataSource reloadRowsWithObject:content.cacheKey];
+                } onError:nil];
+            }
+         } onError:nil];
         
         [[FATrakt sharedInstance] recommendationsForContentType:FATraktContentTypeMovies genre:nil startYear:0 endYear:0 hideCollected:YES hideWatchlisted:YES callback:^(NSArray *recommendations) {
             
             self.movieData = recommendations;
             
-            [self performBlock:^{
-                [self.weightedDataSource createSectionForKey:@"movie-recommendations" withWeight:0 hidden:YES];
+            [self.weightedDataSource createSectionForKey:@"movie-recommendations" withWeight:0 hidden:YES];
+
+            for (NSUInteger i = 0; i < self.movieData.count; i++) {
+                FATraktContent *content = self.movieData[i];
+                [self.weightedDataSource insertRow:content.cacheKey inSection:@"movie-recommendations" withWeight:i];
+            }
                 
-                for (NSUInteger i = 0; i < self.movieData.count; i++) {
-                    
-                    FATraktContent *content = self.movieData[i];
-                    [self.weightedDataSource insertRow:content.cacheKey inSection:@"movie-recommendations" withWeight:i];
-                }
-                
-                [self.weightedDataSource recalculateWeight];
-            } afterDelay:0];
+            [self.weightedDataSource recalculateWeight];
+            
+            for (FATraktContent *content in self.movieData) {
+                [[FATrakt sharedInstance] loadImageFromURL:content.images.poster withWidth:42 callback:^(UIImage *image) {
+                    [self.weightedDataSource reloadRowsWithObject:content.cacheKey];
+                } onError:nil];
+            }
             
         } onError:nil];
     }];

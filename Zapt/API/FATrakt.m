@@ -318,7 +318,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *suffix = @"";
     
     if (width > 0) {
-        if ([url hasPrefix:@"http://trakt.us/images/poster"]) {
+        if ([url containsString:@"/images/poster"]) {
             DDLogController(@"Loading image of type poster");
             
             if (width <= 138) {
@@ -326,7 +326,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             } else if (width <= 300) {
                 suffix = @"-300";
             }
-        } else if ([url hasPrefix:@"http://trakt.us/images/fanart"] && ![url isEqualToString:@"http://trakt.us/images/fanart-summary.jpg"]) {
+        } else if ([url containsString:@"/images/fanart"] && ![url containsString:@"/images/fanart-summary.jpg"]) {
             DDLogController(@"Loading image of type fanart");
             
             if (width <= 218) {
@@ -338,7 +338,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             suffix = @"";
         }
         
-        if (![url isEqualToString:@"http://trakt.us/images/poster-small.jpg"]) {
+        if ([url containsString:@"/images/poster-"]) {
+            return nil;
         }
     }
     

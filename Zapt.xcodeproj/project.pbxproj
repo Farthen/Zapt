@@ -152,6 +152,7 @@
 		F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
 		F3CE70B018FC71FA0003679D /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
 		F3CE70B318FCB1120003679D /* FATraktRating.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B218FCB1120003679D /* FATraktRating.m */; };
+		F3CE70B618FCE4780003679D /* NSString+ContainsSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
@@ -482,6 +483,8 @@
 		F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSRunLoop+PerformBlock.m"; sourceTree = "<group>"; };
 		F3CE70B118FCB1120003679D /* FATraktRating.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktRating.h; sourceTree = "<group>"; };
 		F3CE70B218FCB1120003679D /* FATraktRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktRating.m; sourceTree = "<group>"; };
+		F3CE70B418FCE4780003679D /* NSString+ContainsSubstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ContainsSubstring.h"; sourceTree = "<group>"; };
+		F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ContainsSubstring.m"; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -718,6 +721,8 @@
 				F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */,
 				F37E487B184D647C00D66A32 /* NSString+UUIDString.h */,
 				F37E487C184D647C00D66A32 /* NSString+UUIDString.m */,
+				F3CE70B418FCE4780003679D /* NSString+ContainsSubstring.h */,
+				F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */,
 			);
 			name = NSString;
 			sourceTree = "<group>";
@@ -1622,6 +1627,7 @@
 				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */,
+				F3CE70B618FCE4780003679D /* NSString+ContainsSubstring.m in Sources */,
 				F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */,
 				F3B9C94E17FA88B5004264E6 /* FACircularProgressView.m in Sources */,
 				F3DEDC1E185EE6FC006F5833 /* FATextViewController.m in Sources */,
