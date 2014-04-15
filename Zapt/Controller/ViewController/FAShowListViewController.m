@@ -92,7 +92,7 @@
         self.hideCompletedButton.title = NSLocalizedString(@"Show All", nil);
         
         [self.weightedDataSource filterRowsUsingBlock:^BOOL(id key, BOOL *stop) {
-            FATraktShow *show = (FATraktShow *)key;
+            FATraktShow *show = [FATraktShow objectWithCacheKey:key];
             
             if (show.progress && [show.progress.left unsignedIntegerValue] == 0) {
                 return NO;
@@ -175,6 +175,8 @@
 - (void)reloadData:(BOOL)animated
 {
     [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
+        
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             self.showsWithProgress = result;
             [self displayProgressData];

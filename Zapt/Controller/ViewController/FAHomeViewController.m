@@ -132,22 +132,19 @@
     } onError:nil];
     
     [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.showsWithProgress = result;
-            [self displayProgressData];
+        self.showsWithProgress = result;
+        [self displayProgressData];
             
-            self.showImages = [[NSMutableDictionary alloc] init];
+        self.showImages = [[NSMutableDictionary alloc] init];
             
-            for (FATraktShow *show in result) {
-                [[FATrakt sharedInstance] loadImageFromURL:show.images.poster callback:^(UIImage *image) {
-                    [self.showImages setObject:image forKey:show.cacheKey];
-                } onError:nil];
-                
-                [self.arrayDataSource reloadRowsWithObject:show];
-            }
+        for (FATraktShow *show in result) {
+            [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
+                [self.showImages setObject:image forKey:show.cacheKey];
+                [self.arrayDataSource reloadRowsWithObject:show.cacheKey];
+            } onError:nil];
+        }
             
-            if (animated) [self.refreshControlWithActivity finishActivity];
-        });
+        if (animated) [self.refreshControlWithActivity finishActivity];
     } onError:nil];
 }
 
@@ -196,6 +193,10 @@
             contentCell.showsProgressForShows = YES;
             contentCell.twoLineMode = YES;
             [contentCell displayContent:show];
+            
+            UIImage *image = [weakSelf.showImages objectForKey:showCacheKey];
+            
+            contentCell.image = image;
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"user"]) {

@@ -17,6 +17,8 @@
 @property BOOL addedConstraints;
 @property FAHorizontalProgressView *progressView;
 @property CGFloat showProgress;
+
+@property BOOL needsRemoveAllConstraints;
 @end
 
 @implementation FAContentTableViewCell {
@@ -28,6 +30,9 @@
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     
     if (self) {
+        
+        self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        
         [self layoutSubviews];
     }
     
@@ -131,6 +136,11 @@
 
 - (void)displayContent:(FATraktContent *)content
 {
+    [self displayContent:content withImage:nil];
+}
+
+- (void)displayContent:(FATraktContent *)content withImage:(UIImage *)image
+{
     self.textLabel.text = [self titleForContent:content];
     self.leftAuxiliaryTextLabel.text = [self auxiliaryLabelStringForContent:content];
     self.detailTextLabel.text = [self detailLabelStringForContent:content];
@@ -186,6 +196,13 @@
         self.detailTextLabel.hidden = NO;
     }
     
+    if (self.needsRemoveAllConstraints) {
+        NSArray *constraints = self.contentView.constraints;
+        [self.contentView removeConstraints:constraints];
+        self.addedConstraints = NO;
+        self.needsRemoveAllConstraints = NO;
+    }
+    
     if (!self.addedConstraints) {
         // Create constraints for the title label:
         
@@ -210,14 +227,30 @@
             bottomSpacing = offset / 2;
         }
         
+        if (self.image) {
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+            
+            CGFloat widthMultiplier = self.image.size.width / self.image.size.height;
+            CGFloat width = self.contentView.bounds.size.height * widthMultiplier;
+            
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:width]];
+        }
+        
         if ([self.textLabel isDescendantOfView:self.contentView]) {
-            // watwatwat abandon ship (it's sad but it actually works)
-            // More thorough explanation: The text labels seem to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
+            // The text labels seem to be removed when the text is nil.
             self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin + topSpacing]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+            
+            if (self.image) {
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+            } else {
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+            }
+            
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
         }
         
@@ -232,7 +265,12 @@
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin]];
         }
         
-        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+        if (self.image) {
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+        } else {
+            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+        }
+        
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
         
         if (self.twoLineMode) {
@@ -284,6 +322,19 @@
     
     [self.contentView setNeedsUpdateConstraints];
     [self.contentView setNeedsLayout];
+}
+
+- (void)setImage:(UIImage *)image
+{
+    self.imageView.image = image;
+    
+    self.needsRemoveAllConstraints = YES;
+    [self setNeedsLayout];
+}
+
+- (UIImage *)image
+{
+    return self.imageView.image;
 }
 
 - (BOOL)showsProgressForShows

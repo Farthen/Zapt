@@ -19,6 +19,7 @@
 
 
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
+@property (nonatomic) UIImage *image;
 
 - (void)displayContent:(FATraktContent *)content;
 
