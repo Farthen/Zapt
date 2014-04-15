@@ -1257,7 +1257,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:nil];
 }
 
-- (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRatingScore)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *contentType = [FATrakt nameForContentType:content.contentType withPlural:NO];
     NSString *api = [NSString stringWithFormat:@"rate/%@", contentType];
@@ -1280,12 +1280,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     [payload addEntriesFromDictionary:@{ @"rating": ratingString }];
     
-    FATraktRating oldRating = content.rating;
+    FATraktRating *oldRating = content.rating;
     
     if (simple) {
-        content.rating = rating;
+        oldRating.simpleRating = rating;
     } else {
-        content.rating_advanced = rating;
+        oldRating.advancedRating = rating;
     }
     
     [content commitToCache];

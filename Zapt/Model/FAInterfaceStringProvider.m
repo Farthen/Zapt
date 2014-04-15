@@ -88,7 +88,7 @@ static NSArray *_ratingNames;
     return name;
 }
 
-+ (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized
++ (NSString *)nameForRatingScore:(FATraktRatingScore)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized
 {
     NSString *name;
     

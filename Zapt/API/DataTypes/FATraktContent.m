@@ -14,6 +14,8 @@
 #import "FATraktShowProgress.h"
 #import "Misc.h"
 
+#import "FATraktCache.h"
+
 @implementation FATraktContent
 
 - (id)init
@@ -22,8 +24,7 @@
     
     if (self) {
         self.detailLevel = FATraktDetailLevelDefault;
-        self.rating = FATraktRatingUndefined;
-        self.rating_advanced = FATraktRatingUndefined;
+        self.rating = nil;
     }
     
     return self;
@@ -61,6 +62,11 @@
     } else {
         return self;
     }
+}
+
++ (TMCache *)backingCache
+{
+    return [FATraktCache sharedInstance].content;
 }
 
 - (NSString *)widescreenImageURL
@@ -113,16 +119,22 @@
         [self setValue:imageList forKey:key];
     } else if ([key isEqualToString:@"rating"]) {
         if ([object isKindOfClass:[NSString class]]) {
+            
             if ([object isEqualToString:@"love"]) {
-                self.rating = FATraktRatingLove;
+                if (!self.rating) self.rating = [[FATraktRating alloc] init];
+                self.rating.simpleRating = FATraktRatingLove;
             } else if ([object isEqualToString:@"hate"]) {
-                self.rating = FATraktRatingHate;
+                if (!self.rating) self.rating = [[FATraktRating alloc] init];
+                self.rating.simpleRating = FATraktRatingHate;
             }
         }
     } else if ([key isEqualToString:@"rating_advanced"]) {
         if ([object isKindOfClass:[NSNumber class]]) {
             if ([object integerValue] > 0 && [object integerValue] <= 10) {
-                self.rating_advanced = [object integerValue];
+                if (!self.rating) {
+                    self.rating = [[FATraktRating alloc] init];
+                    self.rating.advancedRating = [object integerValue];
+                }
             }
         }
     } else {

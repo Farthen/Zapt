@@ -13,7 +13,7 @@
 
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized;
 + (NSString *)nameForContentType:(FATraktContentType)type withPlural:(BOOL)plural capitalized:(BOOL)capitalized longVersion:(BOOL)longVersion;
-+ (NSString *)nameForRating:(FATraktRating)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized;
++ (NSString *)nameForRatingScore:(FATraktRatingScore)rating ratingsMode:(FATraktRatingsMode)ratingsMode capitalized:(BOOL)capitalized;
 
 + (NSString *)nameForSeason:(FATraktSeason *)season capitalized:(BOOL)capitalized;
 + (NSString *)nameForEpisode:(FATraktEpisode *)episode long:(BOOL)longName capitalized:(BOOL)capitalized;

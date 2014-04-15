@@ -11,6 +11,8 @@
 
 @interface FATraktCachedDatatype : FATraktDatatype <FACacheableItem>
 
++ (instancetype)objectWithCacheKey:(NSString *)cacheKey;
+
 @property BOOL shouldBeCached;
 - (instancetype)cachedVersion;
 

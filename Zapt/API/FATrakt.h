@@ -13,6 +13,7 @@
 #import "FATraktRequest.h"
 
 #import "FATraktDatatype.h"
+#import "FATraktCachedDatatype.h"
 #import "FATraktContent.h"
 #import "FATraktWatchableBaseItem.h"
 #import "FATraktMovie.h"
@@ -31,6 +32,7 @@
 #import "FATraktLastActivity.h"
 #import "FATraktCheckin.h"
 #import "FATraktCheckinTimestamps.h"
+#import "FATraktRating.h"
 
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
@@ -104,7 +106,7 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error;
 
 #pragma mark content actions
-- (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRating)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRatingScore)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)setContent:(id)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckin *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)cancelCheckInForContentType:(FATraktContentType)contentType callback:(void (^)(FATraktStatus))callback;

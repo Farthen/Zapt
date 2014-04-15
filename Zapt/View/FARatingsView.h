@@ -19,8 +19,8 @@
 @interface FARatingsView : UIView
 
 @property id <FARatingsViewDelegate> delegate;
-@property BOOL simpleRating;
-@property FATraktRating rating;
+@property BOOL doSimpleRating;
+@property FATraktRating *rating;
 
 - (void)setColorsWithImage:(UIImage *)sourceImage;
 

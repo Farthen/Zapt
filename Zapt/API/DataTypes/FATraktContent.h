@@ -9,6 +9,7 @@
 #import "FATraktDatatype.h"
 #import "FATraktCachedDatatype.h"
 #import "FACacheableItem.h"
+#import "FATraktRating.h"
 @class FATraktImageList;
 
 typedef NS_ENUM(NSInteger, FATraktContentType) {
@@ -30,13 +31,6 @@ typedef NS_ENUM(NSInteger, FATraktDetailLevel) {
     FATraktDetailLevelMinimal = -1,
     FATraktDetailLevelDefault = 0,
     FATraktDetailLevelExtended = 1,
-};
-
-typedef NS_ENUM(NSUInteger, FATraktRating) {
-    FATraktRatingUndefined = 0,
-    FATraktRatingHate = 1,
-    // chose 2-9 omitted
-    FATraktRatingLove = 10
 };
 
 typedef NS_ENUM(NSUInteger, FATraktRatingsMode) {
@@ -85,8 +79,7 @@ typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
 @property (assign) FATraktWatchingType watchingType;
 
 @property NSDictionary *ratings;
-@property FATraktRating rating;
-@property FATraktRating rating_advanced;
+@property FATraktRating *rating;
 
 @property (assign) FATraktDetailLevel detailLevel;
 

@@ -49,11 +49,11 @@
             FATraktRatingsMode mode = self.accountSettings.viewing.ratings_mode;
             
             if (mode == FATraktRatingsModeSimple) {
-                [self.ratingsView setSimpleRating:YES];
+                [self.ratingsView setDoSimpleRating:YES];
                 [self.ratingsView setRating:content.rating];
             } else {
-                [self.ratingsView setSimpleRating:NO];
-                [self.ratingsView setRating:content.rating_advanced];
+                [self.ratingsView setDoSimpleRating:NO];
+                [self.ratingsView setRating:content.rating];
             }
         } onError:nil];
     }
@@ -63,14 +63,14 @@
 
 - (void)ratingsViewDoneButtonPressed:(id)sender
 {
-    FATraktRating rating = self.ratingsView.rating;
+    FATraktRating *rating = self.ratingsView.rating;
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
     if (self.accountSettings.viewing.ratings_mode == FATraktRatingsModeSimple) {
-        [[FATrakt sharedInstance] rate:self.currentContent simple:YES rating:rating callback:^{} onError:nil];
+        [[FATrakt sharedInstance] rate:self.currentContent simple:YES rating:rating.simpleRating callback:^{} onError:nil];
     } else {
-        [[FATrakt sharedInstance] rate:self.currentContent simple:NO rating:rating callback:^{} onError:nil];
+        [[FATrakt sharedInstance] rate:self.currentContent simple:NO rating:rating.advancedRating callback:^{} onError:nil];
     }
 }
 

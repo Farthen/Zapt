@@ -28,11 +28,11 @@
 @property NSArray *ratingNames;
 
 @property CGPoint initialTouchLocation;
-@property FATraktRating initialSegment;
+@property FATraktRatingScore initialSegment;
 @end
 
 @implementation FARatingsView
-@synthesize simpleRating = _simpleRating;
+@synthesize doSimpleRating = _doSimpleRating;
 @synthesize rating = _rating;
 
 - (id)initWithFrame:(CGRect)frame
@@ -41,7 +41,7 @@
     
     if (self) {
         // Initialization code
-        self.simpleRating = YES;
+        self.doSimpleRating = YES;
         self.dominantColors = @[[UIColor colorWithRed:1.0 green:0 blue:0 alpha:1],
                                 [UIColor colorWithRed:0.9 green:0 blue:0 alpha:1],
                                 [UIColor colorWithRed:0.8 green:0 blue:0 alpha:1],
@@ -84,7 +84,7 @@
     self.navigationBar.topItem.rightBarButtonItem.tintColor = [UIColor whiteColor];
     self.navigationBar.topItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
     
-    if (self.simpleRating) {
+    if (self.doSimpleRating) {
         [self.ratingControl removeFromSuperview];
         
         CGSize buttonSize;
@@ -123,10 +123,10 @@
         [self addSubview:self.likeButton];
         [self addSubview:self.hateButton];
         
-        if (self.rating == FATraktRatingLove) {
+        if (self.rating.simpleRating == FATraktRatingLove) {
             self.likeButton.backgroundColor = self.dominantColors[0];
             self.hateButton.backgroundColor = buttonColor;
-        } else if (self.rating == FATraktRatingHate) {
+        } else if (self.rating.simpleRating == FATraktRatingHate) {
             self.hateButton.backgroundColor = self.dominantColors[0];
             self.likeButton.backgroundColor = buttonColor;
         } else {
@@ -142,8 +142,8 @@
         // motivation on actually implementing this now.
         // But well *sigh* let's get this over with...
         
-        if (self.rating <= 10 && self.rating > 0) {
-            self.backgroundColor = self.dominantColors[10 - self.rating];
+        if (self.rating.advancedRating <= 10 && self.rating.advancedRating > 0) {
+            self.backgroundColor = self.dominantColors[10 - self.rating.advancedRating];
         } else {
             self.backgroundColor = [UIColor blackColor];
         }
@@ -180,18 +180,18 @@
         CGFloat ratingDescriptionY = self.ratingLabel.frame.origin.y + self.ratingLabel.frame.size.height;
         
         
-        if (self.rating == FATraktRatingUndefined) {
+        if (self.rating.advancedRating == FATraktRatingUndefined) {
             self.ratingLabel.text = NSLocalizedString(@"Not rated", nil);
             self.ratingLabel.textColor = [UIColor whiteColor];
             self.ratingDescriptionLabel.text = NSLocalizedString(@"Slide up/down to rate", nil);
             self.ratingDescriptionLabel.textColor = [UIColor grayColor];
         } else {
-            self.ratingLabel.text = [NSString stringWithFormat:@"%ld", (long)self.rating];
+            self.ratingLabel.text = [NSString stringWithFormat:@"%ld", (long)self.rating.advancedRating];
             
             self.ratingLabel.textColor = [UIColor whiteColor];
             
             self.ratingDescriptionLabel.hidden = NO;
-            self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRating:self.rating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
+            self.ratingDescriptionLabel.text = [FAInterfaceStringProvider nameForRatingScore:self.rating.advancedRating ratingsMode:FATraktRatingsModeAdvanced capitalized:YES];
             self.ratingDescriptionLabel.textColor = self.ratingLabel.textColor;
         }
         
@@ -227,7 +227,7 @@
     // Calculate the initial position
     if (touch.phase == UITouchPhaseBegan) {
         self.initialTouchLocation = [touch locationInView:self.ratingControl];
-        self.initialSegment = self.rating;
+        self.initialSegment = self.rating.advancedRating;
     }
     
     // Calculate the position in the view
@@ -249,7 +249,7 @@
     newSegment = MIN(newSegment, 10);
     newSegment = MAX(0, newSegment);
     
-    self.rating = (NSUInteger)newSegment;
+    self.rating.advancedRating = (NSUInteger)newSegment;
     [self setNeedsLayout];
     [self setNeedsDisplay];
     [self layoutIfNeeded];
@@ -257,20 +257,24 @@
 
 - (void)likeButtonPressed:(id)sender
 {
-    if (self.rating == 10) {
-        self.rating = 0;
+    if (self.rating.simpleRating == 10) {
+        self.rating.simpleRating = 0;
     } else {
-        self.rating = 10;
+        self.rating.simpleRating = 10;
     }
+    
+    [self layoutSubviews];
 }
 
 - (void)hateButtonPressed:(id)sender
 {
-    if (self.rating == 1) {
-        self.rating = 0;
+    if (self.rating.simpleRating == 1) {
+        self.rating.simpleRating = 0;
     } else {
-        self.rating = 1;
+        self.rating.simpleRating = 1;
     }
+    
+    [self layoutSubviews];
 }
 
 - (CGFloat)navigationBarHeight
@@ -278,29 +282,24 @@
     return 64;
 }
 
-- (void)setSimpleRating:(BOOL)simpleRating
+- (void)setDoSimpleRating:(BOOL)doSimpleRating
 {
-    _simpleRating = simpleRating;
+    _doSimpleRating = doSimpleRating;
     [self layoutSubviews];
 }
 
-- (BOOL)simpleRating
+- (BOOL)doSimpleRating
 {
-    return _simpleRating;
+    return _doSimpleRating;
 }
 
-- (void)setRating:(FATraktRating)rating
+- (void)setRating:(FATraktRating *)rating
 {
-    // just an extra sanity check, i hate when everything explodes
-    if (rating > 10) {
-        rating = 10;
-    }
-    
     _rating = rating;
     [self layoutSubviews];
 }
 
-- (FATraktRating)rating
+- (FATraktRating *)rating
 {
     return _rating;
 }

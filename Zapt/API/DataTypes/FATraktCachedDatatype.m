@@ -23,6 +23,11 @@
     return self;
 }
 
++ (instancetype)objectWithCacheKey:(NSString *)cacheKey
+{
+    return [[self backingCache] objectForKey:cacheKey];
+}
+
 - (BOOL)isEqual:(id)object
 {
     if ([object respondsToSelector:@selector(cacheKey)]) {

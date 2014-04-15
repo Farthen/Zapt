@@ -453,15 +453,17 @@
 - (void)displayRatingForContent:(FATraktContent *)content ratingsMode:(FATraktRatingsMode)ratingMode
 {
     if (content && [FATraktConnection sharedInstance].usernameAndPasswordValid) {
-        if (content.rating != FATraktRatingUndefined || content.rating_advanced != FATraktRatingUndefined) {
+        self.ratingsButton.enabled = YES;
+        
+        if (content.rating) {
             self.ratingsButton.enabled = YES;
             
             NSString *ratingString;
             
             if (ratingMode == FATraktRatingsModeAdvanced) {
-                ratingString = [FAInterfaceStringProvider nameForRating:content.rating_advanced ratingsMode:ratingMode capitalized:YES];
+                ratingString = [FAInterfaceStringProvider nameForRatingScore:content.rating.advancedRating ratingsMode:ratingMode capitalized:YES];
             } else {
-                ratingString = [FAInterfaceStringProvider nameForRating:content.rating ratingsMode:ratingMode capitalized:YES];
+                ratingString = [FAInterfaceStringProvider nameForRatingScore:content.rating.simpleRating ratingsMode:ratingMode capitalized:YES];
             }
             
             self.ratingsButton.title = [NSString stringWithFormat:@"Rating: %@", ratingString];

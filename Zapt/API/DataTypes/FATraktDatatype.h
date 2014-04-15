@@ -15,7 +15,7 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
     FATraktStatusFailed = 2,
 };
 
-@interface FATraktDatatype : NSObject <NSCoding, NSCopying> {
+@interface FATraktDatatype : NSObject <NSCoding> {
     NSDictionary *_originDict;
 }
 
