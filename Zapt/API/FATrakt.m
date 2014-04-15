@@ -33,6 +33,14 @@ NSString *const FATraktActivityNotificationLists = @"FATraktActivityNotification
 NSString *const FATraktActivityNotificationCheckin = @"FATraktActivityNotificationCheckin";
 NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificationDefault";
 
+#define FATraktCallbackCall(x) \
+    if ([NSThread isMainThread]) { \
+        x; \
+    } else \
+    dispatch_async(dispatch_get_main_queue(), ^{ \
+        x; \
+    });
+
 @interface FATrakt ()
 @property FATraktConnection *connection;
 
@@ -184,13 +192,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         self.fetchingLastActivity = YES;
         [self loadLastActivityCallback:^{
             self.fetchingLastActivity = NO;
-            callback();
+            FATraktCallbackCall(callback());
         } onError:^(FATraktConnectionResponse *response) {
             self.fetchingLastActivity = NO;
-            error(response);
+            FATraktCallbackCall(error(response));;
         }];
     } else {
-        callback();
+        FATraktCallbackCall(callback());;
     }
 }
 
@@ -281,7 +289,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktAccountSettings *cachedSettings = [[[FATraktAccountSettings alloc] init] cachedVersion];
     
     if (cachedSettings) {
-        callback(cachedSettings);
+        FATraktCallbackCall(callback(cachedSettings));
     }
     
     return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
@@ -291,10 +299,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         if (accountSettings) {
             [cachedSettings removeFromCache];
             [accountSettings commitToCache];
-            callback(accountSettings);
+            FATraktCallbackCall(callback(accountSettings));
         } else {
             if (error) {
-                error([FATraktConnectionResponse invalidDataResponse]);
+                FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
             }
         }
     } onError:error];
@@ -338,7 +346,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
     if ([_cache.images objectForKey:imageURL]) {
-        callback([UIImage imageWithData:[_cache.images objectForKey:imageURL]]);
+        FATraktCallbackCall(callback([UIImage imageWithData:[_cache.images objectForKey:imageURL]]));
         
         return nil;
     }
@@ -347,7 +355,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         NSData *imageData = [response rawResponseData];
         UIImage *image = [UIImage imageWithData:imageData];
         [_cache.images setObject:imageData forKey:imageURL];
-        callback(image);
+        FATraktCallbackCall(callback(image));
     } onError:error];
 }
 
@@ -362,13 +370,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             NSSet *changedActivities = [lastActivity changedPathsToActivity:self.lastActivity];
             [self.changedLastActivityKeys unionSet:changedActivities];
             self.lastActivity = lastActivity;
-            callback();
+            FATraktCallbackCall(callback());
         } else {
             self.lastActivity = nil;
             self.changedLastActivityKeys = nil;
             
             if (error) {
-                error([FATraktConnectionResponse invalidDataResponse]);
+                FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
             }
         }
     } onError:^(FATraktConnectionResponse *response) {
@@ -387,7 +395,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     if (cachedResult) {
         DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
-        callback(cachedResult);
+        FATraktCallbackCall(callback(cachedResult));
     }
     
     return [self.connection getAPI:@"search/movies.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
@@ -404,7 +412,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         searchResult.results = movies;
         [searchResult commitToCache];
-        callback(searchResult);
+        FATraktCallbackCall(callback(searchResult));
     } onError:error];
 }
 
@@ -415,7 +423,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktMovie *cachedMovie = [FATraktMovie.backingCache objectForKey:movie.cacheKey];
     
     if (cachedMovie && cachedMovie.detailLevel >= FATraktDetailLevelDefault) {
-        callback([FATraktMovie.backingCache objectForKey:movie.cacheKey]);
+        FATraktCallbackCall(callback([FATraktMovie.backingCache objectForKey:movie.cacheKey]));
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call callback twice. Make sure it can handle this.
     }
@@ -429,11 +437,11 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             
             movie.detailLevel = FATraktDetailLevelDefault;
             [movie commitToCache];
-            callback(movie);
+            FATraktCallbackCall(callback(movie));
         } onError:error];
     } else {
         if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
+            FATraktCallbackCall(error([FATraktConnectionResponse invalidRequestResponse]));
         }
         
         return nil;
@@ -466,7 +474,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         searchResult.results = shows;
         [searchResult commitToCache];
-        callback(searchResult);
+        FATraktCallbackCall(callback(searchResult));
     } onError:error];
 }
 
@@ -485,7 +493,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     if (cachedShow && cachedShow.detailLevel >= FATraktDetailLevelDefault) {
         if (detailLevel == FATraktDetailLevelExtended) {
             if (cachedShow.detailLevel == FATraktDetailLevelExtended) {
-                callback(cachedShow);
+                FATraktCallbackCall(callback(cachedShow));
                 
                 // Don't request extended information twice within 5 minutes, this is definitely overkill
                 if ([[NSDate date] timeIntervalSinceDate:cachedShow.creationDate] <= FATimeIntervalMinutes(5)) {
@@ -493,7 +501,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 }
             }
         } else {
-            callback(cachedShow);
+            FATraktCallbackCall(callback(cachedShow));
         }
         
         // Fall through and still make the request. It's not that much data and things could have changed
@@ -522,11 +530,11 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             }
             
             [show commitToCache];
-            callback(show);
+            FATraktCallbackCall(callback(show));
         } onError:error];
     } else {
         if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
+            FATraktCallbackCall(error([FATraktConnectionResponse invalidRequestResponse]));
         }
         
         return nil;
@@ -590,7 +598,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             }
         }
         
-        callback(shows);
+        FATraktCallbackCall(callback(shows));
         
     } onError:error];
 }
@@ -611,7 +619,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             show = progressItems[0];
         }
         
-        callback(show.progress);
+        FATraktCallbackCall(callback(show.progress));
     } onError:error];
 }
 
@@ -639,7 +647,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             show.hasEpisodeCounts = YES;
             
             [show commitToCache];
-            callback(show);
+            FATraktCallbackCall(callback(show));
         } onError:error];
     }
     
@@ -673,7 +681,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         [season.show commitToCache];
         [season commitToCache];
         
-        callback(season);
+        FATraktCallbackCall(callback(season));
     } onError:error];
 }
 
@@ -686,7 +694,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     if (cachedResult) {
         DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
-        callback(cachedResult);
+        FATraktCallbackCall(callback(cachedResult));
     }
     
     return [self.connection getAPI:@"search/episodes.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
@@ -706,7 +714,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         searchResult.results = episodes;
         [searchResult commitToCache];
-        callback(searchResult);
+        FATraktCallbackCall(callback(searchResult));
     } onError:error];
 }
 
@@ -717,7 +725,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktEpisode *cachedEpisode = [FATraktEpisode.backingCache objectForKey:episode.cacheKey];
     
     if (cachedEpisode && cachedEpisode.detailLevel >= FATraktDetailLevelDefault) {
-        callback([FATraktEpisode.backingCache objectForKey:episode.cacheKey]);
+        FATraktCallbackCall(callback([FATraktEpisode.backingCache objectForKey:episode.cacheKey]));
         // Fall through and still make the request. It's not that much data and things could have changed
         // This will call callback twice. Make sure it can handle this.
     }
@@ -731,11 +739,11 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             
             episode.detailLevel = FATraktDetailLevelExtended;
             [episode commitToCache];
-            callback(episode);
+            FATraktCallbackCall(callback(episode));
         } onError:error];
     } else {
         if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
+            FATraktCallbackCall(error([FATraktConnectionResponse invalidRequestResponse]));
         }
         
         return nil;
@@ -795,7 +803,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             list.shouldBeCached = YES;
             [list commitToCache];
             
-            callback(list);
+            FATraktCallbackCall(callback(list));
         } onError:^(FATraktConnectionResponse *response) {
             // We need to add the key again because the request failed
             if (key) {
@@ -807,7 +815,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
     
     if (cachedList) {
-        callback(cachedList);
+        FATraktCallbackCall(callback(cachedList));
         // FIXME: check if it fixes crashbug?
         //list = cachedList;
         
@@ -843,7 +851,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSArray *cachedCustomLists = FATraktList.cachedCustomLists;
     
     if (cachedCustomLists.count > 0) {
-        callback(cachedCustomLists);
+        FATraktCallbackCall(callback(cachedCustomLists));
     }
     
     return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
@@ -867,7 +875,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         [[FATraktCache sharedInstance].misc setObject:listCacheKeys forKey:@"customListKeys"];
         
         lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
-        callback(lists);
+        FATraktCallbackCall(callback(lists));
     } onError:error];
 }
 
@@ -881,7 +889,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     FATraktList *cachedList = [FATraktList.backingCache objectForKey:list.cacheKey];
     
     if (cachedList) {
-        callback(cachedList);
+        FATraktCallbackCall(callback(cachedList));
     }
     
     return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
@@ -894,7 +902,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [list commitToCache];
         }
         
-        callback(list);
+        FATraktCallbackCall(callback(list));
     } onError:error];
 }
 
@@ -921,10 +929,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         NSDictionary *responseDict = response.jsonData;
         if ([responseDict[@"status"] isEqualToString:@"success"]) {
-            callback();
+            FATraktCallbackCall(callback());
         } else if (error) {
             FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-            error(response);
+            FATraktCallbackCall(error(response));
         }
     } onError:error];
 }
@@ -957,10 +965,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         NSDictionary *responseDict = response.jsonData;
         if ([responseDict[@"status"] isEqualToString:@"success"]) {
-            callback();
+            FATraktCallbackCall(callback());
         } else if (error) {
             FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-            error(response);
+            FATraktCallbackCall(error(response));
         }
     } onError:error];
 }
@@ -979,10 +987,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             
             NSDictionary *responseDict = response.jsonData;
             if ([responseDict[@"status"] isEqualToString:@"success"]) {
-                callback();
+                FATraktCallbackCall(callback());
             } else if (error) {
                 FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-                error(response);
+                FATraktCallbackCall(error(response));
             }
         } onError:error];
     }
@@ -1069,7 +1077,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         content.in_watchlist = add;
-        callback();
+        FATraktCallbackCall(callback());
     } onError:error];
 }
 
@@ -1104,7 +1112,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         content.in_collection = add;
-        callback();
+        FATraktCallbackCall(callback());
     } onError:error];
 }
 
@@ -1130,7 +1138,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         }
         
         [list commitToCache];
-        callback();
+        FATraktCallbackCall(callback());
     } onError:error];
 }
 
@@ -1157,7 +1165,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
         
         if ([response.jsonData isKindOfClass:[NSArray class]]) {
-            callback(nil);
+            FATraktCallbackCall(callback(nil));
             return;
         }
         
@@ -1185,7 +1193,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 
                 movie.watchingType = watchingType;
                 
-                callback(movie);
+                FATraktCallbackCall(callback(movie));
             } else if ([typeName isEqualToString:@"episode"]) {
                 FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:responseDict[@"show"]];
                 show.detailLevel = FATraktDetailLevelMinimal;
@@ -1198,12 +1206,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 episode.watchingType = watchingType;
                 [episode commitToCache];
                 
-                callback(episode);
+                FATraktCallbackCall(callback(episode));
             } else {
                 DDLogWarn(@"Unkown type name %@", typeName);
                 
                 if (error) {
-                    error([FATraktConnectionResponse invalidDataResponse]);
+                    FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
                 }
             }
         }
@@ -1253,7 +1261,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             }
         }];
         
-        callback(recommendations);
+        FATraktCallbackCall(callback(recommendations));
     } onError:nil];
 }
 
@@ -1291,12 +1299,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     [content commitToCache];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        callback();
+        FATraktCallbackCall(callback());
     } onError:^(FATraktConnectionResponse *connectionError) {
         content.rating = oldRating;
         
         if (error) {
-            error(connectionError);
+            FATraktCallbackCall(error(connectionError));
         }
     }];
 }
@@ -1314,7 +1322,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             postData = season.postDictInfo;
         } else {
             if (error) {
-                error([FATraktConnectionResponse invalidRequestResponse]);
+                FATraktCallbackCall(error([FATraktConnectionResponse invalidRequestResponse]));
             }
             
             return nil;
@@ -1339,7 +1347,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 // There is no show/unseen API
                 FATraktConnectionResponse *response = [[FATraktConnectionResponse alloc] init];
                 response.responseType = FATraktConnectionResponseTypeUnknown;
-                error(response);
+                FATraktCallbackCall(error(response));
             }
         } else if (content.contentType == FATraktContentTypeEpisodes) {
             if (seen) {
@@ -1386,7 +1394,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         }
         
         
-        callback();
+        FATraktCallbackCall(callback());
     } onError:error];
 }
 
@@ -1414,19 +1422,19 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 
                 if (checkinResponse) {
                     checkinResponse.content = content;
-                    callback(checkinResponse);
+                    FATraktCallbackCall(callback(checkinResponse));
                 } else if (error) {
-                    error([FATraktConnectionResponse invalidDataResponse]);
+                    FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
                 }
             } else {
                 if (error) {
-                    error([FATraktConnectionResponse invalidDataResponse]);
+                    FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
                 }
             }
         } onError:error];
     } else {
         if (error) {
-            error([FATraktConnectionResponse invalidRequestResponse]);
+            FATraktCallbackCall(error([FATraktConnectionResponse invalidRequestResponse]));
         }
         
         return nil;
