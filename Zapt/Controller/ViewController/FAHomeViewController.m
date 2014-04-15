@@ -296,6 +296,8 @@
                 FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
                 [detailVC loadContent:content];
                 [self.navigationController pushViewController:detailVC animated:YES];
+            } else {
+                NSLog(@"Gna");
             }
         }
     }

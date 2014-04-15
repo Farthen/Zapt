@@ -153,6 +153,7 @@
 		F3CE70B018FC71FA0003679D /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
 		F3CE70B318FCB1120003679D /* FATraktRating.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B218FCB1120003679D /* FATraktRating.m */; };
 		F3CE70B618FCE4780003679D /* NSString+ContainsSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */; };
+		F3CE70B918FD14CE0003679D /* TMFastCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B818FD14CE0003679D /* TMFastCache.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
@@ -485,6 +486,8 @@
 		F3CE70B218FCB1120003679D /* FATraktRating.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktRating.m; sourceTree = "<group>"; };
 		F3CE70B418FCE4780003679D /* NSString+ContainsSubstring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+ContainsSubstring.h"; sourceTree = "<group>"; };
 		F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ContainsSubstring.m"; sourceTree = "<group>"; };
+		F3CE70B718FD14CE0003679D /* TMFastCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFastCache.h; sourceTree = "<group>"; };
+		F3CE70B818FD14CE0003679D /* TMFastCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFastCache.m; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
@@ -922,6 +925,8 @@
 			children = (
 				F3AAC16E18F8BDCB00EF8876 /* TMCache.h */,
 				F3AAC16F18F8BDCB00EF8876 /* TMCache.m */,
+				F3CE70B718FD14CE0003679D /* TMFastCache.h */,
+				F3CE70B818FD14CE0003679D /* TMFastCache.m */,
 				F3AAC17018F8BDCB00EF8876 /* TMDiskCache.h */,
 				F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */,
 				F3AAC17218F8BDCB00EF8876 /* TMMemoryCache.h */,
@@ -1662,6 +1667,7 @@
 				F3B9C94817FA36A8004264E6 /* FACheckinViewController.m in Sources */,
 				F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */,
 				F347356417FF55AE00116A59 /* FADebugController.m in Sources */,
+				F3CE70B918FD14CE0003679D /* TMFastCache.m in Sources */,
 				F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */,
 				F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */,
 				F3DC466416FC93360022BE12 /* FATraktSearchResult.m in Sources */,

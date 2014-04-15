@@ -8,6 +8,7 @@
 
 #import "FATraktCache.h"
 #import "Misc.h"
+#import "TMFastCache.h"
 
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 static NSInteger __cacheVersionNumber = 4;
@@ -44,24 +45,24 @@ static NSInteger __cacheVersionNumber = 4;
 {
     
     if (!_misc) {
-        _misc = [[TMCache alloc] initWithName:@"misc"];
+        _misc = [[TMFastCache alloc] initWithName:@"misc"];
     }
     
     if (!_content) {
-        _content = [[TMCache alloc] initWithName:@"content"];
+        _content = [[TMFastCache alloc] initWithName:@"content"];
     }
     
     if (!_images) {
-        _images = [[TMCache alloc] initWithName:@"images"];
+        _images = [[TMFastCache alloc] initWithName:@"images"];
         _images.memoryCache.ageLimit = 60;
     }
     
     if (!_lists) {
-        _lists = [[TMCache alloc] initWithName:@"lists"];
+        _lists = [[TMFastCache alloc] initWithName:@"lists"];
     }
     
     if (!_searches) {
-        _searches = [[TMCache alloc] initWithName:@"searches"];
+        _searches = [[TMFastCache alloc] initWithName:@"searches"];
         _searches.memoryCache.ageLimit = 60;
     }
     
