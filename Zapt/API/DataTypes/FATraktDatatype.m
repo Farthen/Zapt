@@ -264,7 +264,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
 
 - (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject propertyInfo:(FAPropertyInfo *)propertyInfo
 {
-    FAPropertyInfo *info = self.class.propertyInfo[key];
+    FAPropertyInfo *info = propertyInfo;
     
     BOOL mergeNew = NO;
     BOOL mergeOld = NO;

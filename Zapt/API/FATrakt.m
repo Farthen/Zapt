@@ -402,29 +402,35 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     DDLogController(@"Searching for movies!");
     
     FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeMovies];
-    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
     
-    if (cachedResult) {
-        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
-        FATraktCallbackCall(callback(cachedResult));
-    }
-    
-    return [self.connection getAPI:@"search/movies.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
-        NSArray *data = response.jsonData;
-        NSMutableArray *movies = [[NSMutableArray alloc] initWithCapacity:data.count];
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationSearch];
+    [_cache.searches objectForKey:searchResult.cacheKey block:^(TMCache *cache, NSString *key, id object) {
+        FATraktSearchResult *cachedResult = object;
         
-        for (NSDictionary * movieDict in data) {
-            FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
-            
-            if (movie) {
-                [movies addObject:movie];
-            }
+        if (cachedResult) {
+            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            FATraktCallbackCall(callback(cachedResult));
         }
         
-        searchResult.results = movies;
-        [searchResult commitToCache];
-        FATraktCallbackCall(callback(searchResult));
-    } onError:error];
+        [self.connection getAPI:@"search/movies.json" withParameters:@[query.URLEncodedString] withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
+            NSArray *data = response.jsonData;
+            NSMutableArray *movies = [[NSMutableArray alloc] initWithCapacity:data.count];
+            
+            for (NSDictionary * movieDict in data) {
+                FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:movieDict];
+                
+                if (movie) {
+                    [movies addObject:movie];
+                }
+            }
+            
+            searchResult.results = movies;
+            [searchResult commitToCache];
+            FATraktCallbackCall(callback(searchResult));
+        } onError:error];
+    }];
+    
+    return request;
 }
 
 - (FATraktRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -464,29 +470,35 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     DDLogController(@"Searching for shows!");
     
     FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeShows];
-    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationSearch];
     
-    if (cachedResult) {
-        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
-        callback(cachedResult);
-    }
-    
-    return [self.connection getAPI:@"search/shows.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
-        NSArray *data = response.jsonData;
-        NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
+    [_cache.searches objectForKey:searchResult.cacheKey block:^(TMCache *cache, NSString *key, id object) {
+        FATraktSearchResult *cachedResult = object;
         
-        for (NSDictionary * showDict in data) {
-            FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
-            
-            if (show) {
-                [shows addObject:show];
-            }
+        if (cachedResult) {
+            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            FATraktCallbackCall(callback(cachedResult));
         }
         
-        searchResult.results = shows;
-        [searchResult commitToCache];
-        FATraktCallbackCall(callback(searchResult));
-    } onError:error];
+        [self.connection getAPI:@"search/shows.json" withParameters:@[query.URLEncodedString] withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
+            NSArray *data = response.jsonData;
+            NSMutableArray *shows = [[NSMutableArray alloc] initWithCapacity:data.count];
+            
+            for (NSDictionary * showDict in data) {
+                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
+                
+                if (show) {
+                    [shows addObject:show];
+                }
+            }
+            
+            searchResult.results = shows;
+            [searchResult commitToCache];
+            FATraktCallbackCall(callback(searchResult));
+        } onError:error];
+    }];
+    
+    return request;
 }
 
 - (FATraktRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -733,33 +745,39 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     DDLogController(@"Searching for episodes!");
     
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationSearch];
+    
     FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeEpisodes];
-    FATraktSearchResult *cachedResult = [_cache.searches objectForKey:searchResult.cacheKey];
-    
-    if (cachedResult) {
-        DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
-        FATraktCallbackCall(callback(cachedResult));
-    }
-    
-    return [self.connection getAPI:@"search/episodes.json" withParameters:@[query.URLEncodedString] withActivityName:FATraktActivityNotificationSearch onSuccess:^(FATraktConnectionResponse *response) {
-        NSArray *data = response.jsonData;
-        NSMutableArray *episodes = [[NSMutableArray alloc] initWithCapacity:data.count];
-        
-        for (NSDictionary * episodeOverviewDict in data) {
-            NSDictionary *episodeDict = [episodeOverviewDict objectForKey:@"episode"];
-            NSDictionary *showDict = [episodeOverviewDict objectForKey:@"show"];
-            FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
-            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+    [_cache.searches objectForKey:searchResult.cacheKey block:^(TMCache *cache, NSString *key, id object) {
+        if (object) {
+            FATraktSearchResult *cachedResult = object;
             
-            if (show && episode) {
-                [episodes addObject:episode];
-            }
+            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            FATraktCallbackCall(callback(object));
         }
         
-        searchResult.results = episodes;
-        [searchResult commitToCache];
-        FATraktCallbackCall(callback(searchResult));
-    } onError:error];
+        [self.connection getAPI:@"search/episodes.json" withParameters:@[query.URLEncodedString] withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
+            NSArray *data = response.jsonData;
+            NSMutableArray *episodes = [[NSMutableArray alloc] initWithCapacity:data.count];
+            
+            for (NSDictionary * episodeOverviewDict in data) {
+                NSDictionary *episodeDict = [episodeOverviewDict objectForKey:@"episode"];
+                NSDictionary *showDict = [episodeOverviewDict objectForKey:@"show"];
+                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:showDict];
+                FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+                
+                if (show && episode) {
+                    [episodes addObject:episode];
+                }
+            }
+            
+            searchResult.results = episodes;
+            [searchResult commitToCache];
+            FATraktCallbackCall(callback(searchResult));
+        } onError:error];
+    }];
+    
+    return request;
 }
 
 - (FATraktRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error

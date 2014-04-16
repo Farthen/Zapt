@@ -260,6 +260,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     FATraktConnectionResponse *connectionResponse = [FATraktConnectionResponse connectionResponseWithHTTPResponse:operation.response responseData:responseData];
     
+    if (operation.isCancelled) {
+        return;
+    }
+    
     if (connectionResponse.responseType == FATraktConnectionResponseTypeSuccess) {
         if (successCallback) {
             successCallback(connectionResponse);
@@ -288,12 +292,14 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 {
     FATraktConnectionResponse *response = [FATraktConnectionResponse connectionResponseWithHTTPResponse:operation.response];
     
-    if (callback) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            callback(response);
-        });
-    } else {
-        [[FAGlobalEventHandler handler] handleConnectionErrorResponse:response];
+    if (response.responseType & FATraktConnectionResponseTypeAnyError && !operation.isCancelled) {
+        if (callback) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                callback(response);
+            });
+        } else {
+            [[FAGlobalEventHandler handler] handleConnectionErrorResponse:response];
+        }
     }
 }
 
@@ -334,7 +340,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         NSDictionary *responseDict = responseObject;
         
         // Handle the response
-        [self handleResponse:responseDict forOperation:operation onSuccess:successCallback onError:errorCallback];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self handleResponse:responseDict forOperation:operation onSuccess:successCallback onError:errorCallback];
+        });
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [request finishActivity];
         
@@ -422,7 +430,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         [request finishActivity];
         
         // Handle the response
-        [self handleResponse:responseObject forOperation:operation onSuccess:successCallback onError:errorCallback];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self handleResponse:responseObject forOperation:operation onSuccess:successCallback onError:errorCallback];
+        });
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Finish the activity
         [request finishActivity];

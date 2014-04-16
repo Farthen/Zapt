@@ -129,22 +129,15 @@ static CGPoint _scrollPositions[3];
     }
 }
 
-- (void)removeFinishedRequestsFromRequestArray
+- (void)cleanupRequestArray
 {
     // NSMutableArray isn't thread safe
     @synchronized(self)
     {
-        NSMutableIndexSet *removalSet = [NSMutableIndexSet indexSet];
-        
-        for (NSUInteger i = 0; i < _searchRequests.count; i++) {
-            FATraktRequest *request = _searchRequests[i];
-            
-            if (request.requestState & FATraktRequestStateFinished) {
-                [removalSet addIndex:i];
-            }
+        for (FATraktRequest *request in _searchRequests) {
+            [request cancelImmediately];
         }
-        
-        [_searchRequests removeObjectsAtIndexes:removalSet];
+        [_searchRequests removeAllObjects];
     }
 }
 
@@ -199,7 +192,7 @@ static CGPoint _scrollPositions[3];
         [weakSelf loadImagesIfNeeded];
     } onError:nil];
     
-    [self removeFinishedRequestsFromRequestArray];
+    [self cleanupRequestArray];
     
     // NSMutableArray isn't thread safe
     @synchronized(self)
