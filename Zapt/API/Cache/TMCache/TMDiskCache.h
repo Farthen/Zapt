@@ -323,4 +323,6 @@ typedef void (^TMDiskCacheObjectBlock)(TMDiskCache *cache, NSString *key, id <NS
  */
 - (void)enumerateObjectsWithBlock:(TMDiskCacheObjectBlock)block;
 
+- (NSSet *)allKeys;
+
 @end

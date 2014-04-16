@@ -398,9 +398,11 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         TMDiskCache *strongSelf = weakSelf;
         if (!strongSelf)
             return;
-
-        NSURL *fileURL = [strongSelf encodedFileURLForKey:key];
-        block(strongSelf, key, [strongSelf objectForKey:key], fileURL);
+        
+        if ([_dates objectForKey:key]) {
+            NSURL *fileURL = [strongSelf encodedFileURLForKey:key];
+            block(strongSelf, key, [strongSelf objectForKey:key], fileURL);
+        }
     });
 }
 
@@ -1026,6 +1028,11 @@ NSString * const TMDiskCacheSharedName = @"TMDiskCacheShared";
         
         [strongSelf trimToAgeLimitRecursively];
     });
+}
+
+- (NSSet *)allKeys
+{
+    return [NSSet setWithArray:[_dates allKeys]];
 }
 
 @end
