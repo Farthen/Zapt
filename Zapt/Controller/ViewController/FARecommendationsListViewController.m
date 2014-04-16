@@ -69,7 +69,9 @@
         [contentCell displayContent:content];
         
         contentCell.shouldDisplayImage = YES;
-        contentCell.image = content.images.posterImage;
+        [content.images posterImageCallback:^(UIImage *image) {
+            contentCell.image = image;
+        }];
     };
 }
 

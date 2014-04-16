@@ -187,7 +187,10 @@
             contentCell.twoLineMode = YES;
             [contentCell displayContent:content];
             
-            contentCell.image = content.posterImage;
+            contentCell.shouldDisplayImage = YES;
+            [content.images posterImageCallback:^(UIImage *image) {
+                contentCell.image = image;
+            }];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"showProgress"]) {
@@ -199,10 +202,10 @@
             contentCell.twoLineMode = YES;
             [contentCell displayContent:show];
             
-            UIImage *image = show.images.posterImage;
-            
             contentCell.shouldDisplayImage = YES;
-            contentCell.image = image;
+            [show.images posterImageCallback:^(UIImage *image) {
+                contentCell.image = image;
+            }];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         } else if ([sectionKey isEqualToString:@"user"]) {
@@ -245,7 +248,13 @@
             [self.arrayDataSource createSectionForKey:sectionName withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
         }
         
-        NSArray *shows = self.showsWithProgress;
+        NSArray *shows = [self.showsWithProgress filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            if (idx >= 5) {
+                return NO;
+            }
+            
+            return YES;
+        }];
         
         // Remove old shows
         for (NSString *showCacheKey in [self.arrayDataSource rowKeysForSection:sectionName]) {
@@ -255,6 +264,8 @@
                 [self.arrayDataSource removeRowInSection:sectionName forObject:show.cacheKey];
             }
         }
+        
+        [self.arrayDataSource recalculateWeight];
         
         for (NSUInteger i = 0; i < shows.count && i < 5; i++) {
             FATraktShow *show = shows[i];

@@ -346,18 +346,28 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
-    if ([_cache.images objectForKey:imageURL]) {
-        FATraktCallbackCall(callback([UIImage imageWithData:[_cache.images objectForKey:imageURL]]));
-        
-        return nil;
-    }
+    FATraktRequest *imageRequest = [FATraktRequest requestWithActivityName:FATraktActivityNotificationDefault];
     
-    return [self.connection getImageURL:imageURL withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        NSData *imageData = [response rawResponseData];
-        UIImage *image = [UIImage imageWithData:imageData];
-        [_cache.images setObject:imageData forKey:imageURL];
-        FATraktCallbackCall(callback(image));
-    } onError:error];
+    // First check the cache. Make this nonblocking because blocking I/O in main thread
+    // is generally considered being not the greatest thing in the world
+    [_cache.images objectForKey:imageURL block:^(TMCache *cache, NSString *key, id object) {
+        NSData *imageData = object;
+        
+        if (imageData) {
+            FATraktCallbackCall(callback([UIImage imageWithData:imageData]));
+        } else {
+            
+            // We don't have anything in the cache. We need to get it from the internet
+            [self.connection getImageURL:imageURL withRequest:imageRequest onSuccess:^(FATraktConnectionResponse *response) {
+                NSData *imageData = [response rawResponseData];
+                UIImage *image = [UIImage imageWithData:imageData];
+                [_cache.images setObject:imageData forKey:imageURL];
+                FATraktCallbackCall(callback(image));
+            } onError:error];
+        }
+    }];
+    
+    return imageRequest;
 }
 
 - (FATraktRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
@@ -802,7 +812,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [self.changedLastActivityKeys removeObject:key];
         }
         
-        return [self.connection getURL:list.url withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationLists];
+        
+        [self.connection getURL:list.url withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
             NSDictionary *data = response.jsonData;
             NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
             
@@ -844,6 +856,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 [self.changedLastActivityKeys addObject:key];
             }
         }];
+        
+        return request;
     };
     
     FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];

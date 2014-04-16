@@ -158,15 +158,9 @@ static CGPoint _scrollPositions[3];
             FATraktContent *content = cell.displayedContent;
             FASearchData *oldSearchData = self.searchData;
             
-            NSString *posterURL = content.images.poster;
-            UIImage *posterImage = content.images.posterImage;
+            NSString *posterURL = content.posterImageURL;
             
-            if (!posterURL && content.contentType == FATraktContentTypeEpisodes) {
-                posterURL = ((FATraktEpisode *)content).show.images.poster;
-                posterImage = ((FATraktEpisode *)content).show.images.posterImage;
-            }
-            
-            if (!posterImage) {
+            if (posterURL) {
                 [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
                     @synchronized(self) {
                         if (_searchScope == content.contentType && oldSearchData == self.searchData) {
@@ -174,8 +168,6 @@ static CGPoint _scrollPositions[3];
                         }
                     }
                 } onError:nil];
-            } else if (!cell.image) {
-                cell.image = posterImage;
             }
         }];
     }

@@ -18,56 +18,81 @@ extern NSString *const FATraktUsernameAndPasswordValidityChangedNotification;
 + (instancetype)sharedInstance;
 
 // Main POST method for JSON Data
-- (FATraktRequest *)postURL:(NSString *)urlString
+- (void)            postURL:(NSString *)urlString
                     payload:(NSDictionary *)payload
-           withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                withRequest:(FATraktRequest *)request
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
-- (FATraktRequest *)postAPI:(NSString *)api
+- (void)            postAPI:(NSString *)api
              withParameters:(NSArray *)parameters
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
-           withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                withRequest:(FATraktRequest *)request
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
+
+- (void)            postAPI:(NSString *)api
+                    payload:(NSDictionary *)payload
+              authenticated:(BOOL)authenticated
+                withRequest:(FATraktRequest *)request
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (FATraktRequest *)postAPI:(NSString *)api
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
            withActivityName:(NSString *)activityName
-                  onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                    onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 // Main GET method for JSON Data
-- (FATraktRequest *)getURL:(NSString *)urlString
-          withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                   onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (void)            getURL:(NSString *)urlString
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 // GET Method for image data
-- (FATraktRequest *)getImageURL:(NSString *)urlString
-               withActivityName:(NSString *)activityName
+- (void)            getImageURL:(NSString *)urlString
+                    withRequest:(FATraktRequest *)request
                       onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                         onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
+
+- (void)            getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                   onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
+
+- (void)            getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+       forceAuthentication:(BOOL)forceAuthentication
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (FATraktRequest *)getAPI:(NSString *)api
             withParameters:(NSArray *)parameters
        forceAuthentication:(BOOL)forceAuthentication
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                   onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
+
+- (void)            getAPI:(NSString *)api
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (FATraktRequest *)getAPI:(NSString *)api
           withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(FATraktConnectionResponse *response))success
-                   onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback;
 
 - (NSString *)urlForAPI:(NSString *)api withParameters:(NSArray *)parameters;
 

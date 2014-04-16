@@ -14,8 +14,9 @@ typedef NS_ENUM(NSUInteger, FATraktRequestState) {
     
     FATraktRequestStateFinished = (1 << 1),
     FATraktRequestStateCancelled = (1 << 2),
+    FATraktRequestStateInvalid = (1 << 2),
     
-    FATraktRequestStateStopped = FATraktRequestStateFinished | FATraktRequestStateCancelled,
+    FATraktRequestStateStopped = FATraktRequestStateFinished | FATraktRequestStateCancelled | FATraktRequestStateInvalid,
     
     FATraktRequestStateUnknown = (1 << 3),
 };
@@ -27,6 +28,7 @@ typedef NS_ENUM(NSUInteger, FATraktRequestState) {
 - (void)startActivity;
 - (void)finishActivity;
 - (void)cancelImmediately;
+- (void)invalidate;
 
 @property AFHTTPRequestOperation *operation;
 @property (readonly) NSString *activityName;

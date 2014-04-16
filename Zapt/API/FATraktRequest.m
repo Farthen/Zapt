@@ -11,7 +11,8 @@
 
 @interface FATraktRequest ()
 @property NSString *activityName;
-@property BOOL cancelled;
+@property (nonatomic) BOOL isCancelled;
+@property (nonatomic) BOOL isInvalidated;
 @end
 
 @implementation FATraktRequest
@@ -30,7 +31,7 @@
 - (void)cancelImmediately
 {
     [self.operation cancel];
-    self.cancelled = YES;
+    self.isCancelled = YES;
     [self finishActivity];
 }
 
@@ -44,10 +45,19 @@
     [[FAActivityDispatch sharedInstance] finishActivityNamed:self.activityName];
 }
 
+- (void)invalidate
+{
+    self.isInvalidated = YES;
+}
+
 - (FATraktRequestState)requestState
 {
-    if (self.cancelled) {
+    if (self.isCancelled) {
         return FATraktRequestStateCancelled;
+    }
+    
+    if (self.isInvalidated) {
+        return FATraktRequestStateInvalid;
     }
     
     if (self.operation.isExecuting) {

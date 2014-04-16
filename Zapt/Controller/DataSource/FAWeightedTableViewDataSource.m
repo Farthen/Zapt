@@ -467,10 +467,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             [self.tableView insertRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionDeleteRow) {
-            [self.tableView deleteRowsAtIndexPaths:@[row.lastIndexPath] withRowAnimation:animation];
+            [self.tableView deleteRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveRow) {
-            [self.tableView moveRowAtIndexPath:row.lastIndexPath toIndexPath:row.currentIndexPath];
+            [self.tableView moveRowAtIndexPath:row.currentIndexPath toIndexPath:row.currentIndexPath];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionReloadRow) {
             [self.tableView reloadRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
@@ -479,7 +479,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionDeleteSection) {
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:section.lastSectionIndex] withRowAnimation:animation];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveSection) {
             [self.tableView moveSection:section.lastSectionIndex toSection:section.currentSectionIndex];

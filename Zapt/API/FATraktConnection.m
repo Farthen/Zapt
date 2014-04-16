@@ -297,9 +297,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     }
 }
 
-- (FATraktRequest *)postURL:(NSString *)urlString
+- (void)postURL:(NSString *)urlString
                     payload:(NSDictionary *)payload
-           withActivityName:(NSString *)activityName
+                withRequest:(FATraktRequest *)request
                   onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                     onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
@@ -307,6 +307,8 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     if (![NSURL URLWithString:urlString] || ![urlString hasPrefix:@"http"]) {
         // The url is not set and/or does not contain http.
         // bail out
+        
+        [request invalidate];
         
         if (errorCallback) {
             FATraktConnectionResponse *response = [FATraktConnectionResponse invalidRequestResponse];
@@ -317,40 +319,36 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             errorCallback(response);
         }
         
-        return nil;
+        return;
     }
     
-    FATraktRequest *traktRequest = [FATraktRequest requestWithActivityName:activityName];
-    [traktRequest startActivity];
+    [request startActivity];
     
     // Then we do the HTTP POST request
     DDLogController(@"HTTP POST %@", urlString);
     
     AFHTTPRequestOperation *operation = [self.manager POST:urlString parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // Finish the activity
-        [traktRequest finishActivity];
+        [request finishActivity];
         
         NSDictionary *responseDict = responseObject;
         
         // Handle the response
         [self handleResponse:responseDict forOperation:operation onSuccess:successCallback onError:errorCallback];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [traktRequest finishActivity];
+        [request finishActivity];
         
         [self handleError:error forRequestOperation:operation callback:errorCallback];
     }];
     
-    traktRequest.operation = operation;
-    
-    // Return the request
-    return traktRequest;
+    request.operation = operation;
 }
 
-- (FATraktRequest *)postAPI:(NSString *)api
+- (void)postAPI:(NSString *)api
              withParameters:(NSArray *)parameters
                     payload:(NSDictionary *)payload
               authenticated:(BOOL)authenticated
-           withActivityName:(NSString *)activityName
+                withRequest:(FATraktRequest *)request
                   onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                     onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
@@ -366,7 +364,17 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         payload = [self postDataDictAddingAuthToDict:payload];
     }
     
-    return [self postURL:urlString payload:payload withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    [self postURL:urlString payload:payload withRequest:request onSuccess:successCallback onError:errorCallback];
+}
+
+- (void)postAPI:(NSString *)api
+                    payload:(NSDictionary *)payload
+              authenticated:(BOOL)authenticated
+                withRequest:(FATraktRequest *)request
+                  onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+{
+    [self postAPI:api withParameters:nil payload:payload authenticated:authenticated withRequest:request onSuccess:successCallback onError:errorCallback];
 }
 
 - (FATraktRequest *)postAPI:(NSString *)api
@@ -376,12 +384,15 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                   onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                     onError:(void (^)(FATraktConnectionResponse *))errorCallback
 {
-    return [self postAPI:api withParameters:nil payload:payload authenticated:authenticated withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:activityName];
+    [self postAPI:api payload:payload authenticated:authenticated withRequest:request onSuccess:successCallback onError:errorCallback];
+    
+    return request;
 }
 
-- (FATraktRequest *)getURL:(NSString *)urlString
+- (void)getURL:(NSString *)urlString
                withManager:(AFHTTPRequestOperationManager *)manager
-          withActivityName:(NSString *)activityName
+               withRequest:(FATraktRequest *)request
                  onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
@@ -390,55 +401,65 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         // The url is not set and/or does not contain http.
         // bail out
         
+        [request invalidate];
+        
         if (errorCallback) {
             FATraktConnectionResponse *response = [FATraktConnectionResponse invalidRequestResponse];
             response.responseType = FATraktConnectionResponseTypeUnknown;
             errorCallback(response);
         }
         
-        return nil;
+        return;
     }
     
     // Start the activity
-    FATraktRequest *traktRequest = [FATraktRequest requestWithActivityName:activityName];
-    [traktRequest startActivity];
+    [request startActivity];
     
     // Do the HTTP GET request
     DDLogController(@"HTTP GET %@", urlString);
     AFHTTPRequestOperation *operation = [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         // Finish the activity
-        [traktRequest finishActivity];
+        [request finishActivity];
         
         // Handle the response
         [self handleResponse:responseObject forOperation:operation onSuccess:successCallback onError:errorCallback];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         // Finish the activity
-        [traktRequest finishActivity];
+        [request finishActivity];
         
         // Handle the response
         [self handleError:error forRequestOperation:operation callback:errorCallback];
     }];
     
-    traktRequest.operation = operation;
-    
-    // Return the request
-    return traktRequest;
+    request.operation = operation;
 }
 
-- (FATraktRequest *)getImageURL:(NSString *)urlString
-               withActivityName:(NSString *)activityName
-                      onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
-                        onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+- (void)getImageURL:(NSString *)urlString
+        withRequest:(FATraktRequest *)request
+          onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
+            onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
-    return [self getURL:urlString withManager:self.rawManager withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    [self getURL:urlString withManager:self.rawManager withRequest:request onSuccess:successCallback onError:errorCallback];
 }
 
-- (FATraktRequest *)getURL:(NSString *)urlString
-          withActivityName:(NSString *)activityName
-                 onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
+- (void)getURL:(NSString *)urlString
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
-    return [self getURL:urlString withManager:self.manager withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    [self getURL:urlString withManager:self.manager withRequest:request onSuccess:successCallback onError:errorCallback];
+}
+
+- (void)getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+{
+    // Set the url with the specified parameters
+    NSString *urlString = [self urlForAPI:api withParameters:parameters];
+    
+    [self getURL:urlString withRequest:request onSuccess:successCallback onError:errorCallback];
 }
 
 - (FATraktRequest *)getAPI:(NSString *)api
@@ -447,10 +468,30 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                  onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                    onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
 {
-    // Set the url with the specified parameters
-    NSString *urlString = [self urlForAPI:api withParameters:parameters];
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:activityName];
+    [self getAPI:api withParameters:parameters withRequest:request onSuccess:successCallback onError:errorCallback];
     
-    return [self getURL:urlString withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    return request;
+}
+
+- (void)getAPI:(NSString *)api
+            withParameters:(NSArray *)parameters
+       forceAuthentication:(BOOL)forceAuthentication
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+{
+    if (forceAuthentication && !self.usernameAndPasswordValid) {
+        [request invalidate];
+        
+        if (errorCallback) {
+            errorCallback([FATraktConnectionResponse invalidCredentialsResponse]);
+        }
+        
+        return;
+    }
+    
+    [self getAPI:api withParameters:parameters withRequest:request onSuccess:successCallback onError:errorCallback];
 }
 
 - (FATraktRequest *)getAPI:(NSString *)api
@@ -460,15 +501,18 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                  onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                    onError:(void (^)(FATraktConnectionResponse *))errorCallback
 {
-    if (forceAuthentication && !self.usernameAndPasswordValid) {
-        if (errorCallback) {
-            errorCallback([FATraktConnectionResponse invalidCredentialsResponse]);
-        }
-        
-        return nil;
-    }
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:activityName];
+    [self getAPI:api withParameters:parameters forceAuthentication:forceAuthentication withRequest:request onSuccess:successCallback onError:errorCallback];
     
-    return [self getAPI:api withParameters:parameters withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    return request;
+}
+
+- (void)getAPI:(NSString *)api
+               withRequest:(FATraktRequest *)request
+                 onSuccess:(void (^)(FATraktConnectionResponse *response))successCallback
+                   onError:(void (^)(FATraktConnectionResponse *connectionError))errorCallback
+{
+    [self getAPI:api withParameters:nil withRequest:request onSuccess:successCallback onError:errorCallback];
 }
 
 - (FATraktRequest *)getAPI:(NSString *)api
@@ -476,7 +520,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
                  onSuccess:(void (^)(FATraktConnectionResponse *))successCallback
                    onError:(void (^)(FATraktConnectionResponse *))errorCallback
 {
-    return [self getAPI:api withParameters:nil withActivityName:activityName onSuccess:successCallback onError:errorCallback];
+    FATraktRequest *request = [FATraktRequest requestWithActivityName:activityName];
+    [self getAPI:api withRequest:request onSuccess:successCallback onError:errorCallback];
+    
+    return request;
 }
 
 @end

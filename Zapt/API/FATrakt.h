@@ -51,6 +51,9 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark images
+
+// This loads the image in the cache and it will stay there for some time. You can run this to ensure the image is in the
+// fast memory cache
 - (FATraktRequest *)loadImageFromURL:(NSString *)url callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
