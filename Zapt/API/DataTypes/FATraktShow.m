@@ -213,12 +213,12 @@
     return nil;
 }
 
-- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject propertyInfo:(FAPropertyInfo *)propertyInfo
 {
     if ([key isEqualToString:@"hasEpisodeCounts"]) {
         return [NSNumber numberWithBool:([self hasEpisodeCounts] || [oldObject hasEpisodeCounts])];
     } else {
-        return [super newValueForMergingKey:key fromOldObject:oldObject];
+        return [super newValueForMergingKey:key fromOldObject:oldObject propertyInfo:propertyInfo];
     }
 }
 

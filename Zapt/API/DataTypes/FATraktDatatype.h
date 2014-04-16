@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, FATraktStatus) {
 - (NSSet *)notEncodableKeys;
 
 - (BOOL)shouldMergeObjectForKey:(NSString *)key;
-- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject;
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject propertyInfo:(FAPropertyInfo *)propertyInfo;
 - (void)mergeWithObject:(FATraktDatatype *)object;
 - (void)updateTimestamp;
 

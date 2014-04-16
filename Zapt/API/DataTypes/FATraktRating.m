@@ -19,7 +19,7 @@
     return self.simpleRating;
 }
 
-- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject propertyInfo:(FAPropertyInfo *)propertyInfo
 {
     return [self valueForKey:key];
 }

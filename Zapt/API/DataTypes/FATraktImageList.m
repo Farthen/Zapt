@@ -115,4 +115,48 @@
     return nil;
 }
 
+- (void)posterImageCallback:(void (^)(UIImage *))callback
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self posterImage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(image);
+        });
+    });
+}
+
+- (void)fanartImageCallback:(void (^)(UIImage *))callback
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self fanartImage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(image);
+        });
+    });
+}
+
+- (void)bannerImageCallback:(void (^)(UIImage *))callback
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self bannerImage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(image);
+        });
+    });
+}
+
+- (void)screenImageCallback:(void (^)(UIImage *))callback
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        UIImage *image = [self screenImage];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            callback(image);
+        });
+    });
+}
+
 @end

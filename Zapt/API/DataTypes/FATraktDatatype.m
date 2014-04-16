@@ -262,7 +262,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     return YES;
 }
 
-- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject
+- (id)newValueForMergingKey:(NSString *)key fromOldObject:(id)oldObject propertyInfo:(FAPropertyInfo *)propertyInfo
 {
     FAPropertyInfo *info = self.class.propertyInfo[key];
     
@@ -331,7 +331,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         FAPropertyInfo *info = self.class.propertyInfo[key];
         
         if (!info.isReadonly) {
-            id newValue = [newObject newValueForMergingKey:key fromOldObject:oldObject];
+            id newValue = [newObject newValueForMergingKey:key fromOldObject:oldObject propertyInfo:info];
             
             if ([newObject shouldMergeObjectForKey:key]) {
                 [newObject setValue:newValue forKey:key];

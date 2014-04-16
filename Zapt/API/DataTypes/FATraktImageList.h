@@ -20,4 +20,9 @@
 @property (readonly) UIImage *bannerImage;
 @property (readonly) UIImage *screenImage;
 
+- (void)posterImageCallback:(void (^)(UIImage *image))callback;
+- (void)fanartImageCallback:(void (^)(UIImage *image))callback;
+- (void)bannerImageCallback:(void (^)(UIImage *image))callback;
+- (void)screenImageCallback:(void (^)(UIImage *image))callback;
+
 @end
