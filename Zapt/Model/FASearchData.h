@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATraktContent.h"
 
 @interface FASearchData : NSObject <NSCoding>
 - (id)initWithSearchString:(NSString *)searchString;
@@ -16,5 +17,7 @@
 @property (retain) NSArray *movies;
 @property (retain) NSArray *shows;
 @property (retain) NSArray *episodes;
+
+- (NSArray *)searchDataForContentType:(FATraktContentType)contentType;
 
 @end

@@ -144,12 +144,14 @@ static CGPoint _scrollPositions[3];
 - (void)loadImagesIfNeeded
 {
     @synchronized(self) {
-        NSArray *visibleCells = self.searchDisplayController.searchResultsTableView.visibleCells;
+        NSArray *visibleIndexPaths = self.searchDisplayController.searchResultsTableView.indexPathsForVisibleRows;
         
-        [visibleCells enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            FAContentTableViewCell *cell = obj;
-            FATraktContent *content = cell.displayedContent;
+        [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSIndexPath *indexPath = obj;
+            
+            FATraktContentType contentType = _searchScope;
             FASearchData *oldSearchData = self.searchData;
+            FATraktContent *content = [oldSearchData searchDataForContentType:contentType][indexPath.row];
             
             NSString *posterURL = content.posterImageURL;
             
@@ -157,7 +159,7 @@ static CGPoint _scrollPositions[3];
                 [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
                     @synchronized(self) {
                         if (_searchScope == content.contentType && oldSearchData == self.searchData) {
-                            FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+                            FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:indexPath];
                             cell.image = image;
                         }
                     }

@@ -83,4 +83,17 @@
     _episodes = episodes;
 }
 
+- (NSArray *)searchDataForContentType:(FATraktContentType)contentType
+{
+    if (contentType == FATraktContentTypeMovies) {
+        return _movies;
+    } else if (contentType == FATraktContentTypeEpisodes) {
+        return _episodes;
+    } else if (contentType == FATraktContentTypeShows) {
+        return _shows;
+    }
+    
+    return nil;
+}
+
 @end

@@ -15,7 +15,7 @@
 
 @interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, FAViewControllerPreferredContentSizeChanged>
 
-@property (retain) FASearchData *searchData;
+@property (retain, atomic) FASearchData *searchData;
 @property (retain) IBOutlet FASearchBarWithActivity *searchBar;
 //@property FANavigationController *navigationController;
 
