@@ -91,8 +91,8 @@
     self.tableView.dataSource = self.arrayDataSource;
     
     __weak typeof(self) weakSelf = self;
-    self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id object) {
-        FATraktSeason *season = object;
+    self.arrayDataSource.configurationBlock = ^(FAImageTableViewCell *cell, id key) {
+        FATraktSeason *season = [FATraktSeason objectWithCacheKey:key];
         
         cell.textLabel.text = [FAInterfaceStringProvider nameForSeason:season capitalized:YES];
         
@@ -130,9 +130,9 @@
     return 100;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)key
 {
-    FATraktSeason *season = object;
+    FATraktSeason *season = [FATraktSeason objectWithCacheKey:key];
     
     FASeasonDetailViewController *seasonDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"seasonDetail"];
     [seasonDetailVC showEpisodeListForSeason:season];
@@ -157,7 +157,7 @@
                 [[FATrakt sharedInstance] loadImageFromURL:imageList.poster callback:^(UIImage *image) {
                     if (season.seasonNumber) {
                         self.seasonImages[season.seasonNumber] = image;
-                        [self.arrayDataSource reloadRowsWithObject:season];
+                        [self.arrayDataSource reloadRowsWithObject:season.cacheKey];
                     }
                 } onError:nil];
             }
@@ -173,8 +173,11 @@
     
     [self dispatchAfterViewDidLoad:^{
         NSArray *sortedSeasonData = [show.seasons sortedArrayUsingKey:@"seasonNumber" ascending:YES];
+        NSArray *seasonCacheKeys = [sortedSeasonData mapUsingBlock:^id(id obj, NSUInteger idx) {
+            return [obj cacheKey];
+        }];
         
-        self.arrayDataSource.tableViewData = @[sortedSeasonData];
+        self.arrayDataSource.tableViewData = @[seasonCacheKeys];
     }];
 }
 
