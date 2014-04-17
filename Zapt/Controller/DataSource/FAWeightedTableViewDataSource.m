@@ -381,18 +381,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         return ![obj hidden];
     };
     
-    for (FAWeightedTableViewDataSourceSection *section in self.weightedSections.allValues) {
-        if (section.hidden) {
-            section.currentSectionIndex = -1;
-        }
-        
-        for (FAWeightedTableViewDataSourceRow *row in section.rowData.allValues) {
-            if (row.hidden) {
-                row.currentIndexPath = nil;
-            }
-        }
-    }
-    
     NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
     NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
     
@@ -462,15 +450,16 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         // This is nil for section actions
         FAWeightedTableViewDataSourceRow *row = action.row;
         
-        
         if (actionType == FAWeightedTableViewDataSourceActionInsertRow) {
             [self.tableView insertRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionDeleteRow) {
-            [self.tableView deleteRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
+            // If the row was removed or hidden: clear its current index path
+            row.currentIndexPath = nil;
+            [self.tableView deleteRowsAtIndexPaths:@[row.lastIndexPath] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveRow) {
-            [self.tableView moveRowAtIndexPath:row.currentIndexPath toIndexPath:row.currentIndexPath];
+            [self.tableView moveRowAtIndexPath:row.lastIndexPath toIndexPath:row.currentIndexPath];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionReloadRow) {
             [self.tableView reloadRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
@@ -479,7 +468,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionDeleteSection) {
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
+            // If the row was removed or hidden: clear its current section index
+            section.currentSectionIndex = -1;
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:section.lastSectionIndex] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionMoveSection) {
             [self.tableView moveSection:section.lastSectionIndex toSection:section.currentSectionIndex];
