@@ -26,25 +26,32 @@
         self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache) {
             if (!_shouldRemoveAllObjects) {
                 // Cache is evicted
-                [cache enumerateObjectsWithBlock:^(TMMemoryCache *cache, NSString *key, id object) {
-                    if ([_uncommittedKeys containsObject:key]) {
-                        [self.diskCache setObject:object forKey:key block:nil];
-                        [_uncommittedKeys removeObject:key];
-                    }
-                }];
+                
+                dispatch_barrier_sync(self.queue, ^{
+                    [cache enumerateObjectsWithBlock:^(TMMemoryCache *cache, NSString *key, id object) {
+                        if ([_uncommittedKeys containsObject:key]) {
+                            [self.diskCache setObject:object forKey:key block:nil];
+                            
+                            [_uncommittedKeys removeObject:key];
+                        }
+                    }];
+                });
             } else {
-                _shouldRemoveAllObjects = NO;
+                _shouldRemoveAllObjects = NO; // atomic
             }
         };
 
         self.memoryCache.willRemoveObjectBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
-            if (![_keysToRemove containsObject:key] && [_uncommittedKeys containsObject:key]) {
-                // We didn't remove this -> we need to save the value
-                [self.diskCache setObject:object forKey:key block:nil];
-
-                [_keysToRemove removeObject:key];
-                [_uncommittedKeys removeObject:key];
-            }
+            
+            dispatch_barrier_sync(self.queue, ^{
+                if (![_keysToRemove containsObject:key] && [_uncommittedKeys containsObject:key]) {
+                    // We didn't remove this -> we need to save the value
+                    [self.diskCache setObject:object forKey:key block:nil];
+                    
+                    [_keysToRemove removeObject:key];
+                    [_uncommittedKeys removeObject:key];
+                }
+            });
         };
     }
 
@@ -68,8 +75,11 @@
             dispatch_group_leave(group);
         };
     }
-
-    [_uncommittedKeys addObject:key];
+    
+    dispatch_barrier_sync(self.queue, ^{
+        [_uncommittedKeys addObject:key];
+    });
+    
     [self.memoryCache setObject:object forKey:key block:memBlock];
 
     if (group) {
@@ -127,16 +137,21 @@
         });
     }
 
-    [_keysToRemove addObject:key];
-    [_uncommittedKeys removeObject:key];
+    dispatch_barrier_async(self.queue, ^{
+        [_keysToRemove addObject:key];
+        [_uncommittedKeys removeObject:key];
+    });
 }
 
 - (void)removeAllObjects:(TMCacheBlock)block
 {
-    _shouldRemoveAllObjects = YES;
+    _shouldRemoveAllObjects = YES; // atomic
 
     [super removeAllObjects:block];
-    [_keysToRemove removeAllObjects];
+    
+    dispatch_barrier_async(self.queue, ^{
+        [_keysToRemove removeAllObjects];
+    });
 }
 
 @end

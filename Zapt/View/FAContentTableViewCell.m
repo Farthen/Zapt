@@ -155,6 +155,8 @@
         self.progressView.progress = 0;
     }
     
+    self.image = image;
+    
     self.displayedContent = content;
     
     self.needsRemoveAllConstraints = YES;
