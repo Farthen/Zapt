@@ -13,6 +13,7 @@
 @property NSString *activityName;
 @property (nonatomic) BOOL isCancelled;
 @property (nonatomic) BOOL isInvalidated;
+@property (nonatomic) BOOL isFinished;
 @end
 
 @implementation FATraktRequest
@@ -31,7 +32,9 @@
 - (void)cancelImmediately
 {
     [self.operation cancel];
+    
     self.isCancelled = YES;
+    
     [self finishActivity];
 }
 
@@ -42,7 +45,10 @@
 
 - (void)finishActivity
 {
-    [[FAActivityDispatch sharedInstance] finishActivityNamed:self.activityName];
+    if (!self.isFinished) {
+        self.isFinished = YES;
+        [[FAActivityDispatch sharedInstance] finishActivityNamed:self.activityName];
+    }
 }
 
 - (void)invalidate

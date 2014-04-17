@@ -157,7 +157,8 @@ static CGPoint _scrollPositions[3];
                 [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
                     @synchronized(self) {
                         if (_searchScope == content.contentType && oldSearchData == self.searchData) {
-                            [self.searchDisplayController.searchResultsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:idx inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                            FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.searchDisplayController.searchResultsTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+                            cell.image = image;
                         }
                     }
                 } onError:nil];
@@ -282,11 +283,11 @@ static CGPoint _scrollPositions[3];
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Reuse cells
-    static NSString *id = @"FASearchResultTableViewCell";
-    FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:id];
+    static NSString *cellId = @"FASearchResultTableViewCell";
+    FAContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     
     if (!cell) {
-        cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:id];
+        cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
     }
     
     UIImage *image = nil;
