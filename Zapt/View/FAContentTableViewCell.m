@@ -13,6 +13,8 @@
 #import "FAInterfaceStringProvider.h"
 #import "FAHorizontalProgressView.h"
 
+#import "FABadges.h"
+
 @interface FAContentTableViewCell ()
 @property BOOL addedConstraints;
 @property FAHorizontalProgressView *progressView;
@@ -21,6 +23,8 @@
 @property (nonatomic) FATraktContent *displayedContent;
 
 @property BOOL needsRemoveAllConstraints;
+
+@property (nonatomic) FABadges *badges;
 @end
 
 @implementation FAContentTableViewCell {
@@ -34,6 +38,7 @@
     if (self) {
         
         self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.badges = [FABadges instanceForView:self.contentView];
         
         [self layoutSubviews];
     }
@@ -318,34 +323,10 @@
             }
         }
         
-        if (self.showsProgressForShows && self.displayedContent.contentType == FATraktContentTypeShows) {
-            self.separatorInset = UIEdgeInsetsZero;
-            
-            CGRect frame = CGRectMake(0, self.bounds.size.height - 2, self.bounds.size.width, 2);
-            
-            if (!self.progressView) {
-                self.progressView = [[FAHorizontalProgressView alloc] initWithFrame:frame];
-                [self addSubview:self.progressView];
-            }
-            
-            self.progressView.tintColor = [[FAGlobalSettings sharedInstance] tintColor];
-            
-            self.progressView.backgroundColor = [UIColor lightGrayColor];
-            
-            self.progressView.progress = self.showProgress;
-            
-            [self.progressView addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:2]];
-            
-            
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.progressView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.progressView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-            
-            [self.progressView setNeedsUpdateConstraints];
-            [self.progressView setNeedsLayout];
+        if (self.showsProgressForShows && self.showProgress >= 1.0) {
+            [self.badges badge:FABadgeWatched];
         } else {
-            [self.progressView removeFromSuperview];
-            self.progressView = nil;
+            [self.badges unbadge:FABadgeWatched];
         }
     }
     

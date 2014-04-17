@@ -107,9 +107,7 @@ typedef enum {
         badgeView.frameRightPosition = 0;
     }
     
-    if (badgeView.superview != self.view) {
-        [self.view addSubview:badgeView];
-    }
+    [self.view addSubview:badgeView];
 }
 
 @end
