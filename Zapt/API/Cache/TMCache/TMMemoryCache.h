@@ -4,10 +4,10 @@
 
  Access is natively asynchronous. Every method accepts a callback block that runs on a concurrent
  <queue>, with cache writes protected by GCD barriers. Synchronous variations are provided.
- 
+
  All access to the cache is dated so the that the least-used objects can be trimmed first. Setting an
  optional <ageLimit> will trigger a GCD timer to periodically to trim the cache to that age.
- 
+
  Objects can optionally be set with a "cost", which could be a byte count or any other meaningful integer.
  Setting a <costLimit> will automatically keep the cache below that value with <trimToCostByDate:>.
 
@@ -116,7 +116,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 
 /**
  A shared cache.
- 
+
  @result The shared singleton cache instance.
  */
 + (instancetype)sharedCache;
@@ -127,7 +127,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Retrieves the object for the specified key. This method returns immediately and executes the passed
  block after the object is available, potentially in parallel with other blocks on the <queue>.
- 
+
  @param key The key associated with the requested object.
  @param block A block to be executed concurrently when the object is available.
  */
@@ -136,7 +136,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Stores an object in the cache for the specified key. This method returns immediately and executes the
  passed block after the object has been stored, potentially in parallel with other blocks on the <queue>.
- 
+
  @param object An object to store in the cache.
  @param key A key to associate with the object. This string will be copied.
  @param block A block to be executed concurrently after the object has been stored, or nil.
@@ -148,7 +148,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
  to go over the <costLimit> the cache is trimmed (oldest objects first). This method returns immediately
  and executes the passed block after the object has been stored, potentially in parallel with other blocks
  on the <queue>.
- 
+
  @param object An object to store in the cache.
  @param key A key to associate with the object. This string will be copied.
  @param cost An amount to add to the <totalCost>.
@@ -159,7 +159,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Removes the object for the specified key. This method returns immediately and executes the passed
  block after the object has been removed, potentially in parallel with other blocks on the <queue>.
- 
+
  @param key The key associated with the object to be removed.
  @param block A block to be executed concurrently after the object has been removed, or nil.
  */
@@ -169,7 +169,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
  Removes all objects from the cache that have not been used since the specified date.
  This method returns immediately and executes the passed block after the cache has been trimmed,
  potentially in parallel with other blocks on the <queue>.
- 
+
  @param date Objects that haven't been accessed since this date are removed from the cache.
  @param block A block to be executed concurrently after the cache has been trimmed, or nil.
  */
@@ -179,7 +179,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
  Removes objects from the cache, costliest objects first, until the <totalCost> is below the specified
  value. This method returns immediately and executes the passed block after the cache has been trimmed,
  potentially in parallel with other blocks on the <queue>.
- 
+
  @param cost The total accumulation allowed to remain after the cache has been trimmed.
  @param block A block to be executed concurrently after the cache has been trimmed, or nil.
  */
@@ -198,7 +198,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Removes all objects from the cache. This method returns immediately and executes the passed block after
  the cache has been cleared, potentially in parallel with other blocks on the <queue>.
- 
+
  @param block A block to be executed concurrently after the cache has been cleared, or nil.
  */
 - (void)removeAllObjects:(TMMemoryCacheBlock)block;
@@ -218,7 +218,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Retrieves the object for the specified key. This method blocks the calling thread until the
  object is available.
- 
+
  @see objectForKey:block:
  @param key The key associated with the object.
  @result The object for the specified key.
@@ -249,7 +249,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Removes the object for the specified key. This method blocks the calling thread until the object
  has been removed.
- 
+
  @param key The key associated with the object to be removed.
  */
 - (void)removeObjectForKey:(NSString *)key;
@@ -257,7 +257,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Removes all objects from the cache that have not been used since the specified date.
  This method blocks the calling thread until the cache has been trimmed.
- 
+
  @param date Objects that haven't been accessed since this date are removed from the cache.
  */
 - (void)trimToDate:(NSDate *)date;
@@ -265,7 +265,7 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
 /**
  Removes objects from the cache, costliest objects first, until the <totalCost> is below the specified
  value. This method blocks the calling thread until the cache has been trimmed.
- 
+
  @param cost The total accumulation allowed to remain after the cache has been trimmed.
  */
 - (void)trimToCost:(NSUInteger)cost;
@@ -288,10 +288,10 @@ typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id
  This method blocks the calling thread until all objects have been enumerated.
 
  @param block A block to be executed for every object in the cache.
- 
+
  @warning Do not call this method within the event blocks (<didReceiveMemoryWarningBlock>, etc.)
  Instead use the asynchronous version, <enumerateObjectsWithBlock:completionBlock:>.
- 
+
  */
 - (void)enumerateObjectsWithBlock:(TMMemoryCacheObjectBlock)block;
 
