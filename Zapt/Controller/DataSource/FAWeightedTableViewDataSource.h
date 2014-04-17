@@ -19,14 +19,16 @@
 - (void)showRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)hideRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
 
-- (void)removeRowInSection:(id<NSCopying>)sectionKey forObject:(id)rowKey;
-- (void)insertRow:(id)rowKey inSection:(id<NSCopying>)sectionKey withWeight:(NSInteger)weight;
-- (void)insertRow:(id)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden;
+- (void)removeRow:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
+- (void)insertRow:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight;
+- (void)insertRow:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey withWeight:(NSInteger)weight hidden:(BOOL)hidden;
 
 - (id <NSCopying, NSCoding>)largestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey;
 - (id <NSCopying, NSCoding>)smallestRowKeyInSection:(id <NSCopying, NSCoding>)sectionKey;
+
 - (NSUInteger)numberOfRowsInSection:(id <NSCopying, NSCoding>)sectionKey;
 - (NSUInteger)numberOfVisibleRowsInSection:(id <NSCopying, NSCoding>)sectionKey;
+
 - (BOOL)hasRowWithKey:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
 - (NSSet *)rowKeysForSection:(id <NSCopying, NSCoding>)sectionKey;
 

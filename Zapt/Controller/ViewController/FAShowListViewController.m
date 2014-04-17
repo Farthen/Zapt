@@ -147,7 +147,7 @@
     [self.view layoutIfNeeded];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)key
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)key
 {
     FATraktContent *content = [FATraktShow objectWithCacheKey:key];
     
@@ -189,7 +189,7 @@
         for (FATraktShow *show in result) {
             [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
                 [self.showImages setObject:image forKey:show.cacheKey];
-                [self.weightedDataSource reloadRowsWithObject:show.cacheKey];
+                [self.weightedDataSource reloadRowsWithKey:show.cacheKey];
             } onError:nil];
         }
         

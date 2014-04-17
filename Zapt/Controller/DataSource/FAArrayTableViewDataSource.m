@@ -62,8 +62,8 @@
         _sectionIndexTitles = [coder decodeObjectForKey:@"sectionIndexTitles"];
         _headerTitles =       [coder decodeObjectForKey:@"headerTitles"];
         _footerTitles =       [coder decodeObjectForKey:@"footerTitles"];
-        _editableIndexPaths = [coder decodeObjectForKey:@"editableIndexPaths"];
-        _movableIndexPaths =  [coder decodeObjectForKey:@"movableIndexPaths"];
+        _editableObjects =    [coder decodeObjectForKey:@"editableIndexPaths"];
+        _movableObjects =     [coder decodeObjectForKey:@"movableIndexPaths"];
         
         _cellClass = NSClassFromString([coder decodeObjectForKey:@"cellClassName"]);
     }
@@ -78,8 +78,8 @@
     [coder encodeObject:self.sectionIndexTitles forKey:@"sectionIndexTitles"];
     [coder encodeObject:self.headerTitles       forKey:@"headerTitles"];
     [coder encodeObject:self.footerTitles       forKey:@"footerTitles"];
-    [coder encodeObject:self.editableIndexPaths forKey:@"editableIndexPaths"];
-    [coder encodeObject:self.movableIndexPaths  forKey:@"movableIndexPaths"];
+    [coder encodeObject:self.editableObjects    forKey:@"editableIndexPaths"];
+    [coder encodeObject:self.movableObjects     forKey:@"movableIndexPaths"];
     
     [coder encodeObject:NSStringFromClass(self.cellClass) forKey:@"cellClassName"];
 }
@@ -229,12 +229,12 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.editableIndexPaths containsObject:indexPath];
+    return [self.editableObjects containsObject:[self rowKeyAtIndexPath:indexPath]];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.movableIndexPaths containsObject:indexPath];
+    return [self.movableObjects containsObject:[self rowKeyAtIndexPath:indexPath]];
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -367,12 +367,12 @@
     [self.tableView reloadData];
 }
 
-- (void)reloadRowsWithObject:(id)object
+- (void)reloadRowsWithKey:(id)object
 {
-    return [self reloadRowsWithObjects:[NSSet setWithObject:object]];
+    return [self reloadRowsWithKeys:[NSSet setWithObject:object]];
 }
 
-- (void)removeObject:(id)object
+- (void)removeRowWithKey:(id)object
 {
     NSSet *indexPaths = [self.objects objectForKey:object];
     [self.objects removeObjectForKey:object];
@@ -385,35 +385,35 @@
     [self.tableView deleteRowsAtIndexPaths:indexPaths.allObjects withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath
+- (void)insertRowWithKey:(id)rowKey atIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *section = _tableViewData[indexPath.section];
-    [section insertObject:object atIndex:indexPath.row];
+    [section insertObject:rowKey atIndex:indexPath.row];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)replaceObject:(id)oldObject withObject:(id)newObject
+- (void)replaceRowKey:(id)oldRowKey withRowKey:(id)newRowKey
 {
-    NSSet *indexPaths = [self.objects objectForKey:oldObject];
-    [self replaceObjectsAtIndexPaths:indexPaths withObject:newObject];
+    NSSet *indexPaths = [self.objects objectForKey:oldRowKey];
+    [self replaceRowKeysAtIndexPaths:indexPaths withRowKey:newRowKey];
 }
 
-- (void)replaceObjectsAtIndexPaths:(NSSet *)indexPaths withObject:(id)object
+- (void)replaceRowKeysAtIndexPaths:(NSSet *)indexPaths withRowKey:(id)newRowKey
 {
     for (NSIndexPath *indexPath in indexPaths) {
-        [self replaceObjectAtIndexPath:indexPath withObject:object];
+        [self replaceRowKeyAtIndexPath:indexPath withRowKey:newRowKey];
     }
 }
 
-- (void)replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object
+- (void)replaceRowKeyAtIndexPath:(NSIndexPath *)indexPath withRowKey:(id)newRowKey
 {
-    [self replaceObjectInSection:indexPath.section row:indexPath.row withObject:object];
+    [self replaceRowKeyInSection:indexPath.section row:indexPath.row withRowKey:newRowKey];
 }
 
-- (void)replaceObjectInSection:(NSUInteger)section row:(NSUInteger)row withObject:(id)object
+- (void)replaceRowKeyInSection:(NSUInteger)section row:(NSUInteger)row withRowKey:(id)newRowKey
 {
     id oldObject = self.tableViewData[section][row];
-    NSMutableSet *oldIndexPaths = [self.objects objectForKey:oldObject];
+    NSMutableSet *oldIndexPaths = [self.objects objectForKey:newRowKey];
     [oldIndexPaths removeObject:oldObject];
     
     if (oldIndexPaths.count == 0) {
@@ -421,16 +421,16 @@
     }
     
     NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
-    NSMutableSet *newIndexPaths = [self.objects objectForKey:object];
+    NSMutableSet *newIndexPaths = [self.objects objectForKey:newRowKey];
     
     if (!newIndexPaths) {
         newIndexPaths = [NSMutableSet set];
-        [self.objects setObject:newIndexPaths forKey:object];
+        [self.objects setObject:newIndexPaths forKey:newRowKey];
     }
     
     [newIndexPaths addObject:newIndexPath];
     
-    self.tableViewData[section][row] = object;
+    self.tableViewData[section][row] = newRowKey;
     [self reloadSection:section row:row];
 }
 
@@ -439,7 +439,7 @@
     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:(NSInteger)row inSection:(NSInteger)section]] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)reloadRowsWithObjects:(NSSet *)objects
+- (void)reloadRowsWithKeys:(NSSet *)objects
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     
@@ -454,7 +454,7 @@
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 
-- (id)objectAtIndexPath:(NSIndexPath *)indexPath
+- (id)rowKeyAtIndexPath:(NSIndexPath *)indexPath
 {
     if ((NSInteger)self.tableViewData.count > indexPath.section) {
         NSArray *section = self.tableViewData[indexPath.section];
@@ -469,10 +469,10 @@
 
 - (NSIndexPath *)anyIndexPathForObject:(id)object
 {
-    return [self indexPathsForObject:object].anyObject;
+    return [self indexPathsForRowKey:object].anyObject;
 }
 
-- (NSSet *)indexPathsForObject:(id)object
+- (NSSet *)indexPathsForRowKey:(id)object
 {
     return self.objects[object];
 }
@@ -533,7 +533,7 @@
 
 - (NSString *)modelIdentifierForElementAtIndexPath:(NSIndexPath *)idx inView:(UIView *)view
 {
-    return [NSString stringWithFormat:@"%lu", (unsigned long)[[self objectAtIndexPath:idx] hash]];
+    return [NSString stringWithFormat:@"%lu", (unsigned long)[[self rowKeyAtIndexPath:idx] hash]];
 }
 
 - (NSIndexPath *)indexPathForElementWithModelIdentifier:(NSString *)identifier inView:(UIView *)view

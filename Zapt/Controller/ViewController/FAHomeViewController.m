@@ -118,7 +118,7 @@
                     
                     if (!content.posterImage) {
                         [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
-                            [self.arrayDataSource reloadRowsWithObject:content.cacheKey];
+                            [self.arrayDataSource reloadRowsWithKey:content.cacheKey];
                         } onError:nil];
                     }
                 }
@@ -142,7 +142,7 @@
         for (FATraktShow *show in self.showsWithProgress) {
             if (!show.images.posterImage) {
                 [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
-                    [self.arrayDataSource reloadRowsWithObject:show.cacheKey];
+                    [self.arrayDataSource reloadRowsWithKey:show.cacheKey];
                 } onError:nil];
             }
         }
@@ -261,7 +261,7 @@
             FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
             
             if ([shows indexOfObject:show] == NSNotFound) {
-                [self.arrayDataSource removeRowInSection:sectionName forObject:show.cacheKey];
+                [self.arrayDataSource removeRow:show.cacheKey inSection:sectionName];
             }
         }
         
@@ -280,7 +280,7 @@
     [self.arrayDataSource recalculateWeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)object
 {
     if ([object isKindOfClass:[NSString class]]) {
         if ([object isEqualToString:@"lists"]) {

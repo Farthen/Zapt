@@ -125,12 +125,12 @@
     self.arrayTableViewDelegate.dataSource = self.arrayDataSource;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowWithObject:(id)object
+- (CGFloat)tableView:(UITableView *)tableView heightForRowWithKey:(id)object
 {
     return 100;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)key
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)key
 {
     FATraktSeason *season = [FATraktSeason objectWithCacheKey:key];
     
@@ -157,7 +157,7 @@
                 [[FATrakt sharedInstance] loadImageFromURL:imageList.poster callback:^(UIImage *image) {
                     if (season.seasonNumber) {
                         self.seasonImages[season.seasonNumber] = image;
-                        [self.arrayDataSource reloadRowsWithObject:season.cacheKey];
+                        [self.arrayDataSource reloadRowsWithKey:season.cacheKey];
                     }
                 } onError:nil];
             }

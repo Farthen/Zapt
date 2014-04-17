@@ -143,7 +143,7 @@
     [self.weightedDataSource recalculateWeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)object
 {
     FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
     [detailVC loadContent:[FATraktContent objectWithCacheKey:object]];
@@ -169,7 +169,7 @@
             
             for (FATraktContent *content in self.showData) {
                 [[FATrakt sharedInstance] loadImageFromURL:content.images.poster withWidth:42 callback:^(UIImage *image) {
-                    [self.weightedDataSource reloadRowsWithObject:content.cacheKey];
+                    [self.weightedDataSource reloadRowsWithKey:content.cacheKey];
                 } onError:nil];
             }
          } onError:nil];
@@ -189,7 +189,7 @@
             
             for (FATraktContent *content in self.movieData) {
                 [[FATrakt sharedInstance] loadImageFromURL:content.images.poster withWidth:42 callback:^(UIImage *image) {
-                    [self.weightedDataSource reloadRowsWithObject:content.cacheKey];
+                    [self.weightedDataSource reloadRowsWithKey:content.cacheKey];
                 } onError:nil];
             }
             

@@ -705,7 +705,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }];
 }
 
-- (void)removeRowInSection:(id <NSCopying, NSCoding>)sectionKey forObject:(id)rowKey
+- (void)removeRow:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey
 {
     FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
     FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
