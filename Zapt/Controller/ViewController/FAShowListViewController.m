@@ -193,7 +193,12 @@
             } onError:nil];
         }
         
-        self.showsWithProgress = result;
+        self.showsWithProgress = [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            FATraktShow *show1 = obj1;
+            FATraktShow *show2 = obj2;
+            
+            return [show1.title compare:show2.title];
+        }];
         [self displayProgressData];
         
         if (animated) [self.refreshControlWithActivity finishActivity];
