@@ -1,6 +1,6 @@
 // AFURLConnectionOperation.m
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -88,8 +88,12 @@ static inline NSString * AFKeyPathFromOperationState(AFOperationState state) {
             return @"isFinished";
         case AFOperationPausedState:
             return @"isPaused";
-        default:
+        default: {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
             return @"state";
+#pragma clang diagnostic pop
+        }
     }
 }
 
@@ -117,8 +121,20 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
             return NO;
         case AFOperationPausedState:
             return toState == AFOperationReadyState;
-        default:
-            return YES;
+        default: {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
+            switch (toState) {
+                case AFOperationPausedState:
+                case AFOperationReadyState:
+                case AFOperationExecutingState:
+                case AFOperationFinishedState:
+                    return YES;
+                default:
+                    return NO;
+            }
+        }
+#pragma clang diagnostic pop
     }
 }
 
@@ -176,7 +192,9 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     if (!self) {
 		return nil;
     }
-    
+
+    _state = AFOperationReadyState;
+
     self.lock = [[NSRecursiveLock alloc] init];
     self.lock.name = kAFNetworkingLockName;
     
@@ -185,8 +203,6 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     self.request = urlRequest;
     
     self.shouldUseCredentialStorage = YES;
-
-    self.state = AFOperationReadyState;
 
     self.securityPolicy = [AFSecurityPolicy defaultPolicy];
 
@@ -451,8 +467,10 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
 }
 
 - (void)finish {
+    [self.lock lock];
     self.state = AFOperationFinishedState;
-    
+    [self.lock unlock];
+
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
     });
@@ -643,7 +661,7 @@ didReceiveResponse:(NSURLResponse *)response
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.totalBytesRead += length;
+        self.totalBytesRead += (long long)length;
 
         if (self.downloadProgress) {
             self.downloadProgress(length, self.totalBytesRead, self.response.expectedContentLength);
@@ -653,24 +671,26 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)connectionDidFinishLoading:(NSURLConnection __unused *)connection {
     self.responseData = [self.outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-    
+
     [self.outputStream close];
-    
-    [self finish];
-    
+    self.outputStream = nil;
+
     self.connection = nil;
+
+    [self finish];
 }
 
 - (void)connection:(NSURLConnection __unused *)connection
   didFailWithError:(NSError *)error
 {
     self.error = error;
-    
+
     [self.outputStream close];
-    
-    [self finish];
-    
+    self.outputStream = nil;
+
     self.connection = nil;
+
+    [self finish];
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
