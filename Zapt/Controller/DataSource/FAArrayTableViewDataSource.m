@@ -45,6 +45,7 @@
     
     if (self) {
         self.tableView = tableView;
+        self.tableView.dataSource = self;
     }
     
     return self;

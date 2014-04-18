@@ -209,4 +209,20 @@ static NSArray *_ratingNames;
     }
 }
 
++ (NSString *)relativeDateFromNowWithDate:(NSDate *)date
+{
+    static NSDateFormatter *dateFormatter = nil;
+    if (!dateFormatter) {
+        dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    
+    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    [dateFormatter setDoesRelativeDateFormatting:YES];
+
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
+    return dateString;
+}
+
 @end

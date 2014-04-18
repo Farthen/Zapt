@@ -9,7 +9,7 @@
 #import "FAViewController.h"
 #import "FAEpisodeListViewController.h"
 
-@interface FASeasonDetailViewController : FAViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface FASeasonDetailViewController : FAViewController <UISearchDisplayDelegate, UISearchBarDelegate, UIActionSheetDelegate>
 
 @property IBOutlet FAEpisodeListViewController *episodeListViewController;
 @property IBOutlet UISearchBar *searchBar;

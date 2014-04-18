@@ -23,6 +23,7 @@ static NSInteger __cacheVersionNumber = 4;
 @synthesize images = _images;
 @synthesize lists = _lists;
 @synthesize searches = _searches;
+@synthesize calendar = _calendar;
 
 + (void)initialize
 {
@@ -64,6 +65,10 @@ static NSInteger __cacheVersionNumber = 4;
     if (!_searches) {
         _searches = [[TMFastCache alloc] initWithName:@"searches"];
         _searches.memoryCache.ageLimit = 60;
+    }
+    
+    if (!_calendar) {
+        _calendar = [[TMFastCache alloc] initWithName:@"calendar"];
     }
     
     NSInteger cacheVersionNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"cacheVersionNumber"];

@@ -24,5 +24,6 @@ extern NSString *FATraktCacheClearedNotification;
 @property (readonly) TMCache *images;
 @property (readonly) TMCache *lists;
 @property (readonly) TMCache *searches;
+@property (readonly) TMCache *calendar;
 
 @end

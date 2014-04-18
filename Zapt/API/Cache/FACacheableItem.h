@@ -17,7 +17,11 @@
 @property BOOL shouldBeCached;
 
 + (TMCache *)backingCache;
++ (instancetype)objectWithCacheKey:(NSString *)cacheKey;
+
 - (void)commitToCache;
 - (void)removeFromCache;
+
+- (instancetype)cachedVersion;
 
 @end

@@ -55,7 +55,8 @@
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict
 {
-    return [self initWithJSONDict:dict andShow:nil];
+    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dict[@"show"]];
+    return [self initWithJSONDict:dict[@"episode"] andShow:show];
 }
 
 - (instancetype)initWithJSONDict:(NSDictionary *)dict andShow:(FATraktShow *)show

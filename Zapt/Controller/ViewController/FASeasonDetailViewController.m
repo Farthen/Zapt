@@ -13,6 +13,7 @@
 
 @interface FASeasonDetailViewController ()
 @property (nonatomic) FATraktSeason *season;
+@property (nonatomic) UIActionSheet *confirmMarkAllAsSeenActionSheet;
 @end
 
 @implementation FASeasonDetailViewController
@@ -23,6 +24,8 @@
     
     if (self) {
         // Custom initialization
+        
+        self.confirmMarkAllAsSeenActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Do you want to mark the entire %@ as seen?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Mark as seen", nil) otherButtonTitles:nil];
     }
     
     return self;
@@ -61,6 +64,11 @@
     }
 }
 
+- (void)confirmMarkAllAsSeen
+{
+    [self.confirmMarkAllAsSeenActionSheet showInView:self.view];
+}
+
 - (void)showEpisodeListForSeason:(FATraktSeason *)season
 {
     self.season = season;
@@ -71,7 +79,7 @@
         [self.episodeListViewController showEpisodeListForSeason:self.season];
         
         if (!self.season.isWatched) {
-            UIBarButtonItem *markAsWatchedItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Mark Seen", nil) style:UIBarButtonItemStylePlain target:self action:@selector(markAllAsSeen)];
+            UIBarButtonItem *markAsWatchedItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Mark Seen", nil) style:UIBarButtonItemStylePlain target:self action:@selector(confirmMarkAllAsSeen)];
             self.navigationItem.rightBarButtonItem = markAsWatchedItem;
         } else {
             self.navigationItem.rightBarButtonItem = nil;
@@ -86,6 +94,13 @@
     }
     
     [super addChildViewController:childController];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (actionSheet == self.confirmMarkAllAsSeenActionSheet && buttonIndex == 0) {
+        [self markAllAsSeen];
+    }
 }
 
 #pragma mark State Restoration

@@ -29,6 +29,7 @@
     if (self) {
         self.dataSource = dataSource;
         self.tableView = dataSource.tableView;
+        self.tableView.delegate = self;
     }
     
     return self;

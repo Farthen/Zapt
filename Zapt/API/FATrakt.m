@@ -1527,15 +1527,46 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                 traktStatus = FATraktStatusSuccess;
             }
             
-            callback(traktStatus);
+            FATraktCallbackCall(callback(traktStatus));
         } onError:^(FATraktConnectionResponse *connectionError) {
-            callback(FATraktStatusFailed);
+            FATraktCallbackCall(callback(FATraktStatusFailed));
         }];
     } else {
-        callback(FATraktStatusFailed);
+        FATraktCallbackCall(callback(FATraktStatusFailed));
         
         return nil;
     }
+}
+
+- (FATraktRequest *)calendarFromDate:(NSDate *)fromDate dayCount:(NSUInteger)dayCount callback:(void (^)(FATraktCalendar *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    static NSDateFormatter *traktDateFormatter = nil;
+    if (!traktDateFormatter) {
+        traktDateFormatter = [[NSDateFormatter alloc] init];
+        traktDateFormatter.dateFormat = @"yyyyMMdd";
+    }
+    
+    FATraktCalendar *cachedCalendar = [FATraktCalendar cachedCalendar];
+    if (cachedCalendar && [cachedCalendar.fromDate isEqualToDate:fromDate] && cachedCalendar.dayCount == dayCount) {
+        FATraktCallbackCall(callback(cachedCalendar));
+    }
+    
+    NSString *fromDateString = [traktDateFormatter stringFromDate:fromDate];
+    NSString *dayCountString = [NSString stringWithFormat:@"%lu", dayCount];
+    
+    if (fromDateString && dayCountString) {
+        return [self.connection getAPI:@"user/calendar/shows.json" withParameters:@[self.connection.apiUser, fromDateString, dayCountString] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            
+            FATraktCalendar *calendar = [[FATraktCalendar alloc] initWithJSONArray:response.jsonData];
+            calendar.fromDate = fromDate;
+            calendar.dayCount = dayCount;
+            
+            FATraktCallbackCall(callback(calendar));
+            
+        } onError:error];
+    }
+    
+    return nil;
 }
 
 @end

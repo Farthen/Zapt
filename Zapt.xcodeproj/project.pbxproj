@@ -147,6 +147,9 @@
 		F3C925B818FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */; };
 		F3C925BB18FA02E50054ACE3 /* FAArrowView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3C925BA18FA02E50054ACE3 /* FAArrowView.m */; };
 		F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */; };
+		F3CAEEE419009DA0005EA8E2 /* FATraktCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */; };
+		F3CAEEE719009E46005EA8E2 /* FATraktCalendarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */; };
+		F3CAEEEA1900A90A005EA8E2 /* FACalendarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */; };
 		F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		F3CE70A718FB55400003679D /* FANotificationScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */; };
 		F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
@@ -471,6 +474,12 @@
 		F3C925BA18FA02E50054ACE3 /* FAArrowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAArrowView.m; sourceTree = "<group>"; };
 		F3CAC39216F2C53600CCEE37 /* FALogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALogFormatter.h; sourceTree = "<group>"; };
 		F3CAC39316F2C53600CCEE37 /* FALogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALogFormatter.m; sourceTree = "<group>"; };
+		F3CAEEE219009DA0005EA8E2 /* FATraktCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCalendar.h; sourceTree = "<group>"; };
+		F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCalendar.m; sourceTree = "<group>"; };
+		F3CAEEE519009E46005EA8E2 /* FATraktCalendarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCalendarItem.h; sourceTree = "<group>"; };
+		F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCalendarItem.m; sourceTree = "<group>"; };
+		F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACalendarTableViewController.h; sourceTree = "<group>"; };
+		F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACalendarTableViewController.m; sourceTree = "<group>"; };
 		F3CBA90517CD017500BAC568 /* Zapt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt-Info.plist"; sourceTree = "<group>"; };
 		F3CBA90B17CD035200BAC568 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3CBA91117CD035200BAC568 /* Zapt Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt Tests-Info.plist"; sourceTree = "<group>"; };
@@ -809,6 +818,8 @@
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
 				F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */,
 				F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */,
+				F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */,
+				F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */,
 				F30CAFC3179CD19D002E7D3C /* Containers */,
 			);
 			name = Detail;
@@ -1326,6 +1337,10 @@
 				F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */,
 				F3CE70B118FCB1120003679D /* FATraktRating.h */,
 				F3CE70B218FCB1120003679D /* FATraktRating.m */,
+				F3CAEEE219009DA0005EA8E2 /* FATraktCalendar.h */,
+				F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */,
+				F3CAEEE519009E46005EA8E2 /* FATraktCalendarItem.h */,
+				F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */,
 			);
 			name = Trakt;
 			path = ../API/DataTypes;
@@ -1528,6 +1543,7 @@
 			files = (
 				F3B9C93C17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m in Sources */,
 				F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */,
+				F3CAEEE719009E46005EA8E2 /* FATraktCalendarItem.m in Sources */,
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */,
 				F3A2821218FA5FAE00369045 /* FASlideAnimatedTransition.m in Sources */,
@@ -1601,6 +1617,7 @@
 				F3B03908184D13B60091ED9D /* UIImage+SizeInBytes.m in Sources */,
 				F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */,
 				F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */,
+				F3CAEEE419009DA0005EA8E2 /* FATraktCalendar.m in Sources */,
 				F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */,
 				F3A443F317A752FE00210EE9 /* FASemiModalEnabledViewController.m in Sources */,
 				F323DB921852BF4B00BE0DAB /* FAArrayTableViewDelegate.m in Sources */,
@@ -1650,6 +1667,7 @@
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 				F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */,
 				F3AAC0C618F379A700EF8876 /* FAEpisodeNumberView.m in Sources */,
+				F3CAEEEA1900A90A005EA8E2 /* FACalendarTableViewController.m in Sources */,
 				F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
 				F37E4880184D75B600D66A32 /* FAViewController.m in Sources */,

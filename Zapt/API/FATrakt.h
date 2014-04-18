@@ -33,6 +33,8 @@
 #import "FATraktCheckin.h"
 #import "FATraktCheckinTimestamps.h"
 #import "FATraktRating.h"
+#import "FATraktCalendar.h"
+#import "FATraktCalendarItem.h"
 
 extern NSString *const FATraktActivityNotificationSearch;
 extern NSString *const FATraktActivityNotificationCheckAuth;
@@ -59,13 +61,13 @@ extern NSString *const FATraktActivityNotificationCheckin;
 
 #pragma mark movies
 - (FATraktRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *movie))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark shows
 - (FATraktRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForShows:(NSArray *)shows detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *show))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *show))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForShows:(NSArray *)shows detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *shows))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark progress
 - (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progressItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
@@ -74,30 +76,30 @@ extern NSString *const FATraktActivityNotificationCheckin;
 - (FATraktRequest *)watchedProgressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark seasons
-- (FATraktRequest *)seasonInfoForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForSeason:(FATraktSeason *)season callback:(void (^)(FATraktSeason *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)seasonInfoForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *show))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForSeason:(FATraktSeason *)season callback:(void (^)(FATraktSeason *season))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark episodes
 - (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *episode))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark watchlists
-- (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *watchlist))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark libraries
 - (FATraktRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *library))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *library))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark custom lists
 - (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *customLists))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *list))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 - (FATraktRequest *)addNewCustomListWithName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)editCustomListWithSlug:(NSString *)slug newName:(NSString *)newName description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
@@ -107,11 +109,12 @@ extern NSString *const FATraktActivityNotificationCheckin;
 
 #pragma mark user
 - (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *content))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error;
+- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *recommendations))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)calendarFromDate:(NSDate *)fromDate dayCount:(NSUInteger)dayCount callback:(void (^)(FATraktCalendar *calendar))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 
 #pragma mark content actions
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRatingScore)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
 - (FATraktRequest *)setContent:(id)content seenStatus:(BOOL)seen callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckin *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
-- (FATraktRequest *)cancelCheckInForContentType:(FATraktContentType)contentType callback:(void (^)(FATraktStatus))callback;
+- (FATraktRequest *)checkIn:(FATraktContent *)content callback:(void (^)(FATraktCheckin *checkin))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error;
+- (FATraktRequest *)cancelCheckInForContentType:(FATraktContentType)contentType callback:(void (^)(FATraktStatus status))callback;
 @end

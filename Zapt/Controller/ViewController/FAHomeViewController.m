@@ -12,6 +12,7 @@
 #import "FAListsViewController.h"
 #import "FARecommendationsListViewController.h"
 #import "FAShowListViewController.h"
+#import "FACalendarTableViewController.h"
 
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDataSource.h"
@@ -66,7 +67,6 @@
         
         self.arrayDataSource.cellClass = [FAContentTableViewCell class];
         
-        self.tableView.dataSource = self.arrayDataSource;
         self.tableView.delegate = self.arrayDelegate;
 
         
@@ -223,6 +223,9 @@
             } else if ([key isEqualToString:@"shows"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"TV Shows", nil);
                 contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"All your TV shows", nil);
+            } else if ([key isEqualToString:@"calendar"]) {
+                contentCell.textLabel.text = NSLocalizedString(@"Calendar", nil);
+                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Your upcoming episodes", nil);
             }
         }
     };
@@ -234,6 +237,7 @@
     [self.arrayDataSource insertRow:@"lists" inSection:@"user" withWeight:0];
     [self.arrayDataSource insertRow:@"recommendations" inSection:@"user" withWeight:1];
     [self.arrayDataSource insertRow:@"shows" inSection:@"user" withWeight:2];
+    [self.arrayDataSource insertRow:@"calendar" inSection:@"user" withWeight:3];
     [self.arrayDataSource recalculateWeight];
 }
 
@@ -280,28 +284,33 @@
     [self.arrayDataSource recalculateWeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)object
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)rowKey
 {
-    if ([object isKindOfClass:[NSString class]]) {
-        if ([object isEqualToString:@"lists"]) {
+    if ([rowKey isKindOfClass:[NSString class]]) {
+        if ([rowKey isEqualToString:@"lists"]) {
             
             FAListsViewController *listsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"lists"];
             [self.navigationController pushViewController:listsVC animated:YES];
             
-        } else if ([object isEqualToString:@"recommendations"]) {
+        } else if ([rowKey isEqualToString:@"recommendations"]) {
             
             FARecommendationsListViewController *recommendationsListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recommendations"];
             [recommendationsListVC loadRecommendations];
             [self.navigationController pushViewController:recommendationsListVC animated:YES];
-        } else if ([object isEqualToString:@"shows"]) {
+        } else if ([rowKey isEqualToString:@"shows"]) {
             
             FAShowListViewController *showListVC = [self.storyboard instantiateViewControllerWithIdentifier:@"showList"];
             [showListVC loadShows];
             [self.navigationController pushViewController:showListVC animated:YES];
+        } else if ([rowKey isEqualToString:@"calendar"]) {
+            
+            FACalendarTableViewController *calendarVC = [self.storyboard instantiateViewControllerWithIdentifier:@"calendar"];
+            [calendarVC loadData];
+            [self.navigationController pushViewController:calendarVC animated:YES];
         } else {
             // It's a cache key
             
-            FATraktContent *content = [FATraktContent objectWithCacheKey:object];
+            FATraktContent *content = [FATraktContent objectWithCacheKey:rowKey];
             
             if (content) {
                 FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
