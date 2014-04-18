@@ -12,7 +12,9 @@
 #import "FAContentTableViewCell.h"
 #import "FAInterfaceStringProvider.h"
 
-@interface FACalendarTableViewController ()
+#import "FADetailViewController.h"
+
+@interface FACalendarTableViewController () <FAArrayTableViewDelegate>
 @property (nonatomic) FAWeightedTableViewDataSource *dataSource;
 @property (nonatomic) FAArrayTableViewDelegate *tableViewDelegate;
 @end
@@ -37,9 +39,12 @@
     self.dataSource.weightedConfigurationBlock = ^(FAContentTableViewCell *cell, id sectionKey, id key) {
         FATraktEpisode *episode = [FATraktEpisode objectWithCacheKey:key];
         [cell displayContent:episode];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     };
     
     self.tableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.dataSource];
+    self.tableViewDelegate.delegate = self;
     
     [self.tableView reloadData];
 }
@@ -51,23 +56,33 @@
 
 - (void)reloadData:(BOOL)animated
 {
-    NSDate *date = [NSDate date];
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:- FATimeIntervalDays(3)];
     
     [[FATrakt sharedInstance] calendarFromDate:date dayCount:7 callback:^(FATraktCalendar *calendar) {
         [calendar.calendarItems enumerateObjectsUsingBlock:^(FATraktCalendarItem *calendarItem, NSUInteger idx, BOOL *stop) {
             NSDate *day = calendarItem.date;
             NSString *title = [FAInterfaceStringProvider relativeDateFromNowWithDate:day];
             
-            [self.dataSource createSectionForKey:title withWeight:idx];
+            [self.dataSource createSectionForKey:day withWeight:idx headerTitle:title];
             
             [calendarItem.episodeCacheKeys enumerateObjectsUsingBlock:^(NSString *cacheKey, NSUInteger idx, BOOL *stop) {
-                [self.dataSource insertRow:cacheKey inSection:title withWeight:idx];
+                [self.dataSource insertRow:cacheKey inSection:day withWeight:idx];
             }];
             
         }];
         
         [self.dataSource recalculateWeight];
     } onError:nil];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)rowKey
+{
+    FATraktContent *content = [FATraktContent objectWithCacheKey:rowKey];
+    if (content) {
+        FADetailViewController *detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"detail"];
+        [detailVC loadContent:content];
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning

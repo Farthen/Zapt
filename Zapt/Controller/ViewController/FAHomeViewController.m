@@ -112,7 +112,7 @@
                 if (!self.tableViewContainsCurrentlyWatching) {
                     self.tableViewContainsCurrentlyWatching = YES;
                     
-                    [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 andHeaderTitle:NSLocalizedString(@"Currently Watching", nil)];
+                    [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
                     [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
                     [self.arrayDataSource recalculateWeight];
                     
@@ -233,7 +233,7 @@
 
 - (void)displayUserSection
 {
-    [self.arrayDataSource createSectionForKey:@"user" withWeight:1 andHeaderTitle:NSLocalizedString(@"Trakt User", nil)];
+    [self.arrayDataSource createSectionForKey:@"user" withWeight:1 headerTitle:NSLocalizedString(@"Trakt User", nil)];
     [self.arrayDataSource insertRow:@"lists" inSection:@"user" withWeight:0];
     [self.arrayDataSource insertRow:@"recommendations" inSection:@"user" withWeight:1];
     [self.arrayDataSource insertRow:@"shows" inSection:@"user" withWeight:2];
@@ -249,7 +249,7 @@
         if (!self.tableViewContainsProgress) {
             self.tableViewContainsProgress = YES;
             
-            [self.arrayDataSource createSectionForKey:sectionName withWeight:2 andHeaderTitle:NSLocalizedString(@"Recent Shows", nil)];
+            [self.arrayDataSource createSectionForKey:sectionName withWeight:2 headerTitle:NSLocalizedString(@"Recent Shows", nil)];
         }
         
         NSArray *shows = [self.showsWithProgress filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {

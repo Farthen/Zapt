@@ -17,4 +17,5 @@
 
     // Categories
     #import "FACategories.h"
+    #import "Misc.h"
 #endif

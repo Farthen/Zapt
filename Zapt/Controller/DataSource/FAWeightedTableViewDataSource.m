@@ -790,7 +790,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [self createSectionForKey:key withWeight:weight andHeaderTitle:nil hidden:hidden];
 }
 
-- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title
+- (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight headerTitle:(NSString *)title
 {
     [self createSectionForKey:key withWeight:weight andHeaderTitle:title hidden:NO];
 }

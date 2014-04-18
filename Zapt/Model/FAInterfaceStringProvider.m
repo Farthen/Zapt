@@ -7,6 +7,7 @@
 //
 
 #import "FAInterfaceStringProvider.h"
+#import <NSDate-Extensions/NSDate-Utilities.h>
 
 @implementation FAInterfaceStringProvider
 
@@ -214,15 +215,26 @@ static NSArray *_ratingNames;
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter) {
         dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"EEEE (MMMM d)";
     }
     
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setDoesRelativeDateFormatting:YES];
-
     NSString *dateString = [dateFormatter stringFromDate:date];
+    NSString *dayString = nil;
     
-    return dateString;
+    if ([date isToday]) {
+        dayString = [NSString stringWithFormat:NSLocalizedString(@"Today, %@", nil), dateString];
+    } else if ([date isYesterday]) {
+        dayString = [NSString stringWithFormat:NSLocalizedString(@"Yesterday, %@", nil), dateString];
+    } else if ([date isTomorrow]) {
+        dayString = [NSString stringWithFormat:NSLocalizedString(@"Tomorrow, %@", nil), dateString];
+    } else if ([date isEarlierThanDate:[NSDate date]]) {
+        dayString = [NSString stringWithFormat:NSLocalizedString(@"Last %@", nil), dateString];
+    } else if ([date isLaterThanDate:[NSDate date]]) {
+        dayString = [NSString stringWithFormat:NSLocalizedString(@"Next %@", nil), dateString];
+    }
+    
+    
+    return dayString;
 }
 
 @end
