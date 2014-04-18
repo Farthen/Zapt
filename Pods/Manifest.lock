@@ -23,16 +23,19 @@ PODS:
   - CocoaLumberjack/Core (1.8.1)
   - CocoaLumberjack/Extensions (1.8.1):
     - CocoaLumberjack/Core
+  - NSDate-Extensions (0.0.1)
   - TUSafariActivity (1.0.0)
 
 DEPENDENCIES:
   - AFNetworking
   - CocoaLumberjack
+  - NSDate-Extensions
   - TUSafariActivity
 
 SPEC CHECKSUMS:
   AFNetworking: dd8c1868e57451e3d17ebd3516f2a8c16f9646fe
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  NSDate-Extensions: 4a3be5bdfff735573aae834c93eec99f571dcc20
   TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
 
 COCOAPODS: 0.32.1
