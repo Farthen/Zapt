@@ -34,6 +34,8 @@
 {
     [super viewDidLoad];
     
+    self.navigationItem.title = NSLocalizedString(@"Calendar", nil);
+    
     self.dataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
     self.dataSource.cellClass = [FAContentTableViewCell class];
     self.dataSource.weightedConfigurationBlock = ^(FAContentTableViewCell *cell, id sectionKey, id key) {

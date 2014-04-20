@@ -3,3 +3,11 @@
 #endif
 
 #import "Pods-environment.h"
+
+// From here to end of file added by Injection Plugin //
+
+#ifdef DEBUG
+#define INJECTION_ENABLED
+#endif
+
+#import "/Users/farthen/Library/Application Support/Developer/Shared/Xcode/Plug-ins/InjectionPlugin.xcplugin/Contents/Resources/BundleInterface.h"
