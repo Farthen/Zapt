@@ -169,6 +169,7 @@ NSString *LocStr(NSString *const key) {
 @synthesize dateStyle, timeStyle;
 
 - (void) dealloc {
+    [super dealloc];
     [formatter release];
 }
 
