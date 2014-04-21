@@ -45,6 +45,7 @@
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight headerTitle:(NSString *)title;
 - (void)createSectionForKey:(id <NSCopying, NSCoding>)key withWeight:(NSInteger)weight andHeaderTitle:(NSString *)title hidden:(BOOL)hidden;
 - (void)removeSectionForKey:(id <NSCopying, NSCoding>)key;
+- (void)removeAllSections;
 
 - (void)reloadData;
 - (void)interpolateDataChange;

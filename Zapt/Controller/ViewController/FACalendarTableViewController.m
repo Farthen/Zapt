@@ -92,6 +92,10 @@
     [[FATrakt sharedInstance] calendarFromDate:date dayCount:7 callback:^(FATraktCalendar *calendar) {
         __block FATraktEpisode *nextEpisode = nil;
         
+        [self.dataSource recalculateWeight];
+        [self.dataSource removeAllSections];
+        [self.dataSource recalculateWeight];
+        
         [calendar.calendarItems enumerateObjectsUsingBlock:^(FATraktCalendarItem *calendarItem, NSUInteger idx, BOOL *stop) {
             NSDate *day = calendarItem.date;
             NSString *title = [FAInterfaceStringProvider relativeDateFromNowWithDate:day];

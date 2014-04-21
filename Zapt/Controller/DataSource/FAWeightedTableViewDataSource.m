@@ -402,77 +402,75 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 {
     // Dispatch this on an async queue to wait for the semaphore. This is needed
     // because otherwise the dispatch sync to the main thread would horribly fail
-    dispatch_barrier_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(_weightedSectionsQueue, ^{
         dispatch_semaphore_wait(_tableViewDataSemaphore, DISPATCH_TIME_FOREVER);
-        dispatch_async(_weightedSectionsQueue, ^{
-            NSComparisonResult (^weightComparator)(id obj1, id obj2) = ^NSComparisonResult(id obj1, id obj2) {
-                NSInteger weight1 = [obj1 weight];
-                NSInteger weight2 = [obj2 weight];
-                
-                if (weight1 < weight2) {
-                    return NSOrderedAscending;
-                }
-                
-                if (weight1 == weight2) {
-                    return NSOrderedSame;
-                }
-                
-                return NSOrderedDescending;
-            };
+        NSComparisonResult (^weightComparator)(id obj1, id obj2) = ^NSComparisonResult(id obj1, id obj2) {
+            NSInteger weight1 = [obj1 weight];
+            NSInteger weight2 = [obj2 weight];
             
-            BOOL (^hiddenFilter)(id key, id obj, BOOL *stop) = ^BOOL(id key, id obj, BOOL *stop) {
-                return ![obj hidden];
-            };
-            
-            NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
-            NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
-                        
-            self.sectionsForIndexes = [NSMutableDictionary dictionary];
-            for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
-                FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
-                
-                self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
+            if (weight1 < weight2) {
+                return NSOrderedAscending;
             }
             
-            NSMutableArray *headerTitles = [NSMutableArray array];
+            if (weight1 == weight2) {
+                return NSOrderedSame;
+            }
             
-            self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger sectionIdx) {
+            return NSOrderedDescending;
+        };
+        
+        BOOL (^hiddenFilter)(id key, id obj, BOOL *stop) = ^BOOL(id key, id obj, BOOL *stop) {
+            return ![obj hidden];
+        };
+        
+        NSMutableDictionary *filteredSections = [self.weightedSections filterUsingBlock:hiddenFilter];
+        NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
+        
+        self.sectionsForIndexes = [NSMutableDictionary dictionary];
+        for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
+            FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
+            
+            self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
+        }
+        
+        NSMutableArray *headerTitles = [NSMutableArray array];
+        
+        self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(id obj, NSUInteger sectionIdx) {
+            
+            FAWeightedTableViewDataSourceSection *section = obj;
+            
+            NSMutableDictionary *filteredRows = [section.rowData filterUsingBlock:hiddenFilter];
+            NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
+            
+            if (!sortedWeightedRows) {
+                sortedWeightedRows = [NSArray array];
+            }
+            
+            section.currentSectionIndex = sectionIdx;
+            
+            id title = section.headerTitle;
+            
+            if (!title) {
+                title = [NSNull null];
+            }
+            
+            [headerTitles addObject:title];
+            
+            return [sortedWeightedRows mapUsingBlock:^id(id obj, NSUInteger rowIdx) {
+                FAWeightedTableViewDataSourceRow *row = obj;
+                section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
                 
-                FAWeightedTableViewDataSourceSection *section = obj;
+                row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
                 
-                NSMutableDictionary *filteredRows = [section.rowData filterUsingBlock:hiddenFilter];
-                NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
-                
-                if (!sortedWeightedRows) {
-                    sortedWeightedRows = [NSArray array];
-                }
-                
-                section.currentSectionIndex = sectionIdx;
-                
-                id title = section.headerTitle;
-                
-                if (!title) {
-                    title = [NSNull null];
-                }
-                
-                [headerTitles addObject:title];
-                
-                return [sortedWeightedRows mapUsingBlock:^id(id obj, NSUInteger rowIdx) {
-                    FAWeightedTableViewDataSourceRow *row = obj;
-                    section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
-                    
-                    row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
-                    
-                    return row.key;
-                }];
+                return row.key;
             }];
-            
-            self.headerTitles = headerTitles;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self interpolateDataChange];
-                dispatch_semaphore_signal(_tableViewDataSemaphore);
-            });
+        }];
+        
+        self.headerTitles = headerTitles;
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self interpolateDataChange];
+            dispatch_semaphore_signal(_tableViewDataSemaphore);
         });
     });
 }
@@ -1018,6 +1016,24 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         }
         
         [self.weightedSections removeObjectForKey:key];
+    });
+}
+
+- (void)removeAllSections
+{
+    dispatch_async(_weightedSectionsQueue, ^{
+        for (id sectionKey in self.weightedSections) {
+            FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+            
+            if (section && !section.hidden && section.currentSectionIndex != -1) {
+                FAWeightedTableViewDataSourceAction *action =
+                [FAWeightedTableViewDataSourceAction actionForSection:section
+                                                           actionType:FAWeightedTableViewDataSourceActionDeleteSection];
+                [self.tableViewActions addObject:action];
+            }
+        }
+        
+        [self.weightedSections removeAllObjects];
     });
 }
 
