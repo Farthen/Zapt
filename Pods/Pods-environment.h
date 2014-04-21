@@ -10,43 +10,43 @@
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking 3
 
 // AFNetworking/NSURLConnection
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLConnection
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLConnection 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLConnection 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 3
 
 // AFNetworking/NSURLSession
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLSession
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLSession 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLSession 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLSession 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLSession 3
 
 // AFNetworking/Reachability
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Reachability
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Reachability 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Reachability 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Reachability 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Reachability 3
 
 // AFNetworking/Security
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Security
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Security 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Security 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Security 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Security 3
 
 // AFNetworking/Serialization
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_Serialization
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_Serialization 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Serialization 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 3
 
 // AFNetworking/UIKit
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_UIKit
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_UIKit 2
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 2
-#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 2
+#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
 // CocoaLumberjack
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack
@@ -71,6 +71,19 @@
 #define COCOAPODS_VERSION_MAJOR_NSDate_Extensions 0
 #define COCOAPODS_VERSION_MINOR_NSDate_Extensions 0
 #define COCOAPODS_VERSION_PATCH_NSDate_Extensions 1
+
+// PLCrashReporter
+#define COCOAPODS_POD_AVAILABLE_PLCrashReporter
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 1.2-rc4.
+
+// QuincyKit
+#define COCOAPODS_POD_AVAILABLE_QuincyKit
+#define COCOAPODS_VERSION_MAJOR_QuincyKit 2
+#define COCOAPODS_VERSION_MINOR_QuincyKit 1
+#define COCOAPODS_VERSION_PATCH_QuincyKit 9
 
 // TUSafariActivity
 #define COCOAPODS_POD_AVAILABLE_TUSafariActivity

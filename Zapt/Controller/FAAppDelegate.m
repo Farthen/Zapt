@@ -8,15 +8,13 @@
 
 #import "FAAppDelegate.h"
 
-#ifndef RELEASE
-#import "TestFlight.h"
-#endif
-
 #import "FAGlobalEventHandler.h"
 #import "FAGlobalSettings.h"
 #import "FAZapt.h"
 
 #import "FATraktCache.h"
+
+#import <QuincyKit/BWQuincyManager.h>
 
 @interface FAAppDelegate ()
 @end
@@ -26,11 +24,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    // TestFlight SDK
 #ifndef DEBUG
-#ifndef RELEASE
-    [TestFlight takeOff:@"bd1a97eb-c0bd-4e93-aaac-166911b86304"];
-#endif
+    [BWQuincyManager sharedQuincyManager].loggingEnabled = NO;
+    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://zapt.farthen.de/quincy/crash_v300.php"];
 #endif
     
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
@@ -41,8 +37,6 @@
     [[FAGlobalEventHandler handler] handleApplicationLaunch];
     
     DDLogInfo(@"%@ Version %@", [FAZapt applicationName], [FAZapt versionNumberDescription]);
-    
-    
     
     return YES;
 }

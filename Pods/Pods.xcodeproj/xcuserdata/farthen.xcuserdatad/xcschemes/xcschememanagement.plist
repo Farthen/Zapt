@@ -19,6 +19,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-PLCrashReporter.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-QuincyKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-TUSafariActivity.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,27 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0974B13CD7AA490D8C789453</key>
+		<key>06EDEB56BD514F3CB885A6EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>113DA91C66B749C9AE238776</key>
+		<key>61F730B50C484C728C35D180</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>32AB6D14B75B4BE49FED4D8F</key>
+		<key>8B85EE6280C643F1BA4862CF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>69DA948941C54B4A91B4A7A8</key>
+		<key>95C84EB5DEFC4BA89B0A404C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CD20B3C9879A44B4BD2F6493</key>
+		<key>96F32F5FF5364297ADFB1C30</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A4731F5455744C51B6AA068A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D60B691272E34644B0E552F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
