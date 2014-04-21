@@ -1188,7 +1188,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
                     if (show) {
                         for (NSDictionary * episodeDict in show.episodes) {
                             FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
-                            episode.in_watchlist = YES;
+                            episode.in_watchlist = [NSNumber numberWithBool:YES];
                             [FATraktEpisode.backingCache setObject:episode forKey:episode.cacheKey];
                             
                             FATraktListItem *item = [[FATraktListItem alloc] init];
@@ -1286,7 +1286,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        content.in_watchlist = add;
+        content.in_watchlist = [NSNumber numberWithBool:add];
         FATraktCallbackCall(callback());
     } onError:error];
 }
@@ -1358,7 +1358,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        content.in_collection = add;
+        content.in_collection = [NSNumber numberWithBool:add];
         FATraktCallbackCall(callback());
     } onError:error];
 }

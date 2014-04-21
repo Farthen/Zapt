@@ -118,7 +118,7 @@
             for (NSUInteger i = 0; i < count; i++) {
                 FATraktListItem *item = _displayedList.items[i];
                 
-                if (!item.content.in_watchlist) {
+                if (![item.content.in_watchlist boolValue]) {
                     NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
                     [newList removeObjectAtIndex:i];
                     _displayedList.items = newList;
@@ -134,7 +134,7 @@
             FATraktList *collection = _loadedLibrary[FATraktLibraryTypeCollection];
             collection.items = [collection.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
                 FATraktListItem *item = obj;
-                return item.content.in_collection;
+                return [item.content.in_collection boolValue];
             }];
             
             FATraktList *watchedList = _loadedLibrary[FATraktLibraryTypeWatched];
@@ -146,7 +146,7 @@
             FATraktList *allList = _loadedLibrary[FATraktLibraryTypeAll];
             allList.items = [allList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
                 FATraktListItem *item = obj;
-                return item.content.isWatched || item.content.in_collection;
+                return item.content.isWatched || [item.content.in_collection boolValue];
             }];
             
             [self reloadSectionIndexTitleData];
@@ -217,7 +217,7 @@
             FATraktList *collectedLibrary = [list copy];
             collectedLibrary.items = [list.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
                 FATraktListItem *listItem = obj;
-                return listItem.content.in_collection;
+                return [listItem.content.in_collection boolValue];
             }];
             collectedLibrary.libraryType = FATraktLibraryTypeCollection;
             [self checkReloadDataForList:collectedLibrary];
@@ -426,7 +426,7 @@
             
             [[FATrakt sharedInstance] removeFromWatchlist:content callback:^(void) {
                 [hud showProgressHUDSuccess];
-                content.in_watchlist = NO;
+                content.in_watchlist = [NSNumber numberWithBool:NO];
                 NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
                 
                 // Animate the deletion from the table.
@@ -449,7 +449,7 @@
                 [[FATrakt sharedInstance] removeFromLibrary:content callback:^{
                     [hud showProgressHUDSuccess];
                     
-                    content.in_collection = NO;
+                    content.in_collection = [NSNumber numberWithBool:NO];
                     
                     NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
                     

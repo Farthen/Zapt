@@ -170,13 +170,13 @@
         }
     } else if (indexPath.section + offset == 1) {
         if (indexPath.row == 0) {
-            if (_currentContent.in_watchlist) {
+            if ([_currentContent.in_watchlist boolValue]) {
                 cell.textLabel.text = NSLocalizedString(@"Remove from Watchlist", nil);
             } else {
                 cell.textLabel.text = NSLocalizedString(@"Add to Watchlist", nil);
             }
         } else if (indexPath.row == 1) {
-            if (_currentContent.in_collection) {
+            if ([_currentContent.in_collection boolValue]) {
                 cell.textLabel.text = NSLocalizedString(@"Remove from Collection", nil);
             } else {
                 cell.textLabel.text = NSLocalizedString(@"Add to Collection", nil);
@@ -264,7 +264,7 @@
             [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
         } else if (indexPath.row == 1) {
             // Library add/remove button
-            if (_currentContent.in_collection) {
+            if ([_currentContent.in_collection boolValue]) {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from collection", nil)];
                 [[FATrakt sharedInstance] removeFromLibrary:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
