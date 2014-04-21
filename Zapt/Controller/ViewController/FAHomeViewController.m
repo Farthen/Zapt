@@ -350,12 +350,12 @@
     self.arrayDelegate.tableView = self.tableView;
     self.arrayDelegate.delegate = self;
     self.arrayDataSource = (FAWeightedTableViewDataSource *)self.arrayDelegate.dataSource;
+    self.arrayDataSource.tableView = self.tableView;
     
     self.tableView.dataSource = self.arrayDataSource;
     self.tableView.delegate = self.arrayDelegate;
     
     [self setupTableView];
-    
     [self.tableView reloadData];
 }
 

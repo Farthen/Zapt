@@ -202,7 +202,6 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-#pragma mark - API
 
 - (NSMutableDictionary *)postDataContentTypeDictForContent:(FATraktContent *)content multiple:(BOOL)multiple containsType:(BOOL)containsType
 {
@@ -261,52 +260,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return mutableDict;
 }
 
-- (FATraktRequest *)verifyCredentials:(void (^)(BOOL valid))callback
-{
-    DDLogController(@"Account test!");
-    
-    return [self.connection postAPI:@"account/test" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
-        NSDictionary *data = response.jsonData;
-        NSString *statusResponse = [data objectForKey:@"status"];
-        
-        if ([statusResponse isEqualToString:@"success"]) {
-            self.connection.usernameAndPasswordValid = YES;
-            callback(YES);
-        } else {
-            self.connection.usernameAndPasswordValid = NO;
-            callback(NO);
-        }
-    } onError:^(FATraktConnectionResponse *connectionError) {
-        if (connectionError.responseType & FATraktConnectionResponseTypeInvalidCredentials)
-        {
-            callback(NO);
-        }
-    }];
-}
-
-- (FATraktRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    FATraktAccountSettings *cachedSettings = [[[FATraktAccountSettings alloc] init] cachedVersion];
-    
-    if (cachedSettings) {
-        FATraktCallbackCall(callback(cachedSettings));
-    }
-    
-    return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
-        NSDictionary *data = response.jsonData;
-        FATraktAccountSettings *accountSettings = [[FATraktAccountSettings alloc] initWithJSONDict:data];
-        
-        if (accountSettings) {
-            [cachedSettings removeFromCache];
-            [accountSettings commitToCache];
-            FATraktCallbackCall(callback(accountSettings));
-        } else {
-            if (error) {
-                FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
-            }
-        }
-    } onError:error];
-}
+#pragma mark - API
+#pragma mark Images
 
 - (FATraktRequest *)loadImageFromURL:(NSString *)url callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -370,6 +325,56 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return imageRequest;
 }
 
+#pragma mark Account
+
+- (FATraktRequest *)verifyCredentials:(void (^)(BOOL valid))callback
+{
+    DDLogController(@"Account test!");
+    
+    return [self.connection postAPI:@"account/test" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
+        NSString *statusResponse = [data objectForKey:@"status"];
+        
+        if ([statusResponse isEqualToString:@"success"]) {
+            self.connection.usernameAndPasswordValid = YES;
+            callback(YES);
+        } else {
+            self.connection.usernameAndPasswordValid = NO;
+            callback(NO);
+        }
+    } onError:^(FATraktConnectionResponse *connectionError) {
+        if (connectionError.responseType & FATraktConnectionResponseTypeInvalidCredentials)
+        {
+            callback(NO);
+        }
+    }];
+}
+
+- (FATraktRequest *)accountSettings:(void (^)(FATraktAccountSettings *settings))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    FATraktAccountSettings *cachedSettings = [[[FATraktAccountSettings alloc] init] cachedVersion];
+    
+    if (cachedSettings) {
+        FATraktCallbackCall(callback(cachedSettings));
+    }
+    
+    return [self.connection postAPI:@"account/settings" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
+        FATraktAccountSettings *accountSettings = [[FATraktAccountSettings alloc] initWithJSONDict:data];
+        
+        if (accountSettings) {
+            [cachedSettings removeFromCache];
+            [accountSettings commitToCache];
+            FATraktCallbackCall(callback(accountSettings));
+        } else {
+            if (error) {
+                FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
+            }
+        }
+    } onError:error];
+}
+
+#pragma mark User
 - (FATraktRequest *)loadLastActivityCallback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self.connection getAPI:@"user/lastactivity.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
@@ -396,6 +401,152 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         error(response);
     }];
 }
+
+- (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *api = @"user/watching.json";
+    
+    if (!self.connection.apiUser) {
+        return nil;
+    }
+    
+    NSArray *parameters = @[self.connection.apiUser];
+    
+    return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        if ([response.jsonData isKindOfClass:[NSArray class]]) {
+            FATraktCallbackCall(callback(nil));
+            return;
+        }
+        
+        NSDictionary *responseDict = response.jsonData;
+        NSString *typeName = responseDict[@"type"];
+        
+        NSString *action = responseDict[@"action"];
+        FATraktWatchingType watchingType = FATraktWatchingTypeNotWatching;
+        
+        if ([action isEqualToString:@"watching"]) {
+            watchingType = FATraktWatchingTypeWatching;
+        } else if ([action isEqualToString:@"checkin"]) {
+            watchingType = FATraktWatchingTypeCheckin;
+        }
+        
+        if (watchingType != FATraktWatchingTypeNotWatching &&
+            typeName != nil &&
+            responseDict != nil) {
+            
+            if ([typeName isEqualToString:@"movie"]) {
+                FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:responseDict[@"movie"]];
+                movie.detailLevel = FATraktDetailLevelMinimal;
+                movie = [movie cachedVersion];
+                [movie commitToCache];
+                
+                movie.watchingType = watchingType;
+                
+                FATraktCallbackCall(callback(movie));
+            } else if ([typeName isEqualToString:@"episode"]) {
+                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:responseDict[@"show"]];
+                show.detailLevel = FATraktDetailLevelMinimal;
+                show = [show cachedVersion];
+                [show commitToCache];
+                
+                FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:responseDict[@"episode"] andShow:show];
+                episode.detailLevel = FATraktDetailLevelMinimal;
+                episode = [episode cachedVersion];
+                episode.watchingType = watchingType;
+                [episode commitToCache];
+                
+                FATraktCallbackCall(callback(episode));
+            } else {
+                DDLogWarn(@"Unkown type name %@", typeName);
+                
+                if (error) {
+                    FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
+                }
+            }
+        }
+    } onError:error];
+}
+
+- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *api;
+    
+    if (contentType == FATraktContentTypeShows) {
+        api = @"recommendations/shows";
+    } else if (contentType == FATraktContentTypeMovies) {
+        api = @"recommendations/movies";
+    } else {
+        [NSException raise:NSInternalInconsistencyException format:@"You can't have recommendations for anything other than shows and movies"];
+        return nil;
+    }
+    
+    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
+    
+    if (genre) {
+        payload[@"genre"] = genre;
+    }
+    
+    if (startYear > 0) {
+        payload[@"start_year"] = [NSNumber numberWithInteger:startYear];
+    }
+    
+    if (endYear > 0) {
+        payload[@"end_year"] = [NSNumber numberWithInteger:endYear];
+    }
+    
+    payload[@"hide_collected"] = [NSNumber numberWithBool:hideCollected];
+    payload[@"hide_watchlisted"] = [NSNumber numberWithBool:hideWatchlisted];
+    
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSArray *recommendationData = response.jsonData;
+        
+        NSArray *recommendations = [recommendationData mapUsingBlock:^id(id obj, NSUInteger idx) {
+            
+            if (contentType == FATraktContentTypeShows) {
+                return [[FATraktShow alloc] initWithJSONDict:obj];
+            } else {
+                return [[FATraktMovie alloc] initWithJSONDict:obj];
+            }
+        }];
+        
+        FATraktCallbackCall(callback(recommendations));
+    } onError:nil];
+}
+
+- (FATraktRequest *)calendarFromDate:(NSDate *)fromDate dayCount:(NSUInteger)dayCount callback:(void (^)(FATraktCalendar *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    static NSDateFormatter *traktDateFormatter = nil;
+    if (!traktDateFormatter) {
+        traktDateFormatter = [[NSDateFormatter alloc] init];
+        traktDateFormatter.dateFormat = @"yyyyMMdd";
+    }
+    
+    FATraktCalendar *cachedCalendar = [FATraktCalendar cachedCalendar];
+    if (cachedCalendar && [cachedCalendar.fromDate isEqualToDate:fromDate] && cachedCalendar.dayCount == dayCount) {
+        FATraktCallbackCall(callback(cachedCalendar));
+    }
+    
+    NSString *fromDateString = [traktDateFormatter stringFromDate:fromDate];
+    NSString *dayCountString = [NSString stringWithFormat:@"%lu", dayCount];
+    
+    if (fromDateString && dayCountString) {
+        return [self.connection getAPI:@"user/calendar/shows.json" withParameters:@[self.connection.apiUser, fromDateString, dayCountString] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+            
+            FATraktCalendar *calendar = [[FATraktCalendar alloc] initWithJSONArray:response.jsonData];
+            calendar.fromDate = fromDate;
+            calendar.dayCount = dayCount;
+            
+            FATraktCallbackCall(callback(calendar));
+            
+        } onError:error];
+    }
+    
+    return nil;
+}
+
+#pragma mark - Movies
 
 - (FATraktRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -464,6 +615,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         return nil;
     }
 }
+
+#pragma mark - Shows
 
 - (FATraktRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -597,7 +750,9 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     } onError:error];
 }
 
-- (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progessItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+#pragma mark Progress
+
+- (FATraktRequest *)watchedProgressForShow:(FATraktShow *)show sortedBy:(FATraktSortingOption)sortingOption detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(NSArray *progressItems))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *api = @"user/progress/watched.json";
     
@@ -646,6 +801,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             FATraktShowProgress *progress = [[FATraktShowProgress alloc] initWithJSONDict:progressDict];
             
             FATraktShow *show = progress.show;
+            show.progress = progress;
             
             if (show) {
                 [shows addObject:show];
@@ -685,6 +841,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     
     return [self watchedProgressForShow:nil sortedBy:FATraktSortingOptionRecentActivity detailLevel:FATraktDetailLevelDefault callback:callback onError:error];
 }
+
+#pragma mark Seasons
 
 - (FATraktRequest *)seasonInfoForShow:(FATraktShow *)show callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -740,6 +898,8 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         FATraktCallbackCall(callback(season));
     } onError:error];
 }
+
+#pragma mark Episodes
 
 - (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -812,524 +972,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (FATraktRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    NSString *key = nil;
-    NSString *contentTypeName = [FATrakt nameForContentType:list.contentType];
-    
-    if (list.isWatchlist) {
-        key = [NSString stringWithFormat:@"%@.watchlist", contentTypeName];
-    } else if (list.isLibrary) {
-        key = [NSString stringWithFormat:@"%@.collection", contentTypeName];
-    }
-    
-    FATraktRequest *(^actualRequest)(void) = ^FATraktRequest *{
-        FATraktContentType type = list.contentType;
-        
-        if (key) {
-            [self.changedLastActivityKeys removeObject:key];
-        }
-        
-        FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationLists];
-        
-        [self.connection getURL:list.url withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
-            NSDictionary *data = response.jsonData;
-            NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
-            
-            for (NSDictionary * dictitem in data) {
-                if (type == FATraktContentTypeEpisodes) {
-                    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dictitem];
-                    
-                    if (show) {
-                        for (NSDictionary * episodeDict in show.episodes) {
-                            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
-                            episode.in_watchlist = YES;
-                            [FATraktEpisode.backingCache setObject:episode forKey:episode.cacheKey];
-                            
-                            FATraktListItem *item = [[FATraktListItem alloc] init];
-                            item.content = episode;
-                            [items addObject:item];
-                        }
-                    }
-                } else {
-                    FATraktListItem *item = [[FATraktListItem alloc] init];
-                    
-                    if (item) {
-                        Class cls = [FATrakt classForContentType:list.contentType];
-                        item.content = [[cls alloc] initWithJSONDict:dictitem];
-                        [items addObject:item];
-                    }
-                }
-            }
-            
-            list.items = items;
-            
-            list.shouldBeCached = YES;
-            [list commitToCache];
-            
-            FATraktCallbackCall(callback(list));
-        } onError:^(FATraktConnectionResponse *response) {
-            // We need to add the key again because the request failed
-            if (key) {
-                [self.changedLastActivityKeys addObject:key];
-            }
-        }];
-        
-        return request;
-    };
-    
-    FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
-    
-    if (cachedList) {
-        FATraktCallbackCall(callback(cachedList));
-        // FIXME: check if it fixes crashbug?
-        //list = cachedList;
-        
-        // Check if there has been any more activity regarding this list type
-        if (key) {
-            [self checkAndUpdateLastActivityCallback:^{
-                if ([self activityHasOccuredForPath:key]) {
-                    actualRequest();
-                } else {
-                    // Do nothing. Doing nothing is great.
-                }
-            } onError:^(FATraktConnectionResponse *response) {
-                // WELP get me outta here!
-                if (error) {
-                    error(response);
-                }
-            }];
-            
-            return nil;
-        }
-    }
-    
-    return actualRequest();
-}
-
-- (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    if (![self.connection usernameSetOrDieAndError:error]) {
-        return nil;
-    }
-    
-    // Load the cached versions first
-    NSArray *cachedCustomLists = FATraktList.cachedCustomLists;
-    
-    if (cachedCustomLists.count > 0) {
-        FATraktCallbackCall(callback(cachedCustomLists));
-    }
-    
-    return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-        NSArray *data = response.jsonData;
-        NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
-        
-        NSMutableArray *listCacheKeys = [NSMutableArray arrayWithCapacity:data.count];
-        
-        for (NSDictionary *listData in data) {
-            FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
-            
-            if (list) {
-                list.isCustom = YES;
-                list.detailLevel = FATraktDetailLevelMinimal;
-                [lists addObject:list];
-                [list commitToCache];
-                [listCacheKeys addObject:list.cacheKey];
-            }
-        }
-        
-        [[FATraktCache sharedInstance].misc setObject:listCacheKeys forKey:@"customListKeys"];
-        
-        lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
-        FATraktCallbackCall(callback(lists));
-    } onError:error];
-}
-
-- (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    if (![self.connection usernameSetOrDieAndError:error]) {
-        return nil;
-    }
-    
-    // Load the cached list first
-    FATraktList *cachedList = [FATraktList.backingCache objectForKey:list.cacheKey];
-    
-    if (cachedList) {
-        FATraktCallbackCall(callback(cachedList));
-    }
-    
-    return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-        NSDictionary *data = response.jsonData;
-        FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
-        
-        if (list) {
-            list.isCustom = YES;
-            list.detailLevel = FATraktDetailLevelDefault;
-            [list commitToCache];
-        }
-        
-        FATraktCallbackCall(callback(list));
-    } onError:error];
-}
-
-- (FATraktRequest *)addNewCustomListWithName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    NSString *privacyString = nil;
-    
-    if (privacy == FATraktListPrivacyPublic) {
-        privacyString = @"public";
-    } else if (privacy == FATraktListPrivacyFriends) {
-        privacyString = @"friends";
-    } else {
-        // Default to private. It's safer if anything should happen with this argument
-        privacyString = @"private";
-    }
-    
-    NSMutableDictionary *postData = [@{@"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
-
-    if (description) {
-        [postData setObject:description forKey:@"description"];
-    }
-    
-    return [self.connection postAPI:@"lists/add" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-        
-        NSDictionary *responseDict = response.jsonData;
-        if ([responseDict[@"status"] isEqualToString:@"success"]) {
-            FATraktCallbackCall(callback());
-        } else if (error) {
-            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-            FATraktCallbackCall(error(response));
-        }
-    } onError:error];
-}
-
-- (FATraktRequest *)editCustomList:(FATraktList *)list newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
-{
-    return [self editCustomListWithSlug:list.slug newName:name description:description privacy:privacy ranked:ranked allowShouts:allowShouts callback:callback onError:error];
-}
-
-- (FATraktRequest *)editCustomListWithSlug:(NSString *)slug newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
-{
-    NSString *privacyString = nil;
-    
-    if (privacy == FATraktListPrivacyPublic) {
-        privacyString = @"public";
-    } else if (privacy == FATraktListPrivacyFriends) {
-        privacyString = @"friends";
-    } else {
-        // Default to private. It's safer if anything should happen with this argument
-        privacyString = @"private";
-    }
-    
-    NSMutableDictionary *postData = [@{@"slug": slug, @"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
-    
-    if (description) {
-        [postData setObject:description forKey:@"description"];
-    }
-    
-    return [self.connection postAPI:@"lists/update" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-        
-        NSDictionary *responseDict = response.jsonData;
-        if ([responseDict[@"status"] isEqualToString:@"success"]) {
-            FATraktCallbackCall(callback());
-        } else if (error) {
-            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-            FATraktCallbackCall(error(response));
-        }
-    } onError:error];
-}
-
-- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self removeCustomListWithSlug:list.slug callback:callback onError:error];
-}
-
-- (FATraktRequest *)removeCustomListWithSlug:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    if (list) {
-        NSDictionary *payload = @{@"slug": list};
-        
-        return [self.connection postAPI:@"lists/delete" payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-            
-            NSDictionary *responseDict = response.jsonData;
-            if ([responseDict[@"status"] isEqualToString:@"success"]) {
-                FATraktCallbackCall(callback());
-            } else if (error) {
-                FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
-                FATraktCallbackCall(error(response));
-            }
-        } onError:error];
-    }
-    
-    return nil;
-}
-
-- (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    if (![self.connection usernameSetOrDieAndError:error]) {
-        return nil;
-    }
-    
-    // type can either be shows, episodes or movies
-    NSString *watchlistName = [FATrakt nameForContentType:contentType withPlural:YES];
-    NSString *url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:@[self.connection.apiUser]];
-    
-    FATraktList *list = [[FATraktList alloc] init];
-    list.isWatchlist = YES;
-    list.name = @"watchlist";
-    list.url = url;
-    list.contentType = contentType;
-    
-    return [self loadDataForList:list callback:callback onError:error];
-}
-
-- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    if (![self.connection usernameSetOrDieAndError:error]) {
-        return nil;
-    }
-    
-    // type can either be shows, episodes or movies
-    NSString *libraryName = [FATrakt nameForContentType:contentType withPlural:YES];
-    NSString *libraryTypeName = [FATrakt nameForLibraryType:libraryType];
-    NSString *url;
-    
-    if (detailLevel == FATraktDetailLevelExtended) {
-        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
-    } else if (detailLevel == FATraktDetailLevelMinimal) {
-        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
-    } else {
-        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
-    }
-    
-    FATraktList *list = [[FATraktList alloc] init];
-    list.isLibrary = YES;
-    list.name = [NSString stringWithFormat:@"library"];
-    list.url = url;
-    list.contentType = contentType;
-    list.libraryType = libraryType;
-    
-    return [self loadDataForList:list callback:callback onError:error];
-}
-
-- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    // TODO: Check if I really need the extended information
-    return [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:callback onError:error];
-}
-
-- (FATraktRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addToWatchlist:content add:YES callback:callback onError:error];
-}
-
-- (FATraktRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addToWatchlist:content add:NO callback:callback onError:error];
-}
-
-- (FATraktRequest *)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    NSString *watchlistName = [FATrakt watchlistNameForContentType:content.contentType];
-    NSString *api;
-    
-    if (add) {
-        api = [NSString stringWithFormat:@"%@/watchlist", watchlistName];
-    } else {
-        api = [NSString stringWithFormat:@"%@/unwatchlist", watchlistName];
-    }
-    
-    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
-    
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        content.in_watchlist = add;
-        FATraktCallbackCall(callback());
-    } onError:error];
-}
-
-- (FATraktRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addToLibrary:content add:YES callback:callback onError:error];
-}
-
-- (FATraktRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addToLibrary:content add:NO callback:callback onError:error];
-}
-
-- (FATraktRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    NSString *libraryName = [FATrakt watchlistNameForContentType:content.contentType];
-    NSString *api;
-    
-    if (add) {
-        api = [NSString stringWithFormat:@"%@/library", libraryName];
-    } else {
-        api = [NSString stringWithFormat:@"%@/unlibrary", libraryName];
-    }
-    
-    NSDictionary *payload;
-    
-    if (content.contentType == FATraktContentTypeMovies || content.contentType == FATraktContentTypeEpisodes) {
-        payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
-    } else {
-        payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
-    }
-    
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        content.in_collection = add;
-        FATraktCallbackCall(callback());
-    } onError:error];
-}
-
-- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    NSArray *items = @[[self postDataContentTypeDictForContent:content multiple:NO containsType:YES]];
-    NSString *api;
-    
-    if (add) {
-        api = @"lists/items/add";
-    } else {
-        api = @"lists/items/delete";
-    }
-    
-    NSString *slug = list.slug;
-    NSDictionary *payload = @{ @"slug": slug, @"items": items };
-    
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
-        if (add) {
-            [list addContent:content];
-        } else {
-            [list removeContent:content];
-        }
-        
-        [list commitToCache];
-        FATraktCallbackCall(callback());
-    } onError:error];
-}
-
-- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addContent:content toCustomList:list add:YES callback:callback onError:error];
-}
-
-- (FATraktRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
-{
-    return [self addContent:content toCustomList:list add:NO callback:callback onError:error];
-}
-
-- (FATraktRequest *)currentlyWatchingContentCallback:(void (^)(FATraktContent *))callback onError:(void (^)(FATraktConnectionResponse *))error
-{
-    NSString *api = @"user/watching.json";
-    
-    if (!self.connection.apiUser) {
-        return nil;
-    }
-    
-    NSArray *parameters = @[self.connection.apiUser];
-    
-    return [self.connection getAPI:api withParameters:parameters withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        
-        if ([response.jsonData isKindOfClass:[NSArray class]]) {
-            FATraktCallbackCall(callback(nil));
-            return;
-        }
-        
-        NSDictionary *responseDict = response.jsonData;
-        NSString *typeName = responseDict[@"type"];
-        
-        NSString *action = responseDict[@"action"];
-        FATraktWatchingType watchingType = FATraktWatchingTypeNotWatching;
-        
-        if ([action isEqualToString:@"watching"]) {
-            watchingType = FATraktWatchingTypeWatching;
-        } else if ([action isEqualToString:@"checkin"]) {
-            watchingType = FATraktWatchingTypeCheckin;
-        }
-        
-        if (watchingType != FATraktWatchingTypeNotWatching &&
-            typeName != nil &&
-            responseDict != nil) {
-            
-            if ([typeName isEqualToString:@"movie"]) {
-                FATraktMovie *movie = [[FATraktMovie alloc] initWithJSONDict:responseDict[@"movie"]];
-                movie.detailLevel = FATraktDetailLevelMinimal;
-                movie = [movie cachedVersion];
-                [movie commitToCache];
-                
-                movie.watchingType = watchingType;
-                
-                FATraktCallbackCall(callback(movie));
-            } else if ([typeName isEqualToString:@"episode"]) {
-                FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:responseDict[@"show"]];
-                show.detailLevel = FATraktDetailLevelMinimal;
-                show = [show cachedVersion];
-                [show commitToCache];
-                
-                FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:responseDict[@"episode"] andShow:show];
-                episode.detailLevel = FATraktDetailLevelMinimal;
-                episode = [episode cachedVersion];
-                episode.watchingType = watchingType;
-                [episode commitToCache];
-                
-                FATraktCallbackCall(callback(episode));
-            } else {
-                DDLogWarn(@"Unkown type name %@", typeName);
-                
-                if (error) {
-                    FATraktCallbackCall(error([FATraktConnectionResponse invalidDataResponse]));
-                }
-            }
-        }
-    } onError:error];
-}
-
-- (FATraktRequest *)recommendationsForContentType:(FATraktContentType)contentType genre:(NSString *)genre startYear:(NSInteger)startYear endYear:(NSInteger)endYear hideCollected:(BOOL)hideCollected hideWatchlisted:(BOOL)hideWatchlisted callback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *))error
-{
-    NSString *api;
-    
-    if (contentType == FATraktContentTypeShows) {
-        api = @"recommendations/shows";
-    } else if (contentType == FATraktContentTypeMovies) {
-        api = @"recommendations/movies";
-    } else {
-        [NSException raise:NSInternalInconsistencyException format:@"You can't have recommendations for anything other than shows and movies"];
-        return nil;
-    }
-    
-    NSMutableDictionary *payload = [NSMutableDictionary dictionary];
-    
-    if (genre) {
-        payload[@"genre"] = genre;
-    }
-    
-    if (startYear > 0) {
-        payload[@"start_year"] = [NSNumber numberWithInteger:startYear];
-    }
-    
-    if (endYear > 0) {
-        payload[@"end_year"] = [NSNumber numberWithInteger:endYear];
-    }
-    
-    payload[@"hide_collected"] = [NSNumber numberWithBool:hideCollected];
-    payload[@"hide_watchlisted"] = [NSNumber numberWithBool:hideWatchlisted];
-    
-    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
-        
-        NSArray *recommendationData = response.jsonData;
-        
-        NSArray *recommendations = [recommendationData mapUsingBlock:^id(id obj, NSUInteger idx) {
-            
-            if (contentType == FATraktContentTypeShows) {
-                return [[FATraktShow alloc] initWithJSONDict:obj];
-            } else {
-                return [[FATraktMovie alloc] initWithJSONDict:obj];
-            }
-        }];
-        
-        FATraktCallbackCall(callback(recommendations));
-    } onError:nil];
-}
+#pragma mark - content actions
 
 - (FATraktRequest *)rate:(FATraktContent *)content simple:(BOOL)simple rating:(FATraktRatingScore)rating callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
@@ -1538,31 +1181,414 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
 }
 
-- (FATraktRequest *)calendarFromDate:(NSDate *)fromDate dayCount:(NSUInteger)dayCount callback:(void (^)(FATraktCalendar *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+#pragma mark - Lists
+
+- (FATraktRequest *)loadDataForList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    static NSDateFormatter *traktDateFormatter = nil;
-    if (!traktDateFormatter) {
-        traktDateFormatter = [[NSDateFormatter alloc] init];
-        traktDateFormatter.dateFormat = @"yyyyMMdd";
+    NSString *key = nil;
+    NSString *contentTypeName = [FATrakt nameForContentType:list.contentType];
+    
+    if (list.isWatchlist) {
+        key = [NSString stringWithFormat:@"%@.watchlist", contentTypeName];
+    } else if (list.isLibrary) {
+        key = [NSString stringWithFormat:@"%@.collection", contentTypeName];
     }
     
-    FATraktCalendar *cachedCalendar = [FATraktCalendar cachedCalendar];
-    if (cachedCalendar && [cachedCalendar.fromDate isEqualToDate:fromDate] && cachedCalendar.dayCount == dayCount) {
-        FATraktCallbackCall(callback(cachedCalendar));
+    FATraktRequest *(^actualRequest)(void) = ^FATraktRequest *{
+        FATraktContentType type = list.contentType;
+        
+        if (key) {
+            [self.changedLastActivityKeys removeObject:key];
+        }
+        
+        FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationLists];
+        
+        [self.connection getURL:list.url withRequest:request onSuccess:^(FATraktConnectionResponse *response) {
+            NSDictionary *data = response.jsonData;
+            NSMutableArray *items = [[NSMutableArray alloc] initWithCapacity:data.count];
+            
+            for (NSDictionary * dictitem in data) {
+                if (type == FATraktContentTypeEpisodes) {
+                    FATraktShow *show = [[FATraktShow alloc] initWithJSONDict:dictitem];
+                    
+                    if (show) {
+                        for (NSDictionary * episodeDict in show.episodes) {
+                            FATraktEpisode *episode = [[FATraktEpisode alloc] initWithJSONDict:episodeDict andShow:show];
+                            episode.in_watchlist = YES;
+                            [FATraktEpisode.backingCache setObject:episode forKey:episode.cacheKey];
+                            
+                            FATraktListItem *item = [[FATraktListItem alloc] init];
+                            item.content = episode;
+                            [items addObject:item];
+                        }
+                    }
+                } else {
+                    FATraktListItem *item = [[FATraktListItem alloc] init];
+                    
+                    if (item) {
+                        Class cls = [FATrakt classForContentType:list.contentType];
+                        item.content = [[cls alloc] initWithJSONDict:dictitem];
+                        [items addObject:item];
+                    }
+                }
+            }
+            
+            list.items = items;
+            
+            list.shouldBeCached = YES;
+            [list commitToCache];
+            
+            FATraktCallbackCall(callback(list));
+        } onError:^(FATraktConnectionResponse *response) {
+            // We need to add the key again because the request failed
+            if (key) {
+                [self.changedLastActivityKeys addObject:key];
+            }
+        }];
+        
+        return request;
+    };
+    
+    FATraktList *cachedList = [_cache.lists objectForKey:list.cacheKey];
+    
+    if (cachedList) {
+        FATraktCallbackCall(callback(cachedList));
+        //list = cachedList;
+        
+        // Check if there has been any more activity regarding this list type
+        if (key) {
+            [self checkAndUpdateLastActivityCallback:^{
+                if ([self activityHasOccuredForPath:key]) {
+                    actualRequest();
+                } else {
+                    // Do nothing. Doing nothing is great.
+                }
+            } onError:^(FATraktConnectionResponse *response) {
+                // WELP get me outta here!
+                if (error) {
+                    error(response);
+                }
+            }];
+            
+            return nil;
+        }
     }
     
-    NSString *fromDateString = [traktDateFormatter stringFromDate:fromDate];
-    NSString *dayCountString = [NSString stringWithFormat:@"%lu", dayCount];
+    return actualRequest();
+}
+
+#pragma mark Watchlists
+
+- (FATraktRequest *)watchlistForType:(FATraktContentType)contentType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (![self.connection usernameSetOrDieAndError:error]) {
+        return nil;
+    }
     
-    if (fromDateString && dayCountString) {
-        return [self.connection getAPI:@"user/calendar/shows.json" withParameters:@[self.connection.apiUser, fromDateString, dayCountString] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+    // type can either be shows, episodes or movies
+    NSString *watchlistName = [FATrakt nameForContentType:contentType withPlural:YES];
+    NSString *url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/watchlist/%@.json", watchlistName] withParameters:@[self.connection.apiUser]];
+    
+    FATraktList *list = [[FATraktList alloc] init];
+    list.isWatchlist = YES;
+    list.name = @"watchlist";
+    list.url = url;
+    list.contentType = contentType;
+    
+    return [self loadDataForList:list callback:callback onError:error];
+}
+
+- (FATraktRequest *)addToWatchlist:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *watchlistName = [FATrakt watchlistNameForContentType:content.contentType];
+    NSString *api;
+    
+    if (add) {
+        api = [NSString stringWithFormat:@"%@/watchlist", watchlistName];
+    } else {
+        api = [NSString stringWithFormat:@"%@/unwatchlist", watchlistName];
+    }
+    
+    NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        content.in_watchlist = add;
+        FATraktCallbackCall(callback());
+    } onError:error];
+}
+
+- (FATraktRequest *)addToWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addToWatchlist:content add:YES callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeFromWatchlist:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addToWatchlist:content add:NO callback:callback onError:error];
+}
+
+#pragma mark Libraries
+
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (![self.connection usernameSetOrDieAndError:error]) {
+        return nil;
+    }
+    
+    // type can either be shows, episodes or movies
+    NSString *libraryName = [FATrakt nameForContentType:contentType withPlural:YES];
+    NSString *libraryTypeName = [FATrakt nameForLibraryType:libraryType];
+    NSString *url;
+    
+    if (detailLevel == FATraktDetailLevelExtended) {
+        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
+    } else if (detailLevel == FATraktDetailLevelMinimal) {
+        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
+    } else {
+        url = [self.connection urlForAPI:[NSString stringWithFormat:@"user/library/%@/%@.json", libraryName, libraryTypeName] withParameters:@[self.connection.apiUser]];
+    }
+    
+    FATraktList *list = [[FATraktList alloc] init];
+    list.isLibrary = YES;
+    list.name = [NSString stringWithFormat:@"library"];
+    list.url = url;
+    list.contentType = contentType;
+    list.libraryType = libraryType;
+    
+    return [self loadDataForList:list callback:callback onError:error];
+}
+
+- (FATraktRequest *)libraryForContentType:(FATraktContentType)contentType libraryType:(FATraktLibraryType)libraryType callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    // TODO: Check if I really need the extended information
+    return [self libraryForContentType:contentType libraryType:libraryType detailLevel:FATraktDetailLevelExtended callback:callback onError:error];
+}
+
+- (FATraktRequest *)addToLibrary:(FATraktContent *)content add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *libraryName = [FATrakt watchlistNameForContentType:content.contentType];
+    NSString *api;
+    
+    if (add) {
+        api = [NSString stringWithFormat:@"%@/library", libraryName];
+    } else {
+        api = [NSString stringWithFormat:@"%@/unlibrary", libraryName];
+    }
+    
+    NSDictionary *payload;
+    
+    if (content.contentType == FATraktContentTypeMovies || content.contentType == FATraktContentTypeEpisodes) {
+        payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
+    } else {
+        payload = [self postDataContentTypeDictForContent:content multiple:NO containsType:NO];
+    }
+    
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        content.in_collection = add;
+        FATraktCallbackCall(callback());
+    } onError:error];
+}
+
+- (FATraktRequest *)addToLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addToLibrary:content add:YES callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeFromLibrary:(FATraktContent *)content callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addToLibrary:content add:NO callback:callback onError:error];
+}
+
+#pragma mark Custom lists
+
+- (FATraktRequest *)allCustomListsCallback:(void (^)(NSArray *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (![self.connection usernameSetOrDieAndError:error]) {
+        return nil;
+    }
+    
+    // Load the cached versions first
+    NSArray *cachedCustomLists = FATraktList.cachedCustomLists;
+    
+    if (cachedCustomLists.count > 0) {
+        FATraktCallbackCall(callback(cachedCustomLists));
+    }
+    
+    return [self.connection getAPI:@"user/lists.json" withParameters:@[self.connection.apiUser] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        NSArray *data = response.jsonData;
+        NSMutableArray *lists = [[NSMutableArray alloc] initWithCapacity:data.count];
+        
+        NSMutableArray *listCacheKeys = [NSMutableArray arrayWithCapacity:data.count];
+        
+        for (NSDictionary *listData in data) {
+            FATraktList *list = [[FATraktList alloc] initWithJSONDict:listData];
             
-            FATraktCalendar *calendar = [[FATraktCalendar alloc] initWithJSONArray:response.jsonData];
-            calendar.fromDate = fromDate;
-            calendar.dayCount = dayCount;
+            if (list) {
+                list.isCustom = YES;
+                list.detailLevel = FATraktDetailLevelMinimal;
+                [lists addObject:list];
+                [list commitToCache];
+                [listCacheKeys addObject:list.cacheKey];
+            }
+        }
+        
+        [[FATraktCache sharedInstance].misc setObject:listCacheKeys forKey:@"customListKeys"];
+        
+        lists = [lists sortedArrayUsingKey:@"name" ascending:YES];
+        FATraktCallbackCall(callback(lists));
+    } onError:error];
+}
+
+- (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (![self.connection usernameSetOrDieAndError:error]) {
+        return nil;
+    }
+    
+    // Load the cached list first
+    FATraktList *cachedList = [FATraktList.backingCache objectForKey:list.cacheKey];
+    
+    if (cachedList) {
+        FATraktCallbackCall(callback(cachedList));
+    }
+    
+    return [self.connection getAPI:@"user/list.json" withParameters:@[self.connection.apiUser, list.slug] withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        NSDictionary *data = response.jsonData;
+        FATraktList *list = [[FATraktList alloc] initWithJSONDict:data];
+        
+        if (list) {
+            list.isCustom = YES;
+            list.detailLevel = FATraktDetailLevelDefault;
+            [list commitToCache];
+        }
+        
+        FATraktCallbackCall(callback(list));
+    } onError:error];
+}
+
+
+- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list add:(BOOL)add callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSArray *items = @[[self postDataContentTypeDictForContent:content multiple:NO containsType:YES]];
+    NSString *api;
+    
+    if (add) {
+        api = @"lists/items/add";
+    } else {
+        api = @"lists/items/delete";
+    }
+    
+    NSString *slug = list.slug;
+    NSDictionary *payload = @{ @"slug": slug, @"items": items };
+    
+    return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        if (add) {
+            [list addContent:content];
+        } else {
+            [list removeContent:content];
+        }
+        
+        [list commitToCache];
+        FATraktCallbackCall(callback());
+    } onError:error];
+}
+
+- (FATraktRequest *)addContent:(FATraktContent *)content toCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addContent:content toCustomList:list add:YES callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeContent:(FATraktContent *)content fromCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self addContent:content toCustomList:list add:NO callback:callback onError:error];
+}
+
+- (FATraktRequest *)addNewCustomListWithName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    NSString *privacyString = nil;
+    
+    if (privacy == FATraktListPrivacyPublic) {
+        privacyString = @"public";
+    } else if (privacy == FATraktListPrivacyFriends) {
+        privacyString = @"friends";
+    } else {
+        // Default to private. It's safer if anything should happen with this argument
+        privacyString = @"private";
+    }
+    
+    NSMutableDictionary *postData = [@{@"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
+
+    if (description) {
+        [postData setObject:description forKey:@"description"];
+    }
+    
+    return [self.connection postAPI:@"lists/add" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSDictionary *responseDict = response.jsonData;
+        if ([responseDict[@"status"] isEqualToString:@"success"]) {
+            FATraktCallbackCall(callback());
+        } else if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+            FATraktCallbackCall(error(response));
+        }
+    } onError:error];
+}
+
+- (FATraktRequest *)editCustomList:(FATraktList *)list newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    return [self editCustomListWithSlug:list.slug newName:name description:description privacy:privacy ranked:ranked allowShouts:allowShouts callback:callback onError:error];
+}
+
+- (FATraktRequest *)editCustomListWithSlug:(NSString *)slug newName:(NSString *)name description:(NSString *)description privacy:(FATraktListPrivacy)privacy ranked:(BOOL)ranked allowShouts:(BOOL)allowShouts callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *))error
+{
+    NSString *privacyString = nil;
+    
+    if (privacy == FATraktListPrivacyPublic) {
+        privacyString = @"public";
+    } else if (privacy == FATraktListPrivacyFriends) {
+        privacyString = @"friends";
+    } else {
+        // Default to private. It's safer if anything should happen with this argument
+        privacyString = @"private";
+    }
+    
+    NSMutableDictionary *postData = [@{@"slug": slug, @"name": name, @"privacy": privacyString, @"show_numbers": [NSNumber numberWithBool:ranked], @"allow_shouts": [NSNumber numberWithBool:allowShouts]} mutableCopy];
+    
+    if (description) {
+        [postData setObject:description forKey:@"description"];
+    }
+    
+    return [self.connection postAPI:@"lists/update" payload:postData authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
+        
+        NSDictionary *responseDict = response.jsonData;
+        if ([responseDict[@"status"] isEqualToString:@"success"]) {
+            FATraktCallbackCall(callback());
+        } else if (error) {
+            FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+            FATraktCallbackCall(error(response));
+        }
+    } onError:error];
+}
+
+- (FATraktRequest *)removeCustomList:(FATraktList *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    return [self removeCustomListWithSlug:list.slug callback:callback onError:error];
+}
+
+- (FATraktRequest *)removeCustomListWithSlug:(NSString *)list callback:(void (^)(void))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+{
+    if (list) {
+        NSDictionary *payload = @{@"slug": list};
+        
+        return [self.connection postAPI:@"lists/delete" payload:payload authenticated:YES withActivityName:FATraktActivityNotificationLists onSuccess:^(FATraktConnectionResponse *response) {
             
-            FATraktCallbackCall(callback(calendar));
-            
+            NSDictionary *responseDict = response.jsonData;
+            if ([responseDict[@"status"] isEqualToString:@"success"]) {
+                FATraktCallbackCall(callback());
+            } else if (error) {
+                FATraktConnectionResponse *response = [FATraktConnectionResponse unkownErrorResponse];
+                FATraktCallbackCall(error(response));
+            }
         } onError:error];
     }
     

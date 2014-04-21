@@ -9,8 +9,6 @@
 #import "TMFastCache.h"
 
 @implementation TMFastCache {
-    NSMutableSet *_uncommittedKeys;
-
     NSMutableSet *_keysToRemove;
     BOOL _shouldRemoveAllObjects;
 }
@@ -21,41 +19,39 @@
 
     if (self) {
         _keysToRemove = [NSMutableSet set];
-        _uncommittedKeys = [NSMutableSet set];
 
         self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache) {
             if (!_shouldRemoveAllObjects) {
                 // Cache is evicted
                 
-                dispatch_barrier_sync(self.queue, ^{
-                    [cache enumerateObjectsWithBlock:^(TMMemoryCache *cache, NSString *key, id object) {
-                        if ([_uncommittedKeys containsObject:key]) {
-                            [self.diskCache setObject:object forKey:key block:nil];
-                            
-                            [_uncommittedKeys removeObject:key];
-                        }
-                    }];
-                });
+                [self commitAllObjects];
             } else {
                 _shouldRemoveAllObjects = NO; // atomic
             }
         };
 
         self.memoryCache.willRemoveObjectBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
-            
             dispatch_barrier_sync(self.queue, ^{
-                if (![_keysToRemove containsObject:key] && [_uncommittedKeys containsObject:key]) {
+                if (![_keysToRemove containsObject:key]) {
                     // We didn't remove this -> we need to save the value
                     [self.diskCache setObject:object forKey:key block:nil];
                     
                     [_keysToRemove removeObject:key];
-                    [_uncommittedKeys removeObject:key];
                 }
             });
         };
     }
 
     return self;
+}
+
+- (void)commitAllObjects
+{
+    dispatch_barrier_sync(self.queue, ^{
+        [self.memoryCache enumerateObjectsWithBlock:^(TMMemoryCache *cache, NSString *key, id object) {
+            [self.diskCache setObject:object forKey:key];
+        }];
+    });
 }
 
 - (void)setObject:(id <NSCoding> )object forKey:(NSString *)key block:(TMCacheObjectBlock)block
@@ -75,10 +71,6 @@
             dispatch_group_leave(group);
         };
     }
-    
-    dispatch_barrier_sync(self.queue, ^{
-        [_uncommittedKeys addObject:key];
-    });
     
     [self.memoryCache setObject:object forKey:key block:memBlock];
 
@@ -139,7 +131,6 @@
 
     dispatch_barrier_async(self.queue, ^{
         [_keysToRemove addObject:key];
-        [_uncommittedKeys removeObject:key];
     });
 }
 

@@ -59,4 +59,9 @@
     return [[FATraktSeason backingCache] objectForKey:self.seasonCacheKey];
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObjects:@"season", nil];
+}
+
 @end

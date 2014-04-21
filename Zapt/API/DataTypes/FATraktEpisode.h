@@ -42,4 +42,6 @@
 @property (retain) NSString *url;
 @property (assign) BOOL watched;
 
+@property (nonatomic, retain) NSDate *first_aired_utc;
+
 @end

@@ -44,6 +44,7 @@
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
+		F32137F01905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32137EF1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m */; };
 		F323DB921852BF4B00BE0DAB /* FAArrayTableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */; };
 		F32645C417F0D48F001D4F74 /* FARatingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C317F0D48F001D4F74 /* FARatingsView.m */; };
 		F32645C717F0E436001D4F74 /* FAColorSorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645C617F0E436001D4F74 /* FAColorSorting.m */; };
@@ -51,6 +52,7 @@
 		F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */; };
 		F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */; };
 		F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */; };
+		F32F72F5190453F400B4841D /* FAEpisodeAirDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */; };
 		F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */; };
 		F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */; };
 		F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
@@ -268,6 +270,8 @@
 		F31D68EE179DD353003408BF /* NSObject+ClassName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ClassName.m"; sourceTree = "<group>"; };
 		F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FARefreshControlWithActivity.h; sourceTree = "<group>"; };
 		F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARefreshControlWithActivity.m; sourceTree = "<group>"; };
+		F32137EE1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAKeyedArchiverDebugDelegate.h; sourceTree = "<group>"; };
+		F32137EF1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAKeyedArchiverDebugDelegate.m; sourceTree = "<group>"; };
 		F323DB901852BF4B00BE0DAB /* FAArrayTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAArrayTableViewDelegate.h; sourceTree = "<group>"; };
 		F323DB911852BF4B00BE0DAB /* FAArrayTableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAArrayTableViewDelegate.m; sourceTree = "<group>"; };
 		F323DB931852C13E00BE0DAB /* FATableViewCellHeight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FATableViewCellHeight.h; sourceTree = "<group>"; };
@@ -283,6 +287,8 @@
 		F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		F32645D217F1032B001D4F74 /* UIColor+InvertedColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+InvertedColor.h"; sourceTree = "<group>"; };
 		F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+InvertedColor.m"; sourceTree = "<group>"; };
+		F32F72F3190453F400B4841D /* FAEpisodeAirDateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeAirDateTableViewCell.h; sourceTree = "<group>"; };
+		F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeAirDateTableViewCell.m; sourceTree = "<group>"; };
 		F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATestDominantColorsAnalyzer.m; sourceTree = "<group>"; };
 		F32FAB7A17EE333C0081B19E /* FAColorCompositing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAColorCompositing.h; sourceTree = "<group>"; };
 		F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAColorCompositing.m; sourceTree = "<group>"; };
@@ -784,6 +790,15 @@
 			name = UIViewController;
 			sourceTree = "<group>";
 		};
+		F32137ED1905384000B0D8D4 /* Debug */ = {
+			isa = PBXGroup;
+			children = (
+				F32137EE1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.h */,
+				F32137EF1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m */,
+			);
+			name = Debug;
+			sourceTree = "<group>";
+		};
 		F32645C817F0F9A4001D4F74 /* UIImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -818,8 +833,6 @@
 				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
 				F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */,
 				F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */,
-				F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */,
-				F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */,
 				F30CAFC3179CD19D002E7D3C /* Containers */,
 			);
 			name = Detail;
@@ -1069,6 +1082,8 @@
 				F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */,
 				F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */,
 				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
+				F32F72F3190453F400B4841D /* FAEpisodeAirDateTableViewCell.h */,
+				F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */,
 				F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */,
 				F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */,
 				F394EE27184ECFBF007F4BA1 /* FAImageTableViewCell.h */,
@@ -1083,6 +1098,8 @@
 			children = (
 				F34D986917DC20890033FBD7 /* FAHomeViewController.h */,
 				F34D986A17DC20890033FBD7 /* FAHomeViewController.m */,
+				F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */,
+				F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */,
 				F34D986C17DC20970033FBD7 /* Detail */,
 				F3C84B6E1628DCC5006CBFEF /* Search */,
 				F357FA7116A8B61C00420EC4 /* Lists */,
@@ -1107,6 +1124,7 @@
 				F37E4877184D602400D66A32 /* Data Source */,
 				F35A174B17E2158C004B5F44 /* Misc */,
 				F3A8BFD217FBEF5200188453 /* Global */,
+				F32137ED1905384000B0D8D4 /* Debug */,
 				F3A8BFD317FBF05B00188453 /* FAViewControllerPreferredContentSizeChanged.h */,
 			);
 			path = Controller;
@@ -1593,6 +1611,7 @@
 				F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */,
 				F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */,
 				F3AAC17518F8BDCB00EF8876 /* TMDiskCache.m in Sources */,
+				F32137F01905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
 				F32645CF17F0F9A4001D4F74 /* UIImage+Alpha.m in Sources */,
@@ -1672,6 +1691,7 @@
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,
 				F37E4880184D75B600D66A32 /* FAViewController.m in Sources */,
 				F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */,
+				F32F72F5190453F400B4841D /* FAEpisodeAirDateTableViewCell.m in Sources */,
 				F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */,
 				F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */,
 				F353F42517FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m in Sources */,
@@ -1853,13 +1873,12 @@
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/JSONKit\"",
-					"\"${PODS_ROOT}/Headers/LRResty\"",
-					"\"${PODS_ROOT}/Headers/MBProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/NSData+Base64\"",
-					"\"${SRCROOT}/**\"/**",
+					"${PODS_ROOT}/Headers",
+					"${PODS_ROOT}/Headers/CocoaLumberjack",
+					"${PODS_ROOT}/Headers/JSONKit",
+					"${PODS_ROOT}/Headers/LRResty",
+					"${PODS_ROOT}/Headers/MBProgressHUD",
+					"${PODS_ROOT}/Headers/NSData+Base64",
 				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1873,6 +1892,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1899,13 +1919,12 @@
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
 				HEADER_SEARCH_PATHS = (
-					"\"${PODS_ROOT}/Headers\"",
-					"\"${PODS_ROOT}/Headers/CocoaLumberjack\"",
-					"\"${PODS_ROOT}/Headers/JSONKit\"",
-					"\"${PODS_ROOT}/Headers/LRResty\"",
-					"\"${PODS_ROOT}/Headers/MBProgressHUD\"",
-					"\"${PODS_ROOT}/Headers/NSData+Base64\"",
-					"\"${SRCROOT}/**\"/**",
+					"${PODS_ROOT}/Headers",
+					"${PODS_ROOT}/Headers/CocoaLumberjack",
+					"${PODS_ROOT}/Headers/JSONKit",
+					"${PODS_ROOT}/Headers/LRResty",
+					"${PODS_ROOT}/Headers/MBProgressHUD",
+					"${PODS_ROOT}/Headers/NSData+Base64",
 				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1919,6 +1938,7 @@
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

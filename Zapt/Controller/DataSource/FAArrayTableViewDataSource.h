@@ -61,7 +61,9 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id key);
 
 - (void)reloadSection:(NSUInteger)section row:(NSUInteger)row;
 - (void)reloadRowsWithKeys:(NSSet *)objects;
+- (void)reloadRowsWithKeys:(NSSet *)objects animation:(UITableViewRowAnimation)animation;
 - (void)reloadRowsWithKey:(id)object;
+- (void)reloadRowsWithKey:(id)object animation:(UITableViewRowAnimation)animation;
 
 - (id)rowKeyAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)anyIndexPathForObject:(id)object;

@@ -48,6 +48,11 @@
 
 - (NSString *)titleForContent:(FATraktContent *)content
 {
+    if (self.calendarMode && [content isKindOfClass:[FATraktEpisode class]]) {
+        FATraktEpisode *episode = (FATraktEpisode *)content;
+        return episode.show.title;
+    }
+    
     return content.title;
 }
 
@@ -98,6 +103,11 @@
         return detailString;
     } else if ([content isKindOfClass:[FATraktEpisode class]]) {
         FATraktEpisode *episode = (FATraktEpisode *)content;
+        
+        if (self.calendarMode) {
+            NSString *nameForEpisode = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
+            return [NSString stringWithFormat:@"%@ – %@", nameForEpisode, episode.title];;
+        }
         
         return episode.show.title;
     }

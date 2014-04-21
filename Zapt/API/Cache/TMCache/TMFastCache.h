@@ -10,4 +10,7 @@
 
 @interface TMFastCache : TMCache
 
+// Call this method when the application goes to background
+- (void)commitAllObjects;
+
 @end

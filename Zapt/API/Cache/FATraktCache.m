@@ -120,6 +120,13 @@ static NSInteger __cacheVersionNumber = 4;
     DDLogModel(@"Cleared all Caches");
 }
 
+- (void)commitAllCaches
+{
+    for (TMFastCache *cache in self.allCaches) {
+        [cache commitAllObjects];
+    }
+}
+
 - (void)migrationRemoveFACache
 {
     // Removes everything that is left of FACache from older versions

@@ -16,6 +16,7 @@
 
 @property BOOL showsProgressForShows;
 @property BOOL twoLineMode;
+@property (nonatomic) BOOL calendarMode;
 @property (nonatomic) BOOL shouldDisplayImage;
 
 @property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;

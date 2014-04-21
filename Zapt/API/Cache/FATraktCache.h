@@ -17,6 +17,8 @@ extern NSString *FATraktCacheClearedNotification;
 - (void)clearCaches;
 - (void)clearCachesCallback:(void (^)(void))callback;
 
+- (void)commitAllCaches;
+
 - (void)migrationRemoveFACache;
 
 @property (readonly) TMCache *misc;

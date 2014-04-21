@@ -71,6 +71,11 @@
     }
 }
 
+- (NSSet *)notEncodableKeys
+{
+    return [NSSet setWithObjects:@"show", @"next_episode", nil];
+}
+
 - (void)setShow:(FATraktShow *)show
 {
     self.showCacheKey = show.cacheKey;

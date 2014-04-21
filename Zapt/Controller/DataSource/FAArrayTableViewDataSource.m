@@ -373,6 +373,11 @@
     return [self reloadRowsWithKeys:[NSSet setWithObject:object]];
 }
 
+- (void)reloadRowsWithKey:(id)object animation:(UITableViewRowAnimation)animation
+{
+    return [self reloadRowsWithKeys:[NSSet setWithObject:object] animation:animation];
+}
+
 - (void)removeRowWithKey:(id)object
 {
     NSSet *indexPaths = [self.objects objectForKey:object];
@@ -441,6 +446,11 @@
 }
 
 - (void)reloadRowsWithKeys:(NSSet *)objects
+{
+    [self reloadRowsWithKeys:objects animation:UITableViewRowAnimationFade];
+}
+
+- (void)reloadRowsWithKeys:(NSSet *)objects animation:(UITableViewRowAnimation)animation
 {
     NSMutableArray *indexPaths = [NSMutableArray array];
     
