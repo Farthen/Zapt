@@ -59,7 +59,8 @@
 
 @interface FAArrayTableViewDelegate : NSObject <UITableViewDelegate, NSCoding>
 
-@property id <FAArrayTableViewDelegate> delegate;
+@property (nonatomic, weak) id <FAArrayTableViewDelegate> delegate;
+@property (nonatomic, weak) id <UITableViewDelegate> forwardDelegate;
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 

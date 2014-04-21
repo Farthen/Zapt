@@ -36,7 +36,6 @@
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     
     if (self) {
-        
         self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.badges = [FABadges instanceForView:self.contentView];
         
@@ -173,10 +172,6 @@
     self.image = image;
     
     self.displayedContent = content;
-    
-    self.needsRemoveAllConstraints = YES;
-    
-    [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
@@ -222,16 +217,14 @@
     self.leftAuxiliaryTextLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.leftAuxiliaryTextLabel.adjustsFontSizeToFitWidth = NO;
     self.leftAuxiliaryTextLabel.numberOfLines = 1;
-    
-    [self.contentView removeConstraints:self.contentView.constraints];
-    
+        
     if (self.twoLineMode) {
         self.detailTextLabel.hidden = YES;
     } else {
         self.detailTextLabel.hidden = NO;
     }
     
-    if (self.needsRemoveAllConstraints) {
+    if (self.needsRemoveAllConstraints || !self.addedConstraints) {
         NSArray *constraints = self.contentView.constraints;
         [self.contentView removeConstraints:constraints];
         self.addedConstraints = NO;
@@ -339,17 +332,16 @@
             [self.badges unbadge:FABadgeWatched];
         }
     }
-    
-    [self.contentView setNeedsUpdateConstraints];
-    [self.contentView setNeedsLayout];
 }
 
 - (void)setImage:(UIImage *)image
 {
-    self.imageView.image = image;
+    if (!!self.image != !!image) {
+        self.needsRemoveAllConstraints = YES;
+        [self setNeedsLayout];
+    }
     
-    self.needsRemoveAllConstraints = YES;
-    [self setNeedsLayout];
+    self.imageView.image = image;
 }
 
 - (UIImage *)image

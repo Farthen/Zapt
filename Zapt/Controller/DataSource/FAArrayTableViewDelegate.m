@@ -97,6 +97,10 @@
         return [self.delegate tableView:tableView heightForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:heightForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView heightForRowAtIndexPath:indexPath];
+    }
+    
     if ([self.dataSource.cellClass conformsToProtocol:@protocol(FATableViewCellHeight)]) {
         Class <FATableViewCellHeight, NSObject> cellClass = self.dataSource.cellClass;
         
@@ -118,6 +122,10 @@
         return [self.delegate tableView:tableView estimatedHeightForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:estimatedHeightForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView estimatedHeightForRowAtIndexPath:indexPath];
+    }
+    
     return 50;
 }
 
@@ -127,13 +135,21 @@
         return [self.delegate tableView:tableView indentationLevelForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:indentationLevelForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+    }
+    
     return 0;
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCell:forKey:)]) {
-        return [self.delegate tableView:tableView willDisplayCell:cell forKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+        [self.delegate tableView:tableView willDisplayCell:cell forKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
 }
 
@@ -141,7 +157,11 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:accessoryButtonTappedForRowWithKey:)]) {
-        return [self.delegate tableView:tableView accessoryButtonTappedForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+        [self.delegate tableView:tableView accessoryButtonTappedForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:accessoryButtonTappedForRowWithIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
     }
 }
 
@@ -154,6 +174,10 @@
         return [self.dataSource anyIndexPathForObject:object];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willSelectRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView willSelectRowAtIndexPath:indexPath];
+    }
+    
     return indexPath;
 }
 
@@ -161,6 +185,10 @@
 {
     if ([self.delegate respondsToSelector:@selector(tableView:didSelectRowWithKey:)]) {
         [self.delegate tableView:tableView didSelectRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didSelectRowAtIndexPath:indexPath];
     }
 }
 
@@ -172,6 +200,10 @@
         return [self.dataSource anyIndexPathForObject:object];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willDeselectRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView willDeselectRowAtIndexPath:indexPath];
+    }
+    
     return indexPath;
 }
 
@@ -179,6 +211,10 @@
 {
     if ([self.delegate respondsToSelector:@selector(tableView:didDeselectRowWithKey:)]) {
         [self.delegate tableView:tableView didDeselectRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didDeselectRowAtIndexPath:indexPath];
     }
 }
 
@@ -257,6 +293,10 @@
         id sectionKey = self.dataSource.tableViewData[section];
         [self.delegate tableView:tableView willDisplayHeaderView:view forSectionWithKey:sectionKey];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willDisplayHeaderView:forSectionWithKey:)]) {
+        [self.forwardDelegate tableView:tableView willDisplayHeaderView:view forSection:section];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
@@ -264,6 +304,10 @@
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayFooterView:forSection:)]) {
         id sectionKey = self.dataSource.tableViewData[section];
         [self.delegate tableView:tableView willDisplayFooterView:view forSectionWithKey:sectionKey];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willDisplayFooterView:forSection:)]) {
+        [self.forwardDelegate tableView:tableView willDisplayFooterView:view forSection:section];
     }
 }
 
@@ -273,6 +317,10 @@
     if ([self.delegate respondsToSelector:@selector(tableView:willBeginEditingRowWithKey:)]) {
         [self.delegate tableView:tableView willBeginEditingRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:willBeginEditingRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView willBeginEditingRowAtIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -280,12 +328,20 @@
     if ([self.delegate respondsToSelector:@selector(tableView:didEndEditingRowWithKey:)]) {
         [self.delegate tableView:tableView didEndEditingRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didEndEditingRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didEndEditingRowAtIndexPath:indexPath];
+    }
 }
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:editingStyleForRowWithKey:)]) {
         return [self.delegate tableView:tableView editingStyleForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:editingStyleForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView editingStyleForRowAtIndexPath:indexPath];
     }
     
     return UITableViewCellEditingStyleNone;
@@ -297,6 +353,10 @@
         return [self.delegate tableView:tableView titleForDeleteConfirmationButtonForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView titleForDeleteConfirmationButtonForRowAtIndexPath:indexPath];
+    }
+    
     return nil;
 }
 
@@ -304,6 +364,10 @@
 {
     if ([self.delegate respondsToSelector:@selector(tableView:shouldIndentWhileEditingRowWithKey:)]) {
         return [self.delegate tableView:tableView shouldIndentWhileEditingRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:shouldIndentWhileEditingRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView shouldIndentWhileEditingRowAtIndexPath:indexPath];
     }
     
     return YES;
@@ -315,6 +379,10 @@
     if ([self.delegate respondsToSelector:@selector(tableView:didEndDisplayingCell:forRowWithKey:)]) {
         [self.delegate tableView:tableView didEndDisplayingCell:cell forRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didEndDisplayingCell:forRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didEndDisplayingCell:cell forRowAtIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section
@@ -323,6 +391,10 @@
         id sectionKey = self.dataSource.tableViewData[section];
         [self.delegate tableView:tableView didEndDisplayingHeaderView:view forSectionWithKey:sectionKey];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didEndDisplayingHeaderView:forSection:)]) {
+        [self.forwardDelegate tableView:tableView didEndDisplayingHeaderView:view forSection:section];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section
@@ -330,6 +402,10 @@
     if ([self.delegate respondsToSelector:@selector(tableView:didEndDisplayingFooterView:forSection:)]) {
         id sectionKey = self.dataSource.tableViewData[section];
         [self.delegate tableView:tableView didEndDisplayingFooterView:view forSectionWithKey:sectionKey];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didEndDisplayingFooterView:forSection:)]) {
+        [self.forwardDelegate tableView:tableView didEndDisplayingFooterView:view forSection:section];
     }
 }
 
@@ -340,13 +416,21 @@
         return [self.delegate tableView:tableView shouldShowMenuForRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
     
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:shouldShowMenuForRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView shouldShowMenuForRowAtIndexPath:indexPath];
+    }
+    
     return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
     if ([self.delegate respondsToSelector:@selector(tableView:canPerformAction:forRowWithKey:withSender:)]) {
-        [self.delegate tableView:tableView canPerformAction:action forRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath] withSender:sender];
+        return [self.delegate tableView:tableView canPerformAction:action forRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath] withSender:sender];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:canPerformAction:forRowAtIndexPath:withSender:)]) {
+        return [self.forwardDelegate tableView:tableView canPerformAction:action forRowAtIndexPath:indexPath withSender:sender];
     }
     
     return YES;
@@ -357,6 +441,10 @@
     if ([self.delegate respondsToSelector:@selector(tableView:performAction:forRowWithKey:withSender:)]) {
         [self.delegate tableView:tableView performAction:action forRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath] withSender:sender];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:performAction:forRowAtIndexPath:withSender:)]) {
+        [self.forwardDelegate tableView:tableView performAction:action forRowAtIndexPath:indexPath withSender:sender];
+    }
 }
 
 #pragma mark Managing Table View Highlighting
@@ -364,6 +452,10 @@
 {
     if ([self.delegate respondsToSelector:@selector(tableView:shouldHighlightRowWithKey:)]) {
         return [self.delegate tableView:tableView shouldHighlightRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:shouldHighlightRowAtIndexPath:)]) {
+        return [self.forwardDelegate tableView:tableView shouldHighlightRowAtIndexPath:indexPath];
     }
     
     return YES;
@@ -374,12 +466,20 @@
     if ([self.delegate respondsToSelector:@selector(tableView:didHighlightRowWithKey:)]) {
         [self.delegate tableView:tableView didHighlightRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
     }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didHighlightRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didHighlightRowAtIndexPath:indexPath];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(tableView:didUnhighlightRowWithKey:)]) {
         [self.delegate tableView:tableView didUnhighlightRowWithKey:[self.dataSource rowKeyAtIndexPath:indexPath]];
+    }
+    
+    if ([self.forwardDelegate respondsToSelector:@selector(tableView:didUnhighlightRowAtIndexPath:)]) {
+        [self.forwardDelegate tableView:tableView didUnhighlightRowAtIndexPath:indexPath];
     }
 }
 

@@ -47,9 +47,20 @@
     [self setupTableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)setupTableView
 {
     self.dataSource.cellClass = [FAContentTableViewCell class];
+    self.dataSource.reuseIdentifierBlock = ^NSString *(id sectionKey, id key) {
+        return @"contentCell";
+    };
+    
     self.dataSource.weightedConfigurationBlock = ^(FAContentTableViewCell *cell, id sectionKey, id key) {
         FATraktEpisode *episode = [FATraktEpisode objectWithCacheKey:key];
         cell.calendarMode = YES;
@@ -66,7 +77,7 @@
     
     self.tableViewDelegate.delegate = self;
     self.tableView.rowHeight = [FAContentTableViewCell cellHeight];
-
+    self.tableViewDelegate.forwardDelegate = self;
 }
 
 - (void)loadData
@@ -97,7 +108,10 @@
                     [self.dataSource insertRow:episode.cacheKey inSection:day withWeight:idx];
                     
                     [[FATrakt sharedInstance] loadImageFromURL:episode.posterImageURL withWidth:42 callback:^(UIImage *image) {
-                        [self.dataSource reloadRowsWithKey:episode.cacheKey animation:UITableViewRowAnimationNone];
+                        FAContentTableViewCell *cell = [self.dataSource cellForRowWithKey:episode.cacheKey];
+                        if (cell) {
+                            cell.image = image;
+                        }
                     } onError:nil];
                 }];
             }
@@ -145,7 +159,6 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder
 {
     [super encodeRestorableStateWithCoder:coder];
-    
     [coder encodeObject:self.tableViewDelegate forKey:@"tableViewDelegate"];
 }
 

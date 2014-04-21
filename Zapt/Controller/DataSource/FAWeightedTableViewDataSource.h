@@ -55,4 +55,7 @@ typedef id (^FAWeightedTableViewCellCreationBlock)(id sectionKey, id rowKey);
 typedef void (^FAWeightedTableViewCellConfigurationBlock)(id cell, id sectionKey, id rowKey);
 @property (nonatomic, copy) FAWeightedTableViewCellConfigurationBlock weightedConfigurationBlock;
 
+typedef NSString *(^FAWeightedTableViewCellReuseIdentifierBlock)(id sectionKey, id rowKey);
+@property (nonatomic, copy) FAWeightedTableViewCellReuseIdentifierBlock reuseIdentifierBlock;
+
 @end

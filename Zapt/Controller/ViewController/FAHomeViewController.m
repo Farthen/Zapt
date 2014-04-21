@@ -171,16 +171,18 @@
 - (void)setupTableView
 {
     __weak typeof(self) weakSelf = self;
+    self.arrayDataSource.reuseIdentifierBlock = ^NSString *(id sectionKey, id object) {
+        if ([sectionKey isEqualToString:@"user"]) {
+            return @"user";
+        } else {
+            return @"content";
+        }
+    };
+    
     self.arrayDataSource.weightedCellCreationBlock = ^(id sectionKey, id object) {
         id cell = nil;
         
-        NSString *reuseIdentifier = nil;
-        
-        if ([sectionKey isEqualToString:@"user"]) {
-            reuseIdentifier = @"user";
-        } else {
-            reuseIdentifier = @"content";
-        }
+        NSString *reuseIdentifier = weakSelf.arrayDataSource.reuseIdentifierBlock(sectionKey, object);
         
         cell = [weakSelf.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
         

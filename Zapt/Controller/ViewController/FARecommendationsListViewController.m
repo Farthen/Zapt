@@ -60,6 +60,10 @@
     
     
     self.weightedDataSource.cellClass = [FAContentTableViewCell class];
+    self.weightedDataSource.reuseIdentifierBlock = ^NSString *(id sectionKey, id rowKey) {
+        return @"ContentTableViewCell";
+    };
+    
     self.weightedDataSource.weightedConfigurationBlock = ^(id cell, id sectionKey, id key) {
         
         FATraktContent *content = [FATraktContent objectWithCacheKey:key];
