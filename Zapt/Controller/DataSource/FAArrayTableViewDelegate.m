@@ -89,6 +89,11 @@
     return [super respondsToSelector:aSelector];
 }
 
+- (void)dealloc
+{
+    self.tableView.delegate = nil;
+}
+
 #pragma mark - UITableViewDelegate -
 #pragma mark Configuring Rows for the Table View
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

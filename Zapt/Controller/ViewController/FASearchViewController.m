@@ -294,22 +294,22 @@ static CGPoint _scrollPositions[3];
     
     UIImage *image = nil;
     
+    cell.shouldDisplayImage = YES;
+    
     if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
         image = [movie posterImageWithWidth:42];
-        [cell displayContent:movie];
+        [cell displayContent:movie withImage:image];
     } else if (_searchScope == FATraktContentTypeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:(NSUInteger)indexPath.row];
         image = [show posterImageWithWidth:42];
-        [cell displayContent:show];
+        [cell displayContent:show withImage:image];
     } else if (_searchScope == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
         image = [episode posterImageWithWidth:42];
-        [cell displayContent:episode];
+        [cell displayContent:episode withImage:image];
     }
     
-    cell.shouldDisplayImage = YES;
-    cell.image = image;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;

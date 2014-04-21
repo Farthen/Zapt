@@ -22,7 +22,8 @@
 
 @property (nonatomic) FATraktContent *displayedContent;
 
-@property BOOL needsRemoveAllConstraints;
+@property BOOL needsRemoveImageViewConstraints;
+@property (nonatomic) NSMutableArray *imageViewConstraints;
 
 @property (nonatomic) FABadges *badges;
 @end
@@ -38,6 +39,7 @@
     if (self) {
         self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.badges = [FABadges instanceForView:self.contentView];
+        self.imageViewConstraints = [NSMutableArray array];
         
         [self layoutSubviews];
     }
@@ -224,15 +226,17 @@
         self.detailTextLabel.hidden = NO;
     }
     
-    if (self.needsRemoveAllConstraints || !self.addedConstraints) {
-        NSArray *constraints = self.contentView.constraints;
-        [self.contentView removeConstraints:constraints];
+    if (self.needsRemoveImageViewConstraints || !self.addedConstraints) {
+        [self.contentView removeConstraints:self.imageViewConstraints];
+        [self.imageViewConstraints removeAllObjects];
         self.addedConstraints = NO;
-        self.needsRemoveAllConstraints = NO;
+        self.needsRemoveImageViewConstraints = NO;
     }
     
     if (!self.addedConstraints) {
         // Create constraints for the title label:
+        
+        [self.contentView removeConstraints:self.contentView.constraints];
         
         CGFloat topSpacing = 0;
         CGFloat bottomSpacing = 0;
@@ -255,29 +259,12 @@
             bottomSpacing = offset / 2;
         }
         
-        if (self.image) {
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
-            
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:42]];
-            
-            self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-            self.imageView.clipsToBounds = YES;
-        }
-        
         if ([self.textLabel isDescendantOfView:self.contentView]) {
             // The text labels seem to be removed when the text is nil.
             self.textLabel.translatesAutoresizingMaskIntoConstraints = NO;
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
             [self.textLabel setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin + topSpacing]];
-            
-            if (self.image) {
-                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
-            } else {
-                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
-            }
             
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationLessThanOrEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
         }
@@ -291,12 +278,6 @@
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.textLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:self.class.labelSpacing]];
         } else {
             [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:self.class.topMargin]];
-        }
-        
-        if (self.image) {
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
-        } else {
-            [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
         }
         
         [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
@@ -315,13 +296,6 @@
                 // More thorough explanation: The text labels seem to be removed when the text is nil. Why this is happening is pretty unclear. This fixes the segfault though ^^
                 [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
                 
-                if (self.image) {
-                    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
-                } else {
-                    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
-                }
-
-                
                 [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0]];
             }
         }
@@ -332,12 +306,50 @@
             [self.badges unbadge:FABadgeWatched];
         }
     }
+    
+    if (self.imageViewConstraints.count == 0) {
+        if (self.image) {
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:0]];
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeBottom multiplier:1 constant:0]];
+            
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:42]];
+            
+            self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            self.imageView.clipsToBounds = YES;
+        }
+        
+        if ([self.textLabel isDescendantOfView:self.contentView]) {
+            if (self.image) {
+                [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+            } else {
+                [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.textLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+            }
+        }
+        
+        if ([self.detailTextLabel isDescendantOfView:self.contentView]) {
+            if (self.image) {
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+            } else {
+                [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.detailTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+            }
+        }
+        
+        if (self.image) {
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.imageView attribute:NSLayoutAttributeTrailing multiplier:1 constant:widthMargin]];
+        } else {
+            [self.imageViewConstraints addObject:[NSLayoutConstraint constraintWithItem:self.leftAuxiliaryTextLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1 constant:widthMargin]];
+        }
+        
+        [self.contentView addConstraints:self.imageViewConstraints];
+        [self.contentView setNeedsLayout];
+    }
 }
 
 - (void)setImage:(UIImage *)image
 {
     if (!!self.image != !!image) {
-        self.needsRemoveAllConstraints = YES;
+        self.needsRemoveImageViewConstraints = YES;
         [self setNeedsLayout];
     }
     

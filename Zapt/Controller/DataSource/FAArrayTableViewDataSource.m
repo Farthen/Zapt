@@ -91,6 +91,11 @@
     tableView.dataSource = self;
 }
 
+- (void)dealloc
+{
+    self.tableView.dataSource = nil;
+}
+
 - (UITableView *)tableView
 {
     return _tableView;

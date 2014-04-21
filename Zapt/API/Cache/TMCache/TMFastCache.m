@@ -35,7 +35,7 @@
 
         self.memoryCache.willRemoveObjectBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
             
-            dispatch_barrier_sync(self.queue, ^{
+            dispatch_sync(self.queue, ^{
                 if (![_keysToRemove containsObject:key] && [_uncommittedKeys containsObject:key]) {
                     // We didn't remove this -> we need to save the value
                     [self.diskCache setObject:object forKey:key block:nil];
@@ -52,7 +52,7 @@
 
 - (void)commitAllObjects
 {
-    dispatch_barrier_sync(self.queue, ^{
+    dispatch_sync(self.queue, ^{
         [_keysToRemove enumerateObjectsUsingBlock:^(id key, BOOL *stop) {
             [self.diskCache removeObjectForKey:key];
         }];
@@ -87,7 +87,7 @@
         };
     }
     
-    dispatch_barrier_sync(self.queue, ^{
+    dispatch_sync(self.queue, ^{
         [_keysToRemove removeObject:key];
         [_uncommittedKeys addObject:key];
     });
@@ -137,7 +137,7 @@
         });
     }
 
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_async(self.queue, ^{
         [_keysToRemove addObject:key];
         [_uncommittedKeys removeObject:key];
     });
@@ -149,7 +149,7 @@
 
     [super removeAllObjects:block];
     
-    dispatch_barrier_async(self.queue, ^{
+    dispatch_async(self.queue, ^{
         [_keysToRemove removeAllObjects];
     });
 }

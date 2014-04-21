@@ -24,5 +24,6 @@
 @property (nonatomic, readonly) FATraktContent *displayedContent;
 
 - (void)displayContent:(FATraktContent *)content;
+- (void)displayContent:(FATraktContent *)content withImage:(UIImage *)image;
 
 @end
