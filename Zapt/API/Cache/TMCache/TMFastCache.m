@@ -53,6 +53,12 @@
 - (void)commitAllObjects
 {
     dispatch_barrier_sync(self.queue, ^{
+        [_keysToRemove enumerateObjectsUsingBlock:^(id key, BOOL *stop) {
+            [self.diskCache removeObjectForKey:key];
+        }];
+        
+        [_keysToRemove removeAllObjects];
+        
         [self.memoryCache enumerateObjectsWithBlock:^(TMMemoryCache *cache, NSString *key, id object) {
             if ([_uncommittedKeys containsObject:key]) {
                 [self.diskCache setObject:object forKey:key];
@@ -82,6 +88,7 @@
     }
     
     dispatch_barrier_sync(self.queue, ^{
+        [_keysToRemove removeObject:key];
         [_uncommittedKeys addObject:key];
     });
     
@@ -107,29 +114,17 @@
 
     dispatch_group_t group = nil;
     TMMemoryCacheObjectBlock memBlock = nil;
-    TMDiskCacheObjectBlock diskBlock = nil;
 
     if (block) {
         group = dispatch_group_create();
-        dispatch_group_enter(group);
         dispatch_group_enter(group);
 
         memBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
             dispatch_group_leave(group);
         };
-
-        diskBlock = ^(TMDiskCache *cache, NSString *key, id <NSCoding> object, NSURL *fileURL) {
-            dispatch_group_leave(group);
-        };
     }
 
     [self.memoryCache removeObjectForKey:key block:memBlock];
-
-    if ([self.diskCache.allKeys containsObject:key]) {
-        [self.diskCache removeObjectForKey:key block:diskBlock];
-    } else if (group) {
-        dispatch_group_leave(group);
-    }
 
     if (group) {
         __weak TMCache *weakSelf = self;

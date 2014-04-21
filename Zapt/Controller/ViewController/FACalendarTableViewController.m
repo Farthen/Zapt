@@ -42,6 +42,13 @@
     self.navigationItem.title = NSLocalizedString(@"Calendar", nil);
     
     self.dataSource = [[FAWeightedTableViewDataSource alloc] initWithTableView:self.tableView];
+    self.tableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.dataSource];
+    
+    [self setupTableView];
+}
+
+- (void)setupTableView
+{
     self.dataSource.cellClass = [FAContentTableViewCell class];
     self.dataSource.weightedConfigurationBlock = ^(FAContentTableViewCell *cell, id sectionKey, id key) {
         FATraktEpisode *episode = [FATraktEpisode objectWithCacheKey:key];
@@ -57,12 +64,9 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     };
     
-    self.tableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.dataSource];
     self.tableViewDelegate.delegate = self;
-    
     self.tableView.rowHeight = [FAContentTableViewCell cellHeight];
-    
-    [self.tableView reloadData];
+
 }
 
 - (void)loadData
@@ -118,6 +122,31 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)decodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super decodeRestorableStateWithCoder:coder];
+    
+    self.tableViewDelegate = [coder decodeObjectForKey:@"tableViewDelegate"];
+    self.tableViewDelegate.tableView = self.tableView;
+    self.tableViewDelegate.delegate = self;
+    self.dataSource = (FAWeightedTableViewDataSource *)self.tableViewDelegate.dataSource;
+    self.dataSource.tableView = self.tableView;
+    
+    self.tableView.dataSource = self.dataSource;
+    self.tableView.delegate = self.tableViewDelegate;
+    
+    [self setupTableView];
+    [self.tableView reloadData];
+    [self reloadData:NO];
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder
+{
+    [super encodeRestorableStateWithCoder:coder];
+    
+    [coder encodeObject:self.tableViewDelegate forKey:@"tableViewDelegate"];
 }
 
 

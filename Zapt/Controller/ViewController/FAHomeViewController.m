@@ -80,6 +80,11 @@
     [self setUpRefreshControlWithActivityWithRefreshDataBlock:^(FARefreshControlWithActivity *refreshControlWithActivity) {
         [weakSelf reloadData:YES];
     }];
+    
+    NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+    if (selectedIndexPath) {
+        [self.tableView deselectRowAtIndexPath:selectedIndexPath animated:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -87,7 +92,7 @@
     [super viewDidAppear:animated];
     
     [self reloadData:NO];
-    self.initialDataFetchDone = YES;
+    self.initialDataFetchDone = YES;    
 }
 
 - (void)preferredContentSizeChanged

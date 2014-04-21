@@ -237,7 +237,7 @@
         }
     } else if (indexPath.section + offset == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.parentViewController.view];
+        FAProgressHUD *hud = [[FAProgressHUD alloc] initWithView:self.navigationController.view];
         
         if (indexPath.row == 0) {
             // Watchlist add/remove button

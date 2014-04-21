@@ -60,22 +60,24 @@
 
 - (void)showProgressHUDCompleteMessage:(NSString *)message
 {
-    if (message) {
-        if (_progressHUD.isHidden) {
-            [_progressHUD show:YES];
+    [UIView performWithoutAnimation:^{
+        if (message) {
+            if (_progressHUD.isHidden) {
+                [_progressHUD show:YES];
+            }
+            
+            _progressHUD.labelText = message;
+            _progressHUD.mode = MBProgressHUDModeCustomView;
+            [_progressHUD hide:YES afterDelay:1];
+        } else {
+            [_progressHUD hide:YES];
         }
         
-        _progressHUD.labelText = message;
-        _progressHUD.mode = MBProgressHUDModeCustomView;
-        [_progressHUD hide:YES afterDelay:1];
-    } else {
-        [_progressHUD hide:YES];
-    }
-    
-    for (UIView *view in self.disabledUIElements) {
-        view.userInteractionEnabled = YES;
-        view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
-    }
+        for (UIView *view in self.disabledUIElements) {
+            view.userInteractionEnabled = YES;
+            view.tintAdjustmentMode = UIViewTintAdjustmentModeAutomatic;
+        }
+    }];
 }
 
 - (void)hideProgressHUD
