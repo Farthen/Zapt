@@ -241,22 +241,12 @@ static NSArray *_ratingNames;
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter) {
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"EEEE (MMMM d) h:mm";
+        dateFormatter.dateStyle = NSDateFormatterLongStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        dateFormatter.doesRelativeDateFormatting = YES;
     }
     
     NSString *dateString = [dateFormatter stringFromDate:date];
-    
-    if ([date isToday]) {
-        dateString = [NSString stringWithFormat:NSLocalizedString(@"Today, %@", nil), dateString];
-    } else if ([date isYesterday]) {
-        dateString = [NSString stringWithFormat:NSLocalizedString(@"Yesterday, %@", nil), dateString];
-    } else if ([date isTomorrow]) {
-        dateString = [NSString stringWithFormat:NSLocalizedString(@"Tomorrow, %@", nil), dateString];
-    } else if ([date isEarlierThanDate:[NSDate date]]) {
-        dateString = [NSString stringWithFormat:NSLocalizedString(@"Last %@", nil), dateString];
-    } else if ([date isLaterThanDate:[NSDate date]]) {
-        dateString = [NSString stringWithFormat:NSLocalizedString(@"Next %@", nil), dateString];
-    }
     
     return dateString;
 }
