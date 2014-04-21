@@ -368,6 +368,12 @@
     [self.tableView reloadData];
 }
 
+- (id)cellForRowWithKey:(id)key
+{
+    NSIndexPath *indexPath = [[self indexPathsForRowKey:key] anyObject];
+    return [self.tableView cellForRowAtIndexPath:indexPath];
+}
+
 - (void)reloadRowsWithKey:(id)object
 {
     return [self reloadRowsWithKeys:[NSSet setWithObject:object]];

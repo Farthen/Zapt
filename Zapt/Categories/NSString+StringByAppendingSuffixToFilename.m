@@ -23,4 +23,16 @@
     return [containingFolder stringByAppendingPathComponent:newFullFileName];
 }
 
+- (NSString *)urlStringByAppendingFilenameSuffix:(NSString *)suffixString
+{
+    NSURL *url = [NSURL URLWithString:self];
+    
+    NSString *extension = [url pathExtension];
+    NSURL *urlWithoutExtension = [url URLByDeletingPathExtension];
+    NSString *urlStringWithSuffix = [[urlWithoutExtension absoluteString] stringByAppendingString:suffixString];
+    
+    NSURL *urlWithSuffix = [NSURL URLWithString:urlStringWithSuffix];
+    return [[urlWithSuffix URLByAppendingPathExtension:extension] absoluteString];
+}
+
 @end

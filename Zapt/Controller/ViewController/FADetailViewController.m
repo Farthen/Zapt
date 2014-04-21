@@ -31,6 +31,8 @@
 #import "FABadges.h"
 #import "FAPullScrollViewAccessoryView.h"
 
+#import <NSDate-Extensions/NSDate-Utilities.h>
+
 
 @interface FADetailViewController () {
     BOOL _showing;
@@ -562,6 +564,13 @@
     if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
         NSString *displayString;
         displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        
+        if (episode.first_aired_utc) {
+            if ([episode.first_aired_utc isLaterThanDate:[NSDate date]]) {
+                NSString *airString = [NSString stringWithFormat:@"\nAirs: %@", [FAInterfaceStringProvider relativeTimeAndDateFromNowWithDate:episode.first_aired_utc]];
+                displayString = [displayString stringByAppendingString:airString];
+            }
+        }
         
         BOOL animated = NO;
         

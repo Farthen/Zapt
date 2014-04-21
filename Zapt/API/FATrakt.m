@@ -268,12 +268,12 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     return [self loadImageFromURL:url withWidth:0 callback:callback onError:error];
 }
 
-- (FATraktRequest *)loadImageFromURL:(NSString *)url withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
+- (FATraktRequest *)loadImageFromURL:(NSString *)urlString withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     NSString *suffix = @"";
     
     if (width > 0) {
-        if ([url containsString:@"/images/poster"]) {
+        if ([urlString containsString:@"/images/poster"]) {
             DDLogController(@"Loading image of type poster");
             
             if (width <= 138) {
@@ -281,7 +281,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             } else if (width <= 300) {
                 suffix = @"-300";
             }
-        } else if ([url containsString:@"/images/fanart"] && ![url containsString:@"/images/fanart-summary.jpg"]) {
+        } else if ([urlString containsString:@"/images/fanart"] && ![urlString containsString:@"/images/fanart-summary.jpg"]) {
             DDLogController(@"Loading image of type fanart");
             
             if (width <= 218) {
@@ -293,12 +293,35 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             suffix = @"";
         }
         
-        if ([url containsString:@"/images/poster-"]) {
+        if ([urlString containsString:@"/images/poster-"]) {
             return nil;
         }
     }
     
-    NSString *imageURL = [url stringByAppendingFilenameSuffix:suffix];
+    // Remove any suffix if needed, then add suffix
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSString *extension = [url pathExtension];
+    NSURL *urlWithoutExtension = [url URLByDeletingPathExtension];
+    NSString *urlStringWithoutExtension = [urlWithoutExtension absoluteString];
+    
+    NSString *urlStringWithSuffix;
+    
+    NSString *filename = [urlWithoutExtension lastPathComponent];
+    
+    if (![filename containsString:@"-138"] &&
+        ![filename containsString:@"-300"] &&
+        ![filename containsString:@"-218"] &&
+        ![filename containsString:@"-940"]) {
+        
+        urlStringWithSuffix = [urlStringWithoutExtension stringByAppendingString:suffix];
+    } else {
+        urlStringWithSuffix = urlStringWithoutExtension;
+    }
+    
+    NSURL *urlWithSuffix = [NSURL URLWithString:urlStringWithSuffix];
+    NSString *imageURL = [[urlWithSuffix URLByAppendingPathExtension:extension] absoluteString];
+    
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
     FATraktRequest *imageRequest = [FATraktRequest requestWithActivityName:FATraktActivityNotificationDefault];

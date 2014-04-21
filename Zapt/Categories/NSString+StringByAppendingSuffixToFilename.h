@@ -11,5 +11,6 @@
 @interface NSString (StringByAppendingFilenameSuffix)
 
 - (NSString *)stringByAppendingFilenameSuffix:(NSString *)suffix;
+- (NSString *)urlStringByAppendingFilenameSuffix:(NSString *)suffixString;
 
 @end

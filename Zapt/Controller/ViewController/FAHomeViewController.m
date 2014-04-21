@@ -116,9 +116,15 @@
                     [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
                     [self.arrayDataSource recalculateWeight];
                     
+                    NSString *contentCacheKey = content.cacheKey;
+                    
                     if (!content.posterImage) {
                         [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
-                            [self.arrayDataSource reloadRowsWithKey:content.cacheKey];
+                            FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
+                            
+                            if (cell) {
+                                cell.image = image;
+                            }
                         } onError:nil];
                     }
                 }
@@ -141,8 +147,14 @@
         
         for (FATraktShow *show in self.showsWithProgress) {
             if (!show.images.posterImage) {
+                NSString *showCacheKey = show.cacheKey;
+                
                 [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
-                    [self.arrayDataSource reloadRowsWithKey:show.cacheKey];
+                    FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:showCacheKey];
+                    
+                    if (cell) {
+                        cell.image = image;
+                    }
                 } onError:nil];
             }
         }

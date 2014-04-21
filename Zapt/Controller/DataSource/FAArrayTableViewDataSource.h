@@ -43,6 +43,8 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id key);
 @property BOOL reloadsDataOnDataChange;
 
 // Convenicence methods
+- (id)cellForRowWithKey:(id)key;
+
 - (void)setSectionIndexTitle:(NSString *)title forSection:(NSUInteger)section;
 - (void)setHeaderTitle:(NSString *)title forSection:(NSUInteger)section;
 - (void)setFooterTitle:(NSString *)title forSection:(NSUInteger)section;

@@ -23,5 +23,6 @@
 + (NSString *)progressForSeason:(FATraktSeason *)season long:(BOOL)longName;
 
 + (NSString *)relativeDateFromNowWithDate:(NSDate *)date;
++ (NSString *)relativeTimeAndDateFromNowWithDate:(NSDate *)date;
 
 @end
