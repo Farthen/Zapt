@@ -296,15 +296,15 @@ static CGPoint _scrollPositions[3];
     
     if (_searchScope == FATraktContentTypeMovies) {
         FATraktMovie *movie = [self.searchData.movies objectAtIndex:(NSUInteger)indexPath.row];
-        image = movie.images.posterImage;
+        image = [movie posterImageWithWidth:42];
         [cell displayContent:movie];
     } else if (_searchScope == FATraktContentTypeShows) {
         FATraktShow *show = [self.searchData.shows objectAtIndex:(NSUInteger)indexPath.row];
-        image = show.images.posterImage;
+        image = [show posterImageWithWidth:42];
         [cell displayContent:show];
     } else if (_searchScope == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = [self.searchData.episodes objectAtIndex:(NSUInteger)indexPath.row];
-        image = episode.show.images.posterImage;
+        image = [episode posterImageWithWidth:42];
         [cell displayContent:episode];
     }
     

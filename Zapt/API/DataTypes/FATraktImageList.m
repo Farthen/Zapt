@@ -8,6 +8,7 @@
 
 #import "FATraktImageList.h"
 #import "FATraktCache.h"
+#import "UIImage+Resize.h"
 
 @implementation FATraktImageList
 
@@ -34,91 +35,66 @@
     return [NSString stringWithFormat:@"<FATraktImageList %p with images: %@>", self, images.description];
 }
 
-- (UIImage *)posterImage
++ (NSString *)imageURLWithURL:(NSString *)urlString forWidth:(NSInteger)width
 {
-    TMCache *cache = [FATraktCache sharedInstance].images;
-    NSData *imageData = nil;
+    NSString *suffix = @"";
     
-    if (self.poster) {
-        imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@""]];
-        
-        if (!imageData) {
-            imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@"-300"]];
+    if (width > 0) {
+        if ([urlString containsString:@"/images/poster"]) {
+            DDLogController(@"Loading image of type poster");
+            
+            if (width <= 138) {
+                suffix = @"-138";
+            } else if (width <= 300) {
+                suffix = @"-300";
+            }
+        } else if ([urlString containsString:@"/images/fanart"] && ![urlString containsString:@"/images/fanart-summary.jpg"]) {
+            DDLogController(@"Loading image of type fanart");
+            
+            if (width <= 218) {
+                suffix = @"-218";
+            } else if (width <= 940) {
+                suffix = @"-940";
+            }
+        } else {
+            suffix = @"";
         }
         
-        if (!imageData) {
-            imageData = [cache objectForKey:[self.poster stringByAppendingFilenameSuffix:@"-138"]];
-        }
-    }
-    
-    if (imageData) {
-        return [UIImage imageWithData:imageData];
-    }
-    
-    return nil;
-}
-
-- (UIImage *)fanartImage
-{
-    TMCache *cache = [FATraktCache sharedInstance].images;
-    NSData *imageData = nil;
-    
-    if (self.fanart) {
-        imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@""]];
-        
-        if (!imageData) {
-            imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@"-940"]];
-        }
-        
-        if (!imageData) {
-            imageData = [cache objectForKey:[self.fanart stringByAppendingFilenameSuffix:@"-218"]];
+        if ([urlString containsString:@"/images/poster-"]) {
+            return nil;
         }
     }
     
-    if (imageData) {
-        return [UIImage imageWithData:imageData];
+    // Remove any suffix if needed, then add suffix
+    NSURL *url = [NSURL URLWithString:urlString];
+    
+    NSString *extension = [url pathExtension];
+    NSURL *urlWithoutExtension = [url URLByDeletingPathExtension];
+    NSString *urlStringWithoutExtension = [urlWithoutExtension absoluteString];
+    
+    NSString *urlStringWithSuffix;
+    
+    NSString *filename = [urlWithoutExtension lastPathComponent];
+    
+    if (![filename containsString:@"-138"] &&
+        ![filename containsString:@"-300"] &&
+        ![filename containsString:@"-218"] &&
+        ![filename containsString:@"-940"]) {
+        
+        urlStringWithSuffix = [urlStringWithoutExtension stringByAppendingString:suffix];
+    } else {
+        urlStringWithSuffix = urlStringWithoutExtension;
     }
     
-    return nil;
+    NSURL *urlWithSuffix = [NSURL URLWithString:urlStringWithSuffix];
+    return [[urlWithSuffix URLByAppendingPathExtension:extension] absoluteString];
 }
 
-- (UIImage *)bannerImage
-{
-    TMCache *cache = [FATraktCache sharedInstance].images;
-    NSData *imageData = nil;
-    
-    if (self.banner) {
-        imageData = [cache objectForKey:[self.banner stringByAppendingFilenameSuffix:@""]];
-    }
-    
-    if (imageData) {
-        return [UIImage imageWithData:imageData];
-    }
-    
-    return nil;
-}
-
-- (UIImage *)screenImage
-{
-    TMCache *cache = [FATraktCache sharedInstance].images;
-    NSData *imageData = nil;
-    
-    if (self.screen) {
-        imageData = [cache objectForKey:[self.screen stringByAppendingFilenameSuffix:@""]];
-    }
-    
-    if (imageData) {
-        return [UIImage imageWithData:imageData];
-    }
-    
-    
-    return nil;
-}
-
-- (void)posterImageCallback:(void (^)(UIImage *))callback
+- (void)imageWithURL:(NSString *)urlString width:(NSInteger)width callback:(void (^)(UIImage *))callback
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self posterImage];
+        TMCache *cache = [FATraktCache sharedInstance].images;
+        UIImage *image = [UIImage imageWithData:[cache objectForKey:[FATraktImageList imageURLWithURL:urlString forWidth:width]]];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             callback(image);
@@ -126,37 +102,52 @@
     });
 }
 
-- (void)fanartImageCallback:(void (^)(UIImage *))callback
+- (UIImage *)imageWithURL:(NSString *)urlString width:(NSInteger)width
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self fanartImage];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            callback(image);
-        });
-    });
+    TMCache *cache = [FATraktCache sharedInstance].images;
+    UIImage *image = [UIImage imageWithData:[cache objectForKey:[FATraktImageList imageURLWithURL:urlString forWidth:width]]];
+    
+    return image;
 }
 
-- (void)bannerImageCallback:(void (^)(UIImage *))callback
+- (UIImage *)posterImageWithWidth:(NSInteger)width
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self bannerImage];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            callback(image);
-        });
-    });
+    return [self imageWithURL:self.poster width:width];
 }
 
-- (void)screenImageCallback:(void (^)(UIImage *))callback
+- (UIImage *)fanartImageWithWidth:(NSInteger)width
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        UIImage *image = [self screenImage];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            callback(image);
-        });
-    });
+    return [self imageWithURL:self.fanart width:width];
+}
+
+- (UIImage *)bannerImageWithWidth:(NSInteger)width
+{
+    return [self imageWithURL:self.banner width:width];
+}
+
+- (UIImage *)screenImageWithWidth:(NSInteger)width
+{
+    return [self imageWithURL:self.screen width:width];
+}
+
+- (void)posterImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self imageWithURL:self.poster width:width callback:callback];
+}
+
+- (void)fanartImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self imageWithURL:self.fanart width:width callback:callback];
+}
+
+- (void)bannerImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self imageWithURL:self.banner width:width callback:callback];
+}
+
+- (void)screenImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self imageWithURL:self.screen width:width callback:callback];
 }
 
 @end

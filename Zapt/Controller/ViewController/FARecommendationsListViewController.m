@@ -69,7 +69,7 @@
         [contentCell displayContent:content];
         
         contentCell.shouldDisplayImage = YES;
-        [content.images posterImageCallback:^(UIImage *image) {
+        [content.images posterImageWithWidth:42 callback:^(UIImage *image) {
             contentCell.image = image;
         }];
     };

@@ -11,7 +11,7 @@
 #import "TMFastCache.h"
 
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
-static NSInteger __cacheVersionNumber = 4;
+static NSInteger __cacheVersionNumber = 5;
 
 @interface FATraktCache ()
 @property NSLock *lock;

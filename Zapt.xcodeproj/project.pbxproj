@@ -152,7 +152,6 @@
 		F3CAEEE419009DA0005EA8E2 /* FATraktCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */; };
 		F3CAEEE719009E46005EA8E2 /* FATraktCalendarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */; };
 		F3CAEEEA1900A90A005EA8E2 /* FACalendarTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */; };
-		F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446E417F8D2DD005B164D /* libTestFlight.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		F3CE70A718FB55400003679D /* FANotificationScrollViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */; };
 		F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
 		F3CE70B018FC71FA0003679D /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
@@ -567,7 +566,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3CE709C18FB2E780003679D /* libTestFlight.a in Frameworks */,
 				F3C925B518F8FE7C0054ACE3 /* CoreText.framework in Frameworks */,
 				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
@@ -1888,6 +1886,22 @@
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
 					"$(PROJECT_DIR)/Zapt/Support/TestFlight",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CrashReporter,
+					"-framework",
+					Foundation,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
+				);
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -1933,6 +1947,22 @@
 					"$(inherited)",
 					/Users/farthen/Code/iOS/Zapt/Zapt/Support/TestFlight,
 					"$(PROJECT_DIR)/Zapt/Support/TestFlight",
+				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					CoreGraphics,
+					"-framework",
+					CrashReporter,
+					"-framework",
+					Foundation,
+					"-framework",
+					MobileCoreServices,
+					"-framework",
+					Security,
+					"-framework",
+					SystemConfiguration,
+					"-all_load",
 				);
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";

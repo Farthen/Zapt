@@ -15,14 +15,16 @@
 @property (retain) NSString *banner;
 @property (retain) NSString *screen;
 
-@property (readonly) UIImage *posterImage;
-@property (readonly) UIImage *fanartImage;
-@property (readonly) UIImage *bannerImage;
-@property (readonly) UIImage *screenImage;
+- (UIImage *)posterImageWithWidth:(NSInteger)width;
+- (UIImage *)fanartImageWithWidth:(NSInteger)width;
+- (UIImage *)bannerImageWithWidth:(NSInteger)width;
+- (UIImage *)screenImageWithWidth:(NSInteger)width;
 
-- (void)posterImageCallback:(void (^)(UIImage *image))callback;
-- (void)fanartImageCallback:(void (^)(UIImage *image))callback;
-- (void)bannerImageCallback:(void (^)(UIImage *image))callback;
-- (void)screenImageCallback:(void (^)(UIImage *image))callback;
+- (void)posterImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
+- (void)fanartImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
+- (void)bannerImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
+- (void)screenImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
+
++ (NSString *)imageURLWithURL:(NSString *)urlString forWidth:(NSInteger)width;
 
 @end

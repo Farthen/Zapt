@@ -263,6 +263,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 #pragma mark - API
 #pragma mark Images
 
+
 - (FATraktRequest *)loadImageFromURL:(NSString *)url callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
     return [self loadImageFromURL:url withWidth:0 callback:callback onError:error];
@@ -270,57 +271,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)loadImageFromURL:(NSString *)urlString withWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    NSString *suffix = @"";
-    
-    if (width > 0) {
-        if ([urlString containsString:@"/images/poster"]) {
-            DDLogController(@"Loading image of type poster");
-            
-            if (width <= 138) {
-                suffix = @"-138";
-            } else if (width <= 300) {
-                suffix = @"-300";
-            }
-        } else if ([urlString containsString:@"/images/fanart"] && ![urlString containsString:@"/images/fanart-summary.jpg"]) {
-            DDLogController(@"Loading image of type fanart");
-            
-            if (width <= 218) {
-                suffix = @"-218";
-            } else if (width <= 940) {
-                suffix = @"-940";
-            }
-        } else {
-            suffix = @"";
-        }
-        
-        if ([urlString containsString:@"/images/poster-"]) {
-            return nil;
-        }
-    }
-    
-    // Remove any suffix if needed, then add suffix
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    NSString *extension = [url pathExtension];
-    NSURL *urlWithoutExtension = [url URLByDeletingPathExtension];
-    NSString *urlStringWithoutExtension = [urlWithoutExtension absoluteString];
-    
-    NSString *urlStringWithSuffix;
-    
-    NSString *filename = [urlWithoutExtension lastPathComponent];
-    
-    if (![filename containsString:@"-138"] &&
-        ![filename containsString:@"-300"] &&
-        ![filename containsString:@"-218"] &&
-        ![filename containsString:@"-940"]) {
-        
-        urlStringWithSuffix = [urlStringWithoutExtension stringByAppendingString:suffix];
-    } else {
-        urlStringWithSuffix = urlStringWithoutExtension;
-    }
-    
-    NSURL *urlWithSuffix = [NSURL URLWithString:urlStringWithSuffix];
-    NSString *imageURL = [[urlWithSuffix URLByAppendingPathExtension:extension] absoluteString];
+    NSString *imageURL = [FATraktImageList imageURLWithURL:urlString forWidth:width];
     
     DDLogController(@"Loading image with url \"%@\"", imageURL);
     
@@ -552,7 +503,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     NSString *fromDateString = [traktDateFormatter stringFromDate:fromDate];
-    NSString *dayCountString = [NSString stringWithFormat:@"%lu", dayCount];
+    NSString *dayCountString = [NSString stringWithFormat:@"%lu", (unsigned long)dayCount];
     
     if (fromDateString && dayCountString) {
         return [self.connection getAPI:@"user/calendar/shows.json" withParameters:@[self.connection.apiUser, fromDateString, dayCountString] forceAuthentication:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {

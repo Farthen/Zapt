@@ -118,7 +118,7 @@
                     
                     NSString *contentCacheKey = content.cacheKey;
                     
-                    if (!content.posterImage) {
+                    if (![content posterImageWithWidth:42]) {
                         [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
                             FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
                             
@@ -146,7 +146,7 @@
         [self displayProgressData];
         
         for (FATraktShow *show in self.showsWithProgress) {
-            if (!show.images.posterImage) {
+            if (![show.images posterImageWithWidth:42]) {
                 NSString *showCacheKey = show.cacheKey;
                 
                 [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
@@ -200,11 +200,12 @@
             [contentCell displayContent:content];
             
             contentCell.shouldDisplayImage = YES;
-            [content.images posterImageCallback:^(UIImage *image) {
+            [content.images posterImageWithWidth:42 callback:^(UIImage *image) {
                 contentCell.image = image;
             }];
             
             contentCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            
         } else if ([sectionKey isEqualToString:@"showProgress"]) {
             NSString *showCacheKey = key;
             FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
@@ -215,7 +216,7 @@
             [contentCell displayContent:show];
             
             contentCell.shouldDisplayImage = YES;
-            [show.images posterImageCallback:^(UIImage *image) {
+            [show.images posterImageWithWidth:42 callback:^(UIImage *image) {
                 contentCell.image = image;
             }];
             

@@ -50,7 +50,9 @@
         cell.shouldDisplayImage = YES;
         [cell displayContent:episode];
         
-        cell.image = episode.posterImage;
+        [episode posterImageWithWidth:42 callback:^(UIImage *image) {
+            cell.image = image;
+        }];
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     };
@@ -90,7 +92,7 @@
                 [calendarItem.episodes enumerateObjectsUsingBlock:^(FATraktEpisode *episode, NSUInteger idx, BOOL *stop) {
                     [self.dataSource insertRow:episode.cacheKey inSection:day withWeight:idx];
                     
-                    [[FATrakt sharedInstance] loadImageFromURL:episode.posterImageURL callback:^(UIImage *image) {
+                    [[FATrakt sharedInstance] loadImageFromURL:episode.posterImageURL withWidth:42 callback:^(UIImage *image) {
                         [self.dataSource reloadRowsWithKey:episode.cacheKey animation:UITableViewRowAnimationNone];
                     } onError:nil];
                 }];

@@ -215,7 +215,7 @@ static NSArray *_ratingNames;
     static NSDateFormatter *dateFormatter = nil;
     if (!dateFormatter) {
         dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"EEEE (MMMM d)";
+        dateFormatter.dateFormat = @"EEEE";
     }
     
     NSString *dateString = [dateFormatter stringFromDate:date];

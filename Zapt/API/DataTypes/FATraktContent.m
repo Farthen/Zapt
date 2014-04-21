@@ -94,30 +94,76 @@
     return nil;
 }
 
-- (UIImage *)widescreenImage
+- (UIImage *)widescreenImageWithWidth:(NSInteger)width
 {
-    if (self.images.fanartImage) {
-        return self.images.fanartImage;
+    UIImage *fanartImage = [self.images fanartImageWithWidth:width];
+    
+    if (fanartImage) {
+        return fanartImage;
     }
     
     if (self.contentType == FATraktContentTypeEpisodes) {
-        return ((FATraktEpisode *)self).show.images.fanartImage;
+        return [((FATraktEpisode *)self).show.images fanartImageWithWidth:width];
     }
     
     return nil;
 }
 
-- (UIImage *)posterImage
+- (UIImage *)posterImageWithWidth:(NSInteger)width
 {
-    if (self.images.posterImage) {
-        return self.images.posterImage;
+    UIImage *posterImage = [self.images posterImageWithWidth:width];
+
+    if (posterImage) {
+        return posterImage;
     }
     
     if (self.contentType == FATraktContentTypeEpisodes) {
-        return ((FATraktEpisode *)self).show.images.posterImage;
+        return [((FATraktEpisode *)self).show.images posterImageWithWidth:width];
     }
     
     return nil;
+}
+
+- (void)widescreenImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self.images fanartImageWithWidth:width callback:^(UIImage *image) {
+        if (image) {
+            callback(image);
+            return;
+        }
+        
+        if (self.contentType == FATraktContentTypeEpisodes) {
+            [((FATraktEpisode *)self).show.images fanartImageWithWidth:width callback:^(UIImage *image) {
+                callback(image);
+            }];
+            
+            return;
+        }
+        
+        callback(nil);
+        return;
+    }];
+}
+
+- (void)posterImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback
+{
+    [self.images posterImageWithWidth:width callback:^(UIImage *image) {
+        if (image) {
+            callback(image);
+            return;
+        }
+        
+        if (self.contentType == FATraktContentTypeEpisodes) {
+            [((FATraktEpisode *)self).show.images posterImageWithWidth:width callback:^(UIImage *image) {
+                callback(image);
+            }];
+            
+            return;
+        }
+        
+        callback(nil);
+        return;
+    }];
 }
 
 - (BOOL)isWatched
