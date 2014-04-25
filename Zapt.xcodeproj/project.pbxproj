@@ -110,6 +110,7 @@
 		F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */; };
 		F394EE41184F4A1E007F4BA1 /* NSSet+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */; };
 		F3978A1717B50A2A001E5807 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3978A1617B50A2A001E5807 /* libPods.a */; };
+		F39AAED0190AC0EA004C3DB0 /* FACalendarEventController.m in Sources */ = {isa = PBXBuildFile; fileRef = F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */; };
 		F3A2821218FA5FAE00369045 /* FASlideAnimatedTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */; };
 		F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EB180949BF00556EEA /* FASimpleControl.m */; };
 		F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */; };
@@ -121,9 +122,6 @@
 		F3A8BFD617FBF10B00188453 /* UIViewController+TopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD517FBF10B00188453 /* UIViewController+TopViewController.m */; };
 		F3AAC0C318F3456A00EF8876 /* FASegmentedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */; };
 		F3AAC0C618F379A700EF8876 /* FAEpisodeNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */; };
-		F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC16F18F8BDCB00EF8876 /* TMCache.m */; };
-		F3AAC17518F8BDCB00EF8876 /* TMDiskCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */; };
-		F3AAC17618F8BDCB00EF8876 /* TMMemoryCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */; };
 		F3ABFADA18908C99003885B3 /* FADictionaryHashLocator.m in Sources */ = {isa = PBXBuildFile; fileRef = F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */; };
 		F3AC9B9B18CCF07900551F6A /* FACircularActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */; };
 		F3AF1A3816F74B3300159989 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
@@ -189,6 +187,7 @@
 		F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
 		F3FA8E4117FB9C970062F236 /* FATraktCheckinTimestamps.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */; };
 		F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */; };
+		F3FEDC891908413B003011D7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FEDC881908413B003011D7 /* Crashlytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,6 +400,8 @@
 		F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSSet+Functional.h"; sourceTree = "<group>"; };
 		F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Functional.m"; sourceTree = "<group>"; };
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
+		F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACalendarEventController.h; sourceTree = "<group>"; };
+		F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACalendarEventController.m; sourceTree = "<group>"; };
 		F3A2821018FA5FAD00369045 /* FASlideAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASlideAnimatedTransition.h; path = Zapt/Controller/FASlideAnimatedTransition.h; sourceTree = SOURCE_ROOT; };
 		F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASlideAnimatedTransition.m; path = Zapt/Controller/FASlideAnimatedTransition.m; sourceTree = SOURCE_ROOT; };
 		F3A2F9EA180949BF00556EEA /* FASimpleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASimpleControl.h; sourceTree = "<group>"; };
@@ -425,12 +426,6 @@
 		F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeNumberView.h; sourceTree = "<group>"; };
 		F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeNumberView.m; sourceTree = "<group>"; };
 		F3AAC16C18F5F25900EF8876 /* Zapt copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Zapt copy-Info.plist"; path = "/Users/farthen/Code/iOS/Zapt/Zapt copy-Info.plist"; sourceTree = "<absolute>"; };
-		F3AAC16E18F8BDCB00EF8876 /* TMCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMCache.h; sourceTree = "<group>"; };
-		F3AAC16F18F8BDCB00EF8876 /* TMCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMCache.m; sourceTree = "<group>"; };
-		F3AAC17018F8BDCB00EF8876 /* TMDiskCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMDiskCache.h; sourceTree = "<group>"; };
-		F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMDiskCache.m; sourceTree = "<group>"; };
-		F3AAC17218F8BDCB00EF8876 /* TMMemoryCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMMemoryCache.h; sourceTree = "<group>"; };
-		F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMMemoryCache.m; sourceTree = "<group>"; };
 		F3ABFAD818908C99003885B3 /* FADictionaryHashLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADictionaryHashLocator.h; sourceTree = "<group>"; };
 		F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADictionaryHashLocator.m; sourceTree = "<group>"; };
 		F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -558,6 +553,7 @@
 		F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinTimestamps.h; sourceTree = "<group>"; };
 		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
 		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
+		F3FEDC881908413B003011D7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		F49B2E03388B47F18675407D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -572,6 +568,7 @@
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
 				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
 				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
+				F3FEDC891908413B003011D7 /* Crashlytics.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
 				B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */,
 				C086381688C54BD0BB2DE3E1 /* libPods.a in Frameworks */,
@@ -615,6 +612,7 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3FEDC881908413B003011D7 /* Crashlytics.framework */,
 				F3C925B418F8FE7C0054ACE3 /* CoreText.framework */,
 				F3DEDC17185D7874006F5833 /* MessageUI.framework */,
 				F3B33BA917F8D5040090BA21 /* TestFlight */,
@@ -914,6 +912,42 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		F39AAED4190AC2D3004C3DB0 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				F32645C217F0D48F001D4F74 /* FARatingsView.h */,
+				F32645C317F0D48F001D4F74 /* FARatingsView.m */,
+				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
+				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
+				F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */,
+				F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */,
+				F353F41D17FBBD8200A03E6A /* FAReloadControl.h */,
+				F353F41E17FBBD8200A03E6A /* FAReloadControl.m */,
+				F3A2F9EA180949BF00556EEA /* FASimpleControl.h */,
+				F3A2F9EB180949BF00556EEA /* FASimpleControl.m */,
+				F3C925B618FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.h */,
+				F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */,
+				F3C925B918FA02E50054ACE3 /* FAArrowView.h */,
+				F3C925BA18FA02E50054ACE3 /* FAArrowView.m */,
+			);
+			name = Custom;
+			sourceTree = "<group>";
+		};
+		F39AAED5190AC2EA004C3DB0 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				F3F35E80169B655600A925B4 /* FASearchBar.h */,
+				F3F35E81169B655600A925B4 /* FASearchBar.m */,
+				F38BD69A16B770E300267137 /* FATitleLabel.h */,
+				F38BD69B16B770E300267137 /* FATitleLabel.m */,
+				F3A2F9ED1809531600556EEA /* FAFixedHeightLabel.h */,
+				F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */,
+				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
+				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
+			);
+			name = Subclasses;
+			sourceTree = "<group>";
+		};
 		F3A2820F18FA5F7600369045 /* View Controller Transition Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -938,6 +972,8 @@
 				F347356317FF55AE00116A59 /* FADebugController.m */,
 				F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */,
 				F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */,
+				F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */,
+				F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */,
 			);
 			name = Global;
 			sourceTree = "<group>";
@@ -945,14 +981,8 @@
 		F3AAC16D18F8BDCB00EF8876 /* TMCache */ = {
 			isa = PBXGroup;
 			children = (
-				F3AAC16E18F8BDCB00EF8876 /* TMCache.h */,
-				F3AAC16F18F8BDCB00EF8876 /* TMCache.m */,
 				F3CE70B718FD14CE0003679D /* TMFastCache.h */,
 				F3CE70B818FD14CE0003679D /* TMFastCache.m */,
-				F3AAC17018F8BDCB00EF8876 /* TMDiskCache.h */,
-				F3AAC17118F8BDCB00EF8876 /* TMDiskCache.m */,
-				F3AAC17218F8BDCB00EF8876 /* TMMemoryCache.h */,
-				F3AAC17318F8BDCB00EF8876 /* TMMemoryCache.m */,
 			);
 			path = TMCache;
 			sourceTree = "<group>";
@@ -1374,31 +1404,11 @@
 		F3F9E31C1628DBC70077CBAA /* View */ = {
 			isa = PBXGroup;
 			children = (
+				F39AAED5190AC2EA004C3DB0 /* Subclasses */,
+				F39AAED4190AC2D3004C3DB0 /* Custom */,
 				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
 				F3C7921117FB6F1C00C9CDC0 /* Progress */,
-				F32645C217F0D48F001D4F74 /* FARatingsView.h */,
-				F32645C317F0D48F001D4F74 /* FARatingsView.m */,
-				F3F35E80169B655600A925B4 /* FASearchBar.h */,
-				F3F35E81169B655600A925B4 /* FASearchBar.m */,
-				F38BD69A16B770E300267137 /* FATitleLabel.h */,
-				F38BD69B16B770E300267137 /* FATitleLabel.m */,
-				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
-				F3EE212C17F4F3BE00A0118E /* FAUnreadItemIndicatorView.m */,
-				F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */,
-				F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */,
-				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
-				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
-				F353F41D17FBBD8200A03E6A /* FAReloadControl.h */,
-				F353F41E17FBBD8200A03E6A /* FAReloadControl.m */,
-				F3A2F9EA180949BF00556EEA /* FASimpleControl.h */,
-				F3A2F9EB180949BF00556EEA /* FASimpleControl.m */,
-				F3A2F9ED1809531600556EEA /* FAFixedHeightLabel.h */,
-				F3A2F9EE1809531600556EEA /* FAFixedHeightLabel.m */,
-				F3C925B618FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.h */,
-				F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */,
-				F3C925B918FA02E50054ACE3 /* FAArrowView.h */,
-				F3C925BA18FA02E50054ACE3 /* FAArrowView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1414,6 +1424,7 @@
 				B66752F715F12FBE00A8D76D /* Frameworks */,
 				B66752F815F12FBE00A8D76D /* Resources */,
 				8D728515B1FC49DA884DEBD7 /* Copy Pods Resources */,
+				F3FEDC8719084114003011D7 /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -1550,6 +1561,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 		};
+		F3FEDC8719084114003011D7 /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Crashlytics;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run c844cb73d7802c284b70e34f53eb4903173ecefe 190546aa168ce7c6c508aab03cd947675fec6fb202b70e98ef591a0df6886c69";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1558,7 +1583,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F3B9C93C17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m in Sources */,
-				F3AAC17418F8BDCB00EF8876 /* TMCache.m in Sources */,
 				F3CAEEE719009E46005EA8E2 /* FATraktCalendarItem.m in Sources */,
 				B667530B15F12FBE00A8D76D /* main.m in Sources */,
 				F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */,
@@ -1599,6 +1623,7 @@
 				F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */,
 				F3328C26162740C500FB65B8 /* FATraktDatatype.m in Sources */,
 				F3309659162743D7000BD107 /* FAPropertyUtil.m in Sources */,
+				F39AAED0190AC0EA004C3DB0 /* FACalendarEventController.m in Sources */,
 				F330965F162816DE000BD107 /* FATraktPeople.m in Sources */,
 				F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */,
 				F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */,
@@ -1608,7 +1633,6 @@
 				F3A443F017A741AA00210EE9 /* FAContentBookmarkViewController.m in Sources */,
 				F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */,
 				F3152DBE17FBF9300039AF30 /* UIWindow+MainWindow.m in Sources */,
-				F3AAC17518F8BDCB00EF8876 /* TMDiskCache.m in Sources */,
 				F32137F01905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m in Sources */,
 				F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */,
 				F3F9E313162838610077CBAA /* FATraktEpisode.m in Sources */,
@@ -1662,7 +1686,6 @@
 				F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */,
 				F3EE743E16DA916300FF2C9F /* FATraktListItem.m in Sources */,
 				F3B74B2B16E6D83500230C43 /* FAProgressHUD.m in Sources */,
-				F3AAC17618F8BDCB00EF8876 /* TMMemoryCache.m in Sources */,
 				F3B74B3316E6EF5400230C43 /* FATraktCache.m in Sources */,
 				F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */,
 				F3EE212A17F3F3F100A0118E /* UIView+RecursiveLayout.m in Sources */,
@@ -1862,6 +1885,10 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -1890,8 +1917,6 @@
 					"-ObjC",
 					"-framework",
 					CoreGraphics,
-					"-framework",
-					CrashReporter,
 					"-framework",
 					Foundation,
 					"-framework",
@@ -1924,6 +1949,10 @@
 				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
@@ -1952,8 +1981,6 @@
 					"-ObjC",
 					"-framework",
 					CoreGraphics,
-					"-framework",
-					CrashReporter,
 					"-framework",
 					Foundation,
 					"-framework",

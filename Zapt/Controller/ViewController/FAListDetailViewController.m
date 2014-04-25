@@ -266,6 +266,7 @@
         [self reloadSectionIndexTitleData];
         
         [self.tableView reloadData];
+        [self loadImagesIfNeeded];
     }
 }
 
@@ -486,6 +487,30 @@
     return [(NSArray *)_sortedSectionObjects[section] count];
 }
 
+- (void)loadImagesIfNeeded
+{
+    NSArray *visibleIndexPaths = self.tableView.indexPathsForVisibleRows;
+    
+    [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSIndexPath *indexPath = obj;
+        
+        NSArray *oldSortedSectionObjects = _sortedSectionObjects;
+        FATraktListItem *listItem = [[_sortedSectionObjects objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+        FATraktContent *content = listItem.content;
+        
+        NSString *posterURL = content.posterImageURL;
+        
+        if (posterURL) {
+            [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
+                if (_sortedSectionObjects == oldSortedSectionObjects) {
+                    FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                    cell.image = image;
+                }
+            } onError:nil];
+        }
+    }];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Reuse cells
@@ -497,6 +522,8 @@
     }
     
     NSArray *section = _sortedSectionObjects[indexPath.section];
+    
+    cell.shouldDisplayImage = YES;
     
     FATraktListItem *item = section[indexPath.row];
     [cell displayContent:[item.content cachedVersion]];
@@ -522,6 +549,7 @@
 {
     [self.searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar resignFirstResponder];
+    [self loadImagesIfNeeded];
 }
 
 #pragma mark Search

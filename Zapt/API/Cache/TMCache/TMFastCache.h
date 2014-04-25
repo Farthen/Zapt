@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Finn Wilke. All rights reserved.
 //
 
-#import "TMCache.h"
+#import <TMCache/TMCache.h>
 
 @interface TMFastCache : TMCache
 

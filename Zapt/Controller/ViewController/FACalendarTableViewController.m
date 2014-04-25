@@ -16,6 +16,7 @@
 
 #import "FADetailViewController.h"
 #import <NSDate-Extensions/NSDate-Utilities.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface FACalendarTableViewController () <FAArrayTableViewDelegate>
 @property (nonatomic) FAWeightedTableViewDataSource *dataSource;
@@ -92,7 +93,6 @@
     [[FATrakt sharedInstance] calendarFromDate:date dayCount:7 callback:^(FATraktCalendar *calendar) {
         __block FATraktEpisode *nextEpisode = nil;
         
-        [self.dataSource recalculateWeight];
         [self.dataSource removeAllSections];
         [self.dataSource recalculateWeight];
         
@@ -156,6 +156,7 @@
     self.tableView.delegate = self.tableViewDelegate;
     
     [self setupTableView];
+    [self.dataSource recalculateWeight];
     [self.tableView reloadData];
     [self reloadData:NO];
 }

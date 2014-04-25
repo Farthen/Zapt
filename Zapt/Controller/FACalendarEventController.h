@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <EventKit/EventKit.h>
+
+#import "FATrakt.h"
 
 @interface FACalendarEventController : NSObject
+
++ (instancetype)sharedInstance;
+- (void)addCalendarEventForContent:(FATraktEpisode *)episode;
 
 @end

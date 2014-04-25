@@ -14,7 +14,7 @@
 
 #import "FATraktCache.h"
 
-#import <QuincyKit/BWQuincyManager.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface FAAppDelegate ()
 @end
@@ -25,10 +25,9 @@
 {
     // Override point for customization after application launch.
 #ifndef DEBUG
-    [BWQuincyManager sharedQuincyManager].loggingEnabled = NO;
-    [[BWQuincyManager sharedQuincyManager] setSubmissionURL:@"http://zapt.farthen.de/quincy/crash_v300.php"];
+    [Crashlytics startWithAPIKey:@"c844cb73d7802c284b70e34f53eb4903173ecefe"];
 #endif
-    
+   
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;
     
     // prevents flickering on some animations

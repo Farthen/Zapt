@@ -74,36 +74,20 @@
     if (!key || !object) {
         return;
     }
-
-    dispatch_group_t group = nil;
-    TMMemoryCacheObjectBlock memBlock = nil;
-
-    if (block) {
-        group = dispatch_group_create();
-        dispatch_group_enter(group);
-
-        memBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
-            dispatch_group_leave(group);
-        };
-    }
     
-    dispatch_sync(self.queue, ^{
+    dispatch_async(self.queue, ^{
         [_keysToRemove removeObject:key];
         [_uncommittedKeys addObject:key];
     });
     
-    [self.memoryCache setObject:object forKey:key block:memBlock];
-
-    if (group) {
-        __weak TMCache *weakSelf = self;
-        dispatch_group_notify(group, self.queue, ^{
-            TMCache *strongSelf = weakSelf;
-
-            if (strongSelf) {
-                block(strongSelf, key, object);
-            }
-        });
-    }
+    __weak TMCache *weakSelf = self;
+    [self.memoryCache setObject:object forKey:key block:^(TMMemoryCache *cache, NSString *key, id object) {
+        TMCache *strongSelf = weakSelf;
+        
+        if (strongSelf) {
+            block(strongSelf, key, object);
+        }
+    }];
 }
 
 - (void)removeObjectForKey:(NSString *)key block:(TMCacheObjectBlock)block
@@ -111,36 +95,19 @@
     if (!key) {
         return;
     }
-
-    dispatch_group_t group = nil;
-    TMMemoryCacheObjectBlock memBlock = nil;
-
-    if (block) {
-        group = dispatch_group_create();
-        dispatch_group_enter(group);
-
-        memBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
-            dispatch_group_leave(group);
-        };
-    }
-
-    [self.memoryCache removeObjectForKey:key block:memBlock];
-
-    if (group) {
-        __weak TMCache *weakSelf = self;
-        dispatch_group_notify(group, self.queue, ^{
-            TMCache *strongSelf = weakSelf;
-
-            if (strongSelf) {
-                block(strongSelf, key, nil);
-            }
-        });
-    }
-
+    
     dispatch_async(self.queue, ^{
         [_keysToRemove addObject:key];
         [_uncommittedKeys removeObject:key];
     });
+    
+    __weak TMCache *weakSelf = self;
+    [self.memoryCache removeObjectForKey:key block:^(TMMemoryCache *cache, NSString *key, id object) {
+        TMCache *strongSelf = weakSelf;
+        if (block) {
+            block(strongSelf, key, object);
+        }
+    }];
 }
 
 - (void)removeAllObjects:(TMCacheBlock)block
