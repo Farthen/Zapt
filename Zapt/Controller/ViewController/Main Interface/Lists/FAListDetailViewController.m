@@ -600,6 +600,7 @@
     
     [self reloadSectionIndexTitleData];
     [self.tableView reloadData];
+    [self loadImagesIfNeeded];
 }
 
 #pragma mark - UISearchBarDelegate Methods
