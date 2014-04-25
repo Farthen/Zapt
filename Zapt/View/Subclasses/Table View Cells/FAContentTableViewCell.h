@@ -19,7 +19,7 @@
 @property (nonatomic) BOOL calendarMode;
 @property (nonatomic) BOOL shouldDisplayImage;
 
-@property (nonatomic, retain, readonly) UILabel *leftAuxiliaryTextLabel;
+@property (nonatomic, retain, readonly) UILabel *auxiliaryTextLabel;
 @property (nonatomic) UIImage *image;
 @property (nonatomic, readonly) FATraktContent *displayedContent;
 

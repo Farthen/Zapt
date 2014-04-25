@@ -236,16 +236,16 @@
             
             if ([key isEqualToString:@"lists"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Lists", nil);
-                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
+                contentCell.detailTextLabel.text = NSLocalizedString(@"Watchlists, Library, Custom lists", nil);
             } else if ([key isEqualToString:@"recommendations"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Recommendations", nil);
-                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
+                contentCell.detailTextLabel.text = NSLocalizedString(@"Recommendations just for you.", nil);
             } else if ([key isEqualToString:@"shows"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"TV Shows", nil);
-                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"All your TV shows", nil);
+                contentCell.detailTextLabel.text = NSLocalizedString(@"All your TV shows", nil);
             } else if ([key isEqualToString:@"calendar"]) {
                 contentCell.textLabel.text = NSLocalizedString(@"Calendar", nil);
-                contentCell.leftAuxiliaryTextLabel.text = NSLocalizedString(@"Your upcoming episodes", nil);
+                contentCell.detailTextLabel.text = NSLocalizedString(@"Your upcoming episodes", nil);
             }
         }
     };

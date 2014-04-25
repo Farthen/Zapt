@@ -912,6 +912,15 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
+		F38A888F190B0C9800B3D60F /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */,
+				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
+			);
+			name = Content;
+			sourceTree = "<group>";
+		};
 		F39AAED4190AC2D3004C3DB0 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -1203,12 +1212,11 @@
 		F3C84B6C1628DC90006CBFEF /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				F38A888F190B0C9800B3D60F /* Content */,
 				B63EAB2F15FE59A600DB2663 /* FAEditableTableViewCell.h */,
 				B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */,
 				F3AAC0C118F3456A00EF8876 /* FASegmentedTableViewCell.h */,
 				F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */,
-				F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */,
-				F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */,
 				F32F72F3190453F400B4841D /* FAEpisodeAirDateTableViewCell.h */,
 				F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */,
 				F30CAFC7179D82D4002E7D3C /* FANextUpTableViewCell.h */,
