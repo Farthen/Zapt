@@ -23,22 +23,28 @@ PODS:
   - CocoaLumberjack/Core (1.8.1)
   - CocoaLumberjack/Extensions (1.8.1):
     - CocoaLumberjack/Core
+  - NHCalendarActivity (0.0.3)
   - NSDate-Extensions (0.0.1)
   - TMCache (HEAD based on 1.2.0)
   - TUSafariActivity (1.0.0)
+  - VTAcknowledgementsViewController (0.10)
 
 DEPENDENCIES:
   - AFNetworking
   - CocoaLumberjack
+  - NHCalendarActivity
   - NSDate-Extensions
   - TMCache (HEAD)
   - TUSafariActivity
+  - VTAcknowledgementsViewController
 
 SPEC CHECKSUMS:
   AFNetworking: ae513199cca79e9d7af2708ccabe2ed075550c42
   CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
+  NHCalendarActivity: 7465d53298abd1509dd272b62f34472a85a0faa9
   NSDate-Extensions: 4a3be5bdfff735573aae834c93eec99f571dcc20
   TMCache: 4b05e1b124d9f7e8d449640e059cff4cda17ed27
   TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
+  VTAcknowledgementsViewController: 76b8edcea89b58b7be15876aaa5aba7fa8b221d7
 
 COCOAPODS: 0.32.1

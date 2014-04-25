@@ -7,6 +7,7 @@
 //
 
 #import <Social/Social.h>
+#import <VTAcknowledgementsViewController/VTAcknowledgementsViewController.h>
 
 #import "FASettingsViewController.h"
 #import "FATrakt.h"
@@ -15,6 +16,7 @@
 #import "FATextViewController.h"
 
 #import "FATraktCache.h"
+#import "FAAcknowledgementsGenerator.h"
 
 #import "FAProgressHUD.h"
 #import "FATableViewCellWithActivity.h"
@@ -63,6 +65,12 @@
 {
     [super viewWillAppear:animated];
     [self reloadState];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    //[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -268,7 +276,7 @@
         cell.textLabel.textAlignment = NSTextAlignmentLeft;
         
         if (indexPath.row == 0) {
-            cell.textLabel.text = NSLocalizedString(@"Legal", nil);
+            cell.textLabel.text = NSLocalizedString(@"Acknowledgements", nil);
         } else if (indexPath.row == 1 && [MFMailComposeViewController canSendMail]) {
             cell.textLabel.text = NSLocalizedString(@"Feedback", nil);
         } else {
@@ -307,6 +315,8 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
         }
         
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
     } else if (indexPath.section == 1 && indexPath.row == 0) {
         if (_loggedIn) {
             [self checkAuthButtonPressed];
@@ -315,6 +325,8 @@
                 [self reloadState];
             }];
         }
+        
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     } else if (indexPath.section == 1 && indexPath.row == 1) {
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         [[FATraktConnection sharedInstance] setUsername:nil andPasswordHash:nil];
@@ -323,20 +335,24 @@
         if (indexPath.row == 0) {
             // Legal
             
-            FATextViewController *textViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"text"];
-            [textViewController displayBundledFileWithName:@"license"];
-            textViewController.navigationItem.title = @"Legal";
-            [self.navigationController pushViewController:textViewController animated:YES];
+            VTAcknowledgementsViewController *acknowledgementsVC = [VTAcknowledgementsViewController acknowledgementsViewController];
             
+            // Generate new VTAcknowledgements for additional non-pod software
+            acknowledgementsVC.acknowledgements = [FAAcknowledgementsGenerator allAcknowledgementsWithPodAcknowledgements:acknowledgementsVC.acknowledgements];
+            acknowledgementsVC.headerText = NSLocalizedString(@"Zapt uses multiple open source libraries. We are very happy for each and every one of them. Thank you.\n\n♥️", nil);
+            
+            [self.navigationController pushViewController:acknowledgementsVC animated:YES];
         } else if (indexPath.row == 1 && [MFMailComposeViewController canSendMail]) {
             // Feedback
             
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
             [self.feedbackActionSheet showInView:self.view];
         } else {
             // Rate on App Store
             
             NSString *appStoreURL = [FAZapt appStoreURL];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appStoreURL]];
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
         
     } else if (indexPath.section == 3 && indexPath.row == 0) {
@@ -347,9 +363,9 @@
                 [_progressHUD showProgressHUDSuccess];
             });
         }];
+        
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (void)checkAuthButtonPressed

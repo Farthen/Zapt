@@ -14,6 +14,6 @@
 @interface FACalendarEventController : NSObject
 
 + (instancetype)sharedInstance;
-- (void)addCalendarEventForContent:(FATraktEpisode *)episode;
+- (void)addCalendarEventForContent:(FATraktContent *)content withViewController:(UIViewController *)viewController;
 
 @end

@@ -80,8 +80,8 @@
         
         NSDateComponents *components;
         
-        if (show.first_aired) {
-            components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired];
+        if (show.first_aired_utc) {
+            components = [[NSCalendar currentCalendar] components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:show.first_aired_utc];
         }
         
         NSString *genres = [show.genres componentsJoinedByString:NSLocalizedString(@", ", nil)];
@@ -89,10 +89,10 @@
         
         if (self.showsProgressForShows && show.progress) {
             detailString = [FAInterfaceStringProvider progressForProgress:show.progress long:YES];
-        } else if (genres || show.first_aired) {
-            if (![genres isEqualToString:@""] && show.first_aired) {
+        } else if (genres || show.first_aired_utc) {
+            if (![genres isEqualToString:@""] && show.first_aired_utc) {
                 detailString = [NSString stringWithFormat:NSLocalizedString(@"%i – %@", nil), components.year, genres];
-            } else if (show.first_aired) {
+            } else if (show.first_aired_utc) {
                 detailString = [NSString stringWithFormat:NSLocalizedString(@"%i", nil), components.year];
             } else if (![genres isEqualToString:@""]) {
                 detailString = [NSString stringWithFormat:NSLocalizedString(@"%@", nil), genres];

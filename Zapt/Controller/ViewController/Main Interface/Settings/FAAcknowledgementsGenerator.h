@@ -10,4 +10,7 @@
 
 @interface FAAcknowledgementsGenerator : NSObject
 
++ (NSMutableArray *)additionalAcknowledgements;
++ (NSArray *)allAcknowledgementsWithPodAcknowledgements:(NSArray *)podAcknowledgements;
+
 @end

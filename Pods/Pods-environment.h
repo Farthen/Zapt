@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Extensions 8
 #define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Extensions 1
 
+// NHCalendarActivity
+#define COCOAPODS_POD_AVAILABLE_NHCalendarActivity
+#define COCOAPODS_VERSION_MAJOR_NHCalendarActivity 0
+#define COCOAPODS_VERSION_MINOR_NHCalendarActivity 0
+#define COCOAPODS_VERSION_PATCH_NHCalendarActivity 3
+
 // NSDate-Extensions
 #define COCOAPODS_POD_AVAILABLE_NSDate_Extensions
 #define COCOAPODS_VERSION_MAJOR_NSDate_Extensions 0
@@ -83,4 +89,10 @@
 #define COCOAPODS_VERSION_MAJOR_TUSafariActivity 1
 #define COCOAPODS_VERSION_MINOR_TUSafariActivity 0
 #define COCOAPODS_VERSION_PATCH_TUSafariActivity 0
+
+// VTAcknowledgementsViewController
+#define COCOAPODS_POD_AVAILABLE_VTAcknowledgementsViewController
+#define COCOAPODS_VERSION_MAJOR_VTAcknowledgementsViewController 0
+#define COCOAPODS_VERSION_MINOR_VTAcknowledgementsViewController 10
+#define COCOAPODS_VERSION_PATCH_VTAcknowledgementsViewController 0
 

@@ -31,6 +31,8 @@
 #import "FABadges.h"
 #import "FAPullScrollViewAccessoryView.h"
 
+#import "FACalendarEventController.h"
+
 #import <NSDate-Extensions/NSDate-Utilities.h>
 
 

@@ -20,7 +20,6 @@
 @property (retain) NSString *title;
 @property (retain) NSNumber *year;
 @property (retain) NSString *url;
-@property (retain) NSDate *first_aired;
 @property (retain) NSString *country;
 @property (retain) NSNumber *runtime;
 @property (retain) NSString *network;

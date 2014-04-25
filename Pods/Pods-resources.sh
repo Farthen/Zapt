@@ -41,11 +41,13 @@ install_resource()
       ;;
   esac
 }
+install_resource "NHCalendarActivity/NHCalendarActivity/NHCalendarActivity.bundle"
 install_resource "TUSafariActivity/TUSafariActivity/Safari.png"
 install_resource "TUSafariActivity/TUSafariActivity/Safari@2x.png"
 install_resource "TUSafariActivity/TUSafariActivity/Safari@2x~ipad.png"
 install_resource "TUSafariActivity/TUSafariActivity/Safari~ipad.png"
 install_resource "TUSafariActivity/TUSafariActivity/en.lproj"
+install_resource "VTAcknowledgementsViewController/VTAcknowledgementsViewController.bundle"
 
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then

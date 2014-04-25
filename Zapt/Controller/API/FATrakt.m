@@ -311,15 +311,15 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         
         if ([statusResponse isEqualToString:@"success"]) {
             self.connection.usernameAndPasswordValid = YES;
-            callback(YES);
+            FATraktCallbackCall(callback(YES));
         } else {
             self.connection.usernameAndPasswordValid = NO;
-            callback(NO);
+            FATraktCallbackCall(callback(NO));
         }
     } onError:^(FATraktConnectionResponse *connectionError) {
         if (connectionError.responseType & FATraktConnectionResponseTypeInvalidCredentials)
         {
-            callback(NO);
+            FATraktCallbackCall(callback(NO));
         }
     }];
 }

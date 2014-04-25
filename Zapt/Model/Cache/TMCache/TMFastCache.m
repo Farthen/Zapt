@@ -23,11 +23,27 @@
         _keysToRemove = [NSMutableSet set];
         _uncommittedKeys = [NSMutableSet set];
 
-        self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache) {
+        self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache, NSDictionary *data) {
             if (!_shouldRemoveAllObjects) {
                 // Cache is evicted
                 
-                [self commitAllObjects];
+                dispatch_sync(self.queue, ^{
+                    [_keysToRemove enumerateObjectsUsingBlock:^(id key, BOOL *stop) {
+                        [self.diskCache removeObjectForKey:key];
+                    }];
+                    
+                    [_keysToRemove removeAllObjects];
+                    
+                    for (id key in data) {
+                        id object = data[key];
+                        
+                        if ([_uncommittedKeys containsObject:key]) {
+                            [self.diskCache setObject:object forKey:key];
+                            
+                            [_uncommittedKeys removeObject:key];
+                        }
+                    }
+                });
             } else {
                 _shouldRemoveAllObjects = NO; // atomic
             }

@@ -77,6 +77,7 @@ typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
 @property (readonly) BOOL isWatched;
 @property (retain, nonatomic) NSNumber *in_watchlist;
 @property (retain, nonatomic) NSNumber *in_collection;
+@property (nonatomic, retain) NSDate *first_aired_utc;
 
 // Ony important for some library stuff (?)
 @property (nonatomic) NSInteger plays;

@@ -38,10 +38,7 @@
 @property (retain) NSNumber *episodeNumber;
 @property (retain) NSString *title;
 @property (retain) NSString *overview;
-@property (retain) NSDate *first_aired;
 @property (retain) NSString *url;
 @property (assign) BOOL watched;
-
-@property (nonatomic, retain) NSDate *first_aired_utc;
 
 @end

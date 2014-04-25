@@ -14,6 +14,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-NHCalendarActivity.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-NSDate-Extensions.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -29,6 +34,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-VTAcknowledgementsViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>378DDECA9745430C8D53E798</key>
+		<key>19A7AF28771E471E8403C7E7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D4EFE0135174FBB9E0E18A5</key>
+		<key>2166CA78B9264CD8A3EE3AE6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>68678BAFFC8748B8926259D9</key>
+		<key>53D1142946DE4F4795C246D2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F705DCBCAAB458DA5B3C4CE</key>
+		<key>6D40A39DF6494B57B618C99D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B9F2861903624D21AC3D3EB0</key>
+		<key>82893ABE55214B1DA8A4F2AD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D6CEA0F85C684D8A84E58BFE</key>
+		<key>C158EFDF4D5D4E4EBE729231</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C3DFFE206D5D42A7821AF6F7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D9398CEF0E2248E9B3C20B52</key>
 		<dict>
 			<key>primary</key>
 			<true/>
