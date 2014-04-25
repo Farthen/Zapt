@@ -41,7 +41,6 @@ install_resource()
       ;;
   esac
 }
-install_resource "QuincyKit/client/iOS/Quincy.bundle"
 install_resource "TUSafariActivity/TUSafariActivity/Safari.png"
 install_resource "TUSafariActivity/TUSafariActivity/Safari@2x.png"
 install_resource "TUSafariActivity/TUSafariActivity/Safari@2x~ipad.png"

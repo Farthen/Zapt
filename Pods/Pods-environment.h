@@ -72,18 +72,11 @@
 #define COCOAPODS_VERSION_MINOR_NSDate_Extensions 0
 #define COCOAPODS_VERSION_PATCH_NSDate_Extensions 1
 
-// PLCrashReporter
-#define COCOAPODS_POD_AVAILABLE_PLCrashReporter
-// This library does not follow semantic-versioning,
-// so we were not able to define version macros.
-// Please contact the author.
-// Version: 1.2-rc4.
-
-// QuincyKit
-#define COCOAPODS_POD_AVAILABLE_QuincyKit
-#define COCOAPODS_VERSION_MAJOR_QuincyKit 2
-#define COCOAPODS_VERSION_MINOR_QuincyKit 1
-#define COCOAPODS_VERSION_PATCH_QuincyKit 9
+// TMCache
+#define COCOAPODS_POD_AVAILABLE_TMCache
+#define COCOAPODS_VERSION_MAJOR_TMCache 1
+#define COCOAPODS_VERSION_MINOR_TMCache 2
+#define COCOAPODS_VERSION_PATCH_TMCache 0
 
 // TUSafariActivity
 #define COCOAPODS_POD_AVAILABLE_TUSafariActivity

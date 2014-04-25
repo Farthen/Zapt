@@ -1,6 +1,5 @@
-FRAMEWORK_SEARCH_PATHS = "$(PODS_ROOT)/PLCrashReporter/PLCrashReporter-1.2-rc4/iOS Framework" "$(PODS_ROOT)/QuincyKit/client/iOS"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/NSDate-Extensions" "${PODS_ROOT}/Headers/PLCrashReporter" "${PODS_ROOT}/Headers/QuincyKit" "${PODS_ROOT}/Headers/TUSafariActivity"
-OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/AFNetworking" -isystem "${PODS_ROOT}/Headers/CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/NSDate-Extensions" -isystem "${PODS_ROOT}/Headers/PLCrashReporter" -isystem "${PODS_ROOT}/Headers/QuincyKit" -isystem "${PODS_ROOT}/Headers/TUSafariActivity"
-OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework CrashReporter -framework Foundation -framework MobileCoreServices -framework Security -framework SystemConfiguration
+HEADER_SEARCH_PATHS = "${PODS_ROOT}/Headers" "${PODS_ROOT}/Headers/AFNetworking" "${PODS_ROOT}/Headers/CocoaLumberjack" "${PODS_ROOT}/Headers/NSDate-Extensions" "${PODS_ROOT}/Headers/TMCache" "${PODS_ROOT}/Headers/TUSafariActivity"
+OTHER_CFLAGS = $(inherited) -isystem "${PODS_ROOT}/Headers" -isystem "${PODS_ROOT}/Headers/AFNetworking" -isystem "${PODS_ROOT}/Headers/CocoaLumberjack" -isystem "${PODS_ROOT}/Headers/NSDate-Extensions" -isystem "${PODS_ROOT}/Headers/TMCache" -isystem "${PODS_ROOT}/Headers/TUSafariActivity"
+OTHER_LDFLAGS = -ObjC -framework CoreGraphics -framework Foundation -framework MobileCoreServices -framework Security -framework SystemConfiguration -weak_framework UIKit
 PODS_ROOT = ${SRCROOT}/Pods
