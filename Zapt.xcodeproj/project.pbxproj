@@ -335,8 +335,8 @@
 		F353F42317FBEABE00A03E6A /* UIStoryboard+MainStoryboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIStoryboard+MainStoryboard.h"; sourceTree = "<group>"; };
 		F353F42417FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIStoryboard+MainStoryboard.m"; sourceTree = "<group>"; };
 		F353F42617FBEC9900A03E6A /* FACategories.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FACategories.h; sourceTree = "<group>"; };
-		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FAStatusBarSpinnerController.h; path = ../Controller/FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
-		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FAStatusBarSpinnerController.m; path = ../Controller/FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
+		F35445FD16308050007D0AC5 /* FAStatusBarSpinnerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAStatusBarSpinnerController.h; sourceTree = "<group>"; };
+		F35445FE16308050007D0AC5 /* FAStatusBarSpinnerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAStatusBarSpinnerController.m; sourceTree = "<group>"; };
 		F3544601163084FC007D0AC5 /* FATraktImageList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktImageList.h; sourceTree = "<group>"; };
 		F3544602163084FC007D0AC5 /* FATraktImageList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktImageList.m; sourceTree = "<group>"; };
 		F3544607163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringByAppendingSuffixToFilename.h"; sourceTree = "<group>"; };
@@ -402,8 +402,8 @@
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACalendarEventController.h; sourceTree = "<group>"; };
 		F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACalendarEventController.m; sourceTree = "<group>"; };
-		F3A2821018FA5FAD00369045 /* FASlideAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FASlideAnimatedTransition.h; path = Zapt/Controller/FASlideAnimatedTransition.h; sourceTree = SOURCE_ROOT; };
-		F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FASlideAnimatedTransition.m; path = Zapt/Controller/FASlideAnimatedTransition.m; sourceTree = SOURCE_ROOT; };
+		F3A2821018FA5FAD00369045 /* FASlideAnimatedTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASlideAnimatedTransition.h; sourceTree = "<group>"; };
+		F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASlideAnimatedTransition.m; sourceTree = "<group>"; };
 		F3A2F9EA180949BF00556EEA /* FASimpleControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASimpleControl.h; sourceTree = "<group>"; };
 		F3A2F9EB180949BF00556EEA /* FASimpleControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASimpleControl.m; sourceTree = "<group>"; };
 		F3A2F9ED1809531600556EEA /* FAFixedHeightLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAFixedHeightLabel.h; sourceTree = "<group>"; };
@@ -412,8 +412,8 @@
 		F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentBookmarkViewController.m; sourceTree = "<group>"; };
 		F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASemiModalEnabledViewController.h; sourceTree = "<group>"; };
 		F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASemiModalEnabledViewController.m; sourceTree = "<group>"; };
-		F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ImageEffects.h"; path = "Zapt/Categories/UIImage+ImageEffects.h"; sourceTree = SOURCE_ROOT; };
-		F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ImageEffects.m"; path = "Zapt/Categories/UIImage+ImageEffects.m"; sourceTree = SOURCE_ROOT; };
+		F3A47B9E179FD1220022B251 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		F3A47B9F179FD1220022B251 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAAdaptiveNavigationBar.h; sourceTree = "<group>"; };
 		F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAAdaptiveNavigationBar.m; sourceTree = "<group>"; };
 		F3A8BFCF17FBED2800188453 /* FAGlobalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAGlobalSettings.h; sourceTree = "<group>"; };
@@ -497,7 +497,7 @@
 		F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ContainsSubstring.m"; sourceTree = "<group>"; };
 		F3CE70B718FD14CE0003679D /* TMFastCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFastCache.h; sourceTree = "<group>"; };
 		F3CE70B818FD14CE0003679D /* TMFastCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFastCache.m; sourceTree = "<group>"; };
-		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../Images.xcassets; sourceTree = "<group>"; };
+		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -632,7 +632,6 @@
 			isa = PBXGroup;
 			children = (
 				F3D80E3D17CCF51C00343C9F /* Model */,
-				B667534115F12FEB00A8D76D /* API */,
 				F3C84B701628DCFD006CBFEF /* Controller */,
 				F3F9E31C1628DBC70077CBAA /* View */,
 				F3C84B671628DC0B006CBFEF /* Categories */,
@@ -672,11 +671,11 @@
 		F30CAFC3179CD19D002E7D3C /* Containers */ = {
 			isa = PBXGroup;
 			children = (
+				F3EE213F17F684A200A0118E /* Bookmark */,
 				F30CAFC0179CD194002E7D3C /* FANextUpViewController.h */,
 				F30CAFC1179CD194002E7D3C /* FANextUpViewController.m */,
-				F3EE213F17F684A200A0118E /* Bookmark */,
 			);
-			name = Containers;
+			path = Containers;
 			sourceTree = "<group>";
 		};
 		F311206017F3C66400FAC263 /* Connection */ = {
@@ -689,7 +688,7 @@
 				F3B9C94317FA10C0004264E6 /* FATraktRequest.h */,
 				F3B9C94417FA10C0004264E6 /* FATraktRequest.m */,
 			);
-			name = Connection;
+			path = Connection;
 			sourceTree = "<group>";
 		};
 		F31446E917F8D2E5005B164D /* TestFlight */ = {
@@ -710,7 +709,7 @@
 				F32645D217F1032B001D4F74 /* UIColor+InvertedColor.h */,
 				F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */,
 			);
-			name = UIColor;
+			path = UIColor;
 			sourceTree = "<group>";
 		};
 		F3152DC317FC09B90039AF30 /* NSObject */ = {
@@ -721,7 +720,7 @@
 				F31D68ED179DD353003408BF /* NSObject+ClassName.h */,
 				F31D68EE179DD353003408BF /* NSObject+ClassName.m */,
 			);
-			name = NSObject;
+			path = NSObject;
 			sourceTree = "<group>";
 		};
 		F3152DC417FC09C00039AF30 /* NSString */ = {
@@ -738,7 +737,7 @@
 				F3CE70B418FCE4780003679D /* NSString+ContainsSubstring.h */,
 				F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */,
 			);
-			name = NSString;
+			path = NSString;
 			sourceTree = "<group>";
 		};
 		F3152DC517FC09C60039AF30 /* NSArray */ = {
@@ -748,14 +747,8 @@
 				F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */,
 				F394EE39184F30DB007F4BA1 /* NSArray+Functional.h */,
 				F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */,
-				F394EE3C184F4301007F4BA1 /* NSDictionary+Functional.h */,
-				F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */,
-				F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */,
-				F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */,
-				F3CE70AE18FC71FA0003679D /* NSRunLoop+PerformBlock.h */,
-				F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */,
 			);
-			name = NSArray;
+			path = NSArray;
 			sourceTree = "<group>";
 		};
 		F3152DC617FC09E10039AF30 /* UIKit */ = {
@@ -763,14 +756,12 @@
 			children = (
 				F3152DC217FC09B20039AF30 /* UIColor */,
 				F32645C817F0F9A4001D4F74 /* UIImage */,
+				F39AAEDC190ACDF4004C3DB0 /* UIStoryboard */,
 				F3EE214317F689DA00A0118E /* UIView */,
 				F3152DC717FC0A430039AF30 /* UIViewController */,
-				F353F42317FBEABE00A03E6A /* UIStoryboard+MainStoryboard.h */,
-				F353F42417FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m */,
-				F3152DBC17FBF9300039AF30 /* UIWindow+MainWindow.h */,
-				F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */,
+				F39AAEDD190ACDFE004C3DB0 /* UIWindow */,
 			);
-			name = UIKit;
+			path = UIKit;
 			sourceTree = "<group>";
 		};
 		F3152DC717FC0A430039AF30 /* UIViewController */ = {
@@ -783,7 +774,7 @@
 				F3CE70AB18FC38530003679D /* UIViewController+BarViews.h */,
 				F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */,
 			);
-			name = UIViewController;
+			path = UIViewController;
 			sourceTree = "<group>";
 		};
 		F32137ED1905384000B0D8D4 /* Debug */ = {
@@ -792,7 +783,7 @@
 				F32137EE1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.h */,
 				F32137EF1905386800B0D8D4 /* FAKeyedArchiverDebugDelegate.m */,
 			);
-			name = Debug;
+			path = Debug;
 			sourceTree = "<group>";
 		};
 		F32645C817F0F9A4001D4F74 /* UIImage */ = {
@@ -825,13 +816,13 @@
 		F34D986C17DC20970033FBD7 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
-				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
+				F30CAFC3179CD19D002E7D3C /* Containers */,
 				F3B9C94617FA36A8004264E6 /* FACheckinViewController.h */,
 				F3B9C94717FA36A8004264E6 /* FACheckinViewController.m */,
-				F30CAFC3179CD19D002E7D3C /* Containers */,
+				F3C84B771629719D006CBFEF /* FADetailViewController.h */,
+				F3C84B781629719D006CBFEF /* FADetailViewController.m */,
 			);
-			name = Detail;
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		F34FB71A17F8D68C0031549F /* TestFlight */ = {
@@ -845,7 +836,7 @@
 			path = TestFlight;
 			sourceTree = "<group>";
 		};
-		F357FA7016A8B60800420EC4 /* Settings Tab */ = {
+		F357FA7016A8B60800420EC4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
 				F357FA6616A8842600420EC4 /* FASettingsViewController.h */,
@@ -853,49 +844,51 @@
 				F3DEDC1C185EE6FC006F5833 /* FATextViewController.h */,
 				F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */,
 			);
-			name = "Settings Tab";
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		F357FA7116A8B61C00420EC4 /* Lists */ = {
 			isa = PBXGroup;
 			children = (
+				F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */,
+				F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */,
+				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
+				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
+				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
+				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
 				F357FA6D16A8B60100420EC4 /* FAListsViewController.h */,
 				F357FA6E16A8B60100420EC4 /* FAListsViewController.m */,
 				F3F02B4F18CCBBBD00573274 /* FANewCustomListViewController.h */,
 				F3F02B5018CCBBBD00573274 /* FANewCustomListViewController.m */,
-				F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */,
-				F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */,
-				F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */,
-				F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */,
-				F37B677B185BAD1800FAC329 /* FASeasonDetailViewController.h */,
-				F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */,
-				F357AB3216A78F5C00A578D5 /* FAEpisodeListViewController.h */,
-				F357AB3316A78F5C00A578D5 /* FAEpisodeListViewController.m */,
 				F3DEDC19185D8811006F5833 /* FARecommendationsListViewController.h */,
 				F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */,
+				F37B677B185BAD1800FAC329 /* FASeasonDetailViewController.h */,
+				F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */,
+				F37E4874184D5D8100D66A32 /* FASeasonListViewController.h */,
+				F37E4875184D5D8100D66A32 /* FASeasonListViewController.m */,
 				F3112E3118BE176200E91C2D /* FAShowListViewController.h */,
 				F3112E3218BE176200E91C2D /* FAShowListViewController.m */,
 			);
-			name = Lists;
+			path = Lists;
 			sourceTree = "<group>";
 		};
 		F35A174B17E2158C004B5F44 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */,
-				F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */,
+				F394EE30184EE56B007F4BA1 /* FABadges.h */,
+				F394EE31184EE56B007F4BA1 /* FABadges.m */,
 				F32FAB7A17EE333C0081B19E /* FAColorCompositing.h */,
 				F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */,
 				F32645C517F0E436001D4F74 /* FAColorSorting.h */,
 				F32645C617F0E436001D4F74 /* FAColorSorting.m */,
-				F394EE30184EE56B007F4BA1 /* FABadges.h */,
-				F394EE31184EE56B007F4BA1 /* FABadges.m */,
-				F37B677E185BBF4000FAC329 /* FASearchDisplayController.h */,
-				F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */,
+				F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */,
+				F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */,
 				F3CE70A518FB55400003679D /* FANotificationScrollViewDelegate.h */,
 				F3CE70A618FB55400003679D /* FANotificationScrollViewDelegate.m */,
+				F37B677E185BBF4000FAC329 /* FASearchDisplayController.h */,
+				F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */,
 			);
-			name = Misc;
+			path = Misc;
 			sourceTree = "<group>";
 		};
 		F37E4877184D602400D66A32 /* Data Source */ = {
@@ -915,6 +908,7 @@
 		F39AAED4190AC2D3004C3DB0 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				F3C7921117FB6F1C00C9CDC0 /* Progress */,
 				F32645C217F0D48F001D4F74 /* FARatingsView.h */,
 				F32645C317F0D48F001D4F74 /* FARatingsView.m */,
 				F3EE212B17F4F3BE00A0118E /* FAUnreadItemIndicatorView.h */,
@@ -930,12 +924,13 @@
 				F3C925B918FA02E50054ACE3 /* FAArrowView.h */,
 				F3C925BA18FA02E50054ACE3 /* FAArrowView.m */,
 			);
-			name = Custom;
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		F39AAED5190AC2EA004C3DB0 /* Subclasses */ = {
 			isa = PBXGroup;
 			children = (
+				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3F35E80169B655600A925B4 /* FASearchBar.h */,
 				F3F35E81169B655600A925B4 /* FASearchBar.m */,
 				F38BD69A16B770E300267137 /* FATitleLabel.h */,
@@ -945,7 +940,84 @@
 				F3A5BD0017F91C7A00138F3D /* FAAdaptiveNavigationBar.h */,
 				F3A5BD0117F91C7A00138F3D /* FAAdaptiveNavigationBar.m */,
 			);
-			name = Subclasses;
+			path = Subclasses;
+			sourceTree = "<group>";
+		};
+		F39AAED6190AC7D4004C3DB0 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F3A8BFD317FBF05B00188453 /* FAViewControllerPreferredContentSizeChanged.h */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		F39AAED7190ACA80004C3DB0 /* Data Providers */ = {
+			isa = PBXGroup;
+			children = (
+				B6FB0DBD161DF2C100043207 /* FASearchData.h */,
+				B6FB0DBE161DF2C100043207 /* FASearchData.m */,
+				F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */,
+				F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */,
+				F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */,
+				F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */,
+			);
+			path = "Data Providers";
+			sourceTree = "<group>";
+		};
+		F39AAED8190ACB18004C3DB0 /* Base Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F3328C24162740C500FB65B8 /* FATraktDatatype.h */,
+				F3328C25162740C500FB65B8 /* FATraktDatatype.m */,
+				F30CAFCA179D93E0002E7D3C /* FATraktCachedDatatype.h */,
+				F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */,
+			);
+			path = "Base Classes";
+			sourceTree = "<group>";
+		};
+		F39AAED9190ACD86004C3DB0 /* NSRunLoop */ = {
+			isa = PBXGroup;
+			children = (
+				F3CE70AE18FC71FA0003679D /* NSRunLoop+PerformBlock.h */,
+				F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */,
+			);
+			path = NSRunLoop;
+			sourceTree = "<group>";
+		};
+		F39AAEDA190ACD8B004C3DB0 /* NSDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				F394EE3C184F4301007F4BA1 /* NSDictionary+Functional.h */,
+				F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */,
+			);
+			path = NSDictionary;
+			sourceTree = "<group>";
+		};
+		F39AAEDB190ACD92004C3DB0 /* NSSet */ = {
+			isa = PBXGroup;
+			children = (
+				F394EE3F184F4A1E007F4BA1 /* NSSet+Functional.h */,
+				F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */,
+			);
+			path = NSSet;
+			sourceTree = "<group>";
+		};
+		F39AAEDC190ACDF4004C3DB0 /* UIStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				F353F42317FBEABE00A03E6A /* UIStoryboard+MainStoryboard.h */,
+				F353F42417FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m */,
+			);
+			path = UIStoryboard;
+			sourceTree = "<group>";
+		};
+		F39AAEDD190ACDFE004C3DB0 /* UIWindow */ = {
+			isa = PBXGroup;
+			children = (
+				F3152DBC17FBF9300039AF30 /* UIWindow+MainWindow.h */,
+				F3152DBD17FBF9300039AF30 /* UIWindow+MainWindow.m */,
+			);
+			path = UIWindow;
 			sourceTree = "<group>";
 		};
 		F3A2820F18FA5F7600369045 /* View Controller Transition Animations */ = {
@@ -955,27 +1027,28 @@
 				F3A2821118FA5FAD00369045 /* FASlideAnimatedTransition.m */,
 			);
 			name = "View Controller Transition Animations";
+			path = "Transition Animations";
 			sourceTree = "<group>";
 		};
 		F3A8BFD217FBEF5200188453 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */,
+				F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */,
 				B667530D15F12FBE00A8D76D /* FAAppDelegate.h */,
 				B667530E15F12FBE00A8D76D /* FAAppDelegate.m */,
+				F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */,
+				F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */,
+				F347356217FF55AE00116A59 /* FADebugController.h */,
+				F347356317FF55AE00116A59 /* FADebugController.m */,
 				F353F42017FBE85000A03E6A /* FAGlobalEventHandler.h */,
 				F353F42117FBE85000A03E6A /* FAGlobalEventHandler.m */,
 				F3A8BFCF17FBED2800188453 /* FAGlobalSettings.h */,
 				F3A8BFD017FBED2800188453 /* FAGlobalSettings.m */,
 				F3B9C93D17F96914004264E6 /* FAZapt.h */,
 				F3B9C93E17F96914004264E6 /* FAZapt.m */,
-				F347356217FF55AE00116A59 /* FADebugController.h */,
-				F347356317FF55AE00116A59 /* FADebugController.m */,
-				F3AF1A3616F74B3300159989 /* FAActivityDispatch.h */,
-				F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */,
-				F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */,
-				F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */,
 			);
-			name = Global;
+			path = Global;
 			sourceTree = "<group>";
 		};
 		F3AAC16D18F8BDCB00EF8876 /* TMCache */ = {
@@ -1003,8 +1076,7 @@
 				F3B74B3216E6EF5400230C43 /* FATraktCache.m */,
 				F3B74B3416E6F06C00230C43 /* FACacheableItem.h */,
 			);
-			name = Cache;
-			path = ../API/Cache;
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		F3BE563F185B3AAB0066E4D4 /* MBProgressHUD */ = {
@@ -1025,17 +1097,20 @@
 				F3B9C94C17FA88B5004264E6 /* FACircularProgressView.h */,
 				F3B9C94D17FA88B5004264E6 /* FACircularProgressView.m */,
 			);
-			name = Progress;
+			path = Progress;
 			sourceTree = "<group>";
 		};
 		F3C84B671628DC0B006CBFEF /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				F3152DC317FC09B90039AF30 /* NSObject */,
-				F3152DC417FC09C00039AF30 /* NSString */,
-				F3152DC517FC09C60039AF30 /* NSArray */,
-				F3152DC617FC09E10039AF30 /* UIKit */,
 				F353F42617FBEC9900A03E6A /* FACategories.h */,
+				F3152DC517FC09C60039AF30 /* NSArray */,
+				F39AAEDA190ACD8B004C3DB0 /* NSDictionary */,
+				F3152DC317FC09B90039AF30 /* NSObject */,
+				F39AAED9190ACD86004C3DB0 /* NSRunLoop */,
+				F39AAEDB190ACD92004C3DB0 /* NSSet */,
+				F3152DC417FC09C00039AF30 /* NSString */,
+				F3152DC617FC09E10039AF30 /* UIKit */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1064,15 +1139,15 @@
 				F3152DBF17FBFDE20039AF30 /* FAAuthWindow.h */,
 				F3152DC017FBFDE20039AF30 /* FAAuthWindow.m */,
 			);
-			name = Connection;
+			path = Connection;
 			sourceTree = "<group>";
 		};
 		F3C84B6A1628DC56006CBFEF /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F3C84B691628DC48006CBFEF /* Connection */,
 				F3EE214217F684DA00A0118E /* Generic */,
 				F3C84B6D1628DCB1006CBFEF /* Main Interface */,
-				F3C84B691628DC48006CBFEF /* Connection */,
 				F3A2820F18FA5F7600369045 /* View Controller Transition Animations */,
 			);
 			name = "View Controller";
@@ -1085,8 +1160,6 @@
 				F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */,
 				F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */,
 				F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */,
-				F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */,
-				F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */,
 				F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */,
 				F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */,
 				F3B74B2916E6D83500230C43 /* FAProgressHUD.h */,
@@ -1098,7 +1171,7 @@
 				F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */,
 				F3AC9B9A18CCF07900551F6A /* FACircularActivityIndicatorView.m */,
 			);
-			name = "Activity Spinners";
+			path = "Activity Spinners";
 			sourceTree = "<group>";
 		};
 		F3C84B6C1628DC90006CBFEF /* Table View Cells */ = {
@@ -1117,8 +1190,10 @@
 				F394EE27184ECFBF007F4BA1 /* FAImageTableViewCell.h */,
 				F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */,
 				F323DB931852C13E00BE0DAB /* FATableViewCellHeight.h */,
+				F3C84B741628E105006CBFEF /* FATableViewCellWithActivity.h */,
+				F3C84B751628E105006CBFEF /* FATableViewCellWithActivity.m */,
 			);
-			name = "Table View Cells";
+			path = "Table View Cells";
 			sourceTree = "<group>";
 		};
 		F3C84B6D1628DCB1006CBFEF /* Main Interface */ = {
@@ -1126,14 +1201,12 @@
 			children = (
 				F34D986917DC20890033FBD7 /* FAHomeViewController.h */,
 				F34D986A17DC20890033FBD7 /* FAHomeViewController.m */,
-				F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */,
-				F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */,
 				F34D986C17DC20970033FBD7 /* Detail */,
-				F3C84B6E1628DCC5006CBFEF /* Search */,
 				F357FA7116A8B61C00420EC4 /* Lists */,
-				F357FA7016A8B60800420EC4 /* Settings Tab */,
+				F3C84B6E1628DCC5006CBFEF /* Search */,
+				F357FA7016A8B60800420EC4 /* Settings */,
 			);
-			name = "Main Interface";
+			path = "Main Interface";
 			sourceTree = "<group>";
 		};
 		F3C84B6E1628DCC5006CBFEF /* Search */ = {
@@ -1142,18 +1215,19 @@
 				B667531615F12FBE00A8D76D /* FASearchViewController.h */,
 				B667531715F12FBE00A8D76D /* FASearchViewController.m */,
 			);
-			name = Search;
+			path = Search;
 			sourceTree = "<group>";
 		};
 		F3C84B701628DCFD006CBFEF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F3C84B6A1628DC56006CBFEF /* View Controller */,
+				B667534115F12FEB00A8D76D /* API */,
 				F37E4877184D602400D66A32 /* Data Source */,
-				F35A174B17E2158C004B5F44 /* Misc */,
-				F3A8BFD217FBEF5200188453 /* Global */,
 				F32137ED1905384000B0D8D4 /* Debug */,
-				F3A8BFD317FBF05B00188453 /* FAViewControllerPreferredContentSizeChanged.h */,
+				F3A8BFD217FBEF5200188453 /* Global */,
+				F35A174B17E2158C004B5F44 /* Misc */,
+				F39AAED6190AC7D4004C3DB0 /* Protocols */,
+				F3C84B6A1628DC56006CBFEF /* View Controller */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1214,14 +1288,9 @@
 		F3D80E3D17CCF51C00343C9F /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F39AAED7190ACA80004C3DB0 /* Data Providers */,
 				F3B74B3016E6EF3900230C43 /* Cache */,
 				F3F8C5FC1627297800D6BD4C /* Trakt */,
-				B6FB0DBD161DF2C100043207 /* FASearchData.h */,
-				B6FB0DBE161DF2C100043207 /* FASearchData.m */,
-				F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */,
-				F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */,
-				F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */,
-				F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1268,23 +1337,23 @@
 		F3EE213D17F6847C00A0118E /* Custom Lists */ = {
 			isa = PBXGroup;
 			children = (
-				F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */,
-				F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */,
 				F34D986017DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.h */,
 				F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */,
+				F3EE213717F6765800A0118E /* FACustomListsMembershipViewController.h */,
+				F3EE213817F6765800A0118E /* FACustomListsMembershipViewController.m */,
 			);
-			name = "Custom Lists";
+			path = "Custom Lists";
 			sourceTree = "<group>";
 		};
 		F3EE213F17F684A200A0118E /* Bookmark */ = {
 			isa = PBXGroup;
 			children = (
-				F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */,
-				F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */,
 				F3EE213D17F6847C00A0118E /* Custom Lists */,
 				F3EE214117F684B500A0118E /* Rating */,
+				F3A443EE17A741AA00210EE9 /* FAContentBookmarkViewController.h */,
+				F3A443EF17A741AA00210EE9 /* FAContentBookmarkViewController.m */,
 			);
-			name = Bookmark;
+			path = Bookmark;
 			sourceTree = "<group>";
 		};
 		F3EE214117F684B500A0118E /* Rating */ = {
@@ -1293,24 +1362,24 @@
 				F35A174817E175D8004B5F44 /* FARatingsViewController.h */,
 				F35A174917E175D8004B5F44 /* FARatingsViewController.m */,
 			);
-			name = Rating;
+			path = Rating;
 			sourceTree = "<group>";
 		};
 		F3EE214217F684DA00A0118E /* Generic */ = {
 			isa = PBXGroup;
 			children = (
-				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
-				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
 				F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */,
 				F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */,
-				F37E487E184D75B600D66A32 /* FAViewController.h */,
-				F37E487F184D75B600D66A32 /* FAViewController.m */,
-				F37E4881184D780E00D66A32 /* FATableViewController.h */,
-				F37E4882184D780E00D66A32 /* FATableViewController.m */,
 				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
 				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
+				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
+				F3A443F217A752FE00210EE9 /* FASemiModalEnabledViewController.m */,
+				F37E4881184D780E00D66A32 /* FATableViewController.h */,
+				F37E4882184D780E00D66A32 /* FATableViewController.m */,
+				F37E487E184D75B600D66A32 /* FAViewController.h */,
+				F37E487F184D75B600D66A32 /* FAViewController.m */,
 			);
-			name = Generic;
+			path = Generic;
 			sourceTree = "<group>";
 		};
 		F3EE214317F689DA00A0118E /* UIView */ = {
@@ -1331,65 +1400,62 @@
 				F3EE213117F4FA2400A0118E /* UIView+ImageScreenshot.h */,
 				F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */,
 			);
-			name = UIView;
+			path = UIView;
 			sourceTree = "<group>";
 		};
 		F3F8C5FC1627297800D6BD4C /* Trakt */ = {
 			isa = PBXGroup;
 			children = (
-				F3328C24162740C500FB65B8 /* FATraktDatatype.h */,
-				F3328C25162740C500FB65B8 /* FATraktDatatype.m */,
-				F30CAFCA179D93E0002E7D3C /* FATraktCachedDatatype.h */,
-				F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */,
-				F3F35E83169B6B7C00A925B4 /* FATraktContent.h */,
-				F3F35E84169B6B7C00A925B4 /* FATraktContent.m */,
-				F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */,
-				F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */,
-				B64C8F3C16238B0600A7C784 /* FATraktMovie.h */,
-				B64C8F3D16238B0600A7C784 /* FATraktMovie.m */,
-				F3544601163084FC007D0AC5 /* FATraktImageList.h */,
-				F3544602163084FC007D0AC5 /* FATraktImageList.m */,
-				F3F9E30E162831C20077CBAA /* FATraktShow.h */,
-				F3F9E30F162831C30077CBAA /* FATraktShow.m */,
-				F310CAA816A7960900781F24 /* FATraktSeason.h */,
-				F310CAA916A7960900781F24 /* FATraktSeason.m */,
-				F3F9E311162838610077CBAA /* FATraktEpisode.h */,
-				F3F9E312162838610077CBAA /* FATraktEpisode.m */,
-				F330966016281728000BD107 /* FATraktPeopleList.h */,
-				F330966116281728000BD107 /* FATraktPeopleList.m */,
-				F330965D162816DE000BD107 /* FATraktPeople.h */,
-				F330965E162816DE000BD107 /* FATraktPeople.m */,
-				F386984D16DA75C600FA3F2E /* FATraktList.h */,
-				F386984E16DA75C600FA3F2E /* FATraktList.m */,
-				F3EE743C16DA916300FF2C9F /* FATraktListItem.h */,
-				F3EE743D16DA916300FF2C9F /* FATraktListItem.m */,
-				F3DC466216FC93350022BE12 /* FATraktSearchResult.h */,
-				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
-				F30E52BD1799076A006C5091 /* FATraktShowProgress.h */,
-				F30E52BE1799076A006C5091 /* FATraktShowProgress.m */,
-				F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */,
-				F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */,
-				F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */,
-				F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */,
+				F39AAED8190ACB18004C3DB0 /* Base Classes */,
 				F31551E117B081B200307CC3 /* FATraktAccountSettings.h */,
 				F31551E217B081B200307CC3 /* FATraktAccountSettings.m */,
-				F31551E417B0844600307CC3 /* FATraktViewingSettings.h */,
-				F31551E517B0844600307CC3 /* FATraktViewingSettings.m */,
-				F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */,
-				F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */,
-				F3B9C94017F96F6A004264E6 /* FATraktCheckin.h */,
-				F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */,
-				F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */,
-				F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */,
-				F3CE70B118FCB1120003679D /* FATraktRating.h */,
-				F3CE70B218FCB1120003679D /* FATraktRating.m */,
 				F3CAEEE219009DA0005EA8E2 /* FATraktCalendar.h */,
 				F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */,
 				F3CAEEE519009E46005EA8E2 /* FATraktCalendarItem.h */,
 				F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */,
+				F3B9C94017F96F6A004264E6 /* FATraktCheckin.h */,
+				F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */,
+				F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */,
+				F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */,
+				F3F35E83169B6B7C00A925B4 /* FATraktContent.h */,
+				F3F35E84169B6B7C00A925B4 /* FATraktContent.m */,
+				F3F9E311162838610077CBAA /* FATraktEpisode.h */,
+				F3F9E312162838610077CBAA /* FATraktEpisode.m */,
+				F3544601163084FC007D0AC5 /* FATraktImageList.h */,
+				F3544602163084FC007D0AC5 /* FATraktImageList.m */,
+				F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */,
+				F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */,
+				F386984D16DA75C600FA3F2E /* FATraktList.h */,
+				F386984E16DA75C600FA3F2E /* FATraktList.m */,
+				F3EE743C16DA916300FF2C9F /* FATraktListItem.h */,
+				F3EE743D16DA916300FF2C9F /* FATraktListItem.m */,
+				B64C8F3C16238B0600A7C784 /* FATraktMovie.h */,
+				B64C8F3D16238B0600A7C784 /* FATraktMovie.m */,
+				F330965D162816DE000BD107 /* FATraktPeople.h */,
+				F330965E162816DE000BD107 /* FATraktPeople.m */,
+				F330966016281728000BD107 /* FATraktPeopleList.h */,
+				F330966116281728000BD107 /* FATraktPeopleList.m */,
+				F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */,
+				F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */,
+				F3CE70B118FCB1120003679D /* FATraktRating.h */,
+				F3CE70B218FCB1120003679D /* FATraktRating.m */,
+				F3DC466216FC93350022BE12 /* FATraktSearchResult.h */,
+				F3DC466316FC93350022BE12 /* FATraktSearchResult.m */,
+				F310CAA816A7960900781F24 /* FATraktSeason.h */,
+				F310CAA916A7960900781F24 /* FATraktSeason.m */,
+				F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */,
+				F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */,
+				F3F9E30E162831C20077CBAA /* FATraktShow.h */,
+				F3F9E30F162831C30077CBAA /* FATraktShow.m */,
+				F30E52BD1799076A006C5091 /* FATraktShowProgress.h */,
+				F30E52BE1799076A006C5091 /* FATraktShowProgress.m */,
+				F31551E417B0844600307CC3 /* FATraktViewingSettings.h */,
+				F31551E517B0844600307CC3 /* FATraktViewingSettings.m */,
+				F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */,
+				F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */,
 			);
 			name = Trakt;
-			path = ../API/DataTypes;
+			path = "Trakt Data Types";
 			sourceTree = "<group>";
 		};
 		F3F9E30916282D320077CBAA /* Controller */ = {
@@ -1406,9 +1472,7 @@
 			children = (
 				F39AAED5190AC2EA004C3DB0 /* Subclasses */,
 				F39AAED4190AC2D3004C3DB0 /* Custom */,
-				F3C84B6C1628DC90006CBFEF /* Table View Cells */,
 				F3C84B6B1628DC7E006CBFEF /* Activity Spinners */,
-				F3C7921117FB6F1C00C9CDC0 /* Progress */,
 			);
 			path = View;
 			sourceTree = "<group>";
