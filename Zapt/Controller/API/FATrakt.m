@@ -290,7 +290,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
             [self.connection getImageURL:imageURL withRequest:imageRequest onSuccess:^(FATraktConnectionResponse *response) {
                 NSData *imageData = [response rawResponseData];
                 UIImage *image = [UIImage imageWithData:imageData];
-                [_cache.images setObject:imageData forKey:imageURL];
+                [_cache.images setObject:imageData forKey:imageURL block:nil];
                 FATraktCallbackCall(callback(image));
             } onError:error];
         }

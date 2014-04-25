@@ -275,7 +275,7 @@
     if (self.refreshControlWithActivity.startCount == 0) {
         if (_isLibrary) {
             if (animated) {
-                [self.refreshControlWithActivity startActivityWithCount:3];
+                [self.refreshControlWithActivity startActivity];
             }
             
             [[FATrakt sharedInstance] libraryForContentType:_contentType libraryType:FATraktLibraryTypeAll callback:^(FATraktList *list) {
@@ -527,6 +527,10 @@
     
     FATraktListItem *item = section[indexPath.row];
     [cell displayContent:[item.content cachedVersion]];
+    [item.content posterImageWithWidth:42 callback:^(UIImage *image) {
+        cell.image = image;
+    }];
+    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     return cell;
@@ -549,6 +553,19 @@
 {
     [self.searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar resignFirstResponder];
+    
+    if (!scrollView.isDragging || scrollView.isDecelerating) {
+        [self loadImagesIfNeeded];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self loadImagesIfNeeded];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     [self loadImagesIfNeeded];
 }
 

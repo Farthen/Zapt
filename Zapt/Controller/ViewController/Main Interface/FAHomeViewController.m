@@ -282,10 +282,16 @@
         
         // Remove old shows
         for (NSString *showCacheKey in [self.arrayDataSource rowKeysForSection:sectionName]) {
-            FATraktShow *show = [FATraktShow objectWithCacheKey:showCacheKey];
+            BOOL keep = YES;
             
-            if ([shows indexOfObject:show] == NSNotFound) {
-                [self.arrayDataSource removeRow:show.cacheKey inSection:sectionName];
+            for (FATraktShow *currentShow in shows) {
+                if (currentShow.cacheKey == showCacheKey) {
+                    keep = YES;
+                }
+            }
+            
+            if (!keep) {
+                [self.arrayDataSource removeRow:showCacheKey inSection:sectionName];
             }
         }
         

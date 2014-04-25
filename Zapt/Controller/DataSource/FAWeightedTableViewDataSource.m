@@ -431,6 +431,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
             
             self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
+            section.currentSectionIndex = i;
         }
         
         NSMutableArray *headerTitles = [NSMutableArray array];
@@ -448,6 +449,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             
             section.currentSectionIndex = sectionIdx;
             
+            if (section.lastSectionIndex != -1 && section.lastSectionIndex != (NSInteger)sectionIdx) {
+                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:UITableViewRowAnimationAutomatic]];
+            }
+            
             id title = section.headerTitle;
             
             if (!title) {
@@ -461,6 +466,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
                 
                 row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
+                
+                if (row.lastIndexPath && ![row.lastIndexPath isEqual:row.currentIndexPath]) {
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:UITableViewRowAnimationAutomatic]];
+                }
                 
                 return row.key;
             }];

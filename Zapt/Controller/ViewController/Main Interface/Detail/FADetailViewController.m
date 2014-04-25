@@ -564,28 +564,32 @@
     }
     
     if (episode.show || (episode.episodeNumber && episode.seasonNumber)) {
-        NSString *displayString;
-        displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
+        __block BOOL animated;
         
-        if (episode.first_aired_utc) {
-            NSString *dateString = [FAInterfaceStringProvider relativeTimeAndDateFromNowWithDate:episode.first_aired_utc];
-            NSString *airString;
+        [UIView performWithoutAnimation:^{
+            NSString *displayString;
+            displayString = [NSString stringWithFormat:NSLocalizedString(@"%@ - S%02iE%02i", nil), episode.show.title, episode.seasonNumber.unsignedIntegerValue, episode.episodeNumber.unsignedIntegerValue];
             
-            if ([episode.first_aired_utc isLaterThanDate:[NSDate date]]) {
-                airString = [NSString stringWithFormat:@"\nAirs: %@", dateString];
-            } else {
-                airString = [NSString stringWithFormat:@"\nAired: %@", dateString];
+            if (episode.first_aired_utc) {
+                NSString *dateString = [FAInterfaceStringProvider relativeTimeAndDateFromNowWithDate:episode.first_aired_utc];
+                NSString *airString;
+                
+                if ([episode.first_aired_utc isLaterThanDate:[NSDate date]]) {
+                    airString = [NSString stringWithFormat:@"\nAirs: %@", dateString];
+                } else {
+                    airString = [NSString stringWithFormat:@"\nAired: %@", dateString];
+                }
+                
+                displayString = [displayString stringByAppendingString:airString];
             }
             
-            displayString = [displayString stringByAppendingString:airString];
-        }
-        
-        BOOL animated = NO;
-        
-        if (![self.detailLabel.text isEqual:displayString]) {
-            self.detailLabel.text = displayString;
-            animated = YES;
-        }
+            animated = NO;
+            
+            if (![self.detailLabel.text isEqual:displayString]) {
+                self.detailLabel.text = displayString;
+                animated = YES;
+            }
+        }];
         
         [UIView animateSynchronizedIf:animated duration:0.3 setUp:^{
             if (self.detailViewHeightConstraint) {

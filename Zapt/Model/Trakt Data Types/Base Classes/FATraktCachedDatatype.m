@@ -114,7 +114,7 @@
             [cachedObject removeFromCache];
         }
         
-        [self.class.backingCache setObject:self forKey:self.cacheKey];
+        [self.class.backingCache setObject:self forKey:self.cacheKey block:nil];
     } else {
         [self removeFromCache];
     }

@@ -68,8 +68,8 @@ typedef NS_ENUM(NSUInteger, FATraktSortingOption) {
 
 - (UIImage *)widescreenImageWithWidth:(NSInteger)width;
 - (UIImage *)posterImageWithWidth:(NSInteger)width;
-- (void)widescreenImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback;
-- (void)posterImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *))callback;
+- (void)widescreenImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
+- (void)posterImageWithWidth:(NSInteger)width callback:(void (^)(UIImage *image))callback;
 
 @property (readonly) NSString *slug;
 @property (readonly) NSString *urlIdentifier;

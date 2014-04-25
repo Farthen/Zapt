@@ -100,7 +100,7 @@
     [self.memoryCache setObject:object forKey:key block:^(TMMemoryCache *cache, NSString *key, id object) {
         TMCache *strongSelf = weakSelf;
         
-        if (strongSelf) {
+        if (strongSelf && block) {
             block(strongSelf, key, object);
         }
     }];
