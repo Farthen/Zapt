@@ -1020,6 +1020,19 @@
 			path = UIWindow;
 			sourceTree = "<group>";
 		};
+		F39AAEDE190ACEF7004C3DB0 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				F3152DC517FC09C60039AF30 /* NSArray */,
+				F39AAEDA190ACD8B004C3DB0 /* NSDictionary */,
+				F3152DC317FC09B90039AF30 /* NSObject */,
+				F39AAED9190ACD86004C3DB0 /* NSRunLoop */,
+				F39AAEDB190ACD92004C3DB0 /* NSSet */,
+				F3152DC417FC09C00039AF30 /* NSString */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		F3A2820F18FA5F7600369045 /* View Controller Transition Animations */ = {
 			isa = PBXGroup;
 			children = (
@@ -1104,12 +1117,7 @@
 			isa = PBXGroup;
 			children = (
 				F353F42617FBEC9900A03E6A /* FACategories.h */,
-				F3152DC517FC09C60039AF30 /* NSArray */,
-				F39AAEDA190ACD8B004C3DB0 /* NSDictionary */,
-				F3152DC317FC09B90039AF30 /* NSObject */,
-				F39AAED9190ACD86004C3DB0 /* NSRunLoop */,
-				F39AAEDB190ACD92004C3DB0 /* NSSet */,
-				F3152DC417FC09C00039AF30 /* NSString */,
+				F39AAEDE190ACEF7004C3DB0 /* Foundation */,
 				F3152DC617FC09E10039AF30 /* UIKit */,
 			);
 			path = Categories;
