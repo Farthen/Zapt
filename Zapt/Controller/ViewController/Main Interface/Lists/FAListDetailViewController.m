@@ -37,6 +37,8 @@
     BOOL _reloadWhenShowing;
     BOOL _shouldBeginEditingSearchText;
     
+    BOOL _scrollViewDidScrollOldContentOffset;
+    
     FATraktContentType _contentType;
     FATraktLibraryType _libraryType;
 }
@@ -490,25 +492,27 @@
 - (void)loadImagesIfNeeded
 {
     NSArray *visibleIndexPaths = self.tableView.indexPathsForVisibleRows;
+    NSArray *oldSortedSectionObjects = _sortedSectionObjects;
     
-    [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSIndexPath *indexPath = obj;
-        
-        NSArray *oldSortedSectionObjects = _sortedSectionObjects;
-        FATraktListItem *listItem = [[_sortedSectionObjects objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-        FATraktContent *content = listItem.content;
-        
-        NSString *posterURL = content.posterImageURL;
-        
-        if (posterURL) {
-            [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
-                if (_sortedSectionObjects == oldSortedSectionObjects) {
-                    FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-                    cell.image = image;
-                }
-            } onError:nil];
-        }
-    }];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSIndexPath *indexPath = obj;
+            
+            FATraktListItem *listItem = [[oldSortedSectionObjects objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+            FATraktContent *content = listItem.content;
+            
+            NSString *posterURL = content.posterImageURL;
+            
+            if (posterURL) {
+                [[FATrakt sharedInstance] loadImageFromURL:posterURL withWidth:42 callback:^(UIImage *image) {
+                    if (_sortedSectionObjects == oldSortedSectionObjects) {
+                        FAContentTableViewCell *cell = (FAContentTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+                        cell.image = image;
+                    }
+                } onError:nil];
+            }
+        }];
+    });
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -554,7 +558,7 @@
     [self.searchBar setShowsCancelButton:NO animated:YES];
     [self.searchBar resignFirstResponder];
     
-    if (!scrollView.isDragging || scrollView.isDecelerating) {
+    if (!scrollView.isDragging) {
         [self loadImagesIfNeeded];
     }
 }
@@ -567,6 +571,7 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     [self loadImagesIfNeeded];
+    _scrollViewDidScrollOldContentOffset = scrollView.contentOffset.y;
 }
 
 #pragma mark Search

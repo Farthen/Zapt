@@ -93,11 +93,17 @@
     [[FATrakt sharedInstance] calendarFromDate:date dayCount:7 callback:^(FATraktCalendar *calendar) {
         __block FATraktEpisode *nextEpisode = nil;
         
-        [self.dataSource removeAllSections];
-        [self.dataSource recalculateWeight];
+        NSSet *oldDates = self.dataSource.sectionKeys;
+        
+        for (NSDate *oldDate in oldDates) {
+            if (![calendar.calendarItems containsObject:oldDate]) {
+                [self.dataSource removeSectionForKey:oldDate];
+            }
+        }
         
         [calendar.calendarItems enumerateObjectsUsingBlock:^(FATraktCalendarItem *calendarItem, NSUInteger idx, BOOL *stop) {
             NSDate *day = calendarItem.date;
+            
             NSString *title = [FAInterfaceStringProvider relativeDateFromNowWithDate:day];
             
             if (calendarItem.episodes.count >= 1) {

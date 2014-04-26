@@ -19,7 +19,6 @@
 
 typedef void (^TMMemoryCacheBlock)(TMMemoryCache *cache);
 typedef void (^TMMemoryCacheObjectBlock)(TMMemoryCache *cache, NSString *key, id object);
-typedef void (^TMMemoryCacheDataBlock)(TMMemoryCache *cache, NSDictionary *cacheData);
 
 @interface TMMemoryCache : NSObject
 
@@ -80,7 +79,7 @@ typedef void (^TMMemoryCacheDataBlock)(TMMemoryCache *cache, NSDictionary *cache
  A block to be executed just before all objects are removed from the cache as a result of <removeAllObjects:>.
  This block will be excuted within a barrier, i.e. all reads and writes are suspended for the duration of the block.
  */
-@property (copy) TMMemoryCacheDataBlock willRemoveAllObjectsBlock;
+@property (copy) TMMemoryCacheBlock willRemoveAllObjectsBlock;
 
 /**
  A block to be executed just after an object is added to the cache. This block will be excuted within

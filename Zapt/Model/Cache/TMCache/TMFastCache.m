@@ -8,6 +8,10 @@
 
 #import "TMFastCache.h"
 
+@interface TMMemoryCache (Private)
+@property (strong, nonatomic) NSDictionary *dictionary;
+@end
+
 @implementation TMFastCache {
     NSMutableSet *_uncommittedKeys;
 
@@ -23,11 +27,13 @@
         _keysToRemove = [NSMutableSet set];
         _uncommittedKeys = [NSMutableSet set];
 
-        self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache, NSDictionary *data) {
+        self.memoryCache.willRemoveAllObjectsBlock = ^(TMMemoryCache *cache) {
             if (!_shouldRemoveAllObjects) {
                 // Cache is evicted
                 
-                dispatch_sync(self.queue, ^{
+                NSDictionary *data = [cache.dictionary copy];
+                
+                dispatch_barrier_async(self.queue, ^{
                     [_keysToRemove enumerateObjectsUsingBlock:^(id key, BOOL *stop) {
                         [self.diskCache removeObjectForKey:key];
                     }];
@@ -38,7 +44,7 @@
                         id object = data[key];
                         
                         if ([_uncommittedKeys containsObject:key]) {
-                            [self.diskCache setObject:object forKey:key];
+                            [self.diskCache setObject:object forKey:key block:nil];
                             
                             [_uncommittedKeys removeObject:key];
                         }
@@ -51,7 +57,7 @@
 
         self.memoryCache.willRemoveObjectBlock = ^(TMMemoryCache *cache, NSString *key, id object) {
             
-            dispatch_sync(self.queue, ^{
+            dispatch_barrier_async(self.queue, ^{
                 if (![_keysToRemove containsObject:key] && [_uncommittedKeys containsObject:key]) {
                     // We didn't remove this -> we need to save the value
                     [self.diskCache setObject:object forKey:key block:nil];
@@ -68,7 +74,7 @@
 
 - (void)commitAllObjects
 {
-    dispatch_sync(self.queue, ^{
+    dispatch_barrier_sync(self.queue, ^{
         [_keysToRemove enumerateObjectsUsingBlock:^(id key, BOOL *stop) {
             [self.diskCache removeObjectForKey:key];
         }];
@@ -91,7 +97,7 @@
         return;
     }
     
-    dispatch_async(self.queue, ^{
+    dispatch_barrier_async(self.queue, ^{
         [_keysToRemove removeObject:key];
         [_uncommittedKeys addObject:key];
     });
@@ -112,7 +118,7 @@
         return;
     }
     
-    dispatch_async(self.queue, ^{
+    dispatch_barrier_async(self.queue, ^{
         [_keysToRemove addObject:key];
         [_uncommittedKeys removeObject:key];
     });
@@ -132,7 +138,7 @@
 
     [super removeAllObjects:block];
     
-    dispatch_async(self.queue, ^{
+    dispatch_barrier_async(self.queue, ^{
         [_keysToRemove removeAllObjects];
     });
 }

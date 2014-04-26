@@ -830,6 +830,17 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     return rowKeys;
 }
 
+- (NSSet *)sectionKeys
+{
+    __block NSSet *sectionKeys;
+    
+    dispatch_sync(_weightedSectionsQueue, ^{
+        sectionKeys = self.weightedSections.allKeysSet;
+    });
+    
+    return sectionKeys;
+}
+
 - (NSUInteger)numberOfRowsInSection:(id<NSCopying,NSCoding>)sectionKey
 {
     __block NSUInteger count;

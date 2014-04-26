@@ -149,6 +149,8 @@
     BOOL ranked = self.showItemNumbersSwitch.isOn;
     BOOL allowShouts = self.allowShoutsSwitch.isOn;
     
+    self.view.userInteractionEnabled = NO;
+    
     if (!self.editList) {
         [self.hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Adding List", nil)];
         
@@ -163,6 +165,7 @@
                                                   } onError:^(FATraktConnectionResponse *connectionError) {
                                                       [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
                                                       [self.doneButton finishActivity];
+                                                      self.view.userInteractionEnabled = YES;
                                                   }];
     } else {
         
@@ -189,6 +192,7 @@
                                         } onError:^(FATraktConnectionResponse *connectionError) {
                                             [self.hud showProgressHUDFailedMessage:NSLocalizedString(@"Failed", nil)];
                                             [self.doneButton finishActivity];
+                                            self.view.userInteractionEnabled = YES;
                                         }];
     }
 }

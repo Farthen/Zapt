@@ -31,6 +31,7 @@
 
 - (BOOL)hasRowWithKey:(id <NSCopying, NSCoding>)rowKey inSection:(id <NSCopying, NSCoding>)sectionKey;
 - (NSSet *)rowKeysForSection:(id <NSCopying, NSCoding>)sectionKey;
+- (NSSet *)sectionKeys;
 
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey;
 - (void)hideSection:(id <NSCopying, NSCoding>)sectionKey animation:(UITableViewRowAnimation)animation;

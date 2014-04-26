@@ -406,7 +406,7 @@ NSString * const TMMemoryCachePrefix = @"com.tumblr.TMMemoryCache";
             return;
 
         if (strongSelf->_willRemoveAllObjectsBlock)
-            strongSelf->_willRemoveAllObjectsBlock(strongSelf, _dictionary);
+            strongSelf->_willRemoveAllObjectsBlock(strongSelf);
 
         [strongSelf->_dictionary removeAllObjects];
         [strongSelf->_dates removeAllObjects];
@@ -659,9 +659,9 @@ NSString * const TMMemoryCachePrefix = @"com.tumblr.TMMemoryCache";
     });
 }
 
-- (TMMemoryCacheDataBlock)willRemoveAllObjectsBlock
+- (TMMemoryCacheBlock)willRemoveAllObjectsBlock
 {
-    __block TMMemoryCacheDataBlock block = nil;
+    __block TMMemoryCacheBlock block = nil;
 
     dispatch_sync(_queue, ^{
         block = _willRemoveAllObjectsBlock;
@@ -670,7 +670,7 @@ NSString * const TMMemoryCachePrefix = @"com.tumblr.TMMemoryCache";
     return block;
 }
 
-- (void)setWillRemoveAllObjectsBlock:(TMMemoryCacheDataBlock)block
+- (void)setWillRemoveAllObjectsBlock:(TMMemoryCacheBlock)block
 {
     __weak TMMemoryCache *weakSelf = self;
 

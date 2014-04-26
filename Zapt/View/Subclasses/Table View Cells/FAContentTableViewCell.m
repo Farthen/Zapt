@@ -194,7 +194,7 @@
     CGFloat labelSpacing = [self.class labelSpacing];
     
     CGFloat labelLeftPosition = imageWidth + widthMargin;
-    CGFloat labelWidth = cellWidth - labelLeftPosition - widthMargin;
+    CGFloat labelWidth = cellWidth - labelLeftPosition;
     CGFloat titleHeight = [self.class titleHeight];
     CGFloat detailHeight = [self.class detailHeight];
     
