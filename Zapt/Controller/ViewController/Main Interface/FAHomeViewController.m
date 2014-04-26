@@ -21,6 +21,7 @@
 #import "FAContentTableViewCell.h"
 
 #import "FATrakt.h"
+#import "FAGlobalEventHandler.h"
 
 @interface FAHomeViewController ()
 @property FAWeightedTableViewDataSource *arrayDataSource;
@@ -32,6 +33,8 @@
 @property NSArray *showsWithProgress;
 
 @property (nonatomic) BOOL initialDataFetchDone;
+
+@property (nonatomic) BOOL displaysInvalidCredentialsInfo;
 @end
 
 @implementation FAHomeViewController
@@ -47,12 +50,18 @@
     return self;
 }
 
+- (void)dealloc
+{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    });
+}
+
 - (void)viewDidLoad
 {
-    self.needsLoginContentName = NSLocalizedString(@"your lists", nil);
-    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(usernameAndPasswordValidityChanged:) name:FATraktUsernameAndPasswordValidityChangedNotification object:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -107,65 +116,103 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)usernameAndPasswordValidityChanged:(NSNotification *)aNotification
+{
+    [self reloadData:NO];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowWithKey:(id)rowKey
+{
+    if ([rowKey isEqual:@"login"] ||
+        [rowKey isEqual:@"register"]) {
+        return 44;
+    } else {
+        return [FAContentTableViewCell cellHeight];
+    }
+}
+
 - (void)reloadData:(BOOL)animated
 {
-    if (animated) [self.refreshControlWithActivity startActivityWithCount:2];
-    
-    [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (content) {
-                if (!self.tableViewContainsCurrentlyWatching) {
-                    self.tableViewContainsCurrentlyWatching = YES;
-                    
-                    [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
-                    [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
-                    [self.arrayDataSource recalculateWeight];
-                    
-                    NSString *contentCacheKey = content.cacheKey;
-                    
-                    if (![content posterImageWithWidth:42]) {
-                        [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
-                            FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
-                            
-                            if (cell) {
-                                cell.image = image;
-                            }
-                        } onError:nil];
+    if ([[FATraktConnection sharedInstance] usernameAndPasswordValid]) {
+        if (self.displaysInvalidCredentialsInfo) {
+            self.displaysInvalidCredentialsInfo = NO;
+            [self.arrayDataSource removeAllSections];
+            [self displayUserSection];
+        }
+        
+        if (animated) [self.refreshControlWithActivity startActivityWithCount:2];
+        
+        [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (content) {
+                    if (!self.tableViewContainsCurrentlyWatching) {
+                        self.tableViewContainsCurrentlyWatching = YES;
+                        
+                        [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
+                        [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
+                        [self.arrayDataSource recalculateWeight];
+                        
+                        NSString *contentCacheKey = content.cacheKey;
+                        
+                        if (![content posterImageWithWidth:42]) {
+                            [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
+                                FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
+                                
+                                if (cell) {
+                                    cell.image = image;
+                                }
+                            } onError:nil];
+                        }
+                    }
+                } else {
+                    if (self.tableViewContainsCurrentlyWatching) {
+                        self.tableViewContainsCurrentlyWatching = NO;
+                        
+                        [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
+                        [self.arrayDataSource recalculateWeight];
                     }
                 }
-            } else {
-                if (self.tableViewContainsCurrentlyWatching) {
-                    self.tableViewContainsCurrentlyWatching = NO;
+                
+                if (animated) [self.refreshControlWithActivity finishActivity];
+            });
+        } onError:nil];
+        
+        [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
+            self.showsWithProgress = result;
+            [self displayProgressData];
+            
+            for (FATraktShow *show in self.showsWithProgress) {
+                if (![show.images posterImageWithWidth:42]) {
+                    NSString *showCacheKey = show.cacheKey;
                     
-                    [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
-                    [self.arrayDataSource recalculateWeight];
+                    [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
+                        FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:showCacheKey];
+                        
+                        if (cell) {
+                            cell.image = image;
+                        }
+                    } onError:nil];
                 }
             }
             
             if (animated) [self.refreshControlWithActivity finishActivity];
-        });
-    } onError:nil];
-    
-    [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
-        self.showsWithProgress = result;
-        [self displayProgressData];
+        } onError:nil];
+    } else {
         
-        for (FATraktShow *show in self.showsWithProgress) {
-            if (![show.images posterImageWithWidth:42]) {
-                NSString *showCacheKey = show.cacheKey;
-                
-                [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
-                    FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:showCacheKey];
-                    
-                    if (cell) {
-                        cell.image = image;
-                    }
-                } onError:nil];
-            }
-        }
+        self.displaysInvalidCredentialsInfo = YES;
+        self.tableViewContainsProgress = NO;
         
-        if (animated) [self.refreshControlWithActivity finishActivity];
-    } onError:nil];
+        [self.arrayDataSource removeAllSections];
+        [self.arrayDataSource createSectionForKey:@"invalidCredentials" withWeight:0];
+        [self.arrayDataSource insertRow:@"message" inSection:@"invalidCredentials" withWeight:0];
+        
+        [self.arrayDataSource createSectionForKey:@"invalidCredentials2" withWeight:1 andHeaderTitle:NSLocalizedString(@"Actions", nil) hidden:NO];
+        [self.arrayDataSource insertRow:@"login" inSection:@"invalidCredentials2" withWeight:0];
+        [self.arrayDataSource insertRow:@"register" inSection:@"invalidCredentials2" withWeight:1];
+        
+        [self.arrayDataSource recalculateWeight];
+        [self.refreshControlWithActivity finishActivity];
+    }
 }
 
 - (void)setupTableView
@@ -174,6 +221,8 @@
     self.arrayDataSource.reuseIdentifierBlock = ^NSString *(id sectionKey, id object) {
         if ([sectionKey isEqualToString:@"user"]) {
             return @"user";
+        } else if ([sectionKey isEqualToString:@"invalidCredentials2"]) {
+            return @"invalidCredentials";
         } else {
             return @"content";
         }
@@ -190,6 +239,8 @@
             if ([sectionKey isEqualToString:@"user"]) {
                 // Use the content table view cell for unified experience
                 cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
+            } else if ([sectionKey isEqualToString:@"invalidCredentials2"]) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
             } else {
                 cell = [[FAContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
             }
@@ -247,6 +298,29 @@
                 contentCell.textLabel.text = NSLocalizedString(@"Calendar", nil);
                 contentCell.detailTextLabel.text = NSLocalizedString(@"Your upcoming episodes", nil);
             }
+        } else if ([sectionKey isEqualToString:@"invalidCredentials"]) {
+            
+            FAContentTableViewCell *contentCell = cell;
+            contentCell.twoLineMode = YES;
+            contentCell.textLabel.text = NSLocalizedString(@"You are not logged in", nil);
+            contentCell.detailTextLabel.text = NSLocalizedString(@"Log in to use all features!", nil);
+            contentCell.selectionStyle = UITableViewCellSelectionStyleNone;
+            contentCell.shouldDisplayImage = NO;
+            contentCell.image = nil;
+            contentCell.accessoryType = UITableViewCellAccessoryNone;
+            
+        } else if ([sectionKey isEqualToString:@"invalidCredentials2"]) {
+            UITableViewCell *tableViewCell = cell;
+            tableViewCell.textLabel.textColor = weakSelf.view.tintColor;
+            tableViewCell.textLabel.textAlignment = NSTextAlignmentCenter;
+            tableViewCell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            
+            if ([key isEqualToString:@"login"]) {
+                tableViewCell.textLabel.text = NSLocalizedString(@"Log In", nil);
+            } else if ([key isEqualToString:@"register"]) {
+                tableViewCell.textLabel.text = NSLocalizedString(@"Register", nil);
+            }
+            
         }
     };
 }
@@ -310,10 +384,27 @@
     [self.arrayDataSource recalculateWeight];
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowWithKey:(id)rowKey
+{
+    if (self.displaysInvalidCredentialsInfo && [rowKey isEqualToString:@"message"]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)rowKey
 {
     if ([rowKey isKindOfClass:[NSString class]]) {
-        if ([rowKey isEqualToString:@"lists"]) {
+        if (self.displaysInvalidCredentialsInfo) {
+            if ([rowKey isEqualToString:@"login"]) {
+                [[FAGlobalEventHandler handler] performLoginAnimated:YES showInvalidCredentialsPrompt:NO];
+            } else if ([rowKey isEqualToString:@"register"]) {
+                [[FAGlobalEventHandler handler] performRegisterAccount];
+            }
+            
+            [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
+        } else if ([rowKey isEqualToString:@"lists"]) {
             
             FAListsViewController *listsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"lists"];
             [self.navigationController pushViewController:listsVC animated:YES];

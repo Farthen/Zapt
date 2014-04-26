@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FATableViewController.h"
 @class FARefreshControlWithActivity;
-#import "FALoggedInTableViewController.h"
 
-@interface FAListsViewController : FALoggedInTableViewController <UIActionSheetDelegate>
+@interface FAListsViewController : FATableViewController <UIActionSheetDelegate>
 
 @end

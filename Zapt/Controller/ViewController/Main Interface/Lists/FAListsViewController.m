@@ -47,8 +47,6 @@
     // Do any additional setup after loading the view.
     // Add a UIRefreshControl (pull to refresh)
     
-    self.needsLoginContentName = NSLocalizedString(@"lists", nil);
-    
     self.addCustomListButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCustomListAction)];
     self.navigationItem.rightBarButtonItem = self.addCustomListButton;
     
@@ -64,8 +62,6 @@
     
     // Load all the list information to get the count
     [self refreshDataAnimated:NO];
-    
-    [super displayNeedsLoginTableViewIfNeeded];
 }
 
 - (void)addCustomListAction

@@ -71,7 +71,6 @@
 		F34D986817DB222C0033FBD7 /* FATraktConnectionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */; };
 		F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986A17DC20890033FBD7 /* FAHomeViewController.m */; };
 		F34D986F17DC22530033FBD7 /* FATraktLastActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */; };
-		F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */; };
 		F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F41E17FBBD8200A03E6A /* FAReloadControl.m */; };
 		F353F42217FBE85000A03E6A /* FAGlobalEventHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F42117FBE85000A03E6A /* FAGlobalEventHandler.m */; };
 		F353F42517FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F42417FBEABE00A03E6A /* UIStoryboard+MainStoryboard.m */; };
@@ -328,8 +327,6 @@
 		F34D986A17DC20890033FBD7 /* FAHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAHomeViewController.m; sourceTree = "<group>"; };
 		F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktLastActivity.h; sourceTree = "<group>"; };
 		F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktLastActivity.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FALoggedInTableViewController.h; sourceTree = "<group>"; };
-		F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FALoggedInTableViewController.m; sourceTree = "<group>"; };
 		F353F41D17FBBD8200A03E6A /* FAReloadControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAReloadControl.h; sourceTree = "<group>"; };
 		F353F41E17FBBD8200A03E6A /* FAReloadControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAReloadControl.m; sourceTree = "<group>"; };
 		F353F42017FBE85000A03E6A /* FAGlobalEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAGlobalEventHandler.h; sourceTree = "<group>"; };
@@ -1402,8 +1399,6 @@
 		F3EE214217F684DA00A0118E /* Generic */ = {
 			isa = PBXGroup;
 			children = (
-				F34FB72017F8D8510031549F /* FALoggedInTableViewController.h */,
-				F34FB72117F8D8510031549F /* FALoggedInTableViewController.m */,
 				F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */,
 				F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */,
 				F3A443F117A752FE00210EE9 /* FASemiModalEnabledViewController.h */,
@@ -1717,7 +1712,6 @@
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */,
 				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
-				F34FB72217F8D8510031549F /* FALoggedInTableViewController.m in Sources */,
 				F3B9C94217F96F6A004264E6 /* FATraktCheckin.m in Sources */,
 				F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */,
 				F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */,

@@ -8,9 +8,9 @@
 
 #import "FATableViewController.h"
 #import "FAArrayTableViewDelegate.h"
-#import "FALoggedInTableViewController.h"
 #import "FAViewControllerPreferredContentSizeChanged.h"
+#import "FATableViewController.h"
 
-@interface FAHomeViewController : FALoggedInTableViewController <FAArrayTableViewDelegate, FAViewControllerPreferredContentSizeChanged>
+@interface FAHomeViewController : FATableViewController <FAArrayTableViewDelegate, FAViewControllerPreferredContentSizeChanged>
 
 @end
