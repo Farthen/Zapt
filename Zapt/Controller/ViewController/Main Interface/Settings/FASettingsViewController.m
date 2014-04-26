@@ -64,13 +64,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     [self reloadState];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,10 +86,12 @@
     
     if (oldLoggedIn == YES && _loggedIn == NO) {
         [self.tableView beginUpdates];
+        
         [self.tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:1 inSection:0], [NSIndexPath indexPathForItem:1 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:0 inSection:0], [NSIndexPath indexPathForItem:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
+        
         [self.tableView endUpdates];
-    } else {
+    } else if (oldLoggedIn == NO && _loggedIn == YES) {
         [self.tableView reloadData];
     }
 }
@@ -181,7 +183,7 @@
                 cell.detailTextLabel.text = username;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
             } else if (indexPath.row == 1) {
-                cell = [tableView dequeueReusableCellWithIdentifier:BasicCellIdentifier];
+                cell = [tableView dequeueReusableCellWithIdentifier:RightDetailCellIdentifier];
                 
                 if (cell == nil) {
                     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:BasicCellIdentifier];
