@@ -22,6 +22,7 @@
 
 #import "FATrakt.h"
 #import "FAGlobalEventHandler.h"
+#import "FAGlobalSettings.h"
 
 @interface FAHomeViewController ()
 @property FAWeightedTableViewDataSource *arrayDataSource;
@@ -61,7 +62,7 @@
 {
     [super viewDidLoad];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(usernameAndPasswordValidityChanged:) name:FATraktUsernameAndPasswordValidityChangedNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(usernameAndPasswordValidityChanged:) name:FATraktUsernameAndPasswordValidityChangedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -311,7 +312,7 @@
             
         } else if ([sectionKey isEqualToString:@"invalidCredentials2"]) {
             UITableViewCell *tableViewCell = cell;
-            tableViewCell.textLabel.textColor = weakSelf.view.tintColor;
+            tableViewCell.textLabel.textColor = [FAGlobalSettings sharedInstance].tintColor;
             tableViewCell.textLabel.textAlignment = NSTextAlignmentCenter;
             tableViewCell.selectionStyle = UITableViewCellSelectionStyleDefault;
             
@@ -452,6 +453,7 @@
     [coder encodeObject:self.arrayDelegate forKey:@"arrayDelegate"];
     [coder encodeBool:self.tableViewContainsCurrentlyWatching forKey:@"tableViewContainsCurrentlyWatching"];
     [coder encodeBool:self.tableViewContainsProgress forKey:@"tableViewContainsProgress"];
+    [coder encodeBool:self.displaysInvalidCredentialsInfo forKey:@"displaysInvalidCredentialsInfo"];
 }
 
 - (void)decodeRestorableStateWithCoder:(NSCoder *)coder
@@ -460,6 +462,7 @@
     
     self.tableViewContainsCurrentlyWatching = [coder decodeBoolForKey:@"tableViewContainsCurrentlyWatching"];
     self.tableViewContainsProgress = [coder decodeBoolForKey:@"tableViewContainsProgress"];
+    self.displaysInvalidCredentialsInfo = [coder decodeBoolForKey:@"displaysInvalidCredentialsInfo"];
     
     self.arrayDelegate = [coder decodeObjectForKey:@"arrayDelegate"];
     self.arrayDelegate.tableView = self.tableView;
