@@ -156,8 +156,14 @@ static CGPoint _scrollPositions[3];
         
         [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSIndexPath *indexPath = obj;
+            NSArray *displayedSearchData = [oldSearchData searchDataForContentType:contentType];
             
-            FATraktContent *content = [oldSearchData searchDataForContentType:contentType][indexPath.row];
+            if ((NSInteger)displayedSearchData.count <= indexPath.row) {
+                // Just to be sure that we really don't access a wrong index in the array
+                return;
+            }
+            
+            FATraktContent *content = displayedSearchData[indexPath.row];
             
             NSString *posterURL = content.posterImageURL;
             
