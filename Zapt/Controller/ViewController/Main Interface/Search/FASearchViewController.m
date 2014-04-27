@@ -144,13 +144,19 @@ static CGPoint _scrollPositions[3];
 - (void)loadImagesIfNeeded
 {
     @synchronized(self) {
+        FASearchData *oldSearchData = self.searchData;
         NSArray *visibleIndexPaths = self.searchDisplayController.searchResultsTableView.indexPathsForVisibleRows;
+        
+        if (self.searchData != oldSearchData) {
+            // Prevents a race condition
+            return;
+        }
+        
+        FATraktContentType contentType = _searchScope;
         
         [visibleIndexPaths enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSIndexPath *indexPath = obj;
             
-            FATraktContentType contentType = _searchScope;
-            FASearchData *oldSearchData = self.searchData;
             FATraktContent *content = [oldSearchData searchDataForContentType:contentType][indexPath.row];
             
             NSString *posterURL = content.posterImageURL;
