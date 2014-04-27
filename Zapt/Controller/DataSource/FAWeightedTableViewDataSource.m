@@ -467,7 +467,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         
         NSMutableArray *headerTitles = [NSMutableArray array];
         
-        self.tableViewData = [sortedWeightedSections mapUsingBlock:^id(FAWeightedTableViewDataSourceSection *section, NSUInteger sectionIdx) {
+        NSArray *newTableViewData = [sortedWeightedSections mapUsingBlock:^id(FAWeightedTableViewDataSourceSection *section, NSUInteger sectionIdx) {
             
             NSMutableDictionary *newRowData = [NSMutableDictionary dictionary];
             NSMutableDictionary *filteredRows = [NSMutableDictionary dictionary];
@@ -533,9 +533,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             }];
         }];
         
-        self.headerTitles = headerTitles;
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+            // Do this in the main thread to prevent issues with the table view not being done loading data
+            self.tableViewData = newTableViewData;
+            self.headerTitles = headerTitles;
+            
             [self interpolateDataChange];
             dispatch_semaphore_signal(_tableViewDataSemaphore);
         });
