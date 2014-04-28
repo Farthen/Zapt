@@ -97,7 +97,6 @@
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
 		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
-		F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
 		F3938E5B16F47CBC00A19FD1 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
 		F394EE29184ECFBF007F4BA1 /* FAImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE28184ECFBF007F4BA1 /* FAImageTableViewCell.m */; };
@@ -171,6 +170,7 @@
 		F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DEDC17185D7874006F5833 /* MessageUI.framework */; };
 		F3DEDC1B185D8811006F5833 /* FARecommendationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */; };
 		F3DEDC1E185EE6FC006F5833 /* FATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */; };
+		F3E01523190E818300F089A3 /* SFHFKeychainUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E01522190E818300F089A3 /* SFHFKeychainUtils.m */; };
 		F3E2208516E98BFE008C3AFA /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
 		F3E3668818B1121100D985E6 /* NSArray+FunctionalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E3668718B1121100D985E6 /* NSArray+FunctionalTests.m */; };
 		F3E37B8A17CA63CD005C37F5 /* FATraktDatatypeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E37B8917CA63CD005C37F5 /* FATraktDatatypeTest.m */; };
@@ -185,7 +185,6 @@
 		F3F35E82169B655600A925B4 /* FASearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E81169B655600A925B4 /* FASearchBar.m */; };
 		F3F35E85169B6B7C00A925B4 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
 		F3F35E88169B6D7800A925B4 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
-		F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */; };
 		F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */; };
 		F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */; };
 		F3F9E310162831C30077CBAA /* FATraktShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30F162831C30077CBAA /* FATraktShow.m */; };
@@ -379,8 +378,6 @@
 		F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAListDetailViewController.m; sourceTree = "<group>"; };
 		F38BD69A16B770E300267137 /* FATitleLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATitleLabel.h; sourceTree = "<group>"; };
 		F38BD69B16B770E300267137 /* FATitleLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATitleLabel.m; sourceTree = "<group>"; };
-		F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
-		F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		F390191A16513819006C8E5B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F3938E5916F47CBC00A19FD1 /* UIView+Animations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Animations.h"; sourceTree = "<group>"; };
 		F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Animations.m"; sourceTree = "<group>"; };
@@ -522,6 +519,8 @@
 		F3DEDC1A185D8811006F5833 /* FARecommendationsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FARecommendationsListViewController.m; sourceTree = "<group>"; };
 		F3DEDC1C185EE6FC006F5833 /* FATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATextViewController.h; sourceTree = "<group>"; };
 		F3DEDC1D185EE6FC006F5833 /* FATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATextViewController.m; sourceTree = "<group>"; };
+		F3E01521190E818300F089A3 /* SFHFKeychainUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFHFKeychainUtils.h; sourceTree = "<group>"; };
+		F3E01522190E818300F089A3 /* SFHFKeychainUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFHFKeychainUtils.m; sourceTree = "<group>"; };
 		F3E2208316E98BFE008C3AFA /* NSObject+PerformBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+PerformBlock.h"; sourceTree = "<group>"; };
 		F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+PerformBlock.m"; sourceTree = "<group>"; };
 		F3E3668718B1121100D985E6 /* NSArray+FunctionalTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+FunctionalTests.m"; path = "Categories/NSArray+FunctionalTests.m"; sourceTree = "<group>"; };
@@ -549,8 +548,6 @@
 		F3F35E84169B6B7C00A925B4 /* FATraktContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktContent.m; sourceTree = "<group>"; };
 		F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktWatchableBaseItem.h; sourceTree = "<group>"; };
 		F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktWatchableBaseItem.m; sourceTree = "<group>"; };
-		F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchBarWithActivity.h; sourceTree = "<group>"; };
-		F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchBarWithActivity.m; sourceTree = "<group>"; };
 		F3F8C5F9162705F500D6BD4C /* FAContentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAContentTableViewCell.h; sourceTree = "<group>"; };
 		F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAContentTableViewCell.m; sourceTree = "<group>"; };
 		F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAZaptTestSearch.m; sourceTree = "<group>"; };
@@ -1190,8 +1187,6 @@
 			isa = PBXGroup;
 			children = (
 				F3C84B731628DF52006CBFEF /* FAUIElementWithActivity.h */,
-				F3F8C5F11626F33E00D6BD4C /* FASearchBarWithActivity.h */,
-				F3F8C5F21626F33E00D6BD4C /* FASearchBarWithActivity.m */,
 				F31EFD02179DB6A300789A28 /* FARefreshControlWithActivity.h */,
 				F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */,
 				F3B74B2916E6D83500230C43 /* FAProgressHUD.h */,
@@ -1266,8 +1261,8 @@
 		F3C84B711628DD12006CBFEF /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				F390191716512EB8006C8E5B /* SFHFKeychainUtils.h */,
-				F390191816512EB8006C8E5B /* SFHFKeychainUtils.m */,
+				F3E01521190E818300F089A3 /* SFHFKeychainUtils.h */,
+				F3E01522190E818300F089A3 /* SFHFKeychainUtils.m */,
 				F3309657162743D7000BD107 /* FAPropertyUtil.h */,
 				F3309658162743D7000BD107 /* FAPropertyUtil.m */,
 				F33CC36316F093D200B7D443 /* FAPropertyInfo.h */,
@@ -1684,6 +1679,7 @@
 				F3A47BA0179FD1220022B251 /* UIImage+ImageEffects.m in Sources */,
 				F30CAFCC179D93E0002E7D3C /* FATraktCachedDatatype.m in Sources */,
 				B667530F15F12FBE00A8D76D /* FAAppDelegate.m in Sources */,
+				F3E01523190E818300F089A3 /* SFHFKeychainUtils.m in Sources */,
 				F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */,
 				F3C925B818FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m in Sources */,
 				F39AAEE8190AD47B004C3DB0 /* FCActionSheet.m in Sources */,
@@ -1711,7 +1707,6 @@
 				F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */,
 				F30E52BF1799076A006C5091 /* FATraktShowProgress.m in Sources */,
 				F3B9C94B17FA6470004264E6 /* RNTimer.m in Sources */,
-				F3F8C5F31626F33E00D6BD4C /* FASearchBarWithActivity.m in Sources */,
 				F3B9C94217F96F6A004264E6 /* FATraktCheckin.m in Sources */,
 				F3A2F9EC180949BF00556EEA /* FASimpleControl.m in Sources */,
 				F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */,
@@ -1747,7 +1742,6 @@
 				F3544603163084FC007D0AC5 /* FATraktImageList.m in Sources */,
 				F3A2F9EF1809531600556EEA /* FAFixedHeightLabel.m in Sources */,
 				F3544609163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m in Sources */,
-				F390191916512EB8006C8E5B /* SFHFKeychainUtils.m in Sources */,
 				F3EE213617F4FF5E00A0118E /* UIImage+ImageWithColor.m in Sources */,
 				F3AAC0C318F3456A00EF8876 /* FASegmentedTableViewCell.m in Sources */,
 				F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */,

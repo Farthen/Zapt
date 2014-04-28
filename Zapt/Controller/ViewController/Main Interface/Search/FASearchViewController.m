@@ -14,7 +14,6 @@
 #import "FANavigationController.h"
 
 #import "FASearchData.h"
-#import "FASearchBarWithActivity.h"
 #import "FAContentTableViewCell.h"
 
 static CGPoint _scrollPositions[3];
@@ -55,7 +54,6 @@ static CGPoint _scrollPositions[3];
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[FAActivityDispatch sharedInstance] registerForActivityName:FATraktActivityNotificationSearch observer:self.searchBar];
     
     // Add constraint to correctly position the UISearchBar
     //NSLayoutConstraint *searchBarConstraint = [NSLayoutConstraint constraintWithItem:self.searchBar attribute:NSLayoutAttributeBaseline relatedBy:NSLayoutRelationEqual toItem:self.navigationController.navigationBar attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
@@ -80,7 +78,6 @@ static CGPoint _scrollPositions[3];
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[FAActivityDispatch sharedInstance] unregister:self.searchBar];
     [self cancelAllSearchRequests];
 }
 

@@ -78,6 +78,12 @@
 #define COCOAPODS_VERSION_MINOR_NSDate_Extensions 0
 #define COCOAPODS_VERSION_PATCH_NSDate_Extensions 1
 
+// PDKeychainBindingsController
+#define COCOAPODS_POD_AVAILABLE_PDKeychainBindingsController
+#define COCOAPODS_VERSION_MAJOR_PDKeychainBindingsController 0
+#define COCOAPODS_VERSION_MINOR_PDKeychainBindingsController 0
+#define COCOAPODS_VERSION_PATCH_PDKeychainBindingsController 1
+
 // TMCache
 #define COCOAPODS_POD_AVAILABLE_TMCache
 #define COCOAPODS_VERSION_MAJOR_TMCache 1

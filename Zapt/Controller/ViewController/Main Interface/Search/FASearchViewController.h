@@ -10,13 +10,12 @@
 #import "FAViewControllerPreferredContentSizeChanged.h"
 @class FASearchData;
 @class FATableViewLoadingView;
-@class FASearchBarWithActivity;
 @class FANavigationController;
 
 @interface FASearchViewController : UIViewController <UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, FAViewControllerPreferredContentSizeChanged>
 
 @property (retain, atomic) FASearchData *searchData;
-@property (retain) IBOutlet FASearchBarWithActivity *searchBar;
+@property (retain) IBOutlet UISearchBar *searchBar;
 //@property FANavigationController *navigationController;
 
 - (IBAction)actionDoneButton:(id)sender;
