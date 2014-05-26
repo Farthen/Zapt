@@ -473,6 +473,10 @@
         }
     }
     
+    if (indexPaths.count == 0) {
+        return;
+    }
+    
     [self.tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
 }
 

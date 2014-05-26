@@ -426,7 +426,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 - (void)setTableView:(UITableView *)tableView
 {
     [super setTableView:tableView];
-    [self reloadData];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -561,6 +560,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
             section.currentSectionIndex = sectionIdx;
             
+            
+            // Update last weight
+            section.weight = section.weight;
+            
             if (section.lastSectionIndex == -1) {
                 [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:section.nextAnimationType]];
                 section.nextAnimationType = UITableViewRowAnimationFade;
@@ -576,9 +579,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 section.dirty = NO;
             }
             
-            // Update last weight
-            section.weight = section.weight;
-            
             id title = section.headerTitle;
             
             if (!title) {
@@ -593,6 +593,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
                 
                 row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
+                
+                
+                // Update last weight
+                row.weight = row.weight;
                 
                 if (section.lastSectionIndex == -1) {
                     // Section will be inserted so no new row actions should happen
@@ -611,9 +615,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
                     row.dirty = NO;
                 }
-                
-                // Update last weight
-                row.weight = row.weight;
                 
                 return row.key;
             }];
