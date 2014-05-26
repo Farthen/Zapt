@@ -354,7 +354,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         self.weightedSections = [coder decodeObjectForKey:@"weightedSections"];
         self.weightedSectionData = [coder decodeObjectForKey:@"weightedSectionData"];
         self.sectionsForIndexes = [coder decodeObjectForKey:@"sectionsForIndexes"];
-        self.tableViewActions = [NSMutableArray array];
     }
     
     return self;
@@ -366,7 +365,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [coder encodeObject:self.weightedSections forKey:@"weightedSections"];
     [coder encodeObject:self.weightedSectionData forKey:@"weightedSectionData"];
     [coder encodeObject:self.sectionsForIndexes forKey:@"sectionsForIndexes"];
-    [coder encodeObject:self.tableViewActions forKey:@"tableViewActions"];
 }
 
 + (void)initialize
