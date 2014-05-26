@@ -116,11 +116,7 @@
     if (_reloadWhenShowing) {
         if (_isWatchlist) {
             _displayedList.items = [_displayedList.items filterUsingBlock:^BOOL(FATraktListItem *item, NSUInteger idx, BOOL *stop) {
-                if (![item.content.in_watchlist boolValue]) {
-                    return NO;
-                }
-                
-                return YES;
+                return [item.content.in_watchlist boolValue];
             }];
             
             [self reloadSectionIndexTitleData];
