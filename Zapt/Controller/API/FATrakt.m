@@ -1415,7 +1415,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)detailsForCustomList:(FATraktList *)list callback:(void (^)(FATraktList *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    if (![self.connection usernameSetOrDieAndError:error]) {
+    if (![self.connection usernameSetOrDieAndError:error] || !list.slug) {
         return nil;
     }
     

@@ -134,22 +134,30 @@
             [self loadWatchlistOfType:_contentType];
         } else if (_isLibrary) {
             FATraktList *collection = _loadedLibrary[FATraktLibraryTypeCollection];
-            collection.items = [collection.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                FATraktListItem *item = obj;
-                return [item.content.in_collection boolValue];
-            }];
+            
+            if (![collection isKindOfClass:[NSNull class]]) {
+                collection.items = [collection.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                    FATraktListItem *item = obj;
+                    return [item.content.in_collection boolValue];
+                }];
+            }
+            
             
             FATraktList *watchedList = _loadedLibrary[FATraktLibraryTypeWatched];
-            watchedList.items = [watchedList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                FATraktListItem *item = obj;
-                return item.content.isWatched;
-            }];
+            if (![watchedList isKindOfClass:[NSNull class]]) {
+                watchedList.items = [watchedList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                    FATraktListItem *item = obj;
+                    return item.content.isWatched;
+                }];
+            }
             
             FATraktList *allList = _loadedLibrary[FATraktLibraryTypeAll];
-            allList.items = [allList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
-                FATraktListItem *item = obj;
-                return item.content.isWatched || [item.content.in_collection boolValue];
-            }];
+            if (![allList isKindOfClass:[NSNull class]]) {
+                allList.items = [allList.items filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+                    FATraktListItem *item = obj;
+                    return item.content.isWatched || [item.content.in_collection boolValue];
+                }];
+            }
             
             [self reloadSectionIndexTitleData];
             [self.tableView reloadData];
@@ -585,6 +593,10 @@
         FATraktLibraryType libraryType = searchBar.selectedScopeButtonIndex;
         loadedList = [_loadedLibrary objectAtIndex:(NSUInteger)libraryType];
         _displayedLibraryType = libraryType;
+        
+        if ([loadedList isKindOfClass:[NSNull class]]) {
+            return;
+        }
     }
     
     FATraktList *displayedList = [loadedList copy];
