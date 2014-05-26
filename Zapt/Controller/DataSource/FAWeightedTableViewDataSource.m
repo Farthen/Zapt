@@ -33,6 +33,7 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 @property NSString *headerTitle;
 @property (readonly) NSInteger lastSectionIndex;
 @property NSInteger currentSectionIndex;
+@property (nonatomic) UITableViewRowAnimation nextAnimationType;
 
 @property NSMutableDictionary *rowsForIndexes;
 
@@ -63,6 +64,8 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
         self.key = [coder decodeObjectForKey:@"key"];
         self.weight = [coder decodeIntegerForKey:@"weight"];
         self.headerTitle = [coder decodeObjectForKey:@"headerTitle"];
+        self.nextAnimationType = UITableViewRowAnimationFade;
+        
         _lastSectionIndex = [coder decodeIntegerForKey:@"lastSectionIndex"];
         _currentSectionIndex = [coder decodeIntegerForKey:@"currentSectionIndex"];
         
@@ -111,6 +114,8 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
         self.weight = weight;
         self.hidden = NO;
         self.rowsForIndexes = [NSMutableDictionary dictionary];
+        self.nextAnimationType = UITableViewRowAnimationFade;
+        
         _currentSectionIndex = -1;
         _lastSectionIndex = -1;
     }
@@ -146,6 +151,7 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 @property BOOL dirty;
 @property (readonly) NSIndexPath *lastIndexPath;
 @property NSIndexPath *currentIndexPath;
+@property (nonatomic) UITableViewRowAnimation nextAnimationType;
 
 - (instancetype)initWithKey:(id)obj weight:(NSInteger)weight;
 + (instancetype)rowWithKey:(id <NSCopying, NSCoding>)obj weight:(NSInteger)weight;
@@ -172,6 +178,7 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
         self.hidden = [coder decodeBoolForKey:@"hidden"];
         self.shouldDelete = [coder decodeBoolForKey:@"shouldDelete"];
         self.dirty = [coder decodeBoolForKey:@"dirty"];
+        self.nextAnimationType = UITableViewRowAnimationFade;
         _lastIndexPath = [coder decodeObjectForKey:@"lastIndexPath"];
         _currentIndexPath = [coder decodeObjectForKey:@"currentIndexPath"];
     }
@@ -208,6 +215,7 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
         self.weight = weight;
         self.key = obj;
         self.hidden = NO;
+        self.nextAnimationType = UITableViewRowAnimationFade;
     }
     
     return self;
@@ -377,6 +385,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     });
 }
 
+- (void)setTableView:(UITableView *)tableView
+{
+    [super setTableView:tableView];
+    [self reloadData];
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSArray *sectionArray = self.tableViewData[indexPath.section];
@@ -414,6 +428,11 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
 - (void)recalculateWeight
 {
+    [self recalculateWeight:YES];
+}
+
+- (void)recalculateWeight:(BOOL)interpolate
+{
     // Dispatch this on an async queue to wait for the semaphore. This is needed
     // because otherwise the dispatch sync to the main thread would horribly fail
     dispatch_async(_weightedSectionsQueue, ^{
@@ -438,8 +457,11 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         
         [self.weightedSections enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceSection *section, BOOL *stop) {
             
-            if ((section.shouldDelete || section.hidden) && section.currentSectionIndex != -1) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionDeleteSection animation:UITableViewRowAnimationFade]];
+            if ((section.shouldDelete || section.hidden)) {
+                if (section.currentSectionIndex != -1) {
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionDeleteSection animation:section.nextAnimationType]];
+                    section.nextAnimationType = UITableViewRowAnimationFade;
+                }
                 
                 section.currentSectionIndex = -1;
             }
@@ -473,8 +495,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             
             [section.rowData enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceRow *row, BOOL *stop) {
                 
-                if ((row.shouldDelete || row.hidden) && row.currentIndexPath) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionDeleteRow animation:UITableViewRowAnimationFade]];
+                if (row.shouldDelete || row.hidden) {
+                    if (row.currentIndexPath) {
+                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionDeleteRow animation:row.nextAnimationType]];
+                        row.nextAnimationType = UITableViewRowAnimationFade;
+                    }
+                    
                     row.currentIndexPath = nil;
                 }
                 
@@ -498,11 +524,17 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             section.currentSectionIndex = sectionIdx;
             
             if (section.lastSectionIndex == -1) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:UITableViewRowAnimationFade]];
+                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:section.nextAnimationType]];
+                section.nextAnimationType = UITableViewRowAnimationFade;
+
             } else if (section.lastSectionIndex != (NSInteger)sectionIdx) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:UITableViewRowAnimationFade]];
+                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:section.nextAnimationType]];
+                section.nextAnimationType = UITableViewRowAnimationFade;
+
             } else if (section.dirty) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionReloadSection animation:UITableViewRowAnimationFade]];
+                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionReloadSection animation:section.nextAnimationType]];
+                section.nextAnimationType = UITableViewRowAnimationFade;
+
                 section.dirty = NO;
             }
             
@@ -519,12 +551,20 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 
                 row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
                 
-                if (!row.lastIndexPath) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionInsertRow animation:UITableViewRowAnimationFade]];
+                if (section.lastSectionIndex == -1) {
+                    // Section will be inserted so no new row actions should happen
+                } else if (!row.lastIndexPath) {
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionInsertRow animation:row.nextAnimationType]];
+                    row.nextAnimationType = UITableViewRowAnimationFade;
+
                 } else if (![row.lastIndexPath isEqual:row.currentIndexPath]) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:UITableViewRowAnimationFade]];
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:row.nextAnimationType]];
+                    row.nextAnimationType = UITableViewRowAnimationFade;
+
                 } else if (row.dirty) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionReloadRow animation:UITableViewRowAnimationFade]];
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionReloadRow animation:row.nextAnimationType]];
+                    row.nextAnimationType = UITableViewRowAnimationFade;
+
                     row.dirty = NO;
                 }
                 
@@ -538,7 +578,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             self.tableViewData = newTableViewData;
             self.headerTitles = headerTitles;
             
-            [self interpolateDataChange];
+            if (interpolate) {
+                [self interpolateDataChange];
+            } else {
+                [self.tableView reloadData];
+            }
+            
             dispatch_semaphore_signal(_tableViewDataSemaphore);
         });
     });
@@ -739,6 +784,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     dispatch_async(_weightedSectionsQueue, ^{
         FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
         section.hidden = YES;
+        section.nextAnimationType = animation;
     });
 }
 
@@ -756,6 +802,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     dispatch_async(_weightedSectionsQueue, ^{
         FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
         section.hidden = NO;
+        section.nextAnimationType = animation;
     });
 }
 
