@@ -115,21 +115,16 @@
     
     if (_reloadWhenShowing) {
         if (_isWatchlist) {
-            NSUInteger count = _displayedList.items.count;
-            
-            for (NSUInteger i = 0; i < count; i++) {
-                FATraktListItem *item = _displayedList.items[i];
-                
+            _displayedList.items = [_displayedList.items filterUsingBlock:^BOOL(FATraktListItem *item, NSUInteger idx, BOOL *stop) {
                 if (![item.content.in_watchlist boolValue]) {
-                    NSMutableArray *newList = [NSMutableArray arrayWithArray:_displayedList.items];
-                    [newList removeObjectAtIndex:i];
-                    _displayedList.items = newList;
-                    
-                    [self reloadSectionIndexTitleData];
-                    
-                    [self.tableView reloadData];
+                    return NO;
                 }
-            }
+                
+                return YES;
+            }];
+            
+            [self reloadSectionIndexTitleData];
+            [self.tableView reloadData];
             
             [self loadWatchlistOfType:_contentType];
         } else if (_isLibrary) {
