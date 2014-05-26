@@ -30,6 +30,7 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 
 @property id <NSCopying, NSCoding> key;
 @property NSInteger weight;
+@property (nonatomic, readonly) NSInteger lastWeight;
 @property NSString *headerTitle;
 @property (readonly) NSInteger lastSectionIndex;
 @property NSInteger currentSectionIndex;
@@ -45,6 +46,8 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 @implementation FAWeightedTableViewDataSourceSection {
     NSInteger _currentSectionIndex;
     NSInteger _lastSectionIndex;
+    NSInteger _weight;
+    NSInteger _lastWeight;
 }
 
 - (NSString *)description
@@ -140,16 +143,33 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
     return _currentSectionIndex;
 }
 
+- (void)setWeight:(NSInteger)weight
+{
+    _lastWeight = _weight;
+    _weight = weight;
+}
+
+- (NSInteger)weight
+{
+    return _weight;
+}
+
+- (NSInteger)lastWeight
+{
+    return _lastWeight;
+}
+
 @end
 
 @interface FAWeightedTableViewDataSourceRow : NSObject <NSCoding, NSCopying>
 
 @property id <NSCoding, NSCopying> key;
 @property NSInteger weight;
+@property (readonly, nonatomic) NSInteger lastWeight;
 @property BOOL hidden;
 @property BOOL shouldDelete;
 @property BOOL dirty;
-@property (readonly) NSIndexPath *lastIndexPath;
+@property (readonly, nonatomic) NSIndexPath *lastIndexPath;
 @property NSIndexPath *currentIndexPath;
 @property (nonatomic) UITableViewRowAnimation nextAnimationType;
 
@@ -161,6 +181,8 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 @implementation FAWeightedTableViewDataSourceRow {
     NSIndexPath *_lastIndexPath;
     NSIndexPath *_currentIndexPath;
+    NSInteger _weight;
+    NSInteger _lastWeight;
 }
 
 - (NSString *)description
@@ -236,6 +258,22 @@ static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 - (NSIndexPath *)currentIndexPath
 {
     return _currentIndexPath;
+}
+
+- (void)setWeight:(NSInteger)weight
+{
+    _lastWeight = _weight;
+    _weight = weight;
+}
+
+- (NSInteger)weight
+{
+    return _weight;
+}
+
+- (NSInteger)lastWeight
+{
+    return _lastWeight;
 }
 
 @end
@@ -527,7 +565,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:section.nextAnimationType]];
                 section.nextAnimationType = UITableViewRowAnimationFade;
 
-            } else if (section.lastSectionIndex != (NSInteger)sectionIdx) {
+            } else if (section.lastWeight != section.weight) {
                 [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:section.nextAnimationType]];
                 section.nextAnimationType = UITableViewRowAnimationFade;
 
@@ -538,6 +576,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 section.dirty = NO;
             }
             
+            // Update last weight
+            section.weight = section.weight;
+            
             id title = section.headerTitle;
             
             if (!title) {
@@ -545,6 +586,8 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             }
             
             [headerTitles addObject:title];
+            
+            __block int insertedRowCount = 0;
             
             return [sortedWeightedRows mapUsingBlock:^id(FAWeightedTableViewDataSourceRow *row, NSUInteger rowIdx) {
                 section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
@@ -556,8 +599,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
                 } else if (!row.lastIndexPath) {
                     [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionInsertRow animation:row.nextAnimationType]];
                     row.nextAnimationType = UITableViewRowAnimationFade;
+                    insertedRowCount++;
 
-                } else if (![row.lastIndexPath isEqual:row.currentIndexPath]) {
+                } else if (row.lastWeight != row.weight) {
                     [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:row.nextAnimationType]];
                     row.nextAnimationType = UITableViewRowAnimationFade;
 
@@ -567,6 +611,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
                     row.dirty = NO;
                 }
+                
+                // Update last weight
+                row.weight = row.weight;
                 
                 return row.key;
             }];
@@ -624,7 +671,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             [self.tableView moveRowAtIndexPath:row.lastIndexPath toIndexPath:row.currentIndexPath];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionReloadRow) {
-            [self.tableView reloadRowsAtIndexPaths:@[row.currentIndexPath] withRowAnimation:animation];
+            [self.tableView reloadRowsAtIndexPaths:@[row.lastIndexPath] withRowAnimation:animation];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionInsertSection) {
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
@@ -669,9 +716,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             for (id rowKey in section.rowData) {
                 FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
                 
-                if (row.hidden) {
-                    [self showRow:rowKey inSection:section.key];
-                }
+                row.hidden = NO;
             }
         }
     });
@@ -681,7 +726,15 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 {
     dispatch_async(_weightedSectionsQueue, ^{
         for (id sectionKey in self.weightedSections) {
-            [self clearFiltersForSection:sectionKey];
+            FAWeightedTableViewDataSourceSection *section = self.weightedSections[sectionKey];
+            
+            if (!section.shouldDelete) {
+                for (id rowKey in section.rowData) {
+                    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+                    
+                    row.hidden = NO;
+                }
+            }
         }
     });
 }
@@ -700,11 +753,9 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             
             if (!section.shouldDelete) {
                 for (id rowKey in section.rowData) {
-                    if (filterBlock(rowKey, &stop)) {
-                        [self showRow:rowKey inSection:sectionKey];
-                    } else {
-                        [self hideRow:rowKey inSection:sectionKey];
-                    }
+                    FAWeightedTableViewDataSourceRow *row = section.rowData[rowKey];
+                    
+                    row.hidden = !filterBlock(rowKey, &stop);
                     
                     if (stop) {
                         break;
