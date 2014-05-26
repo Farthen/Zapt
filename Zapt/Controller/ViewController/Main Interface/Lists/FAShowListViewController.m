@@ -216,7 +216,6 @@
 {
     [super decodeRestorableStateWithCoder:coder];
     
-    
     self.arrayDelegate = [coder decodeObjectForKey:@"arrayDelegate"];
     self.arrayDelegate.tableView = self.tableView;
     self.arrayDelegate.delegate = self;
@@ -228,6 +227,7 @@
     [self setUpTableView];
     
     [self.tableView reloadData];
+    [self reloadData:NO];
 }
 
 @end
