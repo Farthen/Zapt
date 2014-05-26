@@ -52,6 +52,7 @@
 // NSArray
 #import "NSArray+Sorting.h"
 #import "NSArray+Functional.m"
+#import "NSArray+Misc.h"
 
 // NSDictionary
 #import "NSDictionary+Functional.m"

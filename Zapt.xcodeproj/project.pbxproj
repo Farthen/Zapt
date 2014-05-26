@@ -93,6 +93,7 @@
 		F37E487D184D647C00D66A32 /* NSString+UUIDString.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487C184D647C00D66A32 /* NSString+UUIDString.m */; };
 		F37E4880184D75B600D66A32 /* FAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487F184D75B600D66A32 /* FAViewController.m */; };
 		F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4882184D780E00D66A32 /* FATableViewController.m */; };
+		F38137401933A43B00459982 /* NSArray+Misc.m in Sources */ = {isa = PBXBuildFile; fileRef = F381373F1933A43B00459982 /* NSArray+Misc.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F386984F16DA75C600FA3F2E /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
@@ -370,6 +371,8 @@
 		F37E487F184D75B600D66A32 /* FAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAViewController.m; sourceTree = "<group>"; };
 		F37E4881184D780E00D66A32 /* FATableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATableViewController.h; sourceTree = "<group>"; };
 		F37E4882184D780E00D66A32 /* FATableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATableViewController.m; sourceTree = "<group>"; };
+		F381373E1933A43B00459982 /* NSArray+Misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Misc.h"; sourceTree = "<group>"; };
+		F381373F1933A43B00459982 /* NSArray+Misc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Misc.m"; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
@@ -757,6 +760,8 @@
 				F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */,
 				F394EE39184F30DB007F4BA1 /* NSArray+Functional.h */,
 				F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */,
+				F381373E1933A43B00459982 /* NSArray+Misc.h */,
+				F381373F1933A43B00459982 /* NSArray+Misc.m */,
 			);
 			path = NSArray;
 			sourceTree = "<group>";
@@ -1797,6 +1802,7 @@
 				F33CC36516F093D200B7D443 /* FAPropertyInfo.m in Sources */,
 				F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */,
 				F3AAC0C618F379A700EF8876 /* FAEpisodeNumberView.m in Sources */,
+				F38137401933A43B00459982 /* NSArray+Misc.m in Sources */,
 				F3CAEEEA1900A90A005EA8E2 /* FACalendarTableViewController.m in Sources */,
 				F394EE3E184F4301007F4BA1 /* NSDictionary+Functional.m in Sources */,
 				F3CAC39416F2C53600CCEE37 /* FALogFormatter.m in Sources */,

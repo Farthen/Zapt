@@ -189,7 +189,8 @@
         for (FATraktShow *show in result) {
             [[FATrakt sharedInstance] loadImageFromURL:show.images.poster withWidth:100 callback:^(UIImage *image) {
                 [self.showImages setObject:image forKey:show.cacheKey];
-                [self.weightedDataSource reloadRowsWithKey:show.cacheKey];
+                FAContentTableViewCell *cell = [self.weightedDataSource cellForRowWithKey:show.cacheKey];
+                cell.image = image;
             } onError:nil];
         }
         

@@ -510,17 +510,12 @@
 
 - (NSMutableArray *)headerTitles
 {
-    if (!_headerTitles || _headerTitles.count != self.tableViewData.count) {
+    if (!_headerTitles) {
         _headerTitles = [NSMutableArray array];
-        
-        for (NSUInteger i = 0; i <= self.tableViewData.count; i++) {
-            [_headerTitles addObject:[NSNull null]];
-        }
-        
-        for (NSUInteger i = self.tableViewData.count - 1; i <= _headerTitles.count - 1; i++) {
-            [_headerTitles removeObjectAtIndex:i];
-        }
     }
+    
+    [_headerTitles trimArrayToCount:self.tableViewData.count];
+    [_headerTitles fillArrayToCount:self.tableViewData.count withObject:[NSNull null]];
     
     return _headerTitles;
 }
@@ -532,17 +527,12 @@
 
 - (NSMutableArray *)footerTitles
 {
-    if (!_footerTitles || _footerTitles.count != self.tableViewData.count) {
+    if (!_footerTitles) {
         _footerTitles = [NSMutableArray array];
-        
-        for (NSUInteger i = 0; i <= self.tableViewData.count; i++) {
-            [_footerTitles addObject:[NSNull null]];
-        }
-        
-        for (NSUInteger i = self.tableViewData.count - 1; i <= _footerTitles.count - 1; i++) {
-            [_footerTitles removeObjectAtIndex:i];
-        }
     }
+    
+    [_footerTitles trimArrayToCount:self.tableViewData.count];
+    [_footerTitles fillArrayToCount:self.tableViewData.count withObject:[NSNull null]];
     
     return _footerTitles;
 }
