@@ -354,6 +354,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
         self.weightedSections = [coder decodeObjectForKey:@"weightedSections"];
         self.weightedSectionData = [coder decodeObjectForKey:@"weightedSectionData"];
         self.sectionsForIndexes = [coder decodeObjectForKey:@"sectionsForIndexes"];
+        self.tableViewActions = [NSMutableArray array];
     }
     
     return self;
