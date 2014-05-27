@@ -144,38 +144,36 @@
         if (animated) [self.refreshControlWithActivity startActivityWithCount:2];
         
         [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (content) {
-                    if (!self.tableViewContainsCurrentlyWatching) {
-                        self.tableViewContainsCurrentlyWatching = YES;
-                        
-                        [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
-                        [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
-                        [self.arrayDataSource recalculateWeight];
-                        
-                        NSString *contentCacheKey = content.cacheKey;
-                        
-                        if (![content posterImageWithWidth:42]) {
-                            [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
-                                FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
-                                
-                                if (cell) {
-                                    cell.image = image;
-                                }
-                            } onError:nil];
-                        }
-                    }
-                } else {
-                    if (self.tableViewContainsCurrentlyWatching) {
-                        self.tableViewContainsCurrentlyWatching = NO;
-                        
-                        [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
-                        [self.arrayDataSource recalculateWeight];
+            if (content) {
+                if (!self.tableViewContainsCurrentlyWatching) {
+                    self.tableViewContainsCurrentlyWatching = YES;
+                    
+                    [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
+                    [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
+                    [self.arrayDataSource recalculateWeight];
+                    
+                    NSString *contentCacheKey = content.cacheKey;
+                    
+                    if (![content posterImageWithWidth:42]) {
+                        [[FATrakt sharedInstance] loadImageFromURL:content.posterImageURL withWidth:42 callback:^(UIImage *image) {
+                            FAContentTableViewCell *cell = [self.arrayDataSource cellForRowWithKey:contentCacheKey];
+                            
+                            if (cell) {
+                                cell.image = image;
+                            }
+                        } onError:nil];
                     }
                 }
-                
-                if (animated) [self.refreshControlWithActivity finishActivity];
-            });
+            } else {
+                if (self.tableViewContainsCurrentlyWatching) {
+                    self.tableViewContainsCurrentlyWatching = NO;
+                    
+                    [self.arrayDataSource removeSectionForKey:@"currentlyWatching"];
+                    [self.arrayDataSource recalculateWeight];
+                }
+            }
+            
+            if (animated) [self.refreshControlWithActivity finishActivity];
         } onError:nil];
         
         [[FATrakt sharedInstance] watchedProgressForAllShowsCallback:^(NSArray *result) {
@@ -343,9 +341,9 @@
     if (self.showsWithProgress.count > 0) {
         if (!self.tableViewContainsProgress) {
             self.tableViewContainsProgress = YES;
-            
-            [self.arrayDataSource createSectionForKey:sectionName withWeight:2 headerTitle:NSLocalizedString(@"Recent Shows", nil)];
         }
+        
+        [self.arrayDataSource createSectionForKey:sectionName withWeight:2 headerTitle:NSLocalizedString(@"Recent Shows", nil)];
         
         NSArray *shows = [self.showsWithProgress filterUsingBlock:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             if (idx >= 5) {
