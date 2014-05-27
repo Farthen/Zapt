@@ -982,6 +982,13 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     [content commitToCache];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
+        content.rating = [[FATraktRating alloc] init];
+        content.rating.simpleRating = rating;
+        content.rating.advancedRating = rating;
+        
+        [content updateTimestamp];
+        
         FATraktCallbackCall(callback());
     } onError:^(FATraktConnectionResponse *connectionError) {
         content.rating = oldRating;
@@ -1286,7 +1293,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     NSDictionary *payload = [self postDataContentTypeDictForContent:content multiple:YES containsType:NO];
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
         content.in_watchlist = [NSNumber numberWithBool:add];
+        [content updateTimestamp];
+        
         FATraktCallbackCall(callback());
     } onError:error];
 }
@@ -1358,7 +1368,10 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
     }
     
     return [self.connection postAPI:api payload:payload authenticated:YES withActivityName:FATraktActivityNotificationDefault onSuccess:^(FATraktConnectionResponse *response) {
+        
         content.in_collection = [NSNumber numberWithBool:add];
+        [content updateTimestamp];
+        
         FATraktCallbackCall(callback());
     } onError:error];
 }

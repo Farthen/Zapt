@@ -241,7 +241,7 @@
         
         if (indexPath.row == 0) {
             // Watchlist add/remove button
-            if (_currentContent.in_watchlist) {
+            if ([_currentContent.in_watchlist boolValue]) {
                 [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from watchlist", nil)];
                 [[FATrakt sharedInstance] removeFromWatchlist:_currentContent callback:^(void) {
                     [hud showProgressHUDSuccess];
