@@ -32,6 +32,7 @@
 @property BOOL tableViewContainsProgress;
 
 @property NSArray *showsWithProgress;
+@property (nonatomic) FATraktContent *currentlyWatchingContent;
 
 @property (nonatomic) BOOL initialDataFetchDone;
 
@@ -145,10 +146,11 @@
         
         [[FATrakt sharedInstance] currentlyWatchingContentCallback:^(FATraktContent *content) {
             if (content) {
-                if (!self.tableViewContainsCurrentlyWatching) {
+                if (!self.tableViewContainsCurrentlyWatching || ![self.currentlyWatchingContent isEqual:content]) {
                     self.tableViewContainsCurrentlyWatching = YES;
                     
                     [self.arrayDataSource createSectionForKey:@"currentlyWatching" withWeight:0 headerTitle:NSLocalizedString(@"Currently Watching", nil)];
+                    [self.arrayDataSource clearSection:@"currentlyWatching"];
                     [self.arrayDataSource insertRow:content.cacheKey inSection:@"currentlyWatching" withWeight:0];
                     [self.arrayDataSource recalculateWeight];
                     
