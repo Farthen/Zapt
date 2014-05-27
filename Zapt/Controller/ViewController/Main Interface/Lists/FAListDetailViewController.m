@@ -410,7 +410,25 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return _isWatchlist || (_isLibrary && _displayedLibraryType == FATraktLibraryTypeCollection);
+    return _isWatchlist || (_isLibrary && _displayedLibraryType == FATraktLibraryTypeCollection) || _isCustom;
+}
+
+- (void)removeItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *letterList = _sortedSectionObjects[indexPath.section];
+    
+    NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
+    
+    // Animate the deletion from the table.
+    [self.tableView beginUpdates];
+    
+    [_displayedList.items removeObject:letterList[indexPath.row]];
+    [newList removeObjectAtIndex:indexPath.row];
+    [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
+    
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView endUpdates];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -429,18 +447,9 @@
             [[FATrakt sharedInstance] removeFromWatchlist:content callback:^(void) {
                 [hud showProgressHUDSuccess];
                 content.in_watchlist = [NSNumber numberWithBool:NO];
-                NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
                 
                 // Animate the deletion from the table.
-                [self.tableView beginUpdates];
-                
-                [_displayedList.items removeObject:letterList[indexPath.row]];
-                [newList removeObjectAtIndex:indexPath.row];
-                [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
-                
-                [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                
-                [self.tableView endUpdates];
+                [self removeItemAtIndexPath:indexPath];
             } onError:^(FATraktConnectionResponse *connectionError) {
                 [hud showProgressHUDFailed];
             }];
@@ -453,23 +462,23 @@
                     
                     content.in_collection = [NSNumber numberWithBool:NO];
                     
-                    NSMutableArray *newList = [NSMutableArray arrayWithArray:letterList];
-                    
                     // Animate the deletion from the table.
-                    [self.tableView beginUpdates];
-                    
-                    [_displayedList.items removeObject:letterList[indexPath.row]];
-                    [newList removeObjectAtIndex:indexPath.row];
-                    [_sortedSectionObjects[indexPath.section] removeObjectAtIndex:indexPath.row];
-                    
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-                    
-                    
-                    [self.tableView endUpdates];
+                    [self removeItemAtIndexPath:indexPath];
                 } onError:^(FATraktConnectionResponse *connectionError) {
                     [hud showProgressHUDFailed];
                 }];
             }
+        } else if (_isCustom) {
+            [hud showProgressHUDSpinnerWithText:NSLocalizedString(@"Removing from list", nil)];
+            
+            [[FATrakt sharedInstance] removeContent:content fromCustomList:_loadedList callback:^{
+                [hud showProgressHUDSuccess];
+                
+                // Animate the deletion from the table.
+                [self removeItemAtIndexPath:indexPath];
+            } onError:^(FATraktConnectionResponse *connectionError) {
+                [hud showProgressHUDFailed];
+            }];
         }
     }
 }
@@ -601,7 +610,7 @@
             
             if (content.contentType == FATraktContentTypeEpisodes) {
                 FATraktEpisode *episode = (FATraktEpisode *)content;
-                NSString *episodeString = [NSString stringWithFormat:NSLocalizedString(@"S%02iE%02i", nil), episode.seasonNumber.intValue, episode.episodeNumber.intValue];
+                NSString *episodeString = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
                 
                 if ([episodeString.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound ||
                     [episode.show.title.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound) {
