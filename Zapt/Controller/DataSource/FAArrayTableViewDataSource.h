@@ -24,17 +24,17 @@
 
 // Set with all objects that should respond with YES to
 // - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-@property NSSet *editableIndexPaths;
+@property NSSet *editableObjects;
 // - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-@property NSSet *movableIndexPaths;
+@property NSSet *movableObjects;
 
 // The table view (must be set)
 @property UITableView *tableView;
 
-typedef id (^FAArrayTableViewCellCreationBlock)(id object);
+typedef id (^FAArrayTableViewCellCreationBlock)(id key);
 @property (nonatomic, copy) FAArrayTableViewCellCreationBlock cellCreationBlock;
 
-typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
+typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id key);
 @property (nonatomic, copy) FAArrayTableViewCellConfigurationBlock configurationBlock;
 
 // Defaults to UITableViewCell
@@ -43,6 +43,8 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 @property BOOL reloadsDataOnDataChange;
 
 // Convenicence methods
+- (id)cellForRowWithKey:(id)key;
+
 - (void)setSectionIndexTitle:(NSString *)title forSection:(NSUInteger)section;
 - (void)setHeaderTitle:(NSString *)title forSection:(NSUInteger)section;
 - (void)setFooterTitle:(NSString *)title forSection:(NSUInteger)section;
@@ -51,20 +53,22 @@ typedef void (^FAArrayTableViewCellConfigurationBlock)(id cell, id object);
 - (void)insertSectionData:(NSArray *)sectionData atIndex:(NSUInteger)index;
 - (void)removeSectionAtIndex:(NSUInteger)sectionIndex;
 
-- (void)insertObject:(id)object atIndexPath:(NSIndexPath *)indexPath;
-- (void)removeObject:(id)object;
+- (void)insertRowWithKey:(id)rowKey atIndexPath:(NSIndexPath *)indexPath;
+- (void)removeRowWithKey:(id)rowKey;
 
-- (void)replaceObject:(id)oldObject withObject:(id)newObject;
-- (void)replaceObjectsAtIndexPaths:(NSSet *)indexPaths withObject:(id)object;
-- (void)replaceObjectAtIndexPath:(NSIndexPath *)indexPath withObject:(id)object;
-- (void)replaceObjectInSection:(NSUInteger)section row:(NSUInteger)row withObject:(id)object;
+- (void)replaceRowKey:(id)oldRowKey withRowKey:(id)newRowKey;
+- (void)replaceRowKeysAtIndexPaths:(NSSet *)indexPaths withRowKey:(id)newRowKey;
+- (void)replaceRowKeyAtIndexPath:(NSIndexPath *)indexPath withRowKey:(id)newRowKey;
+- (void)replaceRowKeyInSection:(NSUInteger)section row:(NSUInteger)row withRowKey:(id)newRowKey;
 
 - (void)reloadSection:(NSUInteger)section row:(NSUInteger)row;
-- (void)reloadRowsWithObjects:(NSSet *)objects;
-- (void)reloadRowsWithObject:(id)object;
+- (void)reloadRowsWithKeys:(NSSet *)objects;
+- (void)reloadRowsWithKeys:(NSSet *)objects animation:(UITableViewRowAnimation)animation;
+- (void)reloadRowsWithKey:(id)object;
+- (void)reloadRowsWithKey:(id)object animation:(UITableViewRowAnimation)animation;
 
-- (id)objectAtIndexPath:(NSIndexPath *)indexPath;
+- (id)rowKeyAtIndexPath:(NSIndexPath *)indexPath;
 - (NSIndexPath *)anyIndexPathForObject:(id)object;
-- (NSSet *)indexPathsForObject:(id)object;
+- (NSSet *)indexPathsForRowKey:(id)object;
 
 @end

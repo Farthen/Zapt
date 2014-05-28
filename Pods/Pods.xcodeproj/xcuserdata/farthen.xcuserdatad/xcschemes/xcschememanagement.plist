@@ -8,49 +8,91 @@
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>4</integer>
 		</dict>
 		<key>Pods-CocoaLumberjack.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>5</integer>
+		</dict>
+		<key>Pods-NHCalendarActivity.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-NSDate-Extensions.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PDKeychainBindingsController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-TMCache.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-TUSafariActivity.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>6</integer>
+		</dict>
+		<key>Pods-VTAcknowledgementsViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
-			<key>orderHint</key>
-			<integer>3</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>2121FF6BD0844805B5A084F4</key>
+		<key>01A97EC94AC54FC6ACAD4F51</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>25B4D658C41C4B6D96EDA982</key>
+		<key>0F82DE07974C4741B43FF607</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B66FB8F67713472CA95EA4E5</key>
+		<key>4B4065E7F901499282834FFA</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>E9B4EFE1826F4419A1F91352</key>
+		<key>63565ED2BD2347D1956C492C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6BC06B936A124929AB7610E5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>CE0E11BAF9A24C89AB568F45</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D2ACF3BB9CB0425EB65F12D3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E396C0443D674870A67F414A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F9CCAA4705994A88954DCD1B</key>
 		<dict>
 			<key>primary</key>
 			<true/>

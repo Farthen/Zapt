@@ -14,52 +14,53 @@
 @optional
 
 #pragma mark Configuring Rows for the Table View
-- (CGFloat)tableView:(UITableView *)tableView heightForRowWithObject:(id)object;
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowWithObject:(id)object;
-- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forObject:(id)object;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowWithKey:(id)rowKey;
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowWithKey:(id)rowKey;
+- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forKey:(id)rowKey;
 
 #pragma mark Managing Accessory Views
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithObject:(id)object;
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithKey:(id)rowKey;
 
 #pragma mark Managing Selections
-- (id)tableView:(UITableView *)tableView willSelectRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didSelectRowWithObject:(id)object;
-- (id)tableView:(UITableView *)tableView willDeselectRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didDeselectRowWithObject:(id)object;
+- (id)tableView:(UITableView *)tableView willSelectRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didSelectRowWithKey:(id)rowKey;
+- (id)tableView:(UITableView *)tableView willDeselectRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didDeselectRowWithKey:(id)rowKey;
 
 #pragma mark Modifying the Header and Footer of Sections
-- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section;
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section;
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSectionWithKey:(id)sectionKey;
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSectionWithKey:(id)sectionKey;
 
 #pragma mark Editing Table Rows
-- (void)tableView:(UITableView *)tableView willBeginEditingRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didEndEditingRowWithObject:(id)object;
+- (void)tableView:(UITableView *)tableView willBeginEditingRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didEndEditingRowWithKey:(id)rowKey;
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowWithObject:(id)object;
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowWithObject:(id)object;
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowWithObject:(id)object;
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowWithKey:(id)rowKey;
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowWithKey:(id)rowKey;
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowWithKey:(id)rowKey;
 
 #pragma mark Tracking the Removal of Views
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section;
-- (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section;
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSectionWithKey:(id)sectionKey;
+- (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSectionWithKey:(id)sectionKey;
 
 #pragma mark Copying and Pasting Row Content
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowWithObject:(id)object;
-- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowWithObject:(id)object withSender:(id)sender;
-- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowWithObject:(id)object withSender:(id)sender;
+- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowWithKey:(id)rowKey;
+- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowWithKey:(id)rowKey withSender:(id)sender;
+- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowWithKey:(id)rowKey withSender:(id)sender;
 
 #pragma mark Managing Table View Highlighting
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didHighlightRowWithObject:(id)object;
-- (void)tableView:(UITableView *)tableView didUnhighlightRowWithObject:(id)object;
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didHighlightRowWithKey:(id)rowKey;
+- (void)tableView:(UITableView *)tableView didUnhighlightRowWithKey:(id)rowKey;
 
 @end
 
 @interface FAArrayTableViewDelegate : NSObject <UITableViewDelegate, NSCoding>
 
-@property id <FAArrayTableViewDelegate> delegate;
+@property (nonatomic, weak) id <FAArrayTableViewDelegate> delegate;
+@property (nonatomic, weak) id <UITableViewDelegate> forwardDelegate;
 
 - (instancetype)initWithDataSource:(FAArrayTableViewDataSource *)dataSource;
 
