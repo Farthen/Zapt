@@ -82,7 +82,7 @@
 
         
         [self setupTableView];
-        [self.tableView reloadData];
+        [self.arrayDataSource reloadData];
         
         [self displayUserSection];
     }
@@ -109,7 +109,7 @@
 - (void)preferredContentSizeChanged
 {
     [self.view setNeedsLayout];
-    [self.tableView reloadData];
+    [self.arrayDataSource reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -341,9 +341,7 @@
     static NSString *sectionName = @"showProgress";
     
     if (self.showsWithProgress.count > 0) {
-        if (!self.tableViewContainsProgress) {
-            self.tableViewContainsProgress = YES;
-        }
+        self.tableViewContainsProgress = YES;
         
         [self.arrayDataSource createSectionForKey:sectionName withWeight:2 headerTitle:NSLocalizedString(@"Recent Shows", nil)];
         
@@ -366,7 +364,10 @@
             [self.arrayDataSource insertRow:show.cacheKey inSection:sectionName withWeight:i];
         }
     } else {
-        [self.arrayDataSource removeSectionForKey:sectionName];
+        if (self.tableViewContainsProgress) {
+            [self.arrayDataSource removeSectionForKey:sectionName];
+        }
+        
         self.tableViewContainsProgress = NO;
     }
     
@@ -462,7 +463,7 @@
     self.tableView.delegate = self.arrayDelegate;
     
     [self setupTableView];
-    [self.tableView reloadData];
+    [self.arrayDataSource reloadData];
 }
 
 @end

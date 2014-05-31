@@ -641,7 +641,10 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 {
     dispatch_async(_weightedSectionsQueue, ^{
         [self.tableViewActions removeAllObjects];
-        [self.tableView reloadData];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
     });
 }
 
@@ -691,6 +694,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     }
     
     [self.tableView endUpdates];
+    
     [self.tableViewActions removeAllObjects];
     
     // Fix the scroll position after reloading
