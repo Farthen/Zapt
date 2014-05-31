@@ -408,10 +408,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [super encodeWithCoder:coder];
-    [coder encodeObject:self.weightedSections forKey:@"weightedSections"];
-    [coder encodeObject:self.weightedSectionData forKey:@"weightedSectionData"];
-    [coder encodeObject:self.sectionsForIndexes forKey:@"sectionsForIndexes"];
+    dispatch_sync(_weightedSectionsQueue, ^{
+        [super encodeWithCoder:coder];
+        [coder encodeObject:self.weightedSections forKey:@"weightedSections"];
+        [coder encodeObject:self.weightedSectionData forKey:@"weightedSectionData"];
+        [coder encodeObject:self.sectionsForIndexes forKey:@"sectionsForIndexes"];
+    });
 }
 
 + (void)initialize
