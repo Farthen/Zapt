@@ -433,7 +433,6 @@
 		F3AAC0C218F3456A00EF8876 /* FASegmentedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASegmentedTableViewCell.m; sourceTree = "<group>"; };
 		F3AAC0C418F379A700EF8876 /* FAEpisodeNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAEpisodeNumberView.h; sourceTree = "<group>"; };
 		F3AAC0C518F379A700EF8876 /* FAEpisodeNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAEpisodeNumberView.m; sourceTree = "<group>"; };
-		F3AAC16C18F5F25900EF8876 /* Zapt copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Zapt copy-Info.plist"; path = "/Users/farthen/Code/iOS/Zapt/Zapt copy-Info.plist"; sourceTree = "<absolute>"; };
 		F3ABFAD818908C99003885B3 /* FADictionaryHashLocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADictionaryHashLocator.h; sourceTree = "<group>"; };
 		F3ABFAD918908C99003885B3 /* FADictionaryHashLocator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADictionaryHashLocator.m; sourceTree = "<group>"; };
 		F3AC9B9918CCF07900551F6A /* FACircularActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACircularActivityIndicatorView.h; sourceTree = "<group>"; };
@@ -606,7 +605,6 @@
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
 				B66752FB15F12FBE00A8D76D /* Products */,
 				F49B2E03388B47F18675407D /* Pods.xcconfig */,
-				F3AAC16C18F5F25900EF8876 /* Zapt copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
