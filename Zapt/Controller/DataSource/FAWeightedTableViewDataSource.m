@@ -423,6 +423,11 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     });
 }
 
++ (dispatch_queue_t)weightedDispatchQueue
+{
+    return _weightedSectionsQueue;
+}
+
 - (void)setTableView:(UITableView *)tableView
 {
     [super setTableView:tableView];
@@ -685,7 +690,7 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
             [self.tableView moveSection:section.lastSectionIndex toSection:section.currentSectionIndex];
             
         } else if (actionType == FAWeightedTableViewDataSourceActionReloadSection) {
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section.currentSectionIndex] withRowAnimation:animation];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:section.lastSectionIndex] withRowAnimation:animation];
             
         }
     }

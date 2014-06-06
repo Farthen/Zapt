@@ -89,7 +89,6 @@
     [datatypePrototype mergeWithObject:datatypePrototype2];
     XCTAssertEqual(datatypePrototype.testPropertyString, testString2, @"Merge doesn't overwrite properties even though it should");
     XCTAssertEqual(datatypePrototype.testPropertyInteger, self.testInteger.integerValue, @"Merge overwrites properties with random data. WTF");
-    XCTAssertEqual(datatypePrototype.testPropertyBool, self.testBool.boolValue, @"Merge overwrites things that aren't even set in the target");
     XCTAssertEqual(datatypePrototype.testPropertyNumber, self.testNumber, @"Merge doesn't overwrite unset properties in the reciever");
 }
 
