@@ -547,86 +547,89 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 - (void)layoutSubviews {
 	
 	// Entirely cover the parent view
-	UIView *parent = self.superview;
-	if (parent) {
-		self.frame = parent.bounds;
-	}
-	CGRect bounds = self.bounds;
-	
-	// Determine the total widt and height needed
-	CGFloat maxWidth = bounds.size.width - 4 * margin;
-	CGSize totalSize = CGSizeZero;
-	
-	CGRect indicatorF = indicator.bounds;
-	indicatorF.size.width = MIN(indicatorF.size.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, indicatorF.size.width);
-	totalSize.height += indicatorF.size.height;
-	
-	CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
-	labelSize.width = MIN(labelSize.width, maxWidth);
-	totalSize.width = MAX(totalSize.width, labelSize.width);
-	totalSize.height += labelSize.height;
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
-		totalSize.height += kPadding;
-	}
-
-	CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin; 
-	CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
-	CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
-	totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
-	totalSize.height += detailsLabelSize.height;
-	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
-		totalSize.height += kPadding;
-	}
-	
-	totalSize.width += 2 * margin;
-	totalSize.height += 2 * margin;
-	
-	// Position elements
-	CGFloat yPos = roundf(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
-	CGFloat xPos = xOffset;
-	indicatorF.origin.y = yPos;
-	indicatorF.origin.x = roundf((bounds.size.width - indicatorF.size.width) / 2) + xPos;
-	indicator.frame = indicatorF;
-	yPos += indicatorF.size.height;
-	
-	if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
-		yPos += kPadding;
-	}
-	CGRect labelF;
-	labelF.origin.y = yPos;
-	labelF.origin.x = roundf((bounds.size.width - labelSize.width) / 2) + xPos;
-	labelF.size = labelSize;
-	label.frame = labelF;
-	yPos += labelF.size.height;
-	
-	if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
-		yPos += kPadding;
-	}
-	CGRect detailsLabelF;
-	detailsLabelF.origin.y = yPos;
-	detailsLabelF.origin.x = roundf((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
-	detailsLabelF.size = detailsLabelSize;
-	detailsLabel.frame = detailsLabelF;
-	
-	// Enforce minsize and quare rules
-	if (square) {
-		CGFloat max = MAX(totalSize.width, totalSize.height);
-		if (max <= bounds.size.width - 2 * margin) {
-			totalSize.width = max;
-		}
-		if (max <= bounds.size.height - 2 * margin) {
-			totalSize.height = max;
-		}
-	}
-	if (totalSize.width < minSize.width) {
-		totalSize.width = minSize.width;
-	} 
-	if (totalSize.height < minSize.height) {
-		totalSize.height = minSize.height;
-	}
-	
-	self.size = totalSize;
+    
+    [UIView performWithoutAnimation:^{
+        UIView *parent = self.superview;
+        if (parent) {
+            self.frame = parent.bounds;
+        }
+        CGRect bounds = self.bounds;
+        
+        // Determine the total widt and height needed
+        CGFloat maxWidth = bounds.size.width - 4 * margin;
+        CGSize totalSize = CGSizeZero;
+        
+        CGRect indicatorF = indicator.bounds;
+        indicatorF.size.width = MIN(indicatorF.size.width, maxWidth);
+        totalSize.width = MAX(totalSize.width, indicatorF.size.width);
+        totalSize.height += indicatorF.size.height;
+        
+        CGSize labelSize = MB_TEXTSIZE(label.text, label.font);
+        labelSize.width = MIN(labelSize.width, maxWidth);
+        totalSize.width = MAX(totalSize.width, labelSize.width);
+        totalSize.height += labelSize.height;
+        if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
+            totalSize.height += kPadding;
+        }
+        
+        CGFloat remainingHeight = bounds.size.height - totalSize.height - kPadding - 4 * margin;
+        CGSize maxSize = CGSizeMake(maxWidth, remainingHeight);
+        CGSize detailsLabelSize = MB_MULTILINE_TEXTSIZE(detailsLabel.text, detailsLabel.font, maxSize, detailsLabel.lineBreakMode);
+        totalSize.width = MAX(totalSize.width, detailsLabelSize.width);
+        totalSize.height += detailsLabelSize.height;
+        if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
+            totalSize.height += kPadding;
+        }
+        
+        totalSize.width += 2 * margin;
+        totalSize.height += 2 * margin;
+        
+        // Position elements
+        CGFloat yPos = roundf(((bounds.size.height - totalSize.height) / 2)) + margin + yOffset;
+        CGFloat xPos = xOffset;
+        indicatorF.origin.y = yPos;
+        indicatorF.origin.x = roundf((bounds.size.width - indicatorF.size.width) / 2) + xPos;
+        indicator.frame = indicatorF;
+        yPos += indicatorF.size.height;
+        
+        if (labelSize.height > 0.f && indicatorF.size.height > 0.f) {
+            yPos += kPadding;
+        }
+        CGRect labelF;
+        labelF.origin.y = yPos;
+        labelF.origin.x = roundf((bounds.size.width - labelSize.width) / 2) + xPos;
+        labelF.size = labelSize;
+        label.frame = labelF;
+        yPos += labelF.size.height;
+        
+        if (detailsLabelSize.height > 0.f && (indicatorF.size.height > 0.f || labelSize.height > 0.f)) {
+            yPos += kPadding;
+        }
+        CGRect detailsLabelF;
+        detailsLabelF.origin.y = yPos;
+        detailsLabelF.origin.x = roundf((bounds.size.width - detailsLabelSize.width) / 2) + xPos;
+        detailsLabelF.size = detailsLabelSize;
+        detailsLabel.frame = detailsLabelF;
+        
+        // Enforce minsize and quare rules
+        if (square) {
+            CGFloat max = MAX(totalSize.width, totalSize.height);
+            if (max <= bounds.size.width - 2 * margin) {
+                totalSize.width = max;
+            }
+            if (max <= bounds.size.height - 2 * margin) {
+                totalSize.height = max;
+            }
+        }
+        if (totalSize.width < minSize.width) {
+            totalSize.width = minSize.width;
+        } 
+        if (totalSize.height < minSize.height) {
+            totalSize.height = minSize.height;
+        }
+        
+        self.size = totalSize;
+    }];
 }
 
 #pragma mark BG Drawing

@@ -91,10 +91,6 @@
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.weightedDataSource];
     self.weightedDataSource = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     
-    [self.weightedDataSource removeSectionForKey:@"testSection"];
-    [self.weightedDataSource recalculateWeight];
-    [self clearWeightedDispatchQueue];
-    
     [self.weightedDataSource removeAllSections];
     [self.weightedDataSource recalculateWeight];
     [self clearWeightedDispatchQueue];

@@ -85,7 +85,14 @@ typedef enum {
 - (void)unbadge:(const NSString *)badge
 {
     UIImageView *badgeView = [self.badgeViews objectForKey:badge];
-    [badgeView removeFromSuperview];
+    
+    if (badgeView.superview) {
+        [UIView animateWithDuration:0.3 animations:^{
+            badgeView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [badgeView removeFromSuperview];
+        }];
+    }
 }
 
 - (void)badge:(const NSString *)badge
@@ -97,17 +104,25 @@ typedef enum {
         [self.badgeViews setObject:badgeView forKey:badge];
     }
     
-    badgeView.frameSize = [self.class sizeForBadge:badge];
-    FABadgePosition position = [self.class positionForBadge:badge];
-    
-    if (position == FABadgePositionUpperLeft) {
-        badgeView.frameOrigin = self.view.bounds.origin;
-    } else if (position == FABadgePositionUpperRight) {
-        badgeView.frameTopPosition = self.view.bounds.origin.y;
-        badgeView.frameRightPosition = 0;
+    if (!badgeView.superview) {
+        badgeView.frameSize = [self.class sizeForBadge:badge];
+        FABadgePosition position = [self.class positionForBadge:badge];
+        
+        if (position == FABadgePositionUpperLeft) {
+            badgeView.frameOrigin = self.view.bounds.origin;
+        } else if (position == FABadgePositionUpperRight) {
+            badgeView.frameTopPosition = self.view.bounds.origin.y;
+            badgeView.frameRightPosition = 0;
+        }
+        
+        badgeView.alpha = 0.0;
+        [self.view addSubview:badgeView];
+        
+        [UIView animateWithDuration:0.3 animations:^{
+            badgeView.alpha = 1.0;
+        }];
     }
     
-    [self.view addSubview:badgeView];
 }
 
 @end
