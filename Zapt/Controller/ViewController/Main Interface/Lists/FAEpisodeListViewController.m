@@ -277,8 +277,8 @@
     }
     
     cell.textLabel.text = episode.title;
-    cell.textLabel.adjustsFontSizeToFitWidth = YES;
-    cell.textLabel.minimumScaleFactor = 0.7;
+    cell.textLabel.adjustsFontSizeToFitWidth = NO;
+    cell.textLabel.minimumScaleFactor = 1.0;
     //cell.detailTextLabel.text = [FAInterfaceStringProvider nameForEpisode:episode long:NO capitalized:YES];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.separatorInset = UIEdgeInsetsZero;
