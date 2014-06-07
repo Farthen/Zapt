@@ -153,7 +153,15 @@
     
     NSMutableArray *customLists = [[NSMutableArray alloc] initWithCapacity:listCacheKeys.count];
     for (id key in listCacheKeys) {
-        [customLists addObject:[self.class.backingCache objectForKey:key]];
+        FATraktContent *content = [self.class.backingCache objectForKey:key];
+        
+        if (content) {
+            [customLists addObject:content];
+        }
+    }
+    
+    if (customLists.count == 0) {
+        return nil;
     }
     
     return [customLists sortedArrayUsingKey:@"name" ascending:YES];
