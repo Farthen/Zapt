@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TMCache.h"
+#import <TMCache/TMCache.h>
 
 @protocol FACacheableItem <NSObject>
 

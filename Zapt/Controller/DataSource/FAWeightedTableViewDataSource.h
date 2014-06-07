@@ -10,6 +10,8 @@
 
 @interface FAWeightedTableViewDataSource : FAArrayTableViewDataSource <NSCoding>
 
++ (dispatch_queue_t)weightedDispatchQueue;
+
 - (void)recalculateWeight;
 
 - (void)clearFiltersForSection:(id <NSCopying, NSCoding>)sectionKey;

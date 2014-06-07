@@ -25,10 +25,19 @@
     if (self) {
         // Custom initialization
         
-        self.confirmMarkAllAsSeenActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Do you want to mark the entire %@ as seen?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Mark as seen", nil) otherButtonTitles:nil];
     }
     
     return self;
+}
+
+- (void)setUp
+{
+    self.confirmMarkAllAsSeenActionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:NSLocalizedString(@"Mark as seen", nil) otherButtonTitles:nil];
+}
+
+- (void)awakeFromNib
+{
+    [self setUp];
 }
 
 - (void)viewDidLoad
@@ -66,6 +75,7 @@
 
 - (void)confirmMarkAllAsSeen
 {
+    self.confirmMarkAllAsSeenActionSheet.title = [NSString stringWithFormat:NSLocalizedString(@"Do you want to mark the entire %@ as seen?", nil), [FAInterfaceStringProvider nameForSeason:self.season capitalized:NO]];
     [self.confirmMarkAllAsSeenActionSheet showInView:self.view];
 }
 
@@ -116,6 +126,7 @@
     [super decodeRestorableStateWithCoder:coder];
     
     [self showEpisodeListForSeason:[coder decodeObjectForKey:@"season"]];
+    [self setUp];
 }
 
 @end

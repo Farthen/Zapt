@@ -41,6 +41,7 @@
 		F3152DC117FBFDE20039AF30 /* FAAuthWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3152DC017FBFDE20039AF30 /* FAAuthWindow.m */; };
 		F31551E317B081B200307CC3 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
 		F31551E617B0844600307CC3 /* FATraktViewingSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E517B0844600307CC3 /* FATraktViewingSettings.m */; };
+		F31C1B9219427A4500D4382F /* FAWeightedTableViewDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F31C1B9119427A4500D4382F /* FAWeightedTableViewDataSourceTest.m */; };
 		F31D68EC179DCFDC003408BF /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
 		F31D68EF179DD353003408BF /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
 		F31EFD04179DB6A300789A28 /* FARefreshControlWithActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F31EFD03179DB6A300789A28 /* FARefreshControlWithActivity.m */; };
@@ -267,6 +268,7 @@
 		F31551E217B081B200307CC3 /* FATraktAccountSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktAccountSettings.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F31551E417B0844600307CC3 /* FATraktViewingSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktViewingSettings.h; sourceTree = "<group>"; };
 		F31551E517B0844600307CC3 /* FATraktViewingSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktViewingSettings.m; sourceTree = "<group>"; };
+		F31C1B9119427A4500D4382F /* FAWeightedTableViewDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FAWeightedTableViewDataSourceTest.m; sourceTree = "<group>"; };
 		F31D68EA179DCFDC003408BF /* UIView+RecursiveSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+RecursiveSubviews.h"; sourceTree = "<group>"; };
 		F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+RecursiveSubviews.m"; sourceTree = "<group>"; };
 		F31D68ED179DD353003408BF /* NSObject+ClassName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ClassName.h"; sourceTree = "<group>"; };
@@ -788,6 +790,14 @@
 				F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */,
 			);
 			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		F31C1B9019427A2B00D4382F /* Data Source */ = {
+			isa = PBXGroup;
+			children = (
+				F31C1B9119427A4500D4382F /* FAWeightedTableViewDataSourceTest.m */,
+			);
+			name = "Data Source";
 			sourceTree = "<group>";
 		};
 		F32137ED1905384000B0D8D4 /* Debug */ = {
@@ -1488,6 +1498,7 @@
 		F3F9E30916282D320077CBAA /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F31C1B9019427A2B00D4382F /* Data Source */,
 				F32FAB7717EE04E00081B19E /* Misc */,
 				F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */,
 			);
@@ -1833,6 +1844,7 @@
 			files = (
 				F3B49DBE18B121330061BDAE /* NSSet+FunctionalTests.m in Sources */,
 				B667533815F12FBE00A8D76D /* ZaptTests.m in Sources */,
+				F31C1B9219427A4500D4382F /* FAWeightedTableViewDataSourceTest.m in Sources */,
 				F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */,
 				F3E3668818B1121100D985E6 /* NSArray+FunctionalTests.m in Sources */,
 				F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */,
