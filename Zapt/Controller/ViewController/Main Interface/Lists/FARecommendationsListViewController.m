@@ -7,7 +7,7 @@
 //
 
 #import "FARecommendationsListViewController.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDelegate.h"
 #import "FADetailViewController.h"

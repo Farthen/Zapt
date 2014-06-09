@@ -7,7 +7,7 @@
 //
 
 #import "FAEpisodeAirDateTableViewCell.h"
-#import "FAInterfaceStringProvider.h"
+#import <FATrakt/FATrakt.h>
 
 @interface FAEpisodeAirDateTableViewCell ()
 @property (nonatomic) FATraktEpisode *episode;

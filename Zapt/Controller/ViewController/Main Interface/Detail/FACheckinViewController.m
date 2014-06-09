@@ -7,9 +7,8 @@
 //
 
 #import "FACheckinViewController.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "RNTimer.h"
-#import "FAInterfaceStringProvider.h"
 
 typedef enum {
     FACheckinViewStateSuccess,

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Cocoapods/Cocoapods.h>
+#import <TMCache/TMCache.h>
 
 extern NSString *FATraktCacheClearedNotification;
 

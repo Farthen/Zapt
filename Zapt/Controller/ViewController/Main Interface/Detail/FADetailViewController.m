@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
+#import "FATraktActivityItemSource.h"
 #import "FADetailViewController.h"
 #import "FANavigationController.h"
 
@@ -18,12 +19,10 @@
 #import "FARatingsViewController.h"
 #import "FACheckinViewController.h"
 
-#import "FATraktActivityItemSource.h"
+#import <FATrakt/FATrakt.h>
 #import <TUSafariActivity/TUSafariActivity.h>
 
 #import "FAGlobalEventHandler.h"
-#import "FATrakt.h"
-#import "FAInterfaceStringProvider.h"
 #import "FANotificationScrollViewDelegate.h"
 
 #import "FATitleLabel.h"
@@ -34,7 +33,6 @@
 #import "FACalendarEventController.h"
 
 #import <NSDate-Extensions/NSDate-Utilities.h>
-
 
 @interface FADetailViewController () {
     BOOL _showing;

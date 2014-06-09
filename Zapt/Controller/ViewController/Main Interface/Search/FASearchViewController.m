@@ -9,11 +9,10 @@
 #import "FASearchViewController.h"
 #import "FADetailViewController.h"
 #import "FANavigationController.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "FAActivityDispatch.h"
 #import "FANavigationController.h"
 
-#import "FASearchData.h"
 #import "FAContentTableViewCell.h"
 
 static CGPoint _scrollPositions[3];

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FATraktContent.h"
+@class FATraktContent;
 
 @interface FATraktActivityItemSource : NSObject <UIActivityItemSource>
 

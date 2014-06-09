@@ -30,6 +30,7 @@
 #import "FATraktAccountSettings.h"
 #import "FATraktViewingSettings.h"
 #import "FATraktLastActivity.h"
+#import "FATraktCache.h"
 #import "FATraktCheckin.h"
 #import "FATraktCheckinTimestamps.h"
 #import "FATraktRating.h"

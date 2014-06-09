@@ -11,8 +11,7 @@
 
 #import "FAProgressHUD.h"
 
-#import "FAInterfaceStringProvider.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "FASearchViewController.h"
 #import "FADetailViewController.h"
 #import "FAStatusBarSpinnerController.h"

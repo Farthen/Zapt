@@ -10,12 +10,11 @@
 #import <VTAcknowledgementsViewController/VTAcknowledgementsViewController.h>
 
 #import "FASettingsViewController.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "FAZapt.h"
 #import "FAGlobalEventHandler.h"
 #import "FATextViewController.h"
 
-#import "FATraktCache.h"
 #import "FAAcknowledgementsGenerator.h"
 
 #import "FAProgressHUD.h"

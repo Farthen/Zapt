@@ -7,7 +7,7 @@
 //
 
 #import "FAImageTableViewCell.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 
 @implementation FAImageTableViewCell
 

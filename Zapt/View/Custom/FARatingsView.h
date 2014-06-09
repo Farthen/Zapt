@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FATraktContent.h"
+#import <FATrakt/FATrakt.h>
 
 @protocol FARatingsViewDelegate <NSObject>
 

@@ -9,6 +9,7 @@
 #import "FATraktCache.h"
 #import "Misc.h"
 #import "TMFastCache.h"
+#import "FAGlobalSettings.h"
 
 NSString *FATraktCacheClearedNotification = @"FATraktCacheClearedNotification";
 static NSInteger __cacheVersionNumber = 5;
@@ -71,11 +72,11 @@ static NSInteger __cacheVersionNumber = 5;
         _calendar = [[TMFastCache alloc] initWithName:@"calendar"];
     }
     
-    NSInteger cacheVersionNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"cacheVersionNumber"];
+    NSInteger cacheVersionNumber = [[FAGlobalSettings sharedInstance].userDefaults integerForKey:@"cacheVersionNumber"];
     if (cacheVersionNumber != __cacheVersionNumber) {
         [self clearCaches];
         
-        [[NSUserDefaults standardUserDefaults] setInteger:__cacheVersionNumber forKey:@"cacheVersionNumber"];
+        [[FAGlobalSettings sharedInstance].userDefaults setInteger:__cacheVersionNumber forKey:@"cacheVersionNumber"];
     }
     
     [self trimCaches];
@@ -150,7 +151,7 @@ static NSInteger __cacheVersionNumber = 5;
     }
     
     if (!error) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"migrationRemovedFACache"];
+        [[FAGlobalSettings sharedInstance].userDefaults setBool:YES forKey:@"migrationRemovedFACache"];
     }
 }
 

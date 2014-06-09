@@ -7,7 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+@import FATrakt;
 
-@interface FAConnectionDelegate : NSObject
+@interface FAConnectionDelegate : NSObject <FATraktConnectionDelegate>
+
+- (instancetype)initWithConnection:(FATraktConnection *)connection;
 
 @end

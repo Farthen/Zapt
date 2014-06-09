@@ -25,11 +25,13 @@
 #import "VTAcknowledgementViewController.h"
 #import "VTAcknowledgement.h"
 
+static NSString *const VTDefaultAcknowledgementsPlistName = @"Pods-acknowledgements";
 static NSString *const VTCocoaPodsURLString = @"http://cocoapods.org";
 static const CGFloat VTLabelMargin          = 20;
 
 @interface VTAcknowledgementsViewController ()
 
++ (NSString *)acknowledgementsPlistPathForName:(NSString *)name;
 + (NSString *)defaultAcknowledgementsPlistPath;
 + (NSString *)localizedStringForKey:(NSString *)key withDefault:(NSString *)defaultString;
 
@@ -45,9 +47,14 @@ static const CGFloat VTLabelMargin          = 20;
 
 @implementation VTAcknowledgementsViewController
 
++ (NSString *)acknowledgementsPlistPathForName:(NSString *)name
+{
+    return [[NSBundle mainBundle] pathForResource:name ofType:@"plist"];
+}
+
 + (NSString *)defaultAcknowledgementsPlistPath
 {
-    return [[NSBundle mainBundle] pathForResource:@"Pods-acknowledgements" ofType:@"plist"];
+    return [self acknowledgementsPlistPathForName:VTDefaultAcknowledgementsPlistName];
 }
 
 + (instancetype)acknowledgementsViewController
@@ -66,15 +73,19 @@ static const CGFloat VTLabelMargin          = 20;
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder
+- (void)awakeFromNib
 {
-    self = [super initWithCoder:coder];
-    if (self) {
-        NSString *path = self.class.defaultAcknowledgementsPlistPath;
-        [self commonInitWithAcknowledgementsPlistPath:path];
+    [super awakeFromNib];
+
+    NSString *path;
+    if (self.acknowledgementsPlistName) {
+        path = [self.class acknowledgementsPlistPathForName:self.acknowledgementsPlistName];
+    }
+    else {
+        path = self.class.defaultAcknowledgementsPlistPath;
     }
 
-    return self;
+    [self commonInitWithAcknowledgementsPlistPath:path];
 }
 
 - (void)commonInitWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath
@@ -146,6 +157,12 @@ static const CGFloat VTLabelMargin          = 20;
     }
 
     [self configureFooterView];
+
+    if (self.presentingViewController && self == [self.navigationController.viewControllers firstObject]) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                                              target:self
+                                                                                              action:@selector(dismissViewController:)];
+    }
 }
 
 - (void)configureHeaderView
@@ -176,6 +193,7 @@ static const CGFloat VTLabelMargin          = 20;
     label.text             = self.headerText;
     label.font             = font;
     label.textColor        = [UIColor grayColor];
+    label.backgroundColor  = [UIColor clearColor];
     label.numberOfLines    = 0;
     label.textAlignment    = NSTextAlignmentCenter;
     label.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
@@ -194,6 +212,7 @@ static const CGFloat VTLabelMargin          = 20;
                               VTCocoaPodsURLString];
     label.font             = [UIFont systemFontOfSize:12];
     label.textColor        = [UIColor grayColor];
+    label.backgroundColor  = [UIColor clearColor];
     label.numberOfLines    = 2;
     label.textAlignment    = NSTextAlignmentCenter;
     label.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
@@ -215,12 +234,8 @@ static const CGFloat VTLabelMargin          = 20;
 {
     [super viewWillAppear:animated];
 
-    if (self.navigationController.viewControllers.count <= 1) {
-        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                              target:self
-                                                                              action:@selector(dismissViewController:)];
-        self.navigationItem.leftBarButtonItem = item;
-    }
+    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow
+                                  animated:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -8,9 +8,7 @@
 
 #import "FACustomListsMembershipTableViewController.h"
 #import "FACustomListsMembershipViewController.h"
-#import "FATrakt.h"
-
-#import "FAInterfaceStringProvider.h"
+#import <FATrakt/FATrakt.h>
 
 @interface FACustomListsMembershipTableViewController ()
 @property NSMutableArray *customLists;

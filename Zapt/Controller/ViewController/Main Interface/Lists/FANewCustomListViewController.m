@@ -13,7 +13,7 @@
 #import "FAProgressHUD.h"
 #import "FASegmentedTableViewCell.h"
 
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 
 @interface FANewCustomListViewController ()
 

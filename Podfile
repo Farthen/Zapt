@@ -6,7 +6,7 @@ pod 'NSDate-Extensions'
 pod 'TMCache', :head
 pod 'NHCalendarActivity'
 pod 'VTAcknowledgementsViewController'
-pod 'PDKeychainBindingsController'
+pod 'UICKeyChainStore'
 
 post_install do | installer |
   require 'fileutils'

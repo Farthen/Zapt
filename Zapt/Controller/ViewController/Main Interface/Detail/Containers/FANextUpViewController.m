@@ -9,11 +9,9 @@
 #import "FANextUpViewController.h"
 #import "FADetailViewController.h"
 
-#import "FAInterfaceStringProvider.h"
-
 #import "FAHorizontalProgressView.h"
 
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 
 #import "FANextUpTableViewCell.h"
 

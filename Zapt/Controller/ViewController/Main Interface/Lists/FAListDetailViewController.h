@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FAViewControllerPreferredContentSizeChanged.h"
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 @class FARefreshControlWithActivity;
 
 @interface FAListDetailViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FAViewControllerPreferredContentSizeChanged>

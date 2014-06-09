@@ -6,26 +6,8 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
-#import "FATrakt.h"
+#import "FATraktAPI.h"
 #import <Security/Security.h>
-
-#import "FAAppDelegate.h"
-#import "FAZapt.h"
-
-#import "FATraktCache.h"
-
-#import "FATraktMovie.h"
-#import "FATraktShow.h"
-#import "FATraktEpisode.h"
-#import "FATraktList.h"
-#import "FATraktListItem.h"
-#import "FAStatusBarSpinnerController.h"
-#import "FAActivityDispatch.h"
-#import "FATraktConnectionResponse.h"
-
-#import "Misc.h"
-
-#import "FATraktConnection.h"
 
 NSString *const FATraktActivityNotificationSearch = @"FATraktActivityNotificationSearch";
 NSString *const FATraktActivityNotificationCheckAuth = @"FATraktActivityNotificationCheckAuth";

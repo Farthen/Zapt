@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>FATrakt.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>13</integer>
+		</dict>
 		<key>Zapt Release.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -24,6 +29,11 @@
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
+		<key>ZaptWidget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>12</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -37,12 +47,52 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>F30E21341944D4EF005CBBAC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F30E213E1944D4F0005CBBAC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F34A30AA1944CD290022DFAC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3970AFD1945397B00C914C0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3970B071945397B00C914C0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3A739C619450F5900670580</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3A739D019450F5900670580</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>F3AAC0CA18F5F25900EF8876</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>F3CBA90917CD035200BAC568</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F3D328771945321F00C95D73</key>
 		<dict>
 			<key>primary</key>
 			<true/>

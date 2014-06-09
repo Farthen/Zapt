@@ -20,7 +20,7 @@
 
 #import "FAContentTableViewCell.h"
 
-#import "FATrakt.h"
+#import <FATrakt/FATrakt.h>
 #import "FAGlobalEventHandler.h"
 #import "FAGlobalSettings.h"
 

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FATrakt.h"
+#import "FATraktAPI.h"
 
 @interface FAInterfaceStringProvider : NSObject
 

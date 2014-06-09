@@ -6,15 +6,19 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
+#import <FATrakt/FATrakt.h>
+
 #import "FAGlobalEventHandler.h"
-#import "FATrakt.h"
-#import "FATraktCache.h"
+#import "FAGlobalSettings.h"
+#import "FAZapt.h"
 
 #import "FAAuthViewController.h"
 #import "FACheckinViewController.h"
 
 #import "FAViewControllerPreferredContentSizeChanged.h"
 #import "FAAuthWindow.h"
+
+#import "FAConnectionDelegate.h"
 
 #import "FALogFormatter.h"
 #import <DDASLLogger.h>
@@ -27,6 +31,8 @@
 @property UIAlertView *timeoutAlert;
 @property UIAlertView *needsLoginAlertView;
 @property NSDate *lastNetworkErrorDate;
+
+@property (nonatomic) FAConnectionDelegate *connectionDelegate;
 
 @property UIWindow *loginWindow;
 
@@ -66,7 +72,7 @@
 
 - (void)setUpLogging
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"logging"];
+    [[FAGlobalSettings sharedInstance].userDefaults setInteger:1 forKey:@"logging"];
     
     FALogFormatter *logFormatter = [[FALogFormatter alloc] init];
     
@@ -82,7 +88,7 @@
 - (void)doMigrationIfNeccessary
 {
     // Remove old FACache if neccessary
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"migrationRemovedFACache"]) {
+    if (![[FAGlobalSettings sharedInstance].userDefaults boolForKey:@"migrationRemovedFACache"]) {
         [[FATraktCache sharedInstance] migrationRemoveFACache];
     }
 }
@@ -92,6 +98,11 @@
     [self doMigrationIfNeccessary];
     
     [self setUpLogging];
+    
+    [FATrakt sharedInstance].versionNumberString = [FAZapt versionNumberString];
+    [FATrakt sharedInstance].buildString = [FAZapt buildString];
+    
+    self.connectionDelegate = [[FAConnectionDelegate alloc] initWithConnection:[FATraktConnection sharedInstance]];
     
     if ([FATraktConnection sharedInstance].usernameAndPasswordSaved) {
         [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {

@@ -10,9 +10,12 @@
 #import "FATraktConnectionResponse.h"
 
 #import "FAGlobalEventHandler.h"
+#import "FAGlobalSettings.h"
 
 #import <CommonCrypto/CommonDigest.h>
-#import <PDKeychainBindingsController/PDKeychainBindings.h>
+#import <UICKeyChainStore/UICKeyChainStore.h>
+
+NSString *const FATraktConnectionKeychainService = @"TraktCredentials";
 
 NSString *const FATraktConnectionDefaultsKeyTraktUsername = @"TraktUsername";
 NSString *const FATraktConnectionKeychainKeyPasswordHash = @"TraktPasswordHash";
@@ -27,6 +30,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 @property (nonatomic) AFHTTPRequestOperationManager *manager;
 @property (nonatomic) AFHTTPRequestOperationManager *imageManager;
 @property (nonatomic) AFHTTPRequestOperationManager *rawManager;
+@property (nonatomic) UICKeyChainStore *keychainStore;
 @end
 
 @implementation FATraktConnection {
@@ -53,6 +57,8 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     self = [super init];
     
     if (self) {
+        self.keychainStore = [UICKeyChainStore keyChainStoreWithService:FATraktConnectionKeychainService];
+        
         self.apiKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"TraktAPIKey"];
         [self loadUsernameAndPassword];
         
@@ -135,7 +141,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 
 - (void)loadUsernameAndPassword
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [FAGlobalSettings sharedInstance].userDefaults;
     
     self.apiUser = [defaults stringForKey:FATraktConnectionDefaultsKeyTraktUsername];
     
@@ -143,7 +149,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         self.apiUser = nil;
     }
     
-    self.apiPasswordHash = [[PDKeychainBindings sharedKeychainBindings] stringForKey:FATraktConnectionKeychainKeyPasswordHash];
+    self.apiPasswordHash = [self.keychainStore stringForKey:FATraktConnectionKeychainKeyPasswordHash];
     
     if ([self.apiPasswordHash isEqualToString:@""]) {
         self.apiPasswordHash = nil;
@@ -197,7 +203,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 
 - (void)setUsername:(NSString *)username andPasswordHash:(NSString *)passwordHash
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [FAGlobalSettings sharedInstance].userDefaults;
     
     if ([passwordHash isEqualToString:@""]) {
         passwordHash = nil;
@@ -214,11 +220,11 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         [defaults setObject:username forKey:FATraktConnectionDefaultsKeyTraktUsername];
         
         if (passwordHash != nil) {
-            [[PDKeychainBindings sharedKeychainBindings] setString:passwordHash forKey:FATraktConnectionKeychainKeyPasswordHash];
+            [self.keychainStore setString:passwordHash forKey:FATraktConnectionKeychainKeyPasswordHash];
             [self.manager.requestSerializer setAuthorizationHeaderFieldWithUsername:username password:passwordHash];
         } else {
             // Password is unset, remove it from the database
-            [[PDKeychainBindings sharedKeychainBindings] removeObjectForKey:FATraktConnectionKeychainKeyPasswordHash];
+            [self.keychainStore removeAllItems];
             self.usernameAndPasswordValid = NO;
         }
     } else {
@@ -226,6 +232,9 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         [defaults removeObjectForKey:FATraktConnectionDefaultsKeyTraktUsername];
         self.usernameAndPasswordValid = NO;
     }
+    
+    [[FAGlobalSettings sharedInstance].userDefaults synchronize];
+    [self.keychainStore synchronize];
 }
 
 + (NSString *)passwordHashForPassword:(NSString *)password

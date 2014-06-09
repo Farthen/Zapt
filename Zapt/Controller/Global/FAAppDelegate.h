@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FATraktConnectionResponse.h"
+#import <FATrakt/FATrakt.h>
 
 @interface FAAppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 

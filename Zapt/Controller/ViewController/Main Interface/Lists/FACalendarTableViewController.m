@@ -9,7 +9,7 @@
 #import "FACalendarTableViewController.h"
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDelegate.h"
-#import "FAInterfaceStringProvider.h"
+#import <FATrakt/FATrakt.h>
 
 #import "FAEpisodeAirDateTableViewCell.h"
 #import "FAContentTableViewCell.h"

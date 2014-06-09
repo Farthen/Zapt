@@ -6,11 +6,12 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
+@import FATrakt;
+
 #import "FAContentTableViewCell.h"
-#import "FATrakt.h"
 #import "FAGlobalSettings.h"
 
-#import "FAInterfaceStringProvider.h"
+#import <FATrakt/FATrakt.h>
 #import "FAHorizontalProgressView.h"
 
 #import "FABadges.h"
