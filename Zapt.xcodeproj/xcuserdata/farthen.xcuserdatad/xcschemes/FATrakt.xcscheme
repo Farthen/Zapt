@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F30E21341944D4EF005CBBAC"
-               BuildableName = "FATrakt.framework"
+               BlueprintIdentifier = "F3970AFD1945397B00C914C0"
+               BuildableName = "libFATrakt.a"
                BlueprintName = "FATrakt"
                ReferencedContainer = "container:Zapt.xcodeproj">
             </BuildableReference>
@@ -28,16 +28,6 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F30E213E1944D4F0005CBBAC"
-               BuildableName = "FATraktTests.xctest"
-               BlueprintName = "FATraktTests"
-               ReferencedContainer = "container:Zapt.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
