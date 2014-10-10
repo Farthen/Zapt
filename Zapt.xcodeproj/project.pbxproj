@@ -77,6 +77,7 @@
 		F37E4883184D780E00D66A32 /* FATableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E4882184D780E00D66A32 /* FATableViewController.m */; };
 		F38137401933A43B00459982 /* NSArray+Misc.m in Sources */ = {isa = PBXBuildFile; fileRef = F381373F1933A43B00459982 /* NSArray+Misc.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
+		F3867E6E19E7846E003BBF58 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3867E6D19E7846E003BBF58 /* Launch Screen.xib */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
 		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
@@ -171,7 +172,7 @@
 		F3CE70B018FC71FA0003679D /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
 		F3CE70B618FCE4780003679D /* NSString+ContainsSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
-		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
+		F3D80E5B17CCFCA200343C9F /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
 		F3DEDC0D185CF848006F5833 /* FAWeightedTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC0C185CF848006F5833 /* FAWeightedTableViewDataSource.m */; };
 		F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3DEDC17185D7874006F5833 /* MessageUI.framework */; };
@@ -433,6 +434,7 @@
 		F381373F1933A43B00459982 /* NSArray+Misc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Misc.m"; sourceTree = "<group>"; };
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
+		F3867E6D19E7846E003BBF58 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "Zapt/View/Launch Screen.xib"; sourceTree = SOURCE_ROOT; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
 		F386984E16DA75C600FA3F2E /* FATraktList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListDetailViewController.h; sourceTree = "<group>"; };
@@ -565,7 +567,7 @@
 		F3D3288B194532F200C95D73 /* FATodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATodayViewController.m; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
-		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
 		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSearchResult.h; sourceTree = "<group>"; };
 		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktSearchResult.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F3DEDC0B185CF848006F5833 /* FAWeightedTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAWeightedTableViewDataSource.h; sourceTree = "<group>"; };
@@ -1497,7 +1499,8 @@
 			isa = PBXGroup;
 			children = (
 				F3D80E5417CCFC8800343C9F /* InfoPlist.strings */,
-				F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */,
+				F3D80E5817CCFC8800343C9F /* MainStoryboard.storyboard */,
+				F3867E6D19E7846E003BBF58 /* Launch Screen.xib */,
 			);
 			name = en.lproj;
 			path = ../View/Languages/en.lproj;
@@ -1784,8 +1787,9 @@
 				F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */,
 				F39AAEEF190AEF9A004C3DB0 /* Pods-acknowledgements.plist in Resources */,
 				F39AAEF4190AF3A5004C3DB0 /* AdditionalAcknowledgements.plist in Resources */,
-				F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */,
+				F3D80E5B17CCFCA200343C9F /* MainStoryboard.storyboard in Resources */,
 				F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */,
+				F3867E6E19E7846E003BBF58 /* Launch Screen.xib in Resources */,
 				B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */,
 				B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */,
 				F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */,
@@ -2114,12 +2118,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */ = {
+		F3D80E5817CCFC8800343C9F /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				F3D80E5917CCFC8800343C9F /* en */,
 			);
-			name = MainStoryboard_iPhone.storyboard;
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

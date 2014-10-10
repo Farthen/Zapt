@@ -518,7 +518,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search Trakt Database" translatesAutoresizingMaskIntoConstraints="NO" id="Th7-va-Rbz">
+                            <searchBar contentMode="redraw" text="" placeholder="Search Trakt" translatesAutoresizingMaskIntoConstraints="NO" id="Th7-va-Rbz">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <scopeButtonTitles>

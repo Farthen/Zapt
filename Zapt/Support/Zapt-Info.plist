@@ -31,9 +31,9 @@
 	<key>TraktAPIKey</key>
 	<string>f51f0ae1adf8759e128662bb8d8a6487e81be010</string>
 	<key>UILaunchStoryboardName</key>
-	<string>MainStoryboard_iPhone</string>
+	<string>Launch Screen</string>
 	<key>UIMainStoryboardFile</key>
-	<string>MainStoryboard_iPhone</string>
+	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
