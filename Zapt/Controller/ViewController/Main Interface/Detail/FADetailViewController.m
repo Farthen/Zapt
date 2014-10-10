@@ -414,9 +414,9 @@
     if (![self.overviewLabel.text isEqualToString:overview]) {
         [UIView animateSynchronizedIf:NO duration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear setUp:^{
             self.overviewLabel.alpha = 0.0;
+            [self.overviewLabel setNeedsLayout];
         } animations:^{
             self.overviewLabel.text = overview;
-            [self.overviewLabel setNeedsLayout];
             [self.overviewLabel layoutIfNeeded];
         } completion:nil];
         
