@@ -10,7 +10,7 @@
 #import "FANextUpViewController.h"
 #import "FAViewControllerPreferredContentSizeChanged.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FAHorizontalProgressView.h"
 #import "FAReloadControl.h"
 #import "FASimpleControl.h"

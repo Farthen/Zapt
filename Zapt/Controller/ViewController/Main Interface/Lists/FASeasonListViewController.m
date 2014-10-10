@@ -9,10 +9,11 @@
 #import "FASeasonListViewController.h"
 #import "FASeasonDetailViewController.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
 #import "FAImageTableViewCell.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FARefreshControlWithActivity.h"
 
 #import "FABadges.h"

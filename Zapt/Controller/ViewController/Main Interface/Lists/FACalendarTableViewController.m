@@ -9,11 +9,12 @@
 #import "FACalendarTableViewController.h"
 #import "FAWeightedTableViewDataSource.h"
 #import "FAArrayTableViewDelegate.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 
 #import "FAEpisodeAirDateTableViewCell.h"
 #import "FAContentTableViewCell.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FADetailViewController.h"
 #import <NSDate-Extensions/NSDate-Utilities.h>
 #import <Crashlytics/Crashlytics.h>

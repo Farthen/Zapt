@@ -9,7 +9,7 @@
 #import "FAAuthViewController.h"
 #import "FAAuthWindow.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FAEditableTableViewCell.h"
 #import "FATableViewCellWithActivity.h"

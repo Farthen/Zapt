@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <EventKit/EventKit.h>
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 
 @interface FACalendarEventController : NSObject
 

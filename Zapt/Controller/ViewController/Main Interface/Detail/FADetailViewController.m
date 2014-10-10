@@ -19,8 +19,9 @@
 #import "FARatingsViewController.h"
 #import "FACheckinViewController.h"
 
-#import <FATrakt/FATrakt.h>
-#import <TUSafariActivity/TUSafariActivity.h>
+#import "FATrakt.h"
+#import "FAInterfaceStringProvider.h"
+//#import <TUSafariActivity/TUSafariActivity.h>
 
 #import "FAGlobalEventHandler.h"
 #import "FANotificationScrollViewDelegate.h"
@@ -103,9 +104,10 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
             
-            TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
+            //TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
             
-            _activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+            //_activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+            _activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
             _activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo];
         });
     }

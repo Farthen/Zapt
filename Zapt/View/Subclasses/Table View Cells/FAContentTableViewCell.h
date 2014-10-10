@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FATableViewCellHeight.h"
 
 @interface FAContentTableViewCell : UITableViewCell <FATableViewCellHeight>

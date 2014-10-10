@@ -7,7 +7,8 @@
 //
 
 #import "FASeasonDetailViewController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
+#import "FAInterfaceStringProvider.h"
 #import "FAProgressHUD.h"
 
 @interface FASeasonDetailViewController ()

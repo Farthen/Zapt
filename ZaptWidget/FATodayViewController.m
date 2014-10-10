@@ -8,7 +8,7 @@
 
 #import "FATodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
-#import <FATrakt.h>
+#import "FATrakt.h"
 
 typedef NS_ENUM(NSInteger, FATodayViewControllerDisplayMode) {
     FATodayViewControllerDisplayModeTableView,

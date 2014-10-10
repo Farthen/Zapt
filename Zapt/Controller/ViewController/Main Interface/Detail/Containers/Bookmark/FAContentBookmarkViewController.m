@@ -10,7 +10,8 @@
 #import "FACustomListsMembershipViewController.h"
 #import "FADetailViewController.h"
 #import "FARatingsViewController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
+#import "FAInterfaceStringProvider.h"
 #import "FAProgressHUD.h"
 
 #import "FAGlobalEventHandler.h"

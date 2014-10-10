@@ -26,7 +26,6 @@
 		F30CAFBF179CC9B1002E7D3C /* FANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */; };
 		F30CAFC2179CD194002E7D3C /* FANextUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFC1179CD194002E7D3C /* FANextUpViewController.m */; };
 		F30CAFC9179D82D4002E7D3C /* FANextUpTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */; };
-		F30E213A1944D4F0005CBBAC /* FATrakt.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E21391944D4F0005CBBAC /* FATrakt.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F30E52C21799216E006C5091 /* FAHorizontalProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52C11799216E006C5091 /* FAHorizontalProgressView.m */; };
 		F3112E3318BE176200E91C2D /* FAShowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3112E3218BE176200E91C2D /* FAShowListViewController.m */; };
 		F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F31446EA17F8D34F005B164D /* libz.dylib */; };
@@ -44,104 +43,8 @@
 		F32645D017F0F9A4001D4F74 /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CC17F0F9A4001D4F74 /* UIImage+Resize.m */; };
 		F32645D117F0F9A4001D4F74 /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645CE17F0F9A4001D4F74 /* UIImage+RoundedCorner.m */; };
 		F32645D417F1032B001D4F74 /* UIColor+InvertedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */; };
-		F32C9DAF194544A700362CBF /* de.farthen.Zapt.ZaptWidget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F34A30AB1944CD290022DFAC /* de.farthen.Zapt.ZaptWidget.appex */; };
-		F32F58391944F13700C743C2 /* FATraktAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = B667534615F1319500A8D76D /* FATraktAPI.m */; };
-		F32F583A1944F13D00C743C2 /* FATraktConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986417DB1C510033FBD7 /* FATraktConnection.m */; };
-		F32F583B1944F13D00C743C2 /* FATraktConnectionResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986717DB222C0033FBD7 /* FATraktConnectionResponse.m */; };
-		F32F583C1944F13D00C743C2 /* FATraktRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94417FA10C0004264E6 /* FATraktRequest.m */; };
-		F32F583D1944F14300C743C2 /* FASearchData.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBE161DF2C100043207 /* FASearchData.m */; };
-		F32F583E1944F14300C743C2 /* FATraktActivityItemSource.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206317F3C6F000FAC263 /* FATraktActivityItemSource.m */; };
-		F32F583F1944F14300C743C2 /* FAInterfaceStringProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F311206617F3C8C000FAC263 /* FAInterfaceStringProvider.m */; };
-		F32F58431944F16600C743C2 /* TMFastCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B818FD14CE0003679D /* TMFastCache.m */; };
-		F32F58441944F16600C743C2 /* FATraktCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B74B3216E6EF5400230C43 /* FATraktCache.m */; };
-		F32F58451944F17600C743C2 /* FATraktAccountSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E217B081B200307CC3 /* FATraktAccountSettings.m */; };
-		F32F58461944F17600C743C2 /* FATraktCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE319009DA0005EA8E2 /* FATraktCalendar.m */; };
-		F32F58471944F17600C743C2 /* FATraktCalendarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CAEEE619009E46005EA8E2 /* FATraktCalendarItem.m */; };
-		F32F58481944F17600C743C2 /* FATraktCheckin.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C94117F96F6A004264E6 /* FATraktCheckin.m */; };
-		F32F58491944F17600C743C2 /* FATraktCheckinTimestamps.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */; };
-		F32F584A1944F17600C743C2 /* FATraktContent.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E84169B6B7C00A925B4 /* FATraktContent.m */; };
-		F32F584B1944F17600C743C2 /* FATraktEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E312162838610077CBAA /* FATraktEpisode.m */; };
-		F32F584C1944F17600C743C2 /* FATraktImageList.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544602163084FC007D0AC5 /* FATraktImageList.m */; };
-		F32F584D1944F17600C743C2 /* FATraktLastActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986E17DC22530033FBD7 /* FATraktLastActivity.m */; };
-		F32F584E1944F17600C743C2 /* FATraktList.m in Sources */ = {isa = PBXBuildFile; fileRef = F386984E16DA75C600FA3F2E /* FATraktList.m */; };
-		F32F584F1944F17600C743C2 /* FATraktListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE743D16DA916300FF2C9F /* FATraktListItem.m */; };
-		F32F58501944F17600C743C2 /* FATraktMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = B64C8F3D16238B0600A7C784 /* FATraktMovie.m */; };
-		F32F58511944F17600C743C2 /* FATraktPeople.m in Sources */ = {isa = PBXBuildFile; fileRef = F330965E162816DE000BD107 /* FATraktPeople.m */; };
-		F32F58521944F17600C743C2 /* FATraktPeopleList.m in Sources */ = {isa = PBXBuildFile; fileRef = F330966116281728000BD107 /* FATraktPeopleList.m */; };
-		F32F58531944F17600C743C2 /* FATraktProgressStats.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC15185D3A08006F5833 /* FATraktProgressStats.m */; };
-		F32F58541944F17600C743C2 /* FATraktRating.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B218FCB1120003679D /* FATraktRating.m */; };
-		F32F58551944F17600C743C2 /* FATraktSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DC466316FC93350022BE12 /* FATraktSearchResult.m */; };
-		F32F58561944F17600C743C2 /* FATraktSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = F310CAA916A7960900781F24 /* FATraktSeason.m */; };
-		F32F58571944F17600C743C2 /* FATraktSeasonProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F3DEDC12185D26C4006F5833 /* FATraktSeasonProgress.m */; };
-		F32F58581944F17600C743C2 /* FATraktShow.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30F162831C30077CBAA /* FATraktShow.m */; };
-		F32F58591944F17600C743C2 /* FATraktShowProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = F30E52BE1799076A006C5091 /* FATraktShowProgress.m */; };
-		F32F585A1944F17600C743C2 /* FATraktViewingSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F31551E517B0844600307CC3 /* FATraktViewingSettings.m */; };
-		F32F585B1944F17600C743C2 /* FATraktWatchableBaseItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F35E87169B6D7800A925B4 /* FATraktWatchableBaseItem.m */; };
-		F32F585C1944F17B00C743C2 /* FATraktDatatype.m in Sources */ = {isa = PBXBuildFile; fileRef = F3328C25162740C500FB65B8 /* FATraktDatatype.m */; };
-		F32F585D1944F17B00C743C2 /* FATraktCachedDatatype.m in Sources */ = {isa = PBXBuildFile; fileRef = F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */; };
-		F32F585E1944F1BE00C743C2 /* FASearchData.h in Headers */ = {isa = PBXBuildFile; fileRef = B6FB0DBD161DF2C100043207 /* FASearchData.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F585F1944F1BE00C743C2 /* FATraktActivityItemSource.h in Headers */ = {isa = PBXBuildFile; fileRef = F311206217F3C6F000FAC263 /* FATraktActivityItemSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58601944F1BE00C743C2 /* FAInterfaceStringProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = F311206517F3C8C000FAC263 /* FAInterfaceStringProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58611944F1BE00C743C2 /* TMFastCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F3CE70B718FD14CE0003679D /* TMFastCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58621944F1BE00C743C2 /* FATraktCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B74B3116E6EF5400230C43 /* FATraktCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58631944F1BE00C743C2 /* FACacheableItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B74B3416E6F06C00230C43 /* FACacheableItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58641944F1BE00C743C2 /* FATraktDatatype.h in Headers */ = {isa = PBXBuildFile; fileRef = F3328C24162740C500FB65B8 /* FATraktDatatype.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58651944F1BE00C743C2 /* FATraktCachedDatatype.h in Headers */ = {isa = PBXBuildFile; fileRef = F30CAFCA179D93E0002E7D3C /* FATraktCachedDatatype.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58661944F1BE00C743C2 /* FATraktAccountSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = F31551E117B081B200307CC3 /* FATraktAccountSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58671944F1BE00C743C2 /* FATraktCalendar.h in Headers */ = {isa = PBXBuildFile; fileRef = F3CAEEE219009DA0005EA8E2 /* FATraktCalendar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58681944F1BE00C743C2 /* FATraktCalendarItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3CAEEE519009E46005EA8E2 /* FATraktCalendarItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58691944F1BE00C743C2 /* FATraktCheckin.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B9C94017F96F6A004264E6 /* FATraktCheckin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586A1944F1BE00C743C2 /* FATraktCheckinTimestamps.h in Headers */ = {isa = PBXBuildFile; fileRef = F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586B1944F1BE00C743C2 /* FATraktContent.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F35E83169B6B7C00A925B4 /* FATraktContent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586C1944F1BE00C743C2 /* FATraktEpisode.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F9E311162838610077CBAA /* FATraktEpisode.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586D1944F1BE00C743C2 /* FATraktImageList.h in Headers */ = {isa = PBXBuildFile; fileRef = F3544601163084FC007D0AC5 /* FATraktImageList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586E1944F1BE00C743C2 /* FATraktLastActivity.h in Headers */ = {isa = PBXBuildFile; fileRef = F34D986D17DC22530033FBD7 /* FATraktLastActivity.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F586F1944F1BE00C743C2 /* FATraktList.h in Headers */ = {isa = PBXBuildFile; fileRef = F386984D16DA75C600FA3F2E /* FATraktList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58701944F1BE00C743C2 /* FATraktListItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3EE743C16DA916300FF2C9F /* FATraktListItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58711944F1BE00C743C2 /* FATraktMovie.h in Headers */ = {isa = PBXBuildFile; fileRef = B64C8F3C16238B0600A7C784 /* FATraktMovie.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58721944F1BE00C743C2 /* FATraktPeople.h in Headers */ = {isa = PBXBuildFile; fileRef = F330965D162816DE000BD107 /* FATraktPeople.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58731944F1BE00C743C2 /* FATraktPeopleList.h in Headers */ = {isa = PBXBuildFile; fileRef = F330966016281728000BD107 /* FATraktPeopleList.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58741944F1BE00C743C2 /* FATraktProgressStats.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DEDC14185D3A08006F5833 /* FATraktProgressStats.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58751944F1BE00C743C2 /* FATraktRating.h in Headers */ = {isa = PBXBuildFile; fileRef = F3CE70B118FCB1120003679D /* FATraktRating.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58761944F1BE00C743C2 /* FATraktSearchResult.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DC466216FC93350022BE12 /* FATraktSearchResult.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58771944F1BE00C743C2 /* FATraktSeason.h in Headers */ = {isa = PBXBuildFile; fileRef = F310CAA816A7960900781F24 /* FATraktSeason.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58781944F1BE00C743C2 /* FATraktSeasonProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = F3DEDC11185D26C4006F5833 /* FATraktSeasonProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58791944F1BE00C743C2 /* FATraktShow.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F9E30E162831C20077CBAA /* FATraktShow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587A1944F1BE00C743C2 /* FATraktShowProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = F30E52BD1799076A006C5091 /* FATraktShowProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587B1944F1BF00C743C2 /* FATraktViewingSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = F31551E417B0844600307CC3 /* FATraktViewingSettings.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587C1944F1BF00C743C2 /* FATraktWatchableBaseItem.h in Headers */ = {isa = PBXBuildFile; fileRef = F3F35E86169B6D7700A925B4 /* FATraktWatchableBaseItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587D1944F1BF00C743C2 /* FATraktConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = F34D986317DB1C510033FBD7 /* FATraktConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587E1944F1BF00C743C2 /* FATraktConnectionResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = F34D986617DB222C0033FBD7 /* FATraktConnectionResponse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F587F1944F1BF00C743C2 /* FATraktRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B9C94317FA10C0004264E6 /* FATraktRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58801944F1BF00C743C2 /* FATraktAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = B667534515F1319500A8D76D /* FATraktAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F32F58841944F5AA00C743C2 /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
-		F32F58851944F5AA00C743C2 /* NSArray+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3A184F30DB007F4BA1 /* NSArray+Functional.m */; };
-		F32F58861944F5AA00C743C2 /* NSArray+Misc.m in Sources */ = {isa = PBXBuildFile; fileRef = F381373F1933A43B00459982 /* NSArray+Misc.m */; };
-		F32F58871944F5AA00C743C2 /* NSDictionary+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE3D184F4301007F4BA1 /* NSDictionary+Functional.m */; };
-		F32F58881944F5AA00C743C2 /* NSObject+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E2208416E98BFE008C3AFA /* NSObject+PerformBlock.m */; };
-		F32F58891944F5AA00C743C2 /* NSObject+ClassName.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EE179DD353003408BF /* NSObject+ClassName.m */; };
-		F32F588A1944F5AA00C743C2 /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
-		F32F588B1944F5AA00C743C2 /* NSSet+Functional.m in Sources */ = {isa = PBXBuildFile; fileRef = F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */; };
-		F32F588C1944F5AA00C743C2 /* NSString+URLEncode.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */; };
-		F32F588D1944F5AA00C743C2 /* NSString+Base64Encode.m in Sources */ = {isa = PBXBuildFile; fileRef = F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */; };
-		F32F588E1944F5AA00C743C2 /* NSString+StringByAppendingSuffixToFilename.m in Sources */ = {isa = PBXBuildFile; fileRef = F3544608163087D1007D0AC5 /* NSString+StringByAppendingSuffixToFilename.m */; };
-		F32F588F1944F5AA00C743C2 /* NSString+UUIDString.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E487C184D647C00D66A32 /* NSString+UUIDString.m */; };
-		F32F58901944F5AA00C743C2 /* NSString+ContainsSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */; };
-		F32F58911944F5AA00C743C2 /* UIColor+InvertedColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F32645D317F1032B001D4F74 /* UIColor+InvertedColor.m */; };
-		F32F58931944F5AA00C743C2 /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356617FF569C00116A59 /* UIView+Debug.m */; };
-		F32F58941944F5AA00C743C2 /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
-		F32F58951944F5AA00C743C2 /* UIView+FrameAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */; };
-		F32F58961944F5AA00C743C2 /* UIView+Animations.m in Sources */ = {isa = PBXBuildFile; fileRef = F3938E5A16F47CBC00A19FD1 /* UIView+Animations.m */; };
-		F32F58971944F5AA00C743C2 /* UIView+RecursiveSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F31D68EB179DCFDC003408BF /* UIView+RecursiveSubviews.m */; };
-		F32F58981944F5AA00C743C2 /* UIView+RecursiveLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE212917F3F3F100A0118E /* UIView+RecursiveLayout.m */; };
-		F32F58991944F5AA00C743C2 /* UIView+ImageScreenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = F3EE213217F4FA2400A0118E /* UIView+ImageScreenshot.m */; };
-		F32F589A1944F5AA00C743C2 /* UIViewController+PresentInsideNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3B9C93B17F92BC9004264E6 /* UIViewController+PresentInsideNavigationController.m */; };
-		F32F589C1944F5AA00C743C2 /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
-		F32F58A11944F9EF00C743C2 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F32F58A51944FEC200C743C2 /* FAActivityDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3AF1A3716F74B3300159989 /* FAActivityDispatch.m */; };
 		F32F58A81944FF0E00C743C2 /* FAConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F58A71944FF0E00C743C2 /* FAConnectionDelegate.m */; };
-		F32F58A919450A8D00C743C2 /* FAPropertyUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F3309658162743D7000BD107 /* FAPropertyUtil.m */; };
-		F32F58AA19450A9700C743C2 /* FAPropertyInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F33CC36416F093D200B7D443 /* FAPropertyInfo.m */; };
 		F32F72F5190453F400B4841D /* FAEpisodeAirDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */; };
 		F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */; };
 		F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */; };
@@ -149,12 +52,8 @@
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
 		F338DA5218108E2D00A1E12B /* NSString+Base64Encode.m in Sources */ = {isa = PBXBuildFile; fileRef = F338DA5118108E2D00A1E12B /* NSString+Base64Encode.m */; };
-		F3414A2F194545CB00C71B93 /* libFATrakt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3970AFE1945397B00C914C0 /* libFATrakt.a */; };
-		F3414A31194552C800C71B93 /* FAGlobalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A8BFD017FBED2800188453 /* FAGlobalSettings.m */; };
 		F347356417FF55AE00116A59 /* FADebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356317FF55AE00116A59 /* FADebugController.m */; };
 		F347356717FF569C00116A59 /* UIView+Debug.m in Sources */ = {isa = PBXBuildFile; fileRef = F347356617FF569C00116A59 /* UIView+Debug.m */; };
-		F34A30AF1944CD290022DFAC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F34A30AE1944CD290022DFAC /* NotificationCenter.framework */; };
-		F34A30B71944CD290022DFAC /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F34A30B61944CD290022DFAC /* MainInterface.storyboard */; };
 		F34D986217DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986117DAF53A0033FBD7 /* FACustomListsMembershipTableViewController.m */; };
 		F34D986B17DC20890033FBD7 /* FAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F34D986A17DC20890033FBD7 /* FAHomeViewController.m */; };
 		F353F41F17FBBD8200A03E6A /* FAReloadControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F353F41E17FBBD8200A03E6A /* FAReloadControl.m */; };
@@ -169,7 +68,6 @@
 		F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F357FA6E16A8B60100420EC4 /* FAListsViewController.m */; };
 		F35A174A17E175D8004B5F44 /* FARatingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F35A174917E175D8004B5F44 /* FARatingsViewController.m */; };
 		F35A174E17E215B8004B5F44 /* FADominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */; };
-		F36F0E86194561B400707D98 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F36F0E85194561B400707D98 /* libPods.a */; };
 		F36F43BF179E2E8B00E5A3FE /* NSArray+Sorting.m in Sources */ = {isa = PBXBuildFile; fileRef = F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */; };
 		F37B677D185BAD1800FAC329 /* FASeasonDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B677C185BAD1800FAC329 /* FASeasonDetailViewController.m */; };
 		F37B6780185BBF4000FAC329 /* FASearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37B677F185BBF4000FAC329 /* FASearchDisplayController.m */; };
@@ -273,11 +171,6 @@
 		F3CE70AD18FC38530003679D /* UIViewController+BarViews.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AC18FC38530003679D /* UIViewController+BarViews.m */; };
 		F3CE70B018FC71FA0003679D /* NSRunLoop+PerformBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70AF18FC71FA0003679D /* NSRunLoop+PerformBlock.m */; };
 		F3CE70B618FCE4780003679D /* NSString+ContainsSubstring.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */; };
-		F3D328651945217300C95D73 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D328641945217300C95D73 /* libPods-AFNetworking.a */; };
-		F3D328671945217E00C95D73 /* libPods-CocoaLumberjack.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D328661945217E00C95D73 /* libPods-CocoaLumberjack.a */; };
-		F3D328691945218A00C95D73 /* libPods-PDKeychainBindingsController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D328681945218A00C95D73 /* libPods-PDKeychainBindingsController.a */; };
-		F3D3286B1945219000C95D73 /* libPods-TMCache.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3D3286A1945219000C95D73 /* libPods-TMCache.a */; };
-		F3D3288C194532F200C95D73 /* FATodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D3288B194532F200C95D73 /* FATodayViewController.m */; };
 		F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E3F17CCF9E000343C9F /* Images.xcassets */; };
 		F3D80E5B17CCFCA200343C9F /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */; };
 		F3D80E5C17CCFCA400343C9F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F3D80E5417CCFC8800343C9F /* InfoPlist.strings */; };
@@ -310,13 +203,6 @@
 			remoteGlobalIDString = B66752F915F12FBE00A8D76D;
 			remoteInfo = Zapt;
 		};
-		F32C9DB0194544A700362CBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B66752F115F12FBE00A8D76D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F34A30AA1944CD290022DFAC;
-			remoteInfo = ZaptWidget;
-		};
 		F32F589F1944F82800C743C2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B66752F115F12FBE00A8D76D /* Project object */;
@@ -330,20 +216,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = B66752F915F12FBE00A8D76D;
 			remoteInfo = Zapt;
-		};
-		F34A30B81944CD290022DFAC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B66752F115F12FBE00A8D76D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F34A30AA1944CD290022DFAC;
-			remoteInfo = ZaptWidget;
-		};
-		F34A30BB1944CD290022DFAC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B66752F115F12FBE00A8D76D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = F34A30AA1944CD290022DFAC;
-			remoteInfo = ZaptWidget;
 		};
 		F3D3284119451F3100C95D73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -368,7 +240,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				F32C9DAF194544A700362CBF /* de.farthen.Zapt.ZaptWidget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +283,7 @@
 		B6FB0DBD161DF2C100043207 /* FASearchData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchData.h; sourceTree = "<group>"; };
 		B6FB0DBE161DF2C100043207 /* FASearchData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchData.m; sourceTree = "<group>"; };
 		D524EB2F9C7845CAB26FE489 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB69AF7662EF58759B9852ED /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANavigationController.h; sourceTree = "<group>"; };
 		F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANavigationController.m; sourceTree = "<group>"; };
 		F30CAFC0179CD194002E7D3C /* FANextUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANextUpViewController.h; sourceTree = "<group>"; };
@@ -420,7 +292,6 @@
 		F30CAFC8179D82D4002E7D3C /* FANextUpTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANextUpTableViewCell.m; sourceTree = "<group>"; };
 		F30CAFCA179D93E0002E7D3C /* FATraktCachedDatatype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCachedDatatype.h; sourceTree = "<group>"; };
 		F30CAFCB179D93E0002E7D3C /* FATraktCachedDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktCachedDatatype.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		F30E21351944D4EF005CBBAC /* FATraktShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FATraktShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F30E21381944D4F0005CBBAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F30E21391944D4F0005CBBAC /* FATrakt.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FATrakt.h; sourceTree = "<group>"; };
 		F30E52BD1799076A006C5091 /* FATraktShowProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktShowProgress.h; sourceTree = "<group>"; };
@@ -505,7 +376,6 @@
 		F347356317FF55AE00116A59 /* FADebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADebugController.m; sourceTree = "<group>"; };
 		F347356517FF569C00116A59 /* UIView+Debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debug.h"; sourceTree = "<group>"; };
 		F347356617FF569C00116A59 /* UIView+Debug.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debug.m"; sourceTree = "<group>"; };
-		F34A30AB1944CD290022DFAC /* de.farthen.Zapt.ZaptWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = de.farthen.Zapt.ZaptWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		F34A30AE1944CD290022DFAC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		F34A30B21944CD290022DFAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Support/Info.plist; sourceTree = "<group>"; };
 		F34A30B61944CD290022DFAC /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
@@ -761,7 +631,7 @@
 		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
 		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
 		F3FEDC881908413B003011D7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
-		F49B2E03388B47F18675407D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		F8A56914D126E30523A88F37 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -795,27 +665,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F30E21311944D4EF005CBBAC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F3D328651945217300C95D73 /* libPods-AFNetworking.a in Frameworks */,
-				F3D328671945217E00C95D73 /* libPods-CocoaLumberjack.a in Frameworks */,
-				F3D328691945218A00C95D73 /* libPods-PDKeychainBindingsController.a in Frameworks */,
-				F3D3286B1945219000C95D73 /* libPods-TMCache.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F34A30A81944CD290022DFAC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F3414A2F194545CB00C71B93 /* libFATrakt.a in Frameworks */,
-				F36F0E86194561B400707D98 /* libPods.a in Frameworks */,
-				F34A30AF1944CD290022DFAC /* NotificationCenter.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F3970AFB1945397B00C914C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -826,6 +675,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D1E1EFB38B77F17F70E4217 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DB69AF7662EF58759B9852ED /* Pods.debug.xcconfig */,
+				F8A56914D126E30523A88F37 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B66752EF15F12FBE00A8D76D = {
 			isa = PBXGroup;
 			children = (
@@ -839,7 +697,7 @@
 				B66752FD15F12FBE00A8D76D /* Frameworks */,
 				F3CBA90F17CD035200BAC568 /* Zapt Tests */,
 				B66752FB15F12FBE00A8D76D /* Products */,
-				F49B2E03388B47F18675407D /* Pods.xcconfig */,
+				8D1E1EFB38B77F17F70E4217 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -848,8 +706,6 @@
 			children = (
 				B66752FA15F12FBE00A8D76D /* Zapt.app */,
 				B667532915F12FBE00A8D76D /* Zapt Tests.xctest */,
-				F34A30AB1944CD290022DFAC /* de.farthen.Zapt.ZaptWidget.appex */,
-				F30E21351944D4EF005CBBAC /* FATraktShared.framework */,
 				F3970AFE1945397B00C914C0 /* libFATrakt.a */,
 			);
 			name = Products;
@@ -1837,52 +1693,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXHeadersBuildPhase section */
-		F30E21321944D4EF005CBBAC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F30E213A1944D4F0005CBBAC /* FATrakt.h in Headers */,
-				F32F585E1944F1BE00C743C2 /* FASearchData.h in Headers */,
-				F32F585F1944F1BE00C743C2 /* FATraktActivityItemSource.h in Headers */,
-				F32F58601944F1BE00C743C2 /* FAInterfaceStringProvider.h in Headers */,
-				F32F58611944F1BE00C743C2 /* TMFastCache.h in Headers */,
-				F32F58621944F1BE00C743C2 /* FATraktCache.h in Headers */,
-				F32F58631944F1BE00C743C2 /* FACacheableItem.h in Headers */,
-				F32F58641944F1BE00C743C2 /* FATraktDatatype.h in Headers */,
-				F32F58651944F1BE00C743C2 /* FATraktCachedDatatype.h in Headers */,
-				F32F58661944F1BE00C743C2 /* FATraktAccountSettings.h in Headers */,
-				F32F58671944F1BE00C743C2 /* FATraktCalendar.h in Headers */,
-				F32F58681944F1BE00C743C2 /* FATraktCalendarItem.h in Headers */,
-				F32F58691944F1BE00C743C2 /* FATraktCheckin.h in Headers */,
-				F32F586A1944F1BE00C743C2 /* FATraktCheckinTimestamps.h in Headers */,
-				F32F586B1944F1BE00C743C2 /* FATraktContent.h in Headers */,
-				F32F586C1944F1BE00C743C2 /* FATraktEpisode.h in Headers */,
-				F32F586D1944F1BE00C743C2 /* FATraktImageList.h in Headers */,
-				F32F586E1944F1BE00C743C2 /* FATraktLastActivity.h in Headers */,
-				F32F586F1944F1BE00C743C2 /* FATraktList.h in Headers */,
-				F32F58701944F1BE00C743C2 /* FATraktListItem.h in Headers */,
-				F32F58711944F1BE00C743C2 /* FATraktMovie.h in Headers */,
-				F32F58721944F1BE00C743C2 /* FATraktPeople.h in Headers */,
-				F32F58731944F1BE00C743C2 /* FATraktPeopleList.h in Headers */,
-				F32F58741944F1BE00C743C2 /* FATraktProgressStats.h in Headers */,
-				F32F58751944F1BE00C743C2 /* FATraktRating.h in Headers */,
-				F32F58761944F1BE00C743C2 /* FATraktSearchResult.h in Headers */,
-				F32F58771944F1BE00C743C2 /* FATraktSeason.h in Headers */,
-				F32F58781944F1BE00C743C2 /* FATraktSeasonProgress.h in Headers */,
-				F32F58791944F1BE00C743C2 /* FATraktShow.h in Headers */,
-				F32F587A1944F1BE00C743C2 /* FATraktShowProgress.h in Headers */,
-				F32F587B1944F1BF00C743C2 /* FATraktViewingSettings.h in Headers */,
-				F32F587C1944F1BF00C743C2 /* FATraktWatchableBaseItem.h in Headers */,
-				F32F587D1944F1BF00C743C2 /* FATraktConnection.h in Headers */,
-				F32F587E1944F1BF00C743C2 /* FATraktConnectionResponse.h in Headers */,
-				F32F587F1944F1BF00C743C2 /* FATraktRequest.h in Headers */,
-				F32F58801944F1BF00C743C2 /* FATraktAPI.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXHeadersBuildPhase section */
-
 /* Begin PBXNativeTarget section */
 		B66752F915F12FBE00A8D76D /* Zapt */ = {
 			isa = PBXNativeTarget;
@@ -1899,9 +1709,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				F34A30B91944CD290022DFAC /* PBXTargetDependency */,
-				F34A30BC1944CD290022DFAC /* PBXTargetDependency */,
-				F32C9DB1194544A700362CBF /* PBXTargetDependency */,
 			);
 			name = Zapt;
 			productName = Zapt;
@@ -1931,42 +1738,6 @@
 			productName = ZaptTests;
 			productReference = B667532915F12FBE00A8D76D /* Zapt Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		F30E21341944D4EF005CBBAC /* FATraktShared */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F30E21521944D4F0005CBBAC /* Build configuration list for PBXNativeTarget "FATraktShared" */;
-			buildPhases = (
-				F30E21301944D4EF005CBBAC /* Sources */,
-				F30E21311944D4EF005CBBAC /* Frameworks */,
-				F30E21321944D4EF005CBBAC /* Headers */,
-				F30E21331944D4EF005CBBAC /* Resources */,
-				F32F58831944F20600C743C2 /* Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = FATraktShared;
-			productName = FATrakt;
-			productReference = F30E21351944D4EF005CBBAC /* FATraktShared.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		F34A30AA1944CD290022DFAC /* ZaptWidget */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = F34A30BF1944CD290022DFAC /* Build configuration list for PBXNativeTarget "ZaptWidget" */;
-			buildPhases = (
-				F34A30A71944CD290022DFAC /* Sources */,
-				F34A30A81944CD290022DFAC /* Frameworks */,
-				F34A30A91944CD290022DFAC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ZaptWidget;
-			productName = ZaptWidget;
-			productReference = F34A30AB1944CD290022DFAC /* de.farthen.Zapt.ZaptWidget.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		F3970AFD1945397B00C914C0 /* FATrakt */ = {
 			isa = PBXNativeTarget;
@@ -2009,25 +1780,6 @@
 					B667532815F12FBE00A8D76D = {
 						TestTargetID = B66752F915F12FBE00A8D76D;
 					};
-					F30E21341944D4EF005CBBAC = {
-						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = R6693WW55J;
-					};
-					F34A30AA1944CD290022DFAC = {
-						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = R6693WW55J;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 0;
-							};
-							com.apple.Keychain = {
-								enabled = 1;
-							};
-							com.apple.iOS = {
-								enabled = 0;
-							};
-						};
-					};
 					F3970AFD1945397B00C914C0 = {
 						CreatedOnToolsVersion = 6.0;
 					};
@@ -2047,8 +1799,6 @@
 			targets = (
 				B66752F915F12FBE00A8D76D /* Zapt */,
 				B667532815F12FBE00A8D76D /* ZaptTests */,
-				F34A30AA1944CD290022DFAC /* ZaptWidget */,
-				F30E21341944D4EF005CBBAC /* FATraktShared */,
 				F3970AFD1945397B00C914C0 /* FATrakt */,
 			);
 		};
@@ -2079,21 +1829,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F30E21331944D4EF005CBBAC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F34A30A91944CD290022DFAC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F34A30B71944CD290022DFAC /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2128,20 +1863,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		F32F58831944F20600C743C2 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-		};
 		F3978A1817B50A94001E5807 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2167,7 +1888,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F3FEDC8719084114003011D7 /* Crashlytics */ = {
@@ -2322,82 +2043,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F30E21301944D4EF005CBBAC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F32F58A11944F9EF00C743C2 /* CGFunctions.c in Sources */,
-				F32F58A919450A8D00C743C2 /* FAPropertyUtil.m in Sources */,
-				F32F58AA19450A9700C743C2 /* FAPropertyInfo.m in Sources */,
-				F32F58841944F5AA00C743C2 /* NSArray+Sorting.m in Sources */,
-				F32F58851944F5AA00C743C2 /* NSArray+Functional.m in Sources */,
-				F32F58861944F5AA00C743C2 /* NSArray+Misc.m in Sources */,
-				F32F58871944F5AA00C743C2 /* NSDictionary+Functional.m in Sources */,
-				F32F58881944F5AA00C743C2 /* NSObject+PerformBlock.m in Sources */,
-				F32F58891944F5AA00C743C2 /* NSObject+ClassName.m in Sources */,
-				F32F588A1944F5AA00C743C2 /* NSRunLoop+PerformBlock.m in Sources */,
-				F32F588B1944F5AA00C743C2 /* NSSet+Functional.m in Sources */,
-				F32F588C1944F5AA00C743C2 /* NSString+URLEncode.m in Sources */,
-				F32F588D1944F5AA00C743C2 /* NSString+Base64Encode.m in Sources */,
-				F32F588E1944F5AA00C743C2 /* NSString+StringByAppendingSuffixToFilename.m in Sources */,
-				F32F588F1944F5AA00C743C2 /* NSString+UUIDString.m in Sources */,
-				F32F58901944F5AA00C743C2 /* NSString+ContainsSubstring.m in Sources */,
-				F32F58911944F5AA00C743C2 /* UIColor+InvertedColor.m in Sources */,
-				F32F58931944F5AA00C743C2 /* UIView+Debug.m in Sources */,
-				F32F58941944F5AA00C743C2 /* UIView+SizeToFitSubviews.m in Sources */,
-				F32F58951944F5AA00C743C2 /* UIView+FrameAdditions.m in Sources */,
-				F32F58961944F5AA00C743C2 /* UIView+Animations.m in Sources */,
-				F32F58971944F5AA00C743C2 /* UIView+RecursiveSubviews.m in Sources */,
-				F32F58981944F5AA00C743C2 /* UIView+RecursiveLayout.m in Sources */,
-				F32F58991944F5AA00C743C2 /* UIView+ImageScreenshot.m in Sources */,
-				F32F589A1944F5AA00C743C2 /* UIViewController+PresentInsideNavigationController.m in Sources */,
-				F32F589C1944F5AA00C743C2 /* UIViewController+BarViews.m in Sources */,
-				F32F584F1944F17600C743C2 /* FATraktListItem.m in Sources */,
-				F32F583F1944F14300C743C2 /* FAInterfaceStringProvider.m in Sources */,
-				F32F58531944F17600C743C2 /* FATraktProgressStats.m in Sources */,
-				F32F58521944F17600C743C2 /* FATraktPeopleList.m in Sources */,
-				F32F58511944F17600C743C2 /* FATraktPeople.m in Sources */,
-				F32F584E1944F17600C743C2 /* FATraktList.m in Sources */,
-				F32F584B1944F17600C743C2 /* FATraktEpisode.m in Sources */,
-				F32F58501944F17600C743C2 /* FATraktMovie.m in Sources */,
-				F32F583E1944F14300C743C2 /* FATraktActivityItemSource.m in Sources */,
-				F32F585A1944F17600C743C2 /* FATraktViewingSettings.m in Sources */,
-				F32F58491944F17600C743C2 /* FATraktCheckinTimestamps.m in Sources */,
-				F32F58471944F17600C743C2 /* FATraktCalendarItem.m in Sources */,
-				F32F58561944F17600C743C2 /* FATraktSeason.m in Sources */,
-				F32F585D1944F17B00C743C2 /* FATraktCachedDatatype.m in Sources */,
-				F32F58541944F17600C743C2 /* FATraktRating.m in Sources */,
-				F32F58591944F17600C743C2 /* FATraktShowProgress.m in Sources */,
-				F32F58461944F17600C743C2 /* FATraktCalendar.m in Sources */,
-				F32F58391944F13700C743C2 /* FATraktAPI.m in Sources */,
-				F32F58481944F17600C743C2 /* FATraktCheckin.m in Sources */,
-				F32F58431944F16600C743C2 /* TMFastCache.m in Sources */,
-				F32F585C1944F17B00C743C2 /* FATraktDatatype.m in Sources */,
-				F32F58571944F17600C743C2 /* FATraktSeasonProgress.m in Sources */,
-				F32F583C1944F13D00C743C2 /* FATraktRequest.m in Sources */,
-				F32F584D1944F17600C743C2 /* FATraktLastActivity.m in Sources */,
-				F32F583B1944F13D00C743C2 /* FATraktConnectionResponse.m in Sources */,
-				F32F585B1944F17600C743C2 /* FATraktWatchableBaseItem.m in Sources */,
-				F32F58451944F17600C743C2 /* FATraktAccountSettings.m in Sources */,
-				F32F584C1944F17600C743C2 /* FATraktImageList.m in Sources */,
-				F32F583A1944F13D00C743C2 /* FATraktConnection.m in Sources */,
-				F32F583D1944F14300C743C2 /* FASearchData.m in Sources */,
-				F32F584A1944F17600C743C2 /* FATraktContent.m in Sources */,
-				F32F58581944F17600C743C2 /* FATraktShow.m in Sources */,
-				F32F58551944F17600C743C2 /* FATraktSearchResult.m in Sources */,
-				F32F58441944F16600C743C2 /* FATraktCache.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F34A30A71944CD290022DFAC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F3D3288C194532F200C95D73 /* FATodayViewController.m in Sources */,
-				F3414A31194552C800C71B93 /* FAGlobalSettings.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F3970AFA1945397B00C914C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2449,11 +2094,6 @@
 			target = B66752F915F12FBE00A8D76D /* Zapt */;
 			targetProxy = B667532E15F12FBE00A8D76D /* PBXContainerItemProxy */;
 		};
-		F32C9DB1194544A700362CBF /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F34A30AA1944CD290022DFAC /* ZaptWidget */;
-			targetProxy = F32C9DB0194544A700362CBF /* PBXContainerItemProxy */;
-		};
 		F32F58A01944F82800C743C2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = B66752F915F12FBE00A8D76D /* Zapt */;
@@ -2463,16 +2103,6 @@
 			isa = PBXTargetDependency;
 			target = B66752F915F12FBE00A8D76D /* Zapt */;
 			targetProxy = F34A30AC1944CD290022DFAC /* PBXContainerItemProxy */;
-		};
-		F34A30B91944CD290022DFAC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F34A30AA1944CD290022DFAC /* ZaptWidget */;
-			targetProxy = F34A30B81944CD290022DFAC /* PBXContainerItemProxy */;
-		};
-		F34A30BC1944CD290022DFAC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = F34A30AA1944CD290022DFAC /* ZaptWidget */;
-			targetProxy = F34A30BB1944CD290022DFAC /* PBXContainerItemProxy */;
 		};
 		F3D3284219451F3100C95D73 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2606,7 +2236,7 @@
 		};
 		B667533C15F12FBE00A8D76D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
+			baseConfigurationReference = DB69AF7662EF58759B9852ED /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2632,7 +2262,10 @@
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FATrakt",
+				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LC_ALL = "en_US.UTF-8";
@@ -2663,7 +2296,7 @@
 		};
 		B667533D15F12FBE00A8D76D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F49B2E03388B47F18675407D /* Pods.xcconfig */;
+			baseConfigurationReference = F8A56914D126E30523A88F37 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -2689,7 +2322,10 @@
 				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
 				GCC_WARN_SIGN_COMPARE = YES;
 				GCC_WARN_UNUSED_LABEL = YES;
-				HEADER_SEARCH_PATHS = "$(inherited)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/FATrakt",
+				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LC_ALL = "en_US.UTF-8";
@@ -2760,172 +2396,6 @@
 			};
 			name = Release;
 		};
-		F30E214E1944D4F0005CBBAC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Zapt-gwflzixrahpeibbejegxegwqfjln/Build/Products/Debug-iphonesimulator",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Zapt-gwflzixrahpeibbejegxegwqfjln/Build/Products/Debug-iphoneos",
-				);
-				GCC_PREFIX_HEADER = "FATrakt/Support/FATrakt-Prefix.pch";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
-					"${PODS_ROOT}/Headers/**",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/FATrakt/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Categories/**";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		F30E214F1944D4F0005CBBAC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Zapt-gwflzixrahpeibbejegxegwqfjln/Build/Products/Debug-iphonesimulator",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/Zapt-gwflzixrahpeibbejegxegwqfjln/Build/Products/Debug-iphoneos",
-				);
-				GCC_PREFIX_HEADER = "FATrakt/Support/FATrakt-Prefix.pch";
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
-					"${PODS_ROOT}/Headers/**",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/FATrakt/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-				STRIP_INSTALLED_PRODUCT = NO;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Categories/**";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		F34A30BD1944CD290022DFAC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = ZaptWidget/Support/de.farthen.Zapt.ZaptWidget.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
-					"${PODS_ROOT}/Headers/**",
-					"${SRCROOT}/Support/**",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/ZaptWidget/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
-				);
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = "de.farthen.Zapt.$(TARGET_NAME:rfc1034identifier)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		F34A30BE1944CD290022DFAC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = ZaptWidget/Support/de.farthen.Zapt.ZaptWidget.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
-					"${PODS_ROOT}/Headers/**",
-					"${SRCROOT}/Support/**",
-				);
-				INFOPLIST_FILE = "$(SRCROOT)/ZaptWidget/Support/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
-				);
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PODS_ROOT = "${SRCROOT}/Pods";
-				PRODUCT_NAME = "de.farthen.Zapt.$(TARGET_NAME:rfc1034identifier)";
-				PROVISIONING_PROFILE = "";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		F3970B101945397B00C914C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2941,6 +2411,7 @@
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					"${PODS_ROOT}/Headers/**",
+					"$(PROJECT_ROOT)/FATrakt/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -2971,6 +2442,7 @@
 					"$(inherited)",
 					"/Applications/Xcode6-Beta.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include",
 					"${PODS_ROOT}/Headers/**",
+					"$(PROJECT_ROOT)/FATrakt/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -3011,24 +2483,6 @@
 			buildConfigurations = (
 				B667533F15F12FBE00A8D76D /* Debug */,
 				B667534015F12FBE00A8D76D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F30E21521944D4F0005CBBAC /* Build configuration list for PBXNativeTarget "FATraktShared" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F30E214E1944D4F0005CBBAC /* Debug */,
-				F30E214F1944D4F0005CBBAC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		F34A30BF1944CD290022DFAC /* Build configuration list for PBXNativeTarget "ZaptWidget" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F34A30BD1944CD290022DFAC /* Debug */,
-				F34A30BE1944CD290022DFAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

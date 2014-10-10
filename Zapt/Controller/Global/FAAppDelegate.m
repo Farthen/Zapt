@@ -12,7 +12,7 @@
 #import "FAGlobalSettings.h"
 #import "FAZapt.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import <Crashlytics/Crashlytics.h>
 
 @interface FAAppDelegate ()

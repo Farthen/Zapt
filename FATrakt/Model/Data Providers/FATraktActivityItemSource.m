@@ -7,7 +7,7 @@
 //
 
 #import "FATraktActivityItemSource.h"
-#import <FATrakt/FATrakt.h>
+#import "FAInterfaceStringProvider.h"
 
 @interface FATraktActivityItemSource ()
 @property FATraktContent *content;

@@ -10,7 +10,7 @@
 #import <VTAcknowledgementsViewController/VTAcknowledgementsViewController.h>
 
 #import "FASettingsViewController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FAZapt.h"
 #import "FAGlobalEventHandler.h"
 #import "FATextViewController.h"

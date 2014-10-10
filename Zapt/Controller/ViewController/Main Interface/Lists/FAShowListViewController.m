@@ -7,7 +7,7 @@
 //
 
 #import "FAShowListViewController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FAContentTableViewCell.h"
 #import "FADetailViewController.h"
 

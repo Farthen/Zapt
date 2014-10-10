@@ -7,7 +7,7 @@
 //
 
 #import "FAHorizontalProgressView.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FAContentTableViewCell.h"
 
 @interface FAHorizontalProgressView ()

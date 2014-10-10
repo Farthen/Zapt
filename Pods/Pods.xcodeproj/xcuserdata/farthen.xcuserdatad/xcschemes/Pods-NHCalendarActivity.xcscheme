@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "30437B9172CA4C16ADBCB48D"
+               BlueprintIdentifier = "FB8B95728C358F23055CBC1C"
                BuildableName = "libPods-NHCalendarActivity.a"
                BlueprintName = "Pods-NHCalendarActivity"
                ReferencedContainer = "container:Pods.xcodeproj">

@@ -9,9 +9,10 @@
 #import "FAListsViewController.h"
 #import "FAListDetailViewController.h"
 #import "FASearchViewController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FANewCustomListViewController.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FAProgressHUD.h"
 #import "FARefreshControlWithActivity.h"
 

@@ -10,7 +10,7 @@
 #import "FADominantColorsAnalyzer.h"
 #import "FAColorCompositing.h"
 #import "FAColorSorting.h"
-#import <FATrakt/FATrakt.h>
+#import "FAInterfaceStringProvider.h"
 
 @interface FARatingsView ()
 @property UINavigationBar *navigationBar;

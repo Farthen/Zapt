@@ -8,7 +8,7 @@
 
 #import "FARatingsViewController.h"
 #import "FARatingsView.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 
 @interface FARatingsViewController ()
 @property FATraktContent *currentContent;

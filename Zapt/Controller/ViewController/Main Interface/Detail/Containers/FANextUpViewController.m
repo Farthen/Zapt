@@ -11,7 +11,8 @@
 
 #import "FAHorizontalProgressView.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
+#import "FAInterfaceStringProvider.h"
 
 #import "FANextUpTableViewCell.h"
 

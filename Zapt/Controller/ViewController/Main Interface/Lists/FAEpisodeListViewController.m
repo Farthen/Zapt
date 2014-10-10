@@ -9,9 +9,10 @@
 #import "FAEpisodeListViewController.h"
 #import "FADetailViewController.h"
 #import "FAStatusBarSpinnerController.h"
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 #import "FASearchDisplayController.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FAUnreadItemIndicatorView.h"
 #import "FAEpisodeNumberView.h"
 

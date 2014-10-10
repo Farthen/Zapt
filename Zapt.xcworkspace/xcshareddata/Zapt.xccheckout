@@ -10,28 +10,40 @@
 	<string>Zapt</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>1F97DAB6-E19C-47E3-A129-CA0F4C87D079</key>
+		<key>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</key>
 		<string>ssh://github.com/Farthen/Zapt.git</string>
 		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
 		<string>ssh://github.com/Farthen/objc-util.git</string>
+		<key>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</key>
+		<string>github.com:Farthen/objc-util.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Zapt.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>1F97DAB6-E19C-47E3-A129-CA0F4C87D079</key>
+		<key>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</key>
 		<string>..</string>
 		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
 		<string>../Zapt/Util</string>
+		<key>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</key>
+		<string>../Util</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://github.com/Farthen/Zapt.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1F97DAB6-E19C-47E3-A129-CA0F4C87D079</string>
+	<string>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Util</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
@@ -44,7 +56,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>1F97DAB6-E19C-47E3-A129-CA0F4C87D079</string>
+			<string>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Zapt</string>
 		</dict>

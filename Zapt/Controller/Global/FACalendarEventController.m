@@ -10,7 +10,7 @@
 #import "FCActionSheet.h"
 #import "FCAlertView.h"
 
-#import <FATrakt/FATrakt.h>
+#import "FAInterfaceStringProvider.h"
 #import <EventKitUI/EventKitUI.h>
 
 @interface FACalendarEventController ()

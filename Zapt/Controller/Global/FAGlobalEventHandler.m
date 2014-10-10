@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Finn Wilke. All rights reserved.
 //
 
-#import <FATrakt/FATrakt.h>
+#import "FATrakt.h"
 
 #import "FAGlobalEventHandler.h"
 #import "FAGlobalSettings.h"

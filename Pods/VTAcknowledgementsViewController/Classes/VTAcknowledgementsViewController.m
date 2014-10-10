@@ -26,8 +26,11 @@
 #import "VTAcknowledgement.h"
 
 static NSString *const VTDefaultAcknowledgementsPlistName = @"Pods-acknowledgements";
-static NSString *const VTCocoaPodsURLString = @"http://cocoapods.org";
-static const CGFloat VTLabelMargin          = 20;
+static NSString *const VTCocoaPodsURLString               = @"http://cocoapods.org";
+static NSString *const VTCellIdentifier                   = @"Cell";
+
+static const CGFloat VTLabelMargin = 20;
+
 
 @interface VTAcknowledgementsViewController ()
 
@@ -63,7 +66,7 @@ static const CGFloat VTLabelMargin          = 20;
     return [[self.class alloc] initWithAcknowledgementsPlistPath:path];
 }
 
-- (id)initWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath
+- (instancetype)initWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
@@ -281,9 +284,9 @@ static const CGFloat VTLabelMargin          = 20;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:VTCellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:VTCellIdentifier];
     }
 
     VTAcknowledgement *acknowledgement = self.acknowledgements[indexPath.row];
@@ -304,4 +307,3 @@ static const CGFloat VTLabelMargin          = 20;
 }
 
 @end
-
