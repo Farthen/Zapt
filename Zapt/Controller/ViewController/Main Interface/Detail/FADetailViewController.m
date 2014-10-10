@@ -170,6 +170,7 @@
     
     _willAppear = YES;
     _animatesLayoutChanges = YES;
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -208,10 +209,9 @@
         [self doDisplayImageAnimated:NO];
     }
     
-    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    [self.titleLabel setNeedsLayout];
+
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
-    
+
     self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     [self.detailLabel setNeedsLayout];
     self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
@@ -249,7 +249,7 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self updateViewConstraints];
+    //[self updateViewConstraints];
     
     if (_contentOffsetAfterLayout != 0) {
         self.scrollView.contentOffset = CGPointMake(0, _contentOffsetAfterLayout - self.scrollView.contentInset.top);
