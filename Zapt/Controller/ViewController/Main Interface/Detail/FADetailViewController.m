@@ -200,7 +200,6 @@
     // Update the container view controller for the nextUp view
     self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
     
-    [super viewWillLayoutSubviews];
     [self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];

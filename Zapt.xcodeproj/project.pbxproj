@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B31CAC9C897149598F2F06E7 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D524EB2F9C7845CAB26FE489 /* libPods.a */; };
 		B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = B613A87015FD6FEB005D88CA /* FAAuthViewController.h */; };
 		B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
 		B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
@@ -282,7 +281,6 @@
 		B6FB0DBB161DEF2C00043207 /* NSString+URLEncode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncode.m"; sourceTree = "<group>"; };
 		B6FB0DBD161DF2C100043207 /* FASearchData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASearchData.h; sourceTree = "<group>"; };
 		B6FB0DBE161DF2C100043207 /* FASearchData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FASearchData.m; sourceTree = "<group>"; };
-		D524EB2F9C7845CAB26FE489 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB69AF7662EF58759B9852ED /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		F30CAFBD179CC9B1002E7D3C /* FANavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FANavigationController.h; sourceTree = "<group>"; };
 		F30CAFBE179CC9B1002E7D3C /* FANavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FANavigationController.m; sourceTree = "<group>"; };
@@ -415,7 +413,6 @@
 		F35A174C17E215B8004B5F44 /* FADominantColorsAnalyzer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADominantColorsAnalyzer.h; sourceTree = "<group>"; };
 		F35A174D17E215B8004B5F44 /* FADominantColorsAnalyzer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADominantColorsAnalyzer.m; sourceTree = "<group>"; };
 		F3636B7916F05B890062E885 /* Misc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Misc.h; sourceTree = "<group>"; };
-		F36F0E85194561B400707D98 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F36F43BD179E2E8B00E5A3FE /* NSArray+Sorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Sorting.h"; sourceTree = "<group>"; };
 		F36F43BE179E2E8B00E5A3FE /* NSArray+Sorting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Sorting.m"; sourceTree = "<group>"; };
 		F37B677B185BAD1800FAC329 /* FASeasonDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FASeasonDetailViewController.h; sourceTree = "<group>"; };
@@ -460,7 +457,6 @@
 		F394EE40184F4A1E007F4BA1 /* NSSet+Functional.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSSet+Functional.m"; sourceTree = "<group>"; };
 		F3970AFE1945397B00C914C0 /* libFATrakt.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFATrakt.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3970B0E1945397B00C914C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F3970B3819453AA800C914C0 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F3978A1617B50A2A001E5807 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
 		F39AAECE190AC0EA004C3DB0 /* FACalendarEventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACalendarEventController.h; sourceTree = "<group>"; };
 		F39AAECF190AC0EA004C3DB0 /* FACalendarEventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACalendarEventController.m; sourceTree = "<group>"; };
@@ -550,7 +546,6 @@
 		F3CAEEE81900A90A005EA8E2 /* FACalendarTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FACalendarTableViewController.h; sourceTree = "<group>"; };
 		F3CAEEE91900A90A005EA8E2 /* FACalendarTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FACalendarTableViewController.m; sourceTree = "<group>"; };
 		F3CBA90517CD017500BAC568 /* Zapt-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt-Info.plist"; sourceTree = "<group>"; };
-		F3CBA90B17CD035200BAC568 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F3CBA91117CD035200BAC568 /* Zapt Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Zapt Tests-Info.plist"; sourceTree = "<group>"; };
 		F3CBA91317CD035200BAC568 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F3CBA91717CD035200BAC568 /* Zapt Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zapt Tests-Prefix.pch"; sourceTree = "<group>"; };
@@ -566,19 +561,10 @@
 		F3CE70B518FCE4780003679D /* NSString+ContainsSubstring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+ContainsSubstring.m"; sourceTree = "<group>"; };
 		F3CE70B718FD14CE0003679D /* TMFastCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMFastCache.h; sourceTree = "<group>"; };
 		F3CE70B818FD14CE0003679D /* TMFastCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMFastCache.m; sourceTree = "<group>"; };
-		F3D328621945214300C95D73 /* libPods.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPods.a; path = "Pods/build/Debug-iphoneos/libPods.a"; sourceTree = "<group>"; };
-		F3D328641945217300C95D73 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
-		F3D328661945217E00C95D73 /* libPods-CocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CocoaLumberjack.a"; path = "Pods/build/Debug-iphoneos/libPods-CocoaLumberjack.a"; sourceTree = "<group>"; };
-		F3D328681945218A00C95D73 /* libPods-PDKeychainBindingsController.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-PDKeychainBindingsController.a"; path = "Pods/build/Debug-iphoneos/libPods-PDKeychainBindingsController.a"; sourceTree = "<group>"; };
-		F3D3286A1945219000C95D73 /* libPods-TMCache.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TMCache.a"; path = "Pods/build/Debug-iphoneos/libPods-TMCache.a"; sourceTree = "<group>"; };
-		F3D3286C194521A100C95D73 /* libPods-CocoaLumberjack.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CocoaLumberjack.a"; path = "Pods/build/Debug-iphoneos/libPods-CocoaLumberjack.a"; sourceTree = "<group>"; };
-		F3D3286E194521A800C95D73 /* libPods-TUSafariActivity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-TUSafariActivity.a"; path = "Pods/build/Debug-iphoneos/libPods-TUSafariActivity.a"; sourceTree = "<group>"; };
-		F3D32870194521AD00C95D73 /* libPods-VTAcknowledgementsViewController.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-VTAcknowledgementsViewController.a"; path = "Pods/build/Debug-iphoneos/libPods-VTAcknowledgementsViewController.a"; sourceTree = "<group>"; };
 		F3D3288A194532F200C95D73 /* FATodayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATodayViewController.h; sourceTree = "<group>"; };
 		F3D3288B194532F200C95D73 /* FATodayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATodayViewController.m; sourceTree = "<group>"; };
 		F3D80E3F17CCF9E000343C9F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../Images.xcassets; sourceTree = "<group>"; };
 		F3D80E5517CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
-		F3D80E5717CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		F3D80E5917CCFC8800343C9F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		F3DC466216FC93350022BE12 /* FATraktSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktSearchResult.h; sourceTree = "<group>"; };
 		F3DC466316FC93350022BE12 /* FATraktSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktSearchResult.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -651,7 +637,6 @@
 				F3FEDC891908413B003011D7 /* Crashlytics.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
 				B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */,
-				B31CAC9C897149598F2F06E7 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,16 +699,6 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F36F0E85194561B400707D98 /* libPods.a */,
-				F3970B3819453AA800C914C0 /* libPods.a */,
-				F3D32870194521AD00C95D73 /* libPods-VTAcknowledgementsViewController.a */,
-				F3D3286E194521A800C95D73 /* libPods-TUSafariActivity.a */,
-				F3D3286C194521A100C95D73 /* libPods-CocoaLumberjack.a */,
-				F3D3286A1945219000C95D73 /* libPods-TMCache.a */,
-				F3D328681945218A00C95D73 /* libPods-PDKeychainBindingsController.a */,
-				F3D328661945217E00C95D73 /* libPods-CocoaLumberjack.a */,
-				F3D328641945217300C95D73 /* libPods-AFNetworking.a */,
-				F3D328621945214300C95D73 /* libPods.a */,
 				F39AAEEC190AE6AE004C3DB0 /* EventKitUI.framework */,
 				F39AAEEA190AD501004C3DB0 /* EventKit.framework */,
 				F3FEDC881908413B003011D7 /* Crashlytics.framework */,
@@ -736,9 +711,7 @@
 				B66752FE15F12FBE00A8D76D /* UIKit.framework */,
 				B667530015F12FBE00A8D76D /* Foundation.framework */,
 				B667530215F12FBE00A8D76D /* CoreGraphics.framework */,
-				F3CBA90B17CD035200BAC568 /* XCTest.framework */,
 				F34A30AE1944CD290022DFAC /* NotificationCenter.framework */,
-				D524EB2F9C7845CAB26FE489 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1524,7 +1497,6 @@
 			isa = PBXGroup;
 			children = (
 				F3D80E5417CCFC8800343C9F /* InfoPlist.strings */,
-				F3D80E5617CCFC8800343C9F /* MainStoryboard_iPad.storyboard */,
 				F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */,
 			);
 			name = en.lproj;
@@ -2140,14 +2112,6 @@
 				F3D80E5517CCFC8800343C9F /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		F3D80E5617CCFC8800343C9F /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F3D80E5717CCFC8800343C9F /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		F3D80E5817CCFC8800343C9F /* MainStoryboard_iPhone.storyboard */ = {
