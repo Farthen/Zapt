@@ -89,7 +89,7 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-by-4MK" userLabel="Container View">
                                                 <rect key="frame" x="0.0" y="180" width="600" height="138"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" translatesAutoresizingMaskIntoConstraints="NO" id="plf-L1-jrs">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plf-L1-jrs">
                                                         <rect key="frame" x="8" y="103" width="584" height="15"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -169,7 +169,7 @@
                                         <constraints>
                                             <constraint firstItem="05e-eQ-KAr" firstAttribute="leading" secondItem="y1k-dg-fqs" secondAttribute="leading" id="4gI-iR-Euj"/>
                                             <constraint firstItem="vuk-FF-vHd" firstAttribute="bottom" secondItem="05e-eQ-KAr" secondAttribute="bottom" id="4su-cI-qEc"/>
-                                            <constraint firstAttribute="bottom" secondItem="Bq5-by-4MK" secondAttribute="bottom" constant="20" symbolic="YES" id="8aS-Qb-Eom"/>
+                                            <constraint firstAttribute="bottom" secondItem="Bq5-by-4MK" secondAttribute="bottom" priority="250" constant="20" symbolic="YES" id="8aS-Qb-Eom"/>
                                             <constraint firstAttribute="width" secondItem="05e-eQ-KAr" secondAttribute="width" id="Fom-g3-WwV"/>
                                             <constraint firstItem="Bq5-by-4MK" firstAttribute="top" secondItem="05e-eQ-KAr" secondAttribute="bottom" id="L3d-j3-SpA"/>
                                             <constraint firstItem="Bq5-by-4MK" firstAttribute="trailing" secondItem="y1k-dg-fqs" secondAttribute="trailing" id="S9W-3l-fng"/>
