@@ -157,6 +157,10 @@
     [self.contentView updateConstraintsIfNeeded];
     [self.scrollView layoutIfNeeded];
     
+    // Calculate the expected image view height considering screen width
+    // The posters are 16:9
+    self.coverImageViewHeightConstraint.constant = self.coverImageView.frame.size.width / (16.0/9.0);
+    
     if (_imageLoaded && !_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
     }
@@ -168,9 +172,10 @@
         [self prepareViewForContent];
     }
     
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    
     _willAppear = YES;
     _animatesLayoutChanges = YES;
-    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -200,7 +205,7 @@
     
     // Update the container view controller for the nextUp view
     self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
-    
+        
     [self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];
@@ -352,7 +357,6 @@
         
         CGSize newSize = CGSizeMake(newWidth * scale, ceilf(_coverImage.size.height * ratio));
         UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
-        
         
         self.coverImageViewHeightConstraint.constant = scaledImage.size.height / scale;
         [_coverImageView setNeedsUpdateConstraints];
