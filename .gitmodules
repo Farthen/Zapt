@@ -1,3 +1,3 @@
-[submodule "Zapt/Util"]
+[submodule "Util"]
 	path = Util
 	url = git@github.com:Farthen/objc-util.git
