@@ -78,6 +78,7 @@
 		F38137401933A43B00459982 /* NSArray+Misc.m in Sources */ = {isa = PBXBuildFile; fileRef = F381373F1933A43B00459982 /* NSArray+Misc.m */; };
 		F382AE6E1680D5C000B878BC /* UIView+SizeToFitSubviews.m in Sources */ = {isa = PBXBuildFile; fileRef = F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */; };
 		F3867E6E19E7846E003BBF58 /* Launch Screen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F3867E6D19E7846E003BBF58 /* Launch Screen.xib */; };
+		F3867EA619E891AE003BBF58 /* FADebugTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3867EA519E891AE003BBF58 /* FADebugTableView.m */; };
 		F386985216DA84AA00FA3F2E /* FAListDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F386985116DA84AA00FA3F2E /* FAListDetailViewController.m */; };
 		F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F38BD69B16B770E300267137 /* FATitleLabel.m */; };
 		F390191B16513819006C8E5B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F390191A16513819006C8E5B /* Security.framework */; };
@@ -435,6 +436,8 @@
 		F382AE6C1680D5C000B878BC /* UIView+SizeToFitSubviews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SizeToFitSubviews.h"; sourceTree = "<group>"; };
 		F382AE6D1680D5C000B878BC /* UIView+SizeToFitSubviews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SizeToFitSubviews.m"; sourceTree = "<group>"; };
 		F3867E6D19E7846E003BBF58 /* Launch Screen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = "Launch Screen.xib"; path = "Zapt/View/Launch Screen.xib"; sourceTree = SOURCE_ROOT; };
+		F3867EA419E891AE003BBF58 /* FADebugTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FADebugTableView.h; sourceTree = "<group>"; };
+		F3867EA519E891AE003BBF58 /* FADebugTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FADebugTableView.m; sourceTree = "<group>"; };
 		F386984D16DA75C600FA3F2E /* FATraktList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktList.h; sourceTree = "<group>"; };
 		F386984E16DA75C600FA3F2E /* FATraktList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FATraktList.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F386985016DA84AA00FA3F2E /* FAListDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FAListDetailViewController.h; sourceTree = "<group>"; };
@@ -1107,6 +1110,8 @@
 				F3C925B718FA00DF0054ACE3 /* FAPullScrollViewAccessoryView.m */,
 				F3C925B918FA02E50054ACE3 /* FAArrowView.h */,
 				F3C925BA18FA02E50054ACE3 /* FAArrowView.m */,
+				F3867EA419E891AE003BBF58 /* FADebugTableView.h */,
+				F3867EA519E891AE003BBF58 /* FADebugTableView.m */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -1958,6 +1963,7 @@
 				F30CAFBF179CC9B1002E7D3C /* FANavigationController.m in Sources */,
 				F357FA6816A8842600420EC4 /* FASettingsViewController.m in Sources */,
 				F357FA6F16A8B60100420EC4 /* FAListsViewController.m in Sources */,
+				F3867EA619E891AE003BBF58 /* FADebugTableView.m in Sources */,
 				F38BD69C16B770E300267137 /* FATitleLabel.m in Sources */,
 				F394EE32184EE56B007F4BA1 /* FABadges.m in Sources */,
 				F394EE41184F4A1E007F4BA1 /* NSSet+Functional.m in Sources */,
@@ -2256,7 +2262,7 @@
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Zapt/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2316,7 +2322,7 @@
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Zapt/**";
 				WRAPPER_EXTENSION = app;
 			};

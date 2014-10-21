@@ -8,6 +8,7 @@
 
 #import "FAArrayTableViewDataSource.h"
 #import "FADictionaryHashLocator.h"
+#import "FATableViewCellHeight.h"
 
 @interface FAArrayTableViewDataSource ()
 @property NSString *cellIdentifier;
@@ -89,6 +90,15 @@
 {
     _tableView = tableView;
     tableView.dataSource = self;
+    
+    if ([self.cellClass conformsToProtocol:@protocol(FATableViewCellHeight)]) {
+        Class <FATableViewCellHeight, NSObject> cellClass = self.cellClass;
+        
+        if ([(id)cellClass respondsToSelector : @selector(cellHeight)]) {
+            tableView.rowHeight = [cellClass cellHeight];
+        }
+    }
+
 }
 
 - (void)dealloc
