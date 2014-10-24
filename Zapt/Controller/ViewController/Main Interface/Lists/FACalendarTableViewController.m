@@ -17,7 +17,6 @@
 #import "FAInterfaceStringProvider.h"
 #import "FADetailViewController.h"
 #import <NSDate-Extensions/NSDate-Utilities.h>
-#import <Crashlytics/Crashlytics.h>
 
 @interface FACalendarTableViewController () <FAArrayTableViewDelegate>
 @property (nonatomic) FAWeightedTableViewDataSource *dataSource;

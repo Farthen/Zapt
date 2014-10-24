@@ -47,6 +47,8 @@
 		F32F72F5190453F400B4841D /* FAEpisodeAirDateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F32F72F4190453F400B4841D /* FAEpisodeAirDateTableViewCell.m */; };
 		F32FAB7917EE050F0081B19E /* FATestDominantColorsAnalyzer.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7817EE050F0081B19E /* FATestDominantColorsAnalyzer.m */; };
 		F32FAB7C17EE333C0081B19E /* FAColorCompositing.m in Sources */ = {isa = PBXBuildFile; fileRef = F32FAB7B17EE333C0081B19E /* FAColorCompositing.m */; };
+		F3320B8519FAEA90007D5D4E /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3320B8419FAEA90007D5D4E /* Fabric.framework */; };
+		F3320B8719FAECCC007D5D4E /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3320B8619FAECCC007D5D4E /* Crashlytics.framework */; };
 		F33631D616ED5583004FC205 /* UIView+FrameAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631D516ED5583004FC205 /* UIView+FrameAdditions.m */; };
 		F33631D816ED606C004FC205 /* CGFunctions.c in Sources */ = {isa = PBXBuildFile; fileRef = F33631D716ED606C004FC205 /* CGFunctions.c */; };
 		F33631DC16ED85A5004FC205 /* UIFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = F33631DB16ED85A5004FC205 /* UIFunctions.m */; };
@@ -193,7 +195,6 @@
 		F3F8C5FB162705F500D6BD4C /* FAContentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F8C5FA162705F500D6BD4C /* FAContentTableViewCell.m */; };
 		F3F9E30D16282D490077CBAA /* FAZaptTestSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = F3F9E30C16282D490077CBAA /* FAZaptTestSearch.m */; };
 		F3FA8E4317FB9F500062F236 /* FATraktCheckinTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */; };
-		F3FEDC891908413B003011D7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FEDC881908413B003011D7 /* Crashlytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -360,6 +361,8 @@
 		F330965E162816DE000BD107 /* FATraktPeople.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktPeople.m; sourceTree = "<group>"; };
 		F330966016281728000BD107 /* FATraktPeopleList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktPeopleList.h; sourceTree = "<group>"; };
 		F330966116281728000BD107 /* FATraktPeopleList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktPeopleList.m; sourceTree = "<group>"; };
+		F3320B8419FAEA90007D5D4E /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = Frameworks/Fabric.framework; sourceTree = "<group>"; };
+		F3320B8619FAECCC007D5D4E /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		F3328C24162740C500FB65B8 /* FATraktDatatype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktDatatype.h; sourceTree = "<group>"; };
 		F3328C25162740C500FB65B8 /* FATraktDatatype.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktDatatype.m; sourceTree = "<group>"; };
 		F33631D416ED5583004FC205 /* UIView+FrameAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameAdditions.h"; sourceTree = "<group>"; };
@@ -621,7 +624,6 @@
 		F3FA8E3F17FB9C970062F236 /* FATraktCheckinTimestamps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FATraktCheckinTimestamps.h; sourceTree = "<group>"; };
 		F3FA8E4017FB9C970062F236 /* FATraktCheckinTimestamps.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTimestamps.m; sourceTree = "<group>"; };
 		F3FA8E4217FB9F500062F236 /* FATraktCheckinTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FATraktCheckinTest.m; sourceTree = "<group>"; };
-		F3FEDC881908413B003011D7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		F8A56914D126E30523A88F37 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -632,14 +634,15 @@
 			files = (
 				F3970B3719453A2300C914C0 /* libFATrakt.a in Frameworks */,
 				F39AAEED190AE6AE004C3DB0 /* EventKitUI.framework in Frameworks */,
+				F3320B8719FAECCC007D5D4E /* Crashlytics.framework in Frameworks */,
 				F39AAEEB190AD501004C3DB0 /* EventKit.framework in Frameworks */,
 				F3C925B518F8FE7C0054ACE3 /* CoreText.framework in Frameworks */,
 				F3DEDC18185D7874006F5833 /* MessageUI.framework in Frameworks */,
 				F31446EB17F8D34F005B164D /* libz.dylib in Frameworks */,
 				F390191B16513819006C8E5B /* Security.framework in Frameworks */,
 				B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */,
+				F3320B8519FAEA90007D5D4E /* Fabric.framework in Frameworks */,
 				B66752FF15F12FBE00A8D76D /* UIKit.framework in Frameworks */,
-				F3FEDC891908413B003011D7 /* Crashlytics.framework in Frameworks */,
 				B667530115F12FBE00A8D76D /* Foundation.framework in Frameworks */,
 				B667530315F12FBE00A8D76D /* CoreGraphics.framework in Frameworks */,
 			);
@@ -704,9 +707,10 @@
 		B66752FD15F12FBE00A8D76D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3320B8619FAECCC007D5D4E /* Crashlytics.framework */,
+				F3320B8419FAEA90007D5D4E /* Fabric.framework */,
 				F39AAEEC190AE6AE004C3DB0 /* EventKitUI.framework */,
 				F39AAEEA190AD501004C3DB0 /* EventKit.framework */,
-				F3FEDC881908413B003011D7 /* Crashlytics.framework */,
 				F3C925B418F8FE7C0054ACE3 /* CoreText.framework */,
 				F3DEDC17185D7874006F5833 /* MessageUI.framework */,
 				F3B33BA917F8D5040090BA21 /* TestFlight */,
@@ -1682,7 +1686,7 @@
 				B66752F615F12FBE00A8D76D /* Sources */,
 				B66752F715F12FBE00A8D76D /* Frameworks */,
 				B66752F815F12FBE00A8D76D /* Resources */,
-				F3FEDC8719084114003011D7 /* Crashlytics */,
+				F3FEDC8719084114003011D7 /* Fabric */,
 				F34A30C01944CD290022DFAC /* Embed App Extensions */,
 				F3A739F41945196400670580 /* Copy Pods Resources */,
 			);
@@ -1872,19 +1876,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F3FEDC8719084114003011D7 /* Crashlytics */ = {
+		F3FEDC8719084114003011D7 /* Fabric */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = Crashlytics;
+			name = Fabric;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Frameworks/Crashlytics.framework/run c844cb73d7802c284b70e34f53eb4903173ecefe 190546aa168ce7c6c508aab03cd947675fec6fb202b70e98ef591a0df6886c69";
+			shellScript = "./Frameworks/Fabric.framework/run c844cb73d7802c284b70e34f53eb4903173ecefe 190546aa168ce7c6c508aab03cd947675fec6fb202b70e98ef591a0df6886c69";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2227,6 +2231,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zapt",
 					"$(PROJECT_DIR)/Frameworks/**",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
@@ -2287,6 +2292,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zapt",
 					"$(PROJECT_DIR)/Frameworks/**",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zapt/Support/Zapt-Prefix.pch";
