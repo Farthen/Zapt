@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6249" systemVersion="14A379a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Dc3-Gx-bgp">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Dc3-Gx-bgp">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6243"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -973,7 +973,7 @@
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="top" secondItem="HTI-jW-4Qf" secondAttribute="topMargin" constant="-3" id="39W-5S-ahA"/>
                                                         <constraint firstItem="Fx0-Rg-qsu" firstAttribute="top" secondItem="HTI-jW-4Qf" secondAttribute="topMargin" constant="-3" id="4JF-wJ-abZ"/>
                                                         <constraint firstItem="pkN-oM-Zlt" firstAttribute="top" secondItem="1R8-9j-lPh" secondAttribute="bottom" constant="3" id="62D-af-cGg"/>
-                                                        <constraint firstAttribute="bottomMargin" secondItem="Fx0-Rg-qsu" secondAttribute="bottom" priority="250" constant="24" id="67N-9l-4RC"/>
+                                                        <constraint firstAttribute="bottomMargin" secondItem="Fx0-Rg-qsu" secondAttribute="bottom" priority="251" constant="8" id="67N-9l-4RC"/>
                                                         <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" secondItem="pkN-oM-Zlt" secondAttribute="trailing" priority="750" constant="8" id="8Hc-Pu-cUy"/>
                                                         <constraint firstItem="Fx0-Rg-qsu" firstAttribute="leading" secondItem="1R8-9j-lPh" secondAttribute="trailing" priority="750" constant="8" id="IbJ-Ob-Cl7"/>
                                                         <constraint firstItem="1R8-9j-lPh" firstAttribute="leading" secondItem="HTI-jW-4Qf" secondAttribute="leadingMargin" id="T83-AR-PMr"/>
@@ -1011,9 +1011,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="6Kf-z6-tsI" firstAttribute="top" secondItem="nMh-O4-5Fv" secondAttribute="bottom" constant="-100" id="HWY-ii-Ekv"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="nMh-O4-5Fv" secondAttribute="trailing" constant="-16" id="Qg7-7J-XHu"/>
+                            <constraint firstAttribute="trailing" secondItem="nMh-O4-5Fv" secondAttribute="trailing" id="Qg7-7J-XHu"/>
                             <constraint firstItem="nMh-O4-5Fv" firstAttribute="top" secondItem="niF-XF-NZV" secondAttribute="bottom" id="Qgr-HE-8lE"/>
-                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="leading" secondItem="O0q-07-3xv" secondAttribute="leadingMargin" constant="-16" id="kRB-di-8YC"/>
+                            <constraint firstItem="nMh-O4-5Fv" firstAttribute="leading" secondItem="O0q-07-3xv" secondAttribute="leading" id="kRB-di-8YC"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
