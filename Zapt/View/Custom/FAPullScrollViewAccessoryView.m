@@ -22,6 +22,7 @@
 
 @property (nonatomic) BOOL didBeginPulling;
 @property (nonatomic) BOOL pullSuccess;
+
 @end
 
 @implementation FAPullScrollViewAccessoryView
@@ -102,36 +103,11 @@
 {
     if (newSuperview == nil && self.parentScrollView) {
         [self.parentScrollView removeObserver:self forKeyPath:@"contentOffset"];
-        [self.parentScrollView removeObserver:self forKeyPath:@"contentSize"];
-        [self.parentScrollView removeObserver:self forKeyPath:@"contentInset"];
-        [self.parentScrollView removeObserver:self forKeyPath:@"frame"];
         
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center removeObserver:self];
     }
 }
-
-- (void)layoutSubviews
-{
-    [self setPosition];
-    [super layoutSubviews];
-}
-
-- (void)setPosition
-{
-    CGRect frame = self.frame;
-    
-    if (self.isBottom) {
-        frame.origin.y = MAX(self.parentScrollView.contentSize.height - self.parentScrollView.contentInset.bottom, self.parentScrollView.frame.size.height - self.parentScrollView.contentInset.bottom - self.parentScrollView.contentInset.top) + 8;
-    } else {
-        frame.origin.y = - self.frame.size.height - 8;
-    }
-    
-    frame.origin.x = (self.parentScrollView.contentSize.width / 2) - (frame.size.width / 2);
-    
-    self.frame = frame;
-}
-
 - (CGFloat)scrollOffset
 {
     CGFloat offset = 0;
@@ -157,11 +133,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"frame"] ||
-        [keyPath isEqualToString:@"contentSize"] ||
-        [keyPath isEqualToString:@"contentInset"]) {
-        [self setPosition];
-    } else if ([keyPath isEqualToString:@"contentOffset"]) {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
         
         CGFloat offset = [self scrollOffset];
         
@@ -222,16 +194,22 @@
     [center addObserver:self selector:@selector(scrollViewDidEndDragging:) name:FAScrollViewDelegateDidEndDraggingNotification object:scrollView.delegate];
     
     [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
-    [scrollView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
-    [scrollView addObserver:self forKeyPath:@"contentInset" options:NSKeyValueObservingOptionNew context:nil];
-    [scrollView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:nil];
     
     [self addSubviewConstraints];
-    [self setPosition];
+    
+    [self.parentScrollView addSubview:self];
+    
+    NSLayoutConstraint *constraint = nil;
+    if (self.isBottom) {
+        constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.parentScrollView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:-8];
+    } else {
+        constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.parentScrollView attribute:NSLayoutAttributeTop multiplier:1.0 constant:-8];
+    }
+    
+    [self.parentScrollView addConstraint:constraint];
+    [self.parentScrollView addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:self.parentScrollView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
     
     self.arrowView.upArrow = !bottom;
-    
-    [scrollView addSubview:self];
 }
 
 /*
