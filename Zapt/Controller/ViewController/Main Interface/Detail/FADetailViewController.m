@@ -172,7 +172,7 @@
         [self prepareViewForContent];
     }
     
-    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    [self preferredContentSizeChanged];
     
     _willAppear = YES;
     _animatesLayoutChanges = YES;
@@ -205,8 +205,8 @@
     
     // Update the container view controller for the nextUp view
     self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
-        
-    [self.scrollView layoutIfNeeded];
+    
+    //[self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];
     
@@ -217,10 +217,6 @@
 
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
 
-    self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    [self.detailLabel setNeedsLayout];
-    self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    
     if (!_addedNextEpisodeIndicators && _currentContent.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
         
@@ -288,6 +284,11 @@
 - (void)preferredContentSizeChanged
 {
     // This is called when dynamic type settings are changed
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    [self.detailLabel setNeedsLayout];
+    self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    
     [self.view invalidateIntrinsicContentSize];
     [self.view setNeedsUpdateConstraints];
     [self.view setNeedsLayout];
@@ -412,13 +413,12 @@
 - (void)displayOverview:(NSString *)overview
 {
     if (![self.overviewLabel.text isEqualToString:overview]) {
-        [UIView animateSynchronizedIf:NO duration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear setUp:^{
+        [UIView performWithoutAnimation:^{
             self.overviewLabel.alpha = 0.0;
             [self.overviewLabel setNeedsLayout];
-        } animations:^{
             self.overviewLabel.text = overview;
             [self.overviewLabel layoutIfNeeded];
-        } completion:nil];
+        }];
         
         BOOL shouldAnimateOverviewText = !_animatedOverviewText || _animatesLayoutChanges;
         

@@ -90,8 +90,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bq5-by-4MK" userLabel="Container View">
                                                 <rect key="frame" x="0.0" y="180" width="600" height="138"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="plf-L1-jrs">
-                                                        <rect key="frame" x="8" y="103" width="584" height="15"/>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" placeholderIntrinsicWidth="304" placeholderIntrinsicHeight="15" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plf-L1-jrs">
+                                                        <rect key="frame" x="8" y="103" width="304" height="15"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -130,8 +130,8 @@
                                                 <constraints>
                                                     <constraint firstItem="i0S-I8-SC9" firstAttribute="top" secondItem="Bq5-by-4MK" secondAttribute="top" id="7B9-ec-WIK"/>
                                                     <constraint firstItem="plf-L1-jrs" firstAttribute="top" secondItem="eJN-bu-1j2" secondAttribute="bottom" constant="8" id="7eZ-wn-DJY"/>
-                                                    <constraint firstAttribute="trailing" secondItem="plf-L1-jrs" secondAttribute="trailing" constant="8" id="BXf-xo-V3D"/>
-                                                    <constraint firstAttribute="bottom" secondItem="plf-L1-jrs" secondAttribute="bottom" constant="20" id="HSz-jA-WVc"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="plf-L1-jrs" secondAttribute="trailing" constant="8" id="BXf-xo-V3D"/>
+                                                    <constraint firstAttribute="bottom" secondItem="plf-L1-jrs" secondAttribute="bottom" priority="900" constant="20" id="HSz-jA-WVc"/>
                                                     <constraint firstAttribute="trailing" secondItem="eJN-bu-1j2" secondAttribute="trailing" id="J9E-EL-yy5"/>
                                                     <constraint firstItem="eJN-bu-1j2" firstAttribute="top" secondItem="i0S-I8-SC9" secondAttribute="bottom" id="dkz-GU-7f0"/>
                                                     <constraint firstAttribute="trailing" secondItem="i0S-I8-SC9" secondAttribute="trailing" id="gOe-R1-Vl9"/>
@@ -598,7 +598,7 @@
         <scene sceneID="2fs-CM-Nan">
             <objects>
                 <tableViewController storyboardIdentifier="home" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="currentContext" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wns-kR-h92" customClass="FAHomeViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="homeViewTableView" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="nCc-hI-Id7" customClass="FADebugTableView">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" restorationIdentifier="homeViewTableView" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="nCc-hI-Id7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
