@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = B613A87015FD6FEB005D88CA /* FAAuthViewController.h */; };
-		B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
 		B63EAB2715FD748B00DB2663 /* FAAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613A87115FD6FEB005D88CA /* FAAuthViewController.m */; };
 		B63EAB2E15FE57DE00DB2663 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B63EAB2C15FE57BD00DB2663 /* QuartzCore.framework */; };
 		B63EAB3115FE59A600DB2663 /* FAEditableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B63EAB3015FE59A600DB2663 /* FAEditableTableViewCell.m */; };
@@ -1799,8 +1797,6 @@
 				F3D80E5B17CCFCA200343C9F /* MainStoryboard.storyboard in Resources */,
 				F3D80E4017CCF9E000343C9F /* Images.xcassets in Resources */,
 				F3867E6E19E7846E003BBF58 /* Launch Screen.xib in Resources */,
-				B613A87315FD6FEB005D88CA /* FAAuthViewController.h in Resources */,
-				B613A87415FD6FEB005D88CA /* FAAuthViewController.m in Resources */,
 				F357FA6A16A899DD00420EC4 /* Checkmark.png in Resources */,
 				F357FA6C16A89A4800420EC4 /* Checkmark@2x.png in Resources */,
 				F3B74B2E16E6E23A00230C43 /* X-Mark.png in Resources */,
