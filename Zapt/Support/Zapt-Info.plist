@@ -41,7 +41,7 @@
 		</array>
 	</dict>
 	<key>LSRequiresIPhoneOS</key>
-	<false/>
+	<true/>
 	<key>TraktAPIKey</key>
 	<string>f51f0ae1adf8759e128662bb8d8a6487e81be010</string>
 	<key>UILaunchStoryboardName</key>
@@ -63,9 +63,6 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>logging</key>
 	<integer>3</integer>
