@@ -9,7 +9,6 @@
 #import "FAWeightedTableViewDataSource.h"
 
 static dispatch_queue_t _weightedSectionsQueue = nil;
-static dispatch_semaphore_t _tableViewDataSemaphore = nil;
 
 @interface FAWeightedTableViewDataSource ()
 @property NSMutableDictionary *weightedSections;
@@ -421,7 +420,6 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _weightedSectionsQueue = dispatch_queue_create("weightedSectionsQueue", DISPATCH_QUEUE_SERIAL);
-        _tableViewDataSemaphore = dispatch_semaphore_create(1);
     });
 }
 
@@ -435,39 +433,52 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     [super setTableView:tableView];
 }
 
+#pragma mark FAArrayTableViewDataSource overrides
+- (void)dispatchMain:(void (^)(void))block
+{
+    dispatch_async(_weightedSectionsQueue, ^{
+        [super dispatchMain:block];
+    });
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *sectionArray = self.tableViewData[indexPath.section];
-    id rowKey = [sectionArray objectAtIndex:indexPath.row];
+    __block id cell = nil;
     
-    NSNumber *sectionNumber = [NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section];
-    FAWeightedTableViewDataSourceSection *section = self.sectionsForIndexes[sectionNumber];
-    id sectionKey = section.key;
-    
-    NSString *reuseIdentifier = nil;
-    if (self.reuseIdentifierBlock) {
-        reuseIdentifier = self.reuseIdentifierBlock(sectionKey, rowKey);
-    }
-    
-    id cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    
-    if (!cell) {
-        if (!self.weightedCellCreationBlock && !self.cellCreationBlock) {
-            cell = [[self.cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-        } else if (self.weightedCellCreationBlock) {
-            cell = self.weightedCellCreationBlock(sectionKey, rowKey);
-        } else if (self.cellCreationBlock) {
-            cell = self.cellCreationBlock(rowKey);
+    dispatch_sync([self tableViewDataQueue], ^{
+        NSArray *sectionArray = self.tableViewData[indexPath.section];
+        id rowKey = [sectionArray objectAtIndex:indexPath.row];
+        
+        NSNumber *sectionNumber = [NSNumber numberWithUnsignedInteger:(NSUInteger)indexPath.section];
+        FAWeightedTableViewDataSourceSection *section = self.sectionsForIndexes[sectionNumber];
+        id sectionKey = section.key;
+        
+        NSString *reuseIdentifier = nil;
+        if (self.reuseIdentifierBlock) {
+            reuseIdentifier = self.reuseIdentifierBlock(sectionKey, rowKey);
         }
-    }
-    
-    if (self.weightedConfigurationBlock) {
-        self.weightedConfigurationBlock(cell, sectionKey, rowKey);
-    } else if (self.configurationBlock) {
-        self.configurationBlock(cell, rowKey);
-    }
+        
+        cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        
+        if (!cell) {
+            if (!self.weightedCellCreationBlock && !self.cellCreationBlock) {
+                cell = [[self.cellClass alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            } else if (self.weightedCellCreationBlock) {
+                cell = self.weightedCellCreationBlock(sectionKey, rowKey);
+            } else if (self.cellCreationBlock) {
+                cell = self.cellCreationBlock(rowKey);
+            }
+        }
+        
+        if (self.weightedConfigurationBlock) {
+            self.weightedConfigurationBlock(cell, sectionKey, rowKey);
+        } else if (self.configurationBlock) {
+            self.configurationBlock(cell, rowKey);
+        }
+    });
     
     return cell;
+    
 }
 
 - (void)recalculateWeight
@@ -480,177 +491,178 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
     // Dispatch this on an async queue to wait for the semaphore. This is needed
     // because otherwise the dispatch sync to the main thread would horribly fail
     dispatch_async(_weightedSectionsQueue, ^{
-        dispatch_semaphore_wait(_tableViewDataSemaphore, DISPATCH_TIME_FOREVER);
-        NSComparisonResult (^weightComparator)(id obj1, id obj2) = ^NSComparisonResult(id obj1, id obj2) {
-            NSInteger weight1 = [obj1 weight];
-            NSInteger weight2 = [obj2 weight];
-            
-            if (weight1 < weight2) {
-                return NSOrderedAscending;
-            }
-            
-            if (weight1 == weight2) {
-                return NSOrderedSame;
-            }
-            
-            return NSOrderedDescending;
-        };
-        
-        NSMutableDictionary *newWeightedSections = [NSMutableDictionary dictionary];
-        NSMutableDictionary *filteredSections = [NSMutableDictionary dictionary];
-        
-        [self.weightedSections enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceSection *section, BOOL *stop) {
-            
-            if ((section.shouldDelete || section.hidden)) {
-                if (section.currentSectionIndex != -1) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionDeleteSection animation:section.nextAnimationType]];
-                    section.nextAnimationType = UITableViewRowAnimationFade;
+        dispatch_barrier_sync([self tableViewDataQueue], ^{
+            NSComparisonResult (^weightComparator)(id obj1, id obj2) = ^NSComparisonResult(id obj1, id obj2) {
+                NSInteger weight1 = [obj1 weight];
+                NSInteger weight2 = [obj2 weight];
+                
+                if (weight1 < weight2) {
+                    return NSOrderedAscending;
                 }
                 
-                section.currentSectionIndex = -1;
-            }
-            
-            if (!section.shouldDelete) {
-                [newWeightedSections setObject:section forKey:key];
-                
-                if (!section.hidden) {
-                    [filteredSections setObject:section forKey:key];
+                if (weight1 == weight2) {
+                    return NSOrderedSame;
                 }
-            }
-        }];
-        
-        self.weightedSections = newWeightedSections;
-        
-        NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
-        
-        self.sectionsForIndexes = [NSMutableDictionary dictionary];
-        for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
-            FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
-            
-            self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
-        }
-        
-        NSMutableArray *headerTitles = [NSMutableArray array];
-        
-        NSArray *newTableViewData = [sortedWeightedSections mapUsingBlock:^id(FAWeightedTableViewDataSourceSection *section, NSUInteger sectionIdx) {
-            
-            NSMutableDictionary *newRowData = [NSMutableDictionary dictionary];
-            NSMutableDictionary *filteredRows = [NSMutableDictionary dictionary];
-            
-            [section.rowData enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceRow *row, BOOL *stop) {
                 
-                if (row.shouldDelete || row.hidden) {
-                    if (row.currentIndexPath) {
-                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionDeleteRow animation:row.nextAnimationType]];
-                        row.nextAnimationType = UITableViewRowAnimationFade;
+                return NSOrderedDescending;
+            };
+            
+            NSMutableDictionary *newWeightedSections = [NSMutableDictionary dictionary];
+            NSMutableDictionary *filteredSections = [NSMutableDictionary dictionary];
+            
+            [self.weightedSections enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceSection *section, BOOL *stop) {
+                
+                if ((section.shouldDelete || section.hidden)) {
+                    if (section.currentSectionIndex != -1) {
+                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionDeleteSection animation:section.nextAnimationType]];
+                        section.nextAnimationType = UITableViewRowAnimationFade;
                     }
                     
-                    row.currentIndexPath = nil;
+                    section.currentSectionIndex = -1;
                 }
                 
-                if (!row.shouldDelete) {
-                    [newRowData setObject:row forKey:key];
+                if (!section.shouldDelete) {
+                    [newWeightedSections setObject:section forKey:key];
                     
-                    if (!row.hidden) {
-                        [filteredRows setObject:row forKey:key];
+                    if (!section.hidden) {
+                        [filteredSections setObject:section forKey:key];
                     }
                 }
             }];
             
-            section.rowData = newRowData;
+            self.weightedSections = newWeightedSections;
             
-            NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
+            NSArray *sortedWeightedSections = [filteredSections.allValues sortedArrayUsingComparator:weightComparator];
             
-            if (!sortedWeightedRows) {
-                sortedWeightedRows = [NSArray array];
-            }
-
-            section.currentSectionIndex = sectionIdx;
-            
-            
-            // Update last weight
-            section.weight = section.weight;
-            
-            if (section.lastSectionIndex == -1) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:section.nextAnimationType]];
-                section.nextAnimationType = UITableViewRowAnimationFade;
-
-            } else if (section.lastWeight != section.weight) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:section.nextAnimationType]];
-                section.nextAnimationType = UITableViewRowAnimationFade;
-
-            } else if (section.dirty) {
-                [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionReloadSection animation:section.nextAnimationType]];
-                section.nextAnimationType = UITableViewRowAnimationFade;
-
-                section.dirty = NO;
-            }
-            
-            id title = section.headerTitle;
-            
-            if (!title) {
-                title = [NSNull null];
-            }
-            
-            [headerTitles addObject:title];
-            
-            __block int insertedRowCount = 0;
-            
-            return [sortedWeightedRows mapUsingBlock:^id(FAWeightedTableViewDataSourceRow *row, NSUInteger rowIdx) {
-                section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
+            self.sectionsForIndexes = [NSMutableDictionary dictionary];
+            for (NSUInteger i = 0; i < sortedWeightedSections.count; i++) {
+                FAWeightedTableViewDataSourceSection *section = sortedWeightedSections[i];
                 
-                row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
+                self.sectionsForIndexes[[NSNumber numberWithUnsignedInteger:i]] = section;
+            }
+            
+            NSMutableArray *headerTitles = [NSMutableArray array];
+            
+            NSArray *newTableViewData = [sortedWeightedSections mapUsingBlock:^id(FAWeightedTableViewDataSourceSection *section, NSUInteger sectionIdx) {
+                
+                NSMutableDictionary *newRowData = [NSMutableDictionary dictionary];
+                NSMutableDictionary *filteredRows = [NSMutableDictionary dictionary];
+                
+                [section.rowData enumerateKeysAndObjectsUsingBlock:^(id key, FAWeightedTableViewDataSourceRow *row, BOOL *stop) {
+                    
+                    if (row.shouldDelete || row.hidden) {
+                        if (row.currentIndexPath) {
+                            [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionDeleteRow animation:row.nextAnimationType]];
+                            row.nextAnimationType = UITableViewRowAnimationFade;
+                        }
+                        
+                        row.currentIndexPath = nil;
+                    }
+                    
+                    if (!row.shouldDelete) {
+                        [newRowData setObject:row forKey:key];
+                        
+                        if (!row.hidden) {
+                            [filteredRows setObject:row forKey:key];
+                        }
+                    }
+                }];
+                
+                section.rowData = newRowData;
+                
+                NSArray *sortedWeightedRows = [filteredRows.allValues sortedArrayUsingComparator:weightComparator];
+                
+                if (!sortedWeightedRows) {
+                    sortedWeightedRows = [NSArray array];
+                }
+                
+                section.currentSectionIndex = sectionIdx;
                 
                 
                 // Update last weight
-                row.weight = row.weight;
+                section.weight = section.weight;
                 
                 if (section.lastSectionIndex == -1) {
-                    // Section will be inserted so no new row actions should happen
-                } else if (!row.lastIndexPath) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionInsertRow animation:row.nextAnimationType]];
-                    row.nextAnimationType = UITableViewRowAnimationFade;
-                    insertedRowCount++;
-
-                } else if (row.lastWeight != row.weight) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:row.nextAnimationType]];
-                    row.nextAnimationType = UITableViewRowAnimationFade;
-
-                } else if (row.dirty) {
-                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionReloadRow animation:row.nextAnimationType]];
-                    row.nextAnimationType = UITableViewRowAnimationFade;
-
-                    row.dirty = NO;
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionInsertSection animation:section.nextAnimationType]];
+                    section.nextAnimationType = UITableViewRowAnimationFade;
+                    
+                } else if (section.lastWeight != section.weight) {
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionMoveSection animation:section.nextAnimationType]];
+                    section.nextAnimationType = UITableViewRowAnimationFade;
+                    
+                } else if (section.dirty) {
+                    [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section actionType:FAWeightedTableViewDataSourceActionReloadSection animation:section.nextAnimationType]];
+                    section.nextAnimationType = UITableViewRowAnimationFade;
+                    
+                    section.dirty = NO;
                 }
                 
-                return row.key;
+                id title = section.headerTitle;
+                
+                if (!title) {
+                    title = [NSNull null];
+                }
+                
+                [headerTitles addObject:title];
+                
+                __block int insertedRowCount = 0;
+                
+                return [sortedWeightedRows mapUsingBlock:^id(FAWeightedTableViewDataSourceRow *row, NSUInteger rowIdx) {
+                    section.rowsForIndexes[[NSNumber numberWithUnsignedInteger:rowIdx]] = row;
+                    
+                    row.currentIndexPath = [NSIndexPath indexPathForRow:rowIdx inSection:sectionIdx];
+                    
+                    
+                    // Update last weight
+                    row.weight = row.weight;
+                    
+                    if (section.lastSectionIndex == -1) {
+                        // Section will be inserted so no new row actions should happen
+                    } else if (!row.lastIndexPath) {
+                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionInsertRow animation:row.nextAnimationType]];
+                        row.nextAnimationType = UITableViewRowAnimationFade;
+                        insertedRowCount++;
+                        
+                    } else if (row.lastWeight != row.weight) {
+                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionMoveRow animation:row.nextAnimationType]];
+                        row.nextAnimationType = UITableViewRowAnimationFade;
+                        
+                    } else if (row.dirty) {
+                        [self.tableViewActions addObject:[FAWeightedTableViewDataSourceAction actionForSection:section row:row actionType:FAWeightedTableViewDataSourceActionReloadRow animation:row.nextAnimationType]];
+                        row.nextAnimationType = UITableViewRowAnimationFade;
+                        
+                        row.dirty = NO;
+                    }
+                    
+                    return row.key;
+                }];
             }];
-        }];
-        
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            // Do this in the main thread to prevent issues with the table view not being done loading data
-            self.tableViewData = newTableViewData;
-            self.headerTitles = headerTitles;
             
-            if (interpolate) {
-                [self interpolateDataChange];
-            } else {
-                [self.tableView reloadData];
-            }
             
-            dispatch_semaphore_signal(_tableViewDataSemaphore);
+            [self dispatchMain:^{
+                // Do this in the main thread to prevent issues with the table view not being done loading data
+                self.tableViewData = newTableViewData;
+                self.headerTitles = headerTitles;
+                
+                if (interpolate) {
+                    [self interpolateDataChange];
+                } else {
+                    [self.tableView reloadData];
+                }
+            }];
         });
     });
 }
 
 - (void)reloadData
 {
-    dispatch_async(_weightedSectionsQueue, ^{
-        [self.tableViewActions removeAllObjects];
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
+    dispatch_barrier_async(_weightedSectionsQueue, ^{
+        dispatch_barrier_async([self tableViewDataQueue], ^{
+            [self.tableViewActions removeAllObjects];
+            
+            [self dispatchMain:^{
+                [self.tableView reloadData];
+            }];
         });
     });
 }
@@ -1147,24 +1159,12 @@ typedef NS_ENUM(NSUInteger, FAWeightedTableViewDataSourceActionType) {
 
 - (void)reloadSection:(NSUInteger)section row:(NSUInteger)row
 {
-    dispatch_barrier_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_semaphore_wait(_tableViewDataSemaphore, DISPATCH_TIME_FOREVER);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [super reloadSection:section row:row];
-            dispatch_semaphore_signal(_tableViewDataSemaphore);
-        });
-    });
+    [super reloadSection:section row:row];
 }
 
 - (void)reloadRowsWithKeys:(NSSet *)objects animation:(UITableViewRowAnimation)animation
 {
-    dispatch_barrier_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        dispatch_semaphore_wait(_tableViewDataSemaphore, DISPATCH_TIME_FOREVER);
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [super reloadRowsWithKeys:objects animation:animation];
-            dispatch_semaphore_signal(_tableViewDataSemaphore);
-        });
-    });
+    [super reloadRowsWithKeys:objects animation:animation];
 }
 
 @end
