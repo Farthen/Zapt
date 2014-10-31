@@ -6,6 +6,12 @@
 // project.
 
 
+// 1PasswordExtension
+#define COCOAPODS_POD_AVAILABLE_1PasswordExtension
+#define COCOAPODS_VERSION_MAJOR_1PasswordExtension 1
+#define COCOAPODS_VERSION_MINOR_1PasswordExtension 1
+#define COCOAPODS_VERSION_PATCH_1PasswordExtension 0
+
 // AFNetworking
 #define COCOAPODS_POD_AVAILABLE_AFNetworking
 #define COCOAPODS_VERSION_MAJOR_AFNetworking 2
@@ -54,17 +60,17 @@
 #define COCOAPODS_VERSION_MINOR_CocoaLumberjack 0
 #define COCOAPODS_VERSION_PATCH_CocoaLumberjack 0
 
-// CocoaLumberjack/CLI
-#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_CLI
-#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_CLI 2
-#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_CLI 0
-#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_CLI 0
-
 // CocoaLumberjack/Core
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Core
 #define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Core 2
 #define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Core 0
 #define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Core 0
+
+// CocoaLumberjack/Default
+#define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Default
+#define COCOAPODS_VERSION_MAJOR_CocoaLumberjack_Default 2
+#define COCOAPODS_VERSION_MINOR_CocoaLumberjack_Default 0
+#define COCOAPODS_VERSION_PATCH_CocoaLumberjack_Default 0
 
 // CocoaLumberjack/Extensions
 #define COCOAPODS_POD_AVAILABLE_CocoaLumberjack_Extensions

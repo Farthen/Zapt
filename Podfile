@@ -9,6 +9,7 @@ pod 'TMCache', :head
 pod 'NHCalendarActivity'
 pod 'VTAcknowledgementsViewController', '~> 0.12'
 pod 'UICKeyChainStore'
+pod '1PasswordExtension'
 
 post_install do | installer |
   require 'fileutils'
