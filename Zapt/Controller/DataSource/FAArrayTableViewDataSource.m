@@ -102,17 +102,18 @@ static dispatch_queue_t _tableViewDataQueue = nil;
 
 - (void)setTableView:(UITableView *)tableView
 {
-    _tableView = tableView;
-    tableView.dataSource = self;
-    
-    if ([self.cellClass conformsToProtocol:@protocol(FATableViewCellHeight)]) {
-        Class <FATableViewCellHeight, NSObject> cellClass = self.cellClass;
+    dispatch_barrier_async(_tableViewDataQueue, ^{
+        _tableView = tableView;
+        tableView.dataSource = self;
         
-        if ([(id)cellClass respondsToSelector : @selector(cellHeight)]) {
-            tableView.rowHeight = [cellClass cellHeight];
+        if ([self.cellClass conformsToProtocol:@protocol(FATableViewCellHeight)]) {
+            Class <FATableViewCellHeight, NSObject> cellClass = self.cellClass;
+            
+            if ([(id)cellClass respondsToSelector : @selector(cellHeight)]) {
+                tableView.rowHeight = [cellClass cellHeight];
+            }
         }
-    }
-
+    });
 }
 
 - (void)dealloc
@@ -542,11 +543,9 @@ static dispatch_queue_t _tableViewDataQueue = nil;
 
 - (void)replaceRowKeysAtIndexPaths:(NSSet *)indexPaths withRowKey:(id)newRowKey
 {
-    dispatch_barrier_async(_tableViewDataQueue, ^{
-        for (NSIndexPath *indexPath in indexPaths) {
-            [self replaceRowKeyAtIndexPath:indexPath withRowKey:newRowKey];
-        }
-    });
+    for (NSIndexPath *indexPath in indexPaths) {
+        [self replaceRowKeyAtIndexPath:indexPath withRowKey:newRowKey];
+    }
 }
 
 - (void)replaceRowKeyAtIndexPath:(NSIndexPath *)indexPath withRowKey:(id)newRowKey
