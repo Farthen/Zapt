@@ -12,10 +12,8 @@
 	<dict>
 		<key>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</key>
 		<string>ssh://github.com/Farthen/Zapt.git</string>
-		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
-		<string>ssh://github.com/Farthen/objc-util.git</string>
 		<key>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</key>
-		<string>github.com:Farthen/objc-util.git</string>
+		<string>ssh://github.com/Farthen/objc-util.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Zapt.xcworkspace</string>
@@ -23,8 +21,6 @@
 	<dict>
 		<key>3A1457D7343632BFE9CD294F54A8439DE1DE98DB</key>
 		<string>..</string>
-		<key>45F8E010-906B-474E-AC8C-48B793B2FBA8</key>
-		<string>../Zapt/Util</string>
 		<key>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</key>
 		<string>../Util</string>
 	</dict>
@@ -48,7 +44,7 @@
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>45F8E010-906B-474E-AC8C-48B793B2FBA8</string>
+			<string>4836A4339AAEBE5CC56F9630DC3D08450DA718A8</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Util</string>
 		</dict>
