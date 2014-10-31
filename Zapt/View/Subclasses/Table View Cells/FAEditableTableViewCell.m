@@ -31,8 +31,15 @@
         textField.adjustsFontSizeToFitWidth = YES;
         textField.textColor = [UIColor blackColor];
         textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        textField.translatesAutoresizingMaskIntoConstraints = NO;
         
         [self.contentView addSubview:textField];
+        
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeLeading multiplier:1.0 constant:16]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:textField attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.contentView attribute:NSLayoutAttributeTop multiplier:1.0 constant:10]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:textField attribute:NSLayoutAttributeTrailing multiplier:1.0 constant:16]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:textField attribute:NSLayoutAttributeBottom multiplier:1.0 constant:10]];
+        [self.contentView setNeedsLayout];
     }
     
     return self;

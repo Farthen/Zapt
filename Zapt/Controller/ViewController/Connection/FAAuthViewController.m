@@ -15,6 +15,7 @@
 #import "FATableViewCellWithActivity.h"
 #import "FAGlobalEventHandler.h"
 #import "FAActivityDispatch.h"
+#import <OnePasswordExtension.h>
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -47,6 +48,8 @@
     
     [self setNavigationItem];
     
+    
+    // Check if on tinyphone - make some margins smaller if so
     CGFloat height = [[UIScreen mainScreen] bounds].size.height;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone &&
@@ -104,6 +107,24 @@
     }
     
     return YES;
+}
+
+- (void)onePasswordButtonPressed:sender
+{
+    __weak typeof (self) weakSelf = self;
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://trakt.tv" forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
+        if (!loginDict) {
+            if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                DDLogError(@"Error invoking 1Password App Extension for find login: %@", error);
+            }
+            return;
+        }
+        
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.usernameTextField.text = loginDict[AppExtensionUsernameKey];
+        strongSelf.passwordTextField.text = loginDict[AppExtensionPasswordKey];
+        [strongSelf.passwordTextField becomeFirstResponder];
+    }];
 }
 
 - (void)loginButtonPressed
@@ -280,6 +301,17 @@
         self.navigationItem.prompt = NSLocalizedString(@"Your credentials are invalid! Please log in again.", nil);
     } else {
         self.navigationItem.prompt = nil;
+    }
+    
+    // Check for 1Password and add button if it is available
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
+        UIBarButtonItem *onePasswordButton = [[UIBarButtonItem alloc] init];
+        onePasswordButton.image = [UIImage imageNamed:@"onepassword-navbar"];
+        
+        onePasswordButton.target = self;
+        onePasswordButton.action = @selector(onePasswordButtonPressed:);
+        
+        self.navigationItem.rightBarButtonItem = onePasswordButton;
     }
 }
 
