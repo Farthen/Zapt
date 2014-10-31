@@ -130,8 +130,6 @@
 - (void)loginButtonPressed
 {
     DDLogTiny(@"Login Button pressed");
-    self.usernameTextField.userInteractionEnabled = NO;
-    self.passwordTextField.userInteractionEnabled = NO;
     
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
@@ -142,11 +140,23 @@
         passwordHash = [FATraktConnection passwordHashForPassword:self.passwordTextField.text];
     }
     
+    if (username == nil || [username isEqualToString:@""] ||
+        passwordHash == nil || [passwordHash isEqualToString:@""]) {
+        [self.usernameTextField becomeFirstResponder];
+        
+        [self.loginButtonCell shakeTextLabelCompletion:nil];
+        return;
+    }
+    
     _checkingAuth = YES;
+    
+    self.usernameTextField.userInteractionEnabled = NO;
+    self.passwordTextField.userInteractionEnabled = NO;
     
     [self.loginButtonCell startActivity];
     
     [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
+    [FATraktConnection sharedInstance].usernameAndPasswordValid = NO;
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {
         _checkingAuth = NO;
         [self.loginButtonCell finishActivity];
@@ -181,6 +191,12 @@
     if (indexPath.section == 1 && indexPath.row == 0 && !_checkingAuth) {
         [self loginButtonPressed];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [self.usernameTextField becomeFirstResponder];
+        } else if (indexPath.row == 1) {
+            [self.passwordTextField becomeFirstResponder];
+        }
     }
 }
 

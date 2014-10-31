@@ -35,6 +35,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
 
 @implementation FATraktConnection {
     BOOL _usernameAndPasswordValid;
+    BOOL _useHTTPS;
 }
 
 + (instancetype)sharedInstance
@@ -68,11 +69,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             _usernameAndPasswordValid = NO;
         }
         
-        if (self.useHTTPS) {
-            self.traktBaseURL = @"https://api.trakt.tv";
-        } else {
-            self.traktBaseURL = @"http://api.trakt.tv";
-        }
+        self.useHTTPS = YES;
         
         self.manager = [AFHTTPRequestOperationManager manager];
         
@@ -93,6 +90,23 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     }
     
     return self;
+}
+
+- (BOOL)useHTTPS
+{
+    return _useHTTPS;
+}
+
+- (void)setUseHTTPS:(BOOL)useHTTPS
+{
+    _useHTTPS = useHTTPS;
+    
+    if (self.useHTTPS) {
+        self.traktBaseURL = @"https://api.trakt.tv";
+    } else {
+        self.traktBaseURL = @"http://api.trakt.tv";
+    }
+
 }
 
 - (BOOL)delegateCallShouldSendRequest:(FATraktRequest *)request
@@ -344,6 +358,10 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
         self.usernameAndPasswordValid = NO;
         
         [self delegateCallHandleInvalidCredentials];
+        
+        if (callback) {
+            callback(response);
+        }
     } else if (response.responseType & FATraktConnectionResponseTypeAnyError && !request.operation.isCancelled) {
         if (callback) {
             callback(response);
