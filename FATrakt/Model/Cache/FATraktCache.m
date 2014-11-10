@@ -118,7 +118,7 @@ static NSInteger __cacheVersionNumber = 5;
         }
     });
     
-    DDLogModel(@"Cleared all Caches");
+    DDLogDebug(@"Cleared all Caches");
 }
 
 - (void)commitAllCaches

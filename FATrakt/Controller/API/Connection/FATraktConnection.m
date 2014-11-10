@@ -335,7 +335,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             successCallback(connectionResponse);
         }
     } else {
-        DDLogController(@"HTTP RESPONSE Error %ld", (long)connectionResponse.response.statusCode);
+        DDLogDebug(@"HTTP RESPONSE Error %ld", (long)connectionResponse.response.statusCode);
         
         [self handleError:nil forRequest:request response:(FATraktConnectionResponse *)connectionResponse callback:errorCallback];
     }
@@ -388,7 +388,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
             FATraktConnectionResponse *response = [FATraktConnectionResponse invalidRequestResponse];
             response.responseType = FATraktConnectionResponseTypeUnknown;
             
-            DDLogController(@"Payload was: %@", payload);
+            DDLogDebug(@"Payload was: %@", payload);
             
             errorCallback(response);
         }
@@ -399,7 +399,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     
     if ([self delegateCallShouldSendRequest:request]) {
         // Then we do the HTTP POST request
-        DDLogController(@"HTTP POST %@", urlString);
+        DDLogDebug(@"HTTP POST %@", urlString);
         
         AFHTTPRequestOperation *operation = [self.manager POST:urlString parameters:payload success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
@@ -489,7 +489,7 @@ NSString *const FATraktUsernameAndPasswordValidityChangedNotification = @"FATrak
     
     if ([self delegateCallShouldSendRequest:request]) {
         // Do the HTTP GET request
-        DDLogController(@"HTTP GET %@", urlString);
+        DDLogDebug(@"HTTP GET %@", urlString);
         AFHTTPRequestOperation *operation = [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             // Handle the response
             

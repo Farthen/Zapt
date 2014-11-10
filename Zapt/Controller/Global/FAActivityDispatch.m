@@ -53,7 +53,7 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
     NSString *stopAllName = [self stopAllNotificationNameForName:name];
     [[NSNotificationCenter defaultCenter] addObserver:observer selector:@selector(stopAllActivity) name:stopAllName object:nil];
     
-    DDLogController(@"Registered observer: %@ for: %@, %@, %@", observer, didStartName, didFinishName, stopAllName);
+    DDLogDebug(@"Registered observer: %@ for: %@, %@, %@", observer, didStartName, didFinishName, stopAllName);
 }
 
 - (void)unregister:(id <FAUIElementWithActivity> )observer
@@ -68,7 +68,7 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 - (void)startActivityNamed:(NSString *)name
 {
     if (name) {
-        DDLogController(@"Starting activity named: %@", name);
+        DDLogDebug(@"Starting activity named: %@", name);
         NSString *startName = [self notificationNameForStartActivity:name];
         [[NSNotificationCenter defaultCenter] postNotificationName:startName object:self];
         
@@ -87,7 +87,7 @@ static NSString *FAActivityDispatchNotificationAll = @"FAActivityDispatchNotific
 
 - (void)finishActivityNamed:(NSString *)name
 {
-    DDLogController(@"Stopping activity named: %@", name);
+    DDLogDebug(@"Stopping activity named: %@", name);
     
     if (name) {
         NSString *finishName = [self notificationNameForFinishActivity:name];

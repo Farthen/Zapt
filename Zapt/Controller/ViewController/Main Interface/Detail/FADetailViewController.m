@@ -394,7 +394,7 @@
                 _coverImage = image;
                 [self displayImage];
             } onError:^(FATraktConnectionResponse *connectionError) {
-                DDLogViewController(@"Not displaying image of item %@ because an error occured", _currentContent);
+                DDLogDebug(@"Not displaying image of item %@ because an error occured", _currentContent);
                 _imageLoaded = NO;
             }];
         } else {
@@ -540,7 +540,7 @@
 
 - (void)loadShowData:(FATraktShow *)show
 {
-    DDLogViewController(@"Displaying show %@", show.description);
+    DDLogDebug(@"Displaying show %@", show.description);
     self.actionButton.title = NSLocalizedString(@"Seasons", nil);
     [[FATrakt sharedInstance] detailsForShow:show callback:^(FATraktShow *show) {
         [self displayShow:show];

@@ -252,7 +252,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 {
     NSString *imageURL = [FATraktImageList imageURLWithURL:urlString forWidth:width];
     
-    DDLogController(@"Loading image with url \"%@\"", imageURL);
+    DDLogDebug(@"Loading image with url \"%@\"", imageURL);
     
     FATraktRequest *imageRequest = [FATraktRequest requestWithActivityName:FATraktActivityNotificationDefault];
     
@@ -282,7 +282,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)verifyCredentials:(void (^)(BOOL valid))callback
 {
-    DDLogController(@"Account test!");
+    DDLogDebug(@"Account test!");
     
     return [self.connection postAPI:@"account/test" payload:nil authenticated:YES withActivityName:FATraktActivityNotificationCheckAuth onSuccess:^(FATraktConnectionResponse *response) {
         NSDictionary *data = response.jsonData;
@@ -503,7 +503,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)searchMovies:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Searching for movies!");
+    DDLogDebug(@"Searching for movies!");
     
     FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeMovies];
     
@@ -512,7 +512,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         FATraktSearchResult *cachedResult = object;
         
         if (cachedResult) {
-            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            DDLogDebug(@"Using cached search result for key %@", cachedResult.cacheKey);
             FATraktCallbackCall(callback(cachedResult));
         }
         
@@ -539,7 +539,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)detailsForMovie:(FATraktMovie *)movie callback:(void (^)(FATraktMovie *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Fetching all information about movie: \"%@\"", movie.description);
+    DDLogDebug(@"Fetching all information about movie: \"%@\"", movie.description);
     
     FATraktMovie *cachedMovie = [FATraktMovie.backingCache objectForKey:movie.cacheKey];
     
@@ -573,7 +573,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)searchShows:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Searching for shows!");
+    DDLogDebug(@"Searching for shows!");
     
     FATraktSearchResult *searchResult = [[FATraktSearchResult alloc] initWithQuery:query contentType:FATraktContentTypeShows];
     FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationSearch];
@@ -582,7 +582,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         FATraktSearchResult *cachedResult = object;
         
         if (cachedResult) {
-            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            DDLogDebug(@"Using cached search result for key %@", cachedResult.cacheKey);
             FATraktCallbackCall(callback(cachedResult));
         }
         
@@ -614,7 +614,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)detailsForShow:(FATraktShow *)show detailLevel:(FATraktDetailLevel)detailLevel callback:(void (^)(FATraktShow *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Fetching all information about show with title: \"%@\"", show.title);
+    DDLogDebug(@"Fetching all information about show with title: \"%@\"", show.title);
     
     NSString *cacheKey = [show cacheKey];
     FATraktShow *cachedShow = [FATraktShow.backingCache objectForKey:cacheKey];
@@ -775,7 +775,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)progressForShow:(FATraktShow *)show callback:(void (^)(FATraktShowProgress *progress))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Getting progress for show: %@", show.title);
+    DDLogDebug(@"Getting progress for show: %@", show.title);
     
     return [self watchedProgressForShow:show sortedBy:FATraktSortingOptionTitle detailLevel:FATraktDetailLevelMinimal callback:^(NSArray *progressItems) {
         FATraktShow *show = nil;
@@ -790,7 +790,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)watchedProgressForAllShowsCallback:(void (^)(NSArray *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Getting progress for all shows");
+    DDLogDebug(@"Getting progress for all shows");
     
     return [self watchedProgressForShow:nil sortedBy:FATraktSortingOptionRecentActivity detailLevel:FATraktDetailLevelDefault callback:callback onError:error];
 }
@@ -856,7 +856,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)searchEpisodes:(NSString *)query callback:(void (^)(FATraktSearchResult *result))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Searching for episodes!");
+    DDLogDebug(@"Searching for episodes!");
     
     FATraktRequest *request = [FATraktRequest requestWithActivityName:FATraktActivityNotificationSearch];
     
@@ -865,7 +865,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
         if (object) {
             FATraktSearchResult *cachedResult = object;
             
-            DDLogController(@"Using cached search result for key %@", cachedResult.cacheKey);
+            DDLogDebug(@"Using cached search result for key %@", cachedResult.cacheKey);
             FATraktCallbackCall(callback(object));
         }
         
@@ -895,7 +895,7 @@ NSString *const FATraktActivityNotificationDefault = @"FATraktActivityNotificati
 
 - (FATraktRequest *)detailsForEpisode:(FATraktEpisode *)episode callback:(void (^)(FATraktEpisode *))callback onError:(void (^)(FATraktConnectionResponse *connectionError))error
 {
-    DDLogController(@"Fetching all information about episode with title: \"%@\"", episode.title);
+    DDLogDebug(@"Fetching all information about episode with title: \"%@\"", episode.title);
     
     FATraktEpisode *cachedEpisode = [FATraktEpisode.backingCache objectForKey:episode.cacheKey];
     

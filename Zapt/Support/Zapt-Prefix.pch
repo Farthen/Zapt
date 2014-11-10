@@ -15,7 +15,7 @@
     #import <DDLog.h>
     #import "FALogLevels.h"
 
-    // Categories
+// Categories
     #import "FACategories.h"
     #import "Misc.h"
 #endif

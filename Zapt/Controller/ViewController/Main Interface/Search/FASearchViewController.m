@@ -180,7 +180,7 @@ static CGPoint _scrollPositions[3];
 
 - (void)searchForString:(NSString *)searchString
 {
-    DDLogViewController(@"Searching for string: %@", searchString);
+    DDLogDebug(@"Searching for string: %@", searchString);
     FASearchData *searchData = [[FASearchData alloc] initWithSearchString:searchString];
     self.searchData = searchData;
     

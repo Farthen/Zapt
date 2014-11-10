@@ -23,7 +23,7 @@
 
 - (void)startActivity
 {
-    DDLogController(@"Starting activity");
+    DDLogDebug(@"Starting activity");
     self.startCount += 1;
 }
 
@@ -34,7 +34,7 @@
 
 - (void)finishActivity
 {
-    DDLogController(@"Stopping activity");
+    DDLogDebug(@"Stopping activity");
     self.startCount -= 1;
 }
 

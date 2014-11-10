@@ -41,7 +41,7 @@
     
     if (width > 0) {
         if ([urlString containsString:@"/images/poster"]) {
-            DDLogController(@"Loading image of type poster");
+            DDLogDebug(@"Loading image of type poster");
             
             if (width <= 138) {
                 suffix = @"-138";
@@ -49,7 +49,7 @@
                 suffix = @"-300";
             }
         } else if ([urlString containsString:@"/images/fanart"] && ![urlString containsString:@"/images/fanart-summary.jpg"]) {
-            DDLogController(@"Loading image of type fanart");
+            DDLogDebug(@"Loading image of type fanart");
             
             if (width <= 218) {
                 suffix = @"-218";

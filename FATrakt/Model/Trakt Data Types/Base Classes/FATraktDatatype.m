@@ -24,7 +24,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
         __traktPropertyInfos = [[NSMutableDictionary alloc] init];
     }
     
-    DDLogController(@"Adding class %@ to dict", self);
+    DDLogDebug(@"Adding class %@ to dict", self);
     [__traktPropertyInfos setObject:[self.class fetchPropertyInfo] forKey:NSStringFromClass(self)];
 }
 
@@ -157,14 +157,14 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     
     [newObject setCurrentlyCopying:NO];
     
-    DDLogModel(@"Copied object %@ to new object %@", self, newObject);
+    DDLogDebug(@"Copied object %@ to new object %@", self, newObject);
     
     return newObject;
 }
 
 - (void)finishedMappingObjects
 {
-    DDLogModel(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));
+    DDLogDebug(@"Finished mapping objects for datatype %@", NSStringFromClass([self class]));
 }
 
 - (void)mapObjectsInDict:(NSDictionary *)dict
@@ -245,7 +245,7 @@ static NSMutableDictionary *__traktPropertyInfos = nil;
     FAPropertyInfo *propertyInfo = [propertyInfos objectForKey:key];
     
     if (!propertyInfo) {
-        DDLogModel(@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key);
+        DDLogDebug(@"[%@] Can't match object \"%@\" of class \"%@\" to non-existing property with key \"%@\"", NSStringFromClass([self class]), object, NSStringFromClass([object class]), key);
         
         return;
     }

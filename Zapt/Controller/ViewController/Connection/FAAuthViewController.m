@@ -129,7 +129,7 @@
 
 - (void)loginButtonPressed
 {
-    DDLogTiny(@"Login Button pressed");
+    DDLogDebug(@"Login Button pressed");
     
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
