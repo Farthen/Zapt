@@ -7,7 +7,7 @@
 //
 
 #import "FATableViewController.h"
-#import "FATraktContent.h"
+#import "FATrakt.h"
 #import "FAArrayTableViewDelegate.h"
 #import "FAViewControllerPreferredContentSizeChanged.h"
 

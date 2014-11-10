@@ -13,6 +13,12 @@
 // Designated initializer
 - (instancetype)initWithTableView:(UITableView *)tableView;
 
+// The queue on which to enqueue blocks for thread safety
+- (dispatch_queue_t)tableViewDataQueue;
+
+// To dispatch critical blocks to the main thread (blocking writes to the table view data source)
+- (void)dispatchMain:(void (^)(void))block;
+
 // NSArray of NSArrays with custom data
 // The data will be passed to the configurationBlock
 @property NSArray *tableViewData;

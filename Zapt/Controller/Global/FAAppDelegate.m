@@ -12,8 +12,8 @@
 #import "FAGlobalSettings.h"
 #import "FAZapt.h"
 
-#import "FATraktCache.h"
-
+#import "FATrakt.h"
+#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
 @interface FAAppDelegate ()
@@ -25,7 +25,7 @@
 {
     // Override point for customization after application launch.
 #ifndef DEBUG
-    [Crashlytics startWithAPIKey:@"c844cb73d7802c284b70e34f53eb4903173ecefe"];
+    [Fabric with:@[CrashlyticsKit]];
 #endif
    
     self.window.tintColor = [FAGlobalSettings sharedInstance].tintColor;

@@ -15,6 +15,7 @@
 #import "FATableViewCellWithActivity.h"
 #import "FAGlobalEventHandler.h"
 #import "FAActivityDispatch.h"
+#import <OnePasswordExtension.h>
 
 @interface FAAuthViewController () {
     BOOL _passwordFieldContainsHash;
@@ -47,6 +48,8 @@
     
     [self setNavigationItem];
     
+    
+    // Check if on tinyphone - make some margins smaller if so
     CGFloat height = [[UIScreen mainScreen] bounds].size.height;
     
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone &&
@@ -106,11 +109,27 @@
     return YES;
 }
 
+- (void)onePasswordButtonPressed:sender
+{
+    __weak typeof (self) weakSelf = self;
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://trakt.tv" forViewController:self sender:sender completion:^(NSDictionary *loginDict, NSError *error) {
+        if (!loginDict) {
+            if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                DDLogError(@"Error invoking 1Password App Extension for find login: %@", error);
+            }
+            return;
+        }
+        
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.usernameTextField.text = loginDict[AppExtensionUsernameKey];
+        strongSelf.passwordTextField.text = loginDict[AppExtensionPasswordKey];
+        [strongSelf.passwordTextField becomeFirstResponder];
+    }];
+}
+
 - (void)loginButtonPressed
 {
     DDLogTiny(@"Login Button pressed");
-    self.usernameTextField.userInteractionEnabled = NO;
-    self.passwordTextField.userInteractionEnabled = NO;
     
     NSString *username = self.usernameTextField.text;
     NSString *passwordHash;
@@ -121,11 +140,23 @@
         passwordHash = [FATraktConnection passwordHashForPassword:self.passwordTextField.text];
     }
     
+    if (username == nil || [username isEqualToString:@""] ||
+        passwordHash == nil || [passwordHash isEqualToString:@""]) {
+        [self.usernameTextField becomeFirstResponder];
+        
+        [self.loginButtonCell shakeTextLabelCompletion:nil];
+        return;
+    }
+    
     _checkingAuth = YES;
+    
+    self.usernameTextField.userInteractionEnabled = NO;
+    self.passwordTextField.userInteractionEnabled = NO;
     
     [self.loginButtonCell startActivity];
     
     [[FATraktConnection sharedInstance] setUsername:username andPasswordHash:passwordHash];
+    [FATraktConnection sharedInstance].usernameAndPasswordValid = NO;
     [[FATrakt sharedInstance] verifyCredentials:^(BOOL valid) {
         _checkingAuth = NO;
         [self.loginButtonCell finishActivity];
@@ -160,6 +191,12 @@
     if (indexPath.section == 1 && indexPath.row == 0 && !_checkingAuth) {
         [self loginButtonPressed];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    } else if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [self.usernameTextField becomeFirstResponder];
+        } else if (indexPath.row == 1) {
+            [self.passwordTextField becomeFirstResponder];
+        }
     }
 }
 
@@ -280,6 +317,17 @@
         self.navigationItem.prompt = NSLocalizedString(@"Your credentials are invalid! Please log in again.", nil);
     } else {
         self.navigationItem.prompt = nil;
+    }
+    
+    // Check for 1Password and add button if it is available
+    if ([[OnePasswordExtension sharedExtension] isAppExtensionAvailable]) {
+        UIBarButtonItem *onePasswordButton = [[UIBarButtonItem alloc] init];
+        onePasswordButton.image = [UIImage imageNamed:@"onepassword-navbar"];
+        
+        onePasswordButton.target = self;
+        onePasswordButton.action = @selector(onePasswordButtonPressed:);
+        
+        self.navigationItem.rightBarButtonItem = onePasswordButton;
     }
 }
 

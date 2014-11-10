@@ -93,6 +93,12 @@ typedef enum {
 - (void)viewWillAppear:(BOOL)animated
 {
     [self reloadCheckinViewState];
+    
+    self.contentNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.progressView.fontTextStyle = UIFontTextStyleSubheadline;
+    self.messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    
+    [self.progressView setNeedsLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -108,11 +114,8 @@ typedef enum {
 
 - (void)viewWillLayoutSubviews
 {
-    self.progressView.fontTextStyle = UIFontTextStyleSubheadline;
-    [self.progressView setNeedsLayout];
+    [super viewWillLayoutSubviews];
     
-    self.contentNameLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    self.messageLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
     self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
 }
 

@@ -12,8 +12,8 @@
 #import "FATrakt.h"
 #import "FAArrayTableViewDataSource.h"
 #import "FAImageTableViewCell.h"
-#import "FAInterfaceStringProvider.h"
 
+#import "FAInterfaceStringProvider.h"
 #import "FARefreshControlWithActivity.h"
 
 #import "FABadges.h"
@@ -78,7 +78,10 @@
         self.arrayDataSource.cellClass = [FAImageTableViewCell class];
     }
     
-    self.arrayTableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+    if (!self.arrayTableViewDelegate) {
+        self.arrayTableViewDelegate = [[FAArrayTableViewDelegate alloc] initWithDataSource:self.arrayDataSource];
+    }
+    
     self.arrayTableViewDelegate.delegate = self;
     self.tableView.delegate = self.arrayTableViewDelegate;
     

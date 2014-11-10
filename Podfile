@@ -1,15 +1,18 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
 platform :ios, '7.0'
 pod 'CocoaLumberjack'
-pod 'TUSafariActivity'
+#pod 'TUSafariActivity', '~> 1.0.0'
 pod 'AFNetworking'
 pod 'NSDate-Extensions'
 pod 'TMCache', :head
 pod 'NHCalendarActivity'
-pod 'VTAcknowledgementsViewController'
-pod 'PDKeychainBindingsController'
+pod 'VTAcknowledgementsViewController', '~> 0.12'
+pod 'UICKeyChainStore'
+pod '1PasswordExtension'
 
 post_install do | installer |
   require 'fileutils'
-  FileUtils.cp_r('Pods/Pods-Acknowledgements.plist', 'Zapt/Support/Pods-acknowledgements.plist', :remove_destination => true)
+  FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-acknowledgements.plist', 'Zapt/Support/Pods-acknowledgements.plist', :remove_destination => true)
 end
 

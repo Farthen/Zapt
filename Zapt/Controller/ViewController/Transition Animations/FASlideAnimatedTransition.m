@@ -45,6 +45,10 @@
         fromView = [fromViewController.view snapshotViewAfterScreenUpdates:YES];
     }];
     
+    fromView.frame = fromViewController.view.frame;
+    //[fromViewController.view removeFromSuperview];
+    [containerView addSubview:fromView];
+    
     UIView *toView = toViewController.view;
     
     //fromViewController.view.hidden = YES;
@@ -66,6 +70,7 @@
     void(^completionBlock)(BOOL) = ^(BOOL finished) {
         [UIView performWithoutAnimation:^{
             toToolbar.hidden = NO;
+            toToolbar.frame = [toViewController.navigationController.toolbar.superview convertRect:toViewController.navigationController.toolbar.frame toView:toToolbar.superview];
             toViewController.navigationController.toolbarHidden = YES;
             
             toView.userInteractionEnabled = YES;
@@ -78,20 +83,22 @@
         [transitionContext completeTransition:YES];
     };
     
+    CGFloat finalTopPosition = toView.frameTopPosition;
+    CGFloat finalBottomPosition = toView.frameBottomPosition;
+    
     if (self.direction == FASlideAnimatedTransitionDirectionUp) {
-        fromView.frameTopPosition = containerView.boundsTopPosition;
-        toView.frameTopPosition = containerView.boundsBottomPosition;
+        toView.frameTopPosition = finalBottomPosition;
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-            fromView.frameBottomPosition = containerView.boundsTopPosition;
-            toView.frameTopPosition = containerView.boundsTopPosition;
+            fromView.frameBottomPosition = finalTopPosition;
+            toView.frameTopPosition = finalTopPosition;
         } completion:completionBlock];
     } else {
-        toView.frameBottomPosition = containerView.frameTopPosition;
+        toView.frameBottomPosition = finalTopPosition;
         
         [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
-            fromView.frameTopPosition = containerView.frameBottomPosition;
-            toView.frameBottomPosition = containerView.frameBottomPosition;
+            fromView.frameTopPosition = finalBottomPosition;
+            toView.frameTopPosition = finalTopPosition;
         } completion:completionBlock];
     }
 }

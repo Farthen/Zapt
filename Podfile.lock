@@ -1,53 +1,58 @@
 PODS:
-  - AFNetworking (2.2.3):
+  - 1PasswordExtension (1.1)
+  - AFNetworking (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
     - AFNetworking/UIKit
-  - AFNetworking/NSURLConnection (2.2.3):
+  - AFNetworking/NSURLConnection (2.4.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.3):
-    - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.3)
-  - AFNetworking/Security (2.2.3)
-  - AFNetworking/Serialization (2.2.3)
-  - AFNetworking/UIKit (2.2.3):
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - CocoaLumberjack (1.8.1):
+  - CocoaLumberjack (2.0.0-beta3):
+    - CocoaLumberjack/Default
     - CocoaLumberjack/Extensions
-  - CocoaLumberjack/Core (1.8.1)
-  - CocoaLumberjack/Extensions (1.8.1):
+  - CocoaLumberjack/Core (2.0.0-beta3)
+  - CocoaLumberjack/Default (2.0.0-beta3):
     - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0-beta3):
+    - CocoaLumberjack/Default
   - NHCalendarActivity (0.0.3)
   - NSDate-Extensions (0.0.1)
-  - PDKeychainBindingsController (0.0.1)
-  - TMCache (HEAD based on 1.2.0)
-  - TUSafariActivity (1.0.0)
-  - VTAcknowledgementsViewController (0.10)
+  - TMCache (HEAD based on 1.2.2)
+  - UICKeyChainStore (1.0.5)
+  - VTAcknowledgementsViewController (0.12)
 
 DEPENDENCIES:
+  - 1PasswordExtension
   - AFNetworking
   - CocoaLumberjack
   - NHCalendarActivity
   - NSDate-Extensions
-  - PDKeychainBindingsController
   - TMCache (HEAD)
-  - TUSafariActivity
-  - VTAcknowledgementsViewController
+  - UICKeyChainStore
+  - VTAcknowledgementsViewController (~> 0.12)
 
 SPEC CHECKSUMS:
-  AFNetworking: ae513199cca79e9d7af2708ccabe2ed075550c42
-  CocoaLumberjack: 020378ec400d658923bf5887178394f65f052c90
-  NHCalendarActivity: 7465d53298abd1509dd272b62f34472a85a0faa9
-  NSDate-Extensions: 4a3be5bdfff735573aae834c93eec99f571dcc20
-  PDKeychainBindingsController: 463c207f8726e4aaec1ec20fd1876082ee86cb0a
-  TMCache: 4b05e1b124d9f7e8d449640e059cff4cda17ed27
-  TUSafariActivity: bd9da588f5f9136ba445d89f8f86b6dccf4d46ba
-  VTAcknowledgementsViewController: 76b8edcea89b58b7be15876aaa5aba7fa8b221d7
+  1PasswordExtension: 37d1488cf049b8bc0811beb7b52a19f8f803f7c8
+  AFNetworking: 0aabc6fae66d6e5d039eeb21c315843c7aae51ab
+  CocoaLumberjack: 55c22a2b8bde7a29c568ab4015b5874216524d70
+  NHCalendarActivity: 093505e6fb32d35c6bb3fa1e7e5130fa08e3252a
+  NSDate-Extensions: dcbef8675a9aed6d9dabfdcd4689300e177277d0
+  TMCache: e2c9225de7a107b529d1d04baa58eb5eab3051f3
+  UICKeyChainStore: 4f9719600cc70025064e26f28f1210bcfc3b0c35
+  VTAcknowledgementsViewController: 5cdab8f3d003680b8fbdfcce90fcab92cee962a6
 
-COCOAPODS: 0.32.1
+COCOAPODS: 0.34.4

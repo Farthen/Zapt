@@ -9,7 +9,6 @@
 #import "FACustomListsMembershipTableViewController.h"
 #import "FACustomListsMembershipViewController.h"
 #import "FATrakt.h"
-
 #import "FAInterfaceStringProvider.h"
 
 @interface FACustomListsMembershipTableViewController ()

@@ -12,8 +12,6 @@
 #import "FAColorSorting.h"
 #import "FAInterfaceStringProvider.h"
 
-#import "FATraktContent.h"
-
 @interface FARatingsView ()
 @property UINavigationBar *navigationBar;
 

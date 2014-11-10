@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Finn Wilke. All rights reserved.
 //
 
+#import "FATraktActivityItemSource.h"
 #import "FADetailViewController.h"
 #import "FANavigationController.h"
 
@@ -18,12 +19,11 @@
 #import "FARatingsViewController.h"
 #import "FACheckinViewController.h"
 
-#import "FATraktActivityItemSource.h"
-#import <TUSafariActivity/TUSafariActivity.h>
-
-#import "FAGlobalEventHandler.h"
 #import "FATrakt.h"
 #import "FAInterfaceStringProvider.h"
+//#import <TUSafariActivity/TUSafariActivity.h>
+
+#import "FAGlobalEventHandler.h"
 #import "FANotificationScrollViewDelegate.h"
 
 #import "FATitleLabel.h"
@@ -34,7 +34,6 @@
 #import "FACalendarEventController.h"
 
 #import <NSDate-Extensions/NSDate-Utilities.h>
-
 
 @interface FADetailViewController () {
     BOOL _showing;
@@ -105,9 +104,10 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             NSArray *activityItems = [FATraktActivityItemSource activityItemSourcesWithContent:_currentContent];
             
-            TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
+            //TUSafariActivity *safariActivity = [[TUSafariActivity alloc] init];
             
-            _activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+            //_activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[safariActivity]];
+            _activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:nil];
             _activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypePostToVimeo];
         });
     }
@@ -157,6 +157,10 @@
     [self.contentView updateConstraintsIfNeeded];
     [self.scrollView layoutIfNeeded];
     
+    // Calculate the expected image view height considering screen width
+    // The posters are 16:9
+    self.coverImageViewHeightConstraint.constant = self.coverImageView.frame.size.width / (16.0/9.0);
+    
     if (_imageLoaded && !_imageDisplayed) {
         [self doDisplayImageAnimated:NO];
     }
@@ -167,6 +171,8 @@
         
         [self prepareViewForContent];
     }
+    
+    [self preferredContentSizeChanged];
     
     _willAppear = YES;
     _animatesLayoutChanges = YES;
@@ -200,8 +206,7 @@
     // Update the container view controller for the nextUp view
     self.nextUpHeightConstraint.constant = self.nextUpViewController.preferredContentSize.height;
     
-    [super viewWillLayoutSubviews];
-    [self.scrollView layoutIfNeeded];
+    //[self.scrollView layoutIfNeeded];
     [self.titleLabel invalidateIntrinsicContentSize];
     [self.titleLabel.superview updateConstraints];
     
@@ -209,14 +214,9 @@
         [self doDisplayImageAnimated:NO];
     }
     
-    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    [self.titleLabel setNeedsLayout];
+
     self.imageViewToBottomViewLayoutConstraint.constant = -self.titleLabel.intrinsicContentSize.height;
-    
-    self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    [self.detailLabel setNeedsLayout];
-    self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    
+
     if (!_addedNextEpisodeIndicators && _currentContent.contentType == FATraktContentTypeEpisodes) {
         FATraktEpisode *episode = (FATraktEpisode *)_currentContent;
         
@@ -250,7 +250,7 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self updateViewConstraints];
+    //[self updateViewConstraints];
     
     if (_contentOffsetAfterLayout != 0) {
         self.scrollView.contentOffset = CGPointMake(0, _contentOffsetAfterLayout - self.scrollView.contentInset.top);
@@ -284,6 +284,11 @@
 - (void)preferredContentSizeChanged
 {
     // This is called when dynamic type settings are changed
+    self.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    self.detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    [self.detailLabel setNeedsLayout];
+    self.overviewLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+    
     [self.view invalidateIntrinsicContentSize];
     [self.view setNeedsUpdateConstraints];
     [self.view setNeedsLayout];
@@ -354,7 +359,6 @@
         CGSize newSize = CGSizeMake(newWidth * scale, ceilf(_coverImage.size.height * ratio));
         UIImage *scaledImage = [_coverImage resizedImage:newSize interpolationQuality:kCGInterpolationDefault];
         
-        
         self.coverImageViewHeightConstraint.constant = scaledImage.size.height / scale;
         [_coverImageView setNeedsUpdateConstraints];
         [_coverImageView setNeedsLayout];
@@ -409,13 +413,12 @@
 - (void)displayOverview:(NSString *)overview
 {
     if (![self.overviewLabel.text isEqualToString:overview]) {
-        [UIView animateSynchronizedIf:NO duration:0.0 delay:0 options:UIViewAnimationOptionCurveLinear setUp:^{
+        [UIView performWithoutAnimation:^{
             self.overviewLabel.alpha = 0.0;
-        } animations:^{
-            self.overviewLabel.text = overview;
             [self.overviewLabel setNeedsLayout];
+            self.overviewLabel.text = overview;
             [self.overviewLabel layoutIfNeeded];
-        } completion:nil];
+        }];
         
         BOOL shouldAnimateOverviewText = !_animatedOverviewText || _animatesLayoutChanges;
         

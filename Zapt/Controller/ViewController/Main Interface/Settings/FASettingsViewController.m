@@ -15,7 +15,6 @@
 #import "FAGlobalEventHandler.h"
 #import "FATextViewController.h"
 
-#import "FATraktCache.h"
 #import "FAAcknowledgementsGenerator.h"
 
 #import "FAProgressHUD.h"

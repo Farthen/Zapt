@@ -13,7 +13,6 @@
 #import "FASearchDisplayController.h"
 
 #import "FAInterfaceStringProvider.h"
-
 #import "FAUnreadItemIndicatorView.h"
 #import "FAEpisodeNumberView.h"
 

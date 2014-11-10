@@ -23,6 +23,16 @@
 
 #import <UIKit/UIKit.h>
 
+// Only available with Xcode 6+, so we need to handle older versions too.
+#ifndef IBInspectable
+#define IBInspectable
+#endif
+
+
+/**
+ `VTAcknowledgementsViewController` is a subclass of `UITableViewController` that displays
+ a list of acknowledgements.
+ */
 @interface VTAcknowledgementsViewController : UITableViewController
 
 /**
@@ -39,25 +49,36 @@
  Header text to be displayed above the list of the acknowledgements. 
  It needs to get set before `viewDidLoad` gets called.
  */
-@property (nonatomic, copy) NSString *headerText;
+@property (nonatomic, copy) IBInspectable NSString *headerText;
+
+/**
+ Acknowledgements plist file name whose contents to be loaded.
+ It expects to get set by "User Defined Runtime Attributes" in Interface Builder.
+ */
+@property (nonatomic, copy) IBInspectable NSString *acknowledgementsPlistName;
 
 /**
  Creates a new acknowledgements view controller
+
+ @return A newly created `VTAcknowledgementsViewController` instance.
  */
 + (instancetype)acknowledgementsViewController;
 
 /**
  The localized version of “Acknowledgements”.
  You can use this value for the button presenting the `VTAcknowledgementsViewController`, for instance.
+
+ @return The localized title.
  */
 + (NSString *)localizedTitle;
 
 /**
  Initializes an acknowledgements view controller with the content of the `Pods-acknowledgements.plist`.
- 
+
  @param acknowledgementsPlistPath The path to the `Pods-acknowledgements.plist`.
+
+ @return A newly created `VTAcknowledgementsViewController` instance.
  */
-- (id)initWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath;
+- (instancetype)initWithAcknowledgementsPlistPath:(NSString *)acknowledgementsPlistPath;
 
 @end
-
