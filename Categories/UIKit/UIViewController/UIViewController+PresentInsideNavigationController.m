@@ -7,18 +7,19 @@
 //
 
 #import "UIViewController+PresentInsideNavigationController.h"
+#import "FANavigationController.h"
 
 @implementation UIViewController (PresentInsideNavigationController)
 
 - (void)presentViewControllerInsideNavigationController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
 {
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewControllerToPresent];
+    UINavigationController *navigationController = [[FANavigationController alloc] initWithRootViewController:viewControllerToPresent];
     [self presentViewController:navigationController animated:flag completion:completion];
 }
 
 - (UINavigationController *)wrapInsideNavigationController
 {
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:self];
+    UINavigationController *navigationController = [[FANavigationController alloc] initWithRootViewController:self];
     return navigationController;
 }
 

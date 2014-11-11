@@ -278,7 +278,7 @@ static CGPoint _scrollPositions[3];
         [detailViewController loadContent:episode];
     }
     
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [self showDetailViewController:[detailViewController wrapInsideNavigationController] sender:self];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
