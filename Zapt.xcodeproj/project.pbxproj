@@ -2247,7 +2247,7 @@
 					"$(PROJECT_DIR)/FATrakt",
 				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LC_ALL = "en_US.UTF-8";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -2268,7 +2268,7 @@
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Zapt/**";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2309,7 +2309,7 @@
 					"$(PROJECT_DIR)/FATrakt",
 				);
 				INFOPLIST_FILE = "Zapt/Support/Zapt-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LC_ALL = "en_US.UTF-8";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -2330,7 +2330,7 @@
 				PRODUCT_NAME = Zapt;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/Zapt/**";
 				WRAPPER_EXTENSION = app;
 			};
